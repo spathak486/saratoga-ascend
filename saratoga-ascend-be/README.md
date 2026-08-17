@@ -71,7 +71,8 @@ npm run develop
 ```
 
 - **Admin Panel**: [http://localhost:1337/admin](http://localhost:1337/admin)
-- **API Endpoint**: [http://localhost:1337/api](http://localhost:1337/api)
+- **REST API Endpoint**: [http://localhost:1337/api](http://localhost:1337/api)
+- **GraphQL Endpoint**: [http://localhost:1337/graphql](http://localhost:1337/graphql)
 
 ---
 
