@@ -1,36 +1,77 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Saratoga Ascend - Frontend (`saratoga-ascend-fe`)
 
-## Getting Started
+A modern, high-performance web application built for **Saratoga Ascend** using Next.js 16 (App Router), React 19, TypeScript, and Tailwind CSS v4.
 
-First, run the development server:
+---
+
+## 🛠️ Tech Stack
+
+- **Framework**: [Next.js 16](https://nextjs.org/) (App Router)
+- **UI Library**: [React 19](https://react.dev/)
+- **Language**: [TypeScript 5](https://www.typescriptlang.org/)
+- **Styling**: [Tailwind CSS v4](https://tailwindcss.com/) with `@tailwindcss/postcss`
+- **Linter**: [ESLint 9](https://eslint.org/) (`eslint-config-next`)
+
+---
+
+## 📐 Architecture & Design System
+
+The application follows the **Atomic Design Methodology**, promoting modular, reusable, and scalable UI development:
+
+```text
+src/
+├── app/                  # Next.js App Router (Layouts, Pages, Global Styles)
+│   ├── globals.css       # Design tokens & custom theme definitions
+│   ├── layout.tsx        # Root application layout & metadata
+│   └── page.tsx          # Main entry page rendering HomeTemplate
+└── components/           # Atomic Component Hierarchy
+    ├── atoms/            # Core primitives (Button, Heading, Text, Badge, Container, OptimizedImage)
+    ├── molecules/        # Composite UI units (BrandLogo, BannerActions, ColorPaletteCard, StatCard)
+    ├── organisms/        # Page sections (Navbar, Banner, ColorSystemSection, Footer)
+    └── templates/        # Full page structures (HomeTemplate)
+```
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- **Node.js**: `^20.0.0` or higher
+- **Package Manager**: `npm` (v6+) or `yarn` / `pnpm` / `bun`
+
+### Installation
+
+Navigate to the frontend directory and install dependencies:
+
+```bash
+cd saratoga-ascend-fe
+npm install
+```
+
+### Development
+
+Run the development server with auto-reload:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser to view the app.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 📜 Available Scripts
 
-## Learn More
+In the `saratoga-ascend-fe` directory, you can run:
 
-To learn more about Next.js, take a look at the following resources:
+- `npm run dev` – Starts Next.js in development mode with HMR on port 3000.
+- `npm run build` – Compiles and optimizes the app for production.
+- `npm run start` – Starts the Next.js production server.
+- `npm run lint` – Runs ESLint checks across TypeScript and TSX files.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🔗 Backend Integration
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This frontend is designed to consume REST APIs provided by the Strapi v5 backend (`saratoga-ascend-be`) running by default at `http://localhost:1337`.
