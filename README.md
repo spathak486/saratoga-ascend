@@ -16,7 +16,7 @@ Welcome to the **Saratoga Ascend** project repository. This codebase is organize
 - **Tech Stack**: Strapi v5 (`5.52.0`), TypeScript, PostgreSQL (`pg`).
 - **Features**: Headless CMS, REST API, JWT Refresh token session management, Media security upload policies.
 - **Dev Server**: Runs on `http://localhost:1337`.
-- **Documentation**: See [`saratoga-ascend-be/README.md`](./saratoga-ascend-be/README.md) for detailed configuration, environment variables, and database setup.
+- **Documentation**: See [`saratoga-ascend-be/README.md`](./saratoga-ascend-be/README.md) for detailed configuration and database setup.
 
 ---
 

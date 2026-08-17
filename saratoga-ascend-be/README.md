@@ -44,35 +44,6 @@ saratoga-ascend-be/
 
 ---
 
-## ⚙️ Environment Variables
-
-Create a `.env` file in the `saratoga-ascend-be` directory based on `.env.example`:
-
-```env
-# Server
-HOST=0.0.0.0
-PORT=1337
-
-# Application Secrets
-APP_KEYS=key1,key2,key3,key4
-API_TOKEN_SALT=your_api_token_salt
-ADMIN_JWT_SECRET=your_admin_jwt_secret
-JWT_SECRET=your_jwt_secret
-TRANSFER_TOKEN_SALT=your_transfer_token_salt
-ENCRYPTION_KEY=your_encryption_key
-
-# Database Setup (PostgreSQL)
-DATABASE_CLIENT=postgres
-DATABASE_HOST=127.0.0.1
-DATABASE_PORT=5432
-DATABASE_NAME=saratoga-ascend
-DATABASE_USERNAME=postgres
-DATABASE_PASSWORD=root
-DATABASE_SSL=false
-```
-
----
-
 ## 🚀 Getting Started
 
 ### Prerequisites
