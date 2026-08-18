@@ -13,7 +13,11 @@ export interface SharedGeneralLink extends Struct.ComponentSchema {
     isExternal: Schema.Attribute.Boolean &
       Schema.Attribute.Required &
       Schema.Attribute.DefaultTo<false>;
-    label: Schema.Attribute.String & Schema.Attribute.Required;
+    label: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 50;
+      }>;
     target: Schema.Attribute.Enumeration<['_self', '_blank']> &
       Schema.Attribute.Required &
       Schema.Attribute.DefaultTo<'_self'>;
