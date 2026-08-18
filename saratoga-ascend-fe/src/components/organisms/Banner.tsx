@@ -1,85 +1,60 @@
+'use client';
+
 import React from 'react';
-import { Container, Badge, Heading, Text, OptimizedImage } from '../atoms';
-import { BannerActions } from '../molecules';
+import Image from 'next/image';
 
-export interface BannerProps {
-  badgeText?: string;
-  titlePrefix?: string;
-  titleHighlight?: string;
-  titleSuffix?: string;
-  description?: string;
-  imageSrc?: string;
-  imageAlt?: string;
-}
-
-export const Banner: React.FC<BannerProps> = ({
-  badgeText = 'Saratoga Ascend Brand Guidelines 2026',
-  titlePrefix = 'Where ',
-  titleHighlight = 'Healthcare',
-  titleSuffix = ' and Science Rise.',
-  description = 'Expanding beyond staffing to shape the next era of care and discovery. We find the ones who heal like heroes.',
-  imageSrc = '/images/hero-banner.png',
-  imageAlt = 'Healthcare Hero Graphic',
-}) => {
+export const Banner: React.FC = () => {
   return (
-    <section id="overview" className="relative pt-36 pb-24 bg-gradient-to-br from-[#022e4c] via-[#011c30] to-[#e11d48] text-white min-h-[90vh] flex items-center overflow-hidden">
-      <Container className="relative z-10 w-full">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          {/* Left Hero Content */}
-          <div className="lg:col-span-7 space-y-6">
-            <Badge variant="whiteOutline" dot>
-              {badgeText}
-            </Badge>
+    <section className="relative w-full min-h-[900px] pt-[180px] bg-white flex items-center overflow-hidden">
+      {/* Background Graphic DNA Pattern & Gradient Overlay */}
+      <div className="absolute inset-0 bg-gradient-to-r from-white via-white/95 to-transparent z-10 pointer-events-none" />
 
-            <Heading level={1} fontStyle="serif" className="text-white">
-              {titlePrefix}
-              <span className="text-[#29a6e3]">{titleHighlight}</span>
-              <span className="text-[#e11d48]"> and Science</span>
-              {titleSuffix}
-            </Heading>
+      <div className="w-full max-w-[1920px] mx-auto px-6 lg:px-[120px] py-12 lg:py-24 relative z-20 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        {/* Left Hero Main Text & Button (Group 82) */}
+        <div className="lg:col-span-8 space-y-8 max-w-[991px]">
+          {/* Main Title */}
+          <h1 className="font-serif-dm text-5xl sm:text-7xl lg:text-[90px] font-normal leading-[1.15] text-[#0A0A0A] tracking-tight">
+            Federal State Programs and Solutions
+          </h1>
 
-            <Text variant="lead">
-              {description}
-            </Text>
+          {/* Subtitle Body */}
+          <p className="text-xl sm:text-2xl lg:text-[24px] font-medium leading-[1.6] text-[#022E4C] max-w-[680px]">
+            Saratoga Ascend connects cleared, credentialed healthcare professionals with government, military, and local facilities nationwide.
+          </p>
 
-            <BannerActions />
-
-            <div className="pt-8 flex flex-wrap gap-4 items-center">
-              <div className="px-5 py-2.5 rounded-2xl bg-[#e11d48] text-white text-xs font-bold shadow-lg shadow-rose-600/30 flex items-center gap-2">
-                <span className="w-5 h-5 rounded-full bg-white/20 flex items-center justify-center text-[10px]">❤</span>
-                <span>Leading Change in Care.</span>
-              </div>
-              <div className="px-5 py-2.5 rounded-2xl bg-[#29a6e3] text-white text-xs font-bold shadow-lg shadow-sky-500/30 flex items-center gap-2">
-                <span className="w-5 h-5 rounded-full bg-white/20 flex items-center justify-center text-[10px]">⚡</span>
-                <span>Powering Tomorrow&apos;s Intelligence.</span>
-              </div>
-            </div>
+          {/* Gradient Action Button (_Button base) */}
+          <div>
+            <a
+              href="#contact"
+              className="inline-flex items-center justify-center gap-3 px-8 py-4 w-[180px] h-[60px] bg-brand-red-gradient text-white text-[20px] font-medium rounded-lg shadow-xs hover:opacity-95 transition-all transform active:scale-95"
+            >
+              <span>Explore</span>
+              <svg className="w-5 h-5 fill-current text-white" viewBox="0 0 24 24">
+                <path d="M8.59 16.59L10 18l6-6-6-6-1.41 1.41L13.17 12z" />
+              </svg>
+            </a>
           </div>
+        </div>
 
-          {/* Right Hero Visual Graphic with Optimized Image Binding */}
-          <div className="lg:col-span-5 relative flex justify-center">
-            <div className="relative w-full max-w-md aspect-[4/5] rounded-3xl overflow-hidden border-4 border-white/20 shadow-2xl group">
-              <OptimizedImage
-                src={imageSrc}
-                alt={imageAlt}
-                fill
-                priority
-                quality={90}
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 450px"
-                className="group-hover:scale-105"
-                containerClassName="w-full h-full"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#011c30] via-transparent to-transparent opacity-80" />
-              <div className="absolute bottom-6 left-6 right-6 p-6 rounded-2xl bg-white/10 backdrop-blur-xl border border-white/20 z-10">
-                <div className="text-xs font-bold uppercase tracking-wider text-[#29a6e3]">Brand Vision</div>
-                <div className="text-sm font-serif font-bold text-white mt-1">
-                  &quot;Advancing Healthcare. Accelerating Science. Empowering Possibility.&quot;
-                </div>
-              </div>
+        {/* Right Decorative Graphic */}
+        <div className="lg:col-span-4 relative hidden lg:flex justify-end items-center">
+          <div className="relative w-[450px] h-[550px] rounded-3xl overflow-hidden shadow-2xl border border-slate-100">
+            <Image
+              src="/images/hero-banner.png"
+              alt="Federal State Healthcare Solutions"
+              fill
+              priority
+              className="object-cover object-center"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#022E4C]/80 via-transparent to-transparent" />
+            <div className="absolute bottom-6 left-6 right-6 p-6 rounded-2xl bg-white/20 backdrop-blur-md border border-white/30 text-white">
+              <div className="text-xs uppercase font-bold tracking-widest text-[#2A91DC]">Nationwide Healthcare</div>
+              <div className="text-lg font-serif-dm font-normal mt-1">Connecting Cleared Professionals</div>
             </div>
           </div>
         </div>
-      </Container>
+      </div>
     </section>
   );
 };
+
