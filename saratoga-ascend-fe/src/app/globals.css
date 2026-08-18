@@ -1,20 +1,122 @@
 @import "tailwindcss";
 
+@theme {
+  --color-brand-navy: #022e4c;
+  --color-brand-navy-dark: #011c30;
+  --color-brand-navy-deep: #0b1f3a;
+  --color-brand-navy-light: #163d68;
+  --color-brand-red: #e11d48;
+  --color-brand-red-dark: #9e2636;
+  --color-brand-red-light: #f06767;
+  --color-brand-blue: #29a6e3;
+  --color-brand-blue-dark: #1754ad;
+  --color-brand-blue-royal: #2367d1;
+  --color-brand-cyan: #26e0f5;
+  --color-brand-offwhite: #f4f4f4;
+  --color-brand-light: #f8fafc;
+  --color-brand-surface: #ffffff;
+  
+  --font-serif: var(--font-dm-serif), 'DM Serif Text', 'Amasis MT', Georgia, serif;
+  --font-sans: var(--font-plus-jakarta), 'Google Sans', 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
 :root {
   --brand-navy: #022e4c;
   --brand-navy-dark: #011c30;
+  --brand-navy-deep: #0b1f3a;
   --brand-red: #e11d48;
+  --brand-red-dark: #9e2636;
+  --brand-red-light: #f06767;
   --brand-blue: #29a6e3;
+  --brand-blue-royal: #2367d1;
+  --brand-cyan: #26e0f5;
   --brand-offwhite: #f4f4f4;
+  --brand-light: #f8fafc;
 }
 
 html {
   scroll-behavior: smooth;
+  color-scheme: light;
 }
 
 body {
   background-color: #f4f4f4;
   color: #022e4c;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: var(--font-sans, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
   overflow-x: hidden;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background-color: #e11d48;
+  color: #ffffff;
+}
+
+/* Custom Gradients */
+.bg-gradient-brand-hero {
+  background: linear-gradient(135deg, #022e4c 0%, #011c30 50%, #e11d48 100%);
+}
+
+.bg-gradient-navy-dark {
+  background: linear-gradient(180deg, #022e4c 0%, #011c30 100%);
+}
+
+.bg-gradient-red-peach {
+  background: linear-gradient(135deg, #e11d48 0%, #f06767 100%);
+}
+
+.bg-gradient-blue-cyan {
+  background: linear-gradient(135deg, #29a6e3 0%, #26e0f5 100%);
+}
+
+.bg-gradient-glass {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.bg-gradient-glass-dark {
+  background: rgba(2, 46, 76, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+/* Text Gradients */
+.text-gradient-red {
+  background: linear-gradient(135deg, #e11d48 0%, #f06767 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-blue {
+  background: linear-gradient(135deg, #29a6e3 0%, #26e0f5 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-navy {
+  background: linear-gradient(135deg, #022e4c 0%, #2367d1 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
 }

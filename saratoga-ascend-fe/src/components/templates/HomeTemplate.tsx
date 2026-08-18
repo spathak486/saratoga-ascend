@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navbar, Banner, ColorSystemSection, Footer } from '../organisms';
+import { Navbar, Banner, ColorSystemSection, CoreComponentsSection, Footer } from '../organisms';
 
 export const HomeTemplate: React.FC = () => {
   return (
@@ -12,6 +12,9 @@ export const HomeTemplate: React.FC = () => {
 
         {/* Organism: Section 01 Primary Color Palette */}
         <ColorSystemSection />
+
+        {/* Organism: Core Components & Atoms Showcase */}
+        <CoreComponentsSection />
       </main>
 
       <Footer />
