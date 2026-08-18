@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 
 :root {
@@ -5,7 +6,7 @@
   --brand-navy-dark: #011c30;
   --brand-red: #e11d48;
   --brand-blue: #29a6e3;
-  --brand-offwhite: #f4f4f4;
+  --brand-offwhite: #ffffff;
 }
 
 html {
@@ -13,8 +14,13 @@ html {
 }
 
 body {
-  background-color: #f4f4f4;
+  background-color: #ffffff;
   color: #022e4c;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;
   overflow-x: hidden;
 }
+
+.font-serif-dm {
+  font-family: 'DM Serif Text', Georgia, serif;
+}
+
