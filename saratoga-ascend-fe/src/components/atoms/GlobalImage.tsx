@@ -1,20 +1,18 @@
-'use client';
-
-import React, { useState } from 'react';
-import Image, { ImageProps } from 'next/image';
+import React from 'react';
+import Image, { type ImageProps } from 'next/image';
 
 export type ImageAspectRatio = 'square' | 'video' | 'portrait' | 'tall' | 'wide' | 'banner' | 'auto';
 export type ImageOverlay = 'none' | 'dark' | 'brand' | 'blue' | 'vignette';
 export type ImageRounded = 'none' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | 'full';
 
 export interface GlobalImageProps extends Omit<ImageProps, 'alt'> {
+  /** Accessible description. Use `""` only for decorative images. */
   alt: string;
   aspectRatio?: ImageAspectRatio;
   overlay?: ImageOverlay;
   rounded?: ImageRounded;
   hoverEffect?: boolean;
   containerClassName?: string;
-  fallbackSrc?: string;
 }
 
 const aspectRatioStyles: Record<ImageAspectRatio, string> = {
@@ -40,11 +38,14 @@ const roundedStyles: Record<ImageRounded, string> = {
 
 const overlayStyles: Record<ImageOverlay, string> = {
   none: '',
-  dark: 'bg-gradient-to-t from-[#011c30]/90 via-[#011c30]/40 to-transparent',
-  brand: 'bg-gradient-to-tr from-[#022e4c]/85 via-[#011c30]/50 to-[#e11d48]/40',
-  blue: 'bg-gradient-to-t from-[#022e4c]/80 via-[#29a6e3]/20 to-transparent',
-  vignette: 'bg-[radial-gradient(ellipse_at_center,_transparent_40%,_rgba(1,28,48,0.85)_100%)]',
+  dark: 'bg-gradient-to-t from-brand-navy-dark/90 via-brand-navy-dark/40 to-transparent',
+  brand: 'bg-gradient-to-tr from-brand-navy/85 via-brand-navy-dark/50 to-brand-red/40',
+  blue: 'bg-gradient-to-t from-brand-navy/80 via-brand-sky/20 to-transparent',
+  vignette:
+    'bg-[radial-gradient(ellipse_at_center,_transparent_40%,_color-mix(in_srgb,var(--brand-navy-dark)_85%,transparent)_100%)]',
 };
+
+const DEFAULT_FILL_SIZES = '(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw';
 
 export const GlobalImage: React.FC<GlobalImageProps> = ({
   src,
@@ -53,55 +54,46 @@ export const GlobalImage: React.FC<GlobalImageProps> = ({
   overlay = 'none',
   rounded = 'none',
   hoverEffect = false,
-  fill = true,
+  fill,
+  width,
+  height,
   priority = false,
+  preload,
+  loading,
+  fetchPriority,
   quality = 90,
-  sizes = '(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw',
+  sizes,
   className = '',
   containerClassName = '',
-  fallbackSrc = '/images/hero-banner.png',
   ...props
 }) => {
-  const [imgSrc, setImgSrc] = useState(src);
-  const [isLoading, setIsLoading] = useState(true);
-  const [hasError, setHasError] = useState(false);
-
-  const aspectClass = aspectRatioStyles[aspectRatio];
-  const roundedClass = roundedStyles[rounded];
-  const overlayClass = overlayStyles[overlay];
-
-  const handleImageError = () => {
-    if (!hasError && fallbackSrc && imgSrc !== fallbackSrc) {
-      setImgSrc(fallbackSrc);
-      setHasError(true);
-    }
-  };
+  const hasIntrinsicSize = width != null && height != null;
+  const shouldFill = fill ?? !hasIntrinsicSize;
+  const isAboveTheFold = Boolean(priority || preload);
 
   return (
     <div
-      className={`relative overflow-hidden ${aspectClass} ${roundedClass} ${containerClassName} ${
-        isLoading ? 'bg-slate-200 animate-pulse' : ''
-      }`}
+      className={`relative overflow-hidden ${aspectRatioStyles[aspectRatio]} ${roundedStyles[rounded]} ${
+        shouldFill && aspectRatio === 'auto' ? 'size-full' : ''
+      } ${containerClassName}`.trim()}
     >
       <Image
-        src={imgSrc}
+        src={src}
         alt={alt}
-        fill={fill}
-        priority={priority}
+        fill={shouldFill}
+        width={shouldFill ? undefined : width}
+        height={shouldFill ? undefined : height}
         quality={quality}
-        sizes={sizes}
-        onLoad={() => setIsLoading(false)}
-        onError={handleImageError}
-        className={`object-cover transition-all duration-700 ease-out ${
-          hoverEffect ? 'hover:scale-105' : ''
-        } ${isLoading ? 'opacity-0 scale-98' : 'opacity-100 scale-100'} ${className}`}
+        sizes={sizes ?? (shouldFill ? DEFAULT_FILL_SIZES : undefined)}
+        loading={loading ?? (isAboveTheFold ? 'eager' : undefined)}
+        fetchPriority={fetchPriority ?? (isAboveTheFold ? 'high' : undefined)}
+        className={`object-cover ${hoverEffect ? 'transition-transform duration-700 ease-out hover:scale-105' : ''} ${className}`.trim()}
         {...props}
       />
 
-      {/* Optional Gradient Overlay */}
       {overlay !== 'none' && (
         <div
-          className={`absolute inset-0 pointer-events-none transition-opacity duration-300 ${overlayClass}`}
+          className={`pointer-events-none absolute inset-0 ${overlayStyles[overlay]}`}
           aria-hidden="true"
         />
       )}

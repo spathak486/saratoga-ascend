@@ -1,5 +1,5 @@
 import React from 'react';
-import Link, { LinkProps } from 'next/link';
+import Link from 'next/link';
 
 export type GeneralLinkVariant =
   | 'default'
@@ -32,6 +32,7 @@ export interface GeneralLinkProps
   isActive?: boolean;
   leftIcon?: React.ReactNode;
   rightIcon?: React.ReactNode;
+  /** Force external treatment. Auto-detected from `http(s):` and protocol-relative URLs. */
   external?: boolean;
   children: React.ReactNode;
   className?: string;
@@ -46,16 +47,55 @@ const sizeStyles: Record<GeneralLinkSize, string> = {
 };
 
 const buttonVariantStyles: Record<ButtonStyleVariant, string> = {
-  primaryRed: 'bg-[#e11d48] hover:bg-rose-700 text-white shadow-lg shadow-rose-600/30',
-  navy: 'bg-[#022e4c] hover:bg-[#011c30] text-white shadow-lg shadow-slate-900/30',
-  blue: 'bg-[#29a6e3] hover:bg-sky-600 text-white shadow-lg shadow-sky-500/30',
-  outlineNavy: 'bg-transparent border-2 border-[#022e4c] text-[#022e4c] hover:bg-[#022e4c] hover:text-white',
-  outlineRed: 'bg-transparent border-2 border-[#e11d48] text-[#e11d48] hover:bg-[#e11d48] hover:text-white',
-  outlineWhite: 'bg-transparent border-2 border-white/60 text-white hover:bg-white hover:text-[#022e4c]',
-  peachGradient: 'bg-gradient-to-r from-[#e11d48] to-[#f06767] hover:opacity-95 text-white shadow-xl shadow-rose-600/30',
-  cyanGradient: 'bg-gradient-to-r from-[#29a6e3] to-[#26e0f5] hover:opacity-95 text-white shadow-xl shadow-sky-500/30',
-  ghost: 'bg-transparent text-[#022e4c] hover:bg-slate-100',
+  primaryRed: 'bg-brand-red hover:bg-brand-red/90 text-brand-surface shadow-lg shadow-brand-red/30',
+  navy: 'bg-brand-navy hover:bg-brand-navy-dark text-brand-surface shadow-lg shadow-brand-navy/30',
+  blue: 'bg-brand-sky hover:bg-brand-sky/90 text-brand-surface shadow-lg shadow-brand-sky/30',
+  outlineNavy:
+    'bg-transparent border-2 border-brand-navy text-brand-navy hover:bg-brand-navy hover:text-brand-surface',
+  outlineRed:
+    'bg-transparent border-2 border-brand-red text-brand-red hover:bg-brand-red hover:text-brand-surface',
+  outlineWhite:
+    'bg-transparent border-2 border-white/60 text-white hover:bg-brand-surface hover:text-brand-navy',
+  peachGradient: 'bg-gradient-brand text-brand-surface shadow-xl shadow-brand-red/30 hover:opacity-95',
+  cyanGradient:
+    'bg-gradient-blue-cyan text-brand-surface shadow-xl shadow-brand-sky/30 hover:opacity-95',
+  ghost: 'bg-transparent text-brand-navy hover:bg-slate-100',
 };
+
+function isHttpUrl(href: string): boolean {
+  return /^(https?:)?\/\//i.test(href);
+}
+
+function isSpecialUrl(href: string): boolean {
+  return href.startsWith('mailto:') || href.startsWith('tel:');
+}
+
+function getVariantClass(
+  variant: GeneralLinkVariant,
+  buttonVariant: ButtonStyleVariant,
+  size: GeneralLinkSize,
+  isActive: boolean
+): string {
+  switch (variant) {
+    case 'button':
+      return `inline-flex items-center justify-center gap-2 font-semibold rounded-xl transition-all duration-200 cursor-pointer shadow-sm active:scale-98 ${sizeStyles[size]} ${buttonVariantStyles[buttonVariant]}`;
+    case 'nav':
+      return `inline-flex items-center gap-1.5 text-sm font-semibold transition-colors duration-150 ${
+        isActive ? 'text-brand-red' : 'text-brand-navy hover:text-brand-red'
+      }`;
+    case 'footer':
+      return 'inline-flex items-center gap-1 text-sm text-slate-400 hover:text-white transition-all duration-150 hover:translate-x-1';
+    case 'arrow':
+      return 'group inline-flex items-center gap-1.5 text-sm font-bold text-brand-red hover:text-brand-red/80 transition-colors duration-150';
+    case 'subtle':
+      return 'text-sm text-slate-600 hover:text-brand-navy transition-colors duration-150 underline-offset-4 hover:underline';
+    case 'unstyled':
+      return '';
+    case 'default':
+    default:
+      return 'inline-flex items-center gap-1 text-brand-navy hover:text-brand-red font-medium transition-colors duration-150 underline-offset-4 hover:underline';
+  }
+}
 
 export const GeneralLink: React.FC<GeneralLinkProps> = ({
   href,
@@ -68,53 +108,13 @@ export const GeneralLink: React.FC<GeneralLinkProps> = ({
   external,
   children,
   className = '',
+  target,
+  rel,
   ...props
 }) => {
-  const isExternal =
-    external !== undefined
-      ? external
-      : href.startsWith('http://') || href.startsWith('https://') || href.startsWith('//');
-
-  const isAnchorOrSpecial =
-    href.startsWith('#') || href.startsWith('mailto:') || href.startsWith('tel:');
-
-  // Variant Styling Resolution
-  let variantClass = '';
-
-  switch (variant) {
-    case 'button':
-      variantClass = `inline-flex items-center justify-center gap-2 font-semibold rounded-xl transition-all duration-200 cursor-pointer shadow-sm active:scale-98 ${sizeStyles[size]} ${buttonVariantStyles[buttonVariant]}`;
-      break;
-    case 'nav':
-      variantClass = `inline-flex items-center gap-1.5 text-sm font-semibold transition-colors duration-150 ${
-        isActive
-          ? 'text-[#e11d48]'
-          : 'text-[#022e4c] hover:text-[#e11d48]'
-      }`;
-      break;
-    case 'footer':
-      variantClass =
-        'inline-flex items-center gap-1 text-sm text-slate-400 hover:text-white transition-all duration-150 hover:translate-x-1';
-      break;
-    case 'arrow':
-      variantClass =
-        'group inline-flex items-center gap-1.5 text-sm font-bold text-[#e11d48] hover:text-rose-700 transition-colors duration-150';
-      break;
-    case 'subtle':
-      variantClass =
-        'text-sm text-slate-600 hover:text-[#022e4c] transition-colors duration-150 underline-offset-4 hover:underline';
-      break;
-    case 'unstyled':
-      variantClass = '';
-      break;
-    case 'default':
-    default:
-      variantClass =
-        'inline-flex items-center gap-1 text-[#022e4c] hover:text-[#e11d48] font-medium transition-colors duration-150 underline-offset-4 hover:underline';
-      break;
-  }
-
-  const combinedClasses = `${variantClass} ${className}`.trim();
+  const isExternal = external ?? isHttpUrl(href);
+  const opensInNewTab = isExternal && target !== '_self';
+  const classNames = `${getVariantClass(variant, buttonVariant, size, isActive)} ${className}`.trim();
 
   const content = (
     <>
@@ -123,39 +123,41 @@ export const GeneralLink: React.FC<GeneralLinkProps> = ({
       {rightIcon && <span className="inline-flex shrink-0 items-center">{rightIcon}</span>}
       {variant === 'arrow' && !rightIcon && (
         <span
-          className="inline-block transition-transform duration-200 group-hover:translate-x-1 text-base leading-none"
+          className="inline-block text-base leading-none transition-transform duration-200 group-hover:translate-x-1"
           aria-hidden="true"
         >
           &rarr;
         </span>
       )}
-      {isExternal && variant !== 'button' && (
-        <svg
-          className="w-3.5 h-3.5 opacity-60 ml-0.5"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          strokeWidth="2"
-          aria-hidden="true"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-          />
-        </svg>
+      {opensInNewTab && variant !== 'button' && (
+        <>
+          <svg
+            className="ml-0.5 h-3.5 w-3.5 opacity-60"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth="2"
+            aria-hidden="true"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+            />
+          </svg>
+          <span className="sr-only">(opens in a new tab)</span>
+        </>
       )}
     </>
   );
 
-  // If external link or mailto/tel, use standard <a>
-  if (isExternal || isAnchorOrSpecial) {
+  if (isExternal || isSpecialUrl(href)) {
     return (
       <a
         href={href}
-        className={combinedClasses}
-        target={isExternal ? '_blank' : undefined}
-        rel={isExternal ? 'noopener noreferrer' : undefined}
+        className={classNames}
+        target={opensInNewTab ? target ?? '_blank' : target}
+        rel={opensInNewTab ? rel ?? 'noopener noreferrer' : rel}
         {...props}
       >
         {content}
@@ -163,9 +165,8 @@ export const GeneralLink: React.FC<GeneralLinkProps> = ({
     );
   }
 
-  // Internal link with Next.js Link
   return (
-    <Link href={href} className={combinedClasses} {...(props as Omit<LinkProps, 'href'>)}>
+    <Link href={href} className={classNames} target={target} rel={rel} {...props}>
       {content}
     </Link>
   );

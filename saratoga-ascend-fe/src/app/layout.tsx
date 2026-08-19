@@ -61,8 +61,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${dmSerif.variable} ${plusJakartaSans.variable}`}>
-      <body className="antialiased bg-[#f4f4f4] text-[#022e4c] font-sans selection:bg-[#e11d48] selection:text-white">
+    <html lang="en" className={`${dmSerif.variable} ${plusJakartaSans.variable}`} suppressHydrationWarning>
+      <body
+        className="antialiased bg-brand-surface text-brand-navy font-sans selection:bg-brand-red selection:text-brand-surface"
+        suppressHydrationWarning
+      >
         {children}
       </body>
     </html>
