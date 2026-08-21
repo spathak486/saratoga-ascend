@@ -1,20 +1,70 @@
-import React from 'react';
-import { GlobalImage, GeneralLink } from '../atoms';
-import { CircleControl } from '../molecules/CircleControl';
+'use client';
+
+import React, { useState } from 'react';
+import { GeneralLink, Heading, MediaFrame, Section, Text } from '../atoms';
 import { IconTextRow } from '../molecules/IconTextRow';
+
+interface ServiceLine {
+  heading: string;
+  blurb: string;
+  href: string;
+}
+
+const SERVICE_LINES: ServiceLine[] = [
+  {
+    heading: 'Healthcare',
+    blurb:
+      'Supporting text that will be placed here for better understanding.',
+    href: '/what-we-do',
+  },
+  {
+    heading: 'Technology',
+    blurb:
+      'Supporting text that will be placed here for better understanding.',
+    href: '/what-we-do',
+  },
+  {
+    heading: 'Logistics',
+    blurb:
+      'Supporting text that will be placed here for better understanding.',
+    href: '/what-we-do',
+  },
+];
 
 const LIST_ITEMS = ['Certificates', 'Information', 'Other'] as const;
 
-const STAR_ICON = (
-  <svg viewBox="0 0 32 32" className="size-[25px] shrink-0" aria-hidden="true">
+const StarIcon = (
+  <svg viewBox="0 0 32 32" className="size-full" aria-hidden="true">
     <path
       d="M16 1.8 L19.6 11.5 L29.8 11.9 L21.8 18.3 L24.6 28.2 L16 22.5 L7.4 28.2 L10.2 18.3 L2.2 11.9 L12.4 11.5 Z"
       fill="none"
-      stroke="#8f969b"
-      strokeWidth=".8"
+      stroke="currentColor"
+      strokeWidth="1"
       strokeLinejoin="round"
     />
   </svg>
+);
+
+/**
+ * The artboard supplies these arrows as finished SVGs, so they render as
+ * images rather than being rebuilt with `CircleControl`. A plain `<img>` is
+ * deliberate: next/image refuses SVG unless the app opts into
+ * `dangerouslyAllowSVG`, and these are trusted local assets.
+ */
+const ArrowButton: React.FC<{
+  src: string;
+  label: string;
+  onClick: () => void;
+}> = ({ src, label, onClick }) => (
+  <button
+    type="button"
+    aria-label={label}
+    onClick={onClick}
+    className="w-[clamp(2.75rem,3.75vw,4.5rem)] shrink-0 cursor-pointer rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-navy"
+  >
+    {/* eslint-disable-next-line @next/next/no-img-element */}
+    <img src={src} alt="" className="block w-full" />
+  </button>
 );
 
 export interface HealthcareIntroSectionProps {
@@ -23,92 +73,117 @@ export interface HealthcareIntroSectionProps {
 }
 
 export const HealthcareIntroSection: React.FC<HealthcareIntroSectionProps> = ({
-  imageSrc = '/images/healthcare-image.jpg',
-  logoSrc = '/images/butterfly-logo.png',
+  imageSrc = '/images/Mask%20group%20(3).png',
+  logoSrc = '/images/Image-1%201.png',
 }) => {
+  const [index, setIndex] = useState(0);
+  const line = SERVICE_LINES[index];
+
+  /* Swapping the copy in place rather than scrolling a track: this column has
+     to line up with the artboard exactly, and a scroll container would need
+     padding of its own to keep focus rings off the clip edge. */
+  const step = (delta: number) =>
+    setIndex(
+      (current) =>
+        (current + delta + SERVICE_LINES.length) % SERVICE_LINES.length
+    );
+
   return (
-    <section
+    <Section
       aria-labelledby="healthcare-intro-heading"
-      className="flex min-h-[500px] w-full flex-col gap-[35px] px-5 pt-[25px] pb-10 min-[651px]:grid min-[651px]:grid-cols-[300px_1fr] min-[651px]:grid-rows-[auto_auto] min-[651px]:px-12 min-[651px]:pt-[38px] min-[651px]:pb-[55px] min-[901px]:grid-cols-[335px_1fr_218px] min-[901px]:grid-rows-[auto_1fr] min-[901px]:gap-x-[55px] min-[901px]:gap-y-[45px]"
+      tone="surface"
+      spacing="md"
     >
-      <div className="relative aspect-[335/397] w-full shrink-0 overflow-hidden rounded-[26px] min-[651px]:col-start-1 min-[651px]:row-span-2 min-[651px]:row-start-1 min-[651px]:aspect-auto min-[651px]:h-[370px] min-[651px]:w-[300px] min-[901px]:h-[397px] min-[901px]:w-[335px]">
-        <GlobalImage
+      <div className="grid gap-block lg:grid-cols-[0.9fr_1.6fr_0.85fr] lg:items-start lg:gap-[clamp(2rem,3.5vw,3.5rem)]">
+        <MediaFrame
           src={imageSrc}
           alt="Healthcare technology"
-          fill
-          sizes="(max-width: 650px) 100vw, 335px"
-          containerClassName="size-full"
+          pendingLabel="healthcare-image.jpg"
+          tone="navy"
+          sizes="(max-width: 1024px) 100vw, 30vw"
+          className="aspect-[335/397] w-full rounded-media"
         />
-      </div>
 
-      <div className="min-[651px]:col-start-2 min-[651px]:row-start-1">
-        <h1
-          id="healthcare-intro-heading"
-          className="mt-[5px] mb-2 font-serif text-[45px] leading-[0.95] font-normal text-[#f0182c] min-[651px]:text-[54px]"
-        >
-          Healthcare
-        </h1>
+        <div className="flex flex-col items-start">
+          <div
+            className="flex flex-col items-start"
+            role="group"
+            aria-roledescription="carousel"
+            aria-label="What we do"
+            aria-live="polite"
+          >
+            <Heading
+              id="healthcare-intro-heading"
+              level={2}
+              size="display"
+              tone="red"
+              font="serif"
+            >
+              {line.heading}
+            </Heading>
 
-        <p className="mb-[13px] max-w-[245px] text-[14px] leading-[1.15] tracking-[0.4px] text-[#123f63]">
-          Supporting text that will be places
-          <br />
-          here for better understanding.
-        </p>
+            <Text size="lead" tone="navy" className="mt-4 max-w-[34ch]">
+              {line.blurb}
+            </Text>
 
-        <GeneralLink
-          href="/what-we-do"
-          variant="unstyled"
-          className="inline-flex h-6 min-w-[101px] items-center justify-center rounded-full bg-[linear-gradient(90deg,#b2182c_0%,#d61931_48%,#008ed0_100%)] px-[15px] text-[13px] tracking-[0.2px] text-white"
-        >
-          Learn More
-        </GeneralLink>
+            <GeneralLink
+              href={line.href}
+              variant="button"
+              buttonVariant="cta"
+              size="cta"
+              className="mt-6"
+            >
+              Learn More
+            </GeneralLink>
+          </div>
 
-        <div className="mt-3 flex items-center gap-2">
-          <CircleControl label="Previous" direction="prev" />
-          <CircleControl label="Next" direction="next" />
-        </div>
-      </div>
-
-      <ul className="flex flex-col gap-[15px] min-[651px]:col-start-2 min-[651px]:row-start-2 min-[651px]:self-end min-[651px]:pb-0.5">
-        {LIST_ITEMS.map((label) => (
-          <IconTextRow key={label} icon={STAR_ICON} label={label} />
-        ))}
-      </ul>
-
-      <aside className="flex flex-col items-start gap-[35px] min-[651px]:col-span-2 min-[651px]:col-start-1 min-[651px]:row-start-3 min-[651px]:flex-row min-[651px]:items-center min-[901px]:col-span-1 min-[901px]:col-start-3 min-[901px]:row-span-2 min-[901px]:row-start-1 min-[901px]:flex-col min-[901px]:items-stretch min-[901px]:gap-0">
-        <div className="flex size-[218px] shrink-0 items-center justify-center overflow-hidden rounded-[25px] bg-[#f1f1f1]">
-          <div className="relative size-[78%]">
-            <GlobalImage
-              src={logoSrc}
-              alt="Butterfly logo"
-              fill
-              sizes="170px"
-              className="object-contain!"
-              containerClassName="size-full"
+          <div className="mt-5 flex items-center gap-3">
+            <ArrowButton
+              src="/images/ht-svg1.svg"
+              label="Previous service line"
+              onClick={() => step(-1)}
+            />
+            <ArrowButton
+              src="/images/ht-svg2.svg"
+              label="Next service line"
+              onClick={() => step(1)}
             />
           </div>
+
+          <ul className="mt-[clamp(2.5rem,1.875rem+3.125vw,5.625rem)] flex flex-col gap-4">
+            {LIST_ITEMS.map((label) => (
+              <IconTextRow key={label} icon={StarIcon} label={label} />
+            ))}
+          </ul>
         </div>
 
-        <div className="flex max-w-[300px] flex-col gap-4 pl-[5px] text-[14px] leading-[1.13] tracking-[0.35px] text-[#123f63] min-[901px]:mt-[53px] min-[901px]:max-w-none">
-          <p>
-            Lorem ipsum is the standard
-            <br />
-            placeholder text used in graphic
-            <br />
-            design, publishing, and web
-          </p>
+        <aside className="flex flex-col gap-6">
+          {/* Plate and its inset both scale, so the emblem keeps its proportion
+              to the frame as the column narrows. */}
+          <div className="aspect-square w-full max-w-[316px] rounded-tile-lg bg-brand-tile p-[clamp(1rem,0.6359rem+1.5534vw,2.5rem)]">
+            <MediaFrame
+              src={logoSrc}
+              alt="Saratoga emblem"
+              pendingLabel="butterfly-logo.png"
+              tone="sky"
+              sizes="316px"
+              imageClassName="object-contain!"
+              className="size-full"
+            />
+          </div>
 
-          <p>
-            development to showcase
-            <br />
-            layouts and visual elements
-            <br />
-            without the distraction of
-            <br />
-            meaningful content.
-          </p>
-        </div>
-      </aside>
-    </section>
+          <div className="flex flex-col gap-4 text-body text-brand-navy">
+            <p>
+              Lorem ipsum is the standard placeholder text used in graphic
+              design, publishing, and web
+            </p>
+            <p>
+              development to showcase layouts and visual elements without the
+              distraction of meaningful content.
+            </p>
+          </div>
+        </aside>
+      </div>
+    </Section>
   );
 };

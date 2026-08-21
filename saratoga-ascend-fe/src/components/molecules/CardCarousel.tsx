@@ -2,9 +2,19 @@
 
 import React, { useCallback, useRef } from 'react';
 
-/** Scroll-snap container: native touch swiping, no scrollbar chrome. */
+/**
+ * Scroll-snap container: native touch swiping, no scrollbar chrome.
+ *
+ * The padding is load-bearing. Setting `overflow-x` also makes `overflow-y`
+ * compute to `auto`, so anything a card paints outside its border box — the
+ * `shadow-card` drop shadow, a selected card's outline, focus rings — is
+ * clipped on all four edges. `CAROUSEL_BLEED_CLASS` pulls the padding back out
+ * so it costs no layout space.
+ */
 export const CAROUSEL_VIEWPORT_CLASS =
-  'snap-x snap-mandatory overflow-x-auto [scrollbar-width:none] focus-visible:outline-2 focus-visible:outline-offset-2 [&::-webkit-scrollbar]:hidden';
+  'snap-x snap-mandatory overflow-x-auto p-4 [scrollbar-width:none] focus-visible:outline-2 focus-visible:outline-offset-2 [&::-webkit-scrollbar]:hidden';
+
+export const CAROUSEL_BLEED_CLASS = '-m-4';
 
 export const CAROUSEL_SLIDE_CLASS = 'min-w-0 shrink-0 grow-0 snap-start';
 
@@ -56,6 +66,9 @@ export interface CardCarouselProps extends UseCardCarouselOptions {
   className?: string;
   /** Negative inline margin on the track that pairs with the slide's left padding. */
   trackClassName?: string;
+  /** Rendered above the track — for bands whose arrows sit beside the heading. */
+  header?: (controls: CardCarouselControls) => React.ReactNode;
+  /** Rendered after the track, typically arrows absolutely placed at the sides. */
   controls?: (controls: CardCarouselControls) => React.ReactNode;
 }
 
@@ -66,31 +79,37 @@ export const CardCarousel: React.FC<CardCarouselProps> = ({
   className = '',
   trackClassName = '',
   loop,
+  header,
   controls,
 }) => {
   const { viewportRef, scrollPrev, scrollNext } = useCardCarousel({ loop });
 
   return (
     <div className={`relative ${className}`.trim()}>
-      <div
-        ref={viewportRef}
-        className={CAROUSEL_VIEWPORT_CLASS}
-        role="group"
-        aria-roledescription="carousel"
-        aria-label={label}
-        tabIndex={0}
-      >
-        <div className={`flex ${trackClassName}`.trim()}>
-          {React.Children.map(children, (child) => (
-            <div
-              className={`${CAROUSEL_SLIDE_CLASS} ${slideClassName}`}
-              role="group"
-              aria-roledescription="slide"
-              data-carousel-slide
-            >
-              {child}
-            </div>
-          ))}
+      {header?.({ scrollPrev, scrollNext })}
+
+      {/* Wrapper keeps the bleed off the root so the controls stay anchored. */}
+      <div className={CAROUSEL_BLEED_CLASS}>
+        <div
+          ref={viewportRef}
+          className={CAROUSEL_VIEWPORT_CLASS}
+          role="group"
+          aria-roledescription="carousel"
+          aria-label={label}
+          tabIndex={0}
+        >
+          <div className={`flex ${trackClassName}`.trim()}>
+            {React.Children.map(children, (child) => (
+              <div
+                className={`${CAROUSEL_SLIDE_CLASS} ${slideClassName}`}
+                role="group"
+                aria-roledescription="slide"
+                data-carousel-slide
+              >
+                {child}
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 

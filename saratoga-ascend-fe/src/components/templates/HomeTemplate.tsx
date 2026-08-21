@@ -6,24 +6,28 @@ import {
   FeaturedSpecialistSection,
   TravelStaffingSection,
   AchievementsSection,
-  ColorSystemSection,
-  CoreComponentsSection,
+  SpotlightSection,
+  OurClientsSection,
+  NewsSection,
+  MissionSection,
   Footer,
 } from '../organisms';
 
 export const HomeTemplate: React.FC = () => {
   return (
-    <div className="min-h-screen bg-brand-surface text-brand-navy font-sans antialiased selection:bg-brand-red selection:text-brand-surface">
+    <div className="min-h-screen bg-brand-surface text-brand-navy font-sans antialiased">
       <Navbar />
 
-      <main>
+      <main id="main">
         <HeroSection />
         <HealthcareIntroSection />
         <FeaturedSpecialistSection />
         <TravelStaffingSection />
         <AchievementsSection />
-        <ColorSystemSection />
-        <CoreComponentsSection />
+        <SpotlightSection />
+        <OurClientsSection />
+        <NewsSection />
+        <MissionSection />
       </main>
 
       <Footer />

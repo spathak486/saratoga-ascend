@@ -1,19 +1,20 @@
 import type { Metadata, Viewport } from 'next';
-import { DM_Serif_Text, Plus_Jakarta_Sans } from 'next/font/google';
+import { Cardo, Duru_Sans } from 'next/font/google';
 import './globals.css';
 
-const dmSerif = DM_Serif_Text({
-  weight: ['400'],
-  style: ['normal', 'italic'],
+/** Display face from the Figma homepage — headings only. */
+const cardo = Cardo({
+  weight: ['400', '700'],
   subsets: ['latin'],
-  variable: '--font-dm-serif',
+  variable: '--font-cardo',
   display: 'swap',
 });
 
-const plusJakartaSans = Plus_Jakarta_Sans({
-  weight: ['400', '500', '600', '700', '800'],
+/** Body and UI face from the Figma homepage. Ships a single 400 weight. */
+const duruSans = Duru_Sans({
+  weight: ['400'],
   subsets: ['latin'],
-  variable: '--font-plus-jakarta',
+  variable: '--font-duru-sans',
   display: 'swap',
 });
 
@@ -61,7 +62,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${dmSerif.variable} ${plusJakartaSans.variable}`} suppressHydrationWarning>
+    <html lang="en" className={`${cardo.variable} ${duruSans.variable}`} suppressHydrationWarning>
       <body
         className="antialiased bg-brand-surface text-brand-navy font-sans selection:bg-brand-red selection:text-brand-surface"
         suppressHydrationWarning

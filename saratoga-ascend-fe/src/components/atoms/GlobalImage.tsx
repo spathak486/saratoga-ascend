@@ -26,7 +26,9 @@ const aspectRatioStyles: Record<ImageAspectRatio, string> = {
 };
 
 const roundedStyles: Record<ImageRounded, string> = {
-  none: 'rounded-none',
+  /* Empty rather than `rounded-none` so a radius passed via
+     `containerClassName` is not cancelled out by the default. */
+  none: '',
   sm: 'rounded-sm',
   md: 'rounded-md',
   lg: 'rounded-lg',
@@ -38,11 +40,11 @@ const roundedStyles: Record<ImageRounded, string> = {
 
 const overlayStyles: Record<ImageOverlay, string> = {
   none: '',
-  dark: 'bg-gradient-to-t from-brand-navy-dark/90 via-brand-navy-dark/40 to-transparent',
-  brand: 'bg-gradient-to-tr from-brand-navy/85 via-brand-navy-dark/50 to-brand-red/40',
+  dark: 'bg-gradient-to-t from-brand-navy-deep/90 via-brand-navy-deep/40 to-transparent',
+  brand: 'bg-gradient-to-tr from-brand-navy/85 via-brand-navy-card/50 to-brand-red/40',
   blue: 'bg-gradient-to-t from-brand-navy/80 via-brand-sky/20 to-transparent',
   vignette:
-    'bg-[radial-gradient(ellipse_at_center,_transparent_40%,_color-mix(in_srgb,var(--brand-navy-dark)_85%,transparent)_100%)]',
+    'bg-[radial-gradient(ellipse_at_center,transparent_40%,var(--color-brand-navy-deep)_100%)]',
 };
 
 const DEFAULT_FILL_SIZES = '(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw';
@@ -73,7 +75,7 @@ export const GlobalImage: React.FC<GlobalImageProps> = ({
 
   return (
     <div
-      className={`relative overflow-hidden ${aspectRatioStyles[aspectRatio]} ${roundedStyles[rounded]} ${
+      className={`relative overflow-hidden bg-brand-tile ${aspectRatioStyles[aspectRatio]} ${roundedStyles[rounded]} ${
         shouldFill && aspectRatio === 'auto' ? 'size-full' : ''
       } ${containerClassName}`.trim()}
     >

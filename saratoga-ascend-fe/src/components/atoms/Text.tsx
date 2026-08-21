@@ -1,43 +1,46 @@
 import React from 'react';
 
-export type TextVariant =
-  | 'body'
-  | 'muted'
-  | 'subtle'
-  | 'lead'
-  | 'whiteLead'
-  | 'whiteMuted'
-  | 'caption'
-  | 'overline';
+/** Visual steps from the `--text-*` scale in `globals.css`. */
+export type TextSize = 'lead' | 'body' | 'caption' | 'eyebrow';
 
-export interface TextProps extends React.HTMLAttributes<HTMLParagraphElement> {
+export type TextTone = 'navy' | 'muted' | 'red' | 'onDark' | 'onDarkMuted' | 'inherit';
+
+export interface TextProps extends React.HTMLAttributes<HTMLElement> {
   children: React.ReactNode;
-  variant?: TextVariant;
+  size?: TextSize;
+  tone?: TextTone;
   as?: 'p' | 'span' | 'div';
   className?: string;
 }
 
+const sizeStyles: Record<TextSize, string> = {
+  lead: 'text-body-lg',
+  body: 'text-body',
+  caption: 'text-caption',
+  eyebrow: 'text-eyebrow uppercase font-semibold',
+};
+
+const toneStyles: Record<TextTone, string> = {
+  navy: 'text-brand-navy',
+  muted: 'text-brand-muted',
+  red: 'text-brand-red',
+  onDark: 'text-brand-on-dark',
+  onDarkMuted: 'text-brand-on-dark-muted',
+  inherit: '',
+};
+
 export const Text: React.FC<TextProps> = ({
   children,
-  variant = 'body',
+  size = 'body',
+  tone = 'navy',
   as: Component = 'p',
   className = '',
   ...props
-}) => {
-  const variantStyles: Record<TextVariant, string> = {
-    body: 'text-slate-700 text-base leading-relaxed',
-    muted: 'text-slate-600 text-base leading-relaxed',
-    subtle: 'text-slate-500 text-sm leading-relaxed',
-    lead: 'text-slate-700 text-lg sm:text-xl font-normal leading-relaxed',
-    whiteLead: 'text-slate-200 text-lg sm:text-xl font-light leading-relaxed',
-    whiteMuted: 'text-slate-300 text-base leading-relaxed',
-    caption: 'text-slate-500 text-xs leading-normal',
-    overline: 'text-xs font-bold uppercase tracking-widest text-[#e11d48]',
-  };
-
-  return (
-    <Component className={`${variantStyles[variant]} ${className}`} {...props}>
-      {children}
-    </Component>
-  );
-};
+}) => (
+  <Component
+    className={`${sizeStyles[size]} ${toneStyles[tone]} ${className}`.trim()}
+    {...props}
+  >
+    {children}
+  </Component>
+);

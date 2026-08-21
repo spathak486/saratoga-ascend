@@ -36,6 +36,14 @@ const WIDE_TRIANGLES: Record<CircleControlDirection, string> = {
   next: 'M18 14.5L29 22L18 29.5V14.5Z',
 };
 
+/* Every colour resolves to a token in `globals.css`. */
+const NAVY = 'var(--color-brand-navy)';
+const NAVY_CARD = 'var(--color-brand-navy-card)';
+const RED = 'var(--color-brand-red)';
+const SKY = 'var(--color-brand-sky)';
+const SURFACE = 'var(--color-brand-surface)';
+const LINE = 'var(--color-brand-line)';
+
 const tones: Record<CircleControlTone, ToneConfig> = {
   light: {
     size: 'size-9',
@@ -44,55 +52,56 @@ const tones: Record<CircleControlTone, ToneConfig> = {
       cx: 20,
       cy: 18,
       r: 16,
-      fill: '#fff',
-      className: 'drop-shadow-[0_2px_3px_rgba(0,0,0,0.17)]',
+      fill: SURFACE,
+      stroke: LINE,
+      strokeWidth: 1,
     },
     paths: {
       prev: 'M23.5 10.8 C24.7 10.1 26.2 11 26.2 12.4 V23.6 C26.2 25 24.7 25.9 23.5 25.2 L14.3 19.6 C13.1 18.9 13.1 17.1 14.3 16.4 Z',
       next: 'M16.5 10.8 C15.3 10.1 13.8 11 13.8 12.4 V23.6 C13.8 25 15.3 25.9 16.5 25.2 L25.7 19.6 C26.9 18.9 26.9 17.1 25.7 16.4 Z',
     },
-    fills: { prev: '#0c476b', next: '#f20b2c' },
-    focus: 'focus-visible:outline-[#0c476b]',
+    fills: { prev: NAVY, next: RED },
+    focus: 'focus-visible:outline-brand-navy',
   },
   dark: {
     size: 'size-[42px]',
     viewBox: '0 0 44 44',
-    circle: { cx: 22, cy: 22, r: 19, fill: '#234d69', stroke: '#52738a', strokeWidth: 1 },
+    circle: { cx: 22, cy: 22, r: 19, fill: NAVY_CARD, stroke: SKY, strokeWidth: 1 },
     paths: SHARP_TRIANGLES,
-    fills: { prev: '#2997dc', next: '#f20b2d' },
-    focus: 'focus-visible:outline-white',
+    fills: { prev: SKY, next: RED },
+    focus: 'focus-visible:outline-brand-on-dark',
   },
   staffingArrow: {
     size: 'size-[43px]',
     viewBox: '0 0 44 44',
-    circle: { cx: 22, cy: 22, r: 19, fill: '#fff', stroke: '#e3e3e3', strokeWidth: 1 },
+    circle: { cx: 22, cy: 22, r: 19, fill: SURFACE, stroke: LINE, strokeWidth: 1 },
     paths: SHARP_TRIANGLES,
-    fills: { prev: '#063c5d', next: '#f20d2e' },
-    focus: 'focus-visible:outline-[#063c5d]',
+    fills: { prev: NAVY, next: RED },
+    focus: 'focus-visible:outline-brand-navy',
   },
   cardPlayPhoto: {
     size: 'size-10',
     viewBox: '0 0 44 44',
-    circle: { cx: 22, cy: 22, r: 18, fill: '#fff', stroke: '#ddd' },
+    circle: { cx: 22, cy: 22, r: 18, fill: SURFACE, stroke: LINE },
     paths: WIDE_TRIANGLES,
-    fills: { prev: '#188dcc', next: '#188dcc' },
-    focus: 'focus-visible:outline-white',
+    fills: { prev: SKY, next: SKY },
+    focus: 'focus-visible:outline-brand-on-dark',
   },
   cardPlayInfo: {
     size: 'size-10',
     viewBox: '0 0 44 44',
-    circle: { cx: 22, cy: 22, r: 18, fill: '#fff', stroke: '#ddd' },
+    circle: { cx: 22, cy: 22, r: 18, fill: SURFACE, stroke: LINE },
     paths: WIDE_TRIANGLES,
-    fills: { prev: '#f20d2e', next: '#f20d2e' },
-    focus: 'focus-visible:outline-[#f20d2e]',
+    fills: { prev: RED, next: RED },
+    focus: 'focus-visible:outline-brand-red',
   },
   achievementArrow: {
     size: 'size-11',
     viewBox: '0 0 44 44',
-    circle: { cx: 22, cy: 22, r: 19, fill: '#155779', stroke: '#43819d', strokeWidth: 1 },
+    circle: { cx: 22, cy: 22, r: 19, fill: NAVY_CARD, stroke: SKY, strokeWidth: 1 },
     paths: SHARP_TRIANGLES,
-    fills: { prev: '#1595dc', next: '#f20d2e' },
-    focus: 'focus-visible:outline-white',
+    fills: { prev: SKY, next: RED },
+    focus: 'focus-visible:outline-brand-on-dark',
   },
 };
 

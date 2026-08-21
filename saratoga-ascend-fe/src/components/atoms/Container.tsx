@@ -1,37 +1,41 @@
 import React from 'react';
 
-export type ContainerSize = 'sm' | 'md' | 'lg' | 'xl' | '2xl' | 'home' | 'full';
+/**
+ * `home` is the page column every homepage section shares: capped at 1700px
+ * inclusive of the gutter, centred. Below that cap it is the viewport minus
+ * the gutter, so it narrows proportionally with the screen. The gutter itself
+ * is 48px until the 1920px artboard width, then 24px (see `.px-page`).
+ *
+ * `narrow` is for measure-limited prose inside that column. `full` opts out
+ * of the cap for full-bleed media while keeping the gutter.
+ */
+export type ContainerSize = 'home' | 'narrow' | 'full';
 
 export interface ContainerProps extends React.HTMLAttributes<HTMLDivElement> {
   size?: ContainerSize;
+  /** Drop the horizontal gutter — for media that must reach the viewport edge. */
+  flush?: boolean;
   children: React.ReactNode;
   className?: string;
 }
 
+const sizeStyles: Record<ContainerSize, string> = {
+  home: 'max-w-home',
+  narrow: 'max-w-[46rem]',
+  full: 'max-w-none',
+};
+
 export const Container: React.FC<ContainerProps> = ({
-  size = 'xl',
+  size = 'home',
+  flush = false,
   children,
   className = '',
   ...props
-}) => {
-  const sizeStyles: Record<ContainerSize, string> = {
-    sm: 'max-w-3xl',
-    md: 'max-w-4xl',
-    lg: 'max-w-5xl',
-    xl: 'max-w-7xl',
-    '2xl': 'max-w-[1440px]',
-    home: 'max-w-home',
-    full: 'max-w-full',
-  };
-
-  const paddingStyles = size === 'home' ? 'px-8' : 'px-4 sm:px-6 lg:px-8';
-
-  return (
-    <div
-      className={`mx-auto w-full ${paddingStyles} ${sizeStyles[size]} ${className}`}
-      {...props}
-    >
-      {children}
-    </div>
-  );
-};
+}) => (
+  <div
+    className={`mx-auto w-full ${sizeStyles[size]} ${flush ? '' : 'px-page'} ${className}`.trim()}
+    {...props}
+  >
+    {children}
+  </div>
+);

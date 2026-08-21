@@ -1,66 +1,38 @@
 import React from 'react';
 import Link from 'next/link';
+import { actionClass, type ActionSize, type ActionVariant } from './actionStyles';
 
 export type GeneralLinkVariant =
+  /** Inline link in running copy. */
   | 'default'
-  | 'subtle'
+  /** Header and footer navigation. */
   | 'nav'
-  | 'footer'
+  /** Text link with a trailing arrow that slides on hover. */
   | 'arrow'
+  /** Renders with the shared button treatment — pass `buttonVariant`. */
   | 'button'
+  /** No styling; the caller owns the appearance. */
   | 'unstyled';
-
-export type ButtonStyleVariant =
-  | 'primaryRed'
-  | 'navy'
-  | 'blue'
-  | 'outlineNavy'
-  | 'outlineRed'
-  | 'outlineWhite'
-  | 'peachGradient'
-  | 'cyanGradient'
-  | 'ghost';
-
-export type GeneralLinkSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
 export interface GeneralLinkProps
   extends Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'href'> {
   href: string;
   variant?: GeneralLinkVariant;
-  buttonVariant?: ButtonStyleVariant;
-  size?: GeneralLinkSize;
+  buttonVariant?: ActionVariant;
+  size?: ActionSize;
   isActive?: boolean;
+  /** Invert colours for placement on navy bands. */
+  onDark?: boolean;
   leftIcon?: React.ReactNode;
   rightIcon?: React.ReactNode;
-  /** Force external treatment. Auto-detected from `http(s):` and protocol-relative URLs. */
+  /** Force external treatment. Auto-detected for `http(s):` and `//` URLs. */
   external?: boolean;
   children: React.ReactNode;
   className?: string;
 }
 
-const sizeStyles: Record<GeneralLinkSize, string> = {
-  xs: 'px-3 py-1.5 text-xs',
-  sm: 'px-4 py-2 text-xs',
-  md: 'px-6 py-2.5 text-sm',
-  lg: 'px-8 py-3.5 text-base',
-  xl: 'px-9 py-4 text-lg',
-};
-
-const buttonVariantStyles: Record<ButtonStyleVariant, string> = {
-  primaryRed: 'bg-brand-red hover:bg-brand-red/90 text-brand-surface shadow-lg shadow-brand-red/30',
-  navy: 'bg-brand-navy hover:bg-brand-navy-dark text-brand-surface shadow-lg shadow-brand-navy/30',
-  blue: 'bg-brand-sky hover:bg-brand-sky/90 text-brand-surface shadow-lg shadow-brand-sky/30',
-  outlineNavy:
-    'bg-transparent border-2 border-brand-navy text-brand-navy hover:bg-brand-navy hover:text-brand-surface',
-  outlineRed:
-    'bg-transparent border-2 border-brand-red text-brand-red hover:bg-brand-red hover:text-brand-surface',
-  outlineWhite:
-    'bg-transparent border-2 border-white/60 text-white hover:bg-brand-surface hover:text-brand-navy',
-  peachGradient: 'bg-gradient-brand text-brand-surface shadow-xl shadow-brand-red/30 hover:opacity-95',
-  cyanGradient:
-    'bg-gradient-blue-cyan text-brand-surface shadow-xl shadow-brand-sky/30 hover:opacity-95',
-  ghost: 'bg-transparent text-brand-navy hover:bg-slate-100',
-};
+const focusRing =
+  'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current';
 
 function isHttpUrl(href: string): boolean {
   return /^(https?:)?\/\//i.test(href);
@@ -72,37 +44,44 @@ function isSpecialUrl(href: string): boolean {
 
 function getVariantClass(
   variant: GeneralLinkVariant,
-  buttonVariant: ButtonStyleVariant,
-  size: GeneralLinkSize,
-  isActive: boolean
+  buttonVariant: ActionVariant,
+  size: ActionSize,
+  isActive: boolean,
+  onDark: boolean
 ): string {
   switch (variant) {
     case 'button':
-      return `inline-flex items-center justify-center gap-2 font-semibold rounded-xl transition-all duration-200 cursor-pointer shadow-sm active:scale-98 ${sizeStyles[size]} ${buttonVariantStyles[buttonVariant]}`;
-    case 'nav':
-      return `inline-flex items-center gap-1.5 text-sm font-semibold transition-colors duration-150 ${
-        isActive ? 'text-brand-red' : 'text-brand-navy hover:text-brand-red'
+      return actionClass(buttonVariant, size);
+
+    case 'nav': {
+      const rest = onDark ? 'text-brand-on-dark/85' : 'text-brand-navy';
+      const active = onDark ? 'text-brand-on-dark' : 'text-brand-red';
+      return `inline-flex items-center gap-1.5 text-nav transition-colors duration-150 hover:text-brand-red ${focusRing} ${
+        isActive ? `${active} font-semibold` : rest
       }`;
-    case 'footer':
-      return 'inline-flex items-center gap-1 text-sm text-slate-400 hover:text-white transition-all duration-150 hover:translate-x-1';
+    }
+
     case 'arrow':
-      return 'group inline-flex items-center gap-1.5 text-sm font-bold text-brand-red hover:text-brand-red/80 transition-colors duration-150';
-    case 'subtle':
-      return 'text-sm text-slate-600 hover:text-brand-navy transition-colors duration-150 underline-offset-4 hover:underline';
+      return `group inline-flex items-center gap-1.5 text-nav font-semibold text-brand-red transition-colors duration-150 hover:opacity-80 ${focusRing}`;
+
     case 'unstyled':
-      return '';
+      return `${focusRing}`;
+
     case 'default':
     default:
-      return 'inline-flex items-center gap-1 text-brand-navy hover:text-brand-red font-medium transition-colors duration-150 underline-offset-4 hover:underline';
+      return `inline-flex items-center gap-1 text-body font-medium underline-offset-4 transition-colors duration-150 hover:underline ${focusRing} ${
+        onDark ? 'text-brand-on-dark' : 'text-brand-navy hover:text-brand-red'
+      }`;
   }
 }
 
 export const GeneralLink: React.FC<GeneralLinkProps> = ({
   href,
   variant = 'default',
-  buttonVariant = 'primaryRed',
+  buttonVariant = 'cta',
   size = 'md',
   isActive = false,
+  onDark = false,
   leftIcon,
   rightIcon,
   external,
@@ -114,25 +93,28 @@ export const GeneralLink: React.FC<GeneralLinkProps> = ({
 }) => {
   const isExternal = external ?? isHttpUrl(href);
   const opensInNewTab = isExternal && target !== '_self';
-  const classNames = `${getVariantClass(variant, buttonVariant, size, isActive)} ${className}`.trim();
+  const classNames =
+    `${getVariantClass(variant, buttonVariant, size, isActive, onDark)} ${className}`.trim();
 
   const content = (
     <>
       {leftIcon && <span className="inline-flex shrink-0 items-center">{leftIcon}</span>}
       <span>{children}</span>
       {rightIcon && <span className="inline-flex shrink-0 items-center">{rightIcon}</span>}
+
       {variant === 'arrow' && !rightIcon && (
         <span
-          className="inline-block text-base leading-none transition-transform duration-200 group-hover:translate-x-1"
+          className="inline-block leading-none transition-transform duration-200 group-hover:translate-x-1 motion-reduce:transition-none"
           aria-hidden="true"
         >
           &rarr;
         </span>
       )}
+
       {opensInNewTab && variant !== 'button' && (
         <>
           <svg
-            className="ml-0.5 h-3.5 w-3.5 opacity-60"
+            className="ml-0.5 size-3.5 opacity-60"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -156,8 +138,8 @@ export const GeneralLink: React.FC<GeneralLinkProps> = ({
       <a
         href={href}
         className={classNames}
-        target={opensInNewTab ? target ?? '_blank' : target}
-        rel={opensInNewTab ? rel ?? 'noopener noreferrer' : rel}
+        target={opensInNewTab ? (target ?? '_blank') : target}
+        rel={opensInNewTab ? (rel ?? 'noopener noreferrer') : rel}
         {...props}
       >
         {content}

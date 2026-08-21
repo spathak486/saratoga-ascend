@@ -1,75 +1,61 @@
 import React from 'react';
-import { Container, ContainerSize } from './Container';
+import { Container, type ContainerSize } from './Container';
 
-export type SectionBackground =
-  | 'white'
-  | 'offwhite'
-  | 'navy'
-  | 'darkNavy'
-  | 'gradientHero'
-  | 'gradientNavy'
-  | 'slate';
+/** Background treatments available to a homepage band. */
+export type SectionTone = 'surface' | 'muted' | 'navy' | 'navyDeep' | 'band';
 
-export type SectionSpacing = 'none' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+/** Vertical rhythm, derived from the `--spacing-section` token. */
+export type SectionSpacing = 'none' | 'sm' | 'md' | 'lg';
 
 export interface SectionProps extends React.HTMLAttributes<HTMLElement> {
   children: React.ReactNode;
-  background?: SectionBackground;
+  tone?: SectionTone;
   spacing?: SectionSpacing;
+  /**
+   * Render children outside the page column. Use when a band paints its own
+   * full-bleed media and places `<Container>` internally.
+   */
+  bleed?: boolean;
   containerSize?: ContainerSize;
-  withContainer?: boolean;
-  borderBottom?: boolean;
-  borderTop?: boolean;
   className?: string;
   containerClassName?: string;
 }
 
+const toneStyles: Record<SectionTone, string> = {
+  surface: 'bg-brand-surface text-brand-navy',
+  muted: 'bg-brand-surface-muted text-brand-navy',
+  navy: 'bg-brand-navy text-brand-on-dark',
+  navyDeep: 'bg-brand-navy-deep text-brand-on-dark',
+  band: 'bg-brand-band text-brand-on-dark',
+};
+
+const spacingStyles: Record<SectionSpacing, string> = {
+  none: '',
+  sm: 'py-[calc(var(--spacing-section)*0.5)]',
+  md: 'py-[calc(var(--spacing-section)*0.75)]',
+  lg: 'py-section',
+};
+
 export const Section: React.FC<SectionProps> = ({
   children,
-  background = 'white',
+  tone = 'surface',
   spacing = 'lg',
-  containerSize = 'xl',
-  withContainer = true,
-  borderBottom = false,
-  borderTop = false,
+  bleed = false,
+  containerSize = 'home',
   className = '',
   containerClassName = '',
   ...props
-}) => {
-  const bgStyles: Record<SectionBackground, string> = {
-    white: 'bg-white text-[#022e4c]',
-    offwhite: 'bg-[#f4f4f4] text-[#022e4c]',
-    navy: 'bg-[#022e4c] text-white',
-    darkNavy: 'bg-[#011c30] text-white',
-    gradientHero: 'bg-gradient-to-br from-[#022e4c] via-[#011c30] to-[#e11d48] text-white',
-    gradientNavy: 'bg-gradient-to-b from-[#022e4c] to-[#011c30] text-white',
-    slate: 'bg-slate-50 text-[#022e4c]',
-  };
-
-  const spacingStyles: Record<SectionSpacing, string> = {
-    none: 'py-0',
-    sm: 'py-8 sm:py-12',
-    md: 'py-12 sm:py-16',
-    lg: 'py-16 sm:py-24',
-    xl: 'py-20 sm:py-28',
-    '2xl': 'py-24 sm:py-36',
-  };
-
-  const borderTopStyle = borderTop ? 'border-t border-slate-200' : '';
-  const borderBottomStyle = borderBottom ? 'border-b border-slate-200' : '';
-
-  return (
-    <section
-      className={`relative ${bgStyles[background]} ${spacingStyles[spacing]} ${borderTopStyle} ${borderBottomStyle} ${className}`}
-      {...props}
-    >
-      {withContainer ? (
-        <Container size={containerSize} className={containerClassName}>
-          {children}
-        </Container>
-      ) : (
-        children
-      )}
-    </section>
-  );
-};
+}) => (
+  <section
+    className={`relative ${toneStyles[tone]} ${spacingStyles[spacing]} ${className}`.trim()}
+    {...props}
+  >
+    {bleed ? (
+      children
+    ) : (
+      <Container size={containerSize} className={containerClassName}>
+        {children}
+      </Container>
+    )}
+  </section>
+);

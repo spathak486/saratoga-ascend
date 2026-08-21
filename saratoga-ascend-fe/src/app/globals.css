@@ -1,65 +1,189 @@
 @import "tailwindcss";
 
 /*
-  Brand tokens derived from Figma (hvMKXI3GewGjGKrMu6Z7MA):
-  Primary-Blue, Primary-Red, Sky blue, Backgrounds/Primary,
-  Colors/Neutral/1000, dark-section fill, CTA gradient stops.
+  ---------------------------------------------------------------------------
+  Saratoga Ascend — design foundation
+  ---------------------------------------------------------------------------
+  Single source of truth for the homepage. Sections must compose from these
+  tokens; no arbitrary hex values or one-off font sizes in components.
+
+  Reference frame: Figma homepage artboard is 1920px wide. The implemented
+  content column caps at 1700px (--max-width-home), inclusive of the page
+  gutter — 48px below the artboard width, 24px at and above it, since past
+  1920 the cap is already producing outer margin of its own. The type scale
+  is fluid between a 375px phone and the 1920px
+  artboard. Interpolating to 1920 rather than to the container cap is what
+  makes a CONFIRMED Figma value land at its literal size on the artboard —
+  stopping at the cap would leave type undersized on wide screens while the
+  layout kept growing.
+
+  Type steps marked CONFIRMED carry measurements taken from the Figma file;
+  their maximum is the literal Figma value. Unmarked steps are provisional and
+  should be replaced as each section's real values are measured.
+  ---------------------------------------------------------------------------
 */
+
 @theme {
+  /* ---- Brand palette --------------------------------------------------- */
+  /* Navy family — page text, dark bands, card fills */
   --color-brand-navy: #022e4c;
-  --color-brand-navy-dark: #0f3d60;
+  --color-brand-navy-card: #033a59;
+  --color-brand-navy-deep: #011c30;
+
+  /* Accents */
   --color-brand-red: #f01424;
   --color-brand-sky: #2b88d9;
-  --color-brand-blue: #2b88d9;
+
+  /* Surfaces */
   --color-brand-surface: #ffffff;
-  --color-brand-ink: #0a0a0a;
-  --color-brand-gradient-from: #ff0013;
-  --color-brand-gradient-to: #00bbff;
+  --color-brand-surface-muted: #f4f4f4;
+  --color-brand-tile: #efefef;
+  --color-brand-line: #e3e3e3;
 
-  --color-primary: #022e4c;
-  --color-accent: #f01424;
-  --color-sky: #2b88d9;
-  --color-background: #ffffff;
-  --color-foreground: #022e4c;
-  --color-surface: #ffffff;
-  --color-ink: #0a0a0a;
+  /* Foreground on dark bands */
+  --color-brand-on-dark: #ffffff;
+  --color-brand-on-dark-muted: #c7d7df;
 
-  --font-serif: var(--font-dm-serif), 'DM Serif Text', 'Amasis MT', Georgia, serif;
-  --font-sans: var(--font-plus-jakarta), 'Google Sans', 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  /* Secondary body copy on light backgrounds */
+  --color-brand-muted: #4a6a80;
 
-  /* Homepage type scale (Figma 5:1012 — Cardo/Duru mapped to serif/sans) */
-  --text-display: 10rem;
-  --text-display--line-height: 1.06;
-  --text-hero: 6rem;
-  --text-hero--line-height: 1.1;
-  --text-section: 4rem;
-  --text-section--line-height: 1.19;
-  --text-subtitle: 2.25rem;
-  --text-subtitle--line-height: 1.3;
-  --text-body-lg: 1.5rem;
-  --text-body-lg--line-height: 1.4;
-  --text-nav: 1.25rem;
-  --text-nav--line-height: 1.3;
-  --text-button: 1.25rem;
+  /* CTA gradient stops (the red-to-blue pill used across the page). Brighter
+     than the brand red and sky; a 20% black layer sits over them in
+     `.bg-cta-gradient` to bring the fill back down. */
+  --color-brand-cta-from: #ff0013;
+  --color-brand-cta-to: #00bbff;
+
+  /* ---- Type families ----------------------------------------------------
+     Both faces come from the Figma file. Duru Sans ships only a 400 weight,
+     so emphasis is carried by colour and size, never by `font-bold`.        */
+  --font-serif: var(--font-cardo), 'Cardo', Georgia, serif;
+  --font-sans: var(--font-duru-sans), 'Duru Sans', system-ui, -apple-system,
+    'Segoe UI', Roboto, sans-serif;
+
+  /* ---- Fluid type scale -------------------------------------------------
+     Each step interpolates linearly from its 375px value to its 1920px value
+     and then holds. Sizes shown in comments as min -> max.                  */
+
+  /* CONFIRMED — 96px at 1920, 70px at 1440. Big section headings, e.g.
+     "Healthcare". Steeper than the other steps because a display size has to
+     lose more of itself than body copy does on the way down; holds at 40px
+     below ~886px so it stays a headline on a phone. */
+  --text-display: clamp(2.5rem, -0.5rem + 5.4167vw, 6rem);
+  --text-display--line-height: 1.0;
+
+  /* 34 -> 68 — in-card hero headline, e.g. "HEALTHCARE" */
+  --text-hero: clamp(2.125rem, 1.6093rem + 2.2006vw, 4.25rem);
+  --text-hero--line-height: 1.05;
+  --text-hero--letter-spacing: -0.03em;
+
+  /* 28 -> 46 — section headings */
+  --text-section: clamp(1.75rem, 1.4769rem + 1.165vw, 2.875rem);
+  --text-section--line-height: 1.1;
+
+  /* 36 -> 62 — achievement stat numerals */
+  --text-stat: clamp(2.25rem, 1.8556rem + 1.6828vw, 3.875rem);
+  --text-stat--line-height: 0.95;
+
+  /* CONFIRMED — 24px. The centred label over the achievements band. Set in
+     Duru Sans rather than Cardo: it reads as a caption on the footage, and
+     letting it compete with the 96px Cardo headings would flatten the page's
+     hierarchy. */
+  --text-band-title: clamp(1.125rem, 1.034rem + 0.3883vw, 1.5rem);
+  --text-band-title--line-height: 1.3;
+  --text-band-title--letter-spacing: 0.0125em;
+
+  /* CONFIRMED — 35px. Certification name on an achievement card. */
+  --text-award: clamp(1.5rem, 1.3331rem + 0.712vw, 2.1875rem);
+  --text-award--line-height: 1.03;
+
+  /* 20 -> 28 — sub-headings and card titles */
+  --text-subtitle: clamp(1.25rem, 1.1286rem + 0.5178vw, 1.75rem);
+  --text-subtitle--line-height: 1.2;
+
+  /* CONFIRMED — 24px at 1920, 20px at 1440. Lead paragraphs. Holds at 16px
+     below ~960px, the floor for comfortable reading. */
+  --text-body-lg: clamp(1rem, 0.5rem + 0.8333vw, 1.5rem);
+  --text-body-lg--line-height: 1.5;
+
+  /* 15 -> 16.5 — default body copy */
+  --text-body: clamp(0.9375rem, 0.9147rem + 0.0971vw, 1.03125rem);
+  --text-body--line-height: 1.55;
+
+  /* CONFIRMED — Duru Sans Regular 20px. Utility row in the header. */
+  --text-nav: clamp(1rem, 0.9393rem + 0.2589vw, 1.25rem);
+  --text-nav--line-height: 1.6;
+
+  /* CONFIRMED — Duru Sans Regular 25px. Primary navigation row. */
+  --text-nav-lg: clamp(1.0625rem, 0.9411rem + 0.5178vw, 1.5625rem);
+  --text-nav-lg--line-height: 1.6;
+
+  /* CONFIRMED — 24px at 1920, 20px at 1440. Button labels, on the same curve
+     as lead paragraphs so a CTA sits level with the copy beside it. */
+  --text-button: clamp(1rem, 0.5rem + 0.8333vw, 1.5rem);
   --text-button--line-height: 1.2;
 
-  /* Homepage artboard is 1920px; left gutter to logo is 91px */
-  --max-width-home: 120rem;
-  --spacing-gutter: 5.6875rem;
-  --spacing-section: 8rem;
+  /* 13 -> 14 — captions and supporting labels */
+  --text-caption: clamp(0.8125rem, 0.7973rem + 0.0647vw, 0.875rem);
+  --text-caption--line-height: 1.4;
+
+  /* 12 -> 13 — eyebrows and overlines */
+  --text-eyebrow: clamp(0.75rem, 0.7348rem + 0.0647vw, 0.8125rem);
+  --text-eyebrow--line-height: 1.3;
+  --text-eyebrow--letter-spacing: 0.08em;
+
+  /* ---- Layout -----------------------------------------------------------
+     Every section renders its content inside <Container size="home">.       */
+  /* 1700px, inclusive of the gutter. Below this the container is simply the
+     viewport minus the gutter, so it narrows with the screen. */
+  --max-width-home: 106.25rem;
+
+  /* 48px below the artboard width, 24px at and above it — see `.px-page`. */
+  --spacing-gutter: 3rem;
+  --spacing-gutter-wide: 1.5rem;
+
+  /* CONFIRMED — 20px / 35px inside the gradient CTA at 1920. Both track the
+     button type scale, so the label keeps the same breathing room as it
+     shrinks rather than the pill collapsing onto the text. */
+  --spacing-cta-y: clamp(0.75rem, 0.4167rem + 0.6944vw, 1.25rem);
+  --spacing-cta-x: clamp(1.25rem, 0.7292rem + 1.2153vw, 2.1875rem);
+
+  /* Vertical rhythm between sections: 48px -> 104px */
+  --spacing-section: clamp(3rem, 2.1505rem + 3.6246vw, 6.5rem);
+
+  /* Gap between a section heading block and its content: 24px -> 40px */
+  --spacing-block: clamp(1.5rem, 1.2573rem + 1.0356vw, 2.5rem);
+
+  /* ---- Radii ------------------------------------------------------------ */
+  --radius-card: 1.5rem; /* 24px — large content cards */
+  --radius-card-sm: 0.8125rem; /* 13px — carousel cards */
+  --radius-media: 1.625rem; /* 26px — image frames */
+  --radius-tile: 1.5625rem; /* 25px — logo tiles */
+
+  /* 20px -> 36px — certification cards on the achievements band */
+  --radius-award: clamp(1.25rem, 1.0073rem + 1.0356vw, 2.25rem);
+
+  /* 20px -> 44px — the large emblem plate in the healthcare band. Fluid so the
+     corner stays in proportion as the plate narrows. */
+  --radius-tile-lg: clamp(1.25rem, 0.8859rem + 1.5534vw, 2.75rem);
+
+  /* 24px -> 56px — the wide sweep on the trailing edge of a news card. Paired
+     with --radius-card-sm on the leading edge, so the card reads as though it
+     is turning out of the band rather than sitting square in it. */
+  --radius-sweep: clamp(1.5rem, 1.0146rem + 2.0712vw, 3.5rem);
+
+  /* ---- Elevation --------------------------------------------------------- */
+  --shadow-card: 0 2px 5px rgb(0 0 0 / 0.2);
+
+  /* Soft navy-tinted lift for white tiles on a white ground, where the shadow
+     is the only thing describing the card's edge. Neutral black at this size
+     reads as grey dirt under the tile; the brand navy keeps it clean.
+     Total reach stays under the carousel's clip padding. */
+  --shadow-tile: 0 3px 12px rgb(2 46 76 / 0.13);
 }
 
-:root {
-  --brand-navy: var(--color-brand-navy);
-  --brand-navy-dark: var(--color-brand-navy-dark);
-  --brand-red: var(--color-brand-red);
-  --brand-sky: var(--color-brand-sky);
-  --brand-blue: var(--color-brand-sky);
-  --brand-surface: var(--color-brand-surface);
-  --brand-ink: var(--color-brand-ink);
-  --brand-gradient-from: var(--color-brand-gradient-from);
-  --brand-gradient-to: var(--color-brand-gradient-to);
-}
+/* ---------------------------------------------------------------------------
+   Base
+   --------------------------------------------------------------------------- */
 
 html {
   scroll-behavior: smooth;
@@ -67,9 +191,11 @@ html {
 }
 
 body {
-  background-color: var(--brand-surface);
-  color: var(--brand-navy);
-  font-family: var(--font-sans, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
+  background-color: var(--color-brand-surface);
+  color: var(--color-brand-navy);
+  font-family: var(--font-sans);
+  font-size: var(--text-body);
+  line-height: var(--text-body--line-height);
   overflow-x: hidden;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -77,65 +203,121 @@ body {
 }
 
 ::selection {
-  background-color: var(--brand-red);
-  color: var(--brand-surface);
+  background-color: var(--color-brand-red);
+  color: var(--color-brand-surface);
 }
 
-.bg-gradient-brand-hero {
-  background: linear-gradient(180deg, var(--brand-navy) 0%, var(--brand-navy-dark) 100%);
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
-.bg-gradient-navy-dark {
-  background: linear-gradient(180deg, var(--brand-navy) 0%, var(--brand-navy-dark) 100%);
-}
+/* ---------------------------------------------------------------------------
+   Brand utilities
+   Composable classes for treatments that repeat across sections. Anything
+   used by more than one section belongs here rather than inline.
+   --------------------------------------------------------------------------- */
 
-.bg-gradient-brand {
+/* Red-to-blue CTA fill — "Learn More", "Explore Jobs", subscribe button.
+   The flat black layer on top darkens the whole sweep evenly, which keeps
+   white label text legible over the bright cyan end. */
+.bg-cta-gradient {
   background-image:
-    linear-gradient(90deg, rgb(0 0 0 / 0.2) 0%, rgb(0 0 0 / 0.2) 100%),
-    linear-gradient(77.39deg, var(--brand-gradient-from) 15.223%, var(--brand-gradient-to) 104.41%);
+    linear-gradient(rgb(0 0 0 / 0.2), rgb(0 0 0 / 0.2)),
+    linear-gradient(
+      90deg,
+      var(--color-brand-cta-from) 0%,
+      var(--color-brand-cta-to) 100%
+    );
 }
 
-.bg-gradient-red-peach {
+/* Page gutter. Drops to 24px at the artboard width, where the 1700px cap has
+   already produced outer margin of its own and 48px would double up. */
+.px-page {
+  padding-inline: var(--spacing-gutter);
+}
+
+@media (min-width: 1920px) {
+  .px-page {
+    padding-inline: var(--spacing-gutter-wide);
+  }
+}
+
+/* Soft brand wash on light carousel cards */
+.bg-card-tint {
+  background-color: var(--color-brand-surface);
   background-image:
-    linear-gradient(90deg, rgb(0 0 0 / 0.2) 0%, rgb(0 0 0 / 0.2) 100%),
-    linear-gradient(77.39deg, var(--brand-gradient-from) 15.223%, var(--brand-gradient-to) 104.41%);
+    radial-gradient(
+      circle at 85% 90%,
+      color-mix(in srgb, var(--color-brand-red) 25%, transparent),
+      transparent 35%
+    ),
+    radial-gradient(
+      circle at 60% 25%,
+      color-mix(in srgb, var(--color-brand-sky) 18%, transparent),
+      transparent 35%
+    );
 }
 
-.bg-gradient-blue-cyan {
-  background: linear-gradient(77.39deg, var(--brand-sky) 15.223%, var(--brand-gradient-to) 104.41%);
+/* Colour wash over the achievements footage, multiplied onto it. Four stops
+   rather than two: the red end has to stay dense enough to carry the
+   certification cards while the navy end stays quiet under the stats, and a
+   straight red-to-navy ramp goes muddy through the middle. The end stops are
+   the brand red and navy held back to 88% and 91%. */
+.bg-brand-band {
+  background-image: linear-gradient(
+    90deg,
+    rgb(185 18 47 / 0.88) 0%,
+    rgb(157 31 70 / 0.68) 28%,
+    rgb(25 91 128 / 0.66) 65%,
+    rgb(4 49 78 / 0.91) 100%
+  );
 }
 
-.bg-gradient-glass {
-  background: color-mix(in srgb, var(--brand-surface) 85%, transparent);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+/* Lighter second pass over the same band, above the multiply layer so the
+   footage keeps some lift instead of going flat. */
+.bg-band-glass {
+  background-image: linear-gradient(
+    90deg,
+    rgb(190 24 49 / 0.38),
+    rgb(22 87 121 / 0.3)
+  );
 }
 
-.bg-gradient-glass-dark {
-  background: color-mix(in srgb, var(--brand-navy) 85%, transparent);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+/* Frosted certification card. Runs on the diagonal so each card picks up the
+   band's red-to-navy travel regardless of where it sits in the row. */
+.bg-award-card {
+  background-image: linear-gradient(
+    135deg,
+    rgb(180 30 57 / 0.45),
+    rgb(24 75 102 / 0.38)
+  );
 }
 
-.text-gradient-red {
-  background: linear-gradient(77.39deg, var(--brand-gradient-from) 15.223%, var(--brand-red) 104.41%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+/* Fade a full-bleed image into the page surface at its lower edge */
+.fade-to-surface {
+  -webkit-mask-image: linear-gradient(
+    180deg,
+    #000 0%,
+    #000 55%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(180deg, #000 0%, #000 55%, transparent 100%);
 }
 
-.text-gradient-blue {
-  background: linear-gradient(77.39deg, var(--brand-sky) 15.223%, var(--brand-gradient-to) 104.41%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.text-gradient-navy {
-  background: linear-gradient(135deg, var(--brand-navy) 0%, var(--brand-sky) 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+/* Shared focus treatment so every interactive element is keyboard-visible */
+.focus-brand {
+  outline: 2px solid var(--color-brand-navy);
+  outline-offset: 2px;
 }
 
 ::-webkit-scrollbar {
@@ -144,14 +326,14 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f5f9;
+  background: var(--color-brand-surface-muted);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
+  background: var(--color-brand-line);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+  background: var(--color-brand-muted);
 }

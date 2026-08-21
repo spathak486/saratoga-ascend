@@ -5,11 +5,11 @@ export interface IconTextRowProps {
   label: string;
 }
 
-export const IconTextRow: React.FC<IconTextRowProps> = ({ icon, label }) => {
-  return (
-    <li className="flex items-center gap-2 text-[21px] tracking-[0.4px] text-[#123f63]">
+export const IconTextRow: React.FC<IconTextRowProps> = ({ icon, label }) => (
+  <li className="flex items-center gap-3 text-body-lg text-brand-navy">
+    <span className="inline-flex size-6 shrink-0 items-center justify-center" aria-hidden="true">
       {icon}
-      <span>{label}</span>
-    </li>
-  );
-};
+    </span>
+    <span>{label}</span>
+  </li>
+);

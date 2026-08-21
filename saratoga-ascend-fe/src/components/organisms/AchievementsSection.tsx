@@ -1,29 +1,26 @@
 'use client';
 
 import React from 'react';
-import { GlobalImage } from '../atoms';
-import { AchievementCard, type AchievementCardProps } from '../molecules/AchievementCard';
-import { CircleControl } from '../molecules/CircleControl';
+import { Heading, MediaFrame, Section } from '../atoms';
 import {
+  AchievementCard,
+  type AchievementCardProps,
+} from '../molecules/AchievementCard';
+import {
+  CAROUSEL_BLEED_CLASS,
   CAROUSEL_SLIDE_CLASS,
   CAROUSEL_VIEWPORT_CLASS,
   useCardCarousel,
 } from '../molecules/CardCarousel';
+import { CircleControl } from '../molecules/CircleControl';
 
-const CARD_BODY = (
-  <>
-    Lorem ipsum is the standard
-    <br />
-    placeholder text used in graphic
-    <br />
-    design, publishing, and web
-  </>
-);
+const CARD_BODY =
+  'Lorem ipsum is the standard placeholder text used in graphic design, publishing, and web';
 
 const ACHIEVEMENTS: AchievementCardProps[] = [
   {
     year: '2026–2027',
-    badgeSrc: '/images/joint-commission.png',
+    badgeSrc: '/images/image%206.png',
     badgeAlt: 'The Joint Commission',
     badgeShape: 'square',
     title: (
@@ -37,7 +34,7 @@ const ACHIEVEMENTS: AchievementCardProps[] = [
   },
   {
     year: '2026–2027',
-    badgeSrc: '/images/wosb.png',
+    badgeSrc: '/images/image%208.png',
     badgeAlt: 'WOSB Certified',
     badgeShape: 'portrait',
     title: (
@@ -66,100 +63,104 @@ export interface AchievementsSectionProps {
 
 export const AchievementsSection: React.FC<AchievementsSectionProps> = ({
   videoSrc,
-  posterSrc = '/images/achievements-poster.jpg',
-  cornerLogoSrc = '/images/company-logo.png',
+  posterSrc = '/images/rendering-anime-doctors-work%201.png',
+  cornerLogoSrc,
 }) => {
-  const { viewportRef, scrollPrev, scrollNext } = useCardCarousel({ loop: true });
+  /* The hook rather than <CardCarousel>: the arrows belong at the band's outer
+     edges, well outside the 825px content column, so they cannot live inside
+     the carousel's own positioning context. */
+  const { viewportRef, scrollPrev, scrollNext } = useCardCarousel({
+    loop: true,
+  });
 
   return (
-    <section
+    <Section
       aria-labelledby="achievements-heading"
-      className="relative isolate w-full overflow-hidden pb-[45px] text-white min-[751px]:min-h-[688px] min-[751px]:pb-0"
+      tone="navy"
+      spacing="none"
+      bleed
+      className="isolate overflow-hidden pb-[clamp(2.5rem,4vw,3.5rem)] md:min-h-[688px]"
     >
-      {videoSrc ? (
-        <video
-          className="absolute inset-0 z-[-3] size-full object-cover"
-          poster={posterSrc}
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="metadata"
-        >
-          <source src={videoSrc} type="video/mp4" />
-        </video>
-      ) : (
-        <GlobalImage
-          src={posterSrc}
-          alt=""
-          fill
-          sizes="100vw"
-          containerClassName="absolute inset-0 z-[-3] size-full"
-        />
-      )}
+      {/* Footage, colour wash, then a lighter pass — stacked below the content
+          so the band reads as one image rather than three layers. */}
+      <div className="absolute inset-0 -z-30">
+        {videoSrc ? (
+          <video
+            className="size-full object-cover"
+            poster={posterSrc}
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+          >
+            <source src={videoSrc} type="video/mp4" />
+          </video>
+        ) : (
+          <MediaFrame
+            src={posterSrc}
+            alt=""
+            tone="navy"
+            sizes="100vw"
+            className="size-full border-0"
+          />
+        )}
+      </div>
 
       <div
-        className="absolute inset-0 z-[-2] bg-[linear-gradient(90deg,rgba(185,18,47,0.88)_0%,rgba(157,31,70,0.68)_28%,rgba(25,91,128,0.66)_65%,rgba(4,49,78,0.91)_100%)] mix-blend-multiply"
+        className="bg-brand-band absolute inset-0 -z-20 mix-blend-multiply"
         aria-hidden="true"
       />
+      <div className="bg-band-glass absolute inset-0 -z-10" aria-hidden="true" />
 
-      <div
-        className="absolute inset-0 z-[-1] bg-[linear-gradient(90deg,rgba(190,24,49,0.38),rgba(22,87,121,0.30))]"
-        aria-hidden="true"
-      />
-
-      <div className="relative z-3 mx-auto w-[calc(100%_-_70px)] pt-[35px] min-[751px]:w-[min(825px,calc(100%_-_100px))]">
-        <h2
+      <div className="relative mx-auto w-[min(825px,100%_-_3rem)] pt-[clamp(1.25rem,1.0224rem+0.9709vw,2.1875rem)] md:w-[min(825px,100%_-_100px)]">
+        <Heading
           id="achievements-heading"
-          className="mb-[30px] text-center text-[24px] font-normal tracking-[0.3px]"
+          level={2}
+          size="bandTitle"
+          font="sans"
+          tone="onDark"
+          className="mb-[clamp(1rem,0.7876rem+0.9061vw,1.875rem)] text-center"
         >
           Our Achievements
-        </h2>
+        </Heading>
 
-        <div
-          ref={viewportRef}
-          className={CAROUSEL_VIEWPORT_CLASS}
-          role="group"
-          aria-roledescription="carousel"
-          aria-label="Certifications"
-          tabIndex={0}
-        >
-          <div className="-ml-[15px] flex min-[1001px]:-ml-[23px]">
-            {ACHIEVEMENTS.map((card) => (
-              <div
-                key={card.badgeAlt}
-                role="group"
-                aria-roledescription="slide"
-                data-carousel-slide
-                className={`${CAROUSEL_SLIDE_CLASS} basis-full pl-[15px] min-[751px]:basis-1/2 min-[1001px]:pl-[23px]`}
-              >
-                <AchievementCard {...card} />
-              </div>
-            ))}
+        <div className={CAROUSEL_BLEED_CLASS}>
+          <div
+            ref={viewportRef}
+            className={CAROUSEL_VIEWPORT_CLASS}
+            role="group"
+            aria-roledescription="carousel"
+            aria-label="Certifications"
+            tabIndex={0}
+          >
+            <div className="-ml-[23px] flex">
+              {ACHIEVEMENTS.map((card) => (
+                <div
+                  key={card.badgeAlt}
+                  className={`${CAROUSEL_SLIDE_CLASS} basis-full pl-[23px] min-[751px]:basis-1/2`}
+                  role="group"
+                  aria-roledescription="slide"
+                  data-carousel-slide
+                >
+                  <AchievementCard {...card} />
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 
-        <div className="mt-[57px] grid grid-cols-2 gap-y-[35px] text-center min-[751px]:grid-cols-4 min-[751px]:gap-y-0">
+        <dl className="mt-[clamp(2rem,1.6207rem+1.6181vw,3.5625rem)] grid grid-cols-2 gap-y-10 text-center min-[751px]:grid-cols-4">
+          {/* Reversed so the numeral reads first while `dt` still precedes `dd`. */}
           {STATS.map((stat) => (
-            <div key={stat.label} className="flex flex-col items-center">
-              <strong className="font-serif text-[38px] leading-[0.95] font-normal min-[481px]:text-[48px] min-[751px]:text-[62px]">
+            <div key={stat.label} className="flex flex-col-reverse items-center">
+              <dt className="mt-2 text-body text-brand-on-dark">{stat.label}</dt>
+              <dd className="font-serif text-stat text-brand-on-dark">
                 {stat.value}
-              </strong>
-              <span className="mt-2 text-[13px] min-[481px]:text-[17px]">{stat.label}</span>
+              </dd>
             </div>
           ))}
-        </div>
-      </div>
-
-      <div className="absolute top-3 right-5 z-10 size-[43px] overflow-hidden rounded-full bg-white shadow-[0_2px_8px_rgba(0,0,0,0.45)] min-[751px]:right-[65px]">
-        <GlobalImage
-          src={cornerLogoSrc}
-          alt=""
-          fill
-          sizes="43px"
-          className="object-contain!"
-          containerClassName="size-full"
-        />
+        </dl>
       </div>
 
       <CircleControl
@@ -167,16 +168,28 @@ export const AchievementsSection: React.FC<AchievementsSectionProps> = ({
         direction="prev"
         tone="achievementArrow"
         onClick={scrollPrev}
-        className="absolute top-[40%] left-2 z-10 min-[751px]:left-[47px]"
+        className="absolute top-[40%] left-[clamp(0.5rem,2.45vw,2.9375rem)] z-10"
       />
-
       <CircleControl
         label="Next achievement"
         direction="next"
         tone="achievementArrow"
         onClick={scrollNext}
-        className="absolute top-[40%] right-2 z-10 min-[751px]:right-[28px]"
+        className="absolute top-[40%] right-[clamp(0.5rem,1.46vw,1.75rem)] z-10"
       />
-    </section>
+
+      {cornerLogoSrc && (
+        <div className="absolute top-3 right-[clamp(1rem,3.4vw,4.0625rem)] z-10 size-[43px] overflow-hidden rounded-full bg-brand-surface shadow-[0_2px_8px_rgb(0_0_0/0.45)]">
+          <MediaFrame
+            src={cornerLogoSrc}
+            alt=""
+            tone="tile"
+            sizes="43px"
+            imageClassName="object-contain!"
+            className="size-full rounded-full border-0"
+          />
+        </div>
+      )}
+    </Section>
   );
 };
