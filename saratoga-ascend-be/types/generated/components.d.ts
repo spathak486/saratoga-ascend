@@ -18,6 +18,27 @@ export interface CoreComponentHeading extends Struct.ComponentSchema {
   };
 }
 
+export interface CoreComponentPromo extends Struct.ComponentSchema {
+  collectionName: 'components_core_component_promos';
+  info: {
+    displayName: 'Promo';
+    icon: 'crown';
+  };
+  attributes: {
+    description: Schema.Attribute.RichText &
+      Schema.Attribute.CustomField<
+        'plugin::ckeditor5.CKEditor',
+        {
+          preset: 'defaultHtml';
+        }
+      >;
+    image: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
+    link: Schema.Attribute.Component<'shared.general-link', false>;
+    subTitle: Schema.Attribute.Text;
+    title: Schema.Attribute.String;
+  };
+}
+
 export interface MediaBanner extends Struct.ComponentSchema {
   collectionName: 'components_media_banners';
   info: {
@@ -88,6 +109,7 @@ declare module '@strapi/strapi' {
   export namespace Public {
     export interface ComponentSchemas {
       'core-component.heading': CoreComponentHeading;
+      'core-component.promo': CoreComponentPromo;
       'media.banner': MediaBanner;
       'shared.general-link': SharedGeneralLink;
       'shared.seo': SharedSeo;
