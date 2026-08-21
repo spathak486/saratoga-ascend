@@ -1,5 +1,26 @@
 import type { Schema, Struct } from '@strapi/strapi';
 
+export interface MediaBanner extends Struct.ComponentSchema {
+  collectionName: 'components_media_banners';
+  info: {
+    displayName: 'Banner';
+    icon: 'book';
+  };
+  attributes: {
+    bannerDescription: Schema.Attribute.RichText &
+      Schema.Attribute.CustomField<
+        'plugin::ckeditor5.CKEditor',
+        {
+          preset: 'defaultHtml';
+        }
+      >;
+    bannerImage: Schema.Attribute.Media<'images' | 'files' | 'videos'>;
+    bannerSubTitle: Schema.Attribute.Text;
+    bannerTitle: Schema.Attribute.String & Schema.Attribute.Required;
+    buttonCTA: Schema.Attribute.Component<'shared.general-link', false>;
+  };
+}
+
 export interface SharedGeneralLink extends Struct.ComponentSchema {
   collectionName: 'components_shared_general_links';
   info: {
@@ -48,6 +69,7 @@ export interface SharedSeo extends Struct.ComponentSchema {
 declare module '@strapi/strapi' {
   export namespace Public {
     export interface ComponentSchemas {
+      'media.banner': MediaBanner;
       'shared.general-link': SharedGeneralLink;
       'shared.seo': SharedSeo;
     }
