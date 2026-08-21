@@ -1,5 +1,23 @@
 import type { Schema, Struct } from '@strapi/strapi';
 
+export interface CoreComponentHeading extends Struct.ComponentSchema {
+  collectionName: 'components_core_component_headings';
+  info: {
+    displayName: 'Heading';
+    icon: 'apps';
+  };
+  attributes: {
+    description: Schema.Attribute.RichText &
+      Schema.Attribute.CustomField<
+        'plugin::ckeditor5.CKEditor',
+        {
+          preset: 'defaultHtml';
+        }
+      >;
+    title: Schema.Attribute.String;
+  };
+}
+
 export interface MediaBanner extends Struct.ComponentSchema {
   collectionName: 'components_media_banners';
   info: {
@@ -69,6 +87,7 @@ export interface SharedSeo extends Struct.ComponentSchema {
 declare module '@strapi/strapi' {
   export namespace Public {
     export interface ComponentSchemas {
+      'core-component.heading': CoreComponentHeading;
       'media.banner': MediaBanner;
       'shared.general-link': SharedGeneralLink;
       'shared.seo': SharedSeo;
