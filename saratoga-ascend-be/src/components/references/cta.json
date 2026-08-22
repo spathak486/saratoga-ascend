@@ -1,0 +1,16 @@
+{
+  "collectionName": "components_references_ctas",
+  "info": {
+    "displayName": "CTA",
+    "icon": "crown"
+  },
+  "options": {},
+  "attributes": {
+    "cta": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::cta.cta"
+    }
+  },
+  "config": {}
+}

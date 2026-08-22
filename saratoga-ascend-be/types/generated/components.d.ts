@@ -74,6 +74,17 @@ export interface ReferencesBannerReference extends Struct.ComponentSchema {
   };
 }
 
+export interface ReferencesCta extends Struct.ComponentSchema {
+  collectionName: 'components_references_ctas';
+  info: {
+    displayName: 'CTA';
+    icon: 'crown';
+  };
+  attributes: {
+    cta: Schema.Attribute.Relation<'oneToOne', 'api::cta.cta'>;
+  };
+}
+
 export interface SharedGeneralLink extends Struct.ComponentSchema {
   collectionName: 'components_shared_general_links';
   info: {
@@ -126,6 +137,7 @@ declare module '@strapi/strapi' {
       'core-component.promo': CoreComponentPromo;
       'media.banner': MediaBanner;
       'references.banner-reference': ReferencesBannerReference;
+      'references.cta': ReferencesCta;
       'shared.general-link': SharedGeneralLink;
       'shared.seo': SharedSeo;
     }

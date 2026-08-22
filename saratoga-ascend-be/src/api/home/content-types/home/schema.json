@@ -29,7 +29,8 @@
     "Section": {
       "type": "dynamiczone",
       "components": [
-        "references.banner-reference"
+        "references.banner-reference",
+        "references.cta"
       ]
     }
   }
