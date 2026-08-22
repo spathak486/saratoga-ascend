@@ -443,6 +443,36 @@ export interface AdminUser extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiContentBlockContentBlock
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'content_blocks';
+  info: {
+    displayName: 'Content Block';
+    pluralName: 'content-blocks';
+    singularName: 'content-block';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    ContentSection: Schema.Attribute.Component<'core-component.promo', false>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::content-block.content-block'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    referenceTitle: Schema.Attribute.String;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiCtaCta extends Struct.CollectionTypeSchema {
   collectionName: 'ctas';
   info: {
@@ -460,6 +490,32 @@ export interface ApiCtaCta extends Struct.CollectionTypeSchema {
     cta: Schema.Attribute.Component<'core-component.promo', false>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::cta.cta'> &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    referenceTitle: Schema.Attribute.String;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiFaqFaq extends Struct.CollectionTypeSchema {
+  collectionName: 'faqs';
+  info: {
+    displayName: 'FAQ';
+    pluralName: 'faqs';
+    singularName: 'faq';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    faq: Schema.Attribute.Component<'core-component.heading', false>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::faq.faq'> &
       Schema.Attribute.Private;
     publishedAt: Schema.Attribute.DateTime;
     referenceTitle: Schema.Attribute.String;
@@ -518,7 +574,7 @@ export interface ApiHomeHome extends Struct.SingleTypeSchema {
     pageTitle: Schema.Attribute.String & Schema.Attribute.Required;
     publishedAt: Schema.Attribute.DateTime;
     Section: Schema.Attribute.DynamicZone<
-      ['references.banner-reference', 'references.cta']
+      ['references.banner-reference', 'references.cta', 'references.fa-qs']
     >;
     seo: Schema.Attribute.Component<'shared.seo', false> &
       Schema.Attribute.Required;
@@ -1042,7 +1098,9 @@ declare module '@strapi/strapi' {
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
+      'api::content-block.content-block': ApiContentBlockContentBlock;
       'api::cta.cta': ApiCtaCta;
+      'api::faq.faq': ApiFaqFaq;
       'api::hero-banner.hero-banner': ApiHeroBannerHeroBanner;
       'api::home.home': ApiHomeHome;
       'plugin::content-releases.release': PluginContentReleasesRelease;

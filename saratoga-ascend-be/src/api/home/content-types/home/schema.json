@@ -30,7 +30,8 @@
       "type": "dynamiczone",
       "components": [
         "references.banner-reference",
-        "references.cta"
+        "references.cta",
+        "references.fa-qs"
       ]
     }
   }

@@ -1,0 +1,23 @@
+{
+  "kind": "collectionType",
+  "collectionName": "content_blocks",
+  "info": {
+    "singularName": "content-block",
+    "pluralName": "content-blocks",
+    "displayName": "Content Block"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "referenceTitle": {
+      "type": "string"
+    },
+    "ContentSection": {
+      "type": "component",
+      "component": "core-component.promo",
+      "repeatable": false
+    }
+  }
+}
