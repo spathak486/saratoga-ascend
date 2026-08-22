@@ -3,7 +3,12 @@ import { Heading, MediaFrame, Section } from '../atoms';
 import { NeedHelpForm } from '../molecules/NeedHelpForm';
 
 export interface NeedHelpSectionProps {
+  title?: string;
+  subTitle?: string;
+  description?: string;
   personSrc?: string;
+  ctaLabel?: string;
+  ctaHref?: string;
 }
 
 /**
@@ -11,7 +16,12 @@ export interface NeedHelpSectionProps {
  * Continuous Red-to-Blue sweep gradient card with left form & right nurse image.
  */
 export const NeedHelpSection: React.FC<NeedHelpSectionProps> = ({
+  title,
+  subTitle,
+  description,
   personSrc = '/images/need-help-nurse.png',
+  ctaLabel,
+  ctaHref,
 }) => (
   <Section id="need-help" aria-labelledby="need-help-heading" tone="surface" spacing="lg">
     <div className="relative isolate overflow-hidden rounded-[2.5rem] bg-gradient-to-r from-[#a01222] via-[#652d58] to-[#0088ce] border border-white/40 shadow-tile max-w-[1680px] w-full mx-auto md:h-[733px]">
@@ -25,20 +35,20 @@ export const NeedHelpSection: React.FC<NeedHelpSectionProps> = ({
             tone="onDark"
             className="font-serif text-[clamp(2.5rem,4vw,3.5rem)] text-white"
           >
-            Need Help?
+            {title || 'Need Help?'}
           </Heading>
           <p className="mt-3 text-[clamp(1rem,1.3vw,1.25rem)] font-medium text-white/90">
-            Sign up now and get hired easily
+            {subTitle || description || 'Sign up now and get hired easily'}
           </p>
 
-          <NeedHelpForm className="mt-10" />
+          <NeedHelpForm className="mt-10" buttonLabel={ctaLabel} buttonHref={ctaHref} />
         </div>
 
         {/* Right Side: Nurse Image (width: 767px, height: 733px, top: 0, left: 819px inside 1680px card / 939px on 1920px artboard) */}
         <div className="relative min-h-[clamp(18rem,28vw,42rem)] bg-transparent lg:min-h-0 xl:absolute xl:left-[819px] xl:top-0 xl:bottom-0 xl:w-[767px] xl:h-[733px] xl:max-w-none">
           <MediaFrame
-            src={personSrc}
-            alt="Healthcare worker offering help"
+            src={personSrc || '/images/need-help-nurse.png'}
+            alt={title || 'Healthcare worker offering help'}
             pendingLabel="need-help-nurse"
             tone="tile"
             unoptimized={true}

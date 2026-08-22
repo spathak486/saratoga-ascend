@@ -25,8 +25,33 @@ export const BannerReferenceSchema = z.object({
 
 export type BannerReference = z.infer<typeof BannerReferenceSchema>;
 
+export const PromoComponentSchema = z.object({
+  title: z.string().nullable().optional(),
+  subTitle: z.string().nullable().optional(),
+  description: z.string().nullable().optional(),
+  image: StrapiImageSchema.nullable().optional(),
+  link: GeneralLinkSchema.nullable().optional(),
+});
+
+export type PromoComponent = z.infer<typeof PromoComponentSchema>;
+
+export const CtaReferenceSchema = z.object({
+  __typename: z.literal('ComponentReferencesCta'),
+  cta: z
+    .object({
+      documentId: z.string().optional(),
+      referenceTitle: z.string().nullable().optional(),
+      cta: PromoComponentSchema.nullable().optional(),
+    })
+    .nullable()
+    .optional(),
+});
+
+export type CtaReference = z.infer<typeof CtaReferenceSchema>;
+
 export const HomeDynamicZoneSectionSchema = z.union([
   BannerReferenceSchema,
+  CtaReferenceSchema,
   z.object({ __typename: z.string() }).passthrough(),
 ]);
 

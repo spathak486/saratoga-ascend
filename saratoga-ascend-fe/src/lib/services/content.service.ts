@@ -104,6 +104,25 @@ const BANNER_REFERENCE_FIELDS = `
   }
 `;
 
+const PROMO_FIELDS = `
+  title
+  subTitle
+  description
+  image { ${IMAGE_FIELDS} }
+  link { ${GENERAL_LINK_FIELDS} }
+`;
+
+const CTA_REFERENCE_FIELDS = `
+  __typename
+  ... on ComponentReferencesCta {
+    cta {
+      documentId
+      referenceTitle
+      cta { ${PROMO_FIELDS} }
+    }
+  }
+`;
+
 const PAGE_BY_SLUG_QUERY = `
   query GetPageBySlug($slug: String!) {
     pages(filters: { slug: { eq: $slug } }) { ${PAGE_FIELDS} }
@@ -152,6 +171,7 @@ const HOME_PAGE_QUERY = `
       seo { ${SEO_FIELDS} }
       Section {
         ${BANNER_REFERENCE_FIELDS}
+        ${CTA_REFERENCE_FIELDS}
       }
     }
   }

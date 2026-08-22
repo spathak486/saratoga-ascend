@@ -1,5 +1,6 @@
 import React from 'react';
-import type { HomePage, HomeDynamicZoneSection, BannerReference } from '@/lib/schemas';
+import type { HomePage } from '@/lib/schemas';
+import { renderRegisteredSection } from '@/lib/registry/homeRegistry';
 import {
   Navbar,
   HeroSection,
@@ -21,43 +22,25 @@ export interface HomeTemplateProps {
 }
 
 export const HomeTemplate: React.FC<HomeTemplateProps> = ({ homeData }) => {
-  const hasDynamicSections = Boolean(homeData?.Section && homeData.Section.length > 0);
-
-  const renderDynamicSection = (section: HomeDynamicZoneSection, index: number) => {
-    switch (section.__typename) {
-      case 'ComponentReferencesBannerReference': {
-        const bannerRef = section as BannerReference;
-        const banner = bannerRef.heroBanner?.banner;
-        return (
-          <HeroSection
-            key={`banner-${index}`}
-            title={banner?.bannerTitle}
-            subTitle={banner?.bannerSubTitle ?? undefined}
-            description={banner?.bannerDescription ?? undefined}
-            helixSrc={banner?.bannerImage?.url}
-            mediaMime={banner?.bannerImage?.mime ?? undefined}
-            mediaExt={banner?.bannerImage?.ext ?? undefined}
-            mediaAlt={banner?.bannerImage?.alternativeText ?? undefined}
-            ctaLabel={banner?.buttonCTA?.label}
-            ctaHref={banner?.buttonCTA?.href}
-          />
-        );
-      }
-      default:
-        return null;
-    }
-  };
+  const hasDynamicBanner = homeData?.Section?.some(
+    (sec) => sec.__typename === 'ComponentReferencesBannerReference'
+  );
+  const hasDynamicCta = homeData?.Section?.some(
+    (sec) => sec.__typename === 'ComponentReferencesCta'
+  );
 
   return (
     <div className="min-h-screen bg-brand-surface text-brand-navy font-sans antialiased">
       <Navbar />
 
       <main id="main">
-        {hasDynamicSections ? (
-          homeData!.Section!.map((sec, idx) => renderDynamicSection(sec, idx))
-        ) : (
-          <HeroSection />
-        )}
+        {/* Render static fallback HeroSection if Strapi has no dynamic banner */}
+        {!hasDynamicBanner && <HeroSection />}
+
+        {/* Dynamic Zone Sections mapping via Component Registry in exact Strapi array order */}
+        {homeData?.Section?.map((sec, idx) => renderRegisteredSection(sec, idx))}
+
+        {/* Static homepage sections */}
         <WhatWeDoSection />
         <MarketWeServeSection />
         <HealthcareProgramsSection />
@@ -67,7 +50,9 @@ export const HomeTemplate: React.FC<HomeTemplateProps> = ({ homeData }) => {
         <LatestNewsSection />
         <HappyClientsSection />
         <FaqSection />
-        <NeedHelpSection />
+
+        {/* Render static fallback NeedHelpSection if Strapi has no dynamic CTA */}
+        {!hasDynamicCta && <NeedHelpSection />}
       </main>
 
       <Footer />
