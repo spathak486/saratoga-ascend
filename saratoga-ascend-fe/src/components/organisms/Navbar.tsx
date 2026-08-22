@@ -48,7 +48,7 @@ export const Navbar: React.FC = () => {
   }, [isMenuOpen]);
 
   return (
-    <header>
+    <>
       <a
         href="#main"
         className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:bg-brand-surface focus:px-4 focus:py-2 focus:text-brand-navy focus:outline-2 focus:outline-brand-navy"
@@ -58,9 +58,7 @@ export const Navbar: React.FC = () => {
 
       <UtilityBar items={UTILITY_LINKS} activeHref={pathname} />
 
-      {/* Sticky on its own so the utility band above can scroll away. The fill
-          is translucent so the hero artwork shows through as it passes under. */}
-      <div className="sticky top-0 z-50 border-b border-brand-hairline bg-brand-surface/75 backdrop-blur-[25px]">
+      <header className="sticky top-0 z-50 border-b border-brand-hairline bg-brand-surface/75 backdrop-blur-[25px]">
         <Container className="flex h-nav-h items-center justify-between gap-4 xl:gap-6">
           <GeneralLink
             href="/"
@@ -131,7 +129,7 @@ export const Navbar: React.FC = () => {
             <CtaButton href="/contact">Contact us</CtaButton>
           </Container>
         </div>
-      </div>
-    </header>
+      </header>
+    </>
   );
 };

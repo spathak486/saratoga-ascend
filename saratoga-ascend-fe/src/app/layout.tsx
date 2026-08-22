@@ -77,11 +77,11 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body
-        className="antialiased bg-brand-surface text-brand-navy font-sans selection:bg-brand-red selection:text-brand-surface flex min-h-screen flex-col"
+        className="antialiased bg-brand-surface text-brand-navy font-sans selection:bg-brand-red selection:text-brand-surface min-h-screen"
         suppressHydrationWarning
       >
         <Navbar />
-        <div className="flex-1">{children}</div>
+        {children}
         <Footer />
       </body>
     </html>
