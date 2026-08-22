@@ -39,6 +39,7 @@ export const SECTION_REGISTRY: Record<
         subTitle={promo?.subTitle ?? undefined}
         description={promo?.description ?? undefined}
         personSrc={promo?.image?.url ?? undefined}
+        mediaAlt={promo?.image?.alternativeText ?? undefined}
         ctaLabel={promo?.link?.label ?? undefined}
         ctaHref={promo?.link?.href ?? undefined}
       />

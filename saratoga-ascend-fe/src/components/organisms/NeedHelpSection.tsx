@@ -7,19 +7,17 @@ export interface NeedHelpSectionProps {
   subTitle?: string;
   description?: string;
   personSrc?: string;
+  mediaAlt?: string;
   ctaLabel?: string;
   ctaHref?: string;
 }
 
-/**
- * Need Help Section (Figma Frame 613, Node 1:617).
- * Continuous Red-to-Blue sweep gradient card with left form & right nurse image.
- */
 export const NeedHelpSection: React.FC<NeedHelpSectionProps> = ({
   title,
   subTitle,
   description,
-  personSrc = '/images/need-help-nurse.png',
+  personSrc,
+  mediaAlt,
   ctaLabel,
   ctaHref,
 }) => (
@@ -44,11 +42,11 @@ export const NeedHelpSection: React.FC<NeedHelpSectionProps> = ({
           <NeedHelpForm className="mt-10" buttonLabel={ctaLabel} buttonHref={ctaHref} />
         </div>
 
-        {/* Right Side: Nurse Image (width: 767px, height: 733px, top: 0, left: 819px inside 1680px card / 939px on 1920px artboard) */}
+        {/* Right Side: Dynamic Image Container */}
         <div className="relative min-h-[clamp(18rem,28vw,42rem)] bg-transparent lg:min-h-0 xl:absolute xl:left-[819px] xl:top-0 xl:bottom-0 xl:w-[767px] xl:h-[733px] xl:max-w-none">
           <MediaFrame
             src={personSrc || '/images/need-help-nurse.png'}
-            alt={title || 'Healthcare worker offering help'}
+            alt={mediaAlt || title || 'Healthcare worker offering help'}
             pendingLabel="need-help-nurse"
             tone="tile"
             unoptimized={true}

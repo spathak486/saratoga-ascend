@@ -34,13 +34,10 @@ export const HomeTemplate: React.FC<HomeTemplateProps> = ({ homeData }) => {
       <Navbar />
 
       <main id="main">
-        {/* Render static fallback HeroSection if Strapi has no dynamic banner */}
         {!hasDynamicBanner && <HeroSection />}
 
-        {/* Dynamic Zone Sections mapping via Component Registry in exact Strapi array order */}
         {homeData?.Section?.map((sec, idx) => renderRegisteredSection(sec, idx))}
 
-        {/* Static homepage sections */}
         <WhatWeDoSection />
         <MarketWeServeSection />
         <HealthcareProgramsSection />
@@ -51,7 +48,6 @@ export const HomeTemplate: React.FC<HomeTemplateProps> = ({ homeData }) => {
         <HappyClientsSection />
         <FaqSection />
 
-        {/* Render static fallback NeedHelpSection if Strapi has no dynamic CTA */}
         {!hasDynamicCta && <NeedHelpSection />}
       </main>
 
