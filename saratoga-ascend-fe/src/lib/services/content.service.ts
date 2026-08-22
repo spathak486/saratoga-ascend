@@ -6,9 +6,11 @@ import {
   PageSchema,
   ArticleSchema,
   HomePageSchema,
+  AboutPageSchema,
   type Page,
   type Article,
   type HomePage,
+  type AboutPage,
   type Pagination,
   type ApiResult,
   ok,
@@ -21,6 +23,7 @@ import {
   getMockAllPageSlugs,
   getMockAllArticleSlugs,
   getMockHomePage,
+  getMockAboutUsPage,
 } from '@/lib/mocks';
 
 
@@ -172,6 +175,20 @@ const HOME_PAGE_QUERY = `
       Section {
         ${BANNER_REFERENCE_FIELDS}
         ${CTA_REFERENCE_FIELDS}
+      }
+    }
+  }
+`;
+
+const ABOUT_US_PAGE_QUERY = `
+  query GetAboutUsPage {
+    aboutUs {
+      documentId
+      pageTitle
+      slug
+      seo { ${SEO_FIELDS} }
+      Section {
+        ${BANNER_REFERENCE_FIELDS}
       }
     }
   }
@@ -344,6 +361,38 @@ export async function getHomePage(): Promise<ApiResult<HomePage>> {
       console.error('[ContentService] HomePage validation failed:', parsed.error.issues);
     }
     return fail('VALIDATION_ERROR', 500, 'Invalid HomePage data from API', parsed.error.issues);
+  }
+
+  return ok(parsed.data);
+}
+
+/** Used by the /about (AboutUs) route. */
+export async function getAboutUsPage(): Promise<ApiResult<AboutPage>> {
+  if (isMockMode) return ok(getMockAboutUsPage());
+
+  const result = await gql.query<{ aboutUs: Record<string, unknown> }>(ABOUT_US_PAGE_QUERY);
+  if (result.error) return result;
+
+  const rawAbout = result.data?.aboutUs;
+  if (!rawAbout) return fail('NOT_FOUND', 404, 'AboutUs page data not found');
+
+  const rawSections = Array.isArray(rawAbout.Section) ? rawAbout.Section : [];
+  const processedSections = rawSections.map((sec: any) => resolveSectionImages(sec));
+
+  const resolvedAbout = {
+    ...rawAbout,
+    seo: rawAbout.seo
+      ? { ...(rawAbout.seo as any), ogImage: unwrapImage((rawAbout.seo as any).ogImage) }
+      : rawAbout.seo,
+    Section: processedSections,
+  };
+
+  const parsed = AboutPageSchema.safeParse(resolvedAbout);
+  if (!parsed.success) {
+    if (process.env.NODE_ENV === 'development') {
+      console.error('[ContentService] AboutUs validation failed:', parsed.error.issues);
+    }
+    return fail('VALIDATION_ERROR', 500, 'Invalid AboutUs page data from API', parsed.error.issues);
   }
 
   return ok(parsed.data);
