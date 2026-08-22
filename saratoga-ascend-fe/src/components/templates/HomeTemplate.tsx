@@ -2,7 +2,6 @@ import React from 'react';
 import type { HomePage } from '@/lib/schemas';
 import { renderRegisteredSection } from '@/lib/registry/homeRegistry';
 import {
-  Navbar,
   HeroSection,
   WhatWeDoSection,
   MarketWeServeSection,
@@ -14,7 +13,6 @@ import {
   HappyClientsSection,
   FaqSection,
   NeedHelpSection,
-  Footer,
 } from '../organisms';
 
 export interface HomeTemplateProps {
@@ -30,28 +28,22 @@ export const HomeTemplate: React.FC<HomeTemplateProps> = ({ homeData }) => {
   );
 
   return (
-    <div className="min-h-screen bg-brand-surface text-brand-navy font-sans antialiased">
-      <Navbar />
+    <main id="main">
+      {!hasDynamicBanner && <HeroSection />}
 
-      <main id="main">
-        {!hasDynamicBanner && <HeroSection />}
+      {homeData?.Section?.map((sec, idx) => renderRegisteredSection(sec, idx))}
 
-        {homeData?.Section?.map((sec, idx) => renderRegisteredSection(sec, idx))}
+      <WhatWeDoSection />
+      <MarketWeServeSection />
+      <HealthcareProgramsSection />
+      <MissionSection />
+      <OurAchievementsSection />
+      <ClientLogosSection />
+      <LatestNewsSection />
+      <HappyClientsSection />
+      <FaqSection />
 
-        <WhatWeDoSection />
-        <MarketWeServeSection />
-        <HealthcareProgramsSection />
-        <MissionSection />
-        <OurAchievementsSection />
-        <ClientLogosSection />
-        <LatestNewsSection />
-        <HappyClientsSection />
-        <FaqSection />
-
-        {!hasDynamicCta && <NeedHelpSection />}
-      </main>
-
-      <Footer />
-    </div>
+      {!hasDynamicCta && <NeedHelpSection />}
+    </main>
   );
 };
