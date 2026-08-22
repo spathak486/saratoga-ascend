@@ -14,6 +14,23 @@
     "pageTitle": {
       "type": "string",
       "required": true
+    },
+    "slug": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "seo": {
+      "type": "component",
+      "component": "shared.seo",
+      "repeatable": false,
+      "required": true
+    },
+    "Section": {
+      "type": "dynamiczone",
+      "components": [
+        "references.banner-reference"
+      ]
     }
   }
 }

@@ -42,7 +42,7 @@ export interface CoreComponentPromo extends Struct.ComponentSchema {
 export interface MediaBanner extends Struct.ComponentSchema {
   collectionName: 'components_media_banners';
   info: {
-    displayName: 'Banner';
+    displayName: 'Banner Component';
     icon: 'book';
   };
   attributes: {
@@ -57,6 +57,20 @@ export interface MediaBanner extends Struct.ComponentSchema {
     bannerSubTitle: Schema.Attribute.Text;
     bannerTitle: Schema.Attribute.String & Schema.Attribute.Required;
     buttonCTA: Schema.Attribute.Component<'shared.general-link', false>;
+  };
+}
+
+export interface ReferencesBannerReference extends Struct.ComponentSchema {
+  collectionName: 'components_references_banner_references';
+  info: {
+    displayName: 'Banner';
+    icon: 'bulletList';
+  };
+  attributes: {
+    heroBanner: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::hero-banner.hero-banner'
+    >;
   };
 }
 
@@ -111,6 +125,7 @@ declare module '@strapi/strapi' {
       'core-component.heading': CoreComponentHeading;
       'core-component.promo': CoreComponentPromo;
       'media.banner': MediaBanner;
+      'references.banner-reference': ReferencesBannerReference;
       'shared.general-link': SharedGeneralLink;
       'shared.seo': SharedSeo;
     }
