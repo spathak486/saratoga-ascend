@@ -2,17 +2,25 @@ import React from 'react';
 
 export type HeadingLevel = 1 | 2 | 3 | 4 | 5 | 6;
 
-/** Visual steps from the `--text-*` scale in `globals.css`. */
+/**
+ * Visual steps from the `--text-*` scale in `globals.css`. `display`, `award`
+ * and `bandTitle` belong to sections not yet rebuilt against the current
+ * design and go away with them.
+ */
 export type HeadingSize =
-  | 'display'
   | 'hero'
   | 'section'
-  | 'award'
+  | 'feature'
   | 'subtitle'
+  | 'statLabel'
+  | 'display'
+  | 'award'
   | 'bandTitle';
 
 export type HeadingFont = 'serif' | 'sans';
-export type HeadingTone = 'navy' | 'red' | 'onDark' | 'inherit';
+
+/** Headings are near-black in this design; navy is for body copy. */
+export type HeadingTone = 'ink' | 'navy' | 'red' | 'onDark' | 'inherit';
 
 export interface HeadingProps extends React.HTMLAttributes<HTMLHeadingElement> {
   /** Document outline position. Choose for semantics, not for size. */
@@ -35,15 +43,18 @@ const defaultSizeForLevel: Record<HeadingLevel, HeadingSize> = {
 };
 
 const sizeStyles: Record<HeadingSize, string> = {
-  display: 'text-display',
   hero: 'text-hero',
   section: 'text-section',
-  award: 'text-award',
+  feature: 'text-feature',
   subtitle: 'text-subtitle',
+  statLabel: 'text-stat-label',
+  display: 'text-display',
+  award: 'text-award',
   bandTitle: 'text-band-title',
 };
 
 const toneStyles: Record<HeadingTone, string> = {
+  ink: 'text-ink',
   navy: 'text-brand-navy',
   red: 'text-brand-red',
   onDark: 'text-brand-on-dark',
@@ -54,7 +65,7 @@ export const Heading: React.FC<HeadingProps> = ({
   level = 2,
   size,
   font = 'serif',
-  tone = 'navy',
+  tone = 'ink',
   children,
   className = '',
   ...props

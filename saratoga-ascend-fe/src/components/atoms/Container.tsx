@@ -1,10 +1,12 @@
 import React from 'react';
 
 /**
- * `home` is the page column every homepage section shares: capped at 1700px
- * inclusive of the gutter, centred. Below that cap it is the viewport minus
- * the gutter, so it narrows proportionally with the screen. The gutter itself
- * is 48px until the 1920px artboard width, then 24px (see `.px-page`).
+ * `home` is the page column every homepage section shares: capped at the
+ * 1920px artboard width and centred, with the gutter insetting it to the
+ * 1680px content column the Figma card grids are measured against. Below the
+ * cap it is the viewport minus the gutter, and the gutter itself scales from
+ * 24px on a phone to 120px on the artboard (see `.px-page`), so the column
+ * narrows proportionally rather than in steps.
  *
  * `narrow` is for measure-limited prose inside that column. `full` opts out
  * of the cap for full-bleed media while keeping the gutter.

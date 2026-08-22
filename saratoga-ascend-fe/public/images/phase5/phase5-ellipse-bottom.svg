@@ -1,0 +1,9 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="353" height="192" viewBox="0 0 353 192" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path id="Ellipse 3" opacity="0.7" d="M353 192C353 166.786 348.435 141.819 339.565 118.525C330.695 95.2303 317.694 74.0643 301.304 56.2355C284.915 38.4066 265.458 24.264 244.044 14.6151C222.63 4.96622 199.678 -1.10213e-06 176.5 0C153.322 1.10213e-06 130.37 4.96623 108.956 14.6151C87.5424 24.264 68.0852 38.4067 51.6956 56.2355C35.3061 74.0644 22.3052 95.2303 13.4353 118.525C4.5653 141.819 -2.02631e-06 166.786 0 192L176.5 192H353Z" fill="url(#paint0_radial_0_143)" fill-opacity="0.5"/>
+<defs>
+<radialGradient id="paint0_radial_0_143" cx="0" cy="0" r="1" gradientTransform="matrix(173.5 80 -64.2064 173.24 196 192)" gradientUnits="userSpaceOnUse">
+<stop stop-color="#F01424"/>
+<stop offset="1" stop-color="white" stop-opacity="0.16"/>
+</radialGradient>
+</defs>
+</svg>

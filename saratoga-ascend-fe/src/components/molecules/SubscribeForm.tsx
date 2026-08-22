@@ -1,6 +1,8 @@
 'use client';
 
 import React, { useId, useState } from 'react';
+import { ArrowUpRightIcon } from '../atoms/icons';
+import { GeneralLink } from '../atoms/GeneralLink';
 
 export interface SubscribeFormProps {
   /**
@@ -12,52 +14,69 @@ export interface SubscribeFormProps {
 }
 
 /**
- * Email capture styled as a single pill with the submit button tucked inside,
- * rather than the generic `Input` atom, which is a labelled rectangular field
- * built for form pages.
+ * Footer newsletter capture: a white field with a circular submit, plus the
+ * required privacy acknowledgement from the homepage artboard.
  */
 export const SubscribeForm: React.FC<SubscribeFormProps> = ({
   onSubmit,
   className = '',
 }) => {
   const fieldId = useId();
+  const consentId = useId();
   const [email, setEmail] = useState('');
+  const [consented, setConsented] = useState(false);
 
   return (
     <form
       className={className}
       onSubmit={(event) => {
         event.preventDefault();
+        if (!consented) return;
         onSubmit?.(email);
       }}
     >
-      <label htmlFor={fieldId} className="text-caption text-brand-on-dark-muted">
-        Get open roles and hiring news in your inbox
-      </label>
-
-      {/*
-        The ring lives on the pill and is driven by the field inside it, so
-        keyboard focus is visible even though the input's own outline is
-        suppressed to keep the shape clean.
-      */}
-      <div className="mt-2 flex items-center gap-2 rounded-full bg-brand-surface p-1.5 pl-5 has-[input:focus-visible]:outline-2 has-[input:focus-visible]:outline-offset-2 has-[input:focus-visible]:outline-brand-sky">
+      <div className="relative flex h-[clamp(3rem,3.85vw,3.5rem)] items-center rounded-card bg-brand-surface pl-5 pr-[clamp(3.25rem,4vw,3.75rem)] has-[input:focus-visible]:outline-2 has-[input:focus-visible]:outline-offset-2 has-[input:focus-visible]:outline-brand-sky">
+        <label htmlFor={fieldId} className="sr-only">
+          Email address
+        </label>
         <input
           id={fieldId}
           type="email"
           required
           autoComplete="email"
-          placeholder="you@example.com"
+          placeholder="Enter your email address"
           value={email}
           onChange={(event) => setEmail(event.target.value)}
-          className="min-w-0 flex-1 bg-transparent text-body text-brand-navy placeholder:text-brand-muted focus:outline-none"
+          className="min-w-0 flex-1 bg-transparent text-caption text-brand-navy placeholder:text-slate-body focus:outline-none"
         />
-
         <button
           type="submit"
-          className="shrink-0 cursor-pointer rounded-full bg-cta-gradient px-cta-x py-cta-y text-button text-brand-on-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-sky"
+          aria-label="Subscribe"
+          className="absolute top-1/2 right-1 flex size-[clamp(2.5rem,2.9vw,2.75rem)] -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-cta-gradient text-brand-on-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-sky"
         >
-          Subscribe
+          <ArrowUpRightIcon className="size-[1.15em]" />
         </button>
+      </div>
+
+      <div className="mt-4 flex items-start gap-3">
+        <input
+          id={consentId}
+          type="checkbox"
+          required
+          checked={consented}
+          onChange={(event) => setConsented(event.target.checked)}
+          className="mt-0.5 size-4 shrink-0 cursor-pointer accent-brand-sky"
+        />
+        <label htmlFor={consentId} className="text-eyebrow text-slate-muted">
+          I agree to the{' '}
+          <GeneralLink
+            href="/privacy"
+            variant="unstyled"
+            className="font-bold text-brand-on-dark underline underline-offset-2 hover:text-brand-on-dark"
+          >
+            Privacy Policy
+          </GeneralLink>
+        </label>
       </div>
     </form>
   );

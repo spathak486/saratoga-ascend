@@ -2,14 +2,16 @@ import React from 'react';
 import {
   Navbar,
   HeroSection,
-  HealthcareIntroSection,
-  FeaturedSpecialistSection,
-  TravelStaffingSection,
-  AchievementsSection,
-  SpotlightSection,
-  OurClientsSection,
-  NewsSection,
+  WhatWeDoSection,
+  MarketWeServeSection,
+  HealthcareProgramsSection,
   MissionSection,
+  OurAchievementsSection,
+  ClientLogosSection,
+  LatestNewsSection,
+  HappyClientsSection,
+  FaqSection,
+  NeedHelpSection,
   Footer,
 } from '../organisms';
 
@@ -20,14 +22,16 @@ export const HomeTemplate: React.FC = () => {
 
       <main id="main">
         <HeroSection />
-        <HealthcareIntroSection />
-        <FeaturedSpecialistSection />
-        <TravelStaffingSection />
-        <AchievementsSection />
-        <SpotlightSection />
-        <OurClientsSection />
-        <NewsSection />
+        <WhatWeDoSection />
+        <MarketWeServeSection />
+        <HealthcareProgramsSection />
         <MissionSection />
+        <OurAchievementsSection />
+        <ClientLogosSection />
+        <LatestNewsSection />
+        <HappyClientsSection />
+        <FaqSection />
+        <NeedHelpSection />
       </main>
 
       <Footer />

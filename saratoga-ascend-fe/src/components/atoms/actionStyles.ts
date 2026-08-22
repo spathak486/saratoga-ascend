@@ -17,23 +17,33 @@ export type ActionVariant =
   | 'ghost';
 
 /**
- * `sm`/`md`/`lg` are fixed-height utility buttons. `cta` is the gradient pill
- * from the artboard: it has no set height, so the 20/35 padding and the button
- * type scale decide how tall it is.
+ * `cta` is the button from the artboard: 180x60 with a 8px radius, 24/16
+ * padding and a 12px gap to its trailing arrow. `ctaPill` is the same button
+ * with a fully rounded end — the file uses that shape only where the button
+ * sits inside a card rather than on the page ground.
+ *
+ * `sm`/`md`/`lg` are the older fixed-height utility buttons, kept until the
+ * sections still using them are rebuilt.
  */
-export type ActionSize = 'sm' | 'md' | 'lg' | 'cta';
+export type ActionSize = 'sm' | 'md' | 'lg' | 'cta' | 'ctaPill';
 
+/* Radius lives in the size map rather than here because `cta` and `ctaPill`
+   differ by nothing else. */
 export const actionBase =
-  'inline-flex items-center justify-center gap-2 rounded-full border font-sans font-medium ' +
+  'inline-flex items-center justify-center border font-sans font-medium ' +
   'transition-opacity duration-200 cursor-pointer ' +
   'focus-visible:outline-2 focus-visible:outline-offset-2 ' +
   'disabled:opacity-50 disabled:cursor-not-allowed';
 
+const ctaBox =
+  'min-h-cta min-w-cta-wide gap-3 px-cta-x py-cta-y text-button shadow-button';
+
 export const actionSizeStyles: Record<ActionSize, string> = {
-  sm: 'h-9 px-4 text-caption',
-  md: 'h-11 px-6 text-button',
-  lg: 'h-[3.25rem] px-8 text-button',
-  cta: 'px-cta-x py-cta-y text-button',
+  sm: 'h-9 gap-2 rounded-full px-4 text-caption',
+  md: 'h-11 gap-2 rounded-full px-6 text-button',
+  lg: 'h-[3.25rem] gap-2 rounded-full px-8 text-button',
+  cta: `${ctaBox} rounded-button`,
+  ctaPill: `${ctaBox} rounded-pill`,
 };
 
 export const actionVariantStyles: Record<ActionVariant, string> = {

@@ -1,34 +1,32 @@
 import React from 'react';
-import { GlobalImage } from '../atoms/GlobalImage';
+import { MediaFrame } from '../atoms/MediaFrame';
 
 export type BrandLogoSize = 'sm' | 'md';
 
 export interface BrandLogoProps {
   size?: BrandLogoSize;
-  /**
-   * Light treatment for placement on navy bands. Needs a light logo export —
-   * until one exists this renders the standard mark.
-   */
+  /** Reserved for a light logo export on dark bands — footer still passes this. */
   variant?: 'dark' | 'light';
 }
 
-/** Figma logo (node 5:1095) is 298x72. */
-const ASPECT = 'aspect-[298/72]';
-
 const widthStyles: Record<BrandLogoSize, string> = {
   sm: 'w-[clamp(9rem,14vw,10.375rem)]',
-  md: 'w-[clamp(10rem,17vw,18.625rem)]',
+  md: 'w-[clamp(10rem,15.52vw,18.625rem)]',
 };
 
+/** Figma logo (node 1:515) is 298×72. */
+const ASPECT = 'aspect-[298/72]';
+
 export const BrandLogo: React.FC<BrandLogoProps> = ({ size = 'md' }) => (
-  <GlobalImage
+  <MediaFrame
     src="/images/Logo.svg"
     alt="Saratoga Ascend"
-    fill
+    pendingLabel="Logo.svg"
+    tone="tile"
     sizes="(max-width: 640px) 10rem, 18.625rem"
     priority
     unoptimized
-    className="object-contain!"
-    containerClassName={`shrink-0 bg-transparent ${ASPECT} ${widthStyles[size]}`}
+    imageClassName="object-contain!"
+    className={`shrink-0 border-0 bg-transparent ${ASPECT} ${widthStyles[size]}`}
   />
 );

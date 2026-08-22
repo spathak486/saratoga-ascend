@@ -20,6 +20,8 @@ export interface MediaFrameProps {
   imageClassName?: string;
   sizes?: string;
   priority?: boolean;
+  /** Local SVGs need this until the app opts into `dangerouslyAllowSVG`. */
+  unoptimized?: boolean;
 }
 
 /**
@@ -43,6 +45,7 @@ export const MediaFrame: React.FC<MediaFrameProps> = ({
   imageClassName = '',
   sizes,
   priority = false,
+  unoptimized = false,
 }) => {
   if (src) {
     return (
@@ -52,6 +55,7 @@ export const MediaFrame: React.FC<MediaFrameProps> = ({
         fill
         sizes={sizes}
         priority={priority}
+        unoptimized={unoptimized}
         className={imageClassName}
         containerClassName={className}
       />

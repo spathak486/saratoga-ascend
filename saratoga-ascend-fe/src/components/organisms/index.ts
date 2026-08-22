@@ -1,5 +1,8 @@
 export * from './Navbar';
 export * from './HeroSection';
+export * from './WhatWeDoSection';
+export * from './MarketWeServeSection';
+export * from './HealthcareProgramsSection';
 export * from './HealthcareIntroSection';
 export * from './FeaturedSpecialistSection';
 export * from './TravelStaffingSection';
@@ -8,5 +11,11 @@ export * from './SpotlightSection';
 export * from './OurClientsSection';
 export * from './NewsSection';
 export * from './MissionSection';
+export * from './OurAchievementsSection';
+export * from './ClientLogosSection';
+export * from './LatestNewsSection';
+export * from './HappyClientsSection';
+export * from './FaqSection';
+export * from './NeedHelpSection';
 export * from './Footer';
 

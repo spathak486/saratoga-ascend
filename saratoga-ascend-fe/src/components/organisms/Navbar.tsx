@@ -4,34 +4,27 @@ import React, { useEffect, useId, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { Container, GeneralLink } from '../atoms';
 import { BrandLogo } from '../molecules/BrandLogo';
+import { CtaButton } from '../molecules/CtaButton';
 import { HeaderNavList, type HeaderNavItem } from '../molecules/HeaderNavList';
+import { UtilityBar } from '../molecules/UtilityBar';
 
 const UTILITY_LINKS: HeaderNavItem[] = [
   { href: '/careers', label: 'Careers' },
   { href: '/employees', label: 'Employees' },
   { href: '/investors', label: 'Investor' },
-  { href: '/contact', label: 'Contact us' },
 ];
 
 const PRIMARY_LINKS: HeaderNavItem[] = [
-  { href: '/who-we-serve', label: 'Who we serve' },
-  { href: '/what-we-do', label: 'What we do' },
-  { href: '/newsroom', label: 'Newsroom' },
-  { href: '/about', label: 'About' },
+  { href: '/who-we-serve', label: 'Who we serve', hasMenu: true },
+  { href: '/what-we-do', label: 'What we do', hasMenu: true },
+  { href: '/newsroom', label: 'Newsroom', hasMenu: true },
+  { href: '/about', label: 'About us', hasMenu: true },
 ];
-
-/** The homepage shows "What we do" as the active item in the design. */
-function getActiveHref(pathname: string): string | undefined {
-  const match = [...PRIMARY_LINKS, ...UTILITY_LINKS].find((item) => item.href === pathname);
-  if (match) return match.href;
-  return pathname === '/' ? '/what-we-do' : undefined;
-}
 
 export const Navbar: React.FC = () => {
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuId = useId();
-  const activeHref = getActiveHref(pathname);
 
   useEffect(() => {
     setIsMenuOpen(false);
@@ -40,16 +33,22 @@ export const Navbar: React.FC = () => {
   useEffect(() => {
     if (!isMenuOpen) return undefined;
 
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') setIsMenuOpen(false);
     };
 
     window.addEventListener('keydown', onKeyDown);
-    return () => window.removeEventListener('keydown', onKeyDown);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener('keydown', onKeyDown);
+    };
   }, [isMenuOpen]);
 
   return (
-    <header className="sticky top-0 z-50 border-b-2 border-brand-navy bg-brand-surface">
+    <header>
       <a
         href="#main"
         className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:bg-brand-surface focus:px-4 focus:py-2 focus:text-brand-navy focus:outline-2 focus:outline-brand-navy"
@@ -57,17 +56,12 @@ export const Navbar: React.FC = () => {
         Skip to main content
       </a>
 
-      <Container className="pt-[clamp(1rem,2.6vw,2.5rem)] pb-[clamp(0.75rem,1.6vw,1.5rem)]">
-        <div className="hidden justify-end lg:flex">
-          <HeaderNavList
-            ariaLabel="Utility"
-            items={UTILITY_LINKS}
-            activeHref={activeHref}
-            variant="utility"
-          />
-        </div>
+      <UtilityBar items={UTILITY_LINKS} activeHref={pathname} />
 
-        <div className="flex items-end justify-between gap-6 lg:mt-[clamp(1rem,2vw,2.5rem)]">
+      {/* Sticky on its own so the utility band above can scroll away. The fill
+          is translucent so the hero artwork shows through as it passes under. */}
+      <div className="sticky top-0 z-50 border-b border-brand-hairline bg-brand-surface/75 backdrop-blur-[25px]">
+        <Container className="flex h-nav-h items-center justify-between gap-4 xl:gap-6">
           <GeneralLink
             href="/"
             variant="unstyled"
@@ -77,18 +71,21 @@ export const Navbar: React.FC = () => {
             <BrandLogo size="md" />
           </GeneralLink>
 
-          <div className="hidden lg:block">
+          <div className="hidden min-w-0 items-center gap-[clamp(1rem,2vw,2rem)] xl:flex">
             <HeaderNavList
               ariaLabel="Primary"
               items={PRIMARY_LINKS}
-              activeHref={activeHref}
+              activeHref={pathname}
               variant="primary"
             />
+            <CtaButton href="/contact" className="shrink-0">
+              Contact us
+            </CtaButton>
           </div>
 
           <button
             type="button"
-            className="-mr-2 inline-flex size-11 shrink-0 items-center justify-center text-brand-navy focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-navy lg:hidden"
+            className="-mr-2 inline-flex size-11 shrink-0 items-center justify-center text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-navy xl:hidden"
             aria-expanded={isMenuOpen}
             aria-controls={menuId}
             aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
@@ -106,29 +103,34 @@ export const Navbar: React.FC = () => {
               />
             </span>
           </button>
-        </div>
-      </Container>
-
-      <div
-        id={menuId}
-        className={`border-t border-brand-line bg-brand-surface lg:hidden ${isMenuOpen ? 'block' : 'hidden'}`}
-      >
-        <Container className="flex flex-col gap-8 py-8">
-          <HeaderNavList
-            ariaLabel="Primary"
-            items={PRIMARY_LINKS}
-            activeHref={activeHref}
-            variant="primary"
-            orientation="vertical"
-          />
-          <HeaderNavList
-            ariaLabel="Utility"
-            items={UTILITY_LINKS}
-            activeHref={activeHref}
-            variant="utility"
-            orientation="vertical"
-          />
         </Container>
+
+        <div
+          id={menuId}
+          className={`border-t border-brand-hairline bg-brand-surface xl:hidden ${isMenuOpen ? 'block' : 'hidden'}`}
+        >
+          <Container className="flex flex-col items-start gap-8 py-8">
+            <HeaderNavList
+              ariaLabel="Primary"
+              items={PRIMARY_LINKS}
+              activeHref={pathname}
+              variant="primary"
+              orientation="vertical"
+            />
+
+            <div className="w-full border-t border-brand-hairline pt-6 md:hidden">
+              <HeaderNavList
+                ariaLabel="Utility"
+                items={UTILITY_LINKS}
+                activeHref={pathname}
+                variant="utilityPlain"
+                orientation="vertical"
+              />
+            </div>
+
+            <CtaButton href="/contact">Contact us</CtaButton>
+          </Container>
+        </div>
       </div>
     </header>
   );

@@ -1,21 +1,29 @@
 import type { Metadata, Viewport } from 'next';
-import { Cardo, Duru_Sans } from 'next/font/google';
+import { DM_Serif_Text, Google_Sans_Flex } from 'next/font/google';
 import './globals.css';
 
-/** Display face from the Figma homepage — headings only. */
-const cardo = Cardo({
-  weight: ['400', '700'],
+/** Display face from the Figma homepage — headings only, single 400 weight. */
+const dmSerifText = DM_Serif_Text({
+  weight: ['400'],
   subsets: ['latin'],
-  variable: '--font-cardo',
+  variable: '--font-dm-serif-text',
   display: 'swap',
 });
 
-/** Body and UI face from the Figma homepage. Ships a single 400 weight. */
-const duruSans = Duru_Sans({
-  weight: ['400'],
+/**
+ * Body and UI face. A variable font — the Figma file pins GRAD 0, ROND 0 and
+ * wdth 100, which are the defaults, so only the weight axis is exercised.
+ *
+ * Google Sans Flex is not yet in Next's capsize metrics table, so automatic
+ * fallback sizing is disabled to avoid the build warning. System-ui fallbacks
+ * in `globals.css` still apply while the webfont loads.
+ */
+const googleSansFlex = Google_Sans_Flex({
   subsets: ['latin'],
-  variable: '--font-duru-sans',
+  variable: '--font-google-sans-flex',
   display: 'swap',
+  adjustFontFallback: false,
+  fallback: ['system-ui', 'Segoe UI', 'Roboto', 'sans-serif'],
 });
 
 export const viewport: Viewport = {
@@ -62,7 +70,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${cardo.variable} ${duruSans.variable}`} suppressHydrationWarning>
+    <html
+      lang="en"
+      className={`${dmSerifText.variable} ${googleSansFlex.variable}`}
+      suppressHydrationWarning
+    >
       <body
         className="antialiased bg-brand-surface text-brand-navy font-sans selection:bg-brand-red selection:text-brand-surface"
         suppressHydrationWarning

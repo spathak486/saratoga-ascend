@@ -1,17 +1,21 @@
 import React from 'react';
+import { CaretDownIcon } from '../atoms/icons';
 import { GeneralLink } from '../atoms/GeneralLink';
 
 export interface HeaderNavItem {
   href: string;
   label: string;
+  /** Shows the dropdown caret. Every primary item carries one in the design. */
+  hasMenu?: boolean;
 }
 
 /**
- * `utility` is the small row above the logo line (Duru Sans 20px).
- * `primary` is the main navigation (Duru Sans 25px), where the active item
- * turns red and carries a 6px red bar along its full width.
+ * `primary` is the main row inside the sticky bar — 22px near-black, each item
+ * followed by a caret. `utility` is the smaller row in the band above it,
+ * white on the blue gradient. `utilityPlain` is the same links on a white
+ * ground, used in the mobile drawer.
  */
-export type HeaderNavVariant = 'utility' | 'primary';
+export type HeaderNavVariant = 'primary' | 'utility' | 'utilityPlain';
 export type HeaderNavOrientation = 'horizontal' | 'vertical';
 
 export interface HeaderNavListProps {
@@ -23,25 +27,47 @@ export interface HeaderNavListProps {
   id?: string;
 }
 
-const sizeClass: Record<HeaderNavVariant, string> = {
-  utility: 'text-nav',
-  primary: 'text-nav-lg',
+const variantStyles: Record<
+  HeaderNavVariant,
+  { size: string; rest: string; active: string }
+> = {
+  primary: {
+    size: 'text-body',
+    rest: 'text-ink hover:text-brand-red',
+    active: 'text-brand-red',
+  },
+  utility: {
+    size: 'text-nav',
+    rest: 'text-brand-on-dark hover:text-brand-on-dark/75',
+    active: 'text-brand-on-dark underline underline-offset-4',
+  },
+  utilityPlain: {
+    size: 'text-nav',
+    rest: 'text-brand-navy hover:text-brand-red',
+    active: 'text-brand-red',
+  },
 };
 
 const gapClass: Record<HeaderNavVariant, Record<HeaderNavOrientation, string>> = {
-  utility: {
-    horizontal: 'gap-[clamp(1.5rem,3.2vw,3.5rem)]',
+  primary: {
+    /* Items are positioned loosely on the artboard; this gap tracks the
+       average spacing as the row narrows. */
+    horizontal: 'gap-[clamp(1.25rem,2.5vw,2.75rem)]',
     vertical: 'gap-4',
   },
-  primary: {
-    horizontal: 'gap-[clamp(1.25rem,2.4vw,2.5rem)]',
+  utility: {
+    horizontal: 'gap-[clamp(1.5rem,2.08vw,2.5rem)]',
+    vertical: 'gap-3',
+  },
+  utilityPlain: {
+    horizontal: 'gap-[clamp(1.5rem,2.08vw,2.5rem)]',
     vertical: 'gap-3',
   },
 };
 
-const layoutClass: Record<HeaderNavOrientation, string> = {
+const layoutStyles: Record<HeaderNavOrientation, string> = {
   horizontal: 'flex flex-row flex-wrap items-center',
-  vertical: 'flex flex-col items-stretch',
+  vertical: 'flex flex-col items-start',
 };
 
 export const HeaderNavList: React.FC<HeaderNavListProps> = ({
@@ -51,33 +77,34 @@ export const HeaderNavList: React.FC<HeaderNavListProps> = ({
   variant,
   orientation = 'horizontal',
   id,
-}) => (
-  <nav
-    id={id}
-    aria-label={ariaLabel}
-    className={`${layoutClass[orientation]} ${gapClass[variant][orientation]}`}
-  >
-    {items.map((item) => {
-      const isActive = activeHref === item.href;
-      const showBar = isActive && variant === 'primary';
+}) => {
+  const styles = variantStyles[variant];
 
-      return (
-        <GeneralLink
-          key={item.href}
-          href={item.href}
-          variant="unstyled"
-          aria-current={isActive ? 'page' : undefined}
-          className={`relative whitespace-nowrap font-sans ${sizeClass[variant]} transition-colors duration-150 hover:text-brand-red ${
-            isActive ? 'text-brand-red' : 'text-brand-navy'
-          } ${
-            showBar
-              ? "after:absolute after:inset-x-0 after:-bottom-1 after:h-1.5 after:bg-brand-red after:content-['']"
-              : ''
-          }`}
-        >
-          {item.label}
-        </GeneralLink>
-      );
-    })}
-  </nav>
-);
+  return (
+    <nav
+      id={id}
+      aria-label={ariaLabel}
+      className={`${layoutStyles[orientation]} ${gapClass[variant][orientation]}`}
+    >
+      {items.map((item) => {
+        const isActive = activeHref === item.href;
+
+        return (
+          <GeneralLink
+            key={item.href}
+            href={item.href}
+            variant="unstyled"
+            aria-current={isActive ? 'page' : undefined}
+            aria-haspopup={item.hasMenu ? 'true' : undefined}
+            rightIcon={
+              item.hasMenu ? <CaretDownIcon className="size-[0.73em]" /> : undefined
+            }
+            className={`inline-flex items-center gap-1.5 font-sans font-medium leading-[1.5] whitespace-nowrap transition-colors duration-150 ${styles.size} ${isActive ? styles.active : styles.rest}`}
+          >
+            {item.label}
+          </GeneralLink>
+        );
+      })}
+    </nav>
+  );
+};

@@ -2,7 +2,7 @@ import React from 'react';
 import { MediaFrame } from '../atoms/MediaFrame';
 
 export interface SpecialistProfileProps {
-  /** The role headline, shown in red — e.g. "Certified Nursing Assistant". */
+  /** The role headline, shown in red — e.g. "Registered Nurse". */
   role: string;
   body: React.ReactNode;
   portraitSrc?: string;

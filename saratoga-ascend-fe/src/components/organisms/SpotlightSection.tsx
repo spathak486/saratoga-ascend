@@ -22,11 +22,6 @@ const PROFILE_BODY = (
 /** Replace with real specialists once the profiles and portraits are supplied. */
 const PROFILES: SpecialistProfileProps[] = [
   {
-    role: 'Certified Nursing Assistant',
-    body: PROFILE_BODY,
-    portraitSrc: '/images/image%2015.png',
-  },
-  {
     role: 'Registered Nurse',
     body: PROFILE_BODY,
     portraitSrc: '/images/image%2015.png',
