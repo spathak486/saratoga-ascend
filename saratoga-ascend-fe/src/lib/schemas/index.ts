@@ -32,6 +32,7 @@ export {
   HomePageSchema,
   type HomePage,
 } from './home';
+export { AboutPageSchema, type AboutPage } from './about';
 
 
 // Phase 2 → export * from './job'
