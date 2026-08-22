@@ -145,3 +145,51 @@ export const mockArticles: Article[] = [
     updatedAt: '2026-08-05T14:00:00.000Z',
   },
 ];
+
+export const mockHomePage = {
+  documentId: 'cm2a8h9k20003qk3f9m2v999',
+  pageTitle: 'Home',
+  slug: 'home',
+  seo: {
+    metaTitle: 'Saratoga Ascend | Healthcare Staffing & Solutions',
+    metaDescription:
+      'Connecting cleared, credentialed healthcare professionals with government, military, and local facilities nationwide.',
+    ogTitle: null,
+    ogDescription: null,
+    ogImage: null,
+    metaRobots: 'index' as const,
+    twitterCardTitle: null,
+    canonicalURL: null,
+    structuredData: null,
+    languageTag: 'en' as const,
+  },
+  Section: [
+    {
+      __typename: 'ComponentReferencesBannerReference' as const,
+      heroBanner: {
+        documentId: 'cm2banner12345',
+        referenceTitle: 'Hero Banner Section',
+        banner: {
+          bannerTitle: 'Federal State Programs and Solutions',
+          bannerSubTitle: 'Healthcare Staffing & Consulting',
+          bannerDescription:
+            'Saratoga Ascend connects cleared, credentialed healthcare professionals with government, military, and local facilities nationwide.',
+          bannerImage: {
+            url: '/images/DNA-v1.png',
+            width: 1200,
+            height: 800,
+            alternativeText: 'DNA double helix illustration',
+            formats: null,
+          },
+          buttonCTA: {
+            label: 'Contact us',
+            href: '/contact',
+            target: '_self' as const,
+            isExternal: false,
+          },
+        },
+      },
+    },
+  ],
+};
+

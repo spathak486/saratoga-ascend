@@ -5,8 +5,10 @@ import { unwrapImage, type RawStrapiMedia } from '@/lib/api/strapi';
 import {
   PageSchema,
   ArticleSchema,
+  HomePageSchema,
   type Page,
   type Article,
+  type HomePage,
   type Pagination,
   type ApiResult,
   ok,
@@ -18,17 +20,38 @@ import {
   getMockArticleBySlug,
   getMockAllPageSlugs,
   getMockAllArticleSlugs,
+  getMockHomePage,
 } from '@/lib/mocks';
+
 
 // Pages and articles never import the REST or GraphQL client directly —
 // this is the only file that fetches content data.
+
+const IMAGE_FIELDS = `
+  url
+  width
+  height
+  alternativeText
+  mime
+  ext
+  formats
+`;
+
+const GENERAL_LINK_FIELDS = `
+  label
+  href
+  target
+  isExternal
+  description
+  icon { ${IMAGE_FIELDS} }
+`;
 
 const SEO_FIELDS = `
   metaTitle
   metaDescription
   ogTitle
   ogDescription
-  ogImage { url width height alternativeText formats }
+  ogImage { ${IMAGE_FIELDS} }
   metaRobots
   twitterCardTitle
   canonicalURL
@@ -43,7 +66,7 @@ const PAGE_FIELDS = `
   content
   createdAt
   updatedAt
-  featuredImage { url width height alternativeText formats }
+  featuredImage { ${IMAGE_FIELDS} }
   seo { ${SEO_FIELDS} }
 `;
 
@@ -58,8 +81,27 @@ const ARTICLE_FIELDS = `
   publishedAt
   createdAt
   updatedAt
-  featuredImage { url width height alternativeText formats }
+  featuredImage { ${IMAGE_FIELDS} }
   seo { ${SEO_FIELDS} }
+`;
+
+const BANNER_FIELDS = `
+  bannerTitle
+  bannerSubTitle
+  bannerDescription
+  bannerImage { ${IMAGE_FIELDS} }
+  buttonCTA { ${GENERAL_LINK_FIELDS} }
+`;
+
+const BANNER_REFERENCE_FIELDS = `
+  __typename
+  ... on ComponentReferencesBannerReference {
+    heroBanner {
+      documentId
+      referenceTitle
+      banner { ${BANNER_FIELDS} }
+    }
+  }
 `;
 
 const PAGE_BY_SLUG_QUERY = `
@@ -101,6 +143,21 @@ const ALL_ARTICLE_SLUGS_QUERY = `
   }
 `;
 
+const HOME_PAGE_QUERY = `
+  query GetHomePage {
+    home {
+      documentId
+      pageTitle
+      slug
+      seo { ${SEO_FIELDS} }
+      Section {
+        ${BANNER_REFERENCE_FIELDS}
+      }
+    }
+  }
+`;
+
+
 // The raw GraphQL node only matters long enough to resolve media URLs —
 // Zod is the actual contract once that's done.
 type RawContentNode = Record<string, unknown> & {
@@ -115,6 +172,35 @@ function resolveImages(node: RawContentNode) {
     seo: node.seo ? { ...node.seo, ogImage: unwrapImage(node.seo.ogImage) } : node.seo,
   };
 }
+
+function resolveSectionImages(section: Record<string, unknown>) {
+  if (section.__typename === 'ComponentReferencesBannerReference' && section.heroBanner) {
+    const heroBanner = section.heroBanner as Record<string, unknown>;
+    if (heroBanner.banner) {
+      const banner = heroBanner.banner as Record<string, unknown>;
+      return {
+        ...section,
+        heroBanner: {
+          ...heroBanner,
+          banner: {
+            ...banner,
+            bannerImage: unwrapImage(banner.bannerImage as RawStrapiMedia | null),
+            buttonCTA: banner.buttonCTA
+              ? {
+                  ...(banner.buttonCTA as Record<string, unknown>),
+                  icon: unwrapImage(
+                    (banner.buttonCTA as Record<string, unknown>).icon as RawStrapiMedia | null
+                  ),
+                }
+              : null,
+          },
+        },
+      };
+    }
+  }
+  return section;
+}
+
 
 /** Used by /about, /contact, /terms, /[slug]. */
 export async function getPageBySlug(slug: string): Promise<ApiResult<Page>> {
@@ -211,6 +297,35 @@ export async function getAllArticleSlugs(): Promise<ApiResult<string[]>> {
   return ok(result.data.articles.map((a) => a.slug));
 }
 
-// Future functions, added when the backend is ready:
-//   getHomepage() — single type
-//   getSiteSettings() — footer, nav, social links
+/** Used by the main / (HomePage) route. */
+export async function getHomePage(): Promise<ApiResult<HomePage>> {
+  if (isMockMode) return ok(getMockHomePage());
+
+  const result = await gql.query<{ home: Record<string, unknown> }>(HOME_PAGE_QUERY);
+  if (result.error) return result;
+
+  const rawHome = result.data?.home;
+  if (!rawHome) return fail('NOT_FOUND', 404, 'HomePage data not found');
+
+  const rawSections = Array.isArray(rawHome.Section) ? rawHome.Section : [];
+  const processedSections = rawSections.map((sec: any) => resolveSectionImages(sec));
+
+  const resolvedHome = {
+    ...rawHome,
+    seo: rawHome.seo
+      ? { ...(rawHome.seo as any), ogImage: unwrapImage((rawHome.seo as any).ogImage) }
+      : rawHome.seo,
+    Section: processedSections,
+  };
+
+  const parsed = HomePageSchema.safeParse(resolvedHome);
+  if (!parsed.success) {
+    if (process.env.NODE_ENV === 'development') {
+      console.error('[ContentService] HomePage validation failed:', parsed.error.issues);
+    }
+    return fail('VALIDATION_ERROR', 500, 'Invalid HomePage data from API', parsed.error.issues);
+  }
+
+  return ok(parsed.data);
+}
+

@@ -4,7 +4,9 @@ export {
   getArticleBySlug,
   getAllPageSlugs,
   getAllArticleSlugs,
+  getHomePage,
 } from './content.service';
+
 
 // Phase 2 → export * from './job.service'
 //           export * from './search.service'

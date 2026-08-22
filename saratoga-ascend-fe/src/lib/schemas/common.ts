@@ -8,9 +8,11 @@ export const ImageFormatSchema = z.object({
 
 export const StrapiImageSchema = z.object({
   url: z.string(),
-  width: z.number().nullable(),
-  height: z.number().nullable(),
-  alternativeText: z.string().nullable(),
+  width: z.number().nullable().optional(),
+  height: z.number().nullable().optional(),
+  alternativeText: z.string().nullable().optional(),
+  mime: z.string().nullable().optional(),
+  ext: z.string().nullable().optional(),
   formats: z.record(z.string(), ImageFormatSchema).nullable().optional(),
 });
 

@@ -18,6 +18,17 @@ export {
 
 // Phase 1
 export { PageSchema, type Page, ArticleSchema, type Article } from './content';
+export {
+  BannerComponentSchema,
+  type BannerComponent,
+  BannerReferenceSchema,
+  type BannerReference,
+  HomeDynamicZoneSectionSchema,
+  type HomeDynamicZoneSection,
+  HomePageSchema,
+  type HomePage,
+} from './home';
+
 
 // Phase 2 → export * from './job'
 // Phase 3 → export * from './scheduling'

@@ -1,7 +1,12 @@
-import type { Page, Article, Pagination } from '@/lib/schemas';
-import { mockPages, mockArticles } from './content.mock';
+import type { Page, Article, Pagination, HomePage } from '@/lib/schemas';
+import { mockPages, mockArticles, mockHomePage } from './content.mock';
+
+export function getMockHomePage(): HomePage {
+  return mockHomePage;
+}
 
 export function getMockPageBySlug(slug: string): Page | null {
+
   return mockPages.find((p) => p.slug === slug) ?? null;
 }
 
