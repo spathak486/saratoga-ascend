@@ -1,20 +1,419 @@
 @import "tailwindcss";
 
-:root {
-  --brand-navy: #022e4c;
-  --brand-navy-dark: #011c30;
-  --brand-red: #e11d48;
-  --brand-blue: #29a6e3;
-  --brand-offwhite: #f4f4f4;
+/*
+  ---------------------------------------------------------------------------
+  Saratoga Ascend — design foundation
+  ---------------------------------------------------------------------------
+  Single source of truth for the homepage. Sections must compose from these
+  tokens; no arbitrary hex values or one-off font sizes in components.
+
+  Reference frame: Figma file WpBr5IgmKiOiW1TBvx8vCx, node 1:709. The artboard
+  is 1920px wide and every section carries 120px of padding, so the content
+  column is 1680px and cards divide it in 24px steps — three at 544px, or two
+  at 828px. `--max-width-home` is therefore the full 1920, with the gutter
+  doing the insetting; that way a section's padding and its content both come
+  from the same measurement rather than being reconciled by hand.
+
+  The type scale is fluid between a 375px phone and the 1920px artboard.
+  Interpolating to 1920 rather than to the container cap is what makes a Figma
+  value land at its literal size on the artboard — stopping at the cap would
+  leave type undersized on wide screens while the layout kept growing.
+
+  Every step below is measured from the file. The `--legacy-*` block at the
+  end holds tokens belonging to sections not yet rebuilt against this design;
+  each one goes away as its section is redone.
+  ---------------------------------------------------------------------------
+*/
+
+@theme {
+  /* ---- Type families ----------------------------------------------------
+     DM Serif Text carries every heading, Google Sans Flex every piece of body
+     and UI copy. Google Sans Flex is variable — the file pins GRAD 0, ROND 0
+     and wdth 100, which are its defaults, so only weight is exercised, across
+     Regular (400), Medium (500) and Bold (700).                             */
+  --font-serif: var(--font-dm-serif-text), 'DM Serif Text', Georgia,
+    'Times New Roman', serif;
+  --font-sans: var(--font-google-sans-flex), 'Google Sans Flex', ui-sans-serif,
+    system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+
+  /* ---- Palette ----------------------------------------------------------
+     Headings are near-black rather than navy in this design; navy is reserved
+     for body copy and dark bands.                                           */
+  --color-ink: #0a0a0a;
+
+  /* Navy family — body copy, dark bands, card fills */
+  --color-brand-navy: #022e4c;
+  --color-brand-navy-card: #033a59;
+  --color-brand-navy-deep: #011c30;
+  /* Feature band behind the healthcare hero card — prime-b/600 in the file. */
+  --color-brand-navy-band: #002845;
+
+  /* Accents */
+  --color-brand-red: #f01424;
+  --color-brand-sky: #2b88d9;
+
+  /* Blue ramp behind panels and photo overlays */
+  --color-brand-blue-deep: #144c79;
+  --color-brand-blue-soft: #a2d8fe;
+  --color-brand-blue-pale: #d2edfe;
+
+  /* Surfaces */
+  --color-brand-surface: #ffffff;
+  --color-brand-surface-muted: #f8fafc;
+  --color-brand-surface-sunk: #f1f5f9;
+  --color-brand-tile: #efefef;
+  --color-brand-line: #c6c6c6;
+  /* Hairlines on the header and footer — neutral/200 in the file. */
+  --color-brand-hairline: #e3e3e3;
+
+  /* Cool greys used for supporting copy and hairlines */
+  --color-slate-ink: #0f172a;
+  --color-slate-body: #64748b;
+  --color-slate-muted: #94a3b8;
+  --color-slate-faint: #cbd5e1;
+
+  /* Foreground on dark bands */
+  --color-brand-on-dark: #ffffff;
+  --color-brand-on-dark-muted: #c7d7df;
+
+  /* CTA gradient stops. Deeper and less saturated than the brand red and sky,
+     which is why the fill needs no darkening layer to hold white text. */
+  --color-brand-cta-from: #d31e2d;
+  --color-brand-cta-to: #2a91dc;
+
+  /* ---- Fluid type scale -------------------------------------------------
+     Each step interpolates linearly from its 375px value to its 1920px value
+     and then holds. Sizes shown in comments as min -> max, where max is the
+     literal Figma measurement.                                              */
+
+  /* 44 -> 120 — the rolling numerals on the achievements band. */
+  --text-numeral: clamp(2.75rem, 1.5971rem + 4.9191vw, 7.5rem);
+  --text-numeral--line-height: 1.125;
+
+  /* 36 -> 90 — the hero headline, the only one of its size on the page. */
+  --text-hero: clamp(2.25rem, 1.4308rem + 3.4951vw, 5.625rem);
+  --text-hero--line-height: 1.15;
+
+  /* 32 -> 72 — section headings: "What We Do", "Market We Serve". */
+  --text-section: clamp(2rem, 1.3932rem + 2.589vw, 4.5rem);
+  --text-section--line-height: 1.2;
+
+  /* 30 -> 60 — a heading set inside a card, e.g. "Healthcare". */
+  --text-feature: clamp(1.875rem, 1.4199rem + 1.9417vw, 3.75rem);
+  --text-feature--line-height: 1.2;
+
+  /* 24 -> 44 — card titles and the name over a testimonial. */
+  --text-subtitle: clamp(1.5rem, 1.1966rem + 1.2945vw, 2.75rem);
+  --text-subtitle--line-height: 1.2;
+
+  /* 20 -> 32 — the label under an achievements numeral. */
+  --text-stat-label: clamp(1.25rem, 1.0679rem + 0.7767vw, 2rem);
+  --text-stat-label--line-height: 1.2;
+
+  /* 18 -> 24 — lead paragraphs and the attribution on a testimonial. */
+  --text-body-lg: clamp(1.125rem, 1.034rem + 0.3883vw, 1.5rem);
+  --text-body-lg--line-height: 1.6;
+
+  /* 16 -> 22 — default body copy. */
+  --text-body: clamp(1rem, 0.909rem + 0.3883vw, 1.375rem);
+  --text-body--line-height: 1.5;
+
+  /* 16 -> 20 — button labels. */
+  --text-button: clamp(1rem, 0.9393rem + 0.2589vw, 1.25rem);
+  --text-button--line-height: 1.5;
+
+  /* 15 -> 18 — the utility row in the header and the footer link columns. */
+  --text-nav: clamp(0.9375rem, 0.8919rem + 0.1942vw, 1.125rem);
+  --text-nav--line-height: 1.5;
+
+  /* 14 -> 16 — supporting copy in the footer. */
+  --text-caption: clamp(0.875rem, 0.8447rem + 0.1294vw, 1rem);
+  --text-caption--line-height: 1.5;
+
+  /* 12 -> 14 — the smallest labels, footer fine print. */
+  --text-eyebrow: clamp(0.75rem, 0.7197rem + 0.1294vw, 0.875rem);
+  --text-eyebrow--line-height: 1.5;
+
+  /* ---- Layout -----------------------------------------------------------
+     Every section renders its content inside <Container>.                   */
+
+  /* The artboard width. The gutter insets it to the 1680px content column. */
+  --max-width-home: 120rem;
+
+  /* 24 -> 120 — page gutter, and the horizontal half of a section's padding. */
+  --spacing-gutter: clamp(1.5rem, 0.0437rem + 6.2136vw, 7.5rem);
+
+  /* Hero band — the DNA column is 1020px tall on the artboard. */
+  --spacing-hero-min: clamp(36rem, 53vw, 63.75rem);
+
+  /* 48 -> 120 — vertical section padding. Floors higher than the gutter so a
+     phone still gets air above and below a band without wasting a screen. */
+  --spacing-section: clamp(3rem, 1.9078rem + 4.6602vw, 7.5rem);
+
+  /* 24 -> 60 — gap between a section's heading block and its content. */
+  --spacing-block: clamp(1.5rem, 0.9539rem + 2.3301vw, 3.75rem);
+
+  /* 24px — the gap every card grid divides the content column by. Flat, not
+     fluid: the column widths are derived from it, so it has to stay exact. */
+  --spacing-grid: 1.5rem;
+
+  /* Header bands — literal Figma heights at 1920. */
+  --spacing-utility-h: 3.75rem; /* 60px */
+  --spacing-nav-h: clamp(4.5rem, 6.25vw, 7.5rem); /* 72 -> 120px */
+
+  /* ---- Gradient CTA -----------------------------------------------------
+     180x60 at 1920, with 24/16 padding and a 12px gap to its arrow. Height
+     and width are minimums rather than fixed, so a longer label grows the
+     button instead of overflowing it.                                       */
+  --spacing-cta-y: clamp(0.75rem, 0.6893rem + 0.2589vw, 1rem); /* 12 -> 16 */
+  --spacing-cta-x: clamp(1.125rem, 1.034rem + 0.3883vw, 1.5rem); /* 18 -> 24 */
+  --spacing-cta: clamp(3rem, 2.8179rem + 0.7767vw, 3.75rem); /* 48 -> 60 */
+  --spacing-cta-wide: clamp(9.375rem, 8.9199rem + 1.9417vw, 11.25rem); /* 150 -> 180 */
+
+  /* ---- Radii ------------------------------------------------------------ */
+  --radius-button: 0.5rem; /* 8px */
+  --radius-media: 1.25rem; /* 20px — image frames */
+  --radius-panel: 2rem; /* 32px */
+  --radius-card: clamp(1.25rem, 0.9466rem + 1.2945vw, 2.5rem); /* 20 -> 40 */
+  --radius-pill: 62.4375rem; /* 999px */
+
+  /* ---- Elevation --------------------------------------------------------- */
+  --shadow-button: 0 1px 2px 0 rgb(16 24 40 / 0.05);
+  --shadow-card: 0 2px 5px rgb(0 0 0 / 0.2);
+
+  /* Soft navy-tinted lift for white tiles on a white ground, where the shadow
+     is the only thing describing the card's edge. Neutral black at this size
+     reads as grey dirt under the tile; the brand navy keeps it clean.
+     Total reach stays under the carousel's clip padding. */
+  --shadow-tile: 0 3px 12px rgb(2 46 76 / 0.13);
+
+  /* ---- Legacy ------------------------------------------------------------
+     Sections still built against the previous design reference this block.
+     Each token is removed as its section is rebuilt; nothing new should be
+     written against them.                                                   */
+  --color-brand-muted: #4a6a80;
+
+  --text-display: clamp(2.5rem, -0.5rem + 5.4167vw, 6rem);
+  --text-display--line-height: 1;
+  --text-stat: clamp(2.25rem, 1.8556rem + 1.6828vw, 3.875rem);
+  --text-stat--line-height: 0.95;
+  --text-band-title: clamp(1.125rem, 1.034rem + 0.3883vw, 1.5rem);
+  --text-band-title--line-height: 1.3;
+  --text-award: clamp(1.5rem, 1.3331rem + 0.712vw, 2.1875rem);
+  --text-award--line-height: 1.03;
+  --text-nav-lg: clamp(1.0625rem, 0.9411rem + 0.5178vw, 1.5625rem);
+  --text-nav-lg--line-height: 1.6;
+
+  --radius-card-sm: 0.8125rem;
+  --radius-tile: 1.5625rem;
+  --radius-award: clamp(1.25rem, 1.0073rem + 1.0356vw, 2.25rem);
+  --radius-tile-lg: clamp(1.25rem, 0.8859rem + 1.5534vw, 2.75rem);
+  --radius-sweep: clamp(1.5rem, 1.0146rem + 2.0712vw, 3.5rem);
 }
+
+/* ---------------------------------------------------------------------------
+   Base
+   --------------------------------------------------------------------------- */
 
 html {
   scroll-behavior: smooth;
+  color-scheme: light;
 }
 
 body {
-  background-color: #f4f4f4;
-  color: #022e4c;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: var(--color-brand-surface);
+  color: var(--color-brand-navy);
+  font-family: var(--font-sans);
+  font-size: var(--text-body);
+  line-height: var(--text-body--line-height);
   overflow-x: hidden;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background-color: var(--color-brand-red);
+  color: var(--color-brand-surface);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Brand utilities
+   Composable classes for treatments that repeat across sections. Anything
+   used by more than one section belongs here rather than inline.
+   --------------------------------------------------------------------------- */
+
+/* Red-to-blue CTA fill — every button on the page. The odd angle and the
+   overshooting stops are from the file: the sweep is cropped so neither pure
+   end colour lands inside the button, which is what keeps it from reading as
+   a flat two-tone split. */
+.bg-cta-gradient {
+  background-image: linear-gradient(
+    91.647deg,
+    var(--color-brand-cta-from) 0.475%,
+    var(--color-brand-cta-to) 102.45%
+  );
+}
+
+/* Page gutter. Also the horizontal half of a section's padding, so a section
+   and its container inset by the same amount. */
+.px-page {
+  padding-inline: var(--spacing-gutter);
+}
+
+/* The wash behind the utility row — blue only on the right, fading in from
+   nothing so it reads as a corner accent rather than a full-width bar. */
+.bg-utility-band {
+  background-image: linear-gradient(
+    90deg,
+    rgb(40 192 234 / 0) 9.569%,
+    var(--color-brand-blue-deep) 59.319%
+  );
+}
+
+/* White wash over the hero's DNA artwork — opaque enough on the left for the
+   headline to read, gone on the right so the helix keeps its depth. */
+.bg-hero-scrim {
+  background-image: linear-gradient(
+    90deg,
+    var(--color-brand-surface) 33.307%,
+    rgb(255 255 255 / 0) 90.911%
+  );
+}
+
+/* The pale diagonal wash behind the feature bands. */
+.bg-section-wash {
+  background-image: linear-gradient(
+    142.336deg,
+    var(--color-brand-surface-muted) 0%,
+    var(--color-brand-surface-sunk) 100%
+  );
+}
+
+/* Photo overlay on a "Market We Serve" card: clear at the top, solid navy at
+   the foot so the card's label always has something to sit on. */
+.bg-photo-scrim {
+  background-image: linear-gradient(
+    180deg,
+    transparent 53.646%,
+    var(--color-brand-blue-deep) 100%
+  );
+}
+
+/* White-to-pale-blue panel fill, used on the emblem card. */
+.bg-panel-tint {
+  background-image: linear-gradient(
+    150deg,
+    var(--color-brand-surface) 18.804%,
+    var(--color-brand-blue-pale) 104.87%
+  );
+}
+
+/* Staffing carousel cards beneath the healthcare feature band. */
+.bg-staffing-card {
+  background-image: linear-gradient(
+    131.775deg,
+    var(--color-brand-surface) 0%,
+    var(--color-brand-surface-muted) 100%
+  );
+}
+
+/* Soft brand wash on light carousel cards */
+.bg-card-tint {
+  background-color: var(--color-brand-surface);
+  background-image:
+    radial-gradient(
+      circle at 85% 90%,
+      color-mix(in srgb, var(--color-brand-red) 25%, transparent),
+      transparent 35%
+    ),
+    radial-gradient(
+      circle at 60% 25%,
+      color-mix(in srgb, var(--color-brand-sky) 18%, transparent),
+      transparent 35%
+    );
+}
+
+/* Colour wash over the achievements footage, multiplied onto it. Four stops
+   rather than two: the red end has to stay dense enough to carry the
+   certification cards while the navy end stays quiet under the stats, and a
+   straight red-to-navy ramp goes muddy through the middle. The end stops are
+   the brand red and navy held back to 88% and 91%. */
+.bg-brand-band {
+  background-image: linear-gradient(
+    90deg,
+    rgb(185 18 47 / 0.88) 0%,
+    rgb(157 31 70 / 0.68) 28%,
+    rgb(25 91 128 / 0.66) 65%,
+    rgb(4 49 78 / 0.91) 100%
+  );
+}
+
+/* Lighter second pass over the same band, above the multiply layer so the
+   footage keeps some lift instead of going flat. */
+.bg-band-glass {
+  background-image: linear-gradient(
+    90deg,
+    rgb(190 24 49 / 0.38),
+    rgb(22 87 121 / 0.3)
+  );
+}
+
+/* Frosted certification card. Runs on the diagonal so each card picks up the
+   band's red-to-navy travel regardless of where it sits in the row. */
+.bg-award-card {
+  background-image: linear-gradient(
+    135deg,
+    rgb(180 30 57 / 0.45),
+    rgb(24 75 102 / 0.38)
+  );
+}
+
+/* Fade a full-bleed image into the page surface at its lower edge */
+.fade-to-surface {
+  -webkit-mask-image: linear-gradient(
+    180deg,
+    #000 0%,
+    #000 55%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(180deg, #000 0%, #000 55%, transparent 100%);
+}
+
+/* Shared focus treatment so every interactive element is keyboard-visible */
+.focus-brand {
+  outline: 2px solid var(--color-brand-navy);
+  outline-offset: 2px;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-brand-surface-muted);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-brand-line);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-slate-body);
 }

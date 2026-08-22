@@ -1,35 +1,83 @@
 import React from 'react';
 
-export interface HeadingProps {
-  level?: 1 | 2 | 3 | 4;
+export type HeadingLevel = 1 | 2 | 3 | 4 | 5 | 6;
+
+/**
+ * Visual steps from the `--text-*` scale in `globals.css`. `display`, `award`
+ * and `bandTitle` belong to sections not yet rebuilt against the current
+ * design and go away with them.
+ */
+export type HeadingSize =
+  | 'hero'
+  | 'section'
+  | 'feature'
+  | 'subtitle'
+  | 'statLabel'
+  | 'display'
+  | 'award'
+  | 'bandTitle';
+
+export type HeadingFont = 'serif' | 'sans';
+
+/** Headings are near-black in this design; navy is for body copy. */
+export type HeadingTone = 'ink' | 'navy' | 'red' | 'onDark' | 'inherit';
+
+export interface HeadingProps extends React.HTMLAttributes<HTMLHeadingElement> {
+  /** Document outline position. Choose for semantics, not for size. */
+  level?: HeadingLevel;
+  /** Visual step. Defaults to the natural size for `level`. */
+  size?: HeadingSize;
+  font?: HeadingFont;
+  tone?: HeadingTone;
   children: React.ReactNode;
-  fontStyle?: 'serif' | 'sans';
-  gradient?: boolean;
   className?: string;
 }
 
+const defaultSizeForLevel: Record<HeadingLevel, HeadingSize> = {
+  1: 'hero',
+  2: 'section',
+  3: 'subtitle',
+  4: 'subtitle',
+  5: 'subtitle',
+  6: 'subtitle',
+};
+
+const sizeStyles: Record<HeadingSize, string> = {
+  hero: 'text-hero',
+  section: 'text-section',
+  feature: 'text-feature',
+  subtitle: 'text-subtitle',
+  statLabel: 'text-stat-label',
+  display: 'text-display',
+  award: 'text-award',
+  bandTitle: 'text-band-title',
+};
+
+const toneStyles: Record<HeadingTone, string> = {
+  ink: 'text-ink',
+  navy: 'text-brand-navy',
+  red: 'text-brand-red',
+  onDark: 'text-brand-on-dark',
+  inherit: '',
+};
+
 export const Heading: React.FC<HeadingProps> = ({
-  level = 1,
+  level = 2,
+  size,
+  font = 'serif',
+  tone = 'ink',
   children,
-  fontStyle = 'serif',
-  gradient = false,
   className = '',
+  ...props
 }) => {
-  const fontFamily = fontStyle === 'serif' ? 'font-serif' : 'font-sans';
-
-  const sizeClass = {
-    1: 'text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight',
-    2: 'text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight',
-    3: 'text-2xl sm:text-3xl font-bold leading-snug',
-    4: 'text-xl font-bold',
-  }[level];
-
-  const colorClass = gradient ? 'text-transparent bg-clip-text bg-gradient-to-r from-[#e11d48] to-[#f06767]' : 'text-[#022e4c]';
-
-  const Tag = `h${level}` as 'h1' | 'h2' | 'h3' | 'h4';
+  const Tag = `h${level}` as const;
+  const fontClass = font === 'serif' ? 'font-serif' : 'font-sans';
 
   return (
-    <Tag className={`${fontFamily} ${sizeClass} ${colorClass} ${className}`}>
+    <Tag
+      className={`${fontClass} ${sizeStyles[size ?? defaultSizeForLevel[level]]} ${toneStyles[tone]} ${className}`.trim()}
+      {...props}
+    >
       {children}
     </Tag>
   );

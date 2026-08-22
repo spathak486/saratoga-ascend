@@ -1,22 +1,59 @@
 import React from 'react';
 
-export interface TextProps {
+/** Visual steps from the `--text-*` scale in `globals.css`. */
+export type TextSize = 'lead' | 'body' | 'nav' | 'caption' | 'eyebrow';
+
+export type TextTone =
+  | 'ink'
+  | 'navy'
+  | 'slate'
+  | 'muted'
+  | 'faint'
+  | 'red'
+  | 'onDark'
+  | 'onDarkMuted'
+  | 'inherit';
+
+export interface TextProps extends React.HTMLAttributes<HTMLElement> {
   children: React.ReactNode;
-  variant?: 'body' | 'muted' | 'subtle' | 'lead';
+  size?: TextSize;
+  tone?: TextTone;
+  as?: 'p' | 'span' | 'div';
   className?: string;
 }
 
+const sizeStyles: Record<TextSize, string> = {
+  lead: 'text-body-lg',
+  body: 'text-body',
+  nav: 'text-nav',
+  caption: 'text-caption',
+  eyebrow: 'text-eyebrow uppercase font-semibold',
+};
+
+const toneStyles: Record<TextTone, string> = {
+  ink: 'text-slate-ink',
+  navy: 'text-brand-navy',
+  slate: 'text-slate-body',
+  muted: 'text-slate-muted',
+  faint: 'text-slate-faint',
+  red: 'text-brand-red',
+  onDark: 'text-brand-on-dark',
+  onDarkMuted: 'text-brand-on-dark-muted',
+  inherit: '',
+};
+
 export const Text: React.FC<TextProps> = ({
   children,
-  variant = 'body',
+  size = 'body',
+  tone = 'navy',
+  as: Component = 'p',
   className = '',
-}) => {
-  const variantStyles = {
-    body: 'text-slate-700 text-base leading-relaxed',
-    muted: 'text-slate-600 text-base leading-relaxed',
-    subtle: 'text-slate-500 text-sm leading-relaxed',
-    lead: 'text-slate-300 text-lg sm:text-xl font-light leading-relaxed',
-  }[variant];
-
-  return <p className={`${variantStyles} ${className}`}>{children}</p>;
-};
+  ...props
+}) => (
+  <Component
+    className={`${sizeStyles[size]} ${toneStyles[tone]} ${className}`.trim()}
+    {...props}
+  >
+    {children}
+  </Component>
+);

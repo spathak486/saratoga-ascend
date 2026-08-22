@@ -1,40 +1,69 @@
 import React from 'react';
+import { actionClass, type ActionSize, type ActionVariant } from './actionStyles';
+
+export type ButtonVariant = ActionVariant;
+export type ButtonSize = ActionSize;
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primaryRed' | 'navy' | 'blue' | 'outlineNavy' | 'outlineRed' | 'peachGradient' | 'cyanGradient';
-  size?: 'sm' | 'md' | 'lg';
+  variant?: ButtonVariant;
+  size?: ButtonSize;
+  isLoading?: boolean;
+  leftIcon?: React.ReactNode;
+  rightIcon?: React.ReactNode;
+  fullWidth?: boolean;
   children: React.ReactNode;
   className?: string;
 }
 
 export const Button: React.FC<ButtonProps> = ({
-  variant = 'primaryRed',
+  variant = 'cta',
   size = 'md',
+  isLoading = false,
+  leftIcon,
+  rightIcon,
+  fullWidth = false,
   children,
   className = '',
+  disabled,
+  type = 'button',
   ...props
-}) => {
-  const baseStyles = 'inline-flex items-center justify-center font-semibold rounded-xl transition duration-200 cursor-pointer shadow-sm disabled:opacity-50 disabled:cursor-not-allowed';
-  
-  const sizeStyles = {
-    sm: 'px-4 py-2 text-xs',
-    md: 'px-6 py-2.5 text-sm',
-    lg: 'px-8 py-3.5 text-base',
-  }[size];
+}) => (
+  <button
+    type={type}
+    className={`${actionClass(variant, size, fullWidth)} ${className}`.trim()}
+    disabled={disabled || isLoading}
+    aria-busy={isLoading || undefined}
+    {...props}
+  >
+    {isLoading ? (
+      <svg
+        className="-ml-1 size-4 animate-spin text-current"
+        viewBox="0 0 24 24"
+        fill="none"
+        aria-hidden="true"
+      >
+        <circle
+          className="opacity-25"
+          cx="12"
+          cy="12"
+          r="10"
+          stroke="currentColor"
+          strokeWidth="4"
+        />
+        <path
+          className="opacity-75"
+          fill="currentColor"
+          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+        />
+      </svg>
+    ) : leftIcon ? (
+      <span className="inline-flex shrink-0 items-center">{leftIcon}</span>
+    ) : null}
 
-  const variantStyles = {
-    primaryRed: 'bg-[#e11d48] hover:bg-rose-700 text-white shadow-lg shadow-rose-600/30',
-    navy: 'bg-[#022e4c] hover:bg-[#011c30] text-white shadow-lg shadow-slate-900/30',
-    blue: 'bg-[#29a6e3] hover:bg-sky-600 text-white shadow-lg shadow-sky-500/30',
-    outlineNavy: 'bg-transparent border-2 border-[#022e4c] text-[#022e4c] hover:bg-[#022e4c] hover:text-white',
-    outlineRed: 'bg-transparent border-2 border-[#e11d48] text-[#e11d48] hover:bg-[#e11d48] hover:text-white',
-    peachGradient: 'bg-gradient-to-r from-[#e11d48] to-[#f06767] hover:opacity-95 text-white shadow-xl shadow-rose-600/30',
-    cyanGradient: 'bg-gradient-to-r from-[#29a6e3] to-[#26e0f5] hover:opacity-95 text-white shadow-xl shadow-sky-500/30',
-  }[variant];
+    <span>{children}</span>
 
-  return (
-    <button className={`${baseStyles} ${sizeStyles} ${variantStyles} ${className}`} {...props}>
-      {children}
-    </button>
-  );
-};
+    {!isLoading && rightIcon && (
+      <span className="inline-flex shrink-0 items-center">{rightIcon}</span>
+    )}
+  </button>
+);

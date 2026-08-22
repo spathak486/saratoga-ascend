@@ -1,5 +1,65 @@
 import type { Schema, Struct } from '@strapi/strapi';
 
+export interface CoreComponentHeading extends Struct.ComponentSchema {
+  collectionName: 'components_core_component_headings';
+  info: {
+    displayName: 'Heading';
+    icon: 'apps';
+  };
+  attributes: {
+    description: Schema.Attribute.RichText &
+      Schema.Attribute.CustomField<
+        'plugin::ckeditor5.CKEditor',
+        {
+          preset: 'defaultHtml';
+        }
+      >;
+    title: Schema.Attribute.String;
+  };
+}
+
+export interface CoreComponentPromo extends Struct.ComponentSchema {
+  collectionName: 'components_core_component_promos';
+  info: {
+    displayName: 'Promo';
+    icon: 'crown';
+  };
+  attributes: {
+    description: Schema.Attribute.RichText &
+      Schema.Attribute.CustomField<
+        'plugin::ckeditor5.CKEditor',
+        {
+          preset: 'defaultHtml';
+        }
+      >;
+    image: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
+    link: Schema.Attribute.Component<'shared.general-link', false>;
+    subTitle: Schema.Attribute.Text;
+    title: Schema.Attribute.String;
+  };
+}
+
+export interface MediaBanner extends Struct.ComponentSchema {
+  collectionName: 'components_media_banners';
+  info: {
+    displayName: 'Banner';
+    icon: 'book';
+  };
+  attributes: {
+    bannerDescription: Schema.Attribute.RichText &
+      Schema.Attribute.CustomField<
+        'plugin::ckeditor5.CKEditor',
+        {
+          preset: 'defaultHtml';
+        }
+      >;
+    bannerImage: Schema.Attribute.Media<'images' | 'files' | 'videos'>;
+    bannerSubTitle: Schema.Attribute.Text;
+    bannerTitle: Schema.Attribute.String & Schema.Attribute.Required;
+    buttonCTA: Schema.Attribute.Component<'shared.general-link', false>;
+  };
+}
+
 export interface SharedGeneralLink extends Struct.ComponentSchema {
   collectionName: 'components_shared_general_links';
   info: {
@@ -48,6 +108,9 @@ export interface SharedSeo extends Struct.ComponentSchema {
 declare module '@strapi/strapi' {
   export namespace Public {
     export interface ComponentSchemas {
+      'core-component.heading': CoreComponentHeading;
+      'core-component.promo': CoreComponentPromo;
+      'media.banner': MediaBanner;
       'shared.general-link': SharedGeneralLink;
       'shared.seo': SharedSeo;
     }
