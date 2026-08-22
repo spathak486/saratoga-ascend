@@ -1,0 +1,19 @@
+@keyframes clients-marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.client-logos-track {
+  animation: clients-marquee 45s linear infinite;
+}
+
+.client-logos-track:hover {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .client-logos-track {
+    animation: none;
+  }
+}

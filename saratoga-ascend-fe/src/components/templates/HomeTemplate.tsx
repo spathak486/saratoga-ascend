@@ -1,17 +1,37 @@
 import React from 'react';
-import { Navbar, Banner, ColorSystemSection, Footer } from '../organisms';
+import {
+  Navbar,
+  HeroSection,
+  WhatWeDoSection,
+  MarketWeServeSection,
+  HealthcareProgramsSection,
+  MissionSection,
+  OurAchievementsSection,
+  ClientLogosSection,
+  LatestNewsSection,
+  HappyClientsSection,
+  FaqSection,
+  NeedHelpSection,
+  Footer,
+} from '../organisms';
 
 export const HomeTemplate: React.FC = () => {
   return (
-    <div className="min-h-screen bg-[#f4f4f4] text-[#022e4c] font-sans antialiased selection:bg-[#e11d48] selection:text-white">
+    <div className="min-h-screen bg-brand-surface text-brand-navy font-sans antialiased">
       <Navbar />
 
-      <main>
-        {/* Organism: Hero Banner */}
-        <Banner />
-
-        {/* Organism: Section 01 Primary Color Palette */}
-        <ColorSystemSection />
+      <main id="main">
+        <HeroSection />
+        <WhatWeDoSection />
+        <MarketWeServeSection />
+        <HealthcareProgramsSection />
+        <MissionSection />
+        <OurAchievementsSection />
+        <ClientLogosSection />
+        <LatestNewsSection />
+        <HappyClientsSection />
+        <FaqSection />
+        <NeedHelpSection />
       </main>
 
       <Footer />
