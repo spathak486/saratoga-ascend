@@ -8,5 +8,8 @@ export const graphqlUrl = `${strapiUrl}/graphql`;
 // Mock mode is decided inside service functions, never read by client code.
 export const isMockMode = process.env.USE_MOCKS === 'true';
 
-export const recaptchaSiteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY ?? '';
 export const revalidationSecret = process.env.REVALIDATION_SECRET ?? '';
+
+// recaptchaSiteKey lives in ./public-config, not here — it's NEXT_PUBLIC_
+// and needs to be importable from Client Components, which this
+// server-only module can never be.
