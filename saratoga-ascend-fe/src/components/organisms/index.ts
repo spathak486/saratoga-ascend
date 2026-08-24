@@ -18,4 +18,5 @@ export * from './HappyClientsSection';
 export * from './FaqSection';
 export * from './NeedHelpSection';
 export * from './Footer';
+export * from './JobApplicationForm';
 
