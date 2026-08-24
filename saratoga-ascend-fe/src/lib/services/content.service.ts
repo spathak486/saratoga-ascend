@@ -126,6 +126,33 @@ const CTA_REFERENCE_FIELDS = `
   }
 `;
 
+const HEADING_FIELDS = `
+  title
+  description
+`;
+
+const FAQS_REFERENCE_FIELDS = `
+  __typename
+  ... on ComponentReferencesFaQs {
+    content {
+      documentId
+      referenceTitle
+      ContentSection { ${PROMO_FIELDS} }
+    }
+    faqs {
+      documentId
+      referenceTitle
+      faq { ${HEADING_FIELDS} }
+    }
+  }
+`;
+
+const DYNAMIC_SECTION_FRAGMENTS = [
+  BANNER_REFERENCE_FIELDS,
+  CTA_REFERENCE_FIELDS,
+  FAQS_REFERENCE_FIELDS,
+].join('\n');
+
 const PAGE_BY_SLUG_QUERY = `
   query GetPageBySlug($slug: String!) {
     pages(filters: { slug: { eq: $slug } }) { ${PAGE_FIELDS} }
@@ -166,29 +193,28 @@ const ALL_ARTICLE_SLUGS_QUERY = `
 `;
 
 const HOME_PAGE_QUERY = `
-  query GetHomePage {
-    home {
+  query GetHomePage($status: PublicationStatus) {
+    home(status: $status) {
       documentId
       pageTitle
       slug
       seo { ${SEO_FIELDS} }
       Section {
-        ${BANNER_REFERENCE_FIELDS}
-        ${CTA_REFERENCE_FIELDS}
+        ${DYNAMIC_SECTION_FRAGMENTS}
       }
     }
   }
 `;
 
 const ABOUT_US_PAGE_QUERY = `
-  query GetAboutUsPage {
-    aboutUs {
+  query GetAboutUsPage($status: PublicationStatus) {
+    aboutUs(status: $status) {
       documentId
       pageTitle
       slug
       seo { ${SEO_FIELDS} }
       Section {
-        ${BANNER_REFERENCE_FIELDS}
+        ${DYNAMIC_SECTION_FRAGMENTS}
       }
     }
   }
@@ -235,6 +261,45 @@ function resolveSectionImages(section: Record<string, unknown>) {
       };
     }
   }
+
+  if (
+    (section.__typename === 'ComponentReferencesFaQs' ||
+      section.__typename === 'ComponentReferencesFaqs') &&
+    section.content
+  ) {
+    const content = section.content as Record<string, unknown>;
+    if (content.ContentSection) {
+      const cs = content.ContentSection as Record<string, unknown>;
+      return {
+        ...section,
+        content: {
+          ...content,
+          ContentSection: {
+            ...cs,
+            image: unwrapImage(cs.image as RawStrapiMedia | null),
+          },
+        },
+      };
+    }
+  }
+
+  if (section.__typename === 'ComponentReferencesCta' && section.cta) {
+    const ctaRef = section.cta as Record<string, unknown>;
+    if (ctaRef.cta) {
+      const cta = ctaRef.cta as Record<string, unknown>;
+      return {
+        ...section,
+        cta: {
+          ...ctaRef,
+          cta: {
+            ...cta,
+            image: unwrapImage(cta.image as RawStrapiMedia | null),
+          },
+        },
+      };
+    }
+  }
+
   return section;
 }
 
@@ -338,7 +403,8 @@ export async function getAllArticleSlugs(): Promise<ApiResult<string[]>> {
 export async function getHomePage(): Promise<ApiResult<HomePage>> {
   if (isMockMode) return ok(getMockHomePage());
 
-  const result = await gql.query<{ home: Record<string, unknown> }>(HOME_PAGE_QUERY);
+  const status = process.env.NODE_ENV === 'development' ? 'DRAFT' : 'PUBLISHED';
+  const result = await gql.query<{ home: Record<string, unknown> }>(HOME_PAGE_QUERY, { status });
   if (result.error) return result;
 
   const rawHome = result.data?.home;
@@ -370,7 +436,10 @@ export async function getHomePage(): Promise<ApiResult<HomePage>> {
 export async function getAboutUsPage(): Promise<ApiResult<AboutPage>> {
   if (isMockMode) return ok(getMockAboutUsPage());
 
-  const result = await gql.query<{ aboutUs: Record<string, unknown> }>(ABOUT_US_PAGE_QUERY);
+  const status = process.env.NODE_ENV === 'development' ? 'DRAFT' : 'PUBLISHED';
+  const result = await gql.query<{ aboutUs: Record<string, unknown> }>(ABOUT_US_PAGE_QUERY, {
+    status,
+  });
   if (result.error) return result;
 
   const rawAbout = result.data?.aboutUs;

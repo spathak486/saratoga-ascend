@@ -190,6 +190,45 @@ export const mockHomePage = {
         },
       },
     },
+    {
+      __typename: 'ComponentReferencesFaQs' as const,
+      content: {
+        documentId: 'cm2faqcontent123',
+        referenceTitle: 'FAQ Content Section',
+        ContentSection: {
+          title: 'Any Questions?',
+          subTitle: 'Proudly Serving Federal, State and Local clients',
+          description: null,
+          image: null,
+          link: {
+            label: 'Know More',
+            href: '/about',
+            target: '_self' as const,
+            isExternal: false,
+          },
+        },
+      },
+      faqs: [
+        {
+          documentId: 'cm2faq1',
+          referenceTitle: 'FAQ 1',
+          faq: {
+            title: 'How this work?',
+            description:
+              'Lorem ipsum is the standard placeholder text used in graphic design, publishing, and web development to showcase layouts and visual elements without the distraction of meaningful content.',
+          },
+        },
+        {
+          documentId: 'cm2faq2',
+          referenceTitle: 'FAQ 2',
+          faq: {
+            title: 'How this work?',
+            description:
+              'Lorem ipsum is the standard placeholder text used in graphic design, publishing, and web development to showcase layouts and visual elements without the distraction of meaningful content.',
+          },
+        },
+      ],
+    },
   ],
 };
 

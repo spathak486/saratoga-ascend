@@ -20,18 +20,31 @@ export interface HomeTemplateProps {
 }
 
 export const HomeTemplate: React.FC<HomeTemplateProps> = ({ homeData }) => {
-  const hasDynamicBanner = homeData?.Section?.some(
+  const bannerSec = homeData?.Section?.find(
     (sec) => sec.__typename === 'ComponentReferencesBannerReference'
   );
-  const hasDynamicCta = homeData?.Section?.some(
+  const ctaSec = homeData?.Section?.find(
     (sec) => sec.__typename === 'ComponentReferencesCta'
+  );
+  const faqSec = homeData?.Section?.find(
+    (sec) =>
+      sec.__typename === 'ComponentReferencesFaQs' ||
+      sec.__typename === 'ComponentReferencesFaqs'
+  );
+
+  const otherSections = homeData?.Section?.filter(
+    (sec) =>
+      sec.__typename !== 'ComponentReferencesBannerReference' &&
+      sec.__typename !== 'ComponentReferencesCta' &&
+      sec.__typename !== 'ComponentReferencesFaQs' &&
+      sec.__typename !== 'ComponentReferencesFaqs'
   );
 
   return (
     <main id="main">
-      {!hasDynamicBanner && <HeroSection />}
+      {bannerSec ? renderRegisteredSection(bannerSec, 0) : <HeroSection />}
 
-      {homeData?.Section?.map((sec, idx) => renderRegisteredSection(sec, idx))}
+      {otherSections?.map((sec, idx) => renderRegisteredSection(sec, idx))}
 
       <WhatWeDoSection />
       <MarketWeServeSection />
@@ -41,9 +54,10 @@ export const HomeTemplate: React.FC<HomeTemplateProps> = ({ homeData }) => {
       <ClientLogosSection />
       <LatestNewsSection />
       <HappyClientsSection />
-      <FaqSection />
 
-      {!hasDynamicCta && <NeedHelpSection />}
+      {faqSec ? renderRegisteredSection(faqSec, 99) : <FaqSection />}
+
+      {ctaSec ? renderRegisteredSection(ctaSec, 100) : <NeedHelpSection />}
     </main>
   );
 };

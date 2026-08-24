@@ -27,6 +27,8 @@ export {
   type PromoComponent,
   CtaReferenceSchema,
   type CtaReference,
+  FaqsReferenceSchema,
+  type FaqsReference,
   HomeDynamicZoneSectionSchema,
   type HomeDynamicZoneSection,
   HomePageSchema,

@@ -1,6 +1,40 @@
 import React from 'react';
-import type { HomeDynamicZoneSection, BannerReference, CtaReference } from '@/lib/schemas';
-import { HeroSection, NeedHelpSection } from '@/components/organisms';
+import type {
+  HomeDynamicZoneSection,
+  BannerReference,
+  CtaReference,
+  FaqsReference,
+} from '@/lib/schemas';
+import { HeroSection, NeedHelpSection, FaqSection } from '@/components/organisms';
+
+function renderFaqSection(faqsRef: FaqsReference, index: number) {
+  const promo = faqsRef.content?.ContentSection;
+  const items = faqsRef.faqs
+    ?.map((f) => {
+      const q = f.faq?.title || f.referenceTitle;
+      const a = f.faq?.description;
+      if (!q) return null;
+      const cleanAnswer = a ? a.replace(/<[^>]*>/g, '').trim() : '';
+      return {
+        question: q,
+        answer: cleanAnswer,
+      };
+    })
+    .filter((item): item is { question: string; answer: string } => item !== null);
+
+  return (
+    <FaqSection
+      key={`faqs-${index}`}
+      title={promo?.title ?? undefined}
+      subTitle={promo?.subTitle ?? undefined}
+      description={promo?.description ?? undefined}
+      backdropSrc={promo?.image?.url ?? undefined}
+      items={items && items.length > 0 ? items : undefined}
+      ctaLabel={promo?.link?.label ?? undefined}
+      ctaHref={promo?.link?.href ?? undefined}
+    />
+  );
+}
 
 /**
  * Component Registry Pattern: Maps Strapi GraphQL __typename to component renderers.
@@ -45,6 +79,12 @@ export const SECTION_REGISTRY: Record<
       />
     );
   },
+
+  ComponentReferencesFaQs: (section, index) =>
+    renderFaqSection(section as FaqsReference, index),
+
+  ComponentReferencesFaqs: (section, index) =>
+    renderFaqSection(section as FaqsReference, index),
 };
 
 /**

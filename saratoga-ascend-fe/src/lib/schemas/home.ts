@@ -49,9 +49,43 @@ export const CtaReferenceSchema = z.object({
 
 export type CtaReference = z.infer<typeof CtaReferenceSchema>;
 
+export const FaqItemComponentSchema = z.object({
+  title: z.string().nullable().optional(),
+  description: z.string().nullable().optional(),
+});
+
+export type FaqItemComponent = z.infer<typeof FaqItemComponentSchema>;
+
+export const FaqEntitySchema = z.object({
+  documentId: z.string().optional(),
+  referenceTitle: z.string().nullable().optional(),
+  faq: FaqItemComponentSchema.nullable().optional(),
+});
+
+export type FaqEntity = z.infer<typeof FaqEntitySchema>;
+
+export const FaqsReferenceSchema = z.object({
+  __typename: z.union([
+    z.literal('ComponentReferencesFaQs'),
+    z.literal('ComponentReferencesFaqs'),
+  ]),
+  content: z
+    .object({
+      documentId: z.string().optional(),
+      referenceTitle: z.string().nullable().optional(),
+      ContentSection: PromoComponentSchema.nullable().optional(),
+    })
+    .nullable()
+    .optional(),
+  faqs: z.array(FaqEntitySchema).nullable().optional(),
+});
+
+export type FaqsReference = z.infer<typeof FaqsReferenceSchema>;
+
 export const HomeDynamicZoneSectionSchema = z.union([
   BannerReferenceSchema,
   CtaReferenceSchema,
+  FaqsReferenceSchema,
   z.object({ __typename: z.string() }).passthrough(),
 ]);
 
@@ -66,3 +100,4 @@ export const HomePageSchema = z.object({
 });
 
 export type HomePage = z.infer<typeof HomePageSchema>;
+
