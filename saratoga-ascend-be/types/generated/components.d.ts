@@ -74,6 +74,32 @@ export interface ReferencesBannerReference extends Struct.ComponentSchema {
   };
 }
 
+export interface ReferencesCta extends Struct.ComponentSchema {
+  collectionName: 'components_references_ctas';
+  info: {
+    displayName: 'CTA';
+    icon: 'crown';
+  };
+  attributes: {
+    cta: Schema.Attribute.Relation<'oneToOne', 'api::cta.cta'>;
+  };
+}
+
+export interface ReferencesFaQs extends Struct.ComponentSchema {
+  collectionName: 'components_references_fa_qs';
+  info: {
+    displayName: 'FAQs';
+    icon: 'layer';
+  };
+  attributes: {
+    content: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::content-block.content-block'
+    >;
+    faqs: Schema.Attribute.Relation<'oneToMany', 'api::faq.faq'>;
+  };
+}
+
 export interface SharedGeneralLink extends Struct.ComponentSchema {
   collectionName: 'components_shared_general_links';
   info: {
@@ -126,6 +152,8 @@ declare module '@strapi/strapi' {
       'core-component.promo': CoreComponentPromo;
       'media.banner': MediaBanner;
       'references.banner-reference': ReferencesBannerReference;
+      'references.cta': ReferencesCta;
+      'references.fa-qs': ReferencesFaQs;
       'shared.general-link': SharedGeneralLink;
       'shared.seo': SharedSeo;
     }

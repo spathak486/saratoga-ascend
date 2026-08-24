@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import { DM_Serif_Text, Google_Sans_Flex } from 'next/font/google';
 import './globals.css';
+import { Navbar, Footer } from '@/components/organisms';
 
 /** Display face from the Figma homepage — headings only, single 400 weight. */
 const dmSerifText = DM_Serif_Text({
@@ -76,10 +77,12 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body
-        className="antialiased bg-brand-surface text-brand-navy font-sans selection:bg-brand-red selection:text-brand-surface"
+        className="antialiased bg-brand-surface text-brand-navy font-sans selection:bg-brand-red selection:text-brand-surface min-h-screen"
         suppressHydrationWarning
       >
+        <Navbar />
         {children}
+        <Footer />
       </body>
     </html>
   );

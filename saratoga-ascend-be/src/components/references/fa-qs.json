@@ -1,0 +1,21 @@
+{
+  "collectionName": "components_references_fa_qs",
+  "info": {
+    "displayName": "FAQs",
+    "icon": "layer"
+  },
+  "options": {},
+  "attributes": {
+    "content": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::content-block.content-block"
+    },
+    "faqs": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::faq.faq"
+    }
+  },
+  "config": {}
+}

@@ -1,5 +1,38 @@
-import type { Page, Article, Pagination } from '@/lib/schemas';
-import { mockPages, mockArticles } from './content.mock';
+import type { Page, Article, Pagination, HomePage, AboutPage } from '@/lib/schemas';
+import { mockPages, mockArticles, mockHomePage } from './content.mock';
+
+export function getMockHomePage(): HomePage {
+  return mockHomePage;
+}
+
+export function getMockAboutUsPage(): AboutPage {
+  return {
+    pageTitle: 'About Us',
+    slug: 'about-us',
+    Section: [
+      {
+        __typename: 'ComponentReferencesBannerReference',
+        heroBanner: {
+          referenceTitle: 'About Banner',
+          banner: {
+            bannerTitle: 'About Saratoga Ascend',
+            bannerSubTitle: 'Empowering Possibility',
+            bannerDescription:
+              'Mission-critical healthcare consulting, workforce solutions, and technology for government and military.',
+            bannerImage: {
+              url: '/images/DNA-v1.png',
+              alternativeText: 'DNA illustration',
+            },
+            buttonCTA: {
+              label: 'Contact us',
+              href: '/contact',
+            },
+          },
+        },
+      },
+    ],
+  };
+}
 
 export function getMockPageBySlug(slug: string): Page | null {
   return mockPages.find((p) => p.slug === slug) ?? null;
