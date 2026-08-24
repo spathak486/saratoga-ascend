@@ -7,10 +7,12 @@ import {
   ArticleSchema,
   HomePageSchema,
   AboutPageSchema,
+  FooterDataSchema,
   type Page,
   type Article,
   type HomePage,
   type AboutPage,
+  type FooterData,
   type Pagination,
   type ApiResult,
   ok,
@@ -24,6 +26,7 @@ import {
   getMockAllArticleSlugs,
   getMockHomePage,
   getMockAboutUsPage,
+  getMockFooterData,
 } from '@/lib/mocks';
 
 
@@ -216,6 +219,28 @@ const ABOUT_US_PAGE_QUERY = `
       Section {
         ${DYNAMIC_SECTION_FRAGMENTS}
       }
+    }
+  }
+`;
+
+const FOOTER_QUERY = `
+  query GetFooter($status: PublicationStatus) {
+    footer(status: $status) {
+      documentId
+      headline
+      newsletterHeading
+      privacyConsentText
+      privacyConsentLink { ${GENERAL_LINK_FIELDS} }
+      linkColumns {
+        heading
+        links { ${GENERAL_LINK_FIELDS} }
+      }
+      contactHeading
+      contactEmail
+      contactPhone
+      copyrightText
+      logo { ${IMAGE_FIELDS} }
+      legalLinks { ${GENERAL_LINK_FIELDS} }
     }
   }
 `;
@@ -462,6 +487,33 @@ export async function getAboutUsPage(): Promise<ApiResult<AboutPage>> {
       console.error('[ContentService] AboutUs validation failed:', parsed.error.issues);
     }
     return fail('VALIDATION_ERROR', 500, 'Invalid AboutUs page data from API', parsed.error.issues);
+  }
+
+  return ok(parsed.data);
+}
+
+/** Used by RootLayout / Footer component. */
+export async function getFooterData(): Promise<ApiResult<FooterData>> {
+  if (isMockMode) return ok(getMockFooterData());
+
+  const status = process.env.NODE_ENV === 'development' ? 'DRAFT' : 'PUBLISHED';
+  const result = await gql.query<{ footer: Record<string, unknown> }>(FOOTER_QUERY, { status });
+  if (result.error) return result;
+
+  const rawFooter = result.data?.footer;
+  if (!rawFooter) return fail('NOT_FOUND', 404, 'Footer data not found');
+
+  const resolvedFooter = {
+    ...rawFooter,
+    logo: unwrapImage(rawFooter.logo as RawStrapiMedia | null),
+  };
+
+  const parsed = FooterDataSchema.safeParse(resolvedFooter);
+  if (!parsed.success) {
+    if (process.env.NODE_ENV === 'development') {
+      console.error('[ContentService] Footer validation failed:', parsed.error.issues);
+    }
+    return fail('VALIDATION_ERROR', 500, 'Invalid Footer data from API', parsed.error.issues);
   }
 
   return ok(parsed.data);

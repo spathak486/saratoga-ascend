@@ -627,6 +627,55 @@ export interface ApiFaqFaq extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiFooterFooter extends Struct.SingleTypeSchema {
+  collectionName: 'footers';
+  info: {
+    description: 'Global Footer Content Type';
+    displayName: 'Footer';
+    pluralName: 'footers';
+    singularName: 'footer';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    contactEmail: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'careers@saratogaascend.com'>;
+    contactHeading: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Say Hello!'>;
+    contactPhone: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'+1 (212) 213-2520'>;
+    copyrightText: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'\u00A9 2026 Saratoga Ascend. All rights reserved'>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    headline: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Federal State Programs & Solutions'>;
+    legalLinks: Schema.Attribute.Component<'shared.general-link', true>;
+    linkColumns: Schema.Attribute.Component<'shared.link-column', true>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::footer.footer'
+    > &
+      Schema.Attribute.Private;
+    logo: Schema.Attribute.Media<'images'>;
+    newsletterHeading: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Sign up for Our Newsletter'>;
+    privacyConsentLink: Schema.Attribute.Component<
+      'shared.general-link',
+      false
+    >;
+    privacyConsentText: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'I agree to the'>;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiHeroBannerHeroBanner extends Struct.CollectionTypeSchema {
   collectionName: 'hero_banners';
   info: {
@@ -1240,6 +1289,7 @@ declare module '@strapi/strapi' {
       'api::content-block.content-block': ApiContentBlockContentBlock;
       'api::cta.cta': ApiCtaCta;
       'api::faq.faq': ApiFaqFaq;
+      'api::footer.footer': ApiFooterFooter;
       'api::hero-banner.hero-banner': ApiHeroBannerHeroBanner;
       'api::home.home': ApiHomeHome;
       'api::thank-you.thank-you': ApiThankYouThankYou;

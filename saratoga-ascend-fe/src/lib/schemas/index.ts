@@ -35,6 +35,7 @@ export {
   type HomePage,
 } from './home';
 export { AboutPageSchema, type AboutPage } from './about';
+export { FooterDataSchema, type FooterData, LinkColumnSchema, type LinkColumn } from './footer';
 
 
 // Phase 2 → export * from './job'

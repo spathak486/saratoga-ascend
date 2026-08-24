@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import { DM_Serif_Text, Google_Sans_Flex } from 'next/font/google';
 import './globals.css';
 import { Navbar, Footer } from '@/components/organisms';
+import { getFooterData } from '@/lib/services/content.service';
 
 /** Display face from the Figma homepage — headings only, single 400 weight. */
 const dmSerifText = DM_Serif_Text({
@@ -65,11 +66,13 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const footerResult = await getFooterData();
+
   return (
     <html
       lang="en"
@@ -82,7 +85,7 @@ export default function RootLayout({
       >
         <Navbar />
         {children}
-        <Footer />
+        <Footer data={footerResult.data ?? undefined} />
       </body>
     </html>
   );

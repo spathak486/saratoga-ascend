@@ -124,6 +124,19 @@ export interface SharedGeneralLink extends Struct.ComponentSchema {
   };
 }
 
+export interface SharedLinkColumn extends Struct.ComponentSchema {
+  collectionName: 'components_shared_link_columns';
+  info: {
+    description: 'Navigation link column with a heading';
+    displayName: 'Link Column';
+    icon: 'list';
+  };
+  attributes: {
+    heading: Schema.Attribute.String & Schema.Attribute.Required;
+    links: Schema.Attribute.Component<'shared.general-link', true>;
+  };
+}
+
 export interface SharedSeo extends Struct.ComponentSchema {
   collectionName: 'components_shared_seos';
   info: {
@@ -155,6 +168,7 @@ declare module '@strapi/strapi' {
       'references.cta': ReferencesCta;
       'references.fa-qs': ReferencesFaQs;
       'shared.general-link': SharedGeneralLink;
+      'shared.link-column': SharedLinkColumn;
       'shared.seo': SharedSeo;
     }
   }

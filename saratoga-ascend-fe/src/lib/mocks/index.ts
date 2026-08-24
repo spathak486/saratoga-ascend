@@ -1,5 +1,10 @@
-import type { Page, Article, Pagination, HomePage, AboutPage } from '@/lib/schemas';
+import type { Page, Article, Pagination, HomePage, AboutPage, FooterData } from '@/lib/schemas';
 import { mockPages, mockArticles, mockHomePage } from './content.mock';
+import { mockFooterData } from './footer.mock';
+
+export function getMockFooterData(): FooterData {
+  return mockFooterData;
+}
 
 export function getMockHomePage(): HomePage {
   return mockHomePage;

@@ -22,8 +22,12 @@ export type StrapiImage = z.infer<typeof StrapiImageSchema>;
 export const GeneralLinkSchema = z.object({
   label: z.string(),
   href: z.string(),
-  target: z.enum(['_self', '_blank']),
-  isExternal: z.boolean(),
+  target: z.string().optional().nullable().transform((val) => {
+    if (val === 'self' || val === '_self') return '_self';
+    if (val === 'blank' || val === '_blank') return '_blank';
+    return '_self';
+  }),
+  isExternal: z.boolean().optional().nullable().default(false),
   description: z.string().nullable().optional(),
   icon: StrapiImageSchema.nullable().optional(),
 });
