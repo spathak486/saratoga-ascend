@@ -262,17 +262,29 @@ body {
    end colour lands inside the button, which is what keeps it from reading as
    a flat two-tone split. */
 .bg-cta-gradient {
+  background-color: var(--color-brand-cta-to);
   background-image: linear-gradient(
     91.647deg,
     var(--color-brand-cta-from) 0.475%,
     var(--color-brand-cta-to) 102.45%
   );
+  background-repeat: no-repeat;
 }
 
 /* Frame 603 FAQ section gradient */
 .bg-faq-gradient {
   background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
     linear-gradient(87.03deg, #ff0013 -15.22%, #00bbff 104.41%);
+  background-repeat: no-repeat;
+}
+
+/* Footer frame gradient and bottom divider line from Figma node */
+.bg-footer-gradient {
+  background-image: linear-gradient(180deg, #022e4c 0%, #040d1a 100%);
+}
+
+.bg-footer-red-line {
+  background-image: linear-gradient(90deg, #7f1d1d 0%, #dc2626 50%, #7f1d1d 100%);
 }
 
 /* Page gutter. Also the horizontal half of a section's padding, so a section

@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useId, useState } from 'react';
-import { ArrowUpRightIcon } from '../atoms/icons';
+import { SendIcon } from '../atoms/icons';
 import { GeneralLink } from '../atoms/GeneralLink';
 
 export interface SubscribeFormProps {
@@ -14,7 +14,7 @@ export interface SubscribeFormProps {
 }
 
 /**
- * Footer newsletter capture: a white field with a circular submit, plus the
+ * Footer newsletter capture: a white pill field with a circular submit, plus the
  * required privacy acknowledgement from the homepage artboard.
  */
 export const SubscribeForm: React.FC<SubscribeFormProps> = ({
@@ -35,7 +35,7 @@ export const SubscribeForm: React.FC<SubscribeFormProps> = ({
         onSubmit?.(email);
       }}
     >
-      <div className="relative flex h-[clamp(3rem,3.85vw,3.5rem)] items-center rounded-card bg-brand-surface pl-5 pr-[clamp(3.25rem,4vw,3.75rem)] has-[input:focus-visible]:outline-2 has-[input:focus-visible]:outline-offset-2 has-[input:focus-visible]:outline-brand-sky">
+      <div className="relative flex h-[56px] w-full max-w-[402px] items-center rounded-full bg-white pl-6 pr-[56px] has-[input:focus-visible]:outline-2 has-[input:focus-visible]:outline-offset-2 has-[input:focus-visible]:outline-brand-sky">
         <label htmlFor={fieldId} className="sr-only">
           Email address
         </label>
@@ -47,32 +47,32 @@ export const SubscribeForm: React.FC<SubscribeFormProps> = ({
           placeholder="Enter your email address"
           value={email}
           onChange={(event) => setEmail(event.target.value)}
-          className="min-w-0 flex-1 bg-transparent text-caption text-brand-navy placeholder:text-slate-body focus:outline-none"
+          className="min-w-0 flex-1 bg-transparent text-[16px] leading-[20px] text-[#0A0A0A] placeholder:text-[#64748B] focus:outline-none font-sans"
         />
         <button
           type="submit"
           aria-label="Subscribe"
-          className="absolute top-1/2 right-1 flex size-[clamp(2.5rem,2.9vw,2.75rem)] -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-cta-gradient text-brand-on-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-sky"
+          className="absolute top-1/2 right-[6px] flex size-[44px] -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-[#0066CC] text-white hover:bg-[#0052A3] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-sky"
         >
-          <ArrowUpRightIcon className="size-[1.15em]" />
+          <SendIcon className="size-5 text-white" />
         </button>
       </div>
 
-      <div className="mt-4 flex items-start gap-3">
+      <div className="mt-4 flex items-center gap-2.5">
         <input
           id={consentId}
           type="checkbox"
           required
           checked={consented}
           onChange={(event) => setConsented(event.target.checked)}
-          className="mt-0.5 size-4 shrink-0 cursor-pointer accent-brand-sky"
+          className="size-[18px] shrink-0 cursor-pointer rounded border-[#94A3B8] accent-[#0066CC]"
         />
-        <label htmlFor={consentId} className="text-eyebrow text-slate-muted">
+        <label htmlFor={consentId} className="text-[14px] leading-[18px] text-[#94A3B8] font-sans">
           I agree to the{' '}
           <GeneralLink
             href="/privacy"
             variant="unstyled"
-            className="font-bold text-brand-on-dark underline underline-offset-2 hover:text-brand-on-dark"
+            className="font-bold text-white underline underline-offset-2 hover:text-[#26E0F5]"
           >
             Privacy Policy
           </GeneralLink>

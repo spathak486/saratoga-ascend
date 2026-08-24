@@ -46,14 +46,14 @@ export const HomeTemplate: React.FC<HomeTemplateProps> = ({ homeData }) => {
 
       {otherSections?.map((sec, idx) => renderRegisteredSection(sec, idx))}
 
-      <WhatWeDoSection />
+      {/* <WhatWeDoSection />
       <MarketWeServeSection />
       <HealthcareProgramsSection />
       <MissionSection />
       <OurAchievementsSection />
       <ClientLogosSection />
       <LatestNewsSection />
-      <HappyClientsSection />
+      <HappyClientsSection /> */}
 
       {faqSec ? renderRegisteredSection(faqSec, 99) : <FaqSection />}
 
