@@ -1,0 +1,39 @@
+{
+  "collectionName": "components_core_component_promos",
+  "info": {
+    "displayName": "Promo",
+    "icon": "crown"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "subTitle": {
+      "type": "text"
+    },
+    "description": {
+      "type": "customField",
+      "customField": "plugin::ckeditor5.CKEditor",
+      "options": {
+        "preset": "defaultHtml"
+      }
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "link": {
+      "type": "component",
+      "component": "shared.general-link",
+      "repeatable": false
+    }
+  },
+  "config": {}
+}
