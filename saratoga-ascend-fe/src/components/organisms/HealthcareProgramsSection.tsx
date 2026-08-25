@@ -25,8 +25,8 @@ export interface HealthcareProgramsSectionProps {
 }
 
 /**
- * Phase 5 — navy healthcare feature card, four travel-staffing carousel
- * slides, and the gradient progress bar (Figma node 1:323).
+ * Phase 5 — navy healthcare feature card, four travel-staffing photo
+ * tiles, and the gradient progress bar (Figma node 13:222).
  */
 export const HealthcareProgramsSection: React.FC<HealthcareProgramsSectionProps> = ({
   personSrc,

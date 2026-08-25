@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, GeneralLink, MediaFrame } from '../atoms';
+import { Container, GeneralLink } from '../atoms';
 import { SubscribeForm } from '../molecules/SubscribeForm';
 
 interface FooterLink {
@@ -37,10 +37,21 @@ const MENU: FooterColumn = {
 const footerLinkClass =
   'text-caption text-slate-faint transition-colors duration-150 hover:text-brand-on-dark';
 
+const ColumnRule: React.FC = () => (
+  <img
+    src="/images/footer/underline.svg"
+    alt=""
+    width={40}
+    height={2}
+    className="mt-3 h-0.5 w-10"
+    aria-hidden="true"
+  />
+);
+
 const FooterNavGroup: React.FC<FooterColumn> = ({ heading, links }) => (
   <div>
     <h2 className="text-body-lg font-medium text-brand-on-dark">{heading}</h2>
-    <div className="mt-3 h-px w-8 bg-brand-on-dark/35" aria-hidden="true" />
+    <ColumnRule />
     <ul className="mt-5 flex flex-col gap-4">
       {links.map((link) => (
         <li key={link.label}>
@@ -59,29 +70,26 @@ const FooterNavGroup: React.FC<FooterColumn> = ({ heading, links }) => (
 );
 
 /**
- * Last homepage band. Measured from Figma node 1:467 — navy ground, emblem and
+ * Last homepage band (Figma node 13:308). Navy-to-abyss ground, emblem and
  * brand line on the first row, newsletter plus three link columns, legal bar
  * with a jump-to-top control.
  */
 export const Footer: React.FC = () => (
-  <footer className="relative bg-brand-navy-deep text-brand-on-dark-muted">
-    <Container className="py-section">
+  <footer className="relative bg-footer text-brand-on-dark-muted">
+    <Container className="pt-[clamp(3.5rem,4.17vw,5rem)] pb-block">
       <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
         <GeneralLink
           href="/"
           variant="unstyled"
           aria-label="Saratoga Ascend home"
-          className="inline-block shrink-0"
+          className="inline-flex shrink-0 items-center"
         >
-          <MediaFrame
-            src="/images/Image-1 1.png"
+          <img
+            src="/images/Group.png"
             alt=""
-            pendingLabel="footer-mark"
-            tone="navyCard"
-            unoptimized
-            sizes="80px"
-            imageClassName="object-contain!"
-            className="size-[clamp(3rem,4.17vw,4rem)] border-0 bg-transparent"
+            width={64}
+            height={64}
+            className="size-16 object-contain"
           />
         </GeneralLink>
 
@@ -90,14 +98,19 @@ export const Footer: React.FC = () => (
         </p>
       </div>
 
-      <div className="mt-block h-px bg-brand-on-dark/20" aria-hidden="true" />
+      <img
+        src="/images/footer/rule.svg"
+        alt=""
+        className="mt-block h-px w-full"
+        aria-hidden="true"
+      />
 
-      <div className="mt-block grid grid-cols-1 gap-block sm:grid-cols-2 xl:grid-cols-[minmax(0,32.625rem)_1fr_1fr_1fr] xl:gap-x-[clamp(2rem,5vw,6rem)]">
+      <div className="mt-block grid grid-cols-1 gap-block sm:grid-cols-2 xl:grid-cols-[25.125rem_1fr_1fr_1fr] xl:gap-x-[clamp(2rem,5vw,6rem)]">
         <div>
           <p className="font-serif text-stat-label text-brand-on-dark">
             Sign up for Our Newsletter
           </p>
-          <SubscribeForm className="mt-6 max-w-[32.625rem]" />
+          <SubscribeForm className="mt-6 max-w-[25.125rem]" />
         </div>
 
         <nav aria-label="Social">
@@ -110,7 +123,7 @@ export const Footer: React.FC = () => (
 
         <div>
           <h2 className="text-body-lg font-medium text-brand-on-dark">Say Hello!</h2>
-          <div className="mt-3 h-px w-8 bg-brand-on-dark/35" aria-hidden="true" />
+          <ColumnRule />
           <p className="mt-5">
             <GeneralLink
               href="mailto:careers@saratogaascend.com"
@@ -133,7 +146,15 @@ export const Footer: React.FC = () => (
       </div>
     </Container>
 
-    <div className="border-t border-brand-on-dark/15">
+    <div>
+      <Container>
+        <img
+          src="/images/footer/legal-rule.svg"
+          alt=""
+          className="h-0.5 w-full"
+          aria-hidden="true"
+        />
+      </Container>
       <Container className="flex flex-col items-center gap-4 py-6 sm:relative sm:flex-row sm:justify-center sm:gap-0">
         <p className="flex flex-col items-center gap-2 text-center text-eyebrow text-slate-muted sm:block sm:max-w-[46rem] sm:px-14">
           <span>
@@ -160,23 +181,24 @@ export const Footer: React.FC = () => (
         <a
           href="#"
           aria-label="Back to top"
-          className="flex size-12 items-center justify-center rounded-full bg-brand-surface text-brand-navy focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-sky sm:absolute sm:top-1/2 sm:right-0 sm:-translate-y-1/2"
+          className="relative flex size-[3.0625rem] items-center justify-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-sky sm:absolute sm:top-1/2 sm:right-0 sm:-translate-y-1/2"
         >
-          <svg
-            viewBox="0 0 24 24"
-            className="size-5"
-            fill="none"
+          <img
+            src="/images/footer/back-top.svg"
+            alt=""
+            width={49}
+            height={49}
+            className="absolute inset-0 size-full"
             aria-hidden="true"
-            focusable="false"
-          >
-            <path
-              d="M6 14.5L12 8.5L18 14.5"
-              stroke="currentColor"
-              strokeWidth="1.75"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
+          />
+          <img
+            src="/images/footer/back-chevron.svg"
+            alt=""
+            width={18}
+            height={12}
+            className="relative h-3 w-[1.125rem]"
+            aria-hidden="true"
+          />
         </a>
       </Container>
     </div>

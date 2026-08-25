@@ -6,7 +6,9 @@ import {
   MarketWeServeSection,
   HealthcareProgramsSection,
   MissionSection,
+  ContractVehiclesSection,
   OurAchievementsSection,
+  PastPerformanceSection,
   ClientLogosSection,
   LatestNewsSection,
   HappyClientsSection,
@@ -26,12 +28,14 @@ export const HomeTemplate: React.FC = () => {
         <MarketWeServeSection />
         <HealthcareProgramsSection />
         <MissionSection />
+        <ContractVehiclesSection />
         <OurAchievementsSection />
-        <ClientLogosSection />
-        <LatestNewsSection />
+        <PastPerformanceSection />
         <HappyClientsSection />
+        <ClientLogosSection />
         <FaqSection />
         <NeedHelpSection />
+        <LatestNewsSection />
       </main>
 
       <Footer />

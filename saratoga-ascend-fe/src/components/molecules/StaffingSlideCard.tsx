@@ -1,11 +1,11 @@
 import React from 'react';
-import Image from 'next/image';
-import { Heading, Text } from '../atoms';
+import { Heading } from '../atoms';
+import { MediaFrame } from '../atoms/MediaFrame';
 
 export interface StaffingSlideCardProps {
   title?: React.ReactNode;
   body?: string;
-  href?: string;
+  imageSrc?: string;
 }
 
 const DEFAULT_TITLE = (
@@ -20,89 +20,38 @@ const DEFAULT_BODY =
   'Connecting cleared, credentialed healthcare professionals with government, military.';
 
 /**
- * White staffing carousel tile — flex content stack; decorations stay absolute.
+ * Travel Staffing tile (Figma node 13:254) — 402×450 photo, navy foot wash,
+ * white type. No arrow.
  */
 export const StaffingSlideCard: React.FC<StaffingSlideCardProps> = ({
   title = DEFAULT_TITLE,
   body = DEFAULT_BODY,
-  href = '/careers',
+  imageSrc = '/images/Rectangle%20113.png',
 }) => (
-  <article className="relative flex h-[clamp(22rem,23.44vw,28.125rem)] w-full flex-col overflow-hidden rounded-panel border border-brand-line bg-staffing-card p-[clamp(1.25rem,2.5vw,3rem)]">
-    {/* Bottom ellipse wash */}
-    <div
-      className="pointer-events-none absolute -left-[6.2rem] top-[55%] h-[55%] w-[88%] max-w-[22rem]"
-      aria-hidden="true"
-    >
-      <Image
-        src="/images/phase5/phase5-ellipse-bottom.svg"
-        alt=""
-        fill
-        className="object-contain object-top"
-      />
-    </div>
-
-    {/* Top ellipse wash */}
-    <div
-      className="pointer-events-none absolute -top-[30%] left-[35%] h-[60%] w-[62%] max-w-[15.3125rem] rotate-180"
-      aria-hidden="true"
-    >
-      <Image
-        src="/images/phase5/phase5-ellipse-top.svg"
-        alt=""
-        fill
-        className="object-contain object-top"
-      />
-    </div>
-
-    {/* Heart watermark */}
-    <div
-      className="pointer-events-none absolute right-[8%] bottom-[12%] h-[34%] w-[36%] max-w-[8.86rem] opacity-[0.38]"
-      aria-hidden="true"
-    >
-      <Image
-        src="/images/phase5/phase5-heart.png"
-        alt=""
-        fill
-        className="object-cover"
-      />
-    </div>
-
-    {/* Title row */}
-    <div className="relative z-[1] flex items-start justify-between gap-3">
+  <article className="relative aspect-[402/450] w-full overflow-hidden rounded-panel border border-brand-line">
+    <MediaFrame
+      src={imageSrc}
+      alt=""
+      pendingLabel="Rectangle 113.png"
+      tone="navy"
+      sizes="(max-width: 768px) 90vw, 402px"
+      imageClassName="object-cover!"
+      className="absolute inset-0 size-full border-0"
+    />
+    <div className="bg-staffing-scrim pointer-events-none absolute inset-0" />
+    <div className="absolute inset-x-[9.95%] top-[45.8%] bottom-[7.11%] flex flex-col">
       <Heading
         level={3}
-        tone="ink"
+        size="subtitle"
         font="serif"
-        className="text-[clamp(1.75rem,2.29vw,2.75rem)] leading-[1.2] text-black"
+        tone="onDark"
+        className="max-w-[7em] text-brand-on-dark"
       >
         {title}
       </Heading>
-
-      <a
-        href={href}
-        aria-label="Open travel staffing"
-        className="flex size-[clamp(2.75rem,3.75vw,3.75rem)] shrink-0 items-center justify-center"
-      >
-        <span className="flex size-full -scale-y-100 rotate-180">
-          <Image
-            src="/images/phase5/phase5-card-arrow.svg"
-            alt=""
-            width={60}
-            height={60}
-            aria-hidden
-            className="size-full"
-          />
-        </span>
-      </a>
+      <p className="mt-auto text-button font-medium leading-[1.5] text-brand-on-dark">
+        {body}
+      </p>
     </div>
-
-    {/* Body — centred in remaining card height */}
-    <Text
-      size="body"
-      tone="ink"
-      className="relative z-[1] mt-auto mb-auto max-w-[22ch] py-[clamp(0.75rem,2vw,1.5rem)] font-medium"
-    >
-      {body}
-    </Text>
   </article>
 );

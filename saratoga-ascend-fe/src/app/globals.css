@@ -47,15 +47,29 @@
   --color-brand-navy-deep: #011c30;
   /* Feature band behind the healthcare hero card — prime-b/600 in the file. */
   --color-brand-navy-band: #002845;
+  /* Contract Vehicles panel, GSA banner, and solid pills — #0C2B4E in the file. */
+  --color-brand-navy-panel: #0c2b4e;
+  --color-brand-blue-royal: #1e40af;
+  /* Footer ground end stop — #040D1A in the file. News stays solid navy. */
+  --color-brand-navy-abyss: #040d1a;
+  /* Footer hairline and back-to-top ring — #1E3A5F in the file. */
+  --color-brand-navy-stroke: #1e3a5f;
+  /* Footer column rules and newsletter send — #0066CC in the file. */
+  --color-brand-link: #0066cc;
 
   /* Accents */
   --color-brand-red: #f01424;
+  /* Pale red wash behind About Us — prime-r/100 in the file. */
+  --color-brand-red-wash: #ffccd1;
   --color-brand-sky: #2b88d9;
 
   /* Blue ramp behind panels and photo overlays */
   --color-brand-blue-deep: #144c79;
   --color-brand-blue-soft: #a2d8fe;
   --color-brand-blue-pale: #d2edfe;
+  /* Active vehicle nav chip — sky/100 fill, sky/400 ring. */
+  --color-brand-sky-wash: #e0f2fe;
+  --color-brand-sky-bright: #38bdf8;
 
   /* Surfaces */
   --color-brand-surface: #ffffff;
@@ -71,6 +85,8 @@
   --color-slate-body: #64748b;
   --color-slate-muted: #94a3b8;
   --color-slate-faint: #cbd5e1;
+  --color-slate-line: #e2e8f0;
+  --color-slate-copy: #475569;
 
   /* Foreground on dark bands */
   --color-brand-on-dark: #ffffff;
@@ -105,6 +121,10 @@
   /* 24 -> 44 — card titles and the name over a testimonial. */
   --text-subtitle: clamp(1.5rem, 1.1966rem + 1.2945vw, 2.75rem);
   --text-subtitle--line-height: 1.2;
+
+  /* 24 -> 36 — Past Performance photo-card titles. */
+  --text-card: clamp(1.5rem, 1.2874rem + 0.9061vw, 2.25rem);
+  --text-card--line-height: 1.2;
 
   /* 20 -> 32 — the label under an achievements numeral. */
   --text-stat-label: clamp(1.25rem, 1.0679rem + 0.7767vw, 2rem);
@@ -269,6 +289,36 @@ body {
   );
 }
 
+/* Federal/State toggle thumb — the file's "Red Blue" with a 20% black film. */
+.bg-vehicle-toggle {
+  background-image:
+    linear-gradient(90deg, rgb(0 0 0 / 0.2), rgb(0 0 0 / 0.2)),
+    linear-gradient(77.802deg, #ff0013 15.223%, #00bbff 104.41%);
+}
+
+/* GSA (and sibling) contract banner. */
+.bg-gsa-banner {
+  background-image: linear-gradient(
+    165.427deg,
+    var(--color-brand-navy-panel) 0%,
+    var(--color-brand-blue-royal) 100%
+  );
+}
+
+/* Past Performance band. */
+.bg-past-wash {
+  background-image: linear-gradient(
+    111.612deg,
+    rgb(245 245 245 / 0.1) 0%,
+    #f5f5f5 100%
+  );
+}
+
+/* Photo cards in Past Performance: clear through the picture, black at the foot. */
+.bg-performance-scrim {
+  background-image: linear-gradient(180deg, transparent 50%, #000 100%);
+}
+
 /* Page gutter. Also the horizontal half of a section's padding, so a section
    and its container inset by the same amount. */
 .px-page {
@@ -314,6 +364,15 @@ body {
   );
 }
 
+/* About Us band — white through the copy, faint prime-r/100 at the foot. */
+.bg-about-wash {
+  background-image: linear-gradient(
+    180deg,
+    var(--color-brand-surface) 39.398%,
+    var(--color-brand-red-wash) 139.4%
+  );
+}
+
 /* White-to-pale-blue panel fill, used on the emblem card. */
 .bg-panel-tint {
   background-image: linear-gradient(
@@ -330,6 +389,29 @@ body {
     var(--color-brand-surface) 0%,
     var(--color-brand-surface-muted) 100%
   );
+}
+
+/* Photo wash on the Travel Staffing tiles — clear at the top, navy by 91%. */
+.bg-staffing-scrim {
+  background-image: linear-gradient(
+    180deg,
+    rgb(0 40 69 / 0) 2.778%,
+    var(--color-brand-navy-band) 91%
+  );
+}
+
+/* Footer band — navy at the join with Latest news, abyss at the legal bar. */
+.bg-footer {
+  background-color: var(--color-brand-navy);
+  background-image: url('/images/footer/bg.svg');
+  background-size: 100% 100%;
+}
+
+/* Thin red rule above the footer legal line. */
+.bg-footer-legal {
+  background-image: url('/images/footer/legal-rule.svg');
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
 }
 
 /* Soft brand wash on light carousel cards */

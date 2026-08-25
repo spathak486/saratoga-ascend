@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useId, useState } from 'react';
-import { ArrowUpRightIcon } from '../atoms/icons';
 import { GeneralLink } from '../atoms/GeneralLink';
 
 export interface SubscribeFormProps {
@@ -14,8 +13,8 @@ export interface SubscribeFormProps {
 }
 
 /**
- * Footer newsletter capture: a white field with a circular submit, plus the
- * required privacy acknowledgement from the homepage artboard.
+ * Footer newsletter capture: a white pill with a circular send control, plus
+ * the required privacy acknowledgement from the homepage artboard.
  */
 export const SubscribeForm: React.FC<SubscribeFormProps> = ({
   onSubmit,
@@ -35,7 +34,7 @@ export const SubscribeForm: React.FC<SubscribeFormProps> = ({
         onSubmit?.(email);
       }}
     >
-      <div className="relative flex h-[clamp(3rem,3.85vw,3.5rem)] items-center rounded-card bg-brand-surface pl-5 pr-[clamp(3.25rem,4vw,3.75rem)] has-[input:focus-visible]:outline-2 has-[input:focus-visible]:outline-offset-2 has-[input:focus-visible]:outline-brand-sky">
+      <div className="relative flex h-14 items-center rounded-pill bg-brand-surface pl-5 pr-16 has-[input:focus-visible]:outline-2 has-[input:focus-visible]:outline-offset-2 has-[input:focus-visible]:outline-brand-sky">
         <label htmlFor={fieldId} className="sr-only">
           Email address
         </label>
@@ -52,9 +51,16 @@ export const SubscribeForm: React.FC<SubscribeFormProps> = ({
         <button
           type="submit"
           aria-label="Subscribe"
-          className="absolute top-1/2 right-1 flex size-[clamp(2.5rem,2.9vw,2.75rem)] -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-cta-gradient text-brand-on-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-sky"
+          className="absolute top-1/2 right-1.5 size-11 -translate-y-1/2 cursor-pointer rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-sky"
         >
-          <ArrowUpRightIcon className="size-[1.15em]" />
+          <img
+            src="/images/footer/send.svg"
+            alt=""
+            width={44}
+            height={44}
+            className="size-11"
+            aria-hidden="true"
+          />
         </button>
       </div>
 
@@ -65,7 +71,7 @@ export const SubscribeForm: React.FC<SubscribeFormProps> = ({
           required
           checked={consented}
           onChange={(event) => setConsented(event.target.checked)}
-          className="mt-0.5 size-4 shrink-0 cursor-pointer accent-brand-sky"
+          className="mt-0.5 size-[1.125rem] shrink-0 cursor-pointer rounded-[0.25rem] accent-brand-link"
         />
         <label htmlFor={consentId} className="text-eyebrow text-slate-muted">
           I agree to the{' '}

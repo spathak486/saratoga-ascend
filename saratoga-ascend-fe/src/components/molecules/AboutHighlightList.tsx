@@ -1,4 +1,5 @@
 import React from 'react';
+import { MediaFrame } from '../atoms/MediaFrame';
 
 export interface AboutHighlightListProps {
   items: readonly string[];
@@ -6,18 +7,28 @@ export interface AboutHighlightListProps {
 }
 
 /**
- * Red disc list from Figma node 1:611 — 22px Google Sans, prime-r markers.
+ * About Us checklist — 40px pale-red badge with a brand-red check
+ * (Figma node 13:360).
  */
 export const AboutHighlightList: React.FC<AboutHighlightListProps> = ({
   items,
   className = '',
 }) => (
-  <ul
-    className={`list-disc space-y-[1.375em] pl-[1.5em] text-body text-brand-red marker:text-brand-red ${className}`.trim()}
-  >
+  <ul className={`flex flex-col gap-6 ${className}`.trim()}>
     {items.map((item) => (
-      <li key={item} className="pl-1">
-        {item}
+      <li key={item} className="flex items-center gap-4">
+        <span className="relative size-10 shrink-0" aria-hidden="true">
+          <MediaFrame
+            src="/images/about/check-badge.svg"
+            alt=""
+            pendingLabel="check"
+            unoptimized
+            sizes="40px"
+            imageClassName="object-contain!"
+            className="size-full border-0 bg-transparent"
+          />
+        </span>
+        <span className="text-body-lg font-medium text-ink">{item}</span>
       </li>
     ))}
   </ul>

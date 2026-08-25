@@ -11,6 +11,10 @@ const FEATURE_COPY = {
     'Connecting cleared, credentialed healthcare professionals with government, military, and local facilities nationwide.',
 } as const;
 
+const INSET = 'clamp(1.25rem, 3.125vw, 3.75rem)';
+const PILL =
+  'inline-flex h-cta w-[11.25rem] min-w-[11.25rem] items-center justify-center gap-3 rounded-pill px-6 text-button font-medium text-brand-on-dark shadow-button';
+
 export interface HealthcareFeatureCardProps {
   personSrc?: string;
   location?: string;
@@ -19,8 +23,9 @@ export interface HealthcareFeatureCardProps {
 }
 
 /**
- * Navy healthcare feature band — copy left, scaled portrait right, fully
- * contained inside the card (no bleed into the section below).
+ * Navy healthcare feature band (Figma node 13:224). Chicago and Explore Jobs
+ * share the 60px inset and 180×60 pill size; the portrait is clipped to the
+ * 700px stage rather than scaled to fit.
  */
 export const HealthcareFeatureCard: React.FC<HealthcareFeatureCardProps> = ({
   personSrc = '/images/phase5/phase5-nurse.png',
@@ -28,80 +33,101 @@ export const HealthcareFeatureCard: React.FC<HealthcareFeatureCardProps> = ({
   onPrev,
   onNext,
 }) => (
-  <article className="relative overflow-hidden rounded-card bg-brand-navy-band text-brand-on-dark">
-    {/* Watermark */}
+  <article className="relative overflow-hidden rounded-card bg-brand-navy-band text-brand-on-dark xl:aspect-[1680/700]">
     <p
-      className="pointer-events-none absolute top-[-1.625rem] left-[clamp(1rem,3.125vw,3.75rem)] font-serif text-[clamp(4rem,11.17vw,13.4rem)] leading-[1.15] text-[#fffefe] opacity-10 select-none whitespace-nowrap xl:left-1/2 xl:-translate-x-[12rem]"
+      className="pointer-events-none absolute top-[-1.625rem] left-1/2 hidden -translate-x-[12rem] font-serif text-[13.4rem] leading-[1.15] text-[#fffefe] opacity-10 select-none whitespace-nowrap xl:block"
       aria-hidden="true"
     >
       {FEATURE_COPY.category}
     </p>
 
-    <div className="relative z-[1] grid min-h-[clamp(28rem,36.46vw,43.75rem)] grid-cols-1 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">
-      {/* Copy column */}
-      <div className="relative z-[2] flex flex-col p-[clamp(1.25rem,3.125vw,3.75rem)]">
-        <button
-          type="button"
-          className="inline-flex h-[clamp(2.75rem,3.125vw,3.75rem)] w-fit min-w-[clamp(9rem,9.375vw,11.25rem)] items-center justify-center gap-3 rounded-pill border border-brand-on-dark px-6 text-button font-medium text-brand-on-dark shadow-button"
-          aria-haspopup="listbox"
-          aria-label={`Location: ${location}`}
-        >
-          {location}
-          <Image
-            src="/images/phase5/phase5-chevron-white.svg"
-            alt=""
-            width={16}
-            height={16}
-            aria-hidden
-            className="size-4 shrink-0"
-          />
-        </button>
-
-        <Heading
-          level={2}
-          tone="onDark"
-          font="serif"
-          className="mt-[clamp(2rem,5vw,5.5rem)] text-[clamp(2.25rem,4.69vw,5.625rem)] leading-[1.15] text-[#fffefe]"
-        >
-          {FEATURE_COPY.category}
-        </Heading>
-
-        <p className="mt-[clamp(0.75rem,1.5vw,1.25rem)] text-[clamp(1.125rem,1.46vw,1.75rem)] font-bold leading-[1.2] text-brand-blue-soft">
-          {FEATURE_COPY.role}
-        </p>
-
-        <Text size="body" tone="onDark" className="mt-[clamp(0.75rem,1.25vw,1rem)] max-w-[36ch]">
-          {FEATURE_COPY.blurb}
-        </Text>
-
-        <GeneralLink
-          href="/careers"
-          variant="button"
-          buttonVariant="solidNavy"
-          size="ctaPill"
-          className="mt-[clamp(1.5rem,2.5vw,2.5rem)] w-fit min-w-[clamp(9rem,9.375vw,11.25rem)] justify-center border-0 bg-brand-cta-to hover:opacity-90 lg:mt-auto"
-        >
-          Explore Jobs
-        </GeneralLink>
-      </div>
-
-      {/* Portrait — scaled to fit inside the card, feet aligned to bottom */}
-      <div className="flex justify-center px-[clamp(1.25rem,3.125vw,3.75rem)] pb-[clamp(1.25rem,3.125vw,3.75rem)] lg:justify-end lg:px-[clamp(1rem,3.125vw,3.75rem)] lg:pb-0">
-        <div className="relative h-[clamp(13rem,28vw,32rem)] w-[clamp(9rem,18vw,22rem)] shrink-0">
-          <MediaFrame
-            src={personSrc}
-            alt=""
-            pendingLabel="healthcare-portrait.png"
-            tone="navyCard"
-            sizes="(max-width: 1024px) 40vw, 22rem"
-            imageClassName="object-contain! object-bottom!"
-            className="size-full border-0 bg-transparent"
-          />
-        </div>
-      </div>
+    {/* Portrait — 700×1068, clipped by the 700px stage */}
+    <div
+      className="relative mx-auto mt-6 h-[min(22rem,70vw)] w-[min(16rem,55vw)] xl:absolute xl:top-[-10px] xl:right-[9.52%] xl:mx-0 xl:mt-0 xl:h-[152.57%] xl:w-[41.67%]"
+    >
+      <MediaFrame
+        src={personSrc}
+        alt=""
+        pendingLabel="healthcare-portrait.png"
+        tone="navyCard"
+        sizes="(max-width: 1280px) 55vw, 700px"
+        imageClassName="object-contain! object-bottom!"
+        className="size-full border-0 bg-transparent"
+      />
     </div>
 
-    {/* Carousel arrows — xl+ only */}
+    <button
+      type="button"
+      className={`${PILL} absolute z-[2] hidden border border-brand-on-dark bg-transparent xl:inline-flex`}
+      style={{ top: INSET, left: INSET }}
+      aria-haspopup="listbox"
+      aria-label={`Location: ${location}`}
+    >
+      {location}
+      <Image
+        src="/images/phase5/phase5-chevron-white.svg"
+        alt=""
+        width={16}
+        height={16}
+        aria-hidden
+        className="size-4 shrink-0"
+      />
+    </button>
+
+    <div className="relative z-[2] flex flex-col px-[clamp(1.25rem,3.125vw,3.75rem)] pt-6 pb-8 xl:absolute xl:top-1/2 xl:left-[clamp(1.25rem,3.125vw,3.75rem)] xl:w-[min(36%,32rem)] xl:-translate-y-1/2 xl:p-0">
+      <button
+        type="button"
+        className={`${PILL} mb-8 border border-brand-on-dark bg-transparent xl:hidden`}
+        aria-haspopup="listbox"
+        aria-label={`Location: ${location}`}
+      >
+        {location}
+        <Image
+          src="/images/phase5/phase5-chevron-white.svg"
+          alt=""
+          width={16}
+          height={16}
+          aria-hidden
+          className="size-4 shrink-0"
+        />
+      </button>
+
+      <Heading
+        level={2}
+        size="hero"
+        tone="onDark"
+        font="serif"
+        className="text-[#fffefe]"
+      >
+        {FEATURE_COPY.category}
+      </Heading>
+
+      <p className="mt-[clamp(0.75rem,1.5vw,1.25rem)] text-[clamp(1.125rem,1.46vw,1.75rem)] font-bold leading-[1.2] text-brand-blue-soft">
+        {FEATURE_COPY.role}
+      </p>
+
+      <Text size="body" tone="onDark" className="mt-[clamp(0.75rem,1.25vw,1rem)] max-w-[36ch]">
+        {FEATURE_COPY.blurb}
+      </Text>
+
+      <GeneralLink
+        href="/careers"
+        variant="unstyled"
+        className={`${PILL} mt-8 bg-brand-cta-to hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-on-dark xl:hidden`}
+      >
+        Explore Jobs
+      </GeneralLink>
+    </div>
+
+    <GeneralLink
+      href="/careers"
+      variant="unstyled"
+      className={`${PILL} absolute z-[2] hidden bg-brand-cta-to hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-on-dark xl:inline-flex`}
+      style={{ bottom: INSET, left: INSET }}
+    >
+      Explore Jobs
+    </GeneralLink>
+
     <button
       type="button"
       onClick={onPrev}
