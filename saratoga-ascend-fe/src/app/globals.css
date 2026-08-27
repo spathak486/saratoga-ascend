@@ -177,6 +177,10 @@
      fluid: the column widths are derived from it, so it has to stay exact. */
   --spacing-grid: 1.5rem;
 
+  /* 12 -> 20 — lead-in offset inside a What We Do card: card top to its
+     heading, and heading to its blurb. */
+  --spacing-card-lead: clamp(0.75rem, 0.6286rem + 0.5178vw, 1.25rem);
+
   /* Header bands — literal Figma heights at 1920. */
   --spacing-utility-h: 3.75rem; /* 60px */
   --spacing-nav-h: clamp(4.5rem, 6.25vw, 7.5rem); /* 72 -> 120px */
@@ -228,7 +232,7 @@
   --radius-tile: 1.5625rem;
   --radius-award: clamp(1.25rem, 1.0073rem + 1.0356vw, 2.25rem);
   --radius-tile-lg: clamp(1.25rem, 0.8859rem + 1.5534vw, 2.75rem);
-  --radius-sweep: clamp(1.5rem, 1.0146rem + 2.0712vw, 3.5rem);
+  --radius-sweep: clamp(1.5rem, 1.0752rem + 1.8123vw, 3.25rem); /* 24 -> 52, Need Help card */
 }
 
 /* ---------------------------------------------------------------------------
@@ -286,6 +290,16 @@ body {
     91.647deg,
     var(--color-brand-cta-from) 0.475%,
     var(--color-brand-cta-to) 102.45%
+  );
+}
+
+/* Need Help card fill — a brighter, wider red-through-blue sweep than the
+   standard CTA gradient above (this band uses its own saturated stops). */
+.bg-need-help-gradient {
+  background-image: linear-gradient(
+    83.219deg,
+    rgb(255 0 19) 15.223%,
+    rgb(0 187 255) 104.41%
   );
 }
 
@@ -366,18 +380,14 @@ body {
 
 /* About Us band — white through the copy, faint prime-r/100 at the foot. */
 .bg-about-wash {
-  background-image: linear-gradient(
-    180deg,
-    var(--color-brand-surface) 39.398%,
-    var(--color-brand-red-wash) 139.4%
-  );
+  background: linear-gradient(180deg, #ffffff -39.4%, #ffccd1 139.4%);
 }
 
 /* White-to-pale-blue panel fill, used on the emblem card. */
 .bg-panel-tint {
   background-image: linear-gradient(
-    150deg,
-    var(--color-brand-surface) 18.804%,
+    154.69deg,
+    var(--color-brand-surface) 18.8%,
     var(--color-brand-blue-pale) 104.87%
   );
 }
@@ -398,6 +408,49 @@ body {
     rgb(0 40 69 / 0) 2.778%,
     var(--color-brand-navy-band) 91%
   );
+}
+
+/* Ambient glow arcs behind the Healthcare portrait — a slow, barely-there
+   drift so the band reads as premium rather than animated. The global
+   `prefers-reduced-motion` rule above already collapses these to a single
+   static frame. */
+@keyframes arc-drift {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 0.55;
+  }
+  50% {
+    transform: translateY(-3%) scale(1.05);
+    opacity: 0.8;
+  }
+}
+
+.animate-arc-drift {
+  animation: arc-drift 16s ease-in-out infinite;
+}
+
+.animate-arc-drift-slow {
+  animation: arc-drift 21s ease-in-out infinite;
+  animation-delay: 1.5s;
+}
+
+/* Full-card spiral-line background behind the Healthcare portrait — same
+   premium, barely-there drift as the arcs above, but without the opacity
+   pulse (this layer already reads faintly against the navy band, so
+   dimming it further would just look like flickering). */
+@keyframes bg-drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1.02);
+  }
+  50% {
+    transform: translate3d(0, -1.5%, 0) scale(1.06);
+  }
+}
+
+.animate-bg-drift {
+  animation: bg-drift 26s ease-in-out infinite;
 }
 
 /* Footer band — navy at the join with Latest news, abyss at the legal bar. */

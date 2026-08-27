@@ -28,7 +28,7 @@ export const StaffingSlideCard: React.FC<StaffingSlideCardProps> = ({
   body = DEFAULT_BODY,
   imageSrc = '/images/Rectangle%20113.png',
 }) => (
-  <article className="relative aspect-[402/450] w-full overflow-hidden rounded-panel border border-brand-line">
+  <article className="group relative aspect-[402/450] w-full overflow-hidden rounded-panel border border-brand-line">
     <MediaFrame
       src={imageSrc}
       alt=""
@@ -39,6 +39,9 @@ export const StaffingSlideCard: React.FC<StaffingSlideCardProps> = ({
       className="absolute inset-0 size-full border-0"
     />
     <div className="bg-staffing-scrim pointer-events-none absolute inset-0" />
+    {/* Hover wash — a touch of grey deepens the tile without ever lightening
+        the navy scrim behind the type, so contrast only ever improves. */}
+    <div className="pointer-events-none absolute inset-0 bg-slate-950/40 opacity-0 transition-opacity duration-300 ease-out group-hover:opacity-100 motion-reduce:transition-none" />
     <div className="absolute inset-x-[9.95%] top-[45.8%] bottom-[7.11%] flex flex-col">
       <Heading
         level={3}

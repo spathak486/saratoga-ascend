@@ -52,7 +52,7 @@ export interface WhatWeDoSectionProps {
 }
 
 export const WhatWeDoSection: React.FC<WhatWeDoSectionProps> = ({
-  photoSrc = '/images/healthcare-team.png',
+  photoSrc = '/images/future-doctor.png',
   emblemSrc,
 }) => (
   <Section
@@ -66,20 +66,22 @@ export const WhatWeDoSection: React.FC<WhatWeDoSectionProps> = ({
         title="What We Do"
         description={INTRO_COPY}
         action={{ href: '/about', label: 'About us' }}
+        align="center"
+        descriptionStyle={{ color: 'var(--color-ink)' }}
       />
 
       <div className="grid grid-cols-1 gap-grid xl:grid-cols-3">
-        {/* Left — medical photo bleeds wider than its column on desktop, same
-            as the masked doctor layer in the file. */}
+        {/* Left — medical photo fills its column edge-to-edge, matching the
+            Figma crop (no bleed past the grid track). */}
         <div className="relative aspect-[4/3] overflow-hidden rounded-card xl:aspect-auto xl:min-h-[clamp(28rem,34.58vw,41.5rem)]">
           <MediaFrame
             src={photoSrc}
             alt="Healthcare professionals at work"
-            pendingLabel="healthcare-team.png"
+            pendingLabel="future-doctor.png"
             tone="navy"
             sizes="(max-width: 1280px) 100vw, 34vw"
             imageClassName="object-cover!"
-            className="size-full border-0 xl:absolute xl:inset-y-0 xl:left-[-35%] xl:w-[170%] xl:max-w-none"
+            className="size-full border-0 xl:absolute xl:inset-0"
           />
         </div>
 

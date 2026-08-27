@@ -69,7 +69,7 @@ export const NeedHelpForm: React.FC<NeedHelpFormProps> = ({
 
       <button
         type="submit"
-        className="mt-[clamp(2rem,5.2vw,6.5rem)] inline-flex min-h-cta min-w-cta-wide cursor-pointer items-center justify-center rounded-pill bg-brand-surface px-cta-x py-cta-y text-button font-bold text-brand-sky shadow-button focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-on-dark"
+        className="mt-[clamp(2rem,0.4375rem+6.6667vw,8.4375rem)] inline-flex h-cta min-w-cta-wide shrink-0 cursor-pointer items-center justify-center self-start rounded-pill bg-brand-surface px-cta-x text-button font-bold text-brand-sky shadow-button focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-on-dark"
       >
         Know More
       </button>

@@ -7,14 +7,15 @@ export interface AboutHighlightListProps {
 }
 
 /**
- * About Us checklist — 40px pale-red badge with a brand-red check
- * (Figma node 13:360).
+ * About Us checklist — 40px pale-red badge; 24px row gap at 1920, fluid below.
  */
 export const AboutHighlightList: React.FC<AboutHighlightListProps> = ({
   items,
   className = '',
 }) => (
-  <ul className={`flex flex-col gap-6 ${className}`.trim()}>
+  <ul
+    className={`flex flex-col gap-[clamp(1rem,0.909rem+0.3883vw,1.5rem)] ${className}`.trim()}
+  >
     {items.map((item) => (
       <li key={item} className="flex items-center gap-4">
         <span className="relative size-10 shrink-0" aria-hidden="true">
@@ -28,7 +29,7 @@ export const AboutHighlightList: React.FC<AboutHighlightListProps> = ({
             className="size-full border-0 bg-transparent"
           />
         </span>
-        <span className="text-body-lg font-medium text-ink">{item}</span>
+        <span className="text-body-lg font-medium leading-[1.6] text-ink">{item}</span>
       </li>
     ))}
   </ul>

@@ -18,7 +18,7 @@ function GlassIconTile({
 }) {
   return (
     <div
-      className={`absolute aspect-square w-[28.15%] overflow-hidden rounded-media border border-brand-surface bg-brand-surface/80 backdrop-blur-[17px] ${className}`.trim()}
+      className={`absolute aspect-square w-[28.148%] overflow-hidden rounded-media border border-brand-surface bg-[rgb(255_255_255/0.8)] backdrop-blur-[17px] ${className}`.trim()}
     >
       <span className="absolute inset-[18.42%]">
         <MediaFrame
@@ -36,8 +36,8 @@ function GlassIconTile({
 }
 
 /**
- * 675×981 heart plate from Figma node 13:381 — anatomical heart, pedestal,
- * and two 190×190 glass tiles.
+ * 675×981 heart plate (Figma node 13:381) — anatomical heart, pedestal,
+ * and two 190×190 glass icon tiles.
  */
 export const AboutHeartStage: React.FC<AboutHeartStageProps> = ({
   heartSrc = '/images/about/heart.png',
@@ -46,7 +46,7 @@ export const AboutHeartStage: React.FC<AboutHeartStageProps> = ({
   className = '',
 }) => (
   <div
-    className={`relative aspect-[675/981] w-full max-w-[42.1875rem] ${className}`.trim()}
+    className={`relative aspect-[675/981] w-full ${className}`.trim()}
   >
     <div
       className="absolute top-[85.93%] left-[18.07%] h-[18.55%] w-[74.07%]"
@@ -69,8 +69,9 @@ export const AboutHeartStage: React.FC<AboutHeartStageProps> = ({
           src={heartSrc}
           alt="Anatomical heart illustration"
           fill
-          sizes="(max-width: 1280px) 90vw, 675px"
+          sizes="(max-width: 768px) 90vw, (max-width: 1280px) 50vw, 675px"
           className="object-cover"
+          priority={false}
         />
       </div>
     </div>

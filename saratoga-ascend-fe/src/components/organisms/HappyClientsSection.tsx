@@ -7,6 +7,7 @@ import {
 
 const REVIEWS: readonly ClientReview[] = [
   {
+    role: 'Certified Nursing Assistant',
     name: 'Izabella-Naval Hospital,',
     place: 'Lejeune- Family Medicine',
     quote:
