@@ -27,7 +27,9 @@ export const PastPerformanceCard: React.FC<PastPerformanceCardProps> = ({
       className="absolute inset-0 size-full border-0"
     />
     <div className="bg-performance-scrim pointer-events-none absolute inset-0" />
-    <div className="absolute inset-x-[6%] bottom-[6.9%] flex flex-col gap-3">
+    {/* Figma: 24px side inset (5.97% of 402), 68px below the body copy
+        (11.72% of 580), 20px between title and body. */}
+    <div className="absolute inset-x-[6%] bottom-[11.72%] flex flex-col gap-5">
       <h3 className="font-serif text-card text-brand-on-dark">{title}</h3>
       <p className="text-nav text-brand-on-dark">{body}</p>
     </div>

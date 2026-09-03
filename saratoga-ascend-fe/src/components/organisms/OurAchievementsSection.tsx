@@ -1,11 +1,18 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
+import Image from 'next/image';
 import { Container, MediaFrame } from '../atoms';
 import {
   AchievementGlassCard,
   type AchievementGlassCardProps,
 } from '../molecules/AchievementGlassCard';
+import {
+  CAROUSEL_BLEED_CLASS,
+  CAROUSEL_SLIDE_CLASS,
+  CAROUSEL_VIEWPORT_CLASS,
+  useCardCarousel,
+} from '../molecules/CardCarousel';
 
 const CARD_BODY =
   'Lorem ipsum is the standard placeholder text used in graphic design, publishing, and web';
@@ -41,6 +48,15 @@ const AWARDS: readonly AchievementGlassCardProps[] = [
   },
 ];
 
+/** Repeat the pair so the track can travel past the fold, same pattern as
+ *  Past Performance. */
+const SLIDES = [
+  { ...AWARDS[0], key: 'joint-1' },
+  { ...AWARDS[1], key: 'wosb-1' },
+  { ...AWARDS[0], key: 'joint-2' },
+  { ...AWARDS[1], key: 'wosb-2' },
+] as const;
+
 const STATS = [
   { value: '50+', label: 'Specialists', left: 'left-[16.72%]' },
   { value: '1500', label: 'Placements', left: 'left-[38.98%]' },
@@ -48,6 +64,13 @@ const STATS = [
   { value: '256', label: 'Services', left: 'left-[83.28%]' },
 ] as const;
 
+/** Two 828px plates plus the 24px grid gutter, as a fraction of the track. */
+const TWO_UP_SLIDE_CLASS = `${CAROUSEL_SLIDE_CLASS} shrink-0 basis-[calc((100%+1.5rem)/2)] pl-grid`;
+const ONE_UP_SLIDE_CLASS = `${CAROUSEL_SLIDE_CLASS} shrink-0 basis-full pl-grid md:basis-[calc((100%+1.5rem)/2)]`;
+
+/** Same white 60×60 circular control as the Healthcare feature carousel
+ *  (`phase5-feature-prev.svg`) — both directions load the one asset, and
+ *  "next" is mirrored in CSS since the source file only points one way. */
 function BandArrow({
   direction,
   onClick,
@@ -57,21 +80,29 @@ function BandArrow({
   onClick: () => void;
   className?: string;
 }) {
+  const icon = (
+    <Image
+      src="/images/phase5/phase5-feature-prev.svg"
+      alt=""
+      fill
+      sizes="60px"
+      aria-hidden
+      className="size-full"
+    />
+  );
+
   return (
     <button
       type="button"
-      aria-label={direction === 'prev' ? 'Previous awards' : 'Next awards'}
+      aria-label={direction === 'prev' ? 'Previous achievement' : 'Next achievement'}
       onClick={onClick}
-      className={`flex cursor-pointer items-center justify-center rounded-full border border-brand-line bg-[rgb(240_20_36/0.02)] text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white ${className}`.trim()}
+      className={`flex cursor-pointer items-center justify-center rounded-full transition-transform duration-150 ease-out hover:scale-105 active:scale-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white motion-reduce:transition-none motion-reduce:hover:scale-100 ${className}`.trim()}
     >
-      <svg
-        viewBox="0 0 24 24"
-        className={`size-[42%] ${direction === 'next' ? 'rotate-180' : ''}`}
-        fill="currentColor"
-        aria-hidden="true"
-      >
-        <path d="M15.5 4.2 6.8 12l8.7 7.8V4.2Z" />
-      </svg>
+      {direction === 'next' ? (
+        <span className="relative flex size-full -scale-y-100 rotate-180">{icon}</span>
+      ) : (
+        icon
+      )}
     </button>
   );
 }
@@ -82,12 +113,12 @@ function Backdrop() {
       <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
         <div className="absolute top-[-13.58%] left-[-3.88%] h-[121.4%] w-[108.73%]">
           <MediaFrame
-            src="/images/rendering-anime-doctors-work%201.png"
+            src="/images/achievements-bg.jpg"
             alt=""
             pendingLabel="achievements-backdrop"
             tone="navy"
             sizes="100vw"
-            imageClassName="object-cover!"
+            imageClassName="animate-bg-drift object-cover! motion-reduce:animate-none"
             className="size-full border-0"
           />
         </div>
@@ -95,8 +126,8 @@ function Backdrop() {
       <div
         className="absolute inset-0"
         style={{
-          backgroundImage:
-            'linear-gradient(232.12deg, rgb(15 61 96 / 0.8) 29.327%, rgb(240 20 36 / 0.8) 100%)',
+          background:
+            'linear-gradient(246.37deg, rgba(15, 61, 96, 0.8) 29.33%, rgba(240, 20, 36, 0.8) 100%)',
         }}
         aria-hidden="true"
       />
@@ -104,19 +135,70 @@ function Backdrop() {
   );
 }
 
+function AwardsTrack({
+  viewportRef,
+  slideClassName,
+  onPrev,
+  onNext,
+}: {
+  viewportRef: React.RefObject<HTMLDivElement | null>;
+  slideClassName: string;
+  onPrev: () => void;
+  onNext: () => void;
+}) {
+  return (
+    <div className={CAROUSEL_BLEED_CLASS}>
+      <div
+        ref={viewportRef}
+        className={CAROUSEL_VIEWPORT_CLASS}
+        role="group"
+        aria-roledescription="carousel"
+        aria-label="Achievement awards"
+        tabIndex={0}
+        onKeyDown={(event) => {
+          if (event.key === 'ArrowLeft') {
+            event.preventDefault();
+            onPrev();
+          } else if (event.key === 'ArrowRight') {
+            event.preventDefault();
+            onNext();
+          }
+        }}
+      >
+        <div className="-ml-grid flex">
+          {SLIDES.map((slide) => (
+            <div
+              key={slide.key}
+              className={slideClassName}
+              role="group"
+              aria-roledescription="slide"
+              data-carousel-slide
+            >
+              <AchievementGlassCard
+                year={slide.year}
+                title={slide.title}
+                body={slide.body}
+                badgeSrc={slide.badgeSrc}
+                badgeAlt={slide.badgeAlt}
+                badgeShape={slide.badgeShape}
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 /**
  * Seventh-last homepage band (Figma node 1:394). Locked 1920×1080 stage:
  * clinical photo, 232° navy-to-red wash, two 828×538 glass plates, 120px
- * numerals, and 60px arrows in the page gutter.
+ * numerals, and 60px arrows in the page gutter. Cards slide on the same
+ * snap track as Past Performance — no fade.
  */
 export const OurAchievementsSection: React.FC = () => {
-  const [offset, setOffset] = useState(0);
-  const first = AWARDS[offset % AWARDS.length];
-  const second = AWARDS[(offset + 1) % AWARDS.length];
-  const goPrev = () => setOffset((n) => n + AWARDS.length - 1);
-  const goNext = () => setOffset((n) => n + 1);
-
-  if (!first || !second) return null;
+  const desktop = useCardCarousel({ loop: true });
+  const mobile = useCardCarousel({ loop: true });
 
   return (
     <section
@@ -137,11 +219,13 @@ export const OurAchievementsSection: React.FC = () => {
           Our Achievements
         </p>
 
-        <div className="absolute top-[20.93%] left-[6.41%] w-[43.125%]">
-          <AchievementGlassCard key={`${first.badgeAlt}-a-${offset}`} {...first} />
-        </div>
-        <div className="absolute top-[20.93%] left-[50.625%] w-[43.125%]">
-          <AchievementGlassCard key={`${second.badgeAlt}-b-${offset}`} {...second} />
+        <div className="absolute top-[20.93%] left-[6.41%] w-[87.34%]">
+          <AwardsTrack
+            viewportRef={desktop.viewportRef}
+            slideClassName={TWO_UP_SLIDE_CLASS}
+            onPrev={desktop.scrollPrev}
+            onNext={desktop.scrollNext}
+          />
         </div>
 
         <dl>
@@ -163,12 +247,12 @@ export const OurAchievementsSection: React.FC = () => {
 
         <BandArrow
           direction="prev"
-          onClick={goPrev}
+          onClick={desktop.scrollPrev}
           className="absolute inset-[43.06%_95.26%_51.39%_1.61%] z-10"
         />
         <BandArrow
           direction="next"
-          onClick={goNext}
+          onClick={desktop.scrollNext}
           className="absolute inset-[43.06%_1.46%_51.39%_95.42%] z-10"
         />
       </div>
@@ -185,24 +269,25 @@ export const OurAchievementsSection: React.FC = () => {
           </p>
 
           <div className="mt-block">
-            <div className="md:hidden">
-              <AchievementGlassCard key={`${first.badgeAlt}-m-${offset}`} {...first} />
-            </div>
-            <div className="hidden flex-col gap-grid md:flex">
-              <AchievementGlassCard
-                key={`${first.badgeAlt}-t-${offset}`}
-                {...first}
-              />
-              <AchievementGlassCard
-                key={`${second.badgeAlt}-t2-${offset}`}
-                {...second}
-              />
-            </div>
+            <AwardsTrack
+              viewportRef={mobile.viewportRef}
+              slideClassName={ONE_UP_SLIDE_CLASS}
+              onPrev={mobile.scrollPrev}
+              onNext={mobile.scrollNext}
+            />
           </div>
 
           <div className="mt-6 flex justify-center gap-4">
-            <BandArrow direction="prev" onClick={goPrev} className="size-12 sm:size-[3.75rem]" />
-            <BandArrow direction="next" onClick={goNext} className="size-12 sm:size-[3.75rem]" />
+            <BandArrow
+              direction="prev"
+              onClick={mobile.scrollPrev}
+              className="relative size-12 sm:size-[3.75rem]"
+            />
+            <BandArrow
+              direction="next"
+              onClick={mobile.scrollNext}
+              className="relative size-12 sm:size-[3.75rem]"
+            />
           </div>
 
           <dl className="mt-block grid grid-cols-2 gap-x-4 gap-y-8 text-center text-white">

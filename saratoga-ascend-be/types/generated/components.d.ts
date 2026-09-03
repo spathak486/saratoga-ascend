@@ -42,7 +42,7 @@ export interface CoreComponentPromo extends Struct.ComponentSchema {
 export interface MediaBanner extends Struct.ComponentSchema {
   collectionName: 'components_media_banners';
   info: {
-    displayName: 'Banner';
+    displayName: 'Banner Component';
     icon: 'book';
   };
   attributes: {
@@ -57,6 +57,46 @@ export interface MediaBanner extends Struct.ComponentSchema {
     bannerSubTitle: Schema.Attribute.Text;
     bannerTitle: Schema.Attribute.String & Schema.Attribute.Required;
     buttonCTA: Schema.Attribute.Component<'shared.general-link', false>;
+  };
+}
+
+export interface ReferencesBannerReference extends Struct.ComponentSchema {
+  collectionName: 'components_references_banner_references';
+  info: {
+    displayName: 'Banner';
+    icon: 'bulletList';
+  };
+  attributes: {
+    heroBanner: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::hero-banner.hero-banner'
+    >;
+  };
+}
+
+export interface ReferencesCta extends Struct.ComponentSchema {
+  collectionName: 'components_references_ctas';
+  info: {
+    displayName: 'CTA';
+    icon: 'crown';
+  };
+  attributes: {
+    cta: Schema.Attribute.Relation<'oneToOne', 'api::cta.cta'>;
+  };
+}
+
+export interface ReferencesFaQs extends Struct.ComponentSchema {
+  collectionName: 'components_references_fa_qs';
+  info: {
+    displayName: 'FAQs';
+    icon: 'layer';
+  };
+  attributes: {
+    content: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::content-block.content-block'
+    >;
+    faqs: Schema.Attribute.Relation<'oneToMany', 'api::faq.faq'>;
   };
 }
 
@@ -81,6 +121,19 @@ export interface SharedGeneralLink extends Struct.ComponentSchema {
     target: Schema.Attribute.Enumeration<['_self', '_blank']> &
       Schema.Attribute.Required &
       Schema.Attribute.DefaultTo<'_self'>;
+  };
+}
+
+export interface SharedLinkColumn extends Struct.ComponentSchema {
+  collectionName: 'components_shared_link_columns';
+  info: {
+    description: 'Navigation link column with a heading';
+    displayName: 'Link Column';
+    icon: 'list';
+  };
+  attributes: {
+    heading: Schema.Attribute.String & Schema.Attribute.Required;
+    links: Schema.Attribute.Component<'shared.general-link', true>;
   };
 }
 
@@ -111,7 +164,11 @@ declare module '@strapi/strapi' {
       'core-component.heading': CoreComponentHeading;
       'core-component.promo': CoreComponentPromo;
       'media.banner': MediaBanner;
+      'references.banner-reference': ReferencesBannerReference;
+      'references.cta': ReferencesCta;
+      'references.fa-qs': ReferencesFaQs;
       'shared.general-link': SharedGeneralLink;
+      'shared.link-column': SharedLinkColumn;
       'shared.seo': SharedSeo;
     }
   }

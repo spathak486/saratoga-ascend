@@ -9,9 +9,9 @@ import {
   useCardCarousel,
 } from '../molecules/CardCarousel';
 import { CarouselProgressBar } from '../molecules/CarouselProgressBar';
+import { CircleControl } from '../molecules/CircleControl';
 import { PastPerformanceCard } from '../molecules/PastPerformanceCard';
 import { useCarouselProgress } from '../molecules/useCarouselProgress';
-import { MediaFrame } from '../atoms/MediaFrame';
 
 const INTRO_COPY =
   'Real-world impact. Discover how we deliver rapid, compliant, and critical staffing solutions across the nation.';
@@ -47,44 +47,12 @@ const SLIDES = [
   { ...PROJECTS[2], key: 'walter-2' },
 ] as const;
 
-function ArrowButton({
-  direction,
-  onClick,
-}: {
-  direction: 'prev' | 'next';
-  onClick: () => void;
-}) {
-  const isNext = direction === 'next';
-
-  return (
-    <button
-      type="button"
-      aria-label={isNext ? 'Next project' : 'Previous project'}
-      className="relative size-[3.75rem] shrink-0 rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-navy"
-      onClick={onClick}
-    >
-      <span className={`absolute inset-0 ${isNext ? 'rotate-180' : ''}`}>
-        <MediaFrame
-          src={
-            isNext
-              ? '/images/performance/arrow-next.svg'
-              : '/images/performance/arrow-prev.svg'
-          }
-          alt=""
-          pendingLabel={direction}
-          unoptimized
-          sizes="60px"
-          imageClassName="object-contain!"
-          className="size-full border-0 bg-transparent"
-        />
-      </span>
-    </button>
-  );
-}
-
 /**
- * Past Performance band (Figma node 13:427). Intro and 60px arrows on the
- * left; 402×580 photo cards scroll on the right with a gradient progress bar.
+ * Past Performance band (Figma node 23:411). Intro and arrows on the left;
+ * 402×580 photo cards scroll on the right with a gradient progress bar
+ * anchored under the card track. The arrows reuse `CircleControl`'s
+ * `iconPlay` tone — the same 60px ring + Polygon 2 play blobs as the
+ * What We Do service-line controls (`Previous service line`).
  */
 export const PastPerformanceSection: React.FC = () => {
   const { viewportRef, scrollPrev, scrollNext } = useCardCarousel({
@@ -99,27 +67,43 @@ export const PastPerformanceSection: React.FC = () => {
       spacing="lg"
       className="bg-past-wash overflow-hidden"
     >
-      <div className="flex flex-col gap-10">
-        <div className="grid grid-cols-1 items-start gap-block xl:grid-cols-[minmax(16rem,37rem)_minmax(0,1fr)]">
-          <div className="flex flex-col">
-            <Heading
-              id="past-performance-heading"
-              level={2}
-              size="section"
-              tone="ink"
-            >
-              Past Performance
-            </Heading>
-            <Text size="body" tone="ink" className="mt-2.5 max-w-[29.3rem]">
-              {INTRO_COPY}
-            </Text>
-            <div className="mt-[clamp(2rem,4vw,5rem)] flex gap-6">
-              <ArrowButton direction="prev" onClick={scrollPrev} />
-              <ArrowButton direction="next" onClick={scrollNext} />
-            </div>
+      <div className="grid grid-cols-1 items-start gap-block xl:grid-cols-[minmax(16rem,37rem)_minmax(0,1fr)]">
+        <div className="flex flex-col">
+          <Heading
+            id="past-performance-heading"
+            level={2}
+            size="section"
+            tone="ink"
+          >
+            Past Performance
+          </Heading>
+          <Text size="body" tone="ink" className="mt-2.5 max-w-[29.3rem]">
+            {INTRO_COPY}
+          </Text>
+          <div className="mt-[clamp(2rem,4vw,5rem)] flex gap-6">
+            <CircleControl
+              label="Previous project"
+              direction="prev"
+              tone="iconPlay"
+              onClick={scrollPrev}
+              className="size-12 shrink-0 transition-transform duration-150 hover:scale-105 active:scale-95 motion-reduce:transition-none motion-reduce:hover:scale-100 sm:size-[3.75rem]"
+            />
+            <CircleControl
+              label="Next project"
+              direction="next"
+              tone="iconPlay"
+              onClick={scrollNext}
+              className="size-12 shrink-0 transition-transform duration-150 hover:scale-105 active:scale-95 motion-reduce:transition-none motion-reduce:hover:scale-100 sm:size-[3.75rem]"
+            />
           </div>
+        </div>
 
-          <div className="relative min-w-0 xl:-mr-[var(--spacing-gutter)]">
+        {/* The progress bar is scoped to the carousel column (not the whole
+            section), so it tracks the card viewport's own width — including
+            its right-edge bleed — instead of stretching under the text
+            column too. */}
+        <div className="flex min-w-0 flex-col gap-6 xl:-mr-[var(--spacing-gutter)]">
+          <div className="relative min-w-0">
             <div className={CAROUSEL_BLEED_CLASS}>
               <div
                 ref={viewportRef}
@@ -133,7 +117,10 @@ export const PastPerformanceSection: React.FC = () => {
                   {SLIDES.map((slide) => (
                     <div
                       key={slide.key}
-                      className={`${CAROUSEL_SLIDE_CLASS} w-[min(100%,25.125rem)] shrink-0 basis-[min(100%,25.125rem)] pl-grid`}
+                      // 426px basis = the 402px card plus the 24px `pl-grid`
+                      // gap living inside this box (border-box) — the card
+                      // itself still renders at the true 402px Figma width.
+                      className={`${CAROUSEL_SLIDE_CLASS} shrink-0 basis-[min(100%,26.625rem)] pl-grid`}
                       role="group"
                       aria-roledescription="slide"
                       data-carousel-slide
@@ -153,9 +140,9 @@ export const PastPerformanceSection: React.FC = () => {
               aria-hidden="true"
             />
           </div>
-        </div>
 
-        <CarouselProgressBar progress={progress} />
+          <CarouselProgressBar progress={progress} />
+        </div>
       </div>
     </Section>
   );

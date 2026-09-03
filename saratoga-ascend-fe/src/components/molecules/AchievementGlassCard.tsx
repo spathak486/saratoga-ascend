@@ -97,7 +97,7 @@ export const AchievementGlassCard: React.FC<AchievementGlassCardProps> = ({
       {title}
     </Heading>
 
-    <p className="absolute top-[67.66%] left-[7.25%] hidden w-[53.5%] text-body-lg font-medium text-white xl:block">
+    <p className="absolute top-[67.66%] left-[7.25%] hidden w-[54%] text-body-lg font-medium text-white xl:block">
       {body}
     </p>
   </article>
