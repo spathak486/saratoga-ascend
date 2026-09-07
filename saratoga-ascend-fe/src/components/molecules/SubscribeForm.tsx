@@ -2,6 +2,7 @@
 
 import React, { useId, useState } from 'react';
 import { GeneralLink } from '../atoms/GeneralLink';
+import type { GeneralLink as GeneralLinkType } from '@/lib/schemas';
 
 export interface SubscribeFormProps {
   /**
@@ -10,6 +11,8 @@ export interface SubscribeFormProps {
    */
   onSubmit?: (email: string) => void;
   className?: string;
+  privacyConsentText?: string | null;
+  privacyConsentLink?: GeneralLinkType | null;
 }
 
 /**
@@ -19,6 +22,8 @@ export interface SubscribeFormProps {
 export const SubscribeForm: React.FC<SubscribeFormProps> = ({
   onSubmit,
   className = '',
+  privacyConsentText,
+  privacyConsentLink,
 }) => {
   const fieldId = useId();
   const consentId = useId();
@@ -74,13 +79,14 @@ export const SubscribeForm: React.FC<SubscribeFormProps> = ({
           className="mt-0.5 size-[1.125rem] shrink-0 cursor-pointer rounded-[0.25rem] accent-brand-link"
         />
         <label htmlFor={consentId} className="text-eyebrow text-slate-muted">
-          I agree to the{' '}
+          {privacyConsentText || 'I agree to the'}{' '}
           <GeneralLink
-            href="/privacy"
+            href={privacyConsentLink?.href || '/privacy'}
             variant="unstyled"
+            target={(privacyConsentLink?.target as '_self' | '_blank') || '_self'}
             className="font-bold text-brand-on-dark underline underline-offset-2 hover:text-brand-on-dark"
           >
-            Privacy Policy
+            {privacyConsentLink?.label || 'Privacy Policy'}
           </GeneralLink>
         </label>
       </div>

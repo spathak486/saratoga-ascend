@@ -15,6 +15,12 @@ const FAQ_ITEMS: readonly FaqItem[] = [
 
 export interface FaqSectionProps {
   backdropSrc?: string;
+  title?: string;
+  subTitle?: string;
+  description?: string;
+  items?: readonly FaqItem[];
+  ctaLabel?: string;
+  ctaHref?: string;
 }
 
 /**
@@ -23,6 +29,12 @@ export interface FaqSectionProps {
  */
 export const FaqSection: React.FC<FaqSectionProps> = ({
   backdropSrc = '/images/rodrigo-porto-vfy71fExF7g-unsplash%201.png',
+  title,
+  subTitle,
+  description,
+  items,
+  ctaLabel,
+  ctaHref,
 }) => (
   <section
     aria-labelledby="faq-heading"
@@ -45,20 +57,23 @@ export const FaqSection: React.FC<FaqSectionProps> = ({
     <Container className="relative py-section">
       <div className="mx-auto w-full max-w-[69.5rem] rounded-media border border-brand-line bg-brand-surface-muted px-[clamp(1.5rem,5.73vw,6.94rem)] py-[clamp(2rem,4.17vw,5rem)]">
         <Heading id="faq-heading" level={2} size="section" tone="red">
-          Any Questions?
+          {title || 'Any Questions?'}
         </Heading>
         <p className="mt-6 max-w-[36ch] text-body-lg font-medium text-ink">
-          Proudly Serving Federal, State and Local clients
+          {subTitle ||
+            (description
+              ? description.replace(/<[^>]*>?/gm, '').trim()
+              : 'Proudly Serving Federal, State and Local clients')}
         </p>
 
-        <FaqAccordion items={FAQ_ITEMS} className="mt-block" />
+        <FaqAccordion items={items && items.length > 0 ? items : FAQ_ITEMS} className="mt-block" />
 
         <GeneralLink
-          href="/about"
+          href={ctaHref || '/about'}
           variant="unstyled"
           className="mt-block inline-flex min-h-cta min-w-cta-wide items-center justify-center rounded-pill bg-brand-sky px-cta-x py-cta-y text-button font-bold text-brand-surface-muted shadow-button focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-navy"
         >
-          Know More
+          {ctaLabel || 'Know More'}
         </GeneralLink>
       </div>
     </Container>

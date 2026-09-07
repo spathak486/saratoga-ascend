@@ -4,6 +4,8 @@ import React, { useId, useState } from 'react';
 
 export interface NeedHelpFormProps {
   onSubmit?: (values: { name: string; email: string }) => void;
+  buttonLabel?: string;
+  buttonHref?: string;
   className?: string;
 }
 
@@ -16,6 +18,8 @@ const fieldClass =
  */
 export const NeedHelpForm: React.FC<NeedHelpFormProps> = ({
   onSubmit,
+  buttonLabel,
+  buttonHref,
   className = '',
 }) => {
   const nameId = useId();
@@ -29,6 +33,9 @@ export const NeedHelpForm: React.FC<NeedHelpFormProps> = ({
       onSubmit={(event) => {
         event.preventDefault();
         onSubmit?.({ name, email });
+        if (buttonHref) {
+          window.location.href = buttonHref;
+        }
       }}
     >
       <div className="flex max-w-[33.75rem] flex-col gap-[clamp(1.75rem,3.65vw,4.375rem)]">
@@ -71,7 +78,7 @@ export const NeedHelpForm: React.FC<NeedHelpFormProps> = ({
         type="submit"
         className="mt-[clamp(2rem,0.4375rem+6.6667vw,8.4375rem)] inline-flex h-cta min-w-cta-wide shrink-0 cursor-pointer items-center justify-center self-start rounded-pill bg-brand-surface px-cta-x text-button font-bold text-brand-sky shadow-button focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-on-dark"
       >
-        Know More
+        {buttonLabel || 'Know More'}
       </button>
     </form>
   );

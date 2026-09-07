@@ -4,6 +4,12 @@ import { NeedHelpForm } from '../molecules/NeedHelpForm';
 
 export interface NeedHelpSectionProps {
   personSrc?: string;
+  title?: string;
+  subTitle?: string;
+  description?: string;
+  mediaAlt?: string;
+  ctaLabel?: string;
+  ctaHref?: string;
 }
 
 /**
@@ -12,6 +18,12 @@ export interface NeedHelpSectionProps {
  */
 export const NeedHelpSection: React.FC<NeedHelpSectionProps> = ({
   personSrc = '/images/medical-workers-healthcare-covid-vaccination-concept-friendly-upbeat-female-nurse-doctor-b%201.png',
+  title,
+  subTitle,
+  description,
+  mediaAlt,
+  ctaLabel,
+  ctaHref,
 }) => (
   <Section aria-labelledby="need-help-heading" tone="surface" spacing="lg">
     <div className="relative isolate overflow-hidden rounded-sweep bg-need-help-gradient">
@@ -26,21 +38,24 @@ export const NeedHelpSection: React.FC<NeedHelpSectionProps> = ({
               size="section"
               tone="onDark"
             >
-              Need Help?
+              {title || 'Need Help?'}
             </Heading>
             <p className="mt-[clamp(1rem,0.8788rem+0.5178vw,1.5rem)] max-w-[28ch] text-body-lg font-medium text-brand-on-dark">
-              Sign up now and get hired easily
+              {subTitle ||
+                (description
+                  ? description.replace(/<[^>]*>?/gm, '').trim()
+                  : 'Sign up now and get hired easily')}
             </p>
           </div>
 
-          <NeedHelpForm />
+          <NeedHelpForm buttonLabel={ctaLabel} buttonHref={ctaHref} />
         </div>
 
         <div className="relative min-h-[clamp(16rem,28vw,45.8125rem)] lg:min-h-0">
           <div className="absolute inset-y-0 left-0 w-full lg:w-[89.08%]">
             <MediaFrame
               src={personSrc}
-              alt="Healthcare worker offering help"
+              alt={mediaAlt || 'Healthcare worker offering help'}
               pendingLabel="need-help-nurse"
               tone="navyCard"
               sizes="(max-width: 1024px) 100vw, 44vw"

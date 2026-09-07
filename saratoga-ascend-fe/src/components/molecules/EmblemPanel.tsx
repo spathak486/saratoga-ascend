@@ -20,7 +20,7 @@ export const EmblemPanel: React.FC<EmblemPanelProps> = ({
   paragraphs = [...DEFAULT_COPY],
 }) => (
   <aside className="flex min-h-0 flex-col rounded-card border border-brand-line bg-panel-tint px-[clamp(1.25rem,2.08vw,2.5rem)] pt-[var(--spacing-card-lead)] pb-[clamp(1.25rem,2.08vw,2.5rem)] xl:min-h-[clamp(28rem,34.58vw,41.5rem)]">
-    <div className="mx-auto w-full max-w-[16rem] sm:max-w-[22.4375rem]">
+    <div className="relative mx-auto w-full max-w-[16rem] sm:max-w-[22.4375rem]">
       <MediaFrame
         src={emblemSrc}
         alt="Saratoga emblem"
@@ -29,6 +29,11 @@ export const EmblemPanel: React.FC<EmblemPanelProps> = ({
         sizes="(max-width: 1280px) 60vw, 359px"
         imageClassName="object-contain!"
         className="aspect-square w-full border-0 bg-transparent"
+      />
+      <span
+        className="pointer-events-none absolute left-1/2 h-[7px] w-[67.13%] -translate-x-1/2 rounded-full bg-black/25 blur-[2px]"
+        style={{ top: '88.6%' }}
+        aria-hidden="true"
       />
     </div>
 

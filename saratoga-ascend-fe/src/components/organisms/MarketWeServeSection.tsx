@@ -10,6 +10,8 @@ const MARKETS = [
   {
     id: 'federal-military',
     label: 'Federal & Military',
+    description:
+      'Supplying cleared, credentialed healthcare professionals to DoD, VA, and military treatment facilities worldwide.',
     imageSrc: '/images/Federal%20%26%20Military.png',
     pendingLabel: 'Federal & Military.png',
     href: '/who-we-serve',
@@ -17,6 +19,8 @@ const MARKETS = [
   {
     id: 'state-local',
     label: 'State & Local',
+    description:
+      'Supplying credentialed healthcare professionals to state, county, and municipal facilities nationwide.',
     imageSrc: '/images/State%20%26%20Local.png',
     pendingLabel: 'State & Local.png',
     href: '/who-we-serve',
@@ -30,7 +34,7 @@ export const MarketWeServeSection: React.FC = () => (
   <Section
     aria-labelledby="market-we-serve-heading"
     tone="surface"
-    spacing="md"
+    spacing="lg"
   >
     <div className="flex flex-col gap-[clamp(2.5rem,3.125vw,3.75rem)]">
       <SectionIntro
@@ -44,6 +48,7 @@ export const MarketWeServeSection: React.FC = () => (
           <MarketServeCard
             key={market.id}
             label={market.label}
+            description={market.description}
             imageSrc={market.imageSrc}
             pendingLabel={market.pendingLabel}
             href={market.href}
