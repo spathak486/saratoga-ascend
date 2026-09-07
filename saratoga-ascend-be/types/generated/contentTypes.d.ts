@@ -511,6 +511,38 @@ export interface ApiCareerCareer extends Struct.SingleTypeSchema {
   };
 }
 
+export interface ApiClientLogosSectionClientLogosSection
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'client_logos_sections';
+  info: {
+    displayName: 'Client Logos Section';
+    pluralName: 'client-logos-sections';
+    singularName: 'client-logos-section';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    description: Schema.Attribute.Text;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::client-logos-section.client-logos-section'
+    > &
+      Schema.Attribute.Private;
+    logos: Schema.Attribute.Media<'images', true>;
+    publishedAt: Schema.Attribute.DateTime;
+    referenceTitle: Schema.Attribute.String;
+    title: Schema.Attribute.String;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiContactUsContactUs extends Struct.SingleTypeSchema {
   collectionName: 'contact_uses';
   info: {
@@ -725,7 +757,12 @@ export interface ApiHomeHome extends Struct.SingleTypeSchema {
     pageTitle: Schema.Attribute.String & Schema.Attribute.Required;
     publishedAt: Schema.Attribute.DateTime;
     Section: Schema.Attribute.DynamicZone<
-      ['references.banner-reference', 'references.cta', 'references.fa-qs']
+      [
+        'references.banner-reference',
+        'references.cta',
+        'references.fa-qs',
+        'references.client-logos-reference',
+      ]
     >;
     seo: Schema.Attribute.Component<'shared.seo', false> &
       Schema.Attribute.Required;
@@ -1285,6 +1322,7 @@ declare module '@strapi/strapi' {
       'admin::user': AdminUser;
       'api::about-us.about-us': ApiAboutUsAboutUs;
       'api::career.career': ApiCareerCareer;
+      'api::client-logos-section.client-logos-section': ApiClientLogosSectionClientLogosSection;
       'api::contact-us.contact-us': ApiContactUsContactUs;
       'api::content-block.content-block': ApiContentBlockContentBlock;
       'api::cta.cta': ApiCtaCta;

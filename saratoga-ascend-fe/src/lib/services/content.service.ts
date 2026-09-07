@@ -150,10 +150,24 @@ const FAQS_REFERENCE_FIELDS = `
   }
 `;
 
+const CLIENT_LOGOS_REFERENCE_FIELDS = `
+  __typename
+  ... on ComponentReferencesClientLogosReference {
+    clientLogosSection {
+      documentId
+      referenceTitle
+      title
+      description
+      logos { ${IMAGE_FIELDS} }
+    }
+  }
+`;
+
 const DYNAMIC_SECTION_FRAGMENTS = [
   BANNER_REFERENCE_FIELDS,
   CTA_REFERENCE_FIELDS,
   FAQS_REFERENCE_FIELDS,
+  CLIENT_LOGOS_REFERENCE_FIELDS,
 ].join('\n');
 
 const PAGE_BY_SLUG_QUERY = `
@@ -323,6 +337,18 @@ function resolveSectionImages(section: Record<string, unknown>) {
         },
       };
     }
+  }
+
+  if (section.__typename === 'ComponentReferencesClientLogosReference' && section.clientLogosSection) {
+    const cls = section.clientLogosSection as Record<string, unknown>;
+    const rawLogos = cls.logos as RawStrapiMedia[] | null | undefined;
+    return {
+      ...section,
+      clientLogosSection: {
+        ...cls,
+        logos: rawLogos ? rawLogos.map((logo) => unwrapImage(logo)).filter(Boolean) : null,
+      },
+    };
   }
 
   return section;

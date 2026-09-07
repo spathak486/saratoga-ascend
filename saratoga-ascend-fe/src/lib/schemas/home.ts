@@ -82,10 +82,27 @@ export const FaqsReferenceSchema = z.object({
 
 export type FaqsReference = z.infer<typeof FaqsReferenceSchema>;
 
+export const ClientLogosReferenceSchema = z.object({
+  __typename: z.literal('ComponentReferencesClientLogosReference'),
+  clientLogosSection: z
+    .object({
+      documentId: z.string().optional(),
+      referenceTitle: z.string().nullable().optional(),
+      title: z.string().nullable().optional(),
+      description: z.string().nullable().optional(),
+      logos: z.array(StrapiImageSchema).nullable().optional(),
+    })
+    .nullable()
+    .optional(),
+});
+
+export type ClientLogosReference = z.infer<typeof ClientLogosReferenceSchema>;
+
 export const HomeDynamicZoneSectionSchema = z.union([
   BannerReferenceSchema,
   CtaReferenceSchema,
   FaqsReferenceSchema,
+  ClientLogosReferenceSchema,
   z.object({ __typename: z.string() }).passthrough(),
 ]);
 

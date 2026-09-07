@@ -29,6 +29,8 @@ export {
   type CtaReference,
   FaqsReferenceSchema,
   type FaqsReference,
+  ClientLogosReferenceSchema,
+  type ClientLogosReference,
   HomeDynamicZoneSectionSchema,
   type HomeDynamicZoneSection,
   HomePageSchema,

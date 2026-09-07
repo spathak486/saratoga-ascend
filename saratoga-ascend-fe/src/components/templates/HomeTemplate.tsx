@@ -1,6 +1,7 @@
 import React from 'react';
 import type {
   BannerReference,
+  ClientLogosReference,
   CtaReference,
   FaqsReference,
   FooterData,
@@ -69,6 +70,12 @@ export const HomeTemplate: React.FC<HomeTemplateProps> = ({
   );
   const promo = ctaSec?.cta?.cta;
 
+  const clientLogosSec = homeData?.Section?.find(
+    (sec): sec is ClientLogosReference =>
+      sec.__typename === 'ComponentReferencesClientLogosReference'
+  );
+  const clientLogos = clientLogosSec?.clientLogosSection;
+
   return (
     <div className="min-h-screen bg-brand-surface text-brand-navy font-sans antialiased">
       <Navbar />
@@ -93,7 +100,11 @@ export const HomeTemplate: React.FC<HomeTemplateProps> = ({
         <OurAchievementsSection />
         <PastPerformanceSection />
         <HappyClientsSection />
-        <ClientLogosSection />
+        <ClientLogosSection
+          title={clientLogos?.title ?? undefined}
+          description={clientLogos?.description ?? undefined}
+          logos={clientLogos?.logos ?? undefined}
+        />
         <FaqSection
           title={faqPromo?.title ?? undefined}
           description={faqPromo?.description ?? undefined}

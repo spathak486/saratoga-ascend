@@ -74,6 +74,20 @@ export interface ReferencesBannerReference extends Struct.ComponentSchema {
   };
 }
 
+export interface ReferencesClientLogosReference extends Struct.ComponentSchema {
+  collectionName: 'components_references_client_logos_references';
+  info: {
+    displayName: 'Client Logos Reference';
+    icon: 'landscape';
+  };
+  attributes: {
+    clientLogosSection: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::client-logos-section.client-logos-section'
+    >;
+  };
+}
+
 export interface ReferencesCta extends Struct.ComponentSchema {
   collectionName: 'components_references_ctas';
   info: {
@@ -165,6 +179,7 @@ declare module '@strapi/strapi' {
       'core-component.promo': CoreComponentPromo;
       'media.banner': MediaBanner;
       'references.banner-reference': ReferencesBannerReference;
+      'references.client-logos-reference': ReferencesClientLogosReference;
       'references.cta': ReferencesCta;
       'references.fa-qs': ReferencesFaQs;
       'shared.general-link': SharedGeneralLink;

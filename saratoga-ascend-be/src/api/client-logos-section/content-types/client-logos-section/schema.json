@@ -1,0 +1,29 @@
+{
+  "kind": "collectionType",
+  "collectionName": "client_logos_sections",
+  "info": {
+    "singularName": "client-logos-section",
+    "pluralName": "client-logos-sections",
+    "displayName": "Client Logos Section"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "referenceTitle": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "text"
+    },
+    "logos": {
+      "type": "media",
+      "multiple": true,
+      "allowedTypes": ["images"]
+    }
+  }
+}

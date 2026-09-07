@@ -2,10 +2,11 @@ import React from 'react';
 import type {
   HomeDynamicZoneSection,
   BannerReference,
+  ClientLogosReference,
   CtaReference,
   FaqsReference,
 } from '@/lib/schemas';
-import { HeroSection, NeedHelpSection, FaqSection } from '@/components/organisms';
+import { HeroSection, NeedHelpSection, FaqSection, ClientLogosSection } from '@/components/organisms';
 
 function renderFaqSection(faqsRef: FaqsReference, index: number) {
   const promo = faqsRef.content?.ContentSection;
@@ -85,6 +86,19 @@ export const SECTION_REGISTRY: Record<
 
   ComponentReferencesFaqs: (section, index) =>
     renderFaqSection(section as FaqsReference, index),
+
+  ComponentReferencesClientLogosReference: (section, index) => {
+    const clRef = section as ClientLogosReference;
+    const cls = clRef.clientLogosSection;
+    return (
+      <ClientLogosSection
+        key={`client-logos-${index}`}
+        title={cls?.title ?? undefined}
+        description={cls?.description ?? undefined}
+        logos={cls?.logos ?? undefined}
+      />
+    );
+  },
 };
 
 /**

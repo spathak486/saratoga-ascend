@@ -31,7 +31,8 @@
       "components": [
         "references.banner-reference",
         "references.cta",
-        "references.fa-qs"
+        "references.fa-qs",
+        "references.client-logos-reference"
       ]
     }
   }
