@@ -10,11 +10,13 @@ export interface NeedHelpFormProps {
 }
 
 const fieldClass =
-  'w-full border-0 border-b border-brand-on-dark/50 bg-transparent pb-3 text-nav text-brand-on-dark placeholder:text-brand-on-dark/50 focus:border-brand-on-dark focus:outline-none';
+  'w-full border-0 border-b border-white/40 bg-transparent pb-2.5 text-[18px] leading-[150%] font-normal text-white placeholder:text-white/50 focus:border-white focus:outline-none';
 
 /**
  * Name / email capture on the Need Help card. Fields are underline-only,
- * matching the artboard — no boxed inputs.
+ * matching the exact Figma artboard:
+ * - Inputs: 540px wide, 18px text (50% white), border 1px solid rgba(255, 255, 255, 0.4)
+ * - Button: 180x60px, rounded-full, #FFFFFF background, #2B88D9 20px bold text
  */
 export const NeedHelpForm: React.FC<NeedHelpFormProps> = ({
   onSubmit,
@@ -38,8 +40,8 @@ export const NeedHelpForm: React.FC<NeedHelpFormProps> = ({
         }
       }}
     >
-      <div className="flex max-w-[33.75rem] flex-col gap-[clamp(1.75rem,3.65vw,4.375rem)]">
-        <div>
+      <div className="flex w-full max-w-[540px] flex-col gap-[30px]">
+        <div className="relative">
           <label htmlFor={nameId} className="sr-only">
             Name
           </label>
@@ -56,7 +58,7 @@ export const NeedHelpForm: React.FC<NeedHelpFormProps> = ({
           />
         </div>
 
-        <div>
+        <div className="relative">
           <label htmlFor={emailId} className="sr-only">
             Email
           </label>
@@ -76,7 +78,7 @@ export const NeedHelpForm: React.FC<NeedHelpFormProps> = ({
 
       <button
         type="submit"
-        className="mt-[clamp(2rem,0.4375rem+6.6667vw,8.4375rem)] inline-flex h-cta min-w-cta-wide shrink-0 cursor-pointer items-center justify-center self-start rounded-pill bg-brand-surface px-cta-x text-button font-bold text-brand-sky shadow-button focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-on-dark"
+        className="mt-[clamp(2rem,4.5vw,135px)] inline-flex h-[60px] w-[180px] shrink-0 cursor-pointer items-center justify-center self-start rounded-[999px] bg-white px-6 py-4 text-[20px] font-bold leading-[150%] text-[#2B88D9] shadow-button transition-transform hover:scale-[1.02] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
       >
         {buttonLabel || 'Know More'}
       </button>
