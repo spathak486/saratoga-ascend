@@ -1,5 +1,5 @@
 import React from 'react';
-import { Heading, MediaFrame, Section } from '../atoms';
+import { Heading, Section } from '../atoms';
 import { NeedHelpForm } from '../molecules/NeedHelpForm';
 
 export interface NeedHelpSectionProps {
