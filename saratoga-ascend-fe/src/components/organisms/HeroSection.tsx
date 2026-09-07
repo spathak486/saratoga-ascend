@@ -2,11 +2,44 @@ import React from 'react';
 import { Container, Heading, Section, Text } from '../atoms';
 import { CtaButton } from '../molecules/CtaButton';
 
+function stripHtml(value?: string | null) {
+  return value ? value.replace(/<[^>]*>?/gm, '').trim() : '';
+}
+
+function splitHeroTitle(title?: string) {
+  if (!title?.trim()) {
+    return { line1: 'Federal State', line2: 'Programs and Solutions' };
+  }
+
+  const lines = title
+    .split(/[\n|]|<br\s*\/?>/i)
+    .map((part) => part.trim())
+    .filter(Boolean);
+
+  if (lines.length >= 2) {
+    return { line1: lines[0], line2: lines.slice(1).join(' ') };
+  }
+
+  const words = title.trim().split(/\s+/);
+  if (words.length > 2) {
+    return { line1: words.slice(0, 2).join(' '), line2: words.slice(2).join(' ') };
+  }
+
+  return { line1: title.trim(), line2: '' };
+}
+
 export interface HeroSectionProps {
   /** Motion clip when available — falls back to the still. */
   videoSrc?: string;
   helixSrc?: string;
   mediaAlt?: string;
+  title?: string;
+  subTitle?: string;
+  description?: string;
+  ctaLabel?: string;
+  ctaHref?: string;
+  mediaMime?: string;
+  mediaExt?: string;
 }
 
 const bandStyle: React.CSSProperties = {
@@ -60,7 +93,27 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   videoSrc,
   helixSrc = '/images/DNA-v1.png',
   mediaAlt = 'DNA double helix illustration',
-}) => (
+  title,
+  subTitle,
+  description,
+  ctaLabel,
+  ctaHref,
+  mediaMime,
+  mediaExt,
+}) => {
+  const heading = splitHeroTitle(title);
+  const lede =
+    stripHtml(description) ||
+    'Saratoga Ascend connects cleared, credentialed healthcare professionals with government, military, and local facilities nationwide.';
+  const isCmsVideo =
+    mediaMime?.startsWith('video/') ||
+    mediaExt === '.mp4' ||
+    mediaExt === '.webm' ||
+    mediaExt === '.mov';
+  const resolvedVideoSrc = videoSrc || (isCmsVideo ? helixSrc : undefined);
+  const stillSrc = isCmsVideo && !videoSrc ? '/images/DNA-v1.png' : helixSrc;
+
+  return (
   <Section
     id="overview"
     aria-labelledby="hero-heading"
@@ -82,22 +135,22 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         aria-hidden="true"
       >
         <div className="absolute inset-y-0 left-[75.78125%] w-[112.604166%] -translate-x-1/2">
-          {videoSrc ? (
+          {resolvedVideoSrc ? (
             <video
               style={leafStyle}
-              poster={helixSrc}
+              poster={stillSrc}
               autoPlay
               muted
               loop
               playsInline
               preload="metadata"
             >
-              <source src={videoSrc} type="video/mp4" />
+              <source src={resolvedVideoSrc} type={mediaMime || 'video/mp4'} />
             </video>
           ) : (
             <img
-              src={helixSrc}
-              alt=""
+              src={stillSrc}
+              alt={mediaAlt}
               width={2162}
               height={1020}
               style={leafStyle}
@@ -114,6 +167,12 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         className="relative z-10 flex min-h-full flex-col items-start"
         style={copyStyle}
       >
+        {subTitle ? (
+          <span className="mb-2 block text-sm font-semibold tracking-wider uppercase text-brand-cta-from">
+            {subTitle}
+          </span>
+        ) : null}
+
         <Heading
           id="hero-heading"
           level={1}
@@ -122,8 +181,10 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           className="tracking-normal"
           style={headingStyle}
         >
-          <span className="block text-ink">Federal State</span>
-          <span className="block text-brand-cta-from">Programs and Solutions</span>
+          <span className="block text-ink">{heading.line1}</span>
+          {heading.line2 ? (
+            <span className="block text-brand-cta-from">{heading.line2}</span>
+          ) : null}
         </Heading>
 
         <Text
@@ -132,16 +193,16 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           className="font-medium tracking-normal"
           style={ledeStyle}
         >
-          Saratoga Ascend connects cleared, credentialed healthcare professionals
-          with government, military, and local facilities nationwide.
+          {lede}
         </Text>
 
         <div style={ctaStyle}>
-          <CtaButton href="/contact" className="self-start">
-            Contact us
+          <CtaButton href={ctaHref || '/contact'} className="self-start">
+            {ctaLabel || 'Contact us'}
           </CtaButton>
         </div>
       </Container>
     </div>
   </Section>
-);
+  );
+};

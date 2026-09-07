@@ -29,6 +29,9 @@ export interface HeaderNavListProps {
 /** Rest ink. Hover is Primary-Red; current page is prime-r/400-m plus the dash. */
 const NAV_HOVER = 'hover:text-brand-red';
 const NAV_ACTIVE = 'text-brand-cta-from';
+/** Figma hover: label, caret, and dash share this timing. */
+const NAV_MOTION =
+  'duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] motion-reduce:transition-none';
 
 const variantStyles: Record<
   HeaderNavVariant,
@@ -53,14 +56,12 @@ const variantStyles: Record<
 
 function isItemActive(pathname: string | undefined, href: string): boolean {
   if (!pathname) return false;
-  if (pathname === href || pathname.startsWith(`${href}/`)) return true;
-  /* Home artboard paints Who we serve as the current item. */
-  return pathname === '/' && href === '/who-we-serve';
+  return pathname === href || pathname.startsWith(`${href}/`);
 }
 
 const gapClass: Record<HeaderNavVariant, Record<HeaderNavOrientation, string>> = {
   primary: {
-    horizontal: 'gap-10',
+    horizontal: 'gap-6 2xl:gap-10',
     vertical: 'gap-4',
   },
   utility: {
@@ -98,16 +99,22 @@ export const HeaderNavList: React.FC<HeaderNavListProps> = ({
       {items.map((item) => {
         const isActive = isItemActive(activeHref, item.href);
 
+        const caret = item.hasMenu ? (
+          <span
+            className={`inline-flex origin-center transform-gpu transition-transform ${NAV_MOTION} group-hover:rotate-180 group-focus-within:rotate-180`}
+          >
+            <CaretDownIcon className="size-4" />
+          </span>
+        ) : undefined;
+
         const link = (
           <GeneralLink
             href={item.href}
             variant="unstyled"
             aria-current={isActive ? 'page' : undefined}
             aria-haspopup={item.hasMenu ? 'true' : undefined}
-            rightIcon={
-              item.hasMenu ? <CaretDownIcon className="size-4" /> : undefined
-            }
-            className={`peer inline-flex items-center gap-1.5 font-sans font-medium leading-[1.5] whitespace-nowrap transition-colors duration-150 ${isPrimaryBar ? 'h-full' : ''} ${styles.size} ${isActive ? styles.active : styles.rest}`}
+            rightIcon={caret}
+            className={`inline-flex items-center gap-1.5 font-sans font-medium leading-[1.5] whitespace-nowrap transition-colors ${NAV_MOTION} ${isPrimaryBar ? 'h-full' : ''} ${styles.size} ${isActive ? styles.active : styles.rest} ${isPrimaryBar ? 'group-hover:text-brand-red group-focus-within:text-brand-red' : ''}`}
           >
             {item.label}
           </GeneralLink>
@@ -115,21 +122,23 @@ export const HeaderNavList: React.FC<HeaderNavListProps> = ({
 
         if (!isPrimaryBar) {
           return (
-            <React.Fragment key={item.href}>{link}</React.Fragment>
+            <div key={item.href} className="group">
+              {link}
+            </div>
           );
         }
 
         return (
           <div
             key={item.href}
-            className="relative flex h-full items-center"
+            className="group relative flex h-full items-center"
           >
             {link}
             <span
-              className={`bg-cta-gradient pointer-events-none absolute bottom-0 left-1/2 z-10 block h-1.5 w-[3.75rem] -translate-x-1/2 shadow-button transition-opacity duration-150 motion-reduce:transition-none ${
+              className={`bg-cta-gradient pointer-events-none absolute bottom-0 left-1/2 z-10 block h-1.5 w-[3.75rem] -translate-x-1/2 rounded-full transition-opacity ${NAV_MOTION} ${
                 isActive
                   ? 'opacity-100'
-                  : 'opacity-0 peer-hover:opacity-100 peer-focus-visible:opacity-100'
+                  : 'opacity-0 group-hover:opacity-100 group-focus-within:opacity-100'
               }`}
               aria-hidden="true"
             />

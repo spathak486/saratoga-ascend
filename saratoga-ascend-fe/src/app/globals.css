@@ -250,7 +250,8 @@ body {
   font-family: var(--font-sans);
   font-size: var(--text-body);
   line-height: var(--text-body--line-height);
-  overflow-x: hidden;
+  /* clip, not hidden — hidden makes body a scroll container and kills sticky. */
+  overflow-x: clip;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

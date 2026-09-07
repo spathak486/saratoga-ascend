@@ -6,6 +6,7 @@ export {
   getAllArticleSlugs,
   getHomePage,
   getAboutUsPage,
+  getFooterData,
 } from './content.service';
 
 
