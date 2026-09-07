@@ -4,11 +4,9 @@ import type {
   ClientLogosReference,
   CtaReference,
   FaqsReference,
-  FooterData,
   HomePage,
 } from '@/lib/schemas';
 import {
-  Navbar,
   HeroSection,
   WhatWeDoSection,
   MarketWeServeSection,
@@ -22,12 +20,10 @@ import {
   HappyClientsSection,
   FaqSection,
   NeedHelpSection,
-  Footer,
 } from '../organisms';
 
 export interface HomeTemplateProps {
   homeData?: HomePage;
-  footerData?: FooterData | null;
 }
 
 function isVideoMedia(mime?: string | null, ext?: string | null) {
@@ -36,10 +32,7 @@ function isVideoMedia(mime?: string | null, ext?: string | null) {
   );
 }
 
-export const HomeTemplate: React.FC<HomeTemplateProps> = ({
-  homeData,
-  footerData,
-}) => {
+export const HomeTemplate: React.FC<HomeTemplateProps> = ({ homeData }) => {
   const bannerSec = homeData?.Section?.find(
     (sec): sec is BannerReference =>
       sec.__typename === 'ComponentReferencesBannerReference'
@@ -78,8 +71,6 @@ export const HomeTemplate: React.FC<HomeTemplateProps> = ({
 
   return (
     <div className="min-h-screen bg-brand-surface text-brand-navy font-sans antialiased">
-      <Navbar />
-
       <main id="main">
         <HeroSection
           title={banner?.bannerTitle}
@@ -123,8 +114,6 @@ export const HomeTemplate: React.FC<HomeTemplateProps> = ({
         />
         <LatestNewsSection />
       </main>
-
-      <Footer data={footerData} />
     </div>
   );
 };

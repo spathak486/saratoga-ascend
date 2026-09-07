@@ -1,7 +1,31 @@
 'use client';
 
 import React, { useState, useRef } from 'react';
+import Image from 'next/image';
 import { Container } from '../atoms';
+
+/**
+ * Decorative backdrop from the Figma artboard: image 29 (1499x2070 at
+ * `-75px/-14px`, rotated -90deg, opacity 0.2), image 30 navy tint (#002845,
+ * mix-blend-color, opacity 1) over it, and a rotated rectangle outlined
+ * with the red→blue gradient border.
+ */
+const DecorativeBackground: React.FC = () => (
+  <div
+    aria-hidden="true"
+    className="pointer-events-none absolute top-[-14px] left-[-75px] z-0 hidden h-[1499px] w-[2070px] lg:block"
+  >
+    <Image
+      src="/images/image 29.png"
+      alt=""
+      width={1499}
+      height={2070}
+      className="absolute left-[-75px] top-[-14px] h-[2070px] w-[1499px] -rotate-90 object-cover opacity-20"
+    />
+    <div className="absolute left-[-75px] top-[-14px] h-[2070px] w-[1499px] -rotate-90 bg-[#002845] mix-blend-color" />
+    <div className="absolute left-[-75px] top-[-14px] h-[2070px] w-[1499px] -rotate-90 border-2 border-solid border-transparent [border-image:linear-gradient(140.47deg,#D31E2D_0%,#2A91DC_99.08%)_1]" />
+  </div>
+);
 
 export interface JobApplicationFormProps {
   /** Optional callback when form is submitted successfully */
@@ -111,65 +135,70 @@ export const JobApplicationForm: React.FC<JobApplicationFormProps> = ({
 
   if (isSubmitted) {
     return (
-      <Container className="py-12 md:py-20">
-        <div className="mx-auto max-w-[1180px] rounded-[24px] bg-white p-8 sm:p-12 text-center border border-[#E0E5E9] shadow-lg">
-          <div className="mx-auto flex size-20 items-center justify-center rounded-full bg-[#E7EFF5] text-[#2B88D9] mb-6">
-            <svg
-              className="size-10"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth="2.5"
+      <div className="relative overflow-hidden">
+        <DecorativeBackground />
+        <Container className="relative z-10 py-12 md:py-20">
+          <div className="mx-auto max-w-[1180px] rounded-[24px] bg-white p-8 sm:p-12 text-center border border-[#E0E5E9] shadow-lg">
+            <div className="mx-auto flex size-20 items-center justify-center rounded-full bg-[#E7EFF5] text-[#2B88D9] mb-6">
+              <svg
+                className="size-10"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth="2.5"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M5 13l4 4L19 7"
+                />
+              </svg>
+            </div>
+            <h2 className="font-serif text-[32px] sm:text-[40px] text-[#1C1C1C] mb-4">
+              Thank You for Applying!
+            </h2>
+            <p className="font-sans text-[16px] sm:text-[18px] text-[#687582] max-w-xl mx-auto mb-8">
+              Your information and resume have been submitted successfully. Our talent team will review your details and contact you shortly.
+            </p>
+            <button
+              type="button"
+              onClick={() => {
+                setIsSubmitted(false);
+                setFormData({
+                  firstName: '',
+                  lastName: '',
+                  email: '',
+                  phone: '',
+                  careerArea: '',
+                  preferredLocation: '',
+                  employmentPreference: '',
+                });
+                setResumeFile(null);
+              }}
+              className="inline-flex h-[56px] min-w-[160px] items-center justify-center rounded-[66px] bg-[#2B88D9] px-8 font-sans font-bold text-[16px] text-white hover:bg-[#1E74C0] transition-colors cursor-pointer"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M5 13l4 4L19 7"
-              />
-            </svg>
+              Submit Another Application
+            </button>
           </div>
-          <h2 className="font-serif text-[32px] sm:text-[40px] text-[#1C1C1C] mb-4">
-            Thank You for Applying!
-          </h2>
-          <p className="font-sans text-[16px] sm:text-[18px] text-[#687582] max-w-xl mx-auto mb-8">
-            Your information and resume have been submitted successfully. Our talent team will review your details and contact you shortly.
-          </p>
-          <button
-            type="button"
-            onClick={() => {
-              setIsSubmitted(false);
-              setFormData({
-                firstName: '',
-                lastName: '',
-                email: '',
-                phone: '',
-                careerArea: '',
-                preferredLocation: '',
-                employmentPreference: '',
-              });
-              setResumeFile(null);
-            }}
-            className="inline-flex h-[56px] min-w-[160px] items-center justify-center rounded-[66px] bg-[#2B88D9] px-8 font-sans font-bold text-[16px] text-white hover:bg-[#1E74C0] transition-colors cursor-pointer"
-          >
-            Submit Another Application
-          </button>
-        </div>
-      </Container>
+        </Container>
+      </div>
     );
   }
 
   return (
-    <Container className="py-8 md:py-16">
-      {/* Outer Card Container (Frame 661: 1180px, white, 24px radius) */}
+    <div className="relative overflow-hidden">
+      <DecorativeBackground />
+      <Container className="relative z-10 py-8 md:py-16">
+      {/* Outer Card Container (Frame 661: 1184px, white, 40px radius) */}
       <div
-        className={`mx-auto max-w-[1180px] rounded-[24px] bg-white p-6 sm:p-10 md:p-12 border border-[#E0E5E9]/80 shadow-md ${className}`}
+        className={`mx-auto max-w-[1184px] rounded-[40px] bg-white p-6 sm:p-8 md:p-10 lg:p-[40px] shadow-[20px_24px_44px_rgba(0,0,0,0.07)] ${className}`}
       >
         {/* Main Title (Heading 03) */}
-        <h1 className="font-serif text-[32px] sm:text-[44px] leading-[120%] text-[#1C1C1C] text-center font-normal mb-8 md:mb-12">
+        <h1 className="font-serif text-[32px] sm:text-[44px] leading-[120%] text-[#1C1C1C] text-center font-normal mb-10">
           Your Information
         </h1>
 
-        <form onSubmit={handleSubmit} className="flex flex-col gap-8 md:gap-10">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-[34px]">
           {/* Section 1: Personal Information (Frame 666) */}
           <section>
             <div className="mb-6">
@@ -182,14 +211,14 @@ export const JobApplicationForm: React.FC<JobApplicationFormProps> = ({
             </div>
 
             {/* Grid of Inputs (Frame 254) */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-[30px] gap-y-[30px]">
               {/* First Name */}
               <div>
                 <label
                   htmlFor="firstName"
                   className="block font-sans text-[16px] font-bold leading-[150%] text-[#303943] mb-2"
                 >
-                  First Name <span className="text-[#2B88D9]">*</span>
+                  First Name *
                 </label>
                 <input
                   id="firstName"
@@ -209,7 +238,7 @@ export const JobApplicationForm: React.FC<JobApplicationFormProps> = ({
                   htmlFor="lastName"
                   className="block font-sans text-[16px] font-bold leading-[150%] text-[#303943] mb-2"
                 >
-                  Last Name <span className="text-[#2B88D9]">*</span>
+                  Last Name *
                 </label>
                 <input
                   id="lastName"
@@ -229,7 +258,7 @@ export const JobApplicationForm: React.FC<JobApplicationFormProps> = ({
                   htmlFor="email"
                   className="block font-sans text-[16px] font-bold leading-[150%] text-[#303943] mb-2"
                 >
-                  Email Address <span className="text-[#2B88D9]">*</span>
+                  Email Address *
                 </label>
                 <input
                   id="email"
@@ -249,7 +278,7 @@ export const JobApplicationForm: React.FC<JobApplicationFormProps> = ({
                   htmlFor="phone"
                   className="block font-sans text-[16px] font-bold leading-[150%] text-[#303943] mb-2"
                 >
-                  Phone Number <span className="text-[#2B88D9]">*</span>
+                  Phone Number *
                 </label>
                 <input
                   id="phone"
@@ -280,14 +309,14 @@ export const JobApplicationForm: React.FC<JobApplicationFormProps> = ({
             </div>
 
             {/* Grid of Preferences */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-[30px] gap-y-[30px]">
               {/* Primary Career Area */}
               <div>
                 <label
                   htmlFor="careerArea"
                   className="block font-sans text-[16px] font-bold leading-[150%] text-[#303943] mb-2"
                 >
-                  Primary Career Area <span className="text-[#2B88D9]">*</span>
+                  Primary Career Area *
                 </label>
                 <input
                   id="careerArea"
@@ -307,7 +336,7 @@ export const JobApplicationForm: React.FC<JobApplicationFormProps> = ({
                   htmlFor="preferredLocation"
                   className="block font-sans text-[16px] font-bold leading-[150%] text-[#303943] mb-2"
                 >
-                  Preferred Location <span className="text-[#2B88D9]">*</span>
+                  Preferred Location *
                 </label>
                 <input
                   id="preferredLocation"
@@ -327,7 +356,7 @@ export const JobApplicationForm: React.FC<JobApplicationFormProps> = ({
                   htmlFor="employmentPreference"
                   className="block font-sans text-[16px] font-bold leading-[150%] text-[#303943] mb-2"
                 >
-                  Employment Preference <span className="text-[#2B88D9]">*</span>
+                  Employment Preference *
                 </label>
                 <input
                   id="employmentPreference"
@@ -481,5 +510,6 @@ export const JobApplicationForm: React.FC<JobApplicationFormProps> = ({
         </form>
       </div>
     </Container>
+  </div>
   );
 };

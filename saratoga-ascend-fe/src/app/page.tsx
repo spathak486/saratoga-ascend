@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { HomeTemplate } from '@/components/templates';
-import { getFooterData, getHomePage } from '@/lib/services';
+import { getHomePage } from '@/lib/services';
 
 export async function generateMetadata(): Promise<Metadata> {
   const result = await getHomePage();
@@ -22,15 +22,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function Home() {
-  const [homeResult, footerResult] = await Promise.all([
-    getHomePage(),
-    getFooterData(),
-  ]);
+  const homeResult = await getHomePage();
 
-  return (
-    <HomeTemplate
-      homeData={homeResult.data ?? undefined}
-      footerData={footerResult.data ?? undefined}
-    />
-  );
+  return <HomeTemplate homeData={homeResult.data ?? undefined} />;
 }

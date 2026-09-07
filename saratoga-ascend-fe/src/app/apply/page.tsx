@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { JobApplicationForm } from '@/components/organisms';
+import { ApplyPageTemplate } from '@/components/templates';
 
 export const metadata: Metadata = {
   title: 'Job Application',
@@ -8,9 +8,5 @@ export const metadata: Metadata = {
 };
 
 export default function ApplyPage() {
-  return (
-    <main className="min-h-screen bg-[#F8F9FA] py-10 md:py-16">
-      <JobApplicationForm />
-    </main>
-  );
+  return <ApplyPageTemplate />;
 }

@@ -1,5 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import { DM_Serif_Text, Google_Sans_Flex } from 'next/font/google';
+import { Footer, Navbar } from '@/components/organisms';
+import { getFooterData } from '@/lib/services';
 import './globals.css';
 
 /** Display face from the Figma homepage — headings only, single 400 weight. */
@@ -64,11 +66,13 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const footerResult = await getFooterData();
+
   return (
     <html
       lang="en"
@@ -79,7 +83,9 @@ export default function RootLayout({
         className="antialiased bg-brand-surface text-brand-navy font-sans selection:bg-brand-red selection:text-brand-surface"
         suppressHydrationWarning
       >
+        <Navbar />
         {children}
+        <Footer data={footerResult.data ?? undefined} />
       </body>
     </html>
   );
