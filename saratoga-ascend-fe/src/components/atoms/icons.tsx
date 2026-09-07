@@ -56,21 +56,3 @@ export const CaretDownIcon: React.FC<IconProps> = ({
     />
   </svg>
 );
-
-/** Paper plane send icon used in the newsletter subscription input button. */
-export const SendIcon: React.FC<IconProps> = ({
-  className = 'size-5',
-}) => (
-  <svg
-    viewBox="0 0 24 24"
-    fill="none"
-    className={className}
-    aria-hidden="true"
-    focusable="false"
-  >
-    <path
-      d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"
-      fill="currentColor"
-    />
-  </svg>
-);

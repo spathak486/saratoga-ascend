@@ -19,8 +19,8 @@ export const EmblemPanel: React.FC<EmblemPanelProps> = ({
   emblemSrc = '/images/Image-1%201.png',
   paragraphs = [...DEFAULT_COPY],
 }) => (
-  <aside className="flex min-h-0 flex-col rounded-card border border-brand-line bg-panel-tint p-[clamp(1.25rem,2.08vw,2.5rem)] xl:min-h-[clamp(28rem,34.58vw,41.5rem)]">
-    <div className="mx-auto w-full max-w-[16rem] pt-[clamp(0.5rem,1vw,1.25rem)] sm:max-w-[22.4375rem]">
+  <aside className="flex min-h-0 flex-col rounded-card border border-brand-line bg-panel-tint px-[clamp(1.25rem,2.08vw,2.5rem)] pt-[var(--spacing-card-lead)] pb-[clamp(1.25rem,2.08vw,2.5rem)] xl:min-h-[clamp(28rem,34.58vw,41.5rem)]">
+    <div className="mx-auto w-full max-w-[16rem] sm:max-w-[22.4375rem]">
       <MediaFrame
         src={emblemSrc}
         alt="Saratoga emblem"

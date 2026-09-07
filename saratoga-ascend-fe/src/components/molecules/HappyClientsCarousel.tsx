@@ -1,10 +1,13 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Heading, MediaFrame } from '../atoms';
 
+/** Horizontal drag past this many px counts as a swipe, not a scroll tap. */
+const SWIPE_THRESHOLD_PX = 40;
+
 export interface ClientReview {
-  /** Optional role headline — omitted in the latest Figma for the primary review. */
+  /** Role headline shown above the name — optional since Strapi content may omit it. */
   role?: string;
   name: string;
   place: string;
@@ -39,7 +42,7 @@ function ArrowGlyph({ direction }: { direction: 'prev' | 'next' }) {
   return (
     <svg
       viewBox="0 0 24 24"
-      className={`size-[42%] ${direction === 'next' ? 'rotate-180' : ''}`}
+      className={`size-[67%] ${direction === 'next' ? 'rotate-180' : ''}`}
       fill="currentColor"
       aria-hidden="true"
       focusable="false"
@@ -94,7 +97,11 @@ function DesktopSlide({ review }: { review: ClientReview }) {
         </div>
       ))}
 
-      <div className="absolute inset-[20.45%_14.85%_8%_49.29%] z-10 flex flex-col">
+      {/* Figma's text block is inset-[20.45%_14.85%_27.7%_49.29%] on the
+          1680×538 stage — the shorter box (vs. the full column height) is
+          what keeps the quote's `mt-auto` landing at the same baseline as
+          the file instead of drifting toward the bottom edge. */}
+      <div className="absolute inset-[20.45%_14.85%_27.7%_49.29%] z-10 flex flex-col">
         <QuoteCopy review={review} />
       </div>
     </div>
@@ -114,10 +121,31 @@ export const HappyClientsCarousel: React.FC<HappyClientsCarouselProps> = ({
   const [dir, setDir] = useState(1);
   const count = reviews.length;
   const review = reviews[index];
+  const touchStart = useRef<{ x: number; y: number } | null>(null);
 
   const go = (delta: number) => {
     setDir(delta);
     setIndex((current) => (current + delta + count) % count);
+  };
+
+  const handleTouchStart = (event: React.TouchEvent) => {
+    const touch = event.touches[0];
+    touchStart.current = { x: touch.clientX, y: touch.clientY };
+  };
+
+  const handleTouchEnd = (event: React.TouchEvent) => {
+    const start = touchStart.current;
+    touchStart.current = null;
+    if (!start) return;
+
+    const touch = event.changedTouches[0];
+    const dx = touch.clientX - start.x;
+    const dy = touch.clientY - start.y;
+
+    /* A mostly-vertical drag is a page scroll, not a slide swipe. */
+    if (Math.abs(dx) < SWIPE_THRESHOLD_PX || Math.abs(dx) < Math.abs(dy)) return;
+
+    go(dx < 0 ? 1 : -1);
   };
 
   if (!review) return null;
@@ -139,8 +167,16 @@ export const HappyClientsCarousel: React.FC<HappyClientsCarouselProps> = ({
   };
 
   return (
-    <div className={`relative w-full ${className}`.trim()}>
-      <div className="relative hidden aspect-[1680/538] min-h-[20rem] lg:block">
+    <div
+      className={`relative w-full ${className}`.trim()}
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
+    >
+      {/* The Figma stage is fixed-percentage geometry against a 1680px
+          frame — below `xl` the quote column gets too narrow for its own
+          type scale and starts overflowing the panel, so the stacked
+          layout takes over earlier than the rest of the site's `lg` cutoff. */}
+      <div className="relative hidden aspect-[1680/538] min-h-[20rem] xl:block">
         {reviews.map((item, slideIndex) => (
           <div
             key={`${item.name}-${slideIndex}`}
@@ -170,7 +206,7 @@ export const HappyClientsCarousel: React.FC<HappyClientsCarouselProps> = ({
         </button>
       </div>
 
-      <div className="lg:hidden">
+      <div className="xl:hidden">
         <div className="relative">
           {reviews.map((item, slideIndex) => (
             <div

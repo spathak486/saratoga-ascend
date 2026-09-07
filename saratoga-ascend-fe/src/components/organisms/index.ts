@@ -11,12 +11,13 @@ export * from './SpotlightSection';
 export * from './OurClientsSection';
 export * from './NewsSection';
 export * from './MissionSection';
+export * from './ContractVehiclesSection';
 export * from './OurAchievementsSection';
+export * from './PastPerformanceSection';
 export * from './ClientLogosSection';
 export * from './LatestNewsSection';
 export * from './HappyClientsSection';
 export * from './FaqSection';
 export * from './NeedHelpSection';
 export * from './Footer';
-export * from './JobApplicationForm';
 

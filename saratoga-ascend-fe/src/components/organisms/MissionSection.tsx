@@ -1,16 +1,17 @@
 import React from 'react';
-import { Container, MediaFrame } from '../atoms';
+import { Heading, Section } from '../atoms';
+import { AboutHeartStage } from '../molecules/AboutHeartStage';
 import { AboutHighlightList } from '../molecules/AboutHighlightList';
 
 export interface MissionSectionProps {
-  imageSrc?: string;
+  heartSrc?: string;
 }
 
-const LEAD =
-  'Founded to serve federal and military healthcare, we grew into a nationwide partner for hospitals, clinics, and public health programs. We combine';
+const BODY_LEAD =
+  'Founded to serve federal and military healthcare, we grew into a nationwide partner for hospitals, clinics, and public health programs.';
 
-const BODY =
-  'Founded to serve federal and military healthcare, we grew into a nationwide partner for hospitals, clinics, and public health programs. We combine military‑grade precision with responsive, people‑first service-matching licensed, background‑checked, and fully credentialed professionals to serve every mission.';
+const BODY_CLOSE =
+  'We combine military-grade precision with responsive, people-first service—matching licensed, background-checked, and fully credentialed professionals to serve every mission.';
 
 const HIGHLIGHTS = [
   'Nationwide coverage across all 50 states',
@@ -19,83 +20,55 @@ const HIGHLIGHTS = [
   '24/7 support for clients and providers',
 ] as const;
 
-function HandsBackdrop({ src }: { src?: string }) {
-  return (
-    <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
-      <div className="absolute inset-0 h-[98.39%]">
-        <MediaFrame
-          src={src}
-          alt=""
-          pendingLabel="about us.png"
-          tone="tile"
-          sizes="100vw"
-          imageClassName="object-cover object-center!"
-          className="size-full border-0 bg-brand-surface"
+/**
+ * About Us band (Figma node 13:355) — 1080px artboard, pink wash, copy
+ * column 971px / heart plate 675×981 with a slight column overlap.
+ */
+export const MissionSection: React.FC<MissionSectionProps> = ({ heartSrc }) => (
+  <Section
+    aria-labelledby="about-us-heading"
+    tone="surface"
+    spacing="none"
+    className="bg-about-wash overflow-hidden"
+    containerClassName="relative min-h-[clamp(40rem,56.25vw,67.5rem)]"
+  >
+    <div className="grid grid-cols-1 items-start gap-y-[clamp(2rem,4vw,3rem)] lg:grid-cols-[minmax(0,1.44fr)_minmax(0,1fr)] lg:gap-x-0 xl:grid-cols-[minmax(0,60.6875rem)_42.1875rem] xl:justify-between">
+      {/* Copy — top inset 142px on the 1080px artboard */}
+      <div className="relative z-[1] flex min-w-0 flex-col pt-[clamp(2.5rem,7.4vw,8.875rem)] pb-[clamp(2rem,4vw,3rem)]">
+        <Heading
+          id="about-us-heading"
+          level={2}
+          size="section"
+          tone="ink"
+          className="max-w-[60.6875rem] leading-[1.2]"
+        >
+          <span className="block">
+            Four Decades of{' '}
+            <span className="text-brand-cta-from">Military & Federal</span>
+            {' '} Healthcare Solutions
+          </span>
+        </Heading>
+
+        {/* Body — 683px measure, 24px medium, 1.6 leading; 48px below heading */}
+        <div className="mt-[clamp(1.5rem,2.5vw,3rem)] max-w-[42.6875rem] text-body-lg font-medium leading-[1.6] text-ink">
+          <p>{BODY_LEAD}</p>
+          <p className="mt-[1.6em]">{BODY_CLOSE}</p>
+        </div>
+
+        {/* Bullets — 40px below body on artboard, 64px row gap */}
+        <AboutHighlightList
+          items={HIGHLIGHTS}
+          className="mt-[clamp(1.5rem,2.08vw,2.5rem)]"
+        />
+      </div>
+
+      {/* Heart plate — top inset 99px; overlaps copy by ~18px at 1920 */}
+      <div className="relative z-0 flex justify-center pb-[clamp(1.5rem,3vw,2.5rem)] lg:justify-end lg:pb-0 lg:pt-[clamp(1rem,4vw,4rem)] xl:-ml-[1.125rem] xl:pt-[clamp(1.5rem,5.1vw,6.1875rem)]">
+        <AboutHeartStage
+          heartSrc={heartSrc}
+          className="w-full max-w-[min(100%,42.1875rem)]"
         />
       </div>
     </div>
-  );
-}
-
-/**
- * About Us band (Figma node 1:607). Locked 1920×1303 stage: reaching-hands
- * plate, 72px red title at the left gutter, 28px bold subhead, navy lead,
- * and the 22px body + red checklist on the lower right.
- */
-export const MissionSection: React.FC<MissionSectionProps> = ({
-  imageSrc = '/images/about%20us.png',
-}) => (
-  <section
-    aria-labelledby="about-us-heading"
-    className="relative isolate overflow-hidden bg-brand-surface"
-  >
-    <h2 id="about-us-heading" className="sr-only">
-      About Us
-    </h2>
-
-    <div className="relative hidden aspect-[1920/1303] w-full xl:block">
-      <HandsBackdrop src={imageSrc} />
-
-      <p
-        aria-hidden="true"
-        className="absolute top-[9.21%] left-[6.25%] font-serif text-section whitespace-nowrap text-brand-red"
-      >
-        About Us
-      </p>
-
-      <p className="absolute top-[19.49%] left-[6.25%] w-[25.78%] font-bold leading-[1.4] text-[clamp(1.125rem,0.974rem+0.647vw,1.75rem)] text-ink">
-        Four Decades of Military & Federal Solutions Expertise
-      </p>
-
-      <p className="absolute top-[27.32%] left-[6.25%] w-[35.57%] text-body-lg font-medium text-[#0f3d60]">
-        {LEAD}
-      </p>
-
-      <div className="absolute top-[57.87%] left-[55.83%] w-[37.92%]">
-        <p className="text-body text-ink">{BODY}</p>
-        <AboutHighlightList items={HIGHLIGHTS} className="mt-[1.375em]" />
-      </div>
-    </div>
-
-    <div className="relative xl:hidden">
-      <HandsBackdrop src={imageSrc} />
-
-      <Container className="relative py-section">
-        <p
-          aria-hidden="true"
-          className="font-serif text-section text-brand-red"
-        >
-          About Us
-        </p>
-        <p className="mt-6 max-w-[32ch] font-bold leading-[1.4] text-[clamp(1.125rem,0.974rem+0.647vw,1.75rem)] text-ink">
-          Four Decades of Military & Federal Solutions Expertise
-        </p>
-        <p className="mt-6 max-w-[42ch] text-body-lg font-medium text-[#0f3d60]">
-          {LEAD}
-        </p>
-        <p className="mt-10 text-body text-ink">{BODY}</p>
-        <AboutHighlightList items={HIGHLIGHTS} className="mt-6" />
-      </Container>
-    </div>
-  </section>
+  </Section>
 );

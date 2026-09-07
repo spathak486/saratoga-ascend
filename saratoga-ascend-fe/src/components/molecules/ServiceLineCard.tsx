@@ -24,42 +24,59 @@ export interface ServiceLineCardProps {
  */
 export const ServiceLineCard: React.FC<ServiceLineCardProps> = ({ lines }) => {
   const [index, setIndex] = useState(0);
+  const [visible, setVisible] = useState(true);
   const line = lines[index];
 
-  const step = (delta: number) =>
-    setIndex((current) => (current + delta + lines.length) % lines.length);
+  const step = (delta: number) => {
+    const reduceMotion =
+      typeof window !== 'undefined' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (reduceMotion) {
+      setIndex((current) => (current + delta + lines.length) % lines.length);
+      return;
+    }
+
+    setVisible(false);
+    window.setTimeout(() => {
+      setIndex((current) => (current + delta + lines.length) % lines.length);
+      setVisible(true);
+    }, 180);
+  };
 
   return (
     <article className="flex min-h-0 flex-col rounded-card border border-brand-line bg-brand-surface p-[clamp(1.25rem,2.08vw,2.5rem)] xl:min-h-[clamp(28rem,34.58vw,41.5rem)]">
       <div
-        className="flex flex-1 flex-col"
+        className={`flex flex-1 flex-col transition-opacity duration-200 motion-reduce:transition-none ${
+          visible ? 'opacity-100' : 'opacity-0'
+        }`}
         role="group"
         aria-roledescription="carousel"
         aria-label="Service lines"
         aria-live="polite"
       >
-        <Heading level={3} size="feature" tone="ink" className="mt-[clamp(1rem,2vw,2.5rem)]">
+        <Heading level={3} size="feature" tone="ink" className="mt-[var(--spacing-card-lead)]">
           {line.heading}
         </Heading>
 
-        <Text size="body" tone="navy" className="mt-[clamp(1rem,1.5vw,1.5rem)] max-w-[29rem]">
+        <Text size="body" tone="navy" className="mt-[var(--spacing-card-lead)] max-w-[29rem]">
           {line.blurb}
         </Text>
 
-        <ul className="mt-[clamp(1.5rem,3vw,3rem)] flex flex-col gap-[clamp(0.75rem,1.5vw,1.5rem)]">
+        <ul className="mt-grid flex flex-col gap-cta-y">
           {line.features.map((feature) => (
             <ServiceFeatureRow key={feature} label={feature} />
           ))}
         </ul>
       </div>
 
-      <div className="mt-auto flex items-center justify-between gap-3 pt-[clamp(1.5rem,2.5vw,2.5rem)] sm:justify-center sm:gap-[clamp(1rem,2vw,1.375rem)]">
+      <div className="mt-auto flex items-center justify-between gap-3 pt-[clamp(1.5rem,2.5vw,2.5rem)] sm:gap-[clamp(1rem,2vw,1.375rem)]">
         <CircleControl
           label="Previous service line"
           direction="prev"
-          tone="light"
+          tone="iconPlay"
           onClick={() => step(-1)}
-          className="size-12 shrink-0 sm:size-[3.75rem]"
+          className="size-12 shrink-0 transition-transform duration-150 hover:scale-105 active:scale-95 motion-reduce:transition-none motion-reduce:hover:scale-100 sm:size-[3.75rem]"
         />
 
         <CtaButton
@@ -74,9 +91,9 @@ export const ServiceLineCard: React.FC<ServiceLineCardProps> = ({ lines }) => {
         <CircleControl
           label="Next service line"
           direction="next"
-          tone="light"
+          tone="iconPlay"
           onClick={() => step(1)}
-          className="size-12 shrink-0 sm:size-[3.75rem]"
+          className="size-12 shrink-0 transition-transform duration-150 hover:scale-105 active:scale-95 motion-reduce:transition-none motion-reduce:hover:scale-100 sm:size-[3.75rem]"
         />
       </div>
     </article>

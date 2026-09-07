@@ -3,57 +3,51 @@ import { Heading, MediaFrame, Section } from '../atoms';
 import { NeedHelpForm } from '../molecules/NeedHelpForm';
 
 export interface NeedHelpSectionProps {
-  title?: string;
-  subTitle?: string;
-  description?: string;
   personSrc?: string;
-  mediaAlt?: string;
-  ctaLabel?: string;
-  ctaHref?: string;
 }
 
+/**
+ * Second-last homepage band (Figma node 1:617). Gradient card with the
+ * signup prompt on the left and the nurse cut-out on the right.
+ */
 export const NeedHelpSection: React.FC<NeedHelpSectionProps> = ({
-  title,
-  subTitle,
-  description,
-  personSrc,
-  mediaAlt,
-  ctaLabel,
-  ctaHref,
+  personSrc = '/images/medical-workers-healthcare-covid-vaccination-concept-friendly-upbeat-female-nurse-doctor-b%201.png',
 }) => (
-  <Section id="need-help" aria-labelledby="need-help-heading" tone="surface" spacing="lg">
-    <div className="relative isolate overflow-hidden rounded-[2.5rem] bg-gradient-to-r from-[#a01222] via-[#652d58] to-[#0088ce] border border-white/40 shadow-tile max-w-[1680px] w-full mx-auto md:h-[733px]">
-      <div className="grid min-h-[clamp(28rem,38vw,42rem)] md:h-[733px] lg:grid-cols-2">
-        {/* Left Side: Form Panel */}
-        <div className="z-10 flex flex-col justify-center px-[clamp(2rem,5vw,5rem)] py-[clamp(2.5rem,5vw,4.5rem)] text-white">
-          <Heading
-            id="need-help-heading"
-            level={2}
-            size="section"
-            tone="onDark"
-            className="font-serif text-[clamp(2.5rem,4vw,3.5rem)] text-white"
-          >
-            {title || 'Need Help?'}
-          </Heading>
-          <p className="mt-3 text-[clamp(1rem,1.3vw,1.25rem)] font-medium text-white/90">
-            {subTitle || description || 'Sign up now and get hired easily'}
-          </p>
+  <Section aria-labelledby="need-help-heading" tone="surface" spacing="lg">
+    <div className="relative isolate overflow-hidden rounded-sweep bg-need-help-gradient">
+      <div className="absolute inset-0 bg-black/20" aria-hidden="true" />
 
-          <NeedHelpForm className="mt-10" buttonLabel={ctaLabel} buttonHref={ctaHref} />
+      <div className="relative grid min-h-[clamp(28rem,38.18vw,45.8125rem)] lg:grid-cols-[48.75%_51.25%]">
+        <div className="flex min-w-0 flex-col justify-between gap-[clamp(2rem,1.2719rem+3.1068vw,5rem)] px-[clamp(1.5rem,5.21vw,6.25rem)] py-[clamp(2rem,5.21vw,6.25rem)]">
+          <div>
+            <Heading
+              id="need-help-heading"
+              level={2}
+              size="section"
+              tone="onDark"
+            >
+              Need Help?
+            </Heading>
+            <p className="mt-[clamp(1rem,0.8788rem+0.5178vw,1.5rem)] max-w-[28ch] text-body-lg font-medium text-brand-on-dark">
+              Sign up now and get hired easily
+            </p>
+          </div>
+
+          <NeedHelpForm />
         </div>
 
-        {/* Right Side: Dynamic Image Container */}
-        <div className="relative min-h-[clamp(18rem,28vw,42rem)] bg-transparent lg:min-h-0 xl:absolute xl:left-[819px] xl:top-0 xl:bottom-0 xl:w-[767px] xl:h-[733px] xl:max-w-none">
-          <MediaFrame
-            src={personSrc || '/images/need-help-nurse.png'}
-            alt={mediaAlt || title || 'Healthcare worker offering help'}
-            pendingLabel="need-help-nurse"
-            tone="tile"
-            unoptimized={true}
-            sizes="(max-width: 1280px) 100vw, 767px"
-            imageClassName="object-contain object-bottom xl:object-left-bottom!"
-            className="absolute inset-0 size-full border-0 bg-transparent"
-          />
+        <div className="relative min-h-[clamp(16rem,28vw,45.8125rem)] lg:min-h-0">
+          <div className="absolute inset-y-0 left-0 w-full lg:w-[89.08%]">
+            <MediaFrame
+              src={personSrc}
+              alt="Healthcare worker offering help"
+              pendingLabel="need-help-nurse"
+              tone="navyCard"
+              sizes="(max-width: 1024px) 100vw, 44vw"
+              imageClassName="object-cover object-[center_20%]!"
+              className="size-full border-0"
+            />
+          </div>
         </div>
       </div>
     </div>

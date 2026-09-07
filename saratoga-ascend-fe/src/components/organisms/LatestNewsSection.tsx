@@ -2,38 +2,36 @@ import React from 'react';
 import { Container, Heading } from '../atoms';
 import { LatestNewsCard, type LatestNewsCardProps } from '../molecules/LatestNewsCard';
 
-const NEWS_IMAGE =
-  '/images/happy-mature-businessman-using-digital-tablet-while-talking-healthcare-workers-hallway-clinic 1.png';
-
 const ARTICLES: readonly LatestNewsCardProps[] = [
   {
     title: 'How we support state and local agencies',
     meta: '5 min read · August 12, 2026',
     href: '/newsroom',
-    imageSrc: NEWS_IMAGE,
+    imageSrc:
+      '/images/happy-mature-businessman-using-digital-tablet-while-talking-healthcare-workers-hallway-clinic 1.png',
   },
   {
     title: 'Simple Ways to Improve Your Mental Wellness',
     meta: '4 min read · August 8, 2026',
     href: '/newsroom',
-    imageSrc: NEWS_IMAGE,
+    imageSrc: '/images/phase-last-img2.png',
   },
   {
     title: 'Healthcare Builds Stronger communities',
     meta: '6 min read · August 3, 2026',
     href: '/newsroom',
-    imageSrc: NEWS_IMAGE,
+    imageSrc: '/images/phase-last-img3.png',
   },
 ];
 
 /**
- * Fifth-last homepage band (Figma node 1:441). CTA gradient field, centred
+ * Homepage insights band (Figma node 13:491). Solid navy field, centred
  * heading, three 544px cards with a 24px gutter.
  */
 export const LatestNewsSection: React.FC = () => (
   <section
     aria-labelledby="latest-news-heading"
-    className="relative overflow-hidden bg-cta-gradient"
+    className="relative overflow-hidden bg-brand-navy"
   >
     <Container className="py-section">
       <Heading
@@ -41,7 +39,7 @@ export const LatestNewsSection: React.FC = () => (
         level={2}
         size="section"
         tone="onDark"
-        className="text-center text-white"
+        className="text-center"
       >
         Latest news and insights
       </Heading>

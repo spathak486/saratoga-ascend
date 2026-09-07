@@ -11,9 +11,8 @@ export interface HeaderNavItem {
 
 /**
  * `primary` is the main row inside the sticky bar — 22px near-black, each item
- * followed by a caret. `utility` is the smaller row in the band above it,
- * white on the blue gradient. `utilityPlain` is the same links on a white
- * ground, used in the mobile drawer.
+ * followed by a caret. `utility` is the 18px row in the 60px band above it.
+ * `utilityPlain` is the same links on a white ground, used in the mobile drawer.
  */
 export type HeaderNavVariant = 'primary' | 'utility' | 'utilityPlain';
 export type HeaderNavOrientation = 'horizontal' | 'vertical';
@@ -27,19 +26,23 @@ export interface HeaderNavListProps {
   id?: string;
 }
 
+/** Rest ink. Hover is Primary-Red; current page is prime-r/400-m plus the dash. */
+const NAV_HOVER = 'hover:text-brand-red';
+const NAV_ACTIVE = 'text-brand-cta-from';
+
 const variantStyles: Record<
   HeaderNavVariant,
   { size: string; rest: string; active: string }
 > = {
   primary: {
     size: 'text-body',
-    rest: 'text-ink hover:text-brand-red',
-    active: 'text-brand-red',
+    rest: `text-ink ${NAV_HOVER}`,
+    active: NAV_ACTIVE,
   },
   utility: {
     size: 'text-nav',
-    rest: 'text-brand-on-dark hover:text-brand-on-dark/75',
-    active: 'text-brand-on-dark underline underline-offset-4',
+    rest: `text-ink ${NAV_HOVER}`,
+    active: NAV_ACTIVE,
   },
   utilityPlain: {
     size: 'text-nav',
@@ -48,15 +51,20 @@ const variantStyles: Record<
   },
 };
 
+function isItemActive(pathname: string | undefined, href: string): boolean {
+  if (!pathname) return false;
+  if (pathname === href || pathname.startsWith(`${href}/`)) return true;
+  /* Home artboard paints Who we serve as the current item. */
+  return pathname === '/' && href === '/who-we-serve';
+}
+
 const gapClass: Record<HeaderNavVariant, Record<HeaderNavOrientation, string>> = {
   primary: {
-    /* Items are positioned loosely on the artboard; this gap tracks the
-       average spacing as the row narrows. */
-    horizontal: 'gap-[clamp(1.25rem,2.5vw,2.75rem)]',
+    horizontal: 'gap-10',
     vertical: 'gap-4',
   },
   utility: {
-    horizontal: 'gap-[clamp(1.5rem,2.08vw,2.5rem)]',
+    horizontal: 'gap-10',
     vertical: 'gap-3',
   },
   utilityPlain: {
@@ -79,30 +87,53 @@ export const HeaderNavList: React.FC<HeaderNavListProps> = ({
   id,
 }) => {
   const styles = variantStyles[variant];
+  const isPrimaryBar = variant === 'primary' && orientation === 'horizontal';
 
   return (
     <nav
       id={id}
       aria-label={ariaLabel}
-      className={`${layoutStyles[orientation]} ${gapClass[variant][orientation]}`}
+      className={`${layoutStyles[orientation]} ${gapClass[variant][orientation]} ${isPrimaryBar ? 'h-full flex-nowrap items-stretch' : ''}`}
     >
       {items.map((item) => {
-        const isActive = activeHref === item.href;
+        const isActive = isItemActive(activeHref, item.href);
 
-        return (
+        const link = (
           <GeneralLink
-            key={item.href}
             href={item.href}
             variant="unstyled"
             aria-current={isActive ? 'page' : undefined}
             aria-haspopup={item.hasMenu ? 'true' : undefined}
             rightIcon={
-              item.hasMenu ? <CaretDownIcon className="size-[0.73em]" /> : undefined
+              item.hasMenu ? <CaretDownIcon className="size-4" /> : undefined
             }
-            className={`inline-flex items-center gap-1.5 font-sans font-medium leading-[1.5] whitespace-nowrap transition-colors duration-150 ${styles.size} ${isActive ? styles.active : styles.rest}`}
+            className={`peer inline-flex items-center gap-1.5 font-sans font-medium leading-[1.5] whitespace-nowrap transition-colors duration-150 ${isPrimaryBar ? 'h-full' : ''} ${styles.size} ${isActive ? styles.active : styles.rest}`}
           >
             {item.label}
           </GeneralLink>
+        );
+
+        if (!isPrimaryBar) {
+          return (
+            <React.Fragment key={item.href}>{link}</React.Fragment>
+          );
+        }
+
+        return (
+          <div
+            key={item.href}
+            className="relative flex h-full items-center"
+          >
+            {link}
+            <span
+              className={`bg-cta-gradient pointer-events-none absolute bottom-0 left-1/2 z-10 block h-1.5 w-[3.75rem] -translate-x-1/2 shadow-button transition-opacity duration-150 motion-reduce:transition-none ${
+                isActive
+                  ? 'opacity-100'
+                  : 'opacity-0 peer-hover:opacity-100 peer-focus-visible:opacity-100'
+              }`}
+              aria-hidden="true"
+            />
+          </div>
         );
       })}
     </nav>

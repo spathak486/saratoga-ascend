@@ -48,7 +48,7 @@ export const Navbar: React.FC = () => {
   }, [isMenuOpen]);
 
   return (
-    <>
+    <header>
       <a
         href="#main"
         className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:bg-brand-surface focus:px-4 focus:py-2 focus:text-brand-navy focus:outline-2 focus:outline-brand-navy"
@@ -58,18 +58,20 @@ export const Navbar: React.FC = () => {
 
       <UtilityBar items={UTILITY_LINKS} activeHref={pathname} />
 
-      <header className="sticky top-0 z-50 border-b border-brand-hairline bg-brand-surface/75 backdrop-blur-[25px]">
-        <Container className="flex h-nav-h items-center justify-between gap-4 xl:gap-6">
+      {/* Sticky on its own so the utility band above can scroll away. The fill
+          is translucent so the hero artwork shows through as it passes under. */}
+      <div className="sticky top-0 z-50 overflow-visible border-b border-brand-hairline bg-brand-surface/75 backdrop-blur-[25px]">
+        <Container className="flex h-nav-h items-center justify-between">
           <GeneralLink
             href="/"
             variant="unstyled"
             aria-label="Saratoga Ascend home"
-            className="inline-block shrink-0"
+            className="inline-flex h-full shrink-0 items-center"
           >
             <BrandLogo size="md" />
           </GeneralLink>
 
-          <div className="hidden min-w-0 items-center gap-[clamp(1rem,2vw,2rem)] xl:flex">
+          <div className="hidden h-full min-w-0 items-center gap-10 xl:flex">
             <HeaderNavList
               ariaLabel="Primary"
               items={PRIMARY_LINKS}
@@ -129,7 +131,7 @@ export const Navbar: React.FC = () => {
             <CtaButton href="/contact">Contact us</CtaButton>
           </Container>
         </div>
-      </header>
-    </>
+      </div>
+    </header>
   );
 };
