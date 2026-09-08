@@ -163,11 +163,31 @@ const CLIENT_LOGOS_REFERENCE_FIELDS = `
   }
 `;
 
+const SERVICE_REFERENCE_FIELDS = `
+  __typename
+  ... on ComponentReferencesServiceReference {
+    heading {
+      title
+      description
+    }
+    services {
+      documentId
+      pageTitle
+      slug
+      title
+      summary
+      cta { ${GENERAL_LINK_FIELDS} }
+      image { ${IMAGE_FIELDS} }
+    }
+  }
+`;
+
 const DYNAMIC_SECTION_FRAGMENTS = [
   BANNER_REFERENCE_FIELDS,
   CTA_REFERENCE_FIELDS,
   FAQS_REFERENCE_FIELDS,
   CLIENT_LOGOS_REFERENCE_FIELDS,
+  SERVICE_REFERENCE_FIELDS,
 ].join('\n');
 
 const PAGE_BY_SLUG_QUERY = `
@@ -348,6 +368,27 @@ function resolveSectionImages(section: Record<string, unknown>) {
         ...cls,
         logos: rawLogos ? rawLogos.map((logo) => unwrapImage(logo)).filter(Boolean) : null,
       },
+    };
+  }
+
+  if (section.__typename === 'ComponentReferencesServiceReference') {
+    const rawServices = section.services as Array<Record<string, unknown>> | null | undefined;
+    return {
+      ...section,
+      services: rawServices
+        ? rawServices.map((svc) => ({
+            ...svc,
+            image: unwrapImage(svc.image as RawStrapiMedia | null),
+            cta: svc.cta
+              ? {
+                  ...(svc.cta as Record<string, unknown>),
+                  icon: unwrapImage(
+                    (svc.cta as Record<string, unknown>).icon as RawStrapiMedia | null
+                  ),
+                }
+              : null,
+          }))
+        : null,
     };
   }
 

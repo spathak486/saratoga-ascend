@@ -98,11 +98,38 @@ export const ClientLogosReferenceSchema = z.object({
 
 export type ClientLogosReference = z.infer<typeof ClientLogosReferenceSchema>;
 
+export const ServiceEntitySchema = z.object({
+  documentId: z.string().optional(),
+  pageTitle: z.string().optional(),
+  slug: z.string().optional(),
+  title: z.string().nullable().optional(),
+  summary: z.string().nullable().optional(),
+  cta: GeneralLinkSchema.nullable().optional(),
+  image: StrapiImageSchema.nullable().optional(),
+});
+
+export type ServiceEntity = z.infer<typeof ServiceEntitySchema>;
+
+export const ServiceReferenceSchema = z.object({
+  __typename: z.literal('ComponentReferencesServiceReference'),
+  heading: z
+    .object({
+      title: z.string().nullable().optional(),
+      description: z.string().nullable().optional(),
+    })
+    .nullable()
+    .optional(),
+  services: z.array(ServiceEntitySchema).nullable().optional(),
+});
+
+export type ServiceReference = z.infer<typeof ServiceReferenceSchema>;
+
 export const HomeDynamicZoneSectionSchema = z.union([
   BannerReferenceSchema,
   CtaReferenceSchema,
   FaqsReferenceSchema,
   ClientLogosReferenceSchema,
+  ServiceReferenceSchema,
   z.object({ __typename: z.string() }).passthrough(),
 ]);
 

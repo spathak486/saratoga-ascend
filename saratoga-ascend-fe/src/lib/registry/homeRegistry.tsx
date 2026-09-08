@@ -5,8 +5,15 @@ import type {
   ClientLogosReference,
   CtaReference,
   FaqsReference,
+  ServiceReference,
 } from '@/lib/schemas';
-import { HeroSection, NeedHelpSection, FaqSection, ClientLogosSection } from '@/components/organisms';
+import {
+  HeroSection,
+  NeedHelpSection,
+  FaqSection,
+  ClientLogosSection,
+  MarketWeServeSection,
+} from '@/components/organisms';
 
 function renderFaqSection(faqsRef: FaqsReference, index: number) {
   const promo = faqsRef.content?.ContentSection;
@@ -96,6 +103,36 @@ export const SECTION_REGISTRY: Record<
         title={cls?.title ?? undefined}
         description={cls?.description ?? undefined}
         logos={cls?.logos ?? undefined}
+      />
+    );
+  },
+
+  ComponentReferencesServiceReference: (section, index) => {
+    const sRef = section as ServiceReference;
+    const heading = sRef.heading;
+    const services = sRef.services
+      ?.map((svc) => {
+        if (!svc) return null;
+        return {
+          id: svc.slug || svc.documentId || svc.title || 'service',
+          label: svc.title || svc.pageTitle || '',
+          description: svc.summary || '',
+          imageSrc: svc.image?.url ?? undefined,
+          href: svc.cta?.href || (svc.slug ? `/${svc.slug}` : '/who-we-serve'),
+        };
+      })
+      .filter((s): s is NonNullable<typeof s> => s !== null && !!s.label);
+
+    const cleanDescription = heading?.description
+      ? heading.description.replace(/<[^>]*>/g, '').trim()
+      : undefined;
+
+    return (
+      <MarketWeServeSection
+        key={`services-${index}`}
+        title={heading?.title ?? undefined}
+        description={cleanDescription}
+        services={services && services.length > 0 ? services : undefined}
       />
     );
   },

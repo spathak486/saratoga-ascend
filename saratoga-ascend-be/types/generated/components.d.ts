@@ -114,6 +114,18 @@ export interface ReferencesFaQs extends Struct.ComponentSchema {
   };
 }
 
+export interface ReferencesServiceReference extends Struct.ComponentSchema {
+  collectionName: 'components_references_service_references';
+  info: {
+    displayName: 'Service Reference';
+    icon: 'briefcase';
+  };
+  attributes: {
+    heading: Schema.Attribute.Component<'core-component.heading', false>;
+    services: Schema.Attribute.Relation<'oneToMany', 'api::service.service'>;
+  };
+}
+
 export interface SharedGeneralLink extends Struct.ComponentSchema {
   collectionName: 'components_shared_general_links';
   info: {
@@ -182,6 +194,7 @@ declare module '@strapi/strapi' {
       'references.client-logos-reference': ReferencesClientLogosReference;
       'references.cta': ReferencesCta;
       'references.fa-qs': ReferencesFaQs;
+      'references.service-reference': ReferencesServiceReference;
       'shared.general-link': SharedGeneralLink;
       'shared.link-column': SharedLinkColumn;
       'shared.seo': SharedSeo;

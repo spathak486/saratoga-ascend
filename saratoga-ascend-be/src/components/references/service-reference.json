@@ -1,0 +1,21 @@
+{
+  "collectionName": "components_references_service_references",
+  "info": {
+    "displayName": "Service Reference",
+    "icon": "briefcase"
+  },
+  "options": {},
+  "attributes": {
+    "heading": {
+      "type": "component",
+      "component": "core-component.heading",
+      "repeatable": false
+    },
+    "services": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::service.service"
+    }
+  },
+  "config": {}
+}
