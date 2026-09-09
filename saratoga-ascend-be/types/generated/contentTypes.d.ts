@@ -763,6 +763,7 @@ export interface ApiHomeHome extends Struct.SingleTypeSchema {
         'references.fa-qs',
         'references.client-logos-reference',
         'references.service-reference',
+        'references.mission-reference',
       ]
     >;
     seo: Schema.Attribute.Component<'shared.seo', false> &
@@ -770,6 +771,47 @@ export interface ApiHomeHome extends Struct.SingleTypeSchema {
     slug: Schema.Attribute.String &
       Schema.Attribute.Required &
       Schema.Attribute.Unique;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiMissionSectionMissionSection
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'mission_sections';
+  info: {
+    displayName: 'Mission Section';
+    pluralName: 'mission-sections';
+    singularName: 'mission-section';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    description: Schema.Attribute.RichText &
+      Schema.Attribute.CustomField<
+        'plugin::ckeditor5.CKEditor',
+        {
+          preset: 'defaultHtml';
+        }
+      >;
+    highlights: Schema.Attribute.Component<'shared.highlight', true>;
+    image: Schema.Attribute.Media<'images'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::mission-section.mission-section'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    pulseIcon: Schema.Attribute.Media<'images'>;
+    referenceTitle: Schema.Attribute.String;
+    shieldIcon: Schema.Attribute.Media<'images'>;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -1368,6 +1410,7 @@ declare module '@strapi/strapi' {
       'api::footer.footer': ApiFooterFooter;
       'api::hero-banner.hero-banner': ApiHeroBannerHeroBanner;
       'api::home.home': ApiHomeHome;
+      'api::mission-section.mission-section': ApiMissionSectionMissionSection;
       'api::service.service': ApiServiceService;
       'api::thank-you.thank-you': ApiThankYouThankYou;
       'plugin::content-releases.release': PluginContentReleasesRelease;

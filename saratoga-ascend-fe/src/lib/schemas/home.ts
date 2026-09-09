@@ -124,12 +124,39 @@ export const ServiceReferenceSchema = z.object({
 
 export type ServiceReference = z.infer<typeof ServiceReferenceSchema>;
 
+export const MissionHighlightSchema = z.object({
+  text: z.string(),
+});
+
+export type MissionHighlight = z.infer<typeof MissionHighlightSchema>;
+
+export const MissionSectionEntitySchema = z.object({
+  documentId: z.string().optional(),
+  referenceTitle: z.string().nullable().optional(),
+  title: z.string().nullable().optional(),
+  description: z.string().nullable().optional(),
+  highlights: z.array(MissionHighlightSchema).nullable().optional(),
+  image: StrapiImageSchema.nullable().optional(),
+  shieldIcon: StrapiImageSchema.nullable().optional(),
+  pulseIcon: StrapiImageSchema.nullable().optional(),
+});
+
+export type MissionSectionEntity = z.infer<typeof MissionSectionEntitySchema>;
+
+export const MissionReferenceSchema = z.object({
+  __typename: z.literal('ComponentReferencesMissionReference'),
+  missionSection: MissionSectionEntitySchema.nullable().optional(),
+});
+
+export type MissionReference = z.infer<typeof MissionReferenceSchema>;
+
 export const HomeDynamicZoneSectionSchema = z.union([
   BannerReferenceSchema,
   CtaReferenceSchema,
   FaqsReferenceSchema,
   ClientLogosReferenceSchema,
   ServiceReferenceSchema,
+  MissionReferenceSchema,
   z.object({ __typename: z.string() }).passthrough(),
 ]);
 

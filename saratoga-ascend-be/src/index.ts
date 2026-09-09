@@ -16,6 +16,8 @@ export default {
           { action: 'api::client-logos-section.client-logos-section.findOne', role: publicRole.id },
           { action: 'api::service.service.find', role: publicRole.id },
           { action: 'api::service.service.findOne', role: publicRole.id },
+          { action: 'api::mission-section.mission-section.find', role: publicRole.id },
+          { action: 'api::mission-section.mission-section.findOne', role: publicRole.id },
         ];
 
         for (const perm of permissions) {

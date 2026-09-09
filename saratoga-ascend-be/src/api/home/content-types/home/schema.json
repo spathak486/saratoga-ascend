@@ -33,7 +33,8 @@
         "references.cta",
         "references.fa-qs",
         "references.client-logos-reference",
-        "references.service-reference"
+        "references.service-reference",
+        "references.mission-reference"
       ]
     }
   }

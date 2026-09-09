@@ -6,6 +6,7 @@ import type {
   CtaReference,
   FaqsReference,
   ServiceReference,
+  MissionReference,
 } from '@/lib/schemas';
 import {
   HeroSection,
@@ -13,6 +14,7 @@ import {
   FaqSection,
   ClientLogosSection,
   MarketWeServeSection,
+  MissionSection,
 } from '@/components/organisms';
 
 function renderFaqSection(faqsRef: FaqsReference, index: number) {
@@ -133,6 +135,22 @@ export const SECTION_REGISTRY: Record<
         title={heading?.title ?? undefined}
         description={cleanDescription}
         services={services && services.length > 0 ? services : undefined}
+      />
+    );
+  },
+
+  ComponentReferencesMissionReference: (section, index) => {
+    const mRef = section as MissionReference;
+    const ms = mRef.missionSection;
+    return (
+      <MissionSection
+        key={`mission-${index}`}
+        title={ms?.title ?? undefined}
+        description={ms?.description ?? undefined}
+        imageSrc={ms?.image?.url ?? undefined}
+        shieldIconSrc={ms?.shieldIcon?.url ?? undefined}
+        pulseIconSrc={ms?.pulseIcon?.url ?? undefined}
+        highlights={ms?.highlights?.map((h) => h.text) ?? undefined}
       />
     );
   },

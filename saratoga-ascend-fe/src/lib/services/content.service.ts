@@ -182,12 +182,31 @@ const SERVICE_REFERENCE_FIELDS = `
   }
 `;
 
+const MISSION_REFERENCE_FIELDS = `
+  __typename
+  ... on ComponentReferencesMissionReference {
+    missionSection {
+      documentId
+      title
+      description
+      image { ${IMAGE_FIELDS} }
+      shieldIcon { ${IMAGE_FIELDS} }
+      pulseIcon { ${IMAGE_FIELDS} }
+      highlights {
+        id
+        text
+      }
+    }
+  }
+`;
+
 const DYNAMIC_SECTION_FRAGMENTS = [
   BANNER_REFERENCE_FIELDS,
   CTA_REFERENCE_FIELDS,
   FAQS_REFERENCE_FIELDS,
   CLIENT_LOGOS_REFERENCE_FIELDS,
   SERVICE_REFERENCE_FIELDS,
+  MISSION_REFERENCE_FIELDS,
 ].join('\n');
 
 const PAGE_BY_SLUG_QUERY = `
@@ -389,6 +408,19 @@ function resolveSectionImages(section: Record<string, unknown>) {
               : null,
           }))
         : null,
+    };
+  }
+
+  if (section.__typename === 'ComponentReferencesMissionReference' && section.missionSection) {
+    const ms = section.missionSection as Record<string, unknown>;
+    return {
+      ...section,
+      missionSection: {
+        ...ms,
+        image: unwrapImage(ms.image as RawStrapiMedia | null),
+        shieldIcon: unwrapImage(ms.shieldIcon as RawStrapiMedia | null),
+        pulseIcon: unwrapImage(ms.pulseIcon as RawStrapiMedia | null),
+      },
     };
   }
 
