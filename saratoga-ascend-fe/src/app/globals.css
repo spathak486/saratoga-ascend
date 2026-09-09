@@ -451,6 +451,22 @@ body {
   animation: bg-drift 26s ease-in-out infinite;
 }
 
+/* Mission heart — Figma Heart component: After delay 1ms → Change to
+   Default, Smart animate, ease in, 1500ms, then the reverse variant.
+   `alternate` is the loop back to Default. */
+@keyframes heart-float {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(0, -1.75rem, 0);
+  }
+}
+
+.animate-heart-float {
+  animation: heart-float 1500ms ease-in 1ms infinite alternate;
+}
+
 /* Footer band — navy at the join with Latest news, abyss at the legal bar. */
 .bg-footer {
   background-color: var(--color-brand-navy);

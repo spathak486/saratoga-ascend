@@ -8,11 +8,10 @@ import {
   type AchievementGlassCardProps,
 } from '../molecules/AchievementGlassCard';
 import {
-  CAROUSEL_BLEED_CLASS,
   CAROUSEL_SLIDE_CLASS,
-  CAROUSEL_VIEWPORT_CLASS,
   useCardCarousel,
 } from '../molecules/CardCarousel';
+import { CountUpStat, useInViewOnce } from '../molecules/CountUpStat';
 
 const CARD_BODY =
   'Lorem ipsum is the standard placeholder text used in graphic design, publishing, and web';
@@ -64,9 +63,10 @@ const STATS = [
   { value: '256', label: 'Services', left: 'left-[83.28%]' },
 ] as const;
 
-/** Two 828px plates plus the 24px grid gutter, as a fraction of the track. */
-const TWO_UP_SLIDE_CLASS = `${CAROUSEL_SLIDE_CLASS} shrink-0 basis-[calc((100%+1.5rem)/2)] pl-grid`;
-const ONE_UP_SLIDE_CLASS = `${CAROUSEL_SLIDE_CLASS} shrink-0 basis-full pl-grid md:basis-[calc((100%+1.5rem)/2)]`;
+/** Exactly two plates fill the desktop viewport (one gutter between them).
+ *  2px inset on each slide keeps the white stroke inside the overflow clip. */
+const TWO_UP_SLIDE_CLASS = `${CAROUSEL_SLIDE_CLASS} box-border shrink-0 basis-[calc((100%-1.5rem)/2)] p-[2px]`;
+const ONE_UP_SLIDE_CLASS = `${CAROUSEL_SLIDE_CLASS} box-border shrink-0 basis-full p-[2px] md:basis-[calc((100%-1.5rem)/2)]`;
 
 /** Same white 60×60 circular control as the Healthcare feature carousel
  *  (`phase5-feature-prev.svg`) — both directions load the one asset, and
@@ -147,44 +147,42 @@ function AwardsTrack({
   onNext: () => void;
 }) {
   return (
-    <div className={CAROUSEL_BLEED_CLASS}>
-      <div
-        ref={viewportRef}
-        className={CAROUSEL_VIEWPORT_CLASS}
-        role="group"
-        aria-roledescription="carousel"
-        aria-label="Achievement awards"
-        tabIndex={0}
-        onKeyDown={(event) => {
-          if (event.key === 'ArrowLeft') {
-            event.preventDefault();
-            onPrev();
-          } else if (event.key === 'ArrowRight') {
-            event.preventDefault();
-            onNext();
-          }
-        }}
-      >
-        <div className="-ml-grid flex">
-          {SLIDES.map((slide) => (
-            <div
-              key={slide.key}
-              className={slideClassName}
-              role="group"
-              aria-roledescription="slide"
-              data-carousel-slide
-            >
-              <AchievementGlassCard
-                year={slide.year}
-                title={slide.title}
-                body={slide.body}
-                badgeSrc={slide.badgeSrc}
-                badgeAlt={slide.badgeAlt}
-                badgeShape={slide.badgeShape}
-              />
-            </div>
-          ))}
-        </div>
+    <div
+      ref={viewportRef}
+      className="snap-x snap-mandatory overflow-x-auto py-1 [scrollbar-width:none] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white [&::-webkit-scrollbar]:hidden"
+      role="group"
+      aria-roledescription="carousel"
+      aria-label="Achievement awards"
+      tabIndex={0}
+      onKeyDown={(event) => {
+        if (event.key === 'ArrowLeft') {
+          event.preventDefault();
+          onPrev();
+        } else if (event.key === 'ArrowRight') {
+          event.preventDefault();
+          onNext();
+        }
+      }}
+    >
+      <div className="flex gap-grid">
+        {SLIDES.map((slide) => (
+          <div
+            key={slide.key}
+            className={slideClassName}
+            role="group"
+            aria-roledescription="slide"
+            data-carousel-slide
+          >
+            <AchievementGlassCard
+              year={slide.year}
+              title={slide.title}
+              body={slide.body}
+              badgeSrc={slide.badgeSrc}
+              badgeAlt={slide.badgeAlt}
+              badgeShape={slide.badgeShape}
+            />
+          </div>
+        ))}
       </div>
     </div>
   );
@@ -199,11 +197,13 @@ function AwardsTrack({
 export const OurAchievementsSection: React.FC = () => {
   const desktop = useCardCarousel({ loop: true });
   const mobile = useCardCarousel({ loop: true });
+  const desktopStats = useInViewOnce<HTMLDivElement>(0.45);
+  const mobileStats = useInViewOnce<HTMLDListElement>(0.4);
 
   return (
     <section
       aria-labelledby="our-achievements-heading"
-      className="relative isolate overflow-hidden"
+      className="relative isolate"
     >
       <h2 id="our-achievements-heading" className="sr-only">
         Our Achievements
@@ -219,7 +219,7 @@ export const OurAchievementsSection: React.FC = () => {
           Our Achievements
         </p>
 
-        <div className="absolute top-[20.93%] left-[6.41%] w-[87.34%]">
+        <div className="absolute top-[20.93%] left-[6.41%] w-[87.34%] overflow-visible">
           <AwardsTrack
             viewportRef={desktop.viewportRef}
             slideClassName={TWO_UP_SLIDE_CLASS}
@@ -228,22 +228,27 @@ export const OurAchievementsSection: React.FC = () => {
           />
         </div>
 
-        <dl>
-          {STATS.map((stat) => (
-            <div key={stat.label}>
-              <dt
-                className={`absolute top-[90.74%] ${stat.left} -translate-x-1/2 -translate-y-1/2 text-stat-label font-medium whitespace-nowrap text-white`}
-              >
-                {stat.label}
-              </dt>
-              <dd
-                className={`absolute top-[82.31%] ${stat.left} -translate-x-1/2 -translate-y-1/2 font-serif text-numeral leading-none text-white`}
-              >
-                {stat.value}
-              </dd>
-            </div>
-          ))}
-        </dl>
+        <div
+          ref={desktopStats.ref}
+          className="absolute inset-x-0 top-[78%] h-[18%]"
+        >
+          <dl>
+            {STATS.map((stat) => (
+              <div key={stat.label}>
+                <dt
+                  className={`absolute top-[71%] ${stat.left} -translate-x-1/2 -translate-y-1/2 text-stat-label font-medium whitespace-nowrap text-white`}
+                >
+                  {stat.label}
+                </dt>
+                <dd
+                  className={`absolute top-[24%] ${stat.left} -translate-x-1/2 -translate-y-1/2 font-serif text-numeral leading-none text-white`}
+                >
+                  <CountUpStat value={stat.value} active={desktopStats.inView} />
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </div>
 
         <BandArrow
           direction="prev"
@@ -290,12 +295,15 @@ export const OurAchievementsSection: React.FC = () => {
             />
           </div>
 
-          <dl className="mt-block grid grid-cols-2 gap-x-4 gap-y-8 text-center text-white">
+          <dl
+            ref={mobileStats.ref}
+            className="mt-block grid grid-cols-2 gap-x-4 gap-y-8 text-center text-white"
+          >
             {STATS.map((stat) => (
               <div key={stat.label} className="min-w-0">
                 <dt className="sr-only">{stat.label}</dt>
                 <dd className="font-serif text-[clamp(2.25rem,12vw,4.5rem)] leading-none">
-                  {stat.value}
+                  <CountUpStat value={stat.value} active={mobileStats.inView} />
                 </dd>
                 <p className="mt-2 text-[clamp(0.875rem,3.2vw,1.5rem)] font-medium">
                   {stat.label}

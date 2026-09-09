@@ -63,8 +63,8 @@ export const AboutHeartStage: React.FC<AboutHeartStageProps> = ({
       />
     </div>
 
-    <div className="absolute top-[2.04%] left-0 h-[90.01%] w-full overflow-hidden">
-      <div className="absolute top-[-0.03%] left-[-9.93%] h-[100.05%] w-[121.63%]">
+    <div className="absolute top-[2.04%] left-0 h-[90.01%] w-full overflow-visible">
+      <div className="animate-heart-float absolute top-[-0.03%] left-[-9.93%] h-[100.05%] w-[121.63%] will-change-transform motion-reduce:animate-none">
         <Image
           src={heartSrc}
           alt="Anatomical heart illustration"

@@ -7,8 +7,10 @@ import {
   CAROUSEL_SLIDE_CLASS,
   CAROUSEL_VIEWPORT_CLASS,
   getNearestSlideScrollLeft,
+  seekCarouselToRatio,
   useCardCarousel,
   useDragToScroll,
+  useWheelToScroll,
 } from '../molecules/CardCarousel';
 import { CarouselProgressBar } from '../molecules/CarouselProgressBar';
 import { HealthcareFeatureCard } from '../molecules/HealthcareFeatureCard';
@@ -20,6 +22,10 @@ const STAFFING_SLIDES = [
   { id: 'travel-2' },
   { id: 'travel-3' },
   { id: 'travel-4' },
+  { id: 'travel-5' },
+  { id: 'travel-6' },
+  { id: 'travel-7' },
+  { id: 'travel-8' },
 ] as const;
 
 export interface HealthcareProgramsSectionProps {
@@ -36,13 +42,13 @@ export const HealthcareProgramsSection: React.FC<HealthcareProgramsSectionProps>
   const { viewportRef } = useCardCarousel({ loop: true });
   const progress = useCarouselProgress(viewportRef);
   const { isDragging, dragHandlers } = useDragToScroll(viewportRef);
+  useWheelToScroll(viewportRef);
 
   const seekTo = useCallback(
-    (ratio: number) => {
+    (ratio: number, smooth = false) => {
       const viewport = viewportRef.current;
       if (!viewport) return;
-      const maxScroll = viewport.scrollWidth - viewport.clientWidth;
-      viewport.scrollLeft = ratio * maxScroll;
+      seekCarouselToRatio(viewport, ratio, smooth ? 'smooth' : 'auto');
     },
     [viewportRef]
   );
@@ -50,7 +56,11 @@ export const HealthcareProgramsSection: React.FC<HealthcareProgramsSectionProps>
   const settleToNearestSlide = useCallback(() => {
     const viewport = viewportRef.current;
     if (!viewport) return;
+    viewport.style.scrollSnapType = 'none';
     viewport.scrollTo({ left: getNearestSlideScrollLeft(viewport), behavior: 'smooth' });
+    window.setTimeout(() => {
+      viewport.style.scrollSnapType = '';
+    }, 400);
   }, [viewportRef]);
 
   return (
@@ -84,7 +94,7 @@ export const HealthcareProgramsSection: React.FC<HealthcareProgramsSectionProps>
                   {STAFFING_SLIDES.map((slide) => (
                     <div
                       key={slide.id}
-                      className={`${CAROUSEL_SLIDE_CLASS} shrink-0 basis-[min(100%,25.125rem)] pl-grid sm:basis-[min(85%,25.125rem)] lg:basis-[25.125rem]`}
+                      className={`${CAROUSEL_SLIDE_CLASS} shrink-0 basis-[min(100%,25.125rem)] pl-grid sm:basis-[min(70%,25.125rem)] lg:basis-[min(42%,25.125rem)] xl:basis-[25.125rem]`}
                       role="group"
                       aria-roledescription="slide"
                       data-carousel-slide
@@ -97,7 +107,12 @@ export const HealthcareProgramsSection: React.FC<HealthcareProgramsSectionProps>
             </div>
           </div>
 
-          <CarouselProgressBar progress={progress} onScrub={seekTo} onScrubEnd={settleToNearestSlide} />
+          <CarouselProgressBar
+            progress={progress}
+            onScrub={(ratio) => seekTo(ratio)}
+            onSeek={(ratio) => seekTo(ratio, true)}
+            onScrubEnd={settleToNearestSlide}
+          />
         </div>
       </div>
     </Section>

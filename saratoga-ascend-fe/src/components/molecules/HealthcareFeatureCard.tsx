@@ -11,14 +11,29 @@ export interface HealthcareRoleSlide {
   personSrc?: string;
 }
 
+const ROLE_BLURB =
+  'Connecting cleared, credentialed healthcare professionals with government, military, and local facilities nationwide.';
+
 const DEFAULT_SLIDES: readonly HealthcareRoleSlide[] = [
   {
     category: 'Healthcare',
     role: 'Medical Pharmacist',
-    blurb:
-      'Connecting cleared, credentialed healthcare professionals with government, military, and local facilities nationwide.',
+    blurb: ROLE_BLURB,
+  },
+  {
+    category: 'Healthcare',
+    role: 'Registered Nurse',
+    blurb: ROLE_BLURB,
+  },
+  {
+    category: 'Healthcare',
+    role: 'Physician',
+    blurb: ROLE_BLURB,
   },
 ];
+
+const SLIDE_MS = 400;
+const SLIDE_EASE = 'ease-[cubic-bezier(0.25,0.1,0.25,1)]';
 
 const INSET = 'clamp(1.25rem, 3.125vw, 3.75rem)';
 /* `display` is deliberately left out — Tailwind can't guarantee an unprefixed
@@ -38,8 +53,7 @@ export interface HealthcareFeatureCardProps {
    *  `location` — the menu still opens and behaves like a real listbox, it
    *  just has one option until a real location list exists. */
   locations?: readonly string[];
-  /** Role cards the prev/next controls step through. Defaults to a single
-   *  slide, so the band renders exactly as before until more roles land. */
+  /** Role cards the prev/next controls step through. */
   slides?: readonly HealthcareRoleSlide[];
 }
 
@@ -133,10 +147,80 @@ const LocationPicker: React.FC<LocationPickerProps> = ({
   );
 };
 
+interface RoleSlidePanelProps {
+  slide: HealthcareRoleSlide;
+  personSrc?: string;
+  location: string;
+  locationOptions: readonly string[];
+}
+
+function RoleSlidePanel({
+  slide,
+  personSrc,
+  location,
+  locationOptions,
+}: RoleSlidePanelProps) {
+  const resolvedPersonSrc =
+    slide.personSrc ?? personSrc ?? '/images/phase5/phase5-nurse.png';
+
+  return (
+    <>
+      <p
+        className="pointer-events-none absolute top-[-1.625rem] left-1/2 hidden -translate-x-[12rem] font-serif text-[13.4rem] leading-[1.15] text-[#fffefe] opacity-10 select-none whitespace-nowrap xl:block"
+        aria-hidden="true"
+      >
+        {slide.category}
+      </p>
+
+      <div className="relative mx-auto mt-6 h-[min(22rem,70vw)] w-[min(16rem,55vw)] xl:absolute xl:top-[-10px] xl:right-[9.52%] xl:mx-0 xl:mt-0 xl:h-[152.57%] xl:w-[41.67%]">
+        <MediaFrame
+          src={resolvedPersonSrc}
+          alt=""
+          pendingLabel="healthcare-portrait.png"
+          tone="navyCard"
+          sizes="(max-width: 1280px) 55vw, 700px"
+          imageClassName="object-contain! object-bottom!"
+          className="size-full border-0 bg-transparent"
+        />
+      </div>
+
+      <div className="relative z-[2] flex flex-col px-[clamp(1.25rem,3.125vw,3.75rem)] pt-6 pb-8 xl:absolute xl:top-1/2 xl:left-[clamp(1.25rem,3.125vw,3.75rem)] xl:w-[min(36%,32rem)] xl:-translate-y-1/2 xl:p-0">
+        <LocationPicker
+          location={location}
+          options={locationOptions}
+          wrapperClassName="mb-8 xl:hidden"
+          buttonClassName={`${PILL} inline-flex border border-brand-on-dark bg-transparent`}
+        />
+
+        <Heading level={2} size="hero" tone="onDark" font="serif" className="text-[#fffefe]">
+          {slide.category}
+        </Heading>
+
+        <p className="mt-[clamp(0.75rem,1.5vw,1.25rem)] text-[clamp(1.125rem,1.46vw,1.75rem)] font-bold leading-[1.2] text-brand-blue-soft">
+          {slide.role}
+        </p>
+
+        <Text size="body" tone="onDark" className="mt-[clamp(0.75rem,1.25vw,1rem)] max-w-[36ch]">
+          {slide.blurb}
+        </Text>
+
+        <GeneralLink
+          href="/careers"
+          variant="unstyled"
+          className={`${PILL} inline-flex mt-8 bg-brand-cta-to hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-on-dark xl:hidden`}
+        >
+          Explore Jobs
+        </GeneralLink>
+      </div>
+    </>
+  );
+}
+
 /**
  * Navy healthcare feature band (Figma node 13:224). Chicago and Explore Jobs
  * share the 60px inset and 180×60 pill size; the portrait is clipped to the
- * 700px stage rather than scaled to fit.
+ * 700px stage rather than scaled to fit. Arrows slide roles sideways, same
+ * motion as the What We Do service-line card.
  */
 export const HealthcareFeatureCard: React.FC<HealthcareFeatureCardProps> = ({
   personSrc,
@@ -146,27 +230,48 @@ export const HealthcareFeatureCard: React.FC<HealthcareFeatureCardProps> = ({
 }) => {
   const locationOptions = locations ?? [location];
   const [index, setIndex] = useState(0);
-  const [visible, setVisible] = useState(true);
+  const [fromIndex, setFromIndex] = useState<number | null>(null);
+  const [dir, setDir] = useState<1 | -1>(1);
+  const [moved, setMoved] = useState(false);
   const touchStart = useRef<{ x: number; y: number } | null>(null);
-  const slide = slides[index];
-  const resolvedPersonSrc = slide.personSrc ?? personSrc ?? '/images/phase5/phase5-nurse.png';
 
-  const step = (delta: number) => {
+  const slide = slides[index];
+  const isSliding = fromIndex !== null;
+
+  const step = (delta: 1 | -1) => {
+    if (isSliding || slides.length < 2) return;
+
+    const next = (index + delta + slides.length) % slides.length;
     const reduceMotion =
       typeof window !== 'undefined' &&
       window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     if (reduceMotion) {
-      setIndex((current) => (current + delta + slides.length) % slides.length);
+      setIndex(next);
       return;
     }
 
-    setVisible(false);
-    window.setTimeout(() => {
-      setIndex((current) => (current + delta + slides.length) % slides.length);
-      setVisible(true);
-    }, 180);
+    setDir(delta);
+    setFromIndex(index);
+    setIndex(next);
+    setMoved(false);
   };
+
+  useEffect(() => {
+    if (fromIndex === null) return undefined;
+
+    const id = window.requestAnimationFrame(() => {
+      window.requestAnimationFrame(() => setMoved(true));
+    });
+    return () => window.cancelAnimationFrame(id);
+  }, [fromIndex]);
+
+  useEffect(() => {
+    if (fromIndex === null || !moved) return undefined;
+
+    const timer = window.setTimeout(() => setFromIndex(null), SLIDE_MS);
+    return () => window.clearTimeout(timer);
+  }, [fromIndex, moved]);
 
   const handleTouchStart = (event: React.TouchEvent) => {
     const touch = event.touches[0];
@@ -188,6 +293,14 @@ export const HealthcareFeatureCard: React.FC<HealthcareFeatureCardProps> = ({
     step(dx < 0 ? 1 : -1);
   };
 
+  const panelProps = {
+    personSrc,
+    location,
+    locationOptions,
+  };
+
+  const slideClass = `absolute inset-0 transition-transform duration-[400ms] ${SLIDE_EASE} motion-reduce:transition-none`;
+
   return (
     <article
       className="relative overflow-hidden rounded-card bg-brand-navy-band text-brand-on-dark xl:aspect-[1680/700]"
@@ -195,95 +308,75 @@ export const HealthcareFeatureCard: React.FC<HealthcareFeatureCardProps> = ({
       onTouchEnd={handleTouchEnd}
     >
       <div
-        className={`transition-opacity duration-200 motion-reduce:transition-none ${
-          visible ? 'opacity-100' : 'opacity-0'
-        }`}
+        className="pointer-events-none absolute inset-0 hidden overflow-hidden rounded-card xl:block"
+        aria-hidden="true"
+      >
+        <img
+          src="/images/Mask group-healthcare.png"
+          alt=""
+          className="animate-bg-drift absolute inset-0 size-full object-cover motion-reduce:animate-none"
+        />
+      </div>
+
+      <div className="absolute z-[2] hidden xl:block" style={{ top: INSET, left: INSET }}>
+        <LocationPicker
+          location={location}
+          options={locationOptions}
+          wrapperClassName=""
+          buttonClassName={`${PILL} inline-flex border border-brand-on-dark bg-transparent`}
+        />
+      </div>
+
+      <GeneralLink
+        href="/careers"
+        variant="unstyled"
+        className={`${PILL} absolute z-[2] hidden bg-brand-cta-to hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-on-dark xl:inline-flex`}
+        style={{ bottom: INSET, left: INSET }}
+      >
+        Explore Jobs
+      </GeneralLink>
+
+      <div
+        className="relative overflow-hidden xl:absolute xl:inset-0"
         role="group"
         aria-roledescription="carousel"
         aria-label="Healthcare roles"
         aria-live="polite"
       >
-        {/* Spiral-line background band from Figma — sits under everything
-            else, so it stays out of the tab order and never affects layout
-            (absolute + no size on the parent). A slow drift keeps it premium
-            rather than distracting. */}
-        <div
-          className="pointer-events-none absolute inset-0 hidden overflow-hidden rounded-card xl:block"
-          aria-hidden="true"
-        >
-          <img
-            src="/images/Mask group-healthcare.png"
-            alt=""
-            className="animate-bg-drift absolute inset-0 size-full object-cover motion-reduce:animate-none"
+        <div className={isSliding ? 'invisible' : ''}>
+          <RoleSlidePanel
+            slide={fromIndex !== null ? slides[fromIndex] : slide}
+            {...panelProps}
           />
         </div>
 
-        <p
-          className="pointer-events-none absolute top-[-1.625rem] left-1/2 hidden -translate-x-[12rem] font-serif text-[13.4rem] leading-[1.15] text-[#fffefe] opacity-10 select-none whitespace-nowrap xl:block"
-          aria-hidden="true"
-        >
-          {slide.category}
-        </p>
-
-        {/* Portrait — 700×1068, clipped by the 700px stage */}
-        <div className="relative mx-auto mt-6 h-[min(22rem,70vw)] w-[min(16rem,55vw)] xl:absolute xl:top-[-10px] xl:right-[9.52%] xl:mx-0 xl:mt-0 xl:h-[152.57%] xl:w-[41.67%]">
-          <MediaFrame
-            src={resolvedPersonSrc}
-            alt=""
-            pendingLabel="healthcare-portrait.png"
-            tone="navyCard"
-            sizes="(max-width: 1280px) 55vw, 700px"
-            imageClassName="object-contain! object-bottom!"
-            className="size-full border-0 bg-transparent"
-          />
-        </div>
-
-        <div className="absolute z-[2] hidden xl:block" style={{ top: INSET, left: INSET }}>
-          <LocationPicker
-            location={location}
-            options={locationOptions}
-            wrapperClassName=""
-            buttonClassName={`${PILL} inline-flex border border-brand-on-dark bg-transparent`}
-          />
-        </div>
-
-        <div className="relative z-[2] flex flex-col px-[clamp(1.25rem,3.125vw,3.75rem)] pt-6 pb-8 xl:absolute xl:top-1/2 xl:left-[clamp(1.25rem,3.125vw,3.75rem)] xl:w-[min(36%,32rem)] xl:-translate-y-1/2 xl:p-0">
-          <LocationPicker
-            location={location}
-            options={locationOptions}
-            wrapperClassName="mb-8 xl:hidden"
-            buttonClassName={`${PILL} inline-flex border border-brand-on-dark bg-transparent`}
-          />
-
-          <Heading level={2} size="hero" tone="onDark" font="serif" className="text-[#fffefe]">
-            {slide.category}
-          </Heading>
-
-          <p className="mt-[clamp(0.75rem,1.5vw,1.25rem)] text-[clamp(1.125rem,1.46vw,1.75rem)] font-bold leading-[1.2] text-brand-blue-soft">
-            {slide.role}
-          </p>
-
-          <Text size="body" tone="onDark" className="mt-[clamp(0.75rem,1.25vw,1rem)] max-w-[36ch]">
-            {slide.blurb}
-          </Text>
-
-          <GeneralLink
-            href="/careers"
-            variant="unstyled"
-            className={`${PILL} inline-flex mt-8 bg-brand-cta-to hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-on-dark xl:hidden`}
-          >
-            Explore Jobs
-          </GeneralLink>
-        </div>
-
-        <GeneralLink
-          href="/careers"
-          variant="unstyled"
-          className={`${PILL} absolute z-[2] hidden bg-brand-cta-to hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-on-dark xl:inline-flex`}
-          style={{ bottom: INSET, left: INSET }}
-        >
-          Explore Jobs
-        </GeneralLink>
+        {isSliding && fromIndex !== null && (
+          <>
+            <div
+              className={`${slideClass} ${
+                moved
+                  ? dir === 1
+                    ? '-translate-x-full'
+                    : 'translate-x-full'
+                  : 'translate-x-0'
+              }`}
+              aria-hidden="true"
+            >
+              <RoleSlidePanel slide={slides[fromIndex]} {...panelProps} />
+            </div>
+            <div
+              className={`${slideClass} ${
+                moved
+                  ? 'translate-x-0'
+                  : dir === 1
+                    ? 'translate-x-full'
+                    : '-translate-x-full'
+              }`}
+            >
+              <RoleSlidePanel slide={slide} {...panelProps} />
+            </div>
+          </>
+        )}
       </div>
 
       <button
