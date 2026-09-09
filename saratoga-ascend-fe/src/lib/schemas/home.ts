@@ -98,11 +98,65 @@ export const ClientLogosReferenceSchema = z.object({
 
 export type ClientLogosReference = z.infer<typeof ClientLogosReferenceSchema>;
 
+export const ServiceEntitySchema = z.object({
+  documentId: z.string().optional(),
+  pageTitle: z.string().optional(),
+  slug: z.string().optional(),
+  title: z.string().nullable().optional(),
+  summary: z.string().nullable().optional(),
+  cta: GeneralLinkSchema.nullable().optional(),
+  image: StrapiImageSchema.nullable().optional(),
+});
+
+export type ServiceEntity = z.infer<typeof ServiceEntitySchema>;
+
+export const ServiceReferenceSchema = z.object({
+  __typename: z.literal('ComponentReferencesServiceReference'),
+  heading: z
+    .object({
+      title: z.string().nullable().optional(),
+      description: z.string().nullable().optional(),
+    })
+    .nullable()
+    .optional(),
+  services: z.array(ServiceEntitySchema).nullable().optional(),
+});
+
+export type ServiceReference = z.infer<typeof ServiceReferenceSchema>;
+
+export const MissionHighlightSchema = z.object({
+  text: z.string(),
+});
+
+export type MissionHighlight = z.infer<typeof MissionHighlightSchema>;
+
+export const MissionSectionEntitySchema = z.object({
+  documentId: z.string().optional(),
+  referenceTitle: z.string().nullable().optional(),
+  title: z.string().nullable().optional(),
+  description: z.string().nullable().optional(),
+  highlights: z.array(MissionHighlightSchema).nullable().optional(),
+  image: StrapiImageSchema.nullable().optional(),
+  shieldIcon: StrapiImageSchema.nullable().optional(),
+  pulseIcon: StrapiImageSchema.nullable().optional(),
+});
+
+export type MissionSectionEntity = z.infer<typeof MissionSectionEntitySchema>;
+
+export const MissionReferenceSchema = z.object({
+  __typename: z.literal('ComponentReferencesMissionReference'),
+  missionSection: MissionSectionEntitySchema.nullable().optional(),
+});
+
+export type MissionReference = z.infer<typeof MissionReferenceSchema>;
+
 export const HomeDynamicZoneSectionSchema = z.union([
   BannerReferenceSchema,
   CtaReferenceSchema,
   FaqsReferenceSchema,
   ClientLogosReferenceSchema,
+  ServiceReferenceSchema,
+  MissionReferenceSchema,
   z.object({ __typename: z.string() }).passthrough(),
 ]);
 
