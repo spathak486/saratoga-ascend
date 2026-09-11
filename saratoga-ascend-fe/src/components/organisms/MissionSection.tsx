@@ -74,7 +74,10 @@ export const MissionSection: React.FC<MissionSectionProps> = ({
           {/* Body — 683px measure, 24px medium, 1.6 leading; 48px below heading */}
           <div className="mt-[clamp(1.5rem,2.5vw,3rem)] max-w-[42.6875rem] text-body-lg font-medium leading-[1.6] text-ink">
             {description ? (
-              <p className="whitespace-pre-wrap">{description}</p>
+              <div 
+                className="whitespace-pre-wrap [&>p]:mb-[1.6em] last:[&>p]:mb-0"
+                dangerouslySetInnerHTML={{ __html: description }}
+              />
             ) : (
               <>
                 <p>{BODY_LEAD}</p>
