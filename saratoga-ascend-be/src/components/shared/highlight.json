@@ -1,0 +1,15 @@
+{
+  "collectionName": "components_shared_highlights",
+  "info": {
+    "displayName": "Highlight",
+    "icon": "check"
+  },
+  "options": {},
+  "attributes": {
+    "text": {
+      "type": "string",
+      "required": true
+    }
+  },
+  "config": {}
+}

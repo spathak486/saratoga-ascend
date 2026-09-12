@@ -163,11 +163,50 @@ const CLIENT_LOGOS_REFERENCE_FIELDS = `
   }
 `;
 
+const SERVICE_REFERENCE_FIELDS = `
+  __typename
+  ... on ComponentReferencesServiceReference {
+    heading {
+      title
+      description
+    }
+    services {
+      documentId
+      pageTitle
+      slug
+      title
+      summary
+      cta { ${GENERAL_LINK_FIELDS} }
+      image { ${IMAGE_FIELDS} }
+    }
+  }
+`;
+
+const MISSION_REFERENCE_FIELDS = `
+  __typename
+  ... on ComponentReferencesMissionReference {
+    missionSection {
+      documentId
+      title
+      description
+      image { ${IMAGE_FIELDS} }
+      shieldIcon { ${IMAGE_FIELDS} }
+      pulseIcon { ${IMAGE_FIELDS} }
+      highlights {
+        id
+        text
+      }
+    }
+  }
+`;
+
 const DYNAMIC_SECTION_FRAGMENTS = [
   BANNER_REFERENCE_FIELDS,
   CTA_REFERENCE_FIELDS,
   FAQS_REFERENCE_FIELDS,
   CLIENT_LOGOS_REFERENCE_FIELDS,
+  SERVICE_REFERENCE_FIELDS,
+  MISSION_REFERENCE_FIELDS,
 ].join('\n');
 
 const PAGE_BY_SLUG_QUERY = `
@@ -347,6 +386,40 @@ function resolveSectionImages(section: Record<string, unknown>) {
       clientLogosSection: {
         ...cls,
         logos: rawLogos ? rawLogos.map((logo) => unwrapImage(logo)).filter(Boolean) : null,
+      },
+    };
+  }
+
+  if (section.__typename === 'ComponentReferencesServiceReference') {
+    const rawServices = section.services as Array<Record<string, unknown>> | null | undefined;
+    return {
+      ...section,
+      services: rawServices
+        ? rawServices.map((svc) => ({
+            ...svc,
+            image: unwrapImage(svc.image as RawStrapiMedia | null),
+            cta: svc.cta
+              ? {
+                  ...(svc.cta as Record<string, unknown>),
+                  icon: unwrapImage(
+                    (svc.cta as Record<string, unknown>).icon as RawStrapiMedia | null
+                  ),
+                }
+              : null,
+          }))
+        : null,
+    };
+  }
+
+  if (section.__typename === 'ComponentReferencesMissionReference' && section.missionSection) {
+    const ms = section.missionSection as Record<string, unknown>;
+    return {
+      ...section,
+      missionSection: {
+        ...ms,
+        image: unwrapImage(ms.image as RawStrapiMedia | null),
+        shieldIcon: unwrapImage(ms.shieldIcon as RawStrapiMedia | null),
+        pulseIcon: unwrapImage(ms.pulseIcon as RawStrapiMedia | null),
       },
     };
   }

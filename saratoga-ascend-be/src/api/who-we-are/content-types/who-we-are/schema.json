@@ -1,10 +1,10 @@
 {
   "kind": "singleType",
-  "collectionName": "homes",
+  "collectionName": "who_we_ares",
   "info": {
-    "singularName": "home",
-    "pluralName": "homes",
-    "displayName": "Home"
+    "singularName": "who-we-are",
+    "pluralName": "who-we-ares",
+    "displayName": "Who We Are"
   },
   "options": {
     "draftAndPublish": true

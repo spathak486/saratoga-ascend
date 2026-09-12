@@ -3,10 +3,25 @@ import { Section } from '../atoms';
 import { MarketServeCard } from '../molecules/MarketServeCard';
 import { SectionIntro } from '../molecules/SectionIntro';
 
+export interface MarketItem {
+  id: string;
+  label: string;
+  description: string;
+  imageSrc?: string;
+  pendingLabel?: string;
+  href?: string;
+}
+
+export interface MarketWeServeSectionProps {
+  title?: string;
+  description?: string;
+  services?: MarketItem[];
+}
+
 const INTRO_COPY =
   'Connecting cleared, credentialed healthcare professionals with government, military, and local facilities nationwide.';
 
-const MARKETS = [
+const MARKETS: MarketItem[] = [
   {
     id: 'federal-military',
     label: 'Federal & Military',
@@ -25,36 +40,47 @@ const MARKETS = [
     pendingLabel: 'State & Local.png',
     href: '/who-we-serve',
   },
-] as const;
+];
 
 /**
- * Phase 4 — Market We Serve: section intro plus two photo overlay cards.
+ * Phase 4 — Market We Serve: section intro plus photo overlay cards.
+ * Accepts optional dynamic data from Strapi or falls back to static content.
  */
-export const MarketWeServeSection: React.FC = () => (
-  <Section
-    aria-labelledby="market-we-serve-heading"
-    tone="surface"
-    spacing="lg"
-  >
-    <div className="flex flex-col gap-[clamp(2.5rem,3.125vw,3.75rem)]">
-      <SectionIntro
-        id="market-we-serve-heading"
-        title="Market We Serve"
-        description={INTRO_COPY}
-      />
+export const MarketWeServeSection: React.FC<MarketWeServeSectionProps> = ({
+  title,
+  description,
+  services,
+}) => {
+  const displayTitle = title || 'Market We Serve';
+  const displayDescription = description || INTRO_COPY;
+  const displayMarkets = services && services.length > 0 ? services : MARKETS;
 
-      <div className="grid grid-cols-1 gap-grid lg:grid-cols-2">
-        {MARKETS.map((market) => (
-          <MarketServeCard
-            key={market.id}
-            label={market.label}
-            description={market.description}
-            imageSrc={market.imageSrc}
-            pendingLabel={market.pendingLabel}
-            href={market.href}
-          />
-        ))}
+  return (
+    <Section
+      aria-labelledby="market-we-serve-heading"
+      tone="surface"
+      spacing="lg"
+    >
+      <div className="flex flex-col gap-[clamp(2.5rem,3.125vw,3.75rem)]">
+        <SectionIntro
+          id="market-we-serve-heading"
+          title={displayTitle}
+          description={displayDescription}
+        />
+
+        <div className="grid grid-cols-1 gap-grid lg:grid-cols-2">
+          {displayMarkets.map((market) => (
+            <MarketServeCard
+              key={market.id}
+              label={market.label}
+              description={market.description}
+              imageSrc={market.imageSrc}
+              pendingLabel={market.pendingLabel || market.label}
+              href={market.href}
+            />
+          ))}
+        </div>
       </div>
-    </div>
-  </Section>
-);
+    </Section>
+  );
+};

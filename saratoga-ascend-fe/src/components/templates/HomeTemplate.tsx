@@ -25,6 +25,8 @@ export interface HomeTemplateProps {
  */
 const DYNAMIC_SLOT: Record<string, number> = {
   ComponentReferencesBannerReference: 0,
+  ComponentReferencesServiceReference: 2,
+  ComponentReferencesMissionReference: 4,
   ComponentReferencesClientLogosReference: 9,
   ComponentReferencesFaQs: 10,
   ComponentReferencesFaqs: 10,

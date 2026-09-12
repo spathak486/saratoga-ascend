@@ -1,0 +1,16 @@
+{
+  "collectionName": "components_references_mission_references",
+  "info": {
+    "displayName": "Mission Reference",
+    "icon": "heart"
+  },
+  "options": {},
+  "attributes": {
+    "missionSection": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::mission-section.mission-section"
+    }
+  },
+  "config": {}
+}

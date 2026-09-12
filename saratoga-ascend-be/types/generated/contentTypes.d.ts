@@ -762,6 +762,8 @@ export interface ApiHomeHome extends Struct.SingleTypeSchema {
         'references.cta',
         'references.fa-qs',
         'references.client-logos-reference',
+        'references.service-reference',
+        'references.mission-reference',
       ]
     >;
     seo: Schema.Attribute.Component<'shared.seo', false> &
@@ -769,6 +771,84 @@ export interface ApiHomeHome extends Struct.SingleTypeSchema {
     slug: Schema.Attribute.String &
       Schema.Attribute.Required &
       Schema.Attribute.Unique;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiMissionSectionMissionSection
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'mission_sections';
+  info: {
+    displayName: 'Mission Section';
+    pluralName: 'mission-sections';
+    singularName: 'mission-section';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    description: Schema.Attribute.RichText &
+      Schema.Attribute.CustomField<
+        'plugin::ckeditor5.CKEditor',
+        {
+          preset: 'defaultHtml';
+        }
+      >;
+    highlights: Schema.Attribute.Component<'shared.highlight', true>;
+    image: Schema.Attribute.Media<'images'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::mission-section.mission-section'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    pulseIcon: Schema.Attribute.Media<'images'>;
+    referenceTitle: Schema.Attribute.String;
+    shieldIcon: Schema.Attribute.Media<'images'>;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiServiceService extends Struct.CollectionTypeSchema {
+  collectionName: 'services';
+  info: {
+    displayName: 'Service';
+    pluralName: 'services';
+    singularName: 'service';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    cta: Schema.Attribute.Component<'shared.general-link', false>;
+    image: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::service.service'
+    > &
+      Schema.Attribute.Private;
+    pageTitle: Schema.Attribute.String & Schema.Attribute.Required;
+    publishedAt: Schema.Attribute.DateTime;
+    seo: Schema.Attribute.Component<'shared.seo', false> &
+      Schema.Attribute.Required;
+    slug: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    summary: Schema.Attribute.Text;
+    title: Schema.Attribute.String;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -798,6 +878,49 @@ export interface ApiThankYouThankYou extends Struct.SingleTypeSchema {
     pageTitle: Schema.Attribute.String & Schema.Attribute.Required;
     publishedAt: Schema.Attribute.DateTime;
     Section: Schema.Attribute.DynamicZone<['references.banner-reference']>;
+    seo: Schema.Attribute.Component<'shared.seo', false> &
+      Schema.Attribute.Required;
+    slug: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiWhoWeAreWhoWeAre extends Struct.SingleTypeSchema {
+  collectionName: 'who_we_ares';
+  info: {
+    displayName: 'Who We Are';
+    pluralName: 'who-we-ares';
+    singularName: 'who-we-are';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::who-we-are.who-we-are'
+    > &
+      Schema.Attribute.Private;
+    pageTitle: Schema.Attribute.String & Schema.Attribute.Required;
+    publishedAt: Schema.Attribute.DateTime;
+    Section: Schema.Attribute.DynamicZone<
+      [
+        'references.banner-reference',
+        'references.cta',
+        'references.fa-qs',
+        'references.client-logos-reference',
+        'references.service-reference',
+        'references.mission-reference',
+      ]
+    >;
     seo: Schema.Attribute.Component<'shared.seo', false> &
       Schema.Attribute.Required;
     slug: Schema.Attribute.String &
@@ -1330,7 +1453,10 @@ declare module '@strapi/strapi' {
       'api::footer.footer': ApiFooterFooter;
       'api::hero-banner.hero-banner': ApiHeroBannerHeroBanner;
       'api::home.home': ApiHomeHome;
+      'api::mission-section.mission-section': ApiMissionSectionMissionSection;
+      'api::service.service': ApiServiceService;
       'api::thank-you.thank-you': ApiThankYouThankYou;
+      'api::who-we-are.who-we-are': ApiWhoWeAreWhoWeAre;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;

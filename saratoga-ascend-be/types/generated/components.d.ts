@@ -114,6 +114,32 @@ export interface ReferencesFaQs extends Struct.ComponentSchema {
   };
 }
 
+export interface ReferencesMissionReference extends Struct.ComponentSchema {
+  collectionName: 'components_references_mission_references';
+  info: {
+    displayName: 'Mission Reference';
+    icon: 'heart';
+  };
+  attributes: {
+    missionSection: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::mission-section.mission-section'
+    >;
+  };
+}
+
+export interface ReferencesServiceReference extends Struct.ComponentSchema {
+  collectionName: 'components_references_service_references';
+  info: {
+    displayName: 'Service Reference';
+    icon: 'briefcase';
+  };
+  attributes: {
+    heading: Schema.Attribute.Component<'core-component.heading', false>;
+    services: Schema.Attribute.Relation<'oneToMany', 'api::service.service'>;
+  };
+}
+
 export interface SharedGeneralLink extends Struct.ComponentSchema {
   collectionName: 'components_shared_general_links';
   info: {
@@ -135,6 +161,17 @@ export interface SharedGeneralLink extends Struct.ComponentSchema {
     target: Schema.Attribute.Enumeration<['_self', '_blank']> &
       Schema.Attribute.Required &
       Schema.Attribute.DefaultTo<'_self'>;
+  };
+}
+
+export interface SharedHighlight extends Struct.ComponentSchema {
+  collectionName: 'components_shared_highlights';
+  info: {
+    displayName: 'Highlight';
+    icon: 'check';
+  };
+  attributes: {
+    text: Schema.Attribute.String & Schema.Attribute.Required;
   };
 }
 
@@ -182,7 +219,10 @@ declare module '@strapi/strapi' {
       'references.client-logos-reference': ReferencesClientLogosReference;
       'references.cta': ReferencesCta;
       'references.fa-qs': ReferencesFaQs;
+      'references.mission-reference': ReferencesMissionReference;
+      'references.service-reference': ReferencesServiceReference;
       'shared.general-link': SharedGeneralLink;
+      'shared.highlight': SharedHighlight;
       'shared.link-column': SharedLinkColumn;
       'shared.seo': SharedSeo;
     }

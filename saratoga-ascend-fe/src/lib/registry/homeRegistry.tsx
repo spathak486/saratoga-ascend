@@ -5,8 +5,17 @@ import type {
   ClientLogosReference,
   CtaReference,
   FaqsReference,
+  ServiceReference,
+  MissionReference,
 } from '@/lib/schemas';
-import { HeroSection, NeedHelpSection, FaqSection, ClientLogosSection } from '@/components/organisms';
+import {
+  HeroSection,
+  NeedHelpSection,
+  FaqSection,
+  ClientLogosSection,
+  MarketWeServeSection,
+  MissionSection,
+} from '@/components/organisms';
 
 function renderFaqSection(faqsRef: FaqsReference, index: number) {
   const promo = faqsRef.content?.ContentSection;
@@ -96,6 +105,52 @@ export const SECTION_REGISTRY: Record<
         title={cls?.title ?? undefined}
         description={cls?.description ?? undefined}
         logos={cls?.logos ?? undefined}
+      />
+    );
+  },
+
+  ComponentReferencesServiceReference: (section, index) => {
+    const sRef = section as ServiceReference;
+    const heading = sRef.heading;
+    const services = sRef.services
+      ?.map((svc) => {
+        if (!svc) return null;
+        return {
+          id: svc.slug || svc.documentId || svc.title || 'service',
+          label: svc.title || svc.pageTitle || '',
+          description: svc.summary || '',
+          imageSrc: svc.image?.url ?? undefined,
+          href: svc.cta?.href || (svc.slug ? `/${svc.slug}` : '/who-we-serve'),
+        };
+      })
+      .filter((s): s is NonNullable<typeof s> => s !== null && !!s.label);
+
+    const cleanDescription = heading?.description
+      ? heading.description.replace(/<[^>]*>/g, '').trim()
+      : undefined;
+
+    return (
+      <MarketWeServeSection
+        key={`services-${index}`}
+        title={heading?.title ?? undefined}
+        description={cleanDescription}
+        services={services && services.length > 0 ? services : undefined}
+      />
+    );
+  },
+
+  ComponentReferencesMissionReference: (section, index) => {
+    const mRef = section as MissionReference;
+    const ms = mRef.missionSection;
+    return (
+      <MissionSection
+        key={`mission-${index}`}
+        title={ms?.title ?? undefined}
+        description={ms?.description ?? undefined}
+        imageSrc={ms?.image?.url ?? undefined}
+        shieldIconSrc={ms?.shieldIcon?.url ?? undefined}
+        pulseIconSrc={ms?.pulseIcon?.url ?? undefined}
+        highlights={ms?.highlights?.map((h) => h.text) ?? undefined}
       />
     );
   },
