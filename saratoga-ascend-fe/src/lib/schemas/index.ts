@@ -27,6 +27,10 @@ export {
   type PromoComponent,
   CtaReferenceSchema,
   type CtaReference,
+  FaqItemComponentSchema,
+  type FaqItemComponent,
+  FaqEntitySchema,
+  type FaqEntity,
   FaqsReferenceSchema,
   type FaqsReference,
   ClientLogosReferenceSchema,
@@ -35,15 +39,16 @@ export {
   type ServiceEntity,
   ServiceReferenceSchema,
   type ServiceReference,
-  MissionReferenceSchema,
-  type MissionReference,
+  MissionHighlightSchema,
+  type MissionHighlight,
   MissionSectionEntitySchema,
   type MissionSectionEntity,
-  HomeDynamicZoneSectionSchema,
-  type HomeDynamicZoneSection,
-  HomePageSchema,
-  type HomePage,
-} from './home';
+  MissionReferenceSchema,
+  type MissionReference,
+  DynamicZoneSectionSchema,
+  type DynamicZoneSection,
+} from './dynamic-zone';
+export { HomePageSchema, type HomePage } from './home';
 export { AboutPageSchema, type AboutPage } from './about';
 export { FooterDataSchema, type FooterData, LinkColumnSchema, type LinkColumn } from './footer';
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import type {
-  HomeDynamicZoneSection,
+  DynamicZoneSection,
   BannerReference,
   ClientLogosReference,
   CtaReference,
@@ -52,7 +52,7 @@ function renderFaqSection(faqsRef: FaqsReference, index: number) {
  */
 export const SECTION_REGISTRY: Record<
   string,
-  (section: HomeDynamicZoneSection, index: number) => React.ReactNode
+  (section: DynamicZoneSection, index: number) => React.ReactNode
 > = {
   ComponentReferencesBannerReference: (section, index) => {
     const bannerRef = section as BannerReference;
@@ -160,7 +160,7 @@ export const SECTION_REGISTRY: Record<
  * Resolves a dynamic zone section from the Component Registry.
  */
 export function renderRegisteredSection(
-  section: HomeDynamicZoneSection,
+  section: DynamicZoneSection,
   index: number
 ): React.ReactNode {
   const renderer = SECTION_REGISTRY[section.__typename];
