@@ -48,7 +48,8 @@ export const AchievementGlassCard: React.FC<AchievementGlassCardProps> = ({
   badgeAlt,
   badgeShape = 'round',
 }) => (
-  <article className="relative w-full overflow-hidden rounded-panel border-2 border-white bg-ink/10 backdrop-blur-[12px] xl:aspect-[828/538]">
+  <article className="relative w-full rounded-panel border-2 border-white bg-ink/10 backdrop-blur-[12px] xl:aspect-[828/538]">
+    <div className="size-full overflow-hidden rounded-[inherit]">
     <div className="flex flex-col gap-4 p-5 sm:p-6 xl:hidden">
       <div className="flex items-start justify-between gap-4">
         <p className="pt-1 font-bold leading-[1.2] text-[clamp(1.125rem,4vw,1.5rem)] text-white">
@@ -100,5 +101,6 @@ export const AchievementGlassCard: React.FC<AchievementGlassCardProps> = ({
     <p className="absolute top-[67.66%] left-[7.25%] hidden w-[54%] text-body-lg font-medium text-white xl:block">
       {body}
     </p>
+    </div>
   </article>
 );

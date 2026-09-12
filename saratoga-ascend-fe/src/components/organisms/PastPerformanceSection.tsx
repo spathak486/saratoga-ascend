@@ -1,11 +1,13 @@
 'use client';
 
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Heading, Section, Text } from '../atoms';
 import {
   CAROUSEL_BLEED_CLASS,
   CAROUSEL_SLIDE_CLASS,
   CAROUSEL_VIEWPORT_CLASS,
+  getNearestSlideScrollLeft,
+  seekCarouselToRatio,
   useCardCarousel,
 } from '../molecules/CardCarousel';
 import { CarouselProgressBar } from '../molecules/CarouselProgressBar';
@@ -59,6 +61,25 @@ export const PastPerformanceSection: React.FC = () => {
     loop: true,
   });
   const progress = useCarouselProgress(viewportRef);
+
+  const seekTo = useCallback(
+    (ratio: number, smooth = false) => {
+      const viewport = viewportRef.current;
+      if (!viewport) return;
+      seekCarouselToRatio(viewport, ratio, smooth ? 'smooth' : 'auto');
+    },
+    [viewportRef]
+  );
+
+  const settleToNearestSlide = useCallback(() => {
+    const viewport = viewportRef.current;
+    if (!viewport) return;
+    viewport.style.scrollSnapType = 'none';
+    viewport.scrollTo({ left: getNearestSlideScrollLeft(viewport), behavior: 'smooth' });
+    window.setTimeout(() => {
+      viewport.style.scrollSnapType = '';
+    }, 400);
+  }, [viewportRef]);
 
   return (
     <Section
@@ -141,7 +162,12 @@ export const PastPerformanceSection: React.FC = () => {
             />
           </div>
 
-          <CarouselProgressBar progress={progress} />
+          <CarouselProgressBar
+            progress={progress}
+            onScrub={(ratio) => seekTo(ratio)}
+            onSeek={(ratio) => seekTo(ratio, true)}
+            onScrubEnd={settleToNearestSlide}
+          />
         </div>
       </div>
     </Section>

@@ -16,8 +16,8 @@ export const AboutHighlightList: React.FC<AboutHighlightListProps> = ({
   <ul
     className={`flex flex-col gap-[clamp(1rem,0.909rem+0.3883vw,1.5rem)] ${className}`.trim()}
   >
-    {items.map((item) => (
-      <li key={item} className="flex items-center gap-4">
+    {items.map((item, index) => (
+      <li key={`${index}-${item}`} className="flex items-center gap-4">
         <span className="relative size-10 shrink-0" aria-hidden="true">
           <MediaFrame
             src="/images/about/check-badge.svg"

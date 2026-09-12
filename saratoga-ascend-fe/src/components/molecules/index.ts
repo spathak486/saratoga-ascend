@@ -25,7 +25,7 @@ export * from './FaqAccordion';
 export * from './HappyClientsCarousel';
 export * from './LatestNewsCard';
 export * from './ClientLogoCard';
-export * from './AchievementGlassCard';
+export * from './CountUpStat';
 export * from './AboutHighlightList';
 export * from './AboutHeartStage';
 export * from './VehicleScopeToggle';

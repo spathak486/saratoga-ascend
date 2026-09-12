@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 /**
  * Scroll-snap container: native touch swiping, no scrollbar chrome.
@@ -82,6 +82,22 @@ export function getNearestSlideScrollLeft(viewport: HTMLElement): number {
   return Math.min(Math.max(closest, 0), maxScroll);
 }
 
+/** Jump the track to a 0–1 position. Snap is disabled first so CSS snap
+ *  cannot pull the cards back to the current slide. */
+export function seekCarouselToRatio(
+  viewport: HTMLElement,
+  ratio: number,
+  behavior: ScrollBehavior = 'auto'
+) {
+  const maxScroll = viewport.scrollWidth - viewport.clientWidth;
+  if (maxScroll <= 0) return;
+  viewport.style.scrollSnapType = 'none';
+  viewport.scrollTo({
+    left: Math.min(maxScroll, Math.max(0, ratio * maxScroll)),
+    behavior,
+  });
+}
+
 /** Click-and-drag panning for the carousel viewport, so a mouse can slide
  *  the cards the same way a finger swipes on touch. Snap is turned off
  *  mid-drag (raw `scrollLeft` fights the browser's snap otherwise) and
@@ -104,8 +120,8 @@ export function useDragToScroll(viewportRef: React.RefObject<HTMLDivElement | nu
     }
   }, [viewportRef]);
 
-  const onMouseDown = useCallback(
-    (event: React.MouseEvent) => {
+  const onPointerDown = useCallback(
+    (event: React.PointerEvent<HTMLDivElement>) => {
       if (event.button !== 0) return;
       const viewport = viewportRef.current;
       if (!viewport) return;
@@ -118,12 +134,13 @@ export function useDragToScroll(viewportRef: React.RefObject<HTMLDivElement | nu
       };
       setIsDragging(true);
       viewport.style.scrollSnapType = 'none';
+      viewport.setPointerCapture(event.pointerId);
     },
     [viewportRef]
   );
 
-  const onMouseMove = useCallback(
-    (event: React.MouseEvent) => {
+  const onPointerMove = useCallback(
+    (event: React.PointerEvent<HTMLDivElement>) => {
       const drag = dragRef.current;
       if (!drag.active) return;
       const viewport = viewportRef.current;
@@ -136,15 +153,54 @@ export function useDragToScroll(viewportRef: React.RefObject<HTMLDivElement | nu
     [viewportRef]
   );
 
+  const onClickCapture = useCallback((event: React.MouseEvent) => {
+    if (!dragRef.current.moved) return;
+    event.preventDefault();
+    event.stopPropagation();
+    dragRef.current.moved = false;
+  }, []);
+
   return {
     isDragging,
     dragHandlers: {
-      onMouseDown,
-      onMouseMove,
-      onMouseUp: endDrag,
-      onMouseLeave: endDrag,
+      onPointerDown,
+      onPointerMove,
+      onPointerUp: endDrag,
+      onPointerCancel: endDrag,
+      onClickCapture,
     },
   };
+}
+
+/** Map vertical mouse-wheel / trackpad movement to horizontal scroll while
+ *  the pointer is over the track, so laptop screens can pan the cards. */
+export function useWheelToScroll(viewportRef: React.RefObject<HTMLDivElement | null>) {
+  useEffect(() => {
+    const viewport = viewportRef.current;
+    if (!viewport) return undefined;
+
+    const onWheel = (event: WheelEvent) => {
+      const maxScroll = viewport.scrollWidth - viewport.clientWidth;
+      if (maxScroll <= 1) return;
+
+      const delta =
+        Math.abs(event.deltaX) > Math.abs(event.deltaY) ? event.deltaX : event.deltaY;
+      if (delta === 0) return;
+
+      const next = viewport.scrollLeft + delta;
+      const canMove =
+        (delta > 0 && viewport.scrollLeft < maxScroll - 1) ||
+        (delta < 0 && viewport.scrollLeft > 1);
+
+      if (!canMove) return;
+
+      event.preventDefault();
+      viewport.scrollLeft = Math.min(maxScroll, Math.max(0, next));
+    };
+
+    viewport.addEventListener('wheel', onWheel, { passive: false });
+    return () => viewport.removeEventListener('wheel', onWheel);
+  }, [viewportRef]);
 }
 
 export interface CardCarouselProps extends UseCardCarouselOptions {
