@@ -889,6 +889,49 @@ export interface ApiThankYouThankYou extends Struct.SingleTypeSchema {
   };
 }
 
+export interface ApiWhoWeAreWhoWeAre extends Struct.SingleTypeSchema {
+  collectionName: 'who_we_ares';
+  info: {
+    displayName: 'Who We Are';
+    pluralName: 'who-we-ares';
+    singularName: 'who-we-are';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::who-we-are.who-we-are'
+    > &
+      Schema.Attribute.Private;
+    pageTitle: Schema.Attribute.String & Schema.Attribute.Required;
+    publishedAt: Schema.Attribute.DateTime;
+    Section: Schema.Attribute.DynamicZone<
+      [
+        'references.banner-reference',
+        'references.cta',
+        'references.fa-qs',
+        'references.client-logos-reference',
+        'references.service-reference',
+        'references.mission-reference',
+      ]
+    >;
+    seo: Schema.Attribute.Component<'shared.seo', false> &
+      Schema.Attribute.Required;
+    slug: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface PluginContentReleasesRelease
   extends Struct.CollectionTypeSchema {
   collectionName: 'strapi_releases';
@@ -1413,6 +1456,7 @@ declare module '@strapi/strapi' {
       'api::mission-section.mission-section': ApiMissionSectionMissionSection;
       'api::service.service': ApiServiceService;
       'api::thank-you.thank-you': ApiThankYouThankYou;
+      'api::who-we-are.who-we-are': ApiWhoWeAreWhoWeAre;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;

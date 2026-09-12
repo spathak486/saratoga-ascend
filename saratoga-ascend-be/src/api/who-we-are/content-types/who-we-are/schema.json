@@ -1,0 +1,41 @@
+{
+  "kind": "singleType",
+  "collectionName": "who_we_ares",
+  "info": {
+    "singularName": "who-we-are",
+    "pluralName": "who-we-ares",
+    "displayName": "Who We Are"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "pageTitle": {
+      "type": "string",
+      "required": true
+    },
+    "slug": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "seo": {
+      "type": "component",
+      "component": "shared.seo",
+      "repeatable": false,
+      "required": true
+    },
+    "Section": {
+      "type": "dynamiczone",
+      "components": [
+        "references.banner-reference",
+        "references.cta",
+        "references.fa-qs",
+        "references.client-logos-reference",
+        "references.service-reference",
+        "references.mission-reference"
+      ]
+    }
+  }
+}
