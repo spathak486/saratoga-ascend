@@ -443,74 +443,6 @@ export interface AdminUser extends Struct.CollectionTypeSchema {
   };
 }
 
-export interface ApiAboutUsAboutUs extends Struct.SingleTypeSchema {
-  collectionName: 'about_uses';
-  info: {
-    displayName: 'About Us';
-    pluralName: 'about-uses';
-    singularName: 'about-us';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    createdAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    locale: Schema.Attribute.String & Schema.Attribute.Private;
-    localizations: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::about-us.about-us'
-    > &
-      Schema.Attribute.Private;
-    pageTitle: Schema.Attribute.String & Schema.Attribute.Required;
-    publishedAt: Schema.Attribute.DateTime;
-    Section: Schema.Attribute.DynamicZone<['references.banner-reference']>;
-    seo: Schema.Attribute.Component<'shared.seo', false> &
-      Schema.Attribute.Required;
-    slug: Schema.Attribute.String &
-      Schema.Attribute.Required &
-      Schema.Attribute.Unique;
-    updatedAt: Schema.Attribute.DateTime;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-  };
-}
-
-export interface ApiCareerCareer extends Struct.SingleTypeSchema {
-  collectionName: 'careers';
-  info: {
-    displayName: 'Careers';
-    pluralName: 'careers';
-    singularName: 'career';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    createdAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    locale: Schema.Attribute.String & Schema.Attribute.Private;
-    localizations: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::career.career'
-    > &
-      Schema.Attribute.Private;
-    pageTitle: Schema.Attribute.String & Schema.Attribute.Required;
-    publishedAt: Schema.Attribute.DateTime;
-    Section: Schema.Attribute.DynamicZone<['references.banner-reference']>;
-    seo: Schema.Attribute.Component<'shared.seo', false> &
-      Schema.Attribute.Required;
-    slug: Schema.Attribute.String &
-      Schema.Attribute.Required &
-      Schema.Attribute.Unique;
-    updatedAt: Schema.Attribute.DateTime;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-  };
-}
-
 export interface ApiClientLogosSectionClientLogosSection
   extends Struct.CollectionTypeSchema {
   collectionName: 'client_logos_sections';
@@ -537,40 +469,6 @@ export interface ApiClientLogosSectionClientLogosSection
     publishedAt: Schema.Attribute.DateTime;
     referenceTitle: Schema.Attribute.String;
     title: Schema.Attribute.String;
-    updatedAt: Schema.Attribute.DateTime;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-  };
-}
-
-export interface ApiContactUsContactUs extends Struct.SingleTypeSchema {
-  collectionName: 'contact_uses';
-  info: {
-    displayName: 'Contact Us';
-    pluralName: 'contact-uses';
-    singularName: 'contact-us';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    createdAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    locale: Schema.Attribute.String & Schema.Attribute.Private;
-    localizations: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::contact-us.contact-us'
-    > &
-      Schema.Attribute.Private;
-    pageTitle: Schema.Attribute.String & Schema.Attribute.Required;
-    publishedAt: Schema.Attribute.DateTime;
-    Section: Schema.Attribute.DynamicZone<['references.banner-reference']>;
-    seo: Schema.Attribute.Component<'shared.seo', false> &
-      Schema.Attribute.Required;
-    slug: Schema.Attribute.String &
-      Schema.Attribute.Required &
-      Schema.Attribute.Unique;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -737,46 +635,6 @@ export interface ApiHeroBannerHeroBanner extends Struct.CollectionTypeSchema {
   };
 }
 
-export interface ApiHomeHome extends Struct.SingleTypeSchema {
-  collectionName: 'homes';
-  info: {
-    displayName: 'Home';
-    pluralName: 'homes';
-    singularName: 'home';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    createdAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    locale: Schema.Attribute.String & Schema.Attribute.Private;
-    localizations: Schema.Attribute.Relation<'oneToMany', 'api::home.home'> &
-      Schema.Attribute.Private;
-    pageTitle: Schema.Attribute.String & Schema.Attribute.Required;
-    publishedAt: Schema.Attribute.DateTime;
-    Section: Schema.Attribute.DynamicZone<
-      [
-        'references.banner-reference',
-        'references.cta',
-        'references.fa-qs',
-        'references.client-logos-reference',
-        'references.service-reference',
-        'references.mission-reference',
-      ]
-    >;
-    seo: Schema.Attribute.Component<'shared.seo', false> &
-      Schema.Attribute.Required;
-    slug: Schema.Attribute.String &
-      Schema.Attribute.Required &
-      Schema.Attribute.Unique;
-    updatedAt: Schema.Attribute.DateTime;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-  };
-}
-
 export interface ApiMissionSectionMissionSection
   extends Struct.CollectionTypeSchema {
   collectionName: 'mission_sections';
@@ -818,6 +676,56 @@ export interface ApiMissionSectionMissionSection
   };
 }
 
+export interface ApiPagePage extends Struct.CollectionTypeSchema {
+  collectionName: 'pages';
+  info: {
+    description: 'Universal slug-driven content pages composed of SEO and a dynamic zone of sections';
+    displayName: 'Page';
+    pluralName: 'pages';
+    singularName: 'page';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    internalName: Schema.Attribute.String;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::page.page'> &
+      Schema.Attribute.Private;
+    pageTitle: Schema.Attribute.String & Schema.Attribute.Required;
+    pageType: Schema.Attribute.Enumeration<
+      ['Standard', 'Dark', 'Light', 'LegalPolicy', 'FullWidth']
+    > &
+      Schema.Attribute.DefaultTo<'Standard'>;
+    publishedAt: Schema.Attribute.DateTime;
+    Section: Schema.Attribute.DynamicZone<
+      [
+        'references.banner-reference',
+        'references.cta',
+        'references.fa-qs',
+        'references.client-logos-reference',
+        'references.service-reference',
+        'references.mission-reference',
+      ]
+    >;
+    seo: Schema.Attribute.Component<'shared.seo', false> &
+      Schema.Attribute.Required;
+    slug: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    variant: Schema.Attribute.Enumeration<
+      ['default', 'dark', 'light', 'legal_policy']
+    > &
+      Schema.Attribute.DefaultTo<'default'>;
+  };
+}
+
 export interface ApiServiceService extends Struct.CollectionTypeSchema {
   collectionName: 'services';
   info: {
@@ -849,83 +757,6 @@ export interface ApiServiceService extends Struct.CollectionTypeSchema {
       Schema.Attribute.Unique;
     summary: Schema.Attribute.Text;
     title: Schema.Attribute.String;
-    updatedAt: Schema.Attribute.DateTime;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-  };
-}
-
-export interface ApiThankYouThankYou extends Struct.SingleTypeSchema {
-  collectionName: 'thank_yous';
-  info: {
-    displayName: 'Thank You';
-    pluralName: 'thank-yous';
-    singularName: 'thank-you';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    createdAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    locale: Schema.Attribute.String & Schema.Attribute.Private;
-    localizations: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::thank-you.thank-you'
-    > &
-      Schema.Attribute.Private;
-    pageTitle: Schema.Attribute.String & Schema.Attribute.Required;
-    publishedAt: Schema.Attribute.DateTime;
-    Section: Schema.Attribute.DynamicZone<['references.banner-reference']>;
-    seo: Schema.Attribute.Component<'shared.seo', false> &
-      Schema.Attribute.Required;
-    slug: Schema.Attribute.String &
-      Schema.Attribute.Required &
-      Schema.Attribute.Unique;
-    updatedAt: Schema.Attribute.DateTime;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-  };
-}
-
-export interface ApiWhoWeAreWhoWeAre extends Struct.SingleTypeSchema {
-  collectionName: 'who_we_ares';
-  info: {
-    displayName: 'Who We Are';
-    pluralName: 'who-we-ares';
-    singularName: 'who-we-are';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    createdAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    locale: Schema.Attribute.String & Schema.Attribute.Private;
-    localizations: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::who-we-are.who-we-are'
-    > &
-      Schema.Attribute.Private;
-    pageTitle: Schema.Attribute.String & Schema.Attribute.Required;
-    publishedAt: Schema.Attribute.DateTime;
-    Section: Schema.Attribute.DynamicZone<
-      [
-        'references.banner-reference',
-        'references.cta',
-        'references.fa-qs',
-        'references.client-logos-reference',
-        'references.service-reference',
-        'references.mission-reference',
-      ]
-    >;
-    seo: Schema.Attribute.Component<'shared.seo', false> &
-      Schema.Attribute.Required;
-    slug: Schema.Attribute.String &
-      Schema.Attribute.Required &
-      Schema.Attribute.Unique;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -1443,20 +1274,15 @@ declare module '@strapi/strapi' {
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
-      'api::about-us.about-us': ApiAboutUsAboutUs;
-      'api::career.career': ApiCareerCareer;
       'api::client-logos-section.client-logos-section': ApiClientLogosSectionClientLogosSection;
-      'api::contact-us.contact-us': ApiContactUsContactUs;
       'api::content-block.content-block': ApiContentBlockContentBlock;
       'api::cta.cta': ApiCtaCta;
       'api::faq.faq': ApiFaqFaq;
       'api::footer.footer': ApiFooterFooter;
       'api::hero-banner.hero-banner': ApiHeroBannerHeroBanner;
-      'api::home.home': ApiHomeHome;
       'api::mission-section.mission-section': ApiMissionSectionMissionSection;
+      'api::page.page': ApiPagePage;
       'api::service.service': ApiServiceService;
-      'api::thank-you.thank-you': ApiThankYouThankYou;
-      'api::who-we-are.who-we-are': ApiWhoWeAreWhoWeAre;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;

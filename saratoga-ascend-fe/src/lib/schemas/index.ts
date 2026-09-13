@@ -48,8 +48,6 @@ export {
   DynamicZoneSectionSchema,
   type DynamicZoneSection,
 } from './dynamic-zone';
-export { HomePageSchema, type HomePage } from './home';
-export { AboutPageSchema, type AboutPage } from './about';
 export { FooterDataSchema, type FooterData, LinkColumnSchema, type LinkColumn } from './footer';
 
 

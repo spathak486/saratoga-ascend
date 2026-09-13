@@ -1,16 +1,20 @@
 {
-  "kind": "singleType",
-  "collectionName": "who_we_ares",
+  "kind": "collectionType",
+  "collectionName": "pages",
   "info": {
-    "singularName": "who-we-are",
-    "pluralName": "who-we-ares",
-    "displayName": "Who We Are"
+    "singularName": "page",
+    "pluralName": "pages",
+    "displayName": "Page",
+    "description": "Universal slug-driven content pages composed of SEO and a dynamic zone of sections"
   },
   "options": {
     "draftAndPublish": true
   },
   "pluginOptions": {},
   "attributes": {
+    "internalName": {
+      "type": "string"
+    },
     "pageTitle": {
       "type": "string",
       "required": true
@@ -19,6 +23,27 @@
       "type": "string",
       "required": true,
       "unique": true
+    },
+    "pageType": {
+      "type": "enumeration",
+      "default": "Standard",
+      "enum": [
+        "Standard",
+        "Dark",
+        "Light",
+        "LegalPolicy",
+        "FullWidth"
+      ]
+    },
+    "variant": {
+      "type": "enumeration",
+      "default": "default",
+      "enum": [
+        "default",
+        "dark",
+        "light",
+        "legal_policy"
+      ]
     },
     "seo": {
       "type": "component",

@@ -1,17 +1,22 @@
 import { PAGE_FIELDS } from '../fragments';
-import type { RawContentNode } from '../types';
+import type { RawPageNode } from '../types';
 
 export interface PageBySlugQueryVariables {
   slug: string;
+  altSlug?: string | null;
+  status: 'DRAFT' | 'PUBLISHED';
 }
 
 export interface PageBySlugQueryResult {
-  pages: RawContentNode[];
+  pages: RawPageNode[];
 }
 
 export const PAGE_BY_SLUG_QUERY = `
-  query GetPageBySlug($slug: String!) {
-    pages(filters: { slug: { eq: $slug } }) { ${PAGE_FIELDS} }
+  query GetPageBySlug($slug: String!, $altSlug: String, $status: PublicationStatus!) {
+    pages(
+      filters: { or: [{ slug: { eq: $slug } }, { slug: { eq: $altSlug } }] }
+      status: $status
+    ) { ${PAGE_FIELDS} }
   }
 `;
 

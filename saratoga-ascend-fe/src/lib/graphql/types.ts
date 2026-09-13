@@ -6,6 +6,8 @@
 import type { Pagination } from '@/lib/schemas/common';
 import type { RawStrapiMedia } from '@/lib/api/strapi';
 
+export type PublicationStatus = 'DRAFT' | 'PUBLISHED';
+
 export interface RawGeneralLink {
   label: string;
   href: string;
@@ -28,7 +30,7 @@ export interface RawSeo {
   languageTag?: string | null;
 }
 
-/** A page/article-style content node (Strapi `pages` / `articles` collections). */
+/** An article-style content node (Strapi `articles` collection). */
 export interface RawContentNode {
   documentId: string;
   title?: string | null;
@@ -165,13 +167,18 @@ export type RawDynamicZoneSection =
   | RawMissionReference
   | ({ __typename: string } & Record<string, unknown>);
 
-/** Shared shape of the `home` / `aboutUs` single-type entries. */
-export interface RawMetaPageNode {
-  documentId?: string;
+/** Universal slug-driven page (Strapi `pages` collection). */
+export interface RawPageNode {
+  documentId: string;
+  internalName?: string | null;
   pageTitle: string;
   slug: string;
+  pageType?: string | null;
+  variant?: string | null;
   seo?: RawSeo | null;
   Section?: RawDynamicZoneSection[] | null;
+  createdAt?: string | null;
+  updatedAt?: string | null;
 }
 
 export interface RawFooterLinkColumn {

@@ -1,6 +1,5 @@
 import { IMAGE_FIELDS, GENERAL_LINK_FIELDS } from '../fragments';
-import type { RawFooter } from '../types';
-import type { PublicationStatus } from './home';
+import type { PublicationStatus, RawFooter } from '../types';
 
 export interface FooterQueryVariables {
   status?: PublicationStatus;

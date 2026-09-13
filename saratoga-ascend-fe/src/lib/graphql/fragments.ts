@@ -34,32 +34,6 @@ export const SEO_FIELDS = `
   languageTag
 `;
 
-export const PAGE_FIELDS = `
-  documentId
-  title
-  slug
-  content
-  createdAt
-  updatedAt
-  featuredImage { ${IMAGE_FIELDS} }
-  seo { ${SEO_FIELDS} }
-`;
-
-export const ARTICLE_FIELDS = `
-  documentId
-  title
-  slug
-  content
-  excerpt
-  author
-  category
-  publishedAt
-  createdAt
-  updatedAt
-  featuredImage { ${IMAGE_FIELDS} }
-  seo { ${SEO_FIELDS} }
-`;
-
 export const BANNER_FIELDS = `
   bannerTitle
   bannerSubTitle
@@ -170,7 +144,8 @@ export const MISSION_REFERENCE_FIELDS = `
 `;
 
 // Every dynamic-zone inline fragment, joined with newlines. Used by any query
-// that selects a Strapi dynamic zone (home, about, and future content types).
+// that selects a Strapi dynamic zone (pages, home, about, and future content
+// types). Declared above PAGE_FIELDS because that fragment interpolates it.
 export const DYNAMIC_SECTION_FRAGMENTS = [
   BANNER_REFERENCE_FIELDS,
   CTA_REFERENCE_FIELDS,
@@ -179,3 +154,31 @@ export const DYNAMIC_SECTION_FRAGMENTS = [
   SERVICE_REFERENCE_FIELDS,
   MISSION_REFERENCE_FIELDS,
 ].join('\n');
+
+export const PAGE_FIELDS = `
+  documentId
+  internalName
+  pageTitle
+  slug
+  pageType
+  variant
+  seo { ${SEO_FIELDS} }
+  Section {
+    ${DYNAMIC_SECTION_FRAGMENTS}
+  }
+`;
+
+export const ARTICLE_FIELDS = `
+  documentId
+  title
+  slug
+  content
+  excerpt
+  author
+  category
+  publishedAt
+  createdAt
+  updatedAt
+  featuredImage { ${IMAGE_FIELDS} }
+  seo { ${SEO_FIELDS} }
+`;

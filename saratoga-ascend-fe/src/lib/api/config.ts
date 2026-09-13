@@ -14,7 +14,7 @@ export const revalidationSecret = process.env.REVALIDATION_SECRET ?? '';
 // and needs to be importable from Client Components, which this
 // server-only module can never be.
 
-// Single-query content (home, aboutUs, footer) is published only in
-// production; in dev we surface drafts for easier content editing.
+// Single-query content (footer) is published only in production; in dev we
+// surface drafts for easier content editing.
 export const defaultPublicationStatus =
   process.env.NODE_ENV === 'development' ? 'DRAFT' : 'PUBLISHED';

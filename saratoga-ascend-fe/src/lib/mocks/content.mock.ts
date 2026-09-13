@@ -1,23 +1,137 @@
 import type { Page, Article } from '@/lib/schemas';
+import type { DynamicZoneSection } from '@/lib/schemas';
+
+const homeSections: DynamicZoneSection[] = [
+  {
+    __typename: 'ComponentReferencesBannerReference',
+    heroBanner: {
+      documentId: 'cm2banner12345',
+      referenceTitle: 'Hero Banner Section',
+      banner: {
+        bannerTitle: 'Federal State Programs and Solutions',
+        bannerSubTitle: 'Healthcare Staffing & Consulting',
+        bannerDescription:
+          'Saratoga Ascend connects cleared, credentialed healthcare professionals with government, military, and local facilities nationwide.',
+        bannerImage: {
+          url: '/images/DNA-v1.png',
+          width: 1200,
+          height: 800,
+          alternativeText: 'DNA double helix illustration',
+          formats: null,
+        },
+        buttonCTA: {
+          label: 'Contact us',
+          href: '/contact',
+          target: '_self',
+          isExternal: false,
+        },
+      },
+    },
+  },
+  {
+    __typename: 'ComponentReferencesFaQs',
+    content: {
+      documentId: 'cm2faqcontent123',
+      referenceTitle: 'FAQ Content Section',
+      ContentSection: {
+        title: 'Any Questions?',
+        subTitle: 'Proudly Serving Federal, State and Local clients',
+        description: null,
+        image: null,
+        link: {
+          label: 'Know More',
+          href: '/about',
+          target: '_self',
+          isExternal: false,
+        },
+      },
+    },
+    faqs: [
+      {
+        documentId: 'cm2faq1',
+        referenceTitle: 'FAQ 1',
+        faq: {
+          title: 'How this work?',
+          description:
+            'Lorem ipsum is the standard placeholder text used in graphic design, publishing, and web development to showcase layouts and visual elements without the distraction of meaningful content.',
+        },
+      },
+      {
+        documentId: 'cm2faq2',
+        referenceTitle: 'FAQ 2',
+        faq: {
+          title: 'How this work?',
+          description:
+            'Lorem ipsum is the standard placeholder text used in graphic design, publishing, and web development to showcase layouts and visual elements without the distraction of meaningful content.',
+        },
+      },
+    ],
+  },
+];
+
+const aboutSections: DynamicZoneSection[] = [
+  {
+    __typename: 'ComponentReferencesBannerReference',
+    heroBanner: {
+      documentId: 'cm2aboutbanner01',
+      referenceTitle: 'About Banner',
+      banner: {
+        bannerTitle: 'About Saratoga Ascend',
+        bannerSubTitle: 'Empowering Possibility',
+        bannerDescription:
+          'Mission-critical healthcare consulting, workforce solutions, and technology for government and military.',
+        bannerImage: {
+          url: '/images/DNA-v1.png',
+          width: 1200,
+          height: 800,
+          alternativeText: 'DNA illustration',
+          formats: null,
+        },
+        buttonCTA: {
+          label: 'Contact us',
+          href: '/contact',
+          target: '_self',
+          isExternal: false,
+        },
+      },
+    },
+  },
+];
+
+export const mockHomePage: Page = {
+  documentId: 'cm2a8h9k20003qk3f9m2v999',
+  internalName: 'Home',
+  pageTitle: 'Home',
+  slug: '',
+  pageType: 'Standard',
+  variant: 'default',
+  seo: {
+    metaTitle: 'Saratoga Ascend | Healthcare Staffing & Solutions',
+    metaDescription:
+      'Connecting cleared, credentialed healthcare professionals with government, military, and local facilities nationwide.',
+    ogTitle: null,
+    ogDescription: null,
+    ogImage: null,
+    metaRobots: 'index',
+    twitterCardTitle: null,
+    canonicalURL: null,
+    structuredData: null,
+    languageTag: 'en',
+  },
+  Section: homeSections,
+  createdAt: '2026-08-11T00:00:00.000Z',
+  updatedAt: '2026-08-12T10:00:00.000Z',
+};
 
 export const mockPages: Page[] = [
+  mockHomePage,
   {
     documentId: 'cm2a8h4j10001qk3f2n7x9wb',
-    title: 'About Us',
+    internalName: 'About Us',
+    pageTitle: 'About Us',
     slug: 'about',
-    content: `
-      <h2>Who We Are</h2>
-      <p>Saratoga Ascend is a healthcare staffing and consulting firm serving federal, state, and military facilities across the United States.</p>
-      <h2>Our Mission</h2>
-      <p>Advancing Healthcare. Accelerating Science. Empowering Possibility.</p>
-    `,
-    featuredImage: {
-      url: '/images/hero-banner.png',
-      width: 1200,
-      height: 800,
-      alternativeText: 'Saratoga Ascend team',
-      formats: null,
-    },
+    pageType: 'Standard',
+    variant: 'default',
     seo: {
       metaTitle: 'About Us | Saratoga Ascend',
       metaDescription:
@@ -31,19 +145,17 @@ export const mockPages: Page[] = [
       structuredData: null,
       languageTag: 'en',
     },
+    Section: aboutSections,
     createdAt: '2026-08-10T00:00:00.000Z',
     updatedAt: '2026-08-15T00:00:00.000Z',
   },
   {
     documentId: 'cm2a8h4j10002qk3fh83k1pz',
-    title: 'Contact Us',
+    internalName: 'Contact Us',
+    pageTitle: 'Contact Us',
     slug: 'contact',
-    content: `
-      <h2>Get In Touch</h2>
-      <p>Ready to work with us? We'd love to hear from you.</p>
-      <p><strong>Email:</strong> info@saratogaascend.com</p>
-    `,
-    featuredImage: null,
+    pageType: 'Standard',
+    variant: 'default',
     seo: {
       metaTitle: 'Contact Us | Saratoga Ascend',
       metaDescription: 'Contact Saratoga Ascend for healthcare staffing solutions and consulting services.',
@@ -56,19 +168,17 @@ export const mockPages: Page[] = [
       structuredData: null,
       languageTag: 'en',
     },
+    Section: null,
     createdAt: '2026-08-10T00:00:00.000Z',
     updatedAt: '2026-08-10T00:00:00.000Z',
   },
   {
     documentId: 'cm2a8h4j10003qk3f9m2v6rt',
-    title: 'Terms of Service',
+    internalName: 'Terms of Service',
+    pageTitle: 'Terms of Service',
     slug: 'terms',
-    content: `
-      <h2>Terms of Service</h2>
-      <p>Last updated: August 10, 2026</p>
-      <p>By accessing this website, you agree to be bound by these Terms of Service.</p>
-    `,
-    featuredImage: null,
+    pageType: 'Standard',
+    variant: 'default',
     seo: {
       metaTitle: 'Terms of Service | Saratoga Ascend',
       metaDescription: 'Terms of Service for the Saratoga Ascend website.',
@@ -81,6 +191,7 @@ export const mockPages: Page[] = [
       structuredData: null,
       languageTag: 'en',
     },
+    Section: null,
     createdAt: '2026-08-10T00:00:00.000Z',
     updatedAt: '2026-08-10T00:00:00.000Z',
   },
@@ -145,90 +256,4 @@ export const mockArticles: Article[] = [
     updatedAt: '2026-08-05T14:00:00.000Z',
   },
 ];
-
-export const mockHomePage = {
-  documentId: 'cm2a8h9k20003qk3f9m2v999',
-  pageTitle: 'Home',
-  slug: 'home',
-  seo: {
-    metaTitle: 'Saratoga Ascend | Healthcare Staffing & Solutions',
-    metaDescription:
-      'Connecting cleared, credentialed healthcare professionals with government, military, and local facilities nationwide.',
-    ogTitle: null,
-    ogDescription: null,
-    ogImage: null,
-    metaRobots: 'index' as const,
-    twitterCardTitle: null,
-    canonicalURL: null,
-    structuredData: null,
-    languageTag: 'en' as const,
-  },
-  Section: [
-    {
-      __typename: 'ComponentReferencesBannerReference' as const,
-      heroBanner: {
-        documentId: 'cm2banner12345',
-        referenceTitle: 'Hero Banner Section',
-        banner: {
-          bannerTitle: 'Federal State Programs and Solutions',
-          bannerSubTitle: 'Healthcare Staffing & Consulting',
-          bannerDescription:
-            'Saratoga Ascend connects cleared, credentialed healthcare professionals with government, military, and local facilities nationwide.',
-          bannerImage: {
-            url: '/images/DNA-v1.png',
-            width: 1200,
-            height: 800,
-            alternativeText: 'DNA double helix illustration',
-            formats: null,
-          },
-          buttonCTA: {
-            label: 'Contact us',
-            href: '/contact',
-            target: '_self' as const,
-            isExternal: false,
-          },
-        },
-      },
-    },
-    {
-      __typename: 'ComponentReferencesFaQs' as const,
-      content: {
-        documentId: 'cm2faqcontent123',
-        referenceTitle: 'FAQ Content Section',
-        ContentSection: {
-          title: 'Any Questions?',
-          subTitle: 'Proudly Serving Federal, State and Local clients',
-          description: null,
-          image: null,
-          link: {
-            label: 'Know More',
-            href: '/about',
-            target: '_self' as const,
-            isExternal: false,
-          },
-        },
-      },
-      faqs: [
-        {
-          documentId: 'cm2faq1',
-          referenceTitle: 'FAQ 1',
-          faq: {
-            title: 'How this work?',
-            description:
-              'Lorem ipsum is the standard placeholder text used in graphic design, publishing, and web development to showcase layouts and visual elements without the distraction of meaningful content.',
-          },
-        },
-        {
-          documentId: 'cm2faq2',
-          referenceTitle: 'FAQ 2',
-          faq: {
-            title: 'How this work?',
-            description:
-              'Lorem ipsum is the standard placeholder text used in graphic design, publishing, and web development to showcase layouts and visual elements without the distraction of meaningful content.',
-          },
-        },
-      ],
-    },
-  ],
-};
 

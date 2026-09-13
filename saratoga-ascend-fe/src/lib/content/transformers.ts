@@ -8,8 +8,8 @@ import type {
   RawDynamicZoneSection,
   RawFaqsReference,
   RawGeneralLink,
-  RawMetaPageNode,
   RawMissionReference,
+  RawPageNode,
   RawSeo,
   RawServiceReference,
 } from '@/lib/graphql';
@@ -140,8 +140,8 @@ export function resolveSectionImages(
   }
 }
 
-/** Resolves the seo + every dynamic section on a home/about-style single type. */
-export function resolveMetaPageNode(raw: RawMetaPageNode): RawMetaPageNode {
+/** Resolves the seo + every dynamic section on a universal page entry. */
+export function resolvePageNode(raw: RawPageNode): RawPageNode {
   return {
     ...raw,
     seo: resolveSeo(raw.seo),

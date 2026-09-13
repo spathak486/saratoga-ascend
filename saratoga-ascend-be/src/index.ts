@@ -12,6 +12,8 @@ export default {
       if (publicRole) {
         const permissions = [
           { action: 'api::footer.footer.find', role: publicRole.id },
+          { action: 'api::page.page.find', role: publicRole.id },
+          { action: 'api::page.page.findOne', role: publicRole.id },
           { action: 'api::client-logos-section.client-logos-section.find', role: publicRole.id },
           { action: 'api::client-logos-section.client-logos-section.findOne', role: publicRole.id },
           { action: 'api::service.service.find', role: publicRole.id },
