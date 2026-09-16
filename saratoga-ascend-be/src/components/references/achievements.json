@@ -1,0 +1,16 @@
+{
+  "collectionName": "components_references_achievements",
+  "info": {
+    "displayName": "Achievements",
+    "icon": "book"
+  },
+  "options": {},
+  "attributes": {
+    "ourAchievement": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::our-achievement.our-achievement"
+    }
+  },
+  "config": {}
+}

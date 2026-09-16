@@ -153,6 +153,38 @@ export interface RawMissionReference {
   } | null;
 }
 
+export interface RawCounter {
+  title?: string | null;
+  counter?: string | null;
+}
+
+export interface RawAchievementCardItem {
+  year?: string | null;
+  title?: string | null;
+  description?: string | null;
+  logo?: RawStrapiMedia | null;
+}
+
+export interface RawAchievementCard {
+  documentId?: string;
+  referenceTitle?: string | null;
+  card?: RawAchievementCardItem | null;
+}
+
+export interface RawOurAchievement {
+  documentId?: string;
+  referenceTitle?: string | null;
+  title?: string | null;
+  bgImage?: RawStrapiMedia | null;
+  counter?: RawCounter[] | null;
+  achievementCards?: RawAchievementCard[] | null;
+}
+
+export interface RawAchievementsReference {
+  __typename: 'ComponentReferencesAchievements';
+  ourAchievement?: RawOurAchievement | null;
+}
+
 /**
  * Anything a Strapi dynamic zone can return. The catch-all member keeps
  * forward compatibility: components not yet registered resolve through Zod
@@ -165,6 +197,7 @@ export type RawDynamicZoneSection =
   | RawClientLogosReference
   | RawServiceReference
   | RawMissionReference
+  | RawAchievementsReference
   | ({ __typename: string } & Record<string, unknown>);
 
 /** Universal slug-driven page (Strapi `pages` collection). */

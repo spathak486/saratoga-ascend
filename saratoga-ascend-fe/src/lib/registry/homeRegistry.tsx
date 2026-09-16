@@ -7,6 +7,7 @@ import type {
   FaqsReference,
   ServiceReference,
   MissionReference,
+  AchievementsReference,
 } from '@/lib/schemas';
 import {
   HeroSection,
@@ -15,6 +16,7 @@ import {
   ClientLogosSection,
   MarketWeServeSection,
   MissionSection,
+  OurAchievementsSection,
 } from '@/components/organisms';
 
 function renderFaqSection(faqsRef: FaqsReference, index: number) {
@@ -151,6 +153,20 @@ export const SECTION_REGISTRY: Record<
         shieldIconSrc={ms?.shieldIcon?.url ?? undefined}
         pulseIconSrc={ms?.pulseIcon?.url ?? undefined}
         highlights={ms?.highlights?.map((h) => h.text) ?? undefined}
+      />
+    );
+  },
+
+  ComponentReferencesAchievements: (section, index) => {
+    const achRef = section as AchievementsReference;
+    const ach = achRef.ourAchievement;
+    return (
+      <OurAchievementsSection
+        key={`achievements-${index}`}
+        title={ach?.title ?? undefined}
+        bgImage={ach?.bgImage?.url ?? undefined}
+        counters={ach?.counter ?? undefined}
+        cards={ach?.achievementCards ?? undefined}
       />
     );
   },

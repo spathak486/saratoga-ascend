@@ -443,6 +443,36 @@ export interface AdminUser extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiAchievementCardAchievementCard
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'achievement_cards';
+  info: {
+    displayName: 'Achievement Cards';
+    pluralName: 'achievement-cards';
+    singularName: 'achievement-card';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    card: Schema.Attribute.Component<'core-component.achievement-cards', false>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::achievement-card.achievement-card'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    referenceTitle: Schema.Attribute.String;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiClientLogosSectionClientLogosSection
   extends Struct.CollectionTypeSchema {
   collectionName: 'client_logos_sections';
@@ -469,6 +499,39 @@ export interface ApiClientLogosSectionClientLogosSection
     publishedAt: Schema.Attribute.DateTime;
     referenceTitle: Schema.Attribute.String;
     title: Schema.Attribute.String;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiContactSubmissionContactSubmission
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'contact-submissions';
+  info: {
+    description: 'Lead form submissions captured from the CTA / Need Help forms';
+    displayName: 'Contact Submission';
+    pluralName: 'contact-submissions';
+    singularName: 'contact-submission';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    email: Schema.Attribute.Email & Schema.Attribute.Required;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::contact-submission.contact-submission'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
+    publishedAt: Schema.Attribute.DateTime;
+    source: Schema.Attribute.Enumeration<['cta', 'need-help', 'contact']> &
+      Schema.Attribute.DefaultTo<'cta'>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -676,6 +739,42 @@ export interface ApiMissionSectionMissionSection
   };
 }
 
+export interface ApiOurAchievementOurAchievement
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'our_achievements';
+  info: {
+    displayName: 'Our Achievement';
+    pluralName: 'our-achievements';
+    singularName: 'our-achievement';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    achievementCards: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::achievement-card.achievement-card'
+    >;
+    bgImage: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
+    counter: Schema.Attribute.Component<'core-component.counter', true>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::our-achievement.our-achievement'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    referenceTitle: Schema.Attribute.String;
+    title: Schema.Attribute.String;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiPagePage extends Struct.CollectionTypeSchema {
   collectionName: 'pages';
   info: {
@@ -709,6 +808,7 @@ export interface ApiPagePage extends Struct.CollectionTypeSchema {
         'references.client-logos-reference',
         'references.service-reference',
         'references.mission-reference',
+        'references.achievements',
       ]
     >;
     seo: Schema.Attribute.Component<'shared.seo', false> &
@@ -1274,13 +1374,16 @@ declare module '@strapi/strapi' {
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
+      'api::achievement-card.achievement-card': ApiAchievementCardAchievementCard;
       'api::client-logos-section.client-logos-section': ApiClientLogosSectionClientLogosSection;
+      'api::contact-submission.contact-submission': ApiContactSubmissionContactSubmission;
       'api::content-block.content-block': ApiContentBlockContentBlock;
       'api::cta.cta': ApiCtaCta;
       'api::faq.faq': ApiFaqFaq;
       'api::footer.footer': ApiFooterFooter;
       'api::hero-banner.hero-banner': ApiHeroBannerHeroBanner;
       'api::mission-section.mission-section': ApiMissionSectionMissionSection;
+      'api::our-achievement.our-achievement': ApiOurAchievementOurAchievement;
       'api::page.page': ApiPagePage;
       'api::service.service': ApiServiceService;
       'plugin::content-releases.release': PluginContentReleasesRelease;

@@ -155,6 +155,48 @@ export const MissionReferenceSchema = z.object({
 
 export type MissionReference = z.infer<typeof MissionReferenceSchema>;
 
+export const CounterComponentSchema = z.object({
+  title: z.string().nullable().optional(),
+  counter: z.string().nullable().optional(),
+});
+
+export type CounterComponent = z.infer<typeof CounterComponentSchema>;
+
+export const AchievementCardItemSchema = z.object({
+  year: z.string().nullable().optional(),
+  title: z.string().nullable().optional(),
+  description: z.string().nullable().optional(),
+  logo: StrapiImageSchema.nullable().optional(),
+});
+
+export type AchievementCardItem = z.infer<typeof AchievementCardItemSchema>;
+
+export const AchievementCardEntitySchema = z.object({
+  documentId: z.string().optional(),
+  referenceTitle: z.string().nullable().optional(),
+  card: AchievementCardItemSchema.nullable().optional(),
+});
+
+export type AchievementCardEntity = z.infer<typeof AchievementCardEntitySchema>;
+
+export const OurAchievementEntitySchema = z.object({
+  documentId: z.string().optional(),
+  referenceTitle: z.string().nullable().optional(),
+  title: z.string().nullable().optional(),
+  bgImage: StrapiImageSchema.nullable().optional(),
+  counter: z.array(CounterComponentSchema).nullable().optional(),
+  achievementCards: z.array(AchievementCardEntitySchema).nullable().optional(),
+});
+
+export type OurAchievementEntity = z.infer<typeof OurAchievementEntitySchema>;
+
+export const AchievementsReferenceSchema = z.object({
+  __typename: z.literal('ComponentReferencesAchievements'),
+  ourAchievement: OurAchievementEntitySchema.nullable().optional(),
+});
+
+export type AchievementsReference = z.infer<typeof AchievementsReferenceSchema>;
+
 /**
  * Union of every section the Strapi dynamic zone can emit. The pass-through
  * catch-all keeps forward compatibility — components that aren't registered
@@ -167,6 +209,7 @@ export const DynamicZoneSectionSchema = z.union([
   ClientLogosReferenceSchema,
   ServiceReferenceSchema,
   MissionReferenceSchema,
+  AchievementsReferenceSchema,
   z.object({ __typename: z.string() }).passthrough(),
 ]);
 

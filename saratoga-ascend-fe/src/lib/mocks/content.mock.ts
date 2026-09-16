@@ -67,6 +67,63 @@ const homeSections: DynamicZoneSection[] = [
       },
     ],
   },
+  {
+    __typename: 'ComponentReferencesAchievements',
+    ourAchievement: {
+      documentId: 'cm2achievements01',
+      referenceTitle: 'Our Achievements',
+      title: 'Our Achievements',
+      bgImage: {
+        url: '/images/achievements-bg.jpg',
+        width: 1920,
+        height: 1080,
+        alternativeText: 'Achievements background',
+        formats: null,
+      },
+      counter: [
+        { title: 'Specialists', counter: '50+' },
+        { title: 'Placements', counter: '1500' },
+        { title: 'Locations', counter: '50+' },
+        { title: 'Services', counter: '256' },
+      ],
+      achievementCards: [
+        {
+          documentId: 'cm2achcard01',
+          referenceTitle: 'The Joint Commission',
+          card: {
+            year: '2026-2027',
+            title: 'The Joint Commission',
+            description:
+              'Lorem ipsum is the standard placeholder text used in graphic design, publishing, and web',
+            logo: {
+              url: '/images/image%206.png',
+              width: 250,
+              height: 250,
+              alternativeText: 'The Joint Commission badge',
+              formats: null,
+            },
+          },
+        },
+        {
+          documentId: 'cm2achcard02',
+          referenceTitle: 'WOSB Certified',
+          card: {
+            year: '2026-2027',
+            title: 'WOSB Certified',
+            description:
+              'Lorem ipsum is the standard placeholder text used in graphic design, publishing, and web',
+            logo: {
+              url: '/images/image%208.png',
+              width: 250,
+              height: 250,
+              alternativeText: 'WOSB Certified badge',
+              formats: null,
+            },
+          },
+        },
+      ],
+    },
+  },
 ];
 
 const aboutSections: DynamicZoneSection[] = [

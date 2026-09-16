@@ -9,6 +9,7 @@ import type {
   RawFaqsReference,
   RawGeneralLink,
   RawMissionReference,
+  RawAchievementsReference,
   RawPageNode,
   RawSeo,
   RawServiceReference,
@@ -131,6 +132,29 @@ export function resolveSectionImages(
           image: unwrapImage(ms.image),
           shieldIcon: unwrapImage(ms.shieldIcon),
           pulseIcon: unwrapImage(ms.pulseIcon),
+        },
+      };
+    }
+
+    case 'ComponentReferencesAchievements': {
+      const ach = (section as RawAchievementsReference).ourAchievement;
+      if (!ach) return section;
+      return {
+        ...section,
+        ourAchievement: {
+          ...ach,
+          bgImage: unwrapImage(ach.bgImage),
+          achievementCards: ach.achievementCards
+            ? ach.achievementCards.map((cardEntity) => ({
+                ...cardEntity,
+                card: cardEntity.card
+                  ? {
+                      ...cardEntity.card,
+                      logo: unwrapImage(cardEntity.card.logo),
+                    }
+                  : null,
+              }))
+            : null,
         },
       };
     }

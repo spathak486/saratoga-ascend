@@ -1,0 +1,23 @@
+{
+  "kind": "collectionType",
+  "collectionName": "achievement_cards",
+  "info": {
+    "singularName": "achievement-card",
+    "pluralName": "achievement-cards",
+    "displayName": "Achievement Cards"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "referenceTitle": {
+      "type": "string"
+    },
+    "card": {
+      "type": "component",
+      "component": "core-component.achievement-cards",
+      "repeatable": false
+    }
+  }
+}

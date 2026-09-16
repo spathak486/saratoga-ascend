@@ -143,6 +143,32 @@ export const MISSION_REFERENCE_FIELDS = `
   }
 `;
 
+export const ACHIEVEMENTS_REFERENCE_FIELDS = `
+  __typename
+  ... on ComponentReferencesAchievements {
+    ourAchievement {
+      documentId
+      referenceTitle
+      title
+      bgImage { ${IMAGE_FIELDS} }
+      counter {
+        title
+        counter
+      }
+      achievementCards {
+        documentId
+        referenceTitle
+        card {
+          year
+          title
+          description
+          logo { ${IMAGE_FIELDS} }
+        }
+      }
+    }
+  }
+`;
+
 // Every dynamic-zone inline fragment, joined with newlines. Used by any query
 // that selects a Strapi dynamic zone (pages, home, about, and future content
 // types). Declared above PAGE_FIELDS because that fragment interpolates it.
@@ -153,6 +179,7 @@ export const DYNAMIC_SECTION_FRAGMENTS = [
   CLIENT_LOGOS_REFERENCE_FIELDS,
   SERVICE_REFERENCE_FIELDS,
   MISSION_REFERENCE_FIELDS,
+  ACHIEVEMENTS_REFERENCE_FIELDS,
 ].join('\n');
 
 export const PAGE_FIELDS = `
