@@ -1,0 +1,16 @@
+{
+  "collectionName": "components_references_banner_references",
+  "info": {
+    "displayName": "Banner",
+    "icon": "bulletList"
+  },
+  "options": {},
+  "attributes": {
+    "heroBanner": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::hero-banner.hero-banner"
+    }
+  },
+  "config": {}
+}

@@ -1,0 +1,67 @@
+{
+  "kind": "singleType",
+  "collectionName": "footers",
+  "info": {
+    "singularName": "footer",
+    "pluralName": "footers",
+    "displayName": "Footer",
+    "description": "Global Footer Content Type"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "logo": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "headline": {
+      "type": "string",
+      "default": "Federal State Programs & Solutions"
+    },
+    "newsletterHeading": {
+      "type": "string",
+      "default": "Sign up for Our Newsletter"
+    },
+    "privacyConsentText": {
+      "type": "string",
+      "default": "I agree to the"
+    },
+    "privacyConsentLink": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.general-link"
+    },
+    "linkColumns": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.link-column"
+    },
+    "contactHeading": {
+      "type": "string",
+      "default": "Say Hello!"
+    },
+    "contactEmail": {
+      "type": "string",
+      "default": "careers@saratogaascend.com"
+    },
+    "contactPhone": {
+      "type": "string",
+      "default": "+1 (212) 213-2520"
+    },
+    "copyrightText": {
+      "type": "string",
+      "default": "© 2026 Saratoga Ascend. All rights reserved"
+    },
+    "legalLinks": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.general-link"
+    }
+  }
+}

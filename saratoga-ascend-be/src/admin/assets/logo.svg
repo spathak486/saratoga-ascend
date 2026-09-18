@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 100" width="420" height="100">
+  <defs>
+    <linearGradient id="grad-red" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#be123c" />
+      <stop offset="100%" stop-color="#fb7185" />
+    </linearGradient>
+    <linearGradient id="grad-blue" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0284c7" />
+      <stop offset="100%" stop-color="#38bdf8" />
+    </linearGradient>
+  </defs>
+
+  <!-- Emblem / Crest -->
+  <g transform="translate(10, 10)">
+    <!-- Base Chevron -->
+    <path d="M 15 75 L 45 25 L 75 75 L 60 75 L 45 50 L 30 75 Z" fill="url(#grad-blue)" />
+    <!-- Ascending Peak Chevron -->
+    <path d="M 35 60 L 55 20 L 75 60 L 65 60 L 55 38 L 45 60 Z" fill="url(#grad-red)" />
+    <!-- Spark Dot -->
+    <circle cx="55" cy="10" r="5" fill="#e11d48" />
+  </g>
+
+  <!-- Typography -->
+  <!-- Brand Title -->
+  <text x="105" y="48" font-family="system-ui, -apple-system, sans-serif" font-weight="800" font-size="28" fill="#022e4c" letter-spacing="1.5">SARATOGA</text>
+  <text x="105" y="74" font-family="system-ui, -apple-system, sans-serif" font-weight="700" font-size="22" fill="#e11d48" letter-spacing="4">ASCEND</text>
+  
+  <!-- Subtitle -->
+  <text x="270" y="74" font-family="system-ui, -apple-system, sans-serif" font-weight="500" font-size="12" fill="#64748b" letter-spacing="1">|  ADMIN</text>
+</svg>

@@ -1,0 +1,20 @@
+{
+  "collectionName": "components_shared_link_columns",
+  "info": {
+    "displayName": "Link Column",
+    "icon": "list",
+    "description": "Navigation link column with a heading"
+  },
+  "options": {},
+  "attributes": {
+    "heading": {
+      "type": "string",
+      "required": true
+    },
+    "links": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.general-link"
+    }
+  }
+}

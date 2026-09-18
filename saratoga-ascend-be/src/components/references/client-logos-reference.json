@@ -1,0 +1,16 @@
+{
+  "collectionName": "components_references_client_logos_references",
+  "info": {
+    "displayName": "Client Logos Reference",
+    "icon": "landscape"
+  },
+  "options": {},
+  "attributes": {
+    "clientLogosSection": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::client-logos-section.client-logos-section"
+    }
+  },
+  "config": {}
+}
