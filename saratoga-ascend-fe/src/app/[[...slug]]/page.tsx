@@ -8,6 +8,10 @@ interface DynamicPageProps {
   params: Promise<{ slug?: string[] }>;
 }
 
+// ISR — pages revalidate in the background at most once per interval, so
+// newly created or published CMS pages show up without redeploying.
+export const revalidate = 60;
+
 /**
  * Prerenders every known page at build time from the Strapi `pages`
  * collection. Unknown slugs still render on demand (dynamicParams defaults
