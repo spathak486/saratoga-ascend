@@ -239,3 +239,14 @@ export interface RawPaginationConnection<T> {
   nodes: T[];
   pageInfo: Pagination;
 }
+
+/** Editorial content for the 404 experience (Strapi `not-found` single type). */
+export interface RawNotFound {
+  documentId: string;
+  title?: string | null;
+  description?: string | null;
+  graphic?: RawStrapiMedia | null;
+  primaryCta?: RawGeneralLink | null;
+  secondaryCta?: RawGeneralLink | null;
+  seo?: RawSeo | null;
+}

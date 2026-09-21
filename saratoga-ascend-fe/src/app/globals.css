@@ -154,6 +154,15 @@
   --text-eyebrow: clamp(0.75rem, 0.7197rem + 0.1294vw, 0.875rem);
   --text-eyebrow--line-height: 1.5;
 
+  /* 40 -> 64 — the 404 heading, "Oops! Page not found". Line-height 88px in
+     the file (frame 771), so the cap is 1.375 rather than the usual 1.2. */
+  --text-404-title: clamp(2.5rem, 2.1359rem + 1.5534vw, 4rem);
+  --text-404-title--line-height: 1.375;
+
+  /* 18 -> 32 — the support line beneath the 404 heading, 40px leading. */
+  --text-404-sub: clamp(1.125rem, 0.9126rem + 0.9062vw, 2rem);
+  --text-404-sub--line-height: 1.25;
+
   /* ---- Layout -----------------------------------------------------------
      Every section renders its content inside <Container>.                   */
 
@@ -292,6 +301,44 @@ body {
     var(--color-brand-cta-from) 0.475%,
     var(--color-brand-cta-to) 102.45%
   );
+}
+
+/* 404 page CTAs — Figma Frame 205 (primary, "Get in Touch": brand sky fill,
+   white bold label) and Frame 771 (secondary, "Go Home": transparent over a
+   2px ink stroke, black medium label). Both fully pill, 16/40 padding, 16px
+   Google Sans Flex at 24px leading. Sizing stays literal — these buttons have
+   no siblings anywhere else on the page. */
+.bg-not-found-primary {
+  background-color: var(--color-brand-sky);
+  border-radius: var(--radius-pill);
+  min-height: 3.5rem; /* 56px */
+  min-width: 11.25rem; /* 180px */
+  padding: 1rem 2.5rem; /* 16px 40px */
+  color: #ffffff;
+  font-size: 1rem; /* 16px */
+  font-weight: 700;
+  line-height: 1.5rem; /* 24px */
+}
+
+.bg-not-found-primary:hover {
+  background-color: color-mix(in srgb, var(--color-brand-sky) 88%, #000000);
+}
+
+.bg-not-found-secondary {
+  background-color: transparent;
+  border: 2px solid #000000;
+  border-radius: var(--radius-pill);
+  min-height: 3.75rem; /* 60px */
+  min-width: 9.8125rem; /* 157px */
+  padding: 1rem 2.5rem; /* 16px 40px */
+  color: #000000;
+  font-size: 1rem; /* 16px */
+  font-weight: 500;
+  line-height: 1.5rem; /* 24px */
+}
+
+.bg-not-found-secondary:hover {
+  background-color: rgb(0 0 0 / 0.06);
 }
 
 /* Need Help card fill — Figma "Red Blue" with 20% black film */
