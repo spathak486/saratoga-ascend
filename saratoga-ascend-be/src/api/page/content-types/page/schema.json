@@ -1,0 +1,67 @@
+{
+  "kind": "collectionType",
+  "collectionName": "pages",
+  "info": {
+    "singularName": "page",
+    "pluralName": "pages",
+    "displayName": "Page",
+    "description": "Universal slug-driven content pages composed of SEO and a dynamic zone of sections"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "internalName": {
+      "type": "string"
+    },
+    "pageTitle": {
+      "type": "string",
+      "required": true
+    },
+    "slug": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "pageType": {
+      "type": "enumeration",
+      "default": "Standard",
+      "enum": [
+        "Standard",
+        "Dark",
+        "Light",
+        "LegalPolicy",
+        "FullWidth"
+      ]
+    },
+    "variant": {
+      "type": "enumeration",
+      "default": "default",
+      "enum": [
+        "default",
+        "dark",
+        "light",
+        "legal_policy"
+      ]
+    },
+    "seo": {
+      "type": "component",
+      "component": "shared.seo",
+      "repeatable": false,
+      "required": true
+    },
+    "Section": {
+      "type": "dynamiczone",
+      "components": [
+        "references.banner-reference",
+        "references.cta",
+        "references.fa-qs",
+        "references.client-logos-reference",
+        "references.service-reference",
+        "references.mission-reference",
+        "references.achievements"
+      ]
+    }
+  }
+}

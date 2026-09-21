@@ -31,11 +31,15 @@ export function unwrapMany<T>(response: StrapiListResponse<T>): { items: T[]; pa
   };
 }
 
+// Loose on purpose: any media field may be absent on a raw entry (or when the
+// media is post-resolution `StrapiImage`), and `unwrapImage` fills the gaps.
 export interface RawStrapiMedia {
   url: string;
-  width: number | null;
-  height: number | null;
-  alternativeText: string | null;
+  width?: number | null;
+  height?: number | null;
+  alternativeText?: string | null;
+  mime?: string | null;
+  ext?: string | null;
   formats?: Record<string, { url: string; width: number; height: number }> | null;
 }
 

@@ -1,0 +1,17 @@
+{
+  "collectionName": "components_core_component_counters",
+  "info": {
+    "displayName": "Counter",
+    "icon": "bell"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "counter": {
+      "type": "string"
+    }
+  },
+  "config": {}
+}

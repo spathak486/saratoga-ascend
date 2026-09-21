@@ -12,6 +12,7 @@ import {
   useCardCarousel,
 } from '../molecules/CardCarousel';
 import { CountUpStat, useInViewOnce } from '../molecules/CountUpStat';
+import type { StrapiImage } from '@/lib/schemas';
 
 const CARD_BODY =
   'Lorem ipsum is the standard placeholder text used in graphic design, publishing, and web';
@@ -47,20 +48,11 @@ const AWARDS: readonly AchievementGlassCardProps[] = [
   },
 ];
 
-/** Repeat the pair so the track can travel past the fold, same pattern as
- *  Past Performance. */
-const SLIDES = [
-  { ...AWARDS[0], key: 'joint-1' },
-  { ...AWARDS[1], key: 'wosb-1' },
-  { ...AWARDS[0], key: 'joint-2' },
-  { ...AWARDS[1], key: 'wosb-2' },
-] as const;
-
 const STATS = [
-  { value: '50+', label: 'Specialists', left: 'left-[16.72%]' },
-  { value: '1500', label: 'Placements', left: 'left-[38.98%]' },
-  { value: '50+', label: 'Locations', left: 'left-[61.09%]' },
-  { value: '256', label: 'Services', left: 'left-[83.28%]' },
+  { value: '50+', label: 'Specialists' },
+  { value: '1500', label: 'Placements' },
+  { value: '50+', label: 'Locations' },
+  { value: '256', label: 'Services' },
 ] as const;
 
 /** Exactly two plates fill the desktop viewport (one gutter between them).
@@ -107,13 +99,14 @@ function BandArrow({
   );
 }
 
-function Backdrop() {
+function Backdrop({ bgSrc }: { bgSrc?: string }) {
+  const imageSource = bgSrc || '/images/achievements-bg.jpg';
   return (
     <>
       <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
         <div className="absolute top-[-13.58%] left-[-3.88%] h-[121.4%] w-[108.73%]">
           <MediaFrame
-            src="/images/achievements-bg.jpg"
+            src={imageSource}
             alt=""
             pendingLabel="achievements-backdrop"
             tone="navy"
@@ -138,11 +131,13 @@ function Backdrop() {
 function AwardsTrack({
   viewportRef,
   slideClassName,
+  slides,
   onPrev,
   onNext,
 }: {
   viewportRef: React.RefObject<HTMLDivElement | null>;
   slideClassName: string;
+  slides: Array<AchievementGlassCardProps & { key: string }>;
   onPrev: () => void;
   onNext: () => void;
 }) {
@@ -165,7 +160,7 @@ function AwardsTrack({
       }}
     >
       <div className="flex gap-grid">
-        {SLIDES.map((slide) => (
+        {slides.map((slide) => (
           <div
             key={slide.key}
             className={slideClassName}
@@ -188,17 +183,108 @@ function AwardsTrack({
   );
 }
 
+export interface AchievementCardData {
+  documentId?: string;
+  referenceTitle?: string | null;
+  card?: {
+    year?: string | null;
+    title?: string | null;
+    description?: string | null;
+    logo?: StrapiImage | null;
+  } | null;
+}
+
+export interface AchievementCounterData {
+  title?: string | null;
+  counter?: string | null;
+}
+
+export interface OurAchievementsSectionProps {
+  title?: string | null;
+  bgImage?: string | null;
+  counters?: AchievementCounterData[] | null;
+  cards?: AchievementCardData[] | null;
+}
+
 /**
  * Seventh-last homepage band (Figma node 1:394). Locked 1920×1080 stage:
  * clinical photo, 232° navy-to-red wash, two 828×538 glass plates, 120px
  * numerals, and 60px arrows in the page gutter. Cards slide on the same
  * snap track as Past Performance — no fade.
  */
-export const OurAchievementsSection: React.FC = () => {
+export const OurAchievementsSection: React.FC<OurAchievementsSectionProps> = ({
+  title,
+  bgImage,
+  counters,
+  cards,
+}) => {
   const desktop = useCardCarousel({ loop: true });
   const mobile = useCardCarousel({ loop: true });
-  const desktopStats = useInViewOnce<HTMLDivElement>(0.45);
-  const mobileStats = useInViewOnce<HTMLDListElement>(0.4);
+  const { ref: desktopStatsRef, inView: isDesktopStatsInView } = useInViewOnce<HTMLDivElement>(0.45);
+  const { ref: mobileStatsRef, inView: isMobileStatsInView } = useInViewOnce<HTMLDListElement>(0.4);
+
+  const headingText = title?.trim() ? title : 'Our Achievements';
+
+  const resolvedCards = React.useMemo<AchievementGlassCardProps[]>(() => {
+    if (cards && cards.length > 0) {
+      const mapped: AchievementGlassCardProps[] = [];
+      for (let idx = 0; idx < cards.length; idx++) {
+        const item = cards[idx];
+        const c = item.card;
+        if (!c && !item.referenceTitle) continue;
+        const cleanDesc = c?.description
+          ? c.description.replace(/<[^>]*>/g, '').trim()
+          : CARD_BODY;
+        mapped.push({
+          year: c?.year?.trim() || '2026-2027',
+          title: c?.title?.trim() || item.referenceTitle || 'Achievement',
+          body: cleanDesc || CARD_BODY,
+          badgeSrc:
+            c?.logo?.url ||
+            (idx % 2 === 0 ? '/images/image%206.png' : '/images/image%208.png'),
+          badgeAlt:
+            c?.logo?.alternativeText ||
+            c?.title ||
+            item.referenceTitle ||
+            'Achievement badge',
+          badgeShape: idx % 2 === 0 ? 'round' : 'portrait',
+        });
+      }
+      if (mapped.length > 0) return mapped;
+    }
+    return AWARDS as AchievementGlassCardProps[];
+  }, [cards]);
+
+  const slides = React.useMemo(() => {
+    if (resolvedCards.length === 1) {
+      return [
+        { ...resolvedCards[0], key: 'slide-0' },
+        { ...resolvedCards[0], key: 'slide-0-dup' },
+      ];
+    }
+    if (resolvedCards.length === 2) {
+      return [
+        { ...resolvedCards[0], key: 'slide-0' },
+        { ...resolvedCards[1], key: 'slide-1' },
+        { ...resolvedCards[0], key: 'slide-0-dup' },
+        { ...resolvedCards[1], key: 'slide-1-dup' },
+      ];
+    }
+    return resolvedCards.map((c, i) => ({ ...c, key: `slide-${i}` }));
+  }, [resolvedCards]);
+
+  const resolvedStats = React.useMemo(() => {
+    if (counters && counters.length > 0) {
+      const mapped = counters
+        .filter((c) => Boolean(c.counter || c.title))
+        .map((c) => ({
+          value: c.counter || '0',
+          label: c.title || '',
+        }));
+      if (mapped.length > 0) return mapped;
+    }
+    return STATS.map((s) => ({ value: s.value, label: s.label }));
+  }, [counters]);
 
   return (
     <section
@@ -206,45 +292,45 @@ export const OurAchievementsSection: React.FC = () => {
       className="relative isolate"
     >
       <h2 id="our-achievements-heading" className="sr-only">
-        Our Achievements
+        {headingText}
       </h2>
 
       <div className="relative hidden aspect-[1920/1080] w-full xl:block">
-        <Backdrop />
+        <Backdrop bgSrc={bgImage ?? undefined} />
 
         <p
           aria-hidden="true"
           className="absolute top-[7.41%] left-1/2 -translate-x-1/2 font-serif text-section whitespace-nowrap text-white"
         >
-          Our Achievements
+          {headingText}
         </p>
 
         <div className="absolute top-[20.93%] left-[6.41%] w-[87.34%] overflow-visible">
           <AwardsTrack
             viewportRef={desktop.viewportRef}
             slideClassName={TWO_UP_SLIDE_CLASS}
+            slides={slides}
             onPrev={desktop.scrollPrev}
             onNext={desktop.scrollNext}
           />
         </div>
 
         <div
-          ref={desktopStats.ref}
+          ref={desktopStatsRef}
           className="absolute inset-x-0 top-[78%] h-[18%]"
         >
-          <dl>
-            {STATS.map((stat) => (
-              <div key={stat.label}>
-                <dt
-                  className={`absolute top-[71%] ${stat.left} -translate-x-1/2 -translate-y-1/2 text-stat-label font-medium whitespace-nowrap text-white`}
-                >
+          <dl className="mx-auto flex h-full max-w-[1500px] items-center justify-around px-8">
+            {resolvedStats.map((stat, idx) => (
+              <div
+                key={`${stat.label}-${idx}`}
+                className="flex flex-col items-center justify-center text-center"
+              >
+                <dd className="font-serif text-numeral leading-none text-white">
+                  <CountUpStat value={stat.value} active={isDesktopStatsInView} />
+                </dd>
+                <dt className="mt-2 text-stat-label font-medium whitespace-nowrap text-white">
                   {stat.label}
                 </dt>
-                <dd
-                  className={`absolute top-[24%] ${stat.left} -translate-x-1/2 -translate-y-1/2 font-serif text-numeral leading-none text-white`}
-                >
-                  <CountUpStat value={stat.value} active={desktopStats.inView} />
-                </dd>
               </div>
             ))}
           </dl>
@@ -263,20 +349,21 @@ export const OurAchievementsSection: React.FC = () => {
       </div>
 
       <div className="relative xl:hidden">
-        <Backdrop />
+        <Backdrop bgSrc={bgImage ?? undefined} />
 
         <Container className="relative py-10 sm:py-section">
           <p
             aria-hidden="true"
             className="text-center font-serif text-section text-balance text-white"
           >
-            Our Achievements
+            {headingText}
           </p>
 
           <div className="mt-block">
             <AwardsTrack
               viewportRef={mobile.viewportRef}
               slideClassName={ONE_UP_SLIDE_CLASS}
+              slides={slides}
               onPrev={mobile.scrollPrev}
               onNext={mobile.scrollNext}
             />
@@ -296,14 +383,14 @@ export const OurAchievementsSection: React.FC = () => {
           </div>
 
           <dl
-            ref={mobileStats.ref}
+            ref={mobileStatsRef}
             className="mt-block grid grid-cols-2 gap-x-4 gap-y-8 text-center text-white"
           >
-            {STATS.map((stat) => (
-              <div key={stat.label} className="min-w-0">
+            {resolvedStats.map((stat, idx) => (
+              <div key={`${stat.label}-${idx}`} className="min-w-0">
                 <dt className="sr-only">{stat.label}</dt>
                 <dd className="font-serif text-[clamp(2.25rem,12vw,4.5rem)] leading-none">
-                  <CountUpStat value={stat.value} active={mobileStats.inView} />
+                  <CountUpStat value={stat.value} active={isMobileStatsInView} />
                 </dd>
                 <p className="mt-2 text-[clamp(0.875rem,3.2vw,1.5rem)] font-medium">
                   {stat.label}

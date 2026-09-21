@@ -1,5 +1,36 @@
 import type { Schema, Struct } from '@strapi/strapi';
 
+export interface CoreComponentAchievementCards extends Struct.ComponentSchema {
+  collectionName: 'components_core_component_achievement_cards';
+  info: {
+    displayName: 'Achievement Cards';
+  };
+  attributes: {
+    description: Schema.Attribute.RichText &
+      Schema.Attribute.CustomField<
+        'plugin::ckeditor5.CKEditor',
+        {
+          preset: 'defaultHtml';
+        }
+      >;
+    logo: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
+    title: Schema.Attribute.String;
+    year: Schema.Attribute.String;
+  };
+}
+
+export interface CoreComponentCounter extends Struct.ComponentSchema {
+  collectionName: 'components_core_component_counters';
+  info: {
+    displayName: 'Counter';
+    icon: 'bell';
+  };
+  attributes: {
+    counter: Schema.Attribute.String;
+    title: Schema.Attribute.String;
+  };
+}
+
 export interface CoreComponentHeading extends Struct.ComponentSchema {
   collectionName: 'components_core_component_headings';
   info: {
@@ -57,6 +88,20 @@ export interface MediaBanner extends Struct.ComponentSchema {
     bannerSubTitle: Schema.Attribute.Text;
     bannerTitle: Schema.Attribute.String & Schema.Attribute.Required;
     buttonCTA: Schema.Attribute.Component<'shared.general-link', false>;
+  };
+}
+
+export interface ReferencesAchievements extends Struct.ComponentSchema {
+  collectionName: 'components_references_achievements';
+  info: {
+    displayName: 'Achievements';
+    icon: 'book';
+  };
+  attributes: {
+    ourAchievement: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::our-achievement.our-achievement'
+    >;
   };
 }
 
@@ -212,9 +257,12 @@ export interface SharedSeo extends Struct.ComponentSchema {
 declare module '@strapi/strapi' {
   export namespace Public {
     export interface ComponentSchemas {
+      'core-component.achievement-cards': CoreComponentAchievementCards;
+      'core-component.counter': CoreComponentCounter;
       'core-component.heading': CoreComponentHeading;
       'core-component.promo': CoreComponentPromo;
       'media.banner': MediaBanner;
+      'references.achievements': ReferencesAchievements;
       'references.banner-reference': ReferencesBannerReference;
       'references.client-logos-reference': ReferencesClientLogosReference;
       'references.cta': ReferencesCta;

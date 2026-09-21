@@ -1,0 +1,33 @@
+{
+  "kind": "collectionType",
+  "collectionName": "contact-submissions",
+  "info": {
+    "singularName": "contact-submission",
+    "pluralName": "contact-submissions",
+    "displayName": "Contact Submission",
+    "description": "Lead form submissions captured from the CTA / Need Help forms"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "email": {
+      "type": "email",
+      "required": true
+    },
+    "source": {
+      "type": "enumeration",
+      "enum": [
+        "cta",
+        "need-help",
+        "contact"
+      ],
+      "default": "cta"
+    }
+  }
+}

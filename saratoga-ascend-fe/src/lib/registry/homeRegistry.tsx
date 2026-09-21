@@ -1,12 +1,13 @@
 import React from 'react';
 import type {
-  HomeDynamicZoneSection,
+  DynamicZoneSection,
   BannerReference,
   ClientLogosReference,
   CtaReference,
   FaqsReference,
   ServiceReference,
   MissionReference,
+  AchievementsReference,
 } from '@/lib/schemas';
 import {
   HeroSection,
@@ -15,6 +16,7 @@ import {
   ClientLogosSection,
   MarketWeServeSection,
   MissionSection,
+  OurAchievementsSection,
 } from '@/components/organisms';
 
 function renderFaqSection(faqsRef: FaqsReference, index: number) {
@@ -52,7 +54,7 @@ function renderFaqSection(faqsRef: FaqsReference, index: number) {
  */
 export const SECTION_REGISTRY: Record<
   string,
-  (section: HomeDynamicZoneSection, index: number) => React.ReactNode
+  (section: DynamicZoneSection, index: number) => React.ReactNode
 > = {
   ComponentReferencesBannerReference: (section, index) => {
     const bannerRef = section as BannerReference;
@@ -154,13 +156,27 @@ export const SECTION_REGISTRY: Record<
       />
     );
   },
+
+  ComponentReferencesAchievements: (section, index) => {
+    const achRef = section as AchievementsReference;
+    const ach = achRef.ourAchievement;
+    return (
+      <OurAchievementsSection
+        key={`achievements-${index}`}
+        title={ach?.title ?? undefined}
+        bgImage={ach?.bgImage?.url ?? undefined}
+        counters={ach?.counter ?? undefined}
+        cards={ach?.achievementCards ?? undefined}
+      />
+    );
+  },
 };
 
 /**
  * Resolves a dynamic zone section from the Component Registry.
  */
 export function renderRegisteredSection(
-  section: HomeDynamicZoneSection,
+  section: DynamicZoneSection,
   index: number
 ): React.ReactNode {
   const renderer = SECTION_REGISTRY[section.__typename];

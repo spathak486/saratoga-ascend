@@ -1,0 +1,41 @@
+{
+  "kind": "collectionType",
+  "collectionName": "our_achievements",
+  "info": {
+    "singularName": "our-achievement",
+    "pluralName": "our-achievements",
+    "displayName": "Our Achievement"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "referenceTitle": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "bgImage": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "counter": {
+      "type": "component",
+      "component": "core-component.counter",
+      "repeatable": true
+    },
+    "achievementCards": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::achievement-card.achievement-card"
+    }
+  }
+}
