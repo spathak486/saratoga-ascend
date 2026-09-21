@@ -31,14 +31,18 @@ const config = ({ env }: Core.Config.Shared.ConfigParams): Core.Config.Plugin =>
       },
     },
   },
+
   upload: {
     config: {
+      sizeLimit: 50 * 1024 * 1024, // 50 MB
+
       security: {
         allowedTypes: allowedMediaTypes,
         deniedTypes: deniedExecutableTypes,
       },
     },
   },
+
   graphql: {
     config: {
       endpoint: '/graphql',
