@@ -18,30 +18,6 @@ export interface MarketWeServeSectionProps {
   services?: MarketItem[];
 }
 
-const INTRO_COPY =
-  'Connecting cleared, credentialed healthcare professionals with government, military, and local facilities nationwide.';
-
-const MARKETS: MarketItem[] = [
-  {
-    id: 'federal-military',
-    label: 'Federal & Military',
-    description:
-      'Supplying cleared, credentialed healthcare professionals to DoD, VA, and military treatment facilities worldwide.',
-    imageSrc: '/images/Federal%20%26%20Military.png',
-    pendingLabel: 'Federal & Military.png',
-    href: '/who-we-serve',
-  },
-  {
-    id: 'state-local',
-    label: 'State & Local',
-    description:
-      'Supplying credentialed healthcare professionals to state, county, and municipal facilities nationwide.',
-    imageSrc: '/images/State%20%26%20Local.png',
-    pendingLabel: 'State & Local.png',
-    href: '/who-we-serve',
-  },
-];
-
 /**
  * Phase 4 — Market We Serve: section intro plus photo overlay cards.
  * Accepts optional dynamic data from Strapi or falls back to static content.
@@ -51,9 +27,9 @@ export const MarketWeServeSection: React.FC<MarketWeServeSectionProps> = ({
   description,
   services,
 }) => {
-  const displayTitle = title || 'Market We Serve';
-  const displayDescription = description || INTRO_COPY;
-  const displayMarkets = services && services.length > 0 ? services : MARKETS;
+  const displayMarkets = services && services.length > 0 ? services : [];
+
+  if (!title && !description && displayMarkets.length === 0) return null;
 
   return (
     <Section
@@ -62,11 +38,13 @@ export const MarketWeServeSection: React.FC<MarketWeServeSectionProps> = ({
       spacing="lg"
     >
       <div className="flex flex-col gap-[clamp(2.5rem,3.125vw,3.75rem)]">
-        <SectionIntro
-          id="market-we-serve-heading"
-          title={displayTitle}
-          description={displayDescription}
-        />
+        {(title || description) ? (
+          <SectionIntro
+            id="market-we-serve-heading"
+            title={title ?? ''}
+            description={description ?? ''}
+          />
+        ) : null}
 
         <div className="grid grid-cols-1 gap-grid lg:grid-cols-2">
           {displayMarkets.map((market) => (

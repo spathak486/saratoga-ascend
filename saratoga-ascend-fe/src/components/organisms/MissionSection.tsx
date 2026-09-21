@@ -13,19 +13,6 @@ export interface MissionSectionProps {
   heartSrc?: string;
 }
 
-const BODY_LEAD =
-  'Founded to serve federal and military healthcare, we grew into a nationwide partner for hospitals, clinics, and public health programs.';
-
-const BODY_CLOSE =
-  'We combine military-grade precision with responsive, people-first service—matching licensed, background-checked, and fully credentialed professionals to serve every mission.';
-
-const HIGHLIGHTS = [
-  'Nationwide coverage across all 50 states',
-  'Cleared personnel for government & military facilities',
-  'Dedicated compliance & credentialing teams',
-  '24/7 support for clients and providers',
-] as const;
-
 /**
  * About Us band (Figma node 13:355) — 1080px artboard, pink wash, copy
  * column 971px / heart plate 675×981 with a slight column overlap.
@@ -40,7 +27,7 @@ export const MissionSection: React.FC<MissionSectionProps> = ({
   heartSrc,
 }) => {
   const displayHeartSrc = imageSrc || heartSrc;
-  const displayHighlights = highlights && highlights.length > 0 ? highlights : HIGHLIGHTS;
+  const displayHighlights = highlights && highlights.length > 0 ? highlights : null;
 
   return (
     <Section
@@ -62,35 +49,26 @@ export const MissionSection: React.FC<MissionSectionProps> = ({
           >
             {title ? (
               <span className="block">{title}</span>
-            ) : (
-              <span className="block">
-                Four Decades of{' '}
-                <span className="text-brand-cta-from">Military & Federal</span>
-                {' '} Healthcare Solutions
-              </span>
-            )}
+            ) : null}
           </Heading>
 
           {/* Body — 683px measure, 24px medium, 1.6 leading; 48px below heading */}
-          <div className="mt-[clamp(1.5rem,2.5vw,3rem)] max-w-[42.6875rem] text-body-lg font-medium leading-[1.6] text-ink">
-            {description ? (
+          {description ? (
+            <div className="mt-[clamp(1.5rem,2.5vw,3rem)] max-w-[42.6875rem] text-body-lg font-medium leading-[1.6] text-ink">
               <div 
                 className="whitespace-pre-wrap [&>p]:mb-[1.6em] last:[&>p]:mb-0"
                 dangerouslySetInnerHTML={{ __html: description }}
               />
-            ) : (
-              <>
-                <p>{BODY_LEAD}</p>
-                <p className="mt-[1.6em]">{BODY_CLOSE}</p>
-              </>
-            )}
-          </div>
+            </div>
+          ) : null}
 
           {/* Bullets — 40px below body on artboard, 64px row gap */}
-          <AboutHighlightList
-            items={displayHighlights}
-            className="mt-[clamp(1.5rem,2.08vw,2.5rem)]"
-          />
+          {displayHighlights ? (
+            <AboutHighlightList
+              items={displayHighlights}
+              className="mt-[clamp(1.5rem,2.08vw,2.5rem)]"
+            />
+          ) : null}
         </div>
 
         {/* Heart plate — top inset 99px; overlaps copy by ~18px at 1920 */}

@@ -2,13 +2,15 @@ import React from 'react';
 import { Container, Heading, Section, Text } from '../atoms';
 import { CtaButton } from '../molecules/CtaButton';
 
-function stripHtml(value?: string | null) {
-  return value ? value.replace(/<[^>]*>?/gm, '').trim() : '';
+function stripHtml(value?: string | null): string | null {
+  if (!value) return null;
+  const stripped = value.replace(/<[^>]*>?/gm, '').trim();
+  return stripped || null;
 }
 
-function splitHeroTitle(title?: string) {
+function splitHeroTitle(title?: string | null) {
   if (!title?.trim()) {
-    return { line1: 'Federal State', line2: 'Programs and Solutions' };
+    return null;
   }
 
   const lines = title
@@ -91,8 +93,8 @@ const leafStyle: React.CSSProperties = {
  */
 export const HeroSection: React.FC<HeroSectionProps> = ({
   videoSrc,
-  helixSrc = '/images/DNA-v1.png',
-  mediaAlt = 'DNA double helix illustration',
+  helixSrc,
+  mediaAlt,
   title,
   subTitle,
   description,
@@ -102,16 +104,14 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   mediaExt,
 }) => {
   const heading = splitHeroTitle(title);
-  const lede =
-    stripHtml(description) ||
-    'Saratoga Ascend connects cleared, credentialed healthcare professionals with government, military, and local facilities nationwide.';
+  const lede = stripHtml(description);
   const isCmsVideo =
     mediaMime?.startsWith('video/') ||
     mediaExt === '.mp4' ||
     mediaExt === '.webm' ||
     mediaExt === '.mov';
   const resolvedVideoSrc = videoSrc || (isCmsVideo ? helixSrc : undefined);
-  const stillSrc = isCmsVideo && !videoSrc ? '/images/DNA-v1.png' : helixSrc;
+  const stillSrc = isCmsVideo && !videoSrc ? undefined : helixSrc;
 
   return (
   <Section
@@ -173,34 +173,40 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           </span>
         ) : null}
 
-        <Heading
-          id="hero-heading"
-          level={1}
-          size="hero"
-          tone="inherit"
-          className="tracking-normal"
-          style={headingStyle}
-        >
-          <span className="block text-ink">{heading.line1}</span>
-          {heading.line2 ? (
-            <span className="block text-brand-cta-from">{heading.line2}</span>
-          ) : null}
-        </Heading>
+        {heading ? (
+          <Heading
+            id="hero-heading"
+            level={1}
+            size="hero"
+            tone="inherit"
+            className="tracking-normal"
+            style={headingStyle}
+          >
+            <span className="block text-ink">{heading.line1}</span>
+            {heading.line2 ? (
+              <span className="block text-brand-cta-from">{heading.line2}</span>
+            ) : null}
+          </Heading>
+        ) : null}
 
-        <Text
-          size="lead"
-          tone="navy"
-          className="font-medium tracking-normal"
-          style={ledeStyle}
-        >
-          {lede}
-        </Text>
+        {lede ? (
+          <Text
+            size="lead"
+            tone="navy"
+            className="font-medium tracking-normal"
+            style={ledeStyle}
+          >
+            {lede}
+          </Text>
+        ) : null}
 
-        <div style={ctaStyle}>
-          <CtaButton href={ctaHref || '/contact'} className="self-start">
-            {ctaLabel || 'Contact us'}
-          </CtaButton>
-        </div>
+        {(ctaLabel && ctaHref) ? (
+          <div style={ctaStyle}>
+            <CtaButton href={ctaHref} className="self-start">
+              {ctaLabel}
+            </CtaButton>
+          </div>
+        ) : null}
       </Container>
     </div>
   </Section>

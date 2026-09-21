@@ -30,7 +30,7 @@ const figmaNurseStyle: React.CSSProperties = {
  * background: url(medical-workers-healthcare-covid-vaccination-concept-friendly-upbeat-female-nurse-doctor-b.png);
  */
 export const NeedHelpSection: React.FC<NeedHelpSectionProps> = ({
-  personSrc = '/images/medical-workers-healthcare-covid-vaccination-concept-friendly-upbeat-female-nurse-doctor-b.png',
+  personSrc,
   title,
   subTitle,
   description,
@@ -51,23 +51,26 @@ export const NeedHelpSection: React.FC<NeedHelpSectionProps> = ({
         {/* Left Column: 100px padding (left: 220px in 1920 artboard) */}
         <div className="relative z-10 flex min-w-0 max-w-full lg:max-w-[50%] flex-col justify-between p-[clamp(1.5rem,5.21vw,100px)] h-full">
           <div>
-            {/* Group 158: Heading 01 - DM Serif Text 72px / 120% */}
-            <Heading
-              id="need-help-heading"
-              level={2}
-              tone="onDark"
-              className="font-serif text-[clamp(2rem,3.75vw,72px)] leading-[120%] font-normal text-white max-w-[353px]"
-            >
-              {title || 'Need Help?'}
-            </Heading>
+            {title ? (
+              <Heading
+                id="need-help-heading"
+                level={2}
+                tone="onDark"
+                className="font-serif text-[clamp(2rem,3.75vw,72px)] leading-[120%] font-normal text-white max-w-[353px]"
+              >
+                {title}
+              </Heading>
+            ) : null}
 
             {/* Sign up now and get hired easily - Google Sans Flex 24px / 160% medium, gap 24px */}
-            <p className="mt-6 max-w-[356px] text-[clamp(1.125rem,1.25vw,24px)] leading-[160%] font-medium text-white">
-              {subTitle ||
-                (description
-                  ? description.replace(/<[^>]*>?/gm, '').trim()
-                  : 'Sign up now and get hired easily')}
-            </p>
+            {(subTitle || description) ? (
+              <p className="mt-6 max-w-[356px] text-[clamp(1.125rem,1.25vw,24px)] leading-[160%] font-medium text-white">
+                {subTitle ||
+                  (description
+                    ? description.replace(/<[^>]*>?/gm, '').trim()
+                    : null)}
+              </p>
+            ) : null}
           </div>
 
           {/* Inputs & CTA Button */}
@@ -81,27 +84,29 @@ export const NeedHelpSection: React.FC<NeedHelpSectionProps> = ({
           width: 767px; height: 733px; left: 939px (819px inside card); top: 120px (flush with card top/bottom);
           right: 94px (1680 - 819 - 767 = 94px).
         */}
-        <div
-          className="pointer-events-none absolute bottom-0 right-0 lg:right-[clamp(0px,4.9vw,94px)] z-0 flex h-[clamp(18rem,38.18vw,733px)] w-full items-end justify-center lg:h-[733px] lg:w-[clamp(20rem,45.65%,767px)] lg:justify-end"
-          style={{
-            maxWidth: '767px',
-            maxHeight: '733px',
-            opacity: 1,
-            transform: 'rotate(0deg)',
-          }}
-        >
-          <img
-            src={personSrc}
-            alt={mediaAlt || 'Healthcare worker offering help'}
-            width={767}
-            height={733}
-            className="h-full w-auto max-h-[733px] max-w-[767px] object-contain object-bottom"
+        {personSrc ? (
+          <div
+            className="pointer-events-none absolute bottom-0 right-0 lg:right-[clamp(0px,4.9vw,94px)] z-0 flex h-[clamp(18rem,38.18vw,733px)] w-full items-end justify-center lg:h-[733px] lg:w-[clamp(20rem,45.65%,767px)] lg:justify-end"
             style={{
+              maxWidth: '767px',
+              maxHeight: '733px',
               opacity: 1,
               transform: 'rotate(0deg)',
             }}
-          />
-        </div>
+          >
+            <img
+              src={personSrc}
+              alt={mediaAlt || 'Healthcare worker offering help'}
+              width={767}
+              height={733}
+              className="h-full w-auto max-h-[733px] max-w-[767px] object-contain object-bottom"
+              style={{
+                opacity: 1,
+                transform: 'rotate(0deg)',
+              }}
+            />
+          </div>
+        ) : null}
       </div>
     </div>
   </Section>

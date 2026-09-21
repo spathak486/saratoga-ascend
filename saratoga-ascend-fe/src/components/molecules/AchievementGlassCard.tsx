@@ -2,28 +2,28 @@ import React from 'react';
 import { Heading, MediaFrame } from '../atoms';
 
 export interface AchievementGlassCardProps {
-  year: string;
-  title: React.ReactNode;
-  body: string;
-  badgeSrc?: string;
-  badgeAlt: string;
+  year?: string | null;
+  title?: React.ReactNode;
+  body?: string | null;
+  badgeSrc?: string | null;
+  badgeAlt?: string;
   badgeShape?: 'round' | 'portrait';
 }
 
 function Badge({
   src,
-  alt,
+  alt = '',
   className,
 }: {
-  src?: string;
-  alt: string;
+  src?: string | null;
+  alt?: string;
   shape?: 'round' | 'portrait';
   className: string;
 }) {
   return (
     <div className={className}>
       <MediaFrame
-        src={src}
+        src={src ?? undefined}
         alt={alt}
         pendingLabel={alt}
         tone="navyCard"
