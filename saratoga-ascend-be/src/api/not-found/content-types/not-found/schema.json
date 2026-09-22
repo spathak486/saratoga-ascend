@@ -1,0 +1,47 @@
+{
+  "kind": "singleType",
+  "collectionName": "not_found_pages",
+  "info": {
+    "singularName": "not-found",
+    "pluralName": "not-founds",
+    "displayName": "404 Page",
+    "description": "Editorial content for the 404 / page-not-found experience"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "graphic": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "title": {
+      "type": "string",
+      "default": "Oops! Page not found"
+    },
+    "description": {
+      "type": "text",
+      "default": "The page you're looking for has moved, been removed, or never existed. Let's get you back on mission."
+    },
+    "primaryCta": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.general-link"
+    },
+    "secondaryCta": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.general-link"
+    },
+    "seo": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.seo"
+    }
+  }
+}

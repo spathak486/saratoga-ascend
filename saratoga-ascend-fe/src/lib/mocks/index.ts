@@ -1,9 +1,14 @@
-import type { Page, Article, Pagination, FooterData } from '@/lib/schemas';
+import type { Page, Article, Pagination, FooterData, NotFoundData } from '@/lib/schemas';
 import { mockPages, mockArticles } from './content.mock';
 import { mockFooterData } from './footer.mock';
+import { mockNotFoundData } from './not-found.mock';
 
 export function getMockFooterData(): FooterData {
   return mockFooterData;
+}
+
+export function getMockNotFoundData(): NotFoundData {
+  return mockNotFoundData;
 }
 
 export function getMockPageBySlug(slug: string): Page | null {

@@ -739,6 +739,42 @@ export interface ApiMissionSectionMissionSection
   };
 }
 
+export interface ApiNotFoundNotFound extends Struct.SingleTypeSchema {
+  collectionName: 'not_found_pages';
+  info: {
+    description: 'Editorial content for the 404 / page-not-found experience';
+    displayName: '404 Page';
+    pluralName: 'not-founds';
+    singularName: 'not-found';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    description: Schema.Attribute.Text &
+      Schema.Attribute.DefaultTo<"The page you're looking for has moved, been removed, or never existed. Let's get you back on mission.">;
+    graphic: Schema.Attribute.Media<'images'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::not-found.not-found'
+    > &
+      Schema.Attribute.Private;
+    primaryCta: Schema.Attribute.Component<'shared.general-link', false>;
+    publishedAt: Schema.Attribute.DateTime;
+    secondaryCta: Schema.Attribute.Component<'shared.general-link', false>;
+    seo: Schema.Attribute.Component<'shared.seo', false>;
+    title: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Oops! Page not found'>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiOurAchievementOurAchievement
   extends Struct.CollectionTypeSchema {
   collectionName: 'our_achievements';
@@ -1383,6 +1419,7 @@ declare module '@strapi/strapi' {
       'api::footer.footer': ApiFooterFooter;
       'api::hero-banner.hero-banner': ApiHeroBannerHeroBanner;
       'api::mission-section.mission-section': ApiMissionSectionMissionSection;
+      'api::not-found.not-found': ApiNotFoundNotFound;
       'api::our-achievement.our-achievement': ApiOurAchievementOurAchievement;
       'api::page.page': ApiPagePage;
       'api::service.service': ApiServiceService;

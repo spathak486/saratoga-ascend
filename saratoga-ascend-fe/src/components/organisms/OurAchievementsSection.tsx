@@ -14,47 +14,6 @@ import {
 import { CountUpStat, useInViewOnce } from '../molecules/CountUpStat';
 import type { StrapiImage } from '@/lib/schemas';
 
-const CARD_BODY =
-  'Lorem ipsum is the standard placeholder text used in graphic design, publishing, and web';
-
-const AWARDS: readonly AchievementGlassCardProps[] = [
-  {
-    year: '2026-2027',
-    title: (
-      <>
-        The Joint
-        <br />
-        Commission
-      </>
-    ),
-    body: CARD_BODY,
-    badgeSrc: '/images/image%206.png',
-    badgeAlt: 'The Joint Commission',
-    badgeShape: 'round',
-  },
-  {
-    year: '2026-2027',
-    title: (
-      <>
-        WOSB
-        <br />
-        Certified
-      </>
-    ),
-    body: CARD_BODY,
-    badgeSrc: '/images/image%208.png',
-    badgeAlt: 'WOSB Certified',
-    badgeShape: 'portrait',
-  },
-];
-
-const STATS = [
-  { value: '50+', label: 'Specialists' },
-  { value: '1500', label: 'Placements' },
-  { value: '50+', label: 'Locations' },
-  { value: '256', label: 'Services' },
-] as const;
-
 /** Exactly two plates fill the desktop viewport (one gutter between them).
  *  2px inset on each slide keeps the white stroke inside the overflow clip. */
 const TWO_UP_SLIDE_CLASS = `${CAROUSEL_SLIDE_CLASS} box-border shrink-0 basis-[calc((100%-1.5rem)/2)] p-[2px]`;
@@ -234,25 +193,20 @@ export const OurAchievementsSection: React.FC<OurAchievementsSectionProps> = ({
         if (!c && !item.referenceTitle) continue;
         const cleanDesc = c?.description
           ? c.description.replace(/<[^>]*>/g, '').trim()
-          : CARD_BODY;
+          : null;
+        if (!c?.title?.trim() && !item.referenceTitle) continue;
         mapped.push({
-          year: c?.year?.trim() || '2026-2027',
-          title: c?.title?.trim() || item.referenceTitle || 'Achievement',
-          body: cleanDesc || CARD_BODY,
-          badgeSrc:
-            c?.logo?.url ||
-            (idx % 2 === 0 ? '/images/image%206.png' : '/images/image%208.png'),
-          badgeAlt:
-            c?.logo?.alternativeText ||
-            c?.title ||
-            item.referenceTitle ||
-            'Achievement badge',
+          year: c?.year?.trim() || null,
+          title: c?.title?.trim() || item.referenceTitle || null,
+          body: cleanDesc || null,
+          badgeSrc: c?.logo?.url || null,
+          badgeAlt: c?.logo?.alternativeText || c?.title || item.referenceTitle || 'Achievement badge',
           badgeShape: idx % 2 === 0 ? 'round' : 'portrait',
         });
       }
-      if (mapped.length > 0) return mapped;
+      return mapped;
     }
-    return AWARDS as AchievementGlassCardProps[];
+    return [];
   }, [cards]);
 
   const slides = React.useMemo(() => {
@@ -275,15 +229,14 @@ export const OurAchievementsSection: React.FC<OurAchievementsSectionProps> = ({
 
   const resolvedStats = React.useMemo(() => {
     if (counters && counters.length > 0) {
-      const mapped = counters
+      return counters
         .filter((c) => Boolean(c.counter || c.title))
         .map((c) => ({
           value: c.counter || '0',
           label: c.title || '',
         }));
-      if (mapped.length > 0) return mapped;
     }
-    return STATS.map((s) => ({ value: s.value, label: s.label }));
+    return [];
   }, [counters]);
 
   return (

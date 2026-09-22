@@ -59,6 +59,10 @@ export {
   type DynamicZoneSection,
 } from './dynamic-zone';
 export { FooterDataSchema, type FooterData, LinkColumnSchema, type LinkColumn } from './footer';
+export {
+  NotFoundDataSchema,
+  type NotFoundData,
+} from './not-found';
 
 
 // Phase 2 → export * from './job'
