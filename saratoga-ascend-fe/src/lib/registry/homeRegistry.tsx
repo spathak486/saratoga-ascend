@@ -180,6 +180,9 @@ export const SECTION_REGISTRY: Record<
         key={`legal-${index}`}
         title={legalRef.title ?? undefined}
         content={legalRef.body ?? undefined}
+        showToc={legalRef.showToc ?? true}
+        titleColor={legalRef.titleColor ?? undefined}
+        bodyColor={legalRef.bodyColor ?? undefined}
       />
     );
   },

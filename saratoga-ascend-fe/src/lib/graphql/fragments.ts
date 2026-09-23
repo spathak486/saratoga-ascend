@@ -148,6 +148,9 @@ export const LEGAL_CONTENT_REFERENCE_FIELDS = `
   ... on ComponentReferencesLegalContent {
     title
     body
+    showToc
+    titleColor
+    bodyColor
   }
 `;
 

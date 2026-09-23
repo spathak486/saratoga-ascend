@@ -17,6 +17,7 @@ export * from './CardCarousel';
 export * from './StaffCard';
 export * from './AchievementCard';
 export * from './SpecialistProfile';
+export * from './LegalToc';
 export * from './LogoTile';
 export * from './NewsCard';
 export * from './SubscribeForm';

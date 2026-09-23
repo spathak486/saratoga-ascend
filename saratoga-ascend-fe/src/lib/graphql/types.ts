@@ -189,6 +189,9 @@ export interface RawLegalContentReference {
   __typename: 'ComponentReferencesLegalContent';
   title?: string | null;
   body?: string | null;
+  showToc?: boolean | null;
+  titleColor?: string | null;
+  bodyColor?: string | null;
 }
 
 /**

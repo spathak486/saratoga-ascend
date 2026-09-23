@@ -175,7 +175,10 @@ export interface ReferencesLegalContent extends Struct.ComponentSchema {
           preset: 'defaultHtml';
         }
       >;
+    bodyColor: Schema.Attribute.String & Schema.Attribute.DefaultTo<'#000000'>;
+    showToc: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
     title: Schema.Attribute.String;
+    titleColor: Schema.Attribute.String & Schema.Attribute.DefaultTo<'#0F3D60'>;
   };
 }
 

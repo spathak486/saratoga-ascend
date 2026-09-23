@@ -159,6 +159,7 @@ const privacyPolicySections: DynamicZoneSection[] = [
   {
     __typename: 'ComponentReferencesLegalContent',
     title: 'PRIVACY POLICY',
+    showToc: true,
     body: `
       <p>At Saratoga Medical Center, Inc., we respect and protect your privacy. By visiting our website, you are accepting the practices described in this Privacy Policy. We value the trust you place in us and are committed to handling your information with care, transparency, and sensitivity.</p>
       <h3>Information We Collect</h3>
@@ -177,6 +178,33 @@ const privacyPolicySections: DynamicZoneSection[] = [
       <p>You can manage cookie settings through your browser's Help menu to block or disable cookies if you prefer.</p>
       <h3>Contact Us</h3>
       <p>If you have any questions or concerns regarding this Privacy Policy or how your information is used, please reach out to us at <a href="mailto:marketing@saratogamed.com">marketing@saratogamed.com</a>. We will make every effort to address your inquiry quickly and thoroughly.</p>
+    `,
+  },
+];
+
+const termsSections: DynamicZoneSection[] = [
+  {
+    __typename: 'ComponentReferencesLegalContent',
+    title: 'Terms & Condition',
+    showToc: false,
+    body: `
+      <p>Saratoga Medical Center, Inc. may contact you via SMS text messages to provide important updates about jobs you have applied for, other relevant job opportunities, or to communicate with you regarding your application. These messages are designed to keep you informed and connected throughout the hiring process.</p>
+      <h2>How to opt out?</h2>
+      <p>You can cancel SMS communications at any time. Simply text &ldquo;STOP&rdquo; to the number you received messages from. Once we receive your request, you will get a confirmation message letting you know you have been unsubscribed. After this, you will no longer receive SMS messages from Saratoga Medical Center, Inc.</p>
+      <p>If you decide to opt back in, simply sign up again as you did originally, and we will resume sending SMS updates.</p>
+      <h2>Getting Help</h2>
+      <p>If you experience issues with our messaging service, reply with the keyword &ldquo;HELP&rdquo; for assistance. You may also contact us directly at:</p>
+      <ul>
+        <li>Email: <a href="mailto:marketing@saratogamed.com">marketing@saratogamed.com</a></li>
+        <li>Phone: +1 (212) 213-2520</li>
+      </ul>
+      <h2>Message Delivery &amp; Rates</h2>
+      <ul>
+        <li>Carriers are not liable for delayed or undelivered messages.</li>
+        <li>Standard message and data rates may apply depending on your mobile plan.</li>
+        <li>Message frequency may vary based on the opportunities you apply for and communication with our recruiters.</li>
+        <li>For details on your personal text or data plan, please contact your wireless provider.</li>
+      </ul>
     `,
   },
 ];
@@ -260,21 +288,21 @@ export const mockPages: Page[] = [
     internalName: 'Terms of Service',
     pageTitle: 'Terms of Service',
     slug: 'terms',
-    pageType: 'Standard',
-    variant: 'default',
+    pageType: 'LegalPolicy',
+    variant: 'legal_policy',
     seo: {
       metaTitle: 'Terms of Service | Saratoga Ascend',
       metaDescription: 'Terms of Service for the Saratoga Ascend website.',
       ogTitle: null,
       ogDescription: null,
       ogImage: null,
-      metaRobots: 'noindex',
+      metaRobots: 'index',
       twitterCardTitle: null,
       canonicalURL: null,
       structuredData: null,
       languageTag: 'en',
     },
-    Section: null,
+    Section: termsSections,
     createdAt: '2026-08-10T00:00:00.000Z',
     updatedAt: '2026-08-10T00:00:00.000Z',
   },

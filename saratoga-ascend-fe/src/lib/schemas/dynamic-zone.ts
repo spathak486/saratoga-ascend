@@ -201,6 +201,9 @@ export const LegalContentReferenceSchema = z.object({
   __typename: z.literal('ComponentReferencesLegalContent'),
   title: z.string().nullable().optional(),
   body: z.string().nullable().optional(),
+  showToc: z.boolean().nullable().optional(),
+  titleColor: z.string().nullable().optional(),
+  bodyColor: z.string().nullable().optional(),
 });
 
 export type LegalContentReference = z.infer<typeof LegalContentReferenceSchema>;
