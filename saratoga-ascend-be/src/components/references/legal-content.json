@@ -1,0 +1,23 @@
+{
+  "collectionName": "components_references_legal_contents",
+  "info": {
+    "displayName": "Legal Content",
+    "icon": "fileText",
+    "description": "Legal / policy prose authored directly on the page — centred title plus a rich-text body (headings, lists, links)."
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "body": {
+      "type": "customField",
+      "customField": "plugin::ckeditor5.CKEditor",
+      "required": true,
+      "options": {
+        "preset": "defaultHtml"
+      }
+    }
+  },
+  "config": {}
+}

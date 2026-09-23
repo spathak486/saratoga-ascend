@@ -55,6 +55,8 @@ export {
   type OurAchievementEntity,
   AchievementsReferenceSchema,
   type AchievementsReference,
+  LegalContentReferenceSchema,
+  type LegalContentReference,
   DynamicZoneSectionSchema,
   type DynamicZoneSection,
 } from './dynamic-zone';

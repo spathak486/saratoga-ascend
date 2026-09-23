@@ -155,6 +155,32 @@ const aboutSections: DynamicZoneSection[] = [
   },
 ];
 
+const privacyPolicySections: DynamicZoneSection[] = [
+  {
+    __typename: 'ComponentReferencesLegalContent',
+    title: 'PRIVACY POLICY',
+    body: `
+      <p>At Saratoga Medical Center, Inc., we respect and protect your privacy. By visiting our website, you are accepting the practices described in this Privacy Policy. We value the trust you place in us and are committed to handling your information with care, transparency, and sensitivity.</p>
+      <h3>Information We Collect</h3>
+      <p>The information we collect from visitors helps us improve both our website and the healthcare staffing services we provide. Information may include:</p>
+      <ul>
+        <li>Details you voluntarily provide (such as forms you complete on our site)</li>
+        <li>Technical data collected through cookies, including IP address, browser type, operating system, platform, and visit date/time.</li>
+      </ul>
+      <h3>Cookies and Tracking</h3>
+      <p>Like most websites, we use cookies — small alphanumeric identifiers stored on your device — to enhance your browsing experience. Cookies allow us to:</p>
+      <ul>
+        <li>Personalize your experience on our site</li>
+        <li>Analyze web traffic and user behavior</li>
+        <li>Provide tailored advertising through trusted third parties</li>
+      </ul>
+      <p>You can manage cookie settings through your browser's Help menu to block or disable cookies if you prefer.</p>
+      <h3>Contact Us</h3>
+      <p>If you have any questions or concerns regarding this Privacy Policy or how your information is used, please reach out to us at <a href="mailto:marketing@saratogamed.com">marketing@saratogamed.com</a>. We will make every effort to address your inquiry quickly and thoroughly.</p>
+    `,
+  },
+];
+
 export const mockHomePage: Page = {
   documentId: 'cm2a8h9k20003qk3f9m2v999',
   internalName: 'Home',
@@ -249,6 +275,29 @@ export const mockPages: Page[] = [
       languageTag: 'en',
     },
     Section: null,
+    createdAt: '2026-08-10T00:00:00.000Z',
+    updatedAt: '2026-08-10T00:00:00.000Z',
+  },
+  {
+    documentId: 'cm2a8h4j10004qk3f5d2m8xq',
+    internalName: 'Privacy Policy',
+    pageTitle: 'Privacy Policy',
+    slug: 'privacy-policy',
+    pageType: 'LegalPolicy',
+    variant: 'legal_policy',
+    seo: {
+      metaTitle: 'Privacy Policy | Saratoga Ascend',
+      metaDescription: 'Privacy Policy for the Saratoga Medical Center website.',
+      ogTitle: null,
+      ogDescription: null,
+      ogImage: null,
+      metaRobots: 'index',
+      twitterCardTitle: null,
+      canonicalURL: null,
+      structuredData: null,
+      languageTag: 'en',
+    },
+    Section: privacyPolicySections,
     createdAt: '2026-08-10T00:00:00.000Z',
     updatedAt: '2026-08-10T00:00:00.000Z',
   },

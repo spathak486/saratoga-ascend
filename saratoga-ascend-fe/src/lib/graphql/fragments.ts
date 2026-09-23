@@ -143,6 +143,14 @@ export const MISSION_REFERENCE_FIELDS = `
   }
 `;
 
+export const LEGAL_CONTENT_REFERENCE_FIELDS = `
+  __typename
+  ... on ComponentReferencesLegalContent {
+    title
+    body
+  }
+`;
+
 export const ACHIEVEMENTS_REFERENCE_FIELDS = `
   __typename
   ... on ComponentReferencesAchievements {
@@ -180,6 +188,7 @@ export const DYNAMIC_SECTION_FRAGMENTS = [
   SERVICE_REFERENCE_FIELDS,
   MISSION_REFERENCE_FIELDS,
   ACHIEVEMENTS_REFERENCE_FIELDS,
+  LEGAL_CONTENT_REFERENCE_FIELDS,
 ].join('\n');
 
 export const PAGE_FIELDS = `

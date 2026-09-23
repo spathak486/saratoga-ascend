@@ -163,6 +163,22 @@
   --text-404-sub: clamp(1.125rem, 0.9126rem + 0.9062vw, 2rem);
   --text-404-sub--line-height: 1.25;
 
+  /* ---- Legal / policy copy -------------------------------------------------
+     Legal document pages (privacy policy, terms). Title navy in the file is
+     #0F3D60, set in the site serif (Cardo → DM Serif Text); the body is Duru
+     Sans Regular 400 in near-black #000000, mapped to the site sans.           */
+
+  --color-brand-navy-legal: #0f3d60;
+  --color-legal-body: #000000;
+
+  /* 32 -> 64 — the policy title, 65px leading, centred, soft drop shadow. */
+  --text-legal-title: clamp(2rem, 1.5146rem + 2.0712vw, 4rem);
+  --text-legal-title--line-height: 1.02;
+
+  /* 16 -> 32 — the policy body, 40px leading, Duru Sans regular. */
+  --text-legal-body: clamp(1rem, 0.7573rem + 1.0356vw, 2rem);
+  --text-legal-body--line-height: 1.25;
+
   /* ---- Layout -----------------------------------------------------------
      Every section renders its content inside <Container>.                   */
 
@@ -588,6 +604,76 @@ body {
     transparent 100%
   );
   mask-image: linear-gradient(180deg, #000 0%, #000 55%, transparent 100%);
+}
+
+/* Legal / policy body — renders the CKEditor HTML authored in Strapi. The
+   section only provides the container; this cascade styles the rich text so
+   a content editor can keep writing headings, lists and links in the admin
+   without touching design tokens. */
+.legal-body {
+  color: var(--color-legal-body);
+  font-size: var(--text-legal-body);
+  font-weight: 400;
+  line-height: var(--text-legal-body--line-height);
+  overflow-wrap: break-word;
+}
+
+.legal-body p {
+  margin: 0 0 1em;
+}
+
+.legal-body h2,
+.legal-body h3,
+.legal-body h4 {
+  color: var(--color-brand-navy-legal);
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 1.1em;
+  line-height: 1.2;
+  margin: 1.5em 0 0.5em;
+}
+
+.legal-body ul,
+.legal-body ol {
+  margin: 0 0 1em;
+  padding-left: 1.5em;
+}
+
+/* Tailwind v4 preflight resets list-style to none — restore it for the
+   rich-text body so CKEditor bullets/numbers actually render. Longhand
+   properties: LightningCSS drops the type keyword from the `list-style`
+   shorthand in this build, so write them out separately. */
+.legal-body ul {
+  list-style-type: disc;
+  list-style-position: outside;
+}
+
+.legal-body ol {
+  list-style-type: decimal;
+  list-style-position: outside;
+}
+
+.legal-body ul ul,
+.legal-body ol ul {
+  list-style-type: circle;
+}
+
+.legal-body ol ol,
+.legal-body ul ol {
+  list-style-type: lower-alpha;
+}
+
+.legal-body li {
+  margin: 0.25em 0;
+}
+
+.legal-body a {
+  color: var(--color-brand-navy);
+  text-decoration: underline;
+}
+
+.legal-body strong {
+  color: var(--color-brand-navy-legal);
 }
 
 /* Shared focus treatment so every interactive element is keyboard-visible */

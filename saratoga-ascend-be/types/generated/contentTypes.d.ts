@@ -845,6 +845,7 @@ export interface ApiPagePage extends Struct.CollectionTypeSchema {
         'references.service-reference',
         'references.mission-reference',
         'references.achievements',
+        'references.legal-content',
       ]
     >;
     seo: Schema.Attribute.Component<'shared.seo', false> &

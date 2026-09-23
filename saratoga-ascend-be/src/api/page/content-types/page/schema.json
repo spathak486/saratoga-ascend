@@ -60,7 +60,8 @@
         "references.client-logos-reference",
         "references.service-reference",
         "references.mission-reference",
-        "references.achievements"
+        "references.achievements",
+        "references.legal-content"
       ]
     }
   }

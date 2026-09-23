@@ -159,6 +159,26 @@ export interface ReferencesFaQs extends Struct.ComponentSchema {
   };
 }
 
+export interface ReferencesLegalContent extends Struct.ComponentSchema {
+  collectionName: 'components_references_legal_contents';
+  info: {
+    description: 'Legal / policy prose authored directly on the page \u2014 centred title plus a rich-text body (headings, lists, links).';
+    displayName: 'Legal Content';
+    icon: 'fileText';
+  };
+  attributes: {
+    body: Schema.Attribute.RichText &
+      Schema.Attribute.Required &
+      Schema.Attribute.CustomField<
+        'plugin::ckeditor5.CKEditor',
+        {
+          preset: 'defaultHtml';
+        }
+      >;
+    title: Schema.Attribute.String;
+  };
+}
+
 export interface ReferencesMissionReference extends Struct.ComponentSchema {
   collectionName: 'components_references_mission_references';
   info: {
@@ -267,6 +287,7 @@ declare module '@strapi/strapi' {
       'references.client-logos-reference': ReferencesClientLogosReference;
       'references.cta': ReferencesCta;
       'references.fa-qs': ReferencesFaQs;
+      'references.legal-content': ReferencesLegalContent;
       'references.mission-reference': ReferencesMissionReference;
       'references.service-reference': ReferencesServiceReference;
       'shared.general-link': SharedGeneralLink;

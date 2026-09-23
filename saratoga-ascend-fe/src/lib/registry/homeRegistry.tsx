@@ -8,6 +8,7 @@ import type {
   ServiceReference,
   MissionReference,
   AchievementsReference,
+  LegalContentReference,
 } from '@/lib/schemas';
 import {
   HeroSection,
@@ -17,6 +18,7 @@ import {
   MarketWeServeSection,
   MissionSection,
   OurAchievementsSection,
+  LegalPolicySection,
 } from '@/components/organisms';
 
 function renderFaqSection(faqsRef: FaqsReference, index: number) {
@@ -167,6 +169,17 @@ export const SECTION_REGISTRY: Record<
         bgImage={ach?.bgImage?.url ?? undefined}
         counters={ach?.counter ?? undefined}
         cards={ach?.achievementCards ?? undefined}
+      />
+    );
+  },
+
+  ComponentReferencesLegalContent: (section, index) => {
+    const legalRef = section as LegalContentReference;
+    return (
+      <LegalPolicySection
+        key={`legal-${index}`}
+        title={legalRef.title ?? undefined}
+        content={legalRef.body ?? undefined}
       />
     );
   },

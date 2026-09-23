@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { HeroSection } from '@/components/organisms';
 import { renderRegisteredSection } from '@/lib/registry/homeRegistry';
 import { getPageBySlug, getAllPageSlugs } from '@/lib/services';
 
@@ -63,9 +62,6 @@ export default async function DynamicPage({ params }: DynamicPageProps) {
   }
 
   const sections = page.Section ?? [];
-  const hasDynamicBanner = sections.some(
-    (sec) => sec.__typename === 'ComponentReferencesBannerReference'
-  );
 
   const isDark = page.pageType === 'Dark' || page.variant === 'dark';
   const isLight = page.pageType === 'Light' || page.variant === 'light';
@@ -73,8 +69,6 @@ export default async function DynamicPage({ params }: DynamicPageProps) {
 
   return (
     <main id="main" className={`min-h-screen ${toneClass}`.trim()}>
-      {!hasDynamicBanner && <HeroSection title={page.pageTitle} />}
-
       {sections.map((sec, idx) => renderRegisteredSection(sec, idx))}
     </main>
   );
