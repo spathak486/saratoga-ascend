@@ -1,5 +1,5 @@
 import React from 'react';
-import { Heading, Text } from '../atoms';
+import { Heading, Text, type HeadingTone, type TextSize } from '../atoms';
 import { CtaButton } from './CtaButton';
 
 export interface SectionIntroProps {
@@ -26,6 +26,11 @@ export interface SectionIntroProps {
    * order).
    */
   descriptionStyle?: React.CSSProperties;
+  titleTone?: HeadingTone;
+  titleClassName?: string;
+  descriptionSize?: TextSize;
+  /** Drop the 44rem heading cap so the title/lede can span the row. */
+  wide?: boolean;
 }
 
 /**
@@ -40,20 +45,30 @@ export const SectionIntro: React.FC<SectionIntroProps> = ({
   align = 'end',
   descriptionClassName = '',
   descriptionStyle,
+  titleTone = 'ink',
+  titleClassName = '',
+  descriptionSize = 'body',
+  wide = false,
 }) => (
   <div
     className={`flex min-w-0 flex-col gap-block lg:flex-row lg:justify-between ${
       align === 'center' ? 'lg:items-center' : 'lg:items-end'
     }`}
   >
-    <div className="flex min-w-0 max-w-[44rem] flex-col gap-[0.625rem]">
-      <Heading id={id} level={2} size="section" tone="ink" className="text-balance">
+    <div className={`flex min-w-0 flex-col gap-3 ${wide ? 'flex-1' : 'max-w-[44rem]'}`}>
+      <Heading
+        id={id}
+        level={2}
+        size="section"
+        tone={titleTone}
+        className={`text-balance ${titleClassName}`.trim()}
+      >
         {title}
       </Heading>
       <Text
-        size="body"
+        size={descriptionSize}
         tone="ink"
-        className={`max-w-[44rem] ${descriptionClassName}`.trim()}
+        className={descriptionClassName.trim()}
         style={descriptionStyle}
       >
         {description}

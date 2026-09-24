@@ -22,21 +22,23 @@ const SLIDE_EASE = 'ease-[cubic-bezier(0.25,0.1,0.25,1)]';
 
 function SlideBody({ line }: { line: ServiceLine }) {
   return (
-    <>
-      <Heading level={3} size="feature" tone="ink" className="mt-[var(--spacing-card-lead)]">
+    <div className="flex flex-col gap-[1.875rem]">
+      <Heading level={3} size="feature" tone="ink">
         {line.heading}
       </Heading>
 
-      <Text size="body" tone="navy" className="mt-[var(--spacing-card-lead)] max-w-[29rem]">
-        {line.blurb}
-      </Text>
+      <div className="flex flex-col gap-5">
+        <Text size="body" tone="navy" className="text-card-copy">
+          {line.blurb}
+        </Text>
 
-      <ul className="mt-grid flex flex-col gap-cta-y">
-        {line.features.map((feature) => (
-          <ServiceFeatureRow key={feature} label={feature} />
-        ))}
-      </ul>
-    </>
+        <ul className="flex flex-col gap-4">
+          {line.features.map((feature) => (
+            <ServiceFeatureRow key={feature} label={feature} />
+          ))}
+        </ul>
+      </div>
+    </div>
   );
 }
 
@@ -91,7 +93,7 @@ export const ServiceLineCard: React.FC<ServiceLineCardProps> = ({ lines }) => {
   const slideClass = `absolute inset-0 flex flex-col transition-transform duration-[400ms] ${SLIDE_EASE} motion-reduce:transition-none`;
 
   return (
-    <article className="flex min-h-0 flex-col rounded-card border border-brand-line bg-brand-surface p-[clamp(1.25rem,2.08vw,2.5rem)] xl:min-h-[clamp(28rem,34.58vw,41.5rem)]">
+    <article className="flex h-full min-h-0 flex-col gap-[1.875rem] rounded-frame border border-brand-line bg-brand-surface p-5 xl:min-h-[39.625rem]">
       <div
         className="relative min-h-0 flex-1 overflow-hidden"
         role="group"
@@ -132,7 +134,7 @@ export const ServiceLineCard: React.FC<ServiceLineCardProps> = ({ lines }) => {
         )}
       </div>
 
-      <div className="mt-auto flex items-center justify-between gap-3 pt-[clamp(1.5rem,2.5vw,2.5rem)] sm:gap-[clamp(1rem,2vw,1.375rem)]">
+      <div className="mt-auto flex items-center justify-between gap-3">
         <CircleControl
           label="Previous service line"
           direction="prev"

@@ -12,54 +12,75 @@ export interface WhatWeDoSectionProps {
   description?: string;
   photoSrc?: string;
   emblemSrc?: string;
+  videoSrc?: string;
   serviceLines?: ServiceLine[];
+  ctaLabel?: string;
+  ctaHref?: string;
+  videoCopy?: string;
 }
 
+const DEFAULT_TITLE = 'What We Do';
+const DEFAULT_DESCRIPTION =
+  'Connecting cleared, credentialed healthcare professionals with government, military, and local facilities nationwide.';
+const DEFAULT_VIDEO_COPY =
+  'Lorem ipsum is the standard placeholder text used in graphic design, publishing, and web development to showcase layouts and visual elements without the distraction of meaningful content.';
+
 export const WhatWeDoSection: React.FC<WhatWeDoSectionProps> = ({
-  title,
-  description,
-  photoSrc,
+  title = DEFAULT_TITLE,
+  description = DEFAULT_DESCRIPTION,
+  photoSrc = '/images/what-we-do-doctor.png',
   emblemSrc,
+  videoSrc = '/images/butterfly-gif.mp4',
   serviceLines,
+  ctaLabel = 'About us',
+  ctaHref = '/about',
+  videoCopy,
 }) => {
   const displayLines = serviceLines && serviceLines.length > 0 ? serviceLines : [];
+
   return (
     <Section
       aria-labelledby="what-we-do-heading"
       tone="surface"
-      spacing="lg"
+      spacing="none"
+      className="py-10"
     >
-      <div className="flex flex-col gap-block">
-        {(title || description) ? (
-          <SectionIntro
-            id="what-we-do-heading"
-            title={title ?? ''}
-            description={description ?? ''}
-            align="center"
-            descriptionStyle={{ color: 'var(--color-ink)' }}
-          />
-        ) : null}
+      <div className="flex flex-col gap-10">
+        <SectionIntro
+          id="what-we-do-heading"
+          title={title}
+          description={description}
+          align="center"
+          wide
+          titleTone="inherit"
+          titleClassName="text-brand-cta-from"
+          descriptionSize="sectionLead"
+          descriptionStyle={{ color: 'var(--color-ink)' }}
+          action={{ href: ctaHref, label: ctaLabel }}
+        />
 
-        <div className="grid grid-cols-1 gap-grid xl:grid-cols-3">
-          {/* Left — medical photo fills its column edge-to-edge, matching the
-              Figma crop (no bleed past the grid track). */}
+        <div className="grid grid-cols-1 gap-5 xl:grid-cols-3 xl:items-stretch">
           {photoSrc ? (
-            <div className="relative aspect-[4/3] overflow-hidden rounded-card border border-brand-line xl:aspect-auto xl:min-h-[clamp(28rem,34.58vw,41.5rem)]">
+            <div className="relative aspect-[4096/2731] overflow-hidden rounded-frame xl:aspect-auto xl:min-h-[39.625rem]">
               <MediaFrame
                 src={photoSrc}
-                alt="Healthcare professionals at work"
+                alt="Healthcare professional in a clinical setting"
                 pendingLabel="photo"
                 tone="navy"
                 sizes="(max-width: 1280px) 100vw, 34vw"
-                imageClassName="object-cover! !inset-auto max-w-none left-[-33.75%] top-[-6.24%] h-[110.68%] w-[202.62%]"
-                className="size-full border-0 bg-transparent xl:absolute xl:inset-0"
+                imageClassName="object-cover!"
+                className="size-full border-0 bg-transparent"
               />
             </div>
           ) : null}
 
           {displayLines.length > 0 ? <ServiceLineCard lines={displayLines} /> : null}
 
-          <EmblemPanel emblemSrc={emblemSrc} />
+          <EmblemPanel
+            emblemSrc={emblemSrc}
+            videoSrc={videoSrc}
+            paragraphs={videoCopy ? [videoCopy] : undefined}
+          />
         </div>
       </div>
     </Section>

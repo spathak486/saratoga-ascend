@@ -17,7 +17,55 @@ import {
   MarketWeServeSection,
   MissionSection,
   OurAchievementsSection,
+  WhatWeDoSection,
+  HealthcareProgramsSection,
+  ContractVehiclesSection,
+  PastPerformanceSection,
+  HappyClientsSection,
+  LatestNewsSection,
 } from '@/components/organisms';
+
+const MOCK_WHAT_WE_DO_LINES = [
+  {
+    heading: 'Healthcare',
+    blurb:
+      'Lorem ipsum is the standard placeholder text used in graphic design, publishing, and web development to showcase layouts and visual elements without the distraction of meaningful content.',
+    features: [
+      'Accredited Certifications',
+      'Operational Insights',
+      'Regulatory Compliance',
+    ],
+    href: '/solutions',
+  },
+  {
+    heading: 'Staffing',
+    blurb:
+      'Cleared, credentialed clinicians placed with federal, military, and community facilities.',
+    features: ['Travel and locums coverage', 'Rapid credentialing', '24/7 program support'],
+    href: '/solutions',
+  },
+  {
+    heading: 'Consulting',
+    blurb: 'Program design and workforce strategy for government healthcare missions.',
+    features: ['Compliance-first delivery', 'On-site and remote teams', 'Mission-ready surge'],
+    href: '/solutions',
+  },
+];
+
+const MOCK_HAPPY_CLIENTS = [
+  {
+    role: 'Chief Medical Officer',
+    name: 'Dr. Elena Hart',
+    place: 'Naval Hospital, NC',
+    quote:
+      'Saratoga Ascend filled critical roles in days, not months — and every clinician arrived fully cleared.',
+    photos: [
+      '/images/healthcare-team.png',
+      '/images/pharmacist-portrait.png',
+      '/images/future-doctor.png',
+    ] as const,
+  },
+];
 
 function renderFaqSection(faqsRef: FaqsReference, index: number) {
   const promo = faqsRef.content?.ContentSection;
@@ -170,6 +218,35 @@ export const SECTION_REGISTRY: Record<
       />
     );
   },
+
+  // Frontend-only Figma bands — used by local mocks until Strapi types exist.
+  MockWhatWeDo: (_section, index) => (
+    <WhatWeDoSection
+      key={`what-we-do-${index}`}
+      title="What We Do"
+      description="Connecting cleared, credentialed healthcare professionals with government, military, and local facilities nationwide."
+      photoSrc="/images/what-we-do-doctor.png"
+      videoSrc="/images/butterfly-gif.mp4"
+      serviceLines={MOCK_WHAT_WE_DO_LINES}
+    />
+  ),
+  MockHealthcare: (_section, index) => (
+    <HealthcareProgramsSection key={`healthcare-${index}`} personSrc="/images/phase5/phase5-nurse.png" />
+  ),
+  MockContractVehicles: (_section, index) => (
+    <ContractVehiclesSection key={`contract-vehicles-${index}`} />
+  ),
+  MockPastPerformance: (_section, index) => (
+    <PastPerformanceSection key={`past-performance-${index}`} />
+  ),
+  MockHappyClients: (_section, index) => (
+    <HappyClientsSection
+      key={`happy-clients-${index}`}
+      title="Our Happy Clients"
+      reviews={MOCK_HAPPY_CLIENTS}
+    />
+  ),
+  MockLatestNews: (_section, index) => <LatestNewsSection key={`latest-news-${index}`} />,
 };
 
 /**

@@ -4,22 +4,22 @@ import React, { useEffect, useId, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { Container, GeneralLink } from '../atoms';
 import { BrandLogo } from '../molecules/BrandLogo';
+import { SearchIcon } from '../atoms/icons';
 import { CtaButton } from '../molecules/CtaButton';
 import { HeaderNavList, type HeaderNavItem } from '../molecules/HeaderNavList';
 import { UtilityBar } from '../molecules/UtilityBar';
 
 const UTILITY_LINKS: HeaderNavItem[] = [
-  { href: '/employees', label: 'Employees' },
-  { href: '/investors', label: 'Investor' },
+  { href: '/careers', label: 'Careers', hasExternalIcon: true },
+  { href: '/investors', label: 'Investor Relations', hasExternalIcon: true },
+  { href: '/newsroom', label: 'Blog', hasExternalIcon: true },
 ];
 
 const PRIMARY_LINKS: HeaderNavItem[] = [
-  { href: '/what-we-do', label: 'Solutions', hasMenu: true },
-  { href: '/who-we-serve', label: 'Who we serve', hasMenu: true },
+  { href: '/who-we-serve', label: 'Who We Serve', hasMenu: true },
   { href: '/government-buyers', label: 'Government Buyers', hasMenu: true },
-  { href: '/newsroom', label: 'Insights', hasMenu: true },
+  { href: '/what-we-do', label: 'Solutions', hasMenu: true },
   { href: '/about', label: 'About us', hasMenu: true },
-  { href: '/careers', label: 'Careers', hasMenu: true },
 ];
 
 export const Navbar: React.FC = () => {
@@ -78,24 +78,33 @@ export const Navbar: React.FC = () => {
             : 'bg-brand-surface'
         }`}
       >
-        <Container className="flex h-nav-h items-center justify-between">
+        <Container className="flex h-nav-h items-center justify-between gap-6">
           <GeneralLink
             href="/"
             variant="unstyled"
             aria-label="Saratoga Ascend home"
             className="inline-flex h-full shrink-0 items-center"
           >
-            <BrandLogo size="md" />
+            <BrandLogo size="md" className="!w-[clamp(10rem,12.92vw,15.5rem)]" />
           </GeneralLink>
 
-          <div className="hidden h-full min-w-0 items-center gap-6 2xl:gap-10 min-[90rem]:flex">
-            <HeaderNavList
-              ariaLabel="Primary"
-              items={PRIMARY_LINKS}
-              activeHref={pathname}
-              variant="primary"
-            />
-            <CtaButton href="/contact" className="shrink-0">
+          <div className="hidden h-full min-w-0 items-center gap-[1.875rem] min-[90rem]:flex">
+            <div className="flex h-full items-center gap-5">
+              <HeaderNavList
+                ariaLabel="Primary"
+                items={PRIMARY_LINKS}
+                activeHref={pathname}
+                variant="primary"
+              />
+              <button
+                type="button"
+                aria-label="Search"
+                className="inline-flex size-[2.8125rem] shrink-0 items-center justify-center rounded-full border border-slate-300 bg-brand-surface text-slate-500 transition-colors duration-200 hover:border-brand-sky hover:text-brand-navy focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-navy"
+              >
+                <SearchIcon className="size-6" />
+              </button>
+            </div>
+            <CtaButton href="/contact" className="h-cta min-w-cta-wide shrink-0">
               Contact us
             </CtaButton>
           </div>
@@ -144,6 +153,14 @@ export const Navbar: React.FC = () => {
                 orientation="vertical"
               />
             </div>
+
+            <button
+              type="button"
+              aria-label="Search"
+              className="inline-flex size-[2.8125rem] items-center justify-center rounded-full border border-slate-300 bg-brand-surface text-slate-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-navy"
+            >
+              <SearchIcon className="size-6" />
+            </button>
 
             <CtaButton href="/contact">Contact us</CtaButton>
           </Container>
