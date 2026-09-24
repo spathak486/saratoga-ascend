@@ -95,6 +95,12 @@ export interface RawFaqEntity {
   faq?: RawFaqItem | null;
 }
 
+export interface RawFaqCategory {
+  documentId?: string;
+  name: string;
+  faqs?: RawFaqEntity[] | null;
+}
+
 export interface RawFaqsReference {
   __typename: 'ComponentReferencesFaQs' | 'ComponentReferencesFaqs';
   content?: {
@@ -102,7 +108,7 @@ export interface RawFaqsReference {
     referenceTitle?: string | null;
     ContentSection?: RawPromo | null;
   } | null;
-  faqs?: RawFaqEntity[] | null;
+  categories?: RawFaqCategory[] | null;
 }
 
 export interface RawClientLogosReference {
@@ -185,6 +191,15 @@ export interface RawAchievementsReference {
   ourAchievement?: RawOurAchievement | null;
 }
 
+export interface RawLegalContentReference {
+  __typename: 'ComponentReferencesLegalContent';
+  title?: string | null;
+  body?: string | null;
+  showToc?: boolean | null;
+  titleColor?: string | null;
+  bodyColor?: string | null;
+}
+
 /**
  * Anything a Strapi dynamic zone can return. The catch-all member keeps
  * forward compatibility: components not yet registered resolve through Zod
@@ -198,6 +213,7 @@ export type RawDynamicZoneSection =
   | RawServiceReference
   | RawMissionReference
   | RawAchievementsReference
+  | RawLegalContentReference
   | ({ __typename: string } & Record<string, unknown>);
 
 /** Universal slug-driven page (Strapi `pages` collection). */

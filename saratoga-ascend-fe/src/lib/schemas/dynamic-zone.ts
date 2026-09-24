@@ -69,6 +69,14 @@ export const FaqEntitySchema = z.object({
 
 export type FaqEntity = z.infer<typeof FaqEntitySchema>;
 
+export const FaqCategorySchema = z.object({
+  documentId: z.string().optional(),
+  name: z.string(),
+  faqs: z.array(FaqEntitySchema).nullable().optional(),
+});
+
+export type FaqCategory = z.infer<typeof FaqCategorySchema>;
+
 export const FaqsReferenceSchema = z.object({
   __typename: z.union([
     z.literal('ComponentReferencesFaQs'),
@@ -82,7 +90,7 @@ export const FaqsReferenceSchema = z.object({
     })
     .nullable()
     .optional(),
-  faqs: z.array(FaqEntitySchema).nullable().optional(),
+  categories: z.array(FaqCategorySchema).nullable().optional(),
 });
 
 export type FaqsReference = z.infer<typeof FaqsReferenceSchema>;
@@ -197,6 +205,17 @@ export const AchievementsReferenceSchema = z.object({
 
 export type AchievementsReference = z.infer<typeof AchievementsReferenceSchema>;
 
+export const LegalContentReferenceSchema = z.object({
+  __typename: z.literal('ComponentReferencesLegalContent'),
+  title: z.string().nullable().optional(),
+  body: z.string().nullable().optional(),
+  showToc: z.boolean().nullable().optional(),
+  titleColor: z.string().nullable().optional(),
+  bodyColor: z.string().nullable().optional(),
+});
+
+export type LegalContentReference = z.infer<typeof LegalContentReferenceSchema>;
+
 /**
  * Union of every section the Strapi dynamic zone can emit. The pass-through
  * catch-all keeps forward compatibility — components that aren't registered
@@ -210,6 +229,7 @@ export const DynamicZoneSectionSchema = z.union([
   ServiceReferenceSchema,
   MissionReferenceSchema,
   AchievementsReferenceSchema,
+  LegalContentReferenceSchema,
   z.object({ __typename: z.string() }).passthrough(),
 ]);
 

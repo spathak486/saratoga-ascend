@@ -18,6 +18,12 @@
       "type": "component",
       "component": "core-component.heading",
       "repeatable": false
+    },
+    "categories": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::faq-category.faq-category",
+      "inversedBy": "faqs"
     }
   }
 }
