@@ -616,6 +616,7 @@ body {
   font-weight: 400;
   line-height: var(--text-legal-body--line-height);
   overflow-wrap: break-word;
+  text-align: justify;
 }
 
 .legal-body p {
