@@ -79,7 +79,7 @@ export const LegalPolicySection: React.FC<LegalPolicySectionProps> = ({
             </div>
           ) : (
             <div
-              className="legal-body max-w-[63.5625rem]"
+              className="legal-body w-full"
               dangerouslySetInnerHTML={{ __html: html }}
             />
           )

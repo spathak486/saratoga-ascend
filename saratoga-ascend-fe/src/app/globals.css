@@ -694,27 +694,17 @@ body {
 }
 
 /* ---- Legal table of contents ------------------------------------------
-   The OneTrust notice sidebar: a plain left column of section links with
-   thin dividers and a OneTrust-style active highlight. No boxed panel — the
-   list sits on the page ground like maximus.com's notice menu. The sticky
-   top is supplied by the organism so it clears the theme header. */
+   Redesigned sidebar panel matching the provided screenshot: light grey
+   background, custom scrollbar, and clean text links with ample spacing. */
 .legal-toc-panel {
   width: 100%;
-  background-color: transparent;
-  padding: 0;
+  background-color: var(--color-brand-surface-muted); /* #f8fafc */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Soft drop shadow */
+  padding: 1.5rem 1rem 1.5rem 1.5rem; /* Less right padding for scrollbar */
 }
 
 .legal-toc-label {
-  display: block;
-  margin: 0 0 0.5rem;
-  color: rgb(2 46 76 / 0.6);
-  font-family: var(--font-sans);
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.18em;
-  line-height: 1.4;
-  text-align: left;
-  text-transform: uppercase;
+  display: none; /* Removed as per screenshot */
 }
 
 .legal-toc-list {
@@ -723,52 +713,55 @@ body {
   margin: 0;
   padding: 0;
   list-style: none;
+  max-height: 400px;
+  overflow-y: auto;
+  gap: 1.5rem;
+  padding-right: 0.5rem;
+}
+
+/* Custom scrollbar for the TOC list */
+.legal-toc-list::-webkit-scrollbar {
+  width: 8px;
+}
+.legal-toc-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+.legal-toc-list::-webkit-scrollbar-thumb {
+  background-color: #9CA3AF; /* gray-400 */
+  border-radius: 999px;
 }
 
 .legal-toc-link {
   position: relative;
   display: block;
-  padding: 0.5rem 0.625rem;
-  color: var(--color-brand-navy);
+  color: var(--color-slate-copy);
   font-family: var(--font-sans);
-  font-size: clamp(0.875rem, 0.8341rem + 0.1746vw, 1.0625rem);
-  font-weight: 400;
+  font-size: 1rem;
+  font-weight: 700;
   line-height: 1.4;
-  transition:
-    background-color 0.15s ease,
-    border-color 0.15s ease,
-    color 0.15s ease;
+  text-decoration: none !important;
+  border: none !important;
+  outline: none !important;
+  transition: color 0.2s ease;
 }
 
-.legal-toc-link:hover {
-  background-color: var(--color-brand-surface-sunk);
-  color: var(--color-brand-navy);
-}
-
+.legal-toc-link:hover,
 .legal-toc-link.is-active {
-  /* OneTrust current-section treatment: pale blue wash + blue rule +
-     semibold text. */
-  border-left: 3px solid var(--color-brand-sky);
-  background-color: var(--color-brand-sky-wash);
   color: var(--color-brand-navy);
-  font-weight: 600;
+  border: none;
+  text-decoration: none;
+  outline: none;
 }
 
 .legal-toc-link--nested {
-  padding-left: 1.75rem;
-  font-size: clamp(0.8125rem, 0.7716rem + 0.1746vw, 1rem);
-  color: rgb(2 46 76 / 0.7);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--color-slate-muted);
 }
 
+.legal-toc-link--nested:hover,
 .legal-toc-link--nested.is-active {
-  background-color: var(--color-brand-sky-wash);
-}
-
-.legal-toc-link--nested::before {
-  content: "—";
-  position: absolute;
-  left: 0.875rem;
-  color: rgb(2 46 76 / 0.4);
+  color: var(--color-brand-navy);
 }
 
 /* Focus ring on the pale panel — navy outline on the light fill. */
