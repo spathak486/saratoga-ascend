@@ -9,17 +9,16 @@ import { HeaderNavList, type HeaderNavItem } from '../molecules/HeaderNavList';
 import { UtilityBar } from '../molecules/UtilityBar';
 
 const UTILITY_LINKS: HeaderNavItem[] = [
+  { href: '/careers', label: 'Careers' },
   { href: '/employees', label: 'Employees' },
-  { href: '/investors', label: 'Investor' },
+  { href: '/investors', label: 'Investor Relations' },
 ];
 
 const PRIMARY_LINKS: HeaderNavItem[] = [
-  { href: '/what-we-do', label: 'Solutions', hasMenu: true },
   { href: '/who-we-serve', label: 'Who we serve', hasMenu: true },
   { href: '/government-buyers', label: 'Government Buyers', hasMenu: true },
-  { href: '/newsroom', label: 'Insights', hasMenu: true },
+  { href: '/what-we-do', label: 'Solutions', hasMenu: true },
   { href: '/about', label: 'About us', hasMenu: true },
-  { href: '/careers', label: 'Careers', hasMenu: true },
 ];
 
 export const Navbar: React.FC = () => {
@@ -72,7 +71,7 @@ export const Navbar: React.FC = () => {
       {/* Sibling of <main>, not wrapped in a short header — sticky only works
           inside a tall ancestor. Solid white at rest; frost once pinned. */}
       <header
-        className={`sticky top-0 z-50 overflow-visible border-b border-brand-hairline transition-[background-color,backdrop-filter] duration-200 ${
+        className={`sticky relative top-0 z-50 overflow-visible border-b border-brand-hairline transition-[background-color,backdrop-filter] duration-200 ${
           isOverlay
             ? 'bg-brand-surface/75 backdrop-blur-[25px]'
             : 'bg-brand-surface'
