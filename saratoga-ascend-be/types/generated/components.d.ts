@@ -151,11 +151,14 @@ export interface ReferencesFaQs extends Struct.ComponentSchema {
     icon: 'layer';
   };
   attributes: {
+    categories: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::faq-category.faq-category'
+    >;
     content: Schema.Attribute.Relation<
       'oneToOne',
       'api::content-block.content-block'
     >;
-    faqs: Schema.Attribute.Relation<'oneToMany', 'api::faq.faq'>;
   };
 }
 

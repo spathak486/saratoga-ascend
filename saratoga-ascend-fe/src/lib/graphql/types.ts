@@ -95,6 +95,12 @@ export interface RawFaqEntity {
   faq?: RawFaqItem | null;
 }
 
+export interface RawFaqCategory {
+  documentId?: string;
+  name: string;
+  faqs?: RawFaqEntity[] | null;
+}
+
 export interface RawFaqsReference {
   __typename: 'ComponentReferencesFaQs' | 'ComponentReferencesFaqs';
   content?: {
@@ -102,7 +108,7 @@ export interface RawFaqsReference {
     referenceTitle?: string | null;
     ContentSection?: RawPromo | null;
   } | null;
-  faqs?: RawFaqEntity[] | null;
+  categories?: RawFaqCategory[] | null;
 }
 
 export interface RawClientLogosReference {

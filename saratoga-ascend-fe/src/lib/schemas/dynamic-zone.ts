@@ -69,6 +69,14 @@ export const FaqEntitySchema = z.object({
 
 export type FaqEntity = z.infer<typeof FaqEntitySchema>;
 
+export const FaqCategorySchema = z.object({
+  documentId: z.string().optional(),
+  name: z.string(),
+  faqs: z.array(FaqEntitySchema).nullable().optional(),
+});
+
+export type FaqCategory = z.infer<typeof FaqCategorySchema>;
+
 export const FaqsReferenceSchema = z.object({
   __typename: z.union([
     z.literal('ComponentReferencesFaQs'),
@@ -82,7 +90,7 @@ export const FaqsReferenceSchema = z.object({
     })
     .nullable()
     .optional(),
-  faqs: z.array(FaqEntitySchema).nullable().optional(),
+  categories: z.array(FaqCategorySchema).nullable().optional(),
 });
 
 export type FaqsReference = z.infer<typeof FaqsReferenceSchema>;

@@ -811,3 +811,259 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--color-slate-body);
 }
+
+/* ==========================================================================
+   FAQ Section — Figma "Main FAQ Section"
+   Artboard: 1920px | Content col: 1680px | Padding: 40px 120px | Gap: 40px
+   ========================================================================== */
+
+/* ── Outer section wrapper ── */
+.faq-section {
+  background: #ffffff;
+  width: 100%;
+  padding: clamp(2rem, 4.17vw, 40px) clamp(1.5rem, 6.25vw, 120px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: clamp(1.5rem, 2.08vw, 40px);
+}
+
+/* ── Inner 1680px column ── */
+.faq-section__inner {
+  width: 100%;
+  max-width: 1680px;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1.5rem, 2.08vw, 40px);
+}
+
+/* ── Header row — Figma: 1680×342, left content + right image ── */
+.faq-section__header-row {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 40px;
+  min-height: clamp(10rem, 17.81vw, 342px);
+}
+
+/* Left side: title + subtitle + (pills rendered below in accordion) */
+.faq-section__header-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 12px;
+  flex: 1;
+}
+
+/* Decorative image — Figma: 263×263 */
+.faq-section__deco-img {
+  width: clamp(120px, 13.7vw, 263px);
+  height: clamp(120px, 13.7vw, 263px);
+  object-fit: cover;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* Title — "Any Questions?" */
+.faq-section__title {
+  font-family: 'DM Serif Text', serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: clamp(2.5rem, 3.75vw, 72px);
+  line-height: 120%;
+  color: #d31e2d;
+  margin: 0;
+  width: 100%;
+}
+
+/* Subtitle / description */
+.faq-section__subtitle {
+  font-family: 'Google Sans Flex', 'Google Sans', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: clamp(1rem, 1.5625vw, 30px);
+  line-height: 40px;
+  color: #0a0a0a;
+  max-width: 1055px;
+  margin: 0;
+}
+
+/* ── Accordion wrapper ── */
+.faq-section__accordion {
+  width: 100%;
+}
+
+/* ── Category Filter Pills Row — Figma: padding:12px, gap:8px ── */
+.faq-pills-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 0;
+  gap: 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  box-sizing: border-box;
+}
+
+.faq-pills-row::-webkit-scrollbar {
+  display: none;
+}
+
+/* Active "All Inquiries" pill — gradient, border-radius:8px, h:46px */
+.faq-pill {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;
+  height: clamp(2rem, 2.4vw, 46px);
+  font-family: 'Google Sans Flex', 'Google Sans', sans-serif;
+  font-weight: 600;
+  font-size: clamp(0.875rem, 1.04vw, 20px);
+  line-height: 30px;
+  white-space: nowrap;
+  cursor: pointer;
+  border: none;
+  border-radius: 8px;
+  transition: opacity 0.2s ease;
+  background: linear-gradient(90.55deg, #d31e2d 0.47%, #2a91dc 102.45%);
+  box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+  color: #ffffff;
+  flex-shrink: 0;
+}
+
+.faq-pill:hover {
+  opacity: 0.9;
+}
+
+/* Outline category pills — h:48px, border-radius:9999px */
+.faq-pill--outline {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 9999px;
+  font-weight: 500;
+  height: clamp(2rem, 2.5vw, 48px);
+  color: #000000;
+  box-shadow: none;
+}
+
+.faq-pill--outline:hover {
+  background: #f8fafc;
+  opacity: 1;
+}
+
+/* Active category pill */
+.faq-pill--outline-active {
+  background: linear-gradient(90.55deg, #d31e2d 0.47%, #2a91dc 102.45%);
+  border-color: transparent;
+  color: #ffffff;
+  font-weight: 600;
+  border-radius: 9999px;
+}
+
+/* ── Accordion List ── */
+.faq-accordion-list {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+/* ── Accordion Item — Figma: 1680×52, gap:12px, pb:12px, border-bottom:1px ── */
+.faq-accordion-item {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #dadada;
+  box-sizing: border-box;
+}
+
+.faq-accordion-heading {
+  margin: 0;
+}
+
+/* Trigger — min-height:52px = 40px line-height + 12px padding-top */
+.faq-accordion-trigger {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 24px;
+  width: 100%;
+  min-height: clamp(2.5rem, 2.71vw, 52px);
+  padding: 12px 0 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  outline-offset: 2px;
+  box-sizing: border-box;
+}
+
+.faq-accordion-trigger:focus-visible {
+  outline: 2px solid #2a91dc;
+  border-radius: 4px;
+}
+
+/* Question text — Figma: 30px / 40px line-height */
+.faq-accordion-question {
+  font-family: 'Google Sans Flex', 'Google Sans', sans-serif;
+  font-weight: 400;
+  font-size: clamp(1rem, 1.5625vw, 30px);
+  line-height: 40px;
+  color: #0a0a0a;
+  flex: 1;
+  transition: color 0.15s ease;
+}
+
+.faq-accordion-question--open {
+  color: #0a0a0a;
+}
+
+/* Circular +/- icon — Figma: 32×32, border:1px #CBD5E1, radius:9999, margin-top:4px */
+.faq-accordion-icon-wrap {
+  display: flex;
+  align-items: flex-start;
+  padding-top: 4px;
+  flex-shrink: 0;
+}
+
+.faq-accordion-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid #cbd5e1;
+  border-radius: 9999px;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.faq-accordion-icon--minus {
+  border-color: #d31e2d;
+  background-color: #fff5f5;
+}
+
+/* Answer panel */
+.faq-accordion-panel {
+  display: none;
+  overflow: hidden;
+}
+
+.faq-accordion-panel--open {
+  display: block;
+}
+
+.faq-accordion-answer {
+  font-family: 'Google Sans Flex', 'Google Sans', sans-serif;
+  font-weight: 400;
+  font-size: clamp(0.875rem, 1.04vw, 20px);
+  line-height: 32px;
+  color: #475569;
+  margin: 0;
+}

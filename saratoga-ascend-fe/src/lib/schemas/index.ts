@@ -29,6 +29,8 @@ export {
   type CtaReference,
   FaqItemComponentSchema,
   type FaqItemComponent,
+  FaqCategorySchema,
+  type FaqCategory,
   FaqEntitySchema,
   type FaqEntity,
   FaqsReferenceSchema,
