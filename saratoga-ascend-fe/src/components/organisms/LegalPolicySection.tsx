@@ -73,7 +73,7 @@ export const LegalPolicySection: React.FC<LegalPolicySectionProps> = ({
                 headings={headings}
               />
               <div
-                className="legal-body min-w-0 max-w-[63.5625rem]"
+                className="legal-body min-w-0 w-full"
                 dangerouslySetInnerHTML={{ __html: html }}
               />
             </div>
