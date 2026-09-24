@@ -207,24 +207,35 @@
   --spacing-card-lead: clamp(0.75rem, 0.6286rem + 0.5178vw, 1.25rem);
 
   /* Header bands — literal Figma heights at 1920. */
-  --spacing-utility-h: 3.75rem; /* 60px */
-  --spacing-nav-h: clamp(4.5rem, 6.25vw, 7.5rem); /* 72 -> 120px */
+  --spacing-utility-h: 3.75rem;
+  /* 60px */
+  --spacing-nav-h: clamp(4.5rem, 6.25vw, 7.5rem);
+  /* 72 -> 120px */
 
   /* ---- Gradient CTA -----------------------------------------------------
      180x60 at 1920, with 24/16 padding and a 12px gap to its arrow. Height
      and width are minimums rather than fixed, so a longer label grows the
      button instead of overflowing it.                                       */
-  --spacing-cta-y: clamp(0.75rem, 0.6893rem + 0.2589vw, 1rem); /* 12 -> 16 */
-  --spacing-cta-x: clamp(1.125rem, 1.034rem + 0.3883vw, 1.5rem); /* 18 -> 24 */
-  --spacing-cta: clamp(3rem, 2.8179rem + 0.7767vw, 3.75rem); /* 48 -> 60 */
-  --spacing-cta-wide: clamp(9.375rem, 8.9199rem + 1.9417vw, 11.25rem); /* 150 -> 180 */
+  --spacing-cta-y: clamp(0.75rem, 0.6893rem + 0.2589vw, 1rem);
+  /* 12 -> 16 */
+  --spacing-cta-x: clamp(1.125rem, 1.034rem + 0.3883vw, 1.5rem);
+  /* 18 -> 24 */
+  --spacing-cta: clamp(3rem, 2.8179rem + 0.7767vw, 3.75rem);
+  /* 48 -> 60 */
+  --spacing-cta-wide: clamp(9.375rem, 8.9199rem + 1.9417vw, 11.25rem);
+  /* 150 -> 180 */
 
   /* ---- Radii ------------------------------------------------------------ */
-  --radius-button: 0.5rem; /* 8px */
-  --radius-media: 1.25rem; /* 20px — image frames */
-  --radius-panel: 2rem; /* 32px */
-  --radius-card: clamp(1.25rem, 0.9466rem + 1.2945vw, 2.5rem); /* 20 -> 40 */
-  --radius-pill: 62.4375rem; /* 999px */
+  --radius-button: 0.5rem;
+  /* 8px */
+  --radius-media: 1.25rem;
+  /* 20px — image frames */
+  --radius-panel: 2rem;
+  /* 32px */
+  --radius-card: clamp(1.25rem, 0.9466rem + 1.2945vw, 2.5rem);
+  /* 20 -> 40 */
+  --radius-pill: 62.4375rem;
+  /* 999px */
 
   /* ---- Elevation --------------------------------------------------------- */
   --shadow-button: 0 1px 2px 0 rgb(16 24 40 / 0.05);
@@ -257,7 +268,8 @@
   --radius-tile: 1.5625rem;
   --radius-award: clamp(1.25rem, 1.0073rem + 1.0356vw, 2.25rem);
   --radius-tile-lg: clamp(1.25rem, 0.8859rem + 1.5534vw, 2.75rem);
-  --radius-sweep: clamp(1.5rem, 1.0752rem + 1.8123vw, 3.25rem); /* 24 -> 52, Need Help card */
+  --radius-sweep: clamp(1.5rem, 1.0752rem + 1.8123vw, 3.25rem);
+  /* 24 -> 52, Need Help card */
 }
 
 /* ---------------------------------------------------------------------------
@@ -312,11 +324,9 @@ body {
    end colour lands inside the button, which is what keeps it from reading as
    a flat two-tone split. */
 .bg-cta-gradient {
-  background-image: linear-gradient(
-    91.647deg,
-    var(--color-brand-cta-from) 0.475%,
-    var(--color-brand-cta-to) 102.45%
-  );
+  background-image: linear-gradient(91.647deg,
+      var(--color-brand-cta-from) 0.475%,
+      var(--color-brand-cta-to) 102.45%);
 }
 
 /* 404 page CTAs — Figma Frame 205 (primary, "Get in Touch": brand sky fill,
@@ -327,13 +337,18 @@ body {
 .bg-not-found-primary {
   background-color: var(--color-brand-sky);
   border-radius: var(--radius-pill);
-  min-height: 3.5rem; /* 56px */
-  min-width: 11.25rem; /* 180px */
-  padding: 1rem 2.5rem; /* 16px 40px */
+  min-height: 3.5rem;
+  /* 56px */
+  min-width: 11.25rem;
+  /* 180px */
+  padding: 1rem 2.5rem;
+  /* 16px 40px */
   color: #ffffff;
-  font-size: 1rem; /* 16px */
+  font-size: 1rem;
+  /* 16px */
   font-weight: 700;
-  line-height: 1.5rem; /* 24px */
+  line-height: 1.5rem;
+  /* 24px */
 }
 
 .bg-not-found-primary:hover {
@@ -344,13 +359,18 @@ body {
   background-color: transparent;
   border: 2px solid #000000;
   border-radius: var(--radius-pill);
-  min-height: 3.75rem; /* 60px */
-  min-width: 9.8125rem; /* 157px */
-  padding: 1rem 2.5rem; /* 16px 40px */
+  min-height: 3.75rem;
+  /* 60px */
+  min-width: 9.8125rem;
+  /* 157px */
+  padding: 1rem 2.5rem;
+  /* 16px 40px */
   color: #000000;
-  font-size: 1rem; /* 16px */
+  font-size: 1rem;
+  /* 16px */
   font-weight: 500;
-  line-height: 1.5rem; /* 24px */
+  line-height: 1.5rem;
+  /* 24px */
 }
 
 .bg-not-found-secondary:hover {
@@ -373,20 +393,16 @@ body {
 
 /* GSA (and sibling) contract banner. */
 .bg-gsa-banner {
-  background-image: linear-gradient(
-    165.427deg,
-    var(--color-brand-navy-panel) 0%,
-    var(--color-brand-blue-royal) 100%
-  );
+  background-image: linear-gradient(165.427deg,
+      var(--color-brand-navy-panel) 0%,
+      var(--color-brand-blue-royal) 100%);
 }
 
 /* Past Performance band. */
 .bg-past-wash {
-  background-image: linear-gradient(
-    111.612deg,
-    rgb(245 245 245 / 0.1) 0%,
-    #f5f5f5 100%
-  );
+  background-image: linear-gradient(111.612deg,
+      rgb(245 245 245 / 0.1) 0%,
+      #f5f5f5 100%);
 }
 
 /* Photo cards in Past Performance: clear through the picture, black at the foot. */
@@ -403,40 +419,32 @@ body {
 /* The wash behind the utility row — blue only on the right, fading in from
    nothing so it reads as a corner accent rather than a full-width bar. */
 .bg-utility-band {
-  background-image: linear-gradient(
-    90deg,
-    rgb(40 192 234 / 0) 9.569%,
-    var(--color-brand-blue-deep) 59.319%
-  );
+  background-image: linear-gradient(90deg,
+      rgb(40 192 234 / 0) 9.569%,
+      var(--color-brand-blue-deep) 59.319%);
 }
 
 /* White wash over the hero's DNA artwork — opaque enough on the left for the
    headline to read, gone on the right so the helix keeps its depth. */
 .bg-hero-scrim {
-  background-image: linear-gradient(
-    90deg,
-    var(--color-brand-surface) 33.307%,
-    rgb(255 255 255 / 0) 90.911%
-  );
+  background-image: linear-gradient(90deg,
+      var(--color-brand-surface) 33.307%,
+      rgb(255 255 255 / 0) 90.911%);
 }
 
 /* The pale diagonal wash behind the feature bands. */
 .bg-section-wash {
-  background-image: linear-gradient(
-    142.336deg,
-    var(--color-brand-surface-muted) 0%,
-    var(--color-brand-surface-sunk) 100%
-  );
+  background-image: linear-gradient(142.336deg,
+      var(--color-brand-surface-muted) 0%,
+      var(--color-brand-surface-sunk) 100%);
 }
 
 /* Photo overlay on a "Market We Serve" card: clear at the top, solid navy at
    the foot so the card's label always has something to sit on. */
 .bg-photo-scrim {
-  background-image: linear-gradient(
-    180deg,
-    transparent 53.646%,
-    var(--color-brand-blue-deep) 100%
-  );
+  background-image: linear-gradient(180deg,
+      transparent 53.646%,
+      var(--color-brand-blue-deep) 100%);
 }
 
 /* About Us band — white through the copy, faint prime-r/100 at the foot. */
@@ -446,29 +454,23 @@ body {
 
 /* White-to-pale-blue panel fill, used on the emblem card. */
 .bg-panel-tint {
-  background-image: linear-gradient(
-    154.69deg,
-    var(--color-brand-surface) 18.8%,
-    var(--color-brand-blue-pale) 104.87%
-  );
+  background-image: linear-gradient(154.69deg,
+      var(--color-brand-surface) 18.8%,
+      var(--color-brand-blue-pale) 104.87%);
 }
 
 /* Staffing carousel cards beneath the healthcare feature band. */
 .bg-staffing-card {
-  background-image: linear-gradient(
-    131.775deg,
-    var(--color-brand-surface) 0%,
-    var(--color-brand-surface-muted) 100%
-  );
+  background-image: linear-gradient(131.775deg,
+      var(--color-brand-surface) 0%,
+      var(--color-brand-surface-muted) 100%);
 }
 
 /* Photo wash on the Travel Staffing tiles — clear at the top, navy by 91%. */
 .bg-staffing-scrim {
-  background-image: linear-gradient(
-    180deg,
-    rgb(0 40 69 / 0) 2.778%,
-    var(--color-brand-navy-band) 91%
-  );
+  background-image: linear-gradient(180deg,
+      rgb(0 40 69 / 0) 2.778%,
+      var(--color-brand-navy-band) 91%);
 }
 
 /* Ambient glow arcs behind the Healthcare portrait — a slow, barely-there
@@ -476,11 +478,13 @@ body {
    `prefers-reduced-motion` rule above already collapses these to a single
    static frame. */
 @keyframes arc-drift {
+
   0%,
   100% {
     transform: translateY(0) scale(1);
     opacity: 0.55;
   }
+
   50% {
     transform: translateY(-3%) scale(1.05);
     opacity: 0.8;
@@ -501,10 +505,12 @@ body {
    pulse (this layer already reads faintly against the navy band, so
    dimming it further would just look like flickering). */
 @keyframes bg-drift {
+
   0%,
   100% {
     transform: translate3d(0, 0, 0) scale(1.02);
   }
+
   50% {
     transform: translate3d(0, -1.5%, 0) scale(1.06);
   }
@@ -521,6 +527,7 @@ body {
   from {
     transform: translate3d(0, 0, 0);
   }
+
   to {
     transform: translate3d(0, -1.75rem, 0);
   }
@@ -548,16 +555,12 @@ body {
 .bg-card-tint {
   background-color: var(--color-brand-surface);
   background-image:
-    radial-gradient(
-      circle at 85% 90%,
+    radial-gradient(circle at 85% 90%,
       color-mix(in srgb, var(--color-brand-red) 25%, transparent),
-      transparent 35%
-    ),
-    radial-gradient(
-      circle at 60% 25%,
+      transparent 35%),
+    radial-gradient(circle at 60% 25%,
       color-mix(in srgb, var(--color-brand-sky) 18%, transparent),
-      transparent 35%
-    );
+      transparent 35%);
 }
 
 /* Colour wash over the achievements footage, multiplied onto it. Four stops
@@ -566,43 +569,35 @@ body {
    straight red-to-navy ramp goes muddy through the middle. The end stops are
    the brand red and navy held back to 88% and 91%. */
 .bg-brand-band {
-  background-image: linear-gradient(
-    90deg,
-    rgb(185 18 47 / 0.88) 0%,
-    rgb(157 31 70 / 0.68) 28%,
-    rgb(25 91 128 / 0.66) 65%,
-    rgb(4 49 78 / 0.91) 100%
-  );
+  background-image: linear-gradient(90deg,
+      rgb(185 18 47 / 0.88) 0%,
+      rgb(157 31 70 / 0.68) 28%,
+      rgb(25 91 128 / 0.66) 65%,
+      rgb(4 49 78 / 0.91) 100%);
 }
 
 /* Lighter second pass over the same band, above the multiply layer so the
    footage keeps some lift instead of going flat. */
 .bg-band-glass {
-  background-image: linear-gradient(
-    90deg,
-    rgb(190 24 49 / 0.38),
-    rgb(22 87 121 / 0.3)
-  );
+  background-image: linear-gradient(90deg,
+      rgb(190 24 49 / 0.38),
+      rgb(22 87 121 / 0.3));
 }
 
 /* Frosted certification card. Runs on the diagonal so each card picks up the
    band's red-to-navy travel regardless of where it sits in the row. */
 .bg-award-card {
-  background-image: linear-gradient(
-    135deg,
-    rgb(180 30 57 / 0.45),
-    rgb(24 75 102 / 0.38)
-  );
+  background-image: linear-gradient(135deg,
+      rgb(180 30 57 / 0.45),
+      rgb(24 75 102 / 0.38));
 }
 
 /* Fade a full-bleed image into the page surface at its lower edge */
 .fade-to-surface {
-  -webkit-mask-image: linear-gradient(
-    180deg,
-    #000 0%,
-    #000 55%,
-    transparent 100%
-  );
+  -webkit-mask-image: linear-gradient(180deg,
+      #000 0%,
+      #000 55%,
+      transparent 100%);
   mask-image: linear-gradient(180deg, #000 0%, #000 55%, transparent 100%);
 }
 
@@ -698,13 +693,17 @@ body {
    background, custom scrollbar, and clean text links with ample spacing. */
 .legal-toc-panel {
   width: 100%;
-  background-color: var(--color-brand-surface-muted); /* #f8fafc */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Soft drop shadow */
-  padding: 1.5rem 1rem 1.5rem 1.5rem; /* Less right padding for scrollbar */
+  background-color: var(--color-brand-surface-muted);
+  /* #f8fafc */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  /* Soft drop shadow */
+  padding: 1.5rem 1rem 1.5rem 1.5rem;
+  /* Less right padding for scrollbar */
 }
 
 .legal-toc-label {
-  display: none; /* Removed as per screenshot */
+  display: none;
+  /* Removed as per screenshot */
 }
 
 .legal-toc-list {
@@ -723,11 +722,14 @@ body {
 .legal-toc-list::-webkit-scrollbar {
   width: 8px;
 }
+
 .legal-toc-list::-webkit-scrollbar-track {
   background: transparent;
 }
+
 .legal-toc-list::-webkit-scrollbar-thumb {
-  background-color: #9CA3AF; /* gray-400 */
+  background-color: #9CA3AF;
+  /* gray-400 */
   border-radius: 999px;
 }
 
