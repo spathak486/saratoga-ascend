@@ -29,6 +29,8 @@ export {
   type CtaReference,
   FaqItemComponentSchema,
   type FaqItemComponent,
+  FaqCategorySchema,
+  type FaqCategory,
   FaqEntitySchema,
   type FaqEntity,
   FaqsReferenceSchema,
@@ -55,6 +57,8 @@ export {
   type OurAchievementEntity,
   AchievementsReferenceSchema,
   type AchievementsReference,
+  LegalContentReferenceSchema,
+  type LegalContentReference,
   DynamicZoneSectionSchema,
   type DynamicZoneSection,
 } from './dynamic-zone';

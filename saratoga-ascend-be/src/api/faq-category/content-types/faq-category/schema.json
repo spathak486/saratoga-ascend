@@ -1,0 +1,26 @@
+{
+  "kind": "collectionType",
+  "collectionName": "faq_categories",
+  "info": {
+    "singularName": "faq-category",
+    "pluralName": "faq-categories",
+    "displayName": "FAQ Category",
+    "description": "Category labels for filtering FAQs (e.g. Federal Agencies, State & Local)"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "faqs": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::faq.faq",
+      "mappedBy": "categories"
+    }
+  }
+}

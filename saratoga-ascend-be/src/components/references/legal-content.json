@@ -1,0 +1,40 @@
+{
+  "collectionName": "components_references_legal_contents",
+  "info": {
+    "displayName": "Legal Content",
+    "icon": "fileText",
+    "description": "Legal / policy prose authored directly on the page — centred title plus a rich-text body (headings, lists, links)."
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "body": {
+      "type": "customField",
+      "customField": "plugin::ckeditor5.CKEditor",
+      "required": true,
+      "options": {
+        "preset": "defaultHtml"
+      }
+    },
+    "showToc": {
+      "type": "boolean",
+      "default": true,
+      "description": "Show the sticky table-of-contents sidebar (OneTrust style). Turn off for simple statement pages like Terms & Conditions."
+    },
+    "titleColor": {
+      "type": "string",
+      "regex": "^#(?:[0-9a-fA-F]{3}){1,2}$",
+      "default": "#0F3D60",
+      "description": "Override the title colour. Leave default for the legal navy."
+    },
+    "bodyColor": {
+      "type": "string",
+      "regex": "^#(?:[0-9a-fA-F]{3}){1,2}$",
+      "default": "#000000",
+      "description": "Override the body (paragraph) colour. Leave default for near-black."
+    }
+  },
+  "config": {}
+}

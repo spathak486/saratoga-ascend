@@ -171,6 +171,22 @@
   --text-404-sub: clamp(1.125rem, 0.9126rem + 0.9062vw, 2rem);
   --text-404-sub--line-height: 1.25;
 
+  /* ---- Legal / policy copy -------------------------------------------------
+     Legal document pages (privacy policy, terms). Title navy in the file is
+     #0F3D60, set in the site serif (Cardo → DM Serif Text); the body is Duru
+     Sans Regular 400 in near-black #000000, mapped to the site sans.           */
+
+  --color-brand-navy-legal: #0f3d60;
+  --color-legal-body: #000000;
+
+  /* 32 -> 64 — the policy title, 65px leading, centred, soft drop shadow. */
+  --text-legal-title: clamp(2rem, 1.5146rem + 2.0712vw, 4rem);
+  --text-legal-title--line-height: 1.02;
+
+  /* 16 -> 32 — the policy body, 40px leading, Duru Sans regular. */
+  --text-legal-body: clamp(1rem, 0.7573rem + 1.0356vw, 2rem);
+  --text-legal-body--line-height: 1.25;
+
   /* ---- Layout -----------------------------------------------------------
      Every section renders its content inside <Container>.                   */
 
@@ -199,17 +215,21 @@
   --spacing-card-lead: clamp(0.75rem, 0.6286rem + 0.5178vw, 1.25rem);
 
   /* Header bands — literal Figma heights at 1920. */
-  --spacing-utility-h: 3.8125rem; /* 61px — Figma utility row */
-  --spacing-nav-h: clamp(4.5rem, 6.25vw, 7.125rem); /* 72 -> 114px main header */
+  --spacing-utility-h: 3.75rem; /* 60px */
+  --spacing-nav-h: clamp(4.5rem, 6.25vw, 7.5rem); /* 72 -> 120px */
 
   /* ---- Gradient CTA -----------------------------------------------------
      180x60 at 1920, with 24/16 padding and a 12px gap to its arrow. Height
      and width are minimums rather than fixed, so a longer label grows the
      button instead of overflowing it.                                       */
-  --spacing-cta-y: clamp(0.75rem, 0.6893rem + 0.2589vw, 1rem); /* 12 -> 16 */
-  --spacing-cta-x: clamp(1.125rem, 1.034rem + 0.3883vw, 1.5rem); /* 18 -> 24 */
-  --spacing-cta: clamp(3rem, 2.8179rem + 0.7767vw, 3.75rem); /* 48 -> 60 */
-  --spacing-cta-wide: clamp(9.375rem, 8.9199rem + 1.9417vw, 11.25rem); /* 150 -> 180 */
+  --spacing-cta-y: clamp(0.75rem, 0.6893rem + 0.2589vw, 1rem);
+  /* 12 -> 16 */
+  --spacing-cta-x: clamp(1.125rem, 1.034rem + 0.3883vw, 1.5rem);
+  /* 18 -> 24 */
+  --spacing-cta: clamp(3rem, 2.8179rem + 0.7767vw, 3.75rem);
+  /* 48 -> 60 */
+  --spacing-cta-wide: clamp(9.375rem, 8.9199rem + 1.9417vw, 11.25rem);
+  /* 150 -> 180 */
 
   /* ---- Radii ------------------------------------------------------------ */
   --radius-button: 0.5rem; /* 8px */
@@ -250,7 +270,8 @@
   --radius-tile: 1.5625rem;
   --radius-award: clamp(1.25rem, 1.0073rem + 1.0356vw, 2.25rem);
   --radius-tile-lg: clamp(1.25rem, 0.8859rem + 1.5534vw, 2.75rem);
-  --radius-sweep: clamp(1.5rem, 1.0752rem + 1.8123vw, 3.25rem); /* 24 -> 52, Need Help card */
+  --radius-sweep: clamp(1.5rem, 1.0752rem + 1.8123vw, 3.25rem);
+  /* 24 -> 52, Need Help card */
 }
 
 /* ---------------------------------------------------------------------------
@@ -305,11 +326,9 @@ body {
    end colour lands inside the button, which is what keeps it from reading as
    a flat two-tone split. */
 .bg-cta-gradient {
-  background-image: linear-gradient(
-    91.647deg,
-    var(--color-brand-cta-from) 0.475%,
-    var(--color-brand-cta-to) 102.45%
-  );
+  background-image: linear-gradient(91.647deg,
+      var(--color-brand-cta-from) 0.475%,
+      var(--color-brand-cta-to) 102.45%);
 }
 
 /* 404 page CTAs — Figma Frame 205 (primary, "Get in Touch": brand sky fill,
@@ -320,13 +339,18 @@ body {
 .bg-not-found-primary {
   background-color: var(--color-brand-sky);
   border-radius: var(--radius-pill);
-  min-height: 3.5rem; /* 56px */
-  min-width: 11.25rem; /* 180px */
-  padding: 1rem 2.5rem; /* 16px 40px */
+  min-height: 3.5rem;
+  /* 56px */
+  min-width: 11.25rem;
+  /* 180px */
+  padding: 1rem 2.5rem;
+  /* 16px 40px */
   color: #ffffff;
-  font-size: 1rem; /* 16px */
+  font-size: 1rem;
+  /* 16px */
   font-weight: 700;
-  line-height: 1.5rem; /* 24px */
+  line-height: 1.5rem;
+  /* 24px */
 }
 
 .bg-not-found-primary:hover {
@@ -337,13 +361,18 @@ body {
   background-color: transparent;
   border: 2px solid #000000;
   border-radius: var(--radius-pill);
-  min-height: 3.75rem; /* 60px */
-  min-width: 9.8125rem; /* 157px */
-  padding: 1rem 2.5rem; /* 16px 40px */
+  min-height: 3.75rem;
+  /* 60px */
+  min-width: 9.8125rem;
+  /* 157px */
+  padding: 1rem 2.5rem;
+  /* 16px 40px */
   color: #000000;
-  font-size: 1rem; /* 16px */
+  font-size: 1rem;
+  /* 16px */
   font-weight: 500;
-  line-height: 1.5rem; /* 24px */
+  line-height: 1.5rem;
+  /* 24px */
 }
 
 .bg-not-found-secondary:hover {
@@ -366,20 +395,16 @@ body {
 
 /* GSA (and sibling) contract banner. */
 .bg-gsa-banner {
-  background-image: linear-gradient(
-    165.427deg,
-    var(--color-brand-navy-panel) 0%,
-    var(--color-brand-blue-royal) 100%
-  );
+  background-image: linear-gradient(165.427deg,
+      var(--color-brand-navy-panel) 0%,
+      var(--color-brand-blue-royal) 100%);
 }
 
 /* Past Performance band. */
 .bg-past-wash {
-  background-image: linear-gradient(
-    111.612deg,
-    rgb(245 245 245 / 0.1) 0%,
-    #f5f5f5 100%
-  );
+  background-image: linear-gradient(111.612deg,
+      rgb(245 245 245 / 0.1) 0%,
+      #f5f5f5 100%);
 }
 
 /* Photo cards in Past Performance: clear through the picture, black at the foot. */
@@ -396,40 +421,32 @@ body {
 /* The wash behind the utility row — blue only on the right, fading in from
    nothing so it reads as a corner accent rather than a full-width bar. */
 .bg-utility-band {
-  background-image: linear-gradient(
-    90deg,
-    rgb(40 192 234 / 0) 9.569%,
-    var(--color-brand-blue-deep) 59.319%
-  );
+  background-image: linear-gradient(90deg,
+      rgb(40 192 234 / 0) 9.569%,
+      var(--color-brand-blue-deep) 59.319%);
 }
 
 /* White wash over the hero's DNA artwork — opaque enough on the left for the
    headline to read, gone on the right so the helix keeps its depth. */
 .bg-hero-scrim {
-  background-image: linear-gradient(
-    90deg,
-    var(--color-brand-surface) 33.307%,
-    rgb(255 255 255 / 0) 90.911%
-  );
+  background-image: linear-gradient(90deg,
+      var(--color-brand-surface) 33.307%,
+      rgb(255 255 255 / 0) 90.911%);
 }
 
 /* The pale diagonal wash behind the feature bands. */
 .bg-section-wash {
-  background-image: linear-gradient(
-    142.336deg,
-    var(--color-brand-surface-muted) 0%,
-    var(--color-brand-surface-sunk) 100%
-  );
+  background-image: linear-gradient(142.336deg,
+      var(--color-brand-surface-muted) 0%,
+      var(--color-brand-surface-sunk) 100%);
 }
 
 /* Photo overlay on a "Market We Serve" card: clear at the top, solid navy at
    the foot so the card's label always has something to sit on. */
 .bg-photo-scrim {
-  background-image: linear-gradient(
-    180deg,
-    transparent 53.646%,
-    var(--color-brand-blue-deep) 100%
-  );
+  background-image: linear-gradient(180deg,
+      transparent 53.646%,
+      var(--color-brand-blue-deep) 100%);
 }
 
 /* About Us band — white through the copy, faint prime-r/100 at the foot. */
@@ -439,29 +456,23 @@ body {
 
 /* White-to-pale-blue panel fill, used on the emblem card. */
 .bg-panel-tint {
-  background-image: linear-gradient(
-    154.69deg,
-    var(--color-brand-surface) 18.8%,
-    var(--color-brand-blue-pale) 104.87%
-  );
+  background-image: linear-gradient(154.69deg,
+      var(--color-brand-surface) 18.8%,
+      var(--color-brand-blue-pale) 104.87%);
 }
 
 /* Staffing carousel cards beneath the healthcare feature band. */
 .bg-staffing-card {
-  background-image: linear-gradient(
-    131.775deg,
-    var(--color-brand-surface) 0%,
-    var(--color-brand-surface-muted) 100%
-  );
+  background-image: linear-gradient(131.775deg,
+      var(--color-brand-surface) 0%,
+      var(--color-brand-surface-muted) 100%);
 }
 
 /* Photo wash on the Travel Staffing tiles — clear at the top, navy by 91%. */
 .bg-staffing-scrim {
-  background-image: linear-gradient(
-    180deg,
-    rgb(0 40 69 / 0) 2.778%,
-    var(--color-brand-navy-band) 91%
-  );
+  background-image: linear-gradient(180deg,
+      rgb(0 40 69 / 0) 2.778%,
+      var(--color-brand-navy-band) 91%);
 }
 
 /* Ambient glow arcs behind the Healthcare portrait — a slow, barely-there
@@ -469,11 +480,13 @@ body {
    `prefers-reduced-motion` rule above already collapses these to a single
    static frame. */
 @keyframes arc-drift {
+
   0%,
   100% {
     transform: translateY(0) scale(1);
     opacity: 0.55;
   }
+
   50% {
     transform: translateY(-3%) scale(1.05);
     opacity: 0.8;
@@ -494,10 +507,12 @@ body {
    pulse (this layer already reads faintly against the navy band, so
    dimming it further would just look like flickering). */
 @keyframes bg-drift {
+
   0%,
   100% {
     transform: translate3d(0, 0, 0) scale(1.02);
   }
+
   50% {
     transform: translate3d(0, -1.5%, 0) scale(1.06);
   }
@@ -514,6 +529,7 @@ body {
   from {
     transform: translate3d(0, 0, 0);
   }
+
   to {
     transform: translate3d(0, -1.75rem, 0);
   }
@@ -541,16 +557,12 @@ body {
 .bg-card-tint {
   background-color: var(--color-brand-surface);
   background-image:
-    radial-gradient(
-      circle at 85% 90%,
+    radial-gradient(circle at 85% 90%,
       color-mix(in srgb, var(--color-brand-red) 25%, transparent),
-      transparent 35%
-    ),
-    radial-gradient(
-      circle at 60% 25%,
+      transparent 35%),
+    radial-gradient(circle at 60% 25%,
       color-mix(in srgb, var(--color-brand-sky) 18%, transparent),
-      transparent 35%
-    );
+      transparent 35%);
 }
 
 /* Colour wash over the achievements footage, multiplied onto it. Four stops
@@ -559,44 +571,218 @@ body {
    straight red-to-navy ramp goes muddy through the middle. The end stops are
    the brand red and navy held back to 88% and 91%. */
 .bg-brand-band {
-  background-image: linear-gradient(
-    90deg,
-    rgb(185 18 47 / 0.88) 0%,
-    rgb(157 31 70 / 0.68) 28%,
-    rgb(25 91 128 / 0.66) 65%,
-    rgb(4 49 78 / 0.91) 100%
-  );
+  background-image: linear-gradient(90deg,
+      rgb(185 18 47 / 0.88) 0%,
+      rgb(157 31 70 / 0.68) 28%,
+      rgb(25 91 128 / 0.66) 65%,
+      rgb(4 49 78 / 0.91) 100%);
 }
 
 /* Lighter second pass over the same band, above the multiply layer so the
    footage keeps some lift instead of going flat. */
 .bg-band-glass {
-  background-image: linear-gradient(
-    90deg,
-    rgb(190 24 49 / 0.38),
-    rgb(22 87 121 / 0.3)
-  );
+  background-image: linear-gradient(90deg,
+      rgb(190 24 49 / 0.38),
+      rgb(22 87 121 / 0.3));
 }
 
 /* Frosted certification card. Runs on the diagonal so each card picks up the
    band's red-to-navy travel regardless of where it sits in the row. */
 .bg-award-card {
-  background-image: linear-gradient(
-    135deg,
-    rgb(180 30 57 / 0.45),
-    rgb(24 75 102 / 0.38)
-  );
+  background-image: linear-gradient(135deg,
+      rgb(180 30 57 / 0.45),
+      rgb(24 75 102 / 0.38));
 }
 
 /* Fade a full-bleed image into the page surface at its lower edge */
 .fade-to-surface {
-  -webkit-mask-image: linear-gradient(
-    180deg,
-    #000 0%,
-    #000 55%,
-    transparent 100%
-  );
+  -webkit-mask-image: linear-gradient(180deg,
+      #000 0%,
+      #000 55%,
+      transparent 100%);
   mask-image: linear-gradient(180deg, #000 0%, #000 55%, transparent 100%);
+}
+
+/* Legal / policy body — renders the CKEditor HTML authored in Strapi. The
+   section only provides the container; this cascade styles the rich text so
+   a content editor can keep writing headings, lists and links in the admin
+   without touching design tokens. */
+.legal-body {
+  color: var(--color-legal-body);
+  font-size: var(--text-legal-body);
+  font-weight: 400;
+  line-height: var(--text-legal-body--line-height);
+  overflow-wrap: break-word;
+  text-align: justify;
+}
+
+.legal-body p {
+  margin: 0 0 1em;
+}
+
+.legal-body h2,
+.legal-body h3,
+.legal-body h4 {
+  color: var(--color-brand-navy-legal);
+  font-family: var(--font-serif);
+  font-weight: 400;
+  line-height: 1.2;
+  margin: 1.5em 0 0.5em;
+  /* Anchor jumps land below the fixed utility + navigation bands. */
+  scroll-margin-top: calc(var(--spacing-utility-h) + var(--spacing-nav-h) + 1rem);
+}
+
+/* Section headings — simple serif navy */
+.legal-body h2 {
+  padding-bottom: 0.35em;
+  font-size: 1.3em;
+  border-bottom: none;
+}
+
+.legal-body h3 {
+  font-size: 1.1em;
+}
+
+.legal-body h4 {
+  font-size: 1.02em;
+}
+
+.legal-body ul,
+.legal-body ol {
+  margin: 0 0 1em;
+  padding-left: 1.5em;
+}
+
+/* Tailwind v4 preflight resets list-style to none — restore it for the
+   rich-text body so CKEditor bullets/numbers actually render. Longhand
+   properties: LightningCSS drops the type keyword from the `list-style`
+   shorthand in this build, so write them out separately. */
+.legal-body ul {
+  list-style-type: disc;
+  list-style-position: outside;
+}
+
+.legal-body ol {
+  list-style-type: decimal;
+  list-style-position: outside;
+}
+
+.legal-body ul ul,
+.legal-body ol ul {
+  list-style-type: circle;
+}
+
+.legal-body ol ol,
+.legal-body ul ol {
+  list-style-type: lower-alpha;
+}
+
+.legal-body li {
+  margin: 0.25em 0;
+}
+
+.legal-body a {
+  color: var(--color-brand-navy);
+  text-decoration: underline;
+}
+
+.legal-body strong {
+  color: var(--color-brand-navy-legal);
+}
+
+/* ---- Legal table of contents ------------------------------------------
+   Redesigned sidebar panel matching the provided screenshot: light grey
+   background, custom scrollbar, and clean text links with ample spacing. */
+.legal-toc-panel {
+  width: 100%;
+  background-color: var(--color-brand-surface-muted);
+  /* #f8fafc */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  /* Soft drop shadow */
+  padding: 1.5rem 1rem 1.5rem 1.5rem;
+  /* Less right padding for scrollbar */
+}
+
+.legal-toc-label {
+  display: none;
+  /* Removed as per screenshot */
+}
+
+.legal-toc-list {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  max-height: 400px;
+  overflow-y: auto;
+  gap: 1.5rem;
+  padding-right: 0.5rem;
+}
+
+/* Custom scrollbar for the TOC list */
+.legal-toc-list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.legal-toc-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.legal-toc-list::-webkit-scrollbar-thumb {
+  background-color: #9CA3AF;
+  /* gray-400 */
+  border-radius: 999px;
+}
+
+.legal-toc-link {
+  position: relative;
+  display: block;
+  color: var(--color-slate-copy);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.4;
+  text-decoration: none !important;
+  border: none !important;
+  outline: none !important;
+  transition: color 0.2s ease;
+}
+
+.legal-toc-link:hover,
+.legal-toc-link.is-active {
+  color: var(--color-brand-navy);
+  border: none;
+  text-decoration: none;
+  outline: none;
+}
+
+.legal-toc-link--nested {
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--color-slate-muted);
+}
+
+.legal-toc-link--nested:hover,
+.legal-toc-link--nested.is-active {
+  color: var(--color-brand-navy);
+}
+
+/* Focus ring on the pale panel — navy outline on the light fill. */
+.legal-toc-toggle {
+  display: block;
+  width: 100%;
+  border: 0;
+  padding: 0;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.legal-toc-toggle:focus-visible,
+.legal-toc-link:focus-visible {
+  outline: 2px solid var(--color-brand-navy);
+  outline-offset: 2px;
 }
 
 /* Shared focus treatment so every interactive element is keyboard-visible */
@@ -621,4 +807,260 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--color-slate-body);
+}
+
+/* ==========================================================================
+   FAQ Section — Figma "Main FAQ Section"
+   Artboard: 1920px | Content col: 1680px | Padding: 40px 120px | Gap: 40px
+   ========================================================================== */
+
+/* ── Outer section wrapper ── */
+.faq-section {
+  background: #ffffff;
+  width: 100%;
+  padding: clamp(2rem, 4.17vw, 40px) clamp(1.5rem, 6.25vw, 120px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: clamp(1.5rem, 2.08vw, 40px);
+}
+
+/* ── Inner 1680px column ── */
+.faq-section__inner {
+  width: 100%;
+  max-width: 1680px;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1.5rem, 2.08vw, 40px);
+}
+
+/* ── Header row — Figma: 1680×342, left content + right image ── */
+.faq-section__header-row {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 40px;
+  min-height: clamp(10rem, 17.81vw, 342px);
+}
+
+/* Left side: title + subtitle + (pills rendered below in accordion) */
+.faq-section__header-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 12px;
+  flex: 1;
+}
+
+/* Decorative image — Figma: 263×263 */
+.faq-section__deco-img {
+  width: clamp(120px, 13.7vw, 263px);
+  height: clamp(120px, 13.7vw, 263px);
+  object-fit: cover;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* Title — "Any Questions?" */
+.faq-section__title {
+  font-family: 'DM Serif Text', serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: clamp(2.5rem, 3.75vw, 72px);
+  line-height: 120%;
+  color: #d31e2d;
+  margin: 0;
+  width: 100%;
+}
+
+/* Subtitle / description */
+.faq-section__subtitle {
+  font-family: 'Google Sans Flex', 'Google Sans', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: clamp(1rem, 1.5625vw, 30px);
+  line-height: 40px;
+  color: #0a0a0a;
+  max-width: 1055px;
+  margin: 0;
+}
+
+/* ── Accordion wrapper ── */
+.faq-section__accordion {
+  width: 100%;
+}
+
+/* ── Category Filter Pills Row — Figma: padding:12px, gap:8px ── */
+.faq-pills-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 0;
+  gap: 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  box-sizing: border-box;
+}
+
+.faq-pills-row::-webkit-scrollbar {
+  display: none;
+}
+
+/* Active "All Inquiries" pill — gradient, border-radius:8px, h:46px */
+.faq-pill {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;
+  height: clamp(2rem, 2.4vw, 46px);
+  font-family: 'Google Sans Flex', 'Google Sans', sans-serif;
+  font-weight: 600;
+  font-size: clamp(0.875rem, 1.04vw, 20px);
+  line-height: 30px;
+  white-space: nowrap;
+  cursor: pointer;
+  border: none;
+  border-radius: 8px;
+  transition: opacity 0.2s ease;
+  background: linear-gradient(90.55deg, #d31e2d 0.47%, #2a91dc 102.45%);
+  box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+  color: #ffffff;
+  flex-shrink: 0;
+}
+
+.faq-pill:hover {
+  opacity: 0.9;
+}
+
+/* Outline category pills — h:48px, border-radius:9999px */
+.faq-pill--outline {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 9999px;
+  font-weight: 500;
+  height: clamp(2rem, 2.5vw, 48px);
+  color: #000000;
+  box-shadow: none;
+}
+
+.faq-pill--outline:hover {
+  background: #f8fafc;
+  opacity: 1;
+}
+
+/* Active category pill */
+.faq-pill--outline-active {
+  background: linear-gradient(90.55deg, #d31e2d 0.47%, #2a91dc 102.45%);
+  border-color: transparent;
+  color: #ffffff;
+  font-weight: 600;
+  border-radius: 9999px;
+}
+
+/* ── Accordion List ── */
+.faq-accordion-list {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+/* ── Accordion Item — Figma: 1680×52, gap:12px, pb:12px, border-bottom:1px ── */
+.faq-accordion-item {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #dadada;
+  box-sizing: border-box;
+}
+
+.faq-accordion-heading {
+  margin: 0;
+}
+
+/* Trigger — min-height:52px = 40px line-height + 12px padding-top */
+.faq-accordion-trigger {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 24px;
+  width: 100%;
+  min-height: clamp(2.5rem, 2.71vw, 52px);
+  padding: 12px 0 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  outline-offset: 2px;
+  box-sizing: border-box;
+}
+
+.faq-accordion-trigger:focus-visible {
+  outline: 2px solid #2a91dc;
+  border-radius: 4px;
+}
+
+/* Question text — Figma: 30px / 40px line-height */
+.faq-accordion-question {
+  font-family: 'Google Sans Flex', 'Google Sans', sans-serif;
+  font-weight: 400;
+  font-size: clamp(1rem, 1.5625vw, 30px);
+  line-height: 40px;
+  color: #0a0a0a;
+  flex: 1;
+  transition: color 0.15s ease;
+}
+
+.faq-accordion-question--open {
+  color: #0a0a0a;
+}
+
+/* Circular +/- icon — Figma: 32×32, border:1px #CBD5E1, radius:9999, margin-top:4px */
+.faq-accordion-icon-wrap {
+  display: flex;
+  align-items: flex-start;
+  padding-top: 4px;
+  flex-shrink: 0;
+}
+
+.faq-accordion-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid #cbd5e1;
+  border-radius: 9999px;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.faq-accordion-icon--minus {
+  border-color: #d31e2d;
+  background-color: #fff5f5;
+}
+
+/* Answer panel */
+.faq-accordion-panel {
+  display: none;
+  overflow: hidden;
+}
+
+.faq-accordion-panel--open {
+  display: block;
+}
+
+.faq-accordion-answer {
+  font-family: 'Google Sans Flex', 'Google Sans', sans-serif;
+  font-weight: 400;
+  font-size: clamp(0.875rem, 1.04vw, 20px);
+  line-height: 32px;
+  color: #475569;
+  margin: 0;
 }

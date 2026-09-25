@@ -19,6 +19,7 @@ export * from './LatestNewsSection';
 export * from './HappyClientsSection';
 export * from './FaqSection';
 export * from './NeedHelpSection';
+export * from './LegalPolicySection';
 export * from './Footer';
 export * from './JobApplicationForm';
 

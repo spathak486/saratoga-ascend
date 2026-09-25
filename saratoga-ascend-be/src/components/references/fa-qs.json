@@ -11,10 +11,10 @@
       "relation": "oneToOne",
       "target": "api::content-block.content-block"
     },
-    "faqs": {
+    "categories": {
       "type": "relation",
       "relation": "oneToMany",
-      "target": "api::faq.faq"
+      "target": "api::faq-category.faq-category"
     }
   },
   "config": {}

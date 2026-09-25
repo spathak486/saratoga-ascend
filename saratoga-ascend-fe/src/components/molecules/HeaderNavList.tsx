@@ -1,6 +1,7 @@
 import React from 'react';
 import { ArrowUpRightIcon, CaretDownIcon } from '../atoms/icons';
 import { GeneralLink } from '../atoms/GeneralLink';
+import { MegaMenu } from '../organisms/MegaMenu';
 
 export interface HeaderNavItem {
   href: string;
@@ -105,7 +106,7 @@ export const HeaderNavList: React.FC<HeaderNavListProps> = ({
           <span
             className={`inline-flex origin-center transform-gpu transition-transform ${NAV_MOTION} group-hover:rotate-180 group-focus-within:rotate-180`}
           >
-            <CaretDownIcon className="size-3" />
+            <CaretDownIcon className="size-[12px]" />
           </span>
         ) : item.hasExternalIcon ? (
           <ArrowUpRightIcon className="size-3" />
@@ -135,17 +136,20 @@ export const HeaderNavList: React.FC<HeaderNavListProps> = ({
         return (
           <div
             key={item.href}
-            className="group relative flex h-full items-center"
+            className="group flex h-full items-center"
           >
-            {link}
-            <span
-              className={`bg-cta-gradient pointer-events-none absolute bottom-0 left-1/2 z-10 block h-1.5 w-[3.75rem] -translate-x-1/2 rounded-full transition-opacity ${NAV_MOTION} ${
+            <div className="relative flex h-full items-center">
+              {link}
+              <span
+                className={`bg-cta-gradient pointer-events-none absolute bottom-0 left-1/2 z-10 block h-1.5 w-[3.75rem] -translate-x-1/2 rounded-full transition-opacity ${NAV_MOTION} ${
                 isActive
                   ? 'opacity-100'
                   : 'opacity-0 group-hover:opacity-100 group-focus-within:opacity-100'
               }`}
               aria-hidden="true"
             />
+            </div>
+            {item.hasMenu && isPrimaryBar && <MegaMenu type={item.href} />}
           </div>
         );
       })}

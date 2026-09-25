@@ -594,6 +594,36 @@ export interface ApiCtaCta extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiFaqCategoryFaqCategory extends Struct.CollectionTypeSchema {
+  collectionName: 'faq_categories';
+  info: {
+    description: 'Category labels for filtering FAQs (e.g. Federal Agencies, State & Local)';
+    displayName: 'FAQ Category';
+    pluralName: 'faq-categories';
+    singularName: 'faq-category';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    faqs: Schema.Attribute.Relation<'manyToMany', 'api::faq.faq'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::faq-category.faq-category'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiFaqFaq extends Struct.CollectionTypeSchema {
   collectionName: 'faqs';
   info: {
@@ -605,6 +635,10 @@ export interface ApiFaqFaq extends Struct.CollectionTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
+    categories: Schema.Attribute.Relation<
+      'manyToMany',
+      'api::faq-category.faq-category'
+    >;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -845,6 +879,7 @@ export interface ApiPagePage extends Struct.CollectionTypeSchema {
         'references.service-reference',
         'references.mission-reference',
         'references.achievements',
+        'references.legal-content',
       ]
     >;
     seo: Schema.Attribute.Component<'shared.seo', false> &
@@ -1415,6 +1450,7 @@ declare module '@strapi/strapi' {
       'api::contact-submission.contact-submission': ApiContactSubmissionContactSubmission;
       'api::content-block.content-block': ApiContentBlockContentBlock;
       'api::cta.cta': ApiCtaCta;
+      'api::faq-category.faq-category': ApiFaqCategoryFaqCategory;
       'api::faq.faq': ApiFaqFaq;
       'api::footer.footer': ApiFooterFooter;
       'api::hero-banner.hero-banner': ApiHeroBannerHeroBanner;

@@ -8,6 +8,7 @@ import type {
   ServiceReference,
   MissionReference,
   AchievementsReference,
+  LegalContentReference,
 } from '@/lib/schemas';
 import {
   HeroSection,
@@ -23,6 +24,7 @@ import {
   PastPerformanceSection,
   HappyClientsSection,
   LatestNewsSection,
+  LegalPolicySection,
 } from '@/components/organisms';
 
 const MOCK_WHAT_WE_DO_LINES = [
@@ -69,18 +71,39 @@ const MOCK_HAPPY_CLIENTS = [
 
 function renderFaqSection(faqsRef: FaqsReference, index: number) {
   const promo = faqsRef.content?.ContentSection;
-  const items = faqsRef.faqs
-    ?.map((f) => {
-      const q = f.faq?.title || f.referenceTitle;
-      const a = f.faq?.description;
-      if (!q) return null;
-      const cleanAnswer = a ? a.replace(/<[^>]*>/g, '').trim() : '';
-      return {
-        question: q,
-        answer: cleanAnswer,
-      };
-    })
-    .filter((item): item is { question: string; answer: string } => item !== null);
+  
+  const items: { question: string; answer: string; categories: { name: string }[] }[] = [];
+  const itemsMap = new Map<string, { question: string; answer: string; categories: Set<string> }>();
+
+  if (faqsRef.categories) {
+    for (const cat of faqsRef.categories) {
+      if (!cat.faqs) continue;
+      for (const f of cat.faqs) {
+        const q = f.faq?.title || f.referenceTitle;
+        const a = f.faq?.description;
+        if (!q) continue;
+        const cleanAnswer = a ? a.replace(/<[^>]*>/g, '').trim() : '';
+        
+        if (itemsMap.has(q)) {
+          itemsMap.get(q)!.categories.add(cat.name);
+        } else {
+          itemsMap.set(q, {
+            question: q,
+            answer: cleanAnswer,
+            categories: new Set([cat.name])
+          });
+        }
+      }
+    }
+  }
+
+  itemsMap.forEach((val) => {
+    items.push({
+      question: val.question,
+      answer: val.answer,
+      categories: Array.from(val.categories).map(name => ({ name }))
+    });
+  });
 
   return (
     <FaqSection
@@ -88,10 +111,8 @@ function renderFaqSection(faqsRef: FaqsReference, index: number) {
       title={promo?.title ?? undefined}
       subTitle={promo?.subTitle ?? undefined}
       description={promo?.description ?? undefined}
-      backdropSrc={promo?.image?.url ?? undefined}
+      imageSrc={promo?.image?.url ?? undefined}
       items={items && items.length > 0 ? items : undefined}
-      ctaLabel={promo?.link?.label ?? undefined}
-      ctaHref={promo?.link?.href ?? undefined}
     />
   );
 }
@@ -215,6 +236,20 @@ export const SECTION_REGISTRY: Record<
         bgImage={ach?.bgImage?.url ?? undefined}
         counters={ach?.counter ?? undefined}
         cards={ach?.achievementCards ?? undefined}
+      />
+    );
+  },
+
+  ComponentReferencesLegalContent: (section, index) => {
+    const legalRef = section as LegalContentReference;
+    return (
+      <LegalPolicySection
+        key={`legal-${index}`}
+        title={legalRef.title ?? undefined}
+        content={legalRef.body ?? undefined}
+        showToc={legalRef.showToc ?? true}
+        titleColor={legalRef.titleColor ?? undefined}
+        bodyColor={legalRef.bodyColor ?? undefined}
       />
     );
   },

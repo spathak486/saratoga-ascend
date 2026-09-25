@@ -151,11 +151,37 @@ export interface ReferencesFaQs extends Struct.ComponentSchema {
     icon: 'layer';
   };
   attributes: {
+    categories: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::faq-category.faq-category'
+    >;
     content: Schema.Attribute.Relation<
       'oneToOne',
       'api::content-block.content-block'
     >;
-    faqs: Schema.Attribute.Relation<'oneToMany', 'api::faq.faq'>;
+  };
+}
+
+export interface ReferencesLegalContent extends Struct.ComponentSchema {
+  collectionName: 'components_references_legal_contents';
+  info: {
+    description: 'Legal / policy prose authored directly on the page \u2014 centred title plus a rich-text body (headings, lists, links).';
+    displayName: 'Legal Content';
+    icon: 'fileText';
+  };
+  attributes: {
+    body: Schema.Attribute.RichText &
+      Schema.Attribute.Required &
+      Schema.Attribute.CustomField<
+        'plugin::ckeditor5.CKEditor',
+        {
+          preset: 'defaultHtml';
+        }
+      >;
+    bodyColor: Schema.Attribute.String & Schema.Attribute.DefaultTo<'#000000'>;
+    showToc: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
+    title: Schema.Attribute.String;
+    titleColor: Schema.Attribute.String & Schema.Attribute.DefaultTo<'#0F3D60'>;
   };
 }
 
@@ -267,6 +293,7 @@ declare module '@strapi/strapi' {
       'references.client-logos-reference': ReferencesClientLogosReference;
       'references.cta': ReferencesCta;
       'references.fa-qs': ReferencesFaQs;
+      'references.legal-content': ReferencesLegalContent;
       'references.mission-reference': ReferencesMissionReference;
       'references.service-reference': ReferencesServiceReference;
       'shared.general-link': SharedGeneralLink;
