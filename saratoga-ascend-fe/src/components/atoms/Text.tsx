@@ -1,7 +1,7 @@
 import React from 'react';
 
 /** Visual steps from the `--text-*` scale in `globals.css`. */
-export type TextSize = 'sectionLead' | 'lead' | 'body' | 'nav' | 'caption' | 'eyebrow';
+export type TextSize = 'sectionLead' | 'cardCopy' | 'lead' | 'body' | 'nav' | 'caption' | 'eyebrow';
 
 export type TextTone =
   | 'ink'
@@ -24,6 +24,7 @@ export interface TextProps extends React.HTMLAttributes<HTMLElement> {
 
 const sizeStyles: Record<TextSize, string> = {
   sectionLead: 'text-section-lead',
+  cardCopy: 'text-card-copy',
   lead: 'text-body-lg',
   body: 'text-body',
   nav: 'text-nav',

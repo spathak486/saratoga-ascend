@@ -1,83 +1,100 @@
 'use client';
 
-import React, { useCallback } from 'react';
+import React from 'react';
 import { Section } from '../atoms';
 import {
   CAROUSEL_BLEED_CLASS,
   CAROUSEL_SLIDE_CLASS,
   CAROUSEL_VIEWPORT_CLASS,
-  getNearestSlideScrollLeft,
-  seekCarouselToRatio,
   useCardCarousel,
   useDragToScroll,
   useWheelToScroll,
 } from '../molecules/CardCarousel';
-import { CarouselProgressBar } from '../molecules/CarouselProgressBar';
-import { HealthcareFeatureCard } from '../molecules/HealthcareFeatureCard';
+import { CircleControl } from '../molecules/CircleControl';
+import {
+  HealthcareFeatureCard,
+  type HealthcareRoleSlide,
+} from '../molecules/HealthcareFeatureCard';
+import { SectionIntro } from '../molecules/SectionIntro';
 import { StaffingSlideCard } from '../molecules/StaffingSlideCard';
-import { useCarouselProgress } from '../molecules/useCarouselProgress';
 
-const STAFFING_SLIDES = [
+export interface HealthcareJobCard {
+  id: string;
+  title?: React.ReactNode;
+  body?: string;
+  imageSrc?: string;
+  href?: string;
+}
+
+const DEFAULT_JOBS: HealthcareJobCard[] = [
   { id: 'travel-1' },
   { id: 'travel-2' },
   { id: 'travel-3' },
   { id: 'travel-4' },
-  { id: 'travel-5' },
-  { id: 'travel-6' },
-  { id: 'travel-7' },
-  { id: 'travel-8' },
-] as const;
+];
 
 export interface HealthcareProgramsSectionProps {
+  title?: string;
+  description?: string;
   personSrc?: string;
+  heartSrc?: string;
+  ctaLabel?: string;
+  ctaHref?: string;
+  slides?: readonly HealthcareRoleSlide[];
+  jobs?: HealthcareJobCard[];
 }
 
 /**
- * Phase 5 — navy healthcare feature card, four travel-staffing photo
- * tiles, and the gradient progress bar (Figma node 13:222).
+ * Healthcare Programs — Figma 2002:1014. CMS fields are optional; missing
+ * values fall back locally so GraphQL / registry mapping never has to change.
  */
 export const HealthcareProgramsSection: React.FC<HealthcareProgramsSectionProps> = ({
+  title,
+  description,
   personSrc,
+  heartSrc,
+  ctaLabel,
+  ctaHref,
+  slides,
+  jobs,
 }) => {
-  const { viewportRef } = useCardCarousel({ loop: true });
-  const progress = useCarouselProgress(viewportRef);
+  const displayJobs = jobs && jobs.length > 0 ? jobs : DEFAULT_JOBS;
+  const { viewportRef, scrollNext } = useCardCarousel({ loop: true });
   const { isDragging, dragHandlers } = useDragToScroll(viewportRef);
   useWheelToScroll(viewportRef);
 
-  const seekTo = useCallback(
-    (ratio: number, smooth = false) => {
-      const viewport = viewportRef.current;
-      if (!viewport) return;
-      seekCarouselToRatio(viewport, ratio, smooth ? 'smooth' : 'auto');
-    },
-    [viewportRef]
-  );
-
-  const settleToNearestSlide = useCallback(() => {
-    const viewport = viewportRef.current;
-    if (!viewport) return;
-    viewport.style.scrollSnapType = 'none';
-    viewport.scrollTo({ left: getNearestSlideScrollLeft(viewport), behavior: 'smooth' });
-    window.setTimeout(() => {
-      viewport.style.scrollSnapType = '';
-    }, 400);
-  }, [viewportRef]);
-
   return (
     <Section
-      aria-label="Healthcare programs"
+      aria-labelledby={title ? 'healthcare-programs-heading' : undefined}
+      aria-label={title ? undefined : 'Healthcare programs'}
       tone="surface"
-      spacing="md"
-      className="bg-section-wash"
+      spacing="none"
+      className="bg-section-wash mt-10 py-10"
     >
-      <div className="flex flex-col">
-        <HealthcareFeatureCard personSrc={personSrc} />
+      <div className="flex flex-col gap-10">
+        {title || description ? (
+          <SectionIntro
+            id="healthcare-programs-heading"
+            title={title ?? ''}
+            description={description ?? ''}
+            wide
+            titleTone="inherit"
+            titleClassName="text-brand-cta-from"
+            descriptionSize="sectionLead"
+            descriptionStyle={{ color: 'var(--color-ink)' }}
+            className="gap-3"
+          />
+        ) : null}
 
-        {/* 40px gap between feature band and carousel cards on the artboard.
-            No arrows here — the cards drag with the mouse (or a finger) like
-            the touch swipe already did, and the progress bar below doubles
-            as a scrubber for anyone who'd rather click/drag a fixed point. */}
-        <div className="mt-10 flex flex-col gap-6">
+        <div className="flex flex-col gap-10">
+          <HealthcareFeatureCard
+            personSrc={personSrc}
+            heartSrc={heartSrc}
+            ctaLabel={ctaLabel}
+            ctaHref={ctaHref}
+            slides={slides}
+          />
+
           <div className="relative">
             <div className={CAROUSEL_BLEED_CLASS}>
               <div
@@ -90,29 +107,38 @@ export const HealthcareProgramsSection: React.FC<HealthcareProgramsSectionProps>
                 onDragStart={(event) => event.preventDefault()}
                 {...dragHandlers}
               >
-                <div className="-ml-grid flex">
-                  {STAFFING_SLIDES.map((slide) => (
+                <div className="-ml-6 flex">
+                  {displayJobs.map((job) => (
                     <div
-                      key={slide.id}
-                      className={`${CAROUSEL_SLIDE_CLASS} shrink-0 basis-[min(100%,25.125rem)] pl-grid sm:basis-[min(70%,25.125rem)] lg:basis-[min(42%,25.125rem)] xl:basis-[25.125rem]`}
+                      key={job.id}
+                      className={`${CAROUSEL_SLIDE_CLASS} shrink-0 basis-[min(100%,25.125rem)] pl-6 sm:basis-[min(70%,25.125rem)] lg:basis-[min(42%,25.125rem)] xl:basis-[25.125rem]`}
                       role="group"
                       aria-roledescription="slide"
                       data-carousel-slide
                     >
-                      <StaffingSlideCard />
+                      <StaffingSlideCard
+                        title={job.title}
+                        body={job.body}
+                        imageSrc={job.imageSrc}
+                        href={job.href}
+                      />
                     </div>
                   ))}
                 </div>
               </div>
             </div>
-          </div>
 
-          <CarouselProgressBar
-            progress={progress}
-            onScrub={(ratio) => seekTo(ratio)}
-            onSeek={(ratio) => seekTo(ratio, true)}
-            onScrubEnd={settleToNearestSlide}
-          />
+            {/* Figma Frame 5: 60×60 on the last visible card, y=125, 12px from its right. */}
+            <div className="pointer-events-none absolute inset-4 z-20">
+              <CircleControl
+                label="Next travel staffing card"
+                direction="next"
+                tone="jobCardArrow"
+                onClick={scrollNext}
+                className="pointer-events-auto absolute top-[27.78%] right-3"
+              />
+            </div>
+          </div>
         </div>
       </div>
     </Section>

@@ -1,7 +1,8 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import Image from 'next/image';
+import { motion, useReducedMotion } from 'motion/react';
 import { GeneralLink, Heading, MediaFrame, Text } from '../atoms';
 
 export interface HealthcareRoleSlide {
@@ -14,264 +15,206 @@ export interface HealthcareRoleSlide {
 const ROLE_BLURB =
   'Connecting cleared, credentialed healthcare professionals with government, military, and local facilities nationwide.';
 
+/** Figma Healthcare variants — copy only. Portraits come from backend props. */
 const DEFAULT_SLIDES: readonly HealthcareRoleSlide[] = [
-  {
-    category: 'Healthcare',
-    role: 'Medical Pharmacist',
-    blurb: ROLE_BLURB,
-  },
-  {
-    category: 'Healthcare',
-    role: 'Registered Nurse',
-    blurb: ROLE_BLURB,
-  },
-  {
-    category: 'Healthcare',
-    role: 'Physician',
-    blurb: ROLE_BLURB,
-  },
+  { category: 'Healthcare', role: 'Medical Pharmacist', blurb: ROLE_BLURB },
+  { category: 'Travel Staffing', role: 'Medical Pharmacist', blurb: ROLE_BLURB },
+  { category: 'Medicine', role: 'Medical Pharmacist', blurb: ROLE_BLURB },
 ];
 
-const SLIDE_MS = 400;
-const SLIDE_EASE = 'ease-[cubic-bezier(0.25,0.1,0.25,1)]';
-
-const INSET = 'clamp(1.25rem, 3.125vw, 3.75rem)';
-/* `display` is deliberately left out — Tailwind can't guarantee an unprefixed
-   `inline-flex` here loses to an unprefixed `hidden` at the call site (same
-   specificity, order depends on generation, not the className string), so
-   each responsive pill sets its own `hidden`/`inline-flex` pair explicitly. */
+const EXIT_MS = 780;
+const FADE_MS = 0.8;
+const AUTO_MS = 5500;
+const CIRCULAR_BG = '/images/circular-bg.gif';
+const FALLBACK_PERSON = '/images/phase5/phase5-nurse.png';
 const PILL =
-  'h-cta w-[11.25rem] min-w-[11.25rem] items-center justify-center gap-3 rounded-pill px-6 text-button font-medium text-brand-on-dark shadow-button';
-
-/** Horizontal drag past this many px counts as a swipe, not a scroll tap. */
+  'inline-flex h-[3.75rem] w-[11.25rem] items-center justify-center rounded-pill bg-brand-cta-to px-6 text-button font-medium text-white shadow-button hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-on-dark';
+const PORTRAIT_BOX =
+  'absolute top-4 left-1/2 h-[min(22rem,70vw)] w-[min(16rem,55vw)] -translate-x-1/2 xl:top-[-10px] xl:right-[9.52%] xl:left-auto xl:h-[152.57%] xl:w-[41.67%] xl:translate-x-0';
 const SWIPE_THRESHOLD_PX = 40;
+const EASE_ENTER = [0.16, 1, 0.3, 1] as const;
+const EASE_EXIT = [0.4, 0, 0.2, 1] as const;
+const EASE_FADE = [0.4, 0, 0.2, 1] as const;
+const REST = { x: 0, y: 0, scale: 1, opacity: 1 };
+const ENTER_FROM = { x: '28%', y: '-36%', scale: 0.92, opacity: 0 };
+const EXIT_LEFT = { x: '-46%', y: '8%', scale: 0.96, opacity: 0 };
+const EXIT_TOP_RIGHT = { x: '28%', y: '-36%', scale: 0.92, opacity: 0 };
+
+type NavDir = 1 | -1;
 
 export interface HealthcareFeatureCardProps {
   personSrc?: string;
-  location?: string;
-  /** Selectable cities for the location pill. Defaults to just the current
-   *  `location` — the menu still opens and behaves like a real listbox, it
-   *  just has one option until a real location list exists. */
-  locations?: readonly string[];
-  /** Role cards the prev/next controls step through. */
+  heartSrc?: string;
+  ctaLabel?: string;
+  ctaHref?: string;
   slides?: readonly HealthcareRoleSlide[];
 }
 
-interface LocationPickerProps {
-  location: string;
-  options: readonly string[];
-  wrapperClassName: string;
-  buttonClassName: string;
+function buildFrames(
+  slides: readonly HealthcareRoleSlide[] | undefined,
+  personSrc?: string
+): HealthcareRoleSlide[] {
+  const copySlides = slides && slides.length > 0 ? slides : DEFAULT_SLIDES;
+
+  return copySlides.map((slide) => ({
+    ...slide,
+    personSrc: slide.personSrc || personSrc,
+  }));
 }
 
-/** Accessible single-select listbox behind the "Chicago ⌄" pill — same
- *  markup for the desktop-absolute and mobile-inline placements. */
-const LocationPicker: React.FC<LocationPickerProps> = ({
-  location,
-  options,
-  wrapperClassName,
-  buttonClassName,
-}) => {
-  const [open, setOpen] = useState(false);
-  const [selected, setSelected] = useState(location);
-  const rootRef = useRef<HTMLDivElement | null>(null);
+function Portrait({ src }: { src: string }) {
+  return (
+    <MediaFrame
+      src={src}
+      alt=""
+      pendingLabel="healthcare-portrait.png"
+      tone="navyCard"
+      sizes="(max-width: 1280px) 55vw, 700px"
+      imageClassName="object-contain! object-bottom!"
+      className="size-full border-0 bg-transparent"
+    />
+  );
+}
 
-  useEffect(() => {
-    if (!open) return undefined;
-
-    const handlePointerDown = (event: MouseEvent) => {
-      if (rootRef.current && !rootRef.current.contains(event.target as Node)) {
-        setOpen(false);
-      }
-    };
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') setOpen(false);
-    };
-
-    document.addEventListener('mousedown', handlePointerDown);
-    document.addEventListener('keydown', handleKeyDown);
-    return () => {
-      document.removeEventListener('mousedown', handlePointerDown);
-      document.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [open]);
+function MotionPortrait({
+  src,
+  variant,
+  dir,
+  floating,
+  onComplete,
+}: {
+  src: string;
+  variant: 'enter' | 'exit';
+  dir: NavDir;
+  floating?: boolean;
+  onComplete?: () => void;
+}) {
+  const reduce = useReducedMotion();
+  const exitTarget = dir === 1 ? EXIT_LEFT : EXIT_TOP_RIGHT;
 
   return (
-    <div ref={rootRef} className={`relative ${wrapperClassName}`.trim()}>
-      <button
-        type="button"
-        className={buttonClassName}
-        aria-haspopup="listbox"
-        aria-expanded={open}
-        aria-label={`Location: ${selected}`}
-        onClick={() => setOpen((current) => !current)}
+    <div className={PORTRAIT_BOX}>
+      <motion.div
+        className="size-full"
+        initial={reduce ? REST : variant === 'enter' ? ENTER_FROM : REST}
+        animate={reduce ? REST : variant === 'exit' ? exitTarget : REST}
+        transition={
+          reduce
+            ? { duration: 0 }
+            : {
+                duration: variant === 'exit' ? 0.78 : 1.2,
+                ease: variant === 'exit' ? EASE_EXIT : EASE_ENTER,
+              }
+        }
+        onAnimationComplete={() => onComplete?.()}
       >
-        {selected}
-        <Image
-          src="/images/phase5/phase5-chevron-white.svg"
-          alt=""
-          width={16}
-          height={16}
-          aria-hidden
-          className={`size-4 shrink-0 transition-transform duration-150 motion-reduce:transition-none ${
-            open ? 'rotate-180' : ''
-          }`}
-        />
-      </button>
-
-      {open && (
-        <ul
-          role="listbox"
-          aria-label="Choose a location"
-          className="absolute top-[calc(100%+0.5rem)] left-0 z-10 min-w-[11.25rem] overflow-hidden rounded-[0.75rem] border border-brand-on-dark/25 bg-brand-navy-card py-1 text-button shadow-button"
+        <motion.div
+          className="size-full"
+          animate={reduce || !floating || variant === 'exit' ? { y: 0 } : { y: [0, -12, 0] }}
+          transition={
+            reduce || !floating || variant === 'exit'
+              ? { duration: 0 }
+              : { duration: 3.2, repeat: Infinity, ease: 'easeInOut' }
+          }
         >
-          {options.map((option) => (
-            <li key={option} role="option" aria-selected={option === selected}>
-              <button
-                type="button"
-                className={`flex w-full items-center px-4 py-2 text-left transition-colors duration-150 hover:bg-brand-on-dark/10 motion-reduce:transition-none ${
-                  option === selected ? 'text-brand-blue-soft' : 'text-brand-on-dark'
-                }`}
-                onClick={() => {
-                  setSelected(option);
-                  setOpen(false);
-                }}
-              >
-                {option}
-              </button>
-            </li>
-          ))}
-        </ul>
-      )}
+          <Portrait src={src} />
+        </motion.div>
+      </motion.div>
     </div>
   );
-};
-
-interface RoleSlidePanelProps {
-  slide: HealthcareRoleSlide;
-  personSrc?: string;
-  location: string;
-  locationOptions: readonly string[];
 }
 
-function RoleSlidePanel({
+function FadeCopy({
   slide,
-  personSrc,
-  location,
-  locationOptions,
-}: RoleSlidePanelProps) {
-  const resolvedPersonSrc =
-    slide.personSrc ?? personSrc ?? '/images/phase5/phase5-nurse.png';
+  fadingIn,
+}: {
+  slide: HealthcareRoleSlide;
+  fadingIn: boolean;
+}) {
+  const reduce = useReducedMotion();
 
   return (
-    <>
-      <p
-        className="pointer-events-none absolute top-[-1.625rem] left-1/2 hidden -translate-x-[12rem] font-serif text-[13.4rem] leading-[1.15] text-[#fffefe] opacity-10 select-none whitespace-nowrap xl:block"
-        aria-hidden="true"
-      >
-        {slide.category}
-      </p>
-
-      <div className="relative mx-auto mt-6 h-[min(22rem,70vw)] w-[min(16rem,55vw)] xl:absolute xl:top-[-10px] xl:right-[9.52%] xl:mx-0 xl:mt-0 xl:h-[152.57%] xl:w-[41.67%]">
-        <MediaFrame
-          src={resolvedPersonSrc}
-          alt=""
-          pendingLabel="healthcare-portrait.png"
-          tone="navyCard"
-          sizes="(max-width: 1280px) 55vw, 700px"
-          imageClassName="object-contain! object-bottom!"
-          className="size-full border-0 bg-transparent"
-        />
-      </div>
-
-      <div className="relative z-[2] flex flex-col px-[clamp(1.25rem,3.125vw,3.75rem)] pt-6 pb-8 xl:absolute xl:top-1/2 xl:left-[clamp(1.25rem,3.125vw,3.75rem)] xl:w-[min(36%,32rem)] xl:-translate-y-1/2 xl:p-0">
-        <LocationPicker
-          location={location}
-          options={locationOptions}
-          wrapperClassName="mb-8 xl:hidden"
-          buttonClassName={`${PILL} inline-flex border border-brand-on-dark bg-transparent`}
-        />
-
+    <motion.div
+      className="flex flex-col gap-[1.875rem]"
+      initial={reduce || !fadingIn ? { opacity: 1 } : { opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={reduce ? { duration: 0 } : { duration: FADE_MS, ease: EASE_FADE }}
+    >
+      <div className="flex flex-col gap-[1.875rem]">
         <Heading level={2} size="hero" tone="onDark" font="serif" className="text-[#fffefe]">
           {slide.category}
         </Heading>
-
-        <p className="mt-[clamp(0.75rem,1.5vw,1.25rem)] text-[clamp(1.125rem,1.46vw,1.75rem)] font-bold leading-[1.2] text-brand-blue-soft">
-          {slide.role}
-        </p>
-
-        <Text size="body" tone="onDark" className="mt-[clamp(0.75rem,1.25vw,1rem)] max-w-[36ch]">
-          {slide.blurb}
-        </Text>
-
-        <GeneralLink
-          href="/careers"
-          variant="unstyled"
-          className={`${PILL} inline-flex mt-8 bg-brand-cta-to hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-on-dark xl:hidden`}
-        >
-          Explore Jobs
-        </GeneralLink>
+        <p className="text-card-copy font-bold leading-[1.2] text-brand-blue-soft">{slide.role}</p>
       </div>
-    </>
+      <Text size="cardCopy" tone="onDark">
+        {slide.blurb}
+      </Text>
+    </motion.div>
   );
 }
 
 /**
- * Navy healthcare feature band (Figma node 13:224). Chicago and Explore Jobs
- * share the 60px inset and 180×60 pill size; the portrait is clipped to the
- * 700px stage rather than scaled to fit. Arrows slide roles sideways, same
- * motion as the What We Do service-line card.
+ * Hero carousel: backend portraits only. Content fades; images use the
+ * directional Motion enter/exit. CMS mapping stays in the parent.
  */
 export const HealthcareFeatureCard: React.FC<HealthcareFeatureCardProps> = ({
   personSrc,
-  location = 'Chicago',
-  locations,
-  slides = DEFAULT_SLIDES,
+  heartSrc = '/images/phase5/phase5-heart.png',
+  ctaLabel = 'Explore Jobs',
+  ctaHref = '/careers',
+  slides,
 }) => {
-  const locationOptions = locations ?? [location];
+  const frames = useMemo(() => buildFrames(slides, personSrc), [slides, personSrc]);
+  const canRotate = frames.length > 1;
+
   const [index, setIndex] = useState(0);
   const [fromIndex, setFromIndex] = useState<number | null>(null);
-  const [dir, setDir] = useState<1 | -1>(1);
-  const [moved, setMoved] = useState(false);
+  const [dir, setDir] = useState<NavDir>(1);
+  const [settled, setSettled] = useState(false);
   const touchStart = useRef<{ x: number; y: number } | null>(null);
 
-  const slide = slides[index];
+  const safeIndex = frames.length === 0 ? 0 : index % frames.length;
   const isSliding = fromIndex !== null;
+  const incoming = frames[safeIndex];
+  const outgoing = fromIndex !== null ? frames[fromIndex] : undefined;
+  const incomingSrc = incoming?.personSrc ?? (frames.length === 0 ? FALLBACK_PERSON : undefined);
+  const outgoingSrc = outgoing?.personSrc;
 
-  const step = (delta: 1 | -1) => {
-    if (isSliding || slides.length < 2) return;
+  const step = (delta: NavDir) => {
+    if (!canRotate || isSliding) return;
 
-    const next = (index + delta + slides.length) % slides.length;
+    const next = (safeIndex + delta + frames.length) % frames.length;
     const reduceMotion =
       typeof window !== 'undefined' &&
       window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+    setDir(delta);
+
     if (reduceMotion) {
       setIndex(next);
+      setSettled(true);
       return;
     }
 
-    setDir(delta);
-    setFromIndex(index);
+    setFromIndex(safeIndex);
     setIndex(next);
-    setMoved(false);
+    setSettled(false);
   };
 
   useEffect(() => {
     if (fromIndex === null) return undefined;
 
-    const id = window.requestAnimationFrame(() => {
-      window.requestAnimationFrame(() => setMoved(true));
-    });
-    return () => window.cancelAnimationFrame(id);
+    const timer = window.setTimeout(() => setFromIndex(null), EXIT_MS);
+    return () => window.clearTimeout(timer);
   }, [fromIndex]);
 
   useEffect(() => {
-    if (fromIndex === null || !moved) return undefined;
+    if (!canRotate || isSliding || !settled) return undefined;
 
-    const timer = window.setTimeout(() => setFromIndex(null), SLIDE_MS);
+    const timer = window.setTimeout(() => step(1), AUTO_MS);
     return () => window.clearTimeout(timer);
-  }, [fromIndex, moved]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [safeIndex, isSliding, canRotate, settled, frames.length]);
 
   const handleTouchStart = (event: React.TouchEvent) => {
     const touch = event.touches[0];
@@ -281,136 +224,140 @@ export const HealthcareFeatureCard: React.FC<HealthcareFeatureCardProps> = ({
   const handleTouchEnd = (event: React.TouchEvent) => {
     const start = touchStart.current;
     touchStart.current = null;
-    if (!start) return;
+    if (!start || !canRotate) return;
 
     const touch = event.changedTouches[0];
     const dx = touch.clientX - start.x;
     const dy = touch.clientY - start.y;
-
-    /* A mostly-vertical drag is a page scroll, not a slide swipe. */
     if (Math.abs(dx) < SWIPE_THRESHOLD_PX || Math.abs(dx) < Math.abs(dy)) return;
 
     step(dx < 0 ? 1 : -1);
   };
 
-  const panelProps = {
-    personSrc,
-    location,
-    locationOptions,
-  };
-
-  const slideClass = `absolute inset-0 transition-transform duration-[400ms] ${SLIDE_EASE} motion-reduce:transition-none`;
+  if (!incoming || !incomingSrc) return null;
 
   return (
     <article
-      className="relative overflow-hidden rounded-card bg-brand-navy-band text-brand-on-dark xl:aspect-[1680/700]"
+      className="relative overflow-hidden rounded-frame border border-brand-line xl:aspect-[1680/700]"
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
+      <div className="pointer-events-none absolute inset-0 overflow-hidden bg-brand-navy-band" aria-hidden="true">
+        <img
+          src={CIRCULAR_BG}
+          alt=""
+          className="absolute inset-0 size-full object-cover motion-reduce:invisible"
+        />
+      </div>
+
+      <div className="pointer-events-none absolute inset-0 z-[1] overflow-hidden" aria-hidden="true">
+        {outgoingSrc ? (
+          <MotionPortrait key={`out-${fromIndex}`} src={outgoingSrc} variant="exit" dir={dir} />
+        ) : null}
+        <MotionPortrait
+          key={`in-${safeIndex}`}
+          src={incomingSrc}
+          variant="enter"
+          dir={dir}
+          floating={settled && !isSliding}
+          onComplete={() => setSettled(true)}
+        />
+      </div>
+
       <div
-        className="pointer-events-none absolute inset-0 hidden overflow-hidden rounded-card xl:block"
+        className="pointer-events-none absolute top-[calc(50%-26.47rem)] right-[1.5rem] z-[2] hidden h-[6.8125rem] w-[4.8125rem] xl:block"
         aria-hidden="true"
       >
-        <img
-          src="/images/Mask group-healthcare.png"
-          alt=""
-          className="animate-bg-drift absolute inset-0 size-full object-cover motion-reduce:animate-none"
-        />
-      </div>
-
-      <div className="absolute z-[2] hidden xl:block" style={{ top: INSET, left: INSET }}>
-        <LocationPicker
-          location={location}
-          options={locationOptions}
-          wrapperClassName=""
-          buttonClassName={`${PILL} inline-flex border border-brand-on-dark bg-transparent`}
-        />
-      </div>
-
-      <GeneralLink
-        href="/careers"
-        variant="unstyled"
-        className={`${PILL} absolute z-[2] hidden bg-brand-cta-to hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-on-dark xl:inline-flex`}
-        style={{ bottom: INSET, left: INSET }}
-      >
-        Explore Jobs
-      </GeneralLink>
-
-      <div
-        className="relative overflow-hidden xl:absolute xl:inset-0"
-        role="group"
-        aria-roledescription="carousel"
-        aria-label="Healthcare roles"
-        aria-live="polite"
-      >
-        <div className={isSliding ? 'invisible' : ''}>
-          <RoleSlidePanel
-            slide={fromIndex !== null ? slides[fromIndex] : slide}
-            {...panelProps}
-          />
-        </div>
-
-        {isSliding && fromIndex !== null && (
-          <>
-            <div
-              className={`${slideClass} ${
-                moved
-                  ? dir === 1
-                    ? '-translate-x-full'
-                    : 'translate-x-full'
-                  : 'translate-x-0'
-              }`}
-              aria-hidden="true"
-            >
-              <RoleSlidePanel slide={slides[fromIndex]} {...panelProps} />
-            </div>
-            <div
-              className={`${slideClass} ${
-                moved
-                  ? 'translate-x-0'
-                  : dir === 1
-                    ? 'translate-x-full'
-                    : '-translate-x-full'
-              }`}
-            >
-              <RoleSlidePanel slide={slide} {...panelProps} />
-            </div>
-          </>
-        )}
-      </div>
-
-      <button
-        type="button"
-        onClick={() => step(-1)}
-        aria-label="Previous healthcare role"
-        className="absolute top-1/2 left-[calc(50%-5.625rem)] z-[3] hidden size-[3.75rem] -translate-y-1/2 cursor-pointer transition-transform duration-150 hover:scale-105 active:scale-95 motion-reduce:transition-none motion-reduce:hover:scale-100 xl:block"
-      >
         <Image
-          src="/images/phase5/phase5-feature-prev.svg"
+          src={heartSrc}
           alt=""
-          width={60}
-          height={60}
-          aria-hidden
-          className="size-full"
+          width={77}
+          height={109}
+          className="animate-heart-float size-full object-contain motion-reduce:animate-none"
         />
-      </button>
-      <button
-        type="button"
-        onClick={() => step(1)}
-        aria-label="Next healthcare role"
-        className="absolute top-1/2 right-[clamp(1.25rem,3.125vw,3.75rem)] z-[3] hidden size-[3.75rem] -translate-y-1/2 cursor-pointer transition-transform duration-150 hover:scale-105 active:scale-95 motion-reduce:transition-none motion-reduce:hover:scale-100 xl:block"
-      >
-        <span className="flex size-full -scale-y-100 rotate-180">
-          <Image
-            src="/images/phase5/phase5-feature-next.svg"
-            alt=""
-            width={60}
-            height={60}
-            aria-hidden
-            className="size-full"
-          />
-        </span>
-      </button>
+      </div>
+
+      <div className="relative z-[2] min-h-[28rem] xl:absolute xl:inset-0 xl:min-h-0">
+        <p
+          className="pointer-events-none absolute top-0 left-[38.5%] hidden h-[1em] font-serif text-[13.375rem] leading-[1.15] text-[#fffefe] opacity-10 select-none whitespace-nowrap xl:block"
+          aria-hidden="true"
+        >
+          {outgoing ? (
+            <motion.span
+              className="absolute inset-0"
+              initial={{ opacity: 1 }}
+              animate={{ opacity: 0 }}
+              transition={{ duration: FADE_MS, ease: EASE_FADE }}
+            >
+              {outgoing.category}
+            </motion.span>
+          ) : null}
+          <motion.span
+            key={`wm-${safeIndex}`}
+            className="absolute inset-0"
+            initial={isSliding ? { opacity: 0 } : { opacity: 1 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: FADE_MS, ease: EASE_FADE }}
+          >
+            {incoming.category}
+          </motion.span>
+        </p>
+        <div className="relative z-[2] flex h-full max-w-[44.875rem] flex-col justify-center gap-[1.875rem] px-6 py-8 xl:px-10 xl:py-5">
+          <div className="relative">
+            {outgoing ? (
+              <motion.div
+                className="absolute inset-0"
+                initial={{ opacity: 1 }}
+                animate={{ opacity: 0 }}
+                transition={{ duration: FADE_MS, ease: EASE_FADE }}
+              >
+                <FadeCopy slide={outgoing} fadingIn={false} />
+              </motion.div>
+            ) : null}
+            <FadeCopy slide={incoming} fadingIn={isSliding} />
+          </div>
+          <GeneralLink href={ctaHref} variant="unstyled" className={PILL}>
+            {ctaLabel}
+          </GeneralLink>
+        </div>
+      </div>
+
+      {canRotate ? (
+        <>
+          <button
+            type="button"
+            onClick={() => step(-1)}
+            aria-label="Previous healthcare slide"
+            className="absolute top-1/2 left-[calc(50%-5.625rem)] z-[3] hidden size-[3.75rem] -translate-y-1/2 cursor-pointer transition-transform duration-150 hover:scale-105 active:scale-95 motion-reduce:transition-none motion-reduce:hover:scale-100 xl:block"
+          >
+            <Image
+              src="/images/phase5/phase5-feature-prev.svg"
+              alt=""
+              width={60}
+              height={60}
+              aria-hidden
+              className="size-full"
+            />
+          </button>
+          <button
+            type="button"
+            onClick={() => step(1)}
+            aria-label="Next healthcare slide"
+            className="absolute top-1/2 right-10 z-[3] hidden size-[3.75rem] -translate-y-1/2 cursor-pointer transition-transform duration-150 hover:scale-105 active:scale-95 motion-reduce:transition-none motion-reduce:hover:scale-100 xl:block"
+          >
+            <span className="flex size-full -scale-y-100 rotate-180">
+              <Image
+                src="/images/phase5/phase5-feature-next.svg"
+                alt=""
+                width={60}
+                height={60}
+                aria-hidden
+                className="size-full"
+              />
+            </span>
+          </button>
+        </>
+      ) : null}
     </article>
   );
 };

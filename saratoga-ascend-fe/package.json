@@ -13,6 +13,7 @@
   "dependencies": {
     "@radix-ui/react-navigation-menu": "^1.2.22",
     "embla-carousel-react": "^8.6.0",
+    "motion": "^13.4.4",
     "next": "16.3.1",
     "react": "19.2.8",
     "react-dom": "19.2.8",

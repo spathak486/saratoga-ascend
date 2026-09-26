@@ -11,54 +11,50 @@ export interface ServiceLine {
   blurb: string;
   features: string[];
   href: string;
+  /** Optional left-card photo for this slide. Falls back to the section photo. */
+  imageSrc?: string;
+}
+
+export interface ServiceLineSlide {
+  index: number;
+  fromIndex: number | null;
+  dir: 1 | -1;
+  moved: boolean;
+  step: (delta: 1 | -1) => void;
 }
 
 export interface ServiceLineCardProps {
   lines: ServiceLine[];
+  slide: ServiceLineSlide;
 }
 
-const SLIDE_MS = 400;
-const SLIDE_EASE = 'ease-[cubic-bezier(0.25,0.1,0.25,1)]';
+/** Figma dissolve — opacity only, no slide. */
+export const SLIDE_MS = 800;
+export const SLIDE_EASE = 'ease-[cubic-bezier(0.4,0,0.2,1)]';
 
-function SlideBody({ line }: { line: ServiceLine }) {
-  return (
-    <div className="flex flex-col gap-[1.875rem]">
-      <Heading level={3} size="feature" tone="ink">
-        {line.heading}
-      </Heading>
-
-      <div className="flex flex-col gap-5">
-        <Text size="body" tone="navy" className="text-card-copy">
-          {line.blurb}
-        </Text>
-
-        <ul className="flex flex-col gap-4">
-          {line.features.map((feature) => (
-            <ServiceFeatureRow key={feature} label={feature} />
-          ))}
-        </ul>
-      </div>
-    </div>
-  );
+export function slidePaneClass(kind: 'outgoing' | 'incoming', _dir: 1 | -1, moved: boolean) {
+  const base = `absolute inset-0 transition-opacity duration-[800ms] ${SLIDE_EASE} motion-reduce:transition-none`;
+  if (kind === 'outgoing') {
+    return `${base} ${moved ? 'opacity-0' : 'opacity-100'}`;
+  }
+  return `${base} z-10 ${moved ? 'opacity-100' : 'opacity-0'}`;
 }
 
 /**
- * Centre card on the What We Do band. Arrows slide service lines sideways
- * inside the card so the three-column grid never shifts.
+ * Shared What We Do carousel so the left photo and middle copy stay in lockstep.
  */
-export const ServiceLineCard: React.FC<ServiceLineCardProps> = ({ lines }) => {
+export function useServiceLineSlide(length: number): ServiceLineSlide {
   const [index, setIndex] = useState(0);
   const [fromIndex, setFromIndex] = useState<number | null>(null);
   const [dir, setDir] = useState<1 | -1>(1);
   const [moved, setMoved] = useState(false);
 
-  const line = lines[index];
   const isSliding = fromIndex !== null;
 
   const step = (delta: 1 | -1) => {
-    if (isSliding) return;
+    if (length < 2 || isSliding) return;
 
-    const next = (index + delta + lines.length) % lines.length;
+    const next = (index + delta + length) % length;
     const reduceMotion =
       typeof window !== 'undefined' &&
       window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -90,10 +86,52 @@ export const ServiceLineCard: React.FC<ServiceLineCardProps> = ({ lines }) => {
     return () => window.clearTimeout(timer);
   }, [fromIndex, moved]);
 
-  const slideClass = `absolute inset-0 flex flex-col transition-transform duration-[400ms] ${SLIDE_EASE} motion-reduce:transition-none`;
+  useEffect(() => {
+    if (length === 0) {
+      setIndex(0);
+      return;
+    }
+    if (index >= length) setIndex(0);
+  }, [index, length]);
+
+  return { index, fromIndex, dir, moved, step };
+}
+
+function SlideBody({ line }: { line: ServiceLine }) {
+  return (
+    <div className="flex flex-col gap-[1.875rem]">
+      <Heading level={3} size="feature" tone="ink" className="text-ink">
+        {line.heading}
+      </Heading>
+
+      <div className="flex flex-col gap-5">
+        <Text size="cardCopy" tone="navy">
+          {line.blurb}
+        </Text>
+
+        <ul className="flex flex-col gap-4">
+          {line.features.map((feature) => (
+            <ServiceFeatureRow key={feature} label={feature} />
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+}
+
+/**
+ * Centre card on the What We Do band. Slide state is owned by the section
+ * so the left photo can move on the same beat.
+ */
+export const ServiceLineCard: React.FC<ServiceLineCardProps> = ({ lines, slide }) => {
+  const { index, fromIndex, dir, moved, step } = slide;
+  const line = lines[index];
+  const isSliding = fromIndex !== null;
+
+  if (!line) return null;
 
   return (
-    <article className="flex h-full min-h-0 flex-col gap-[1.875rem] rounded-frame border border-brand-line bg-brand-surface p-5 xl:min-h-[39.625rem]">
+    <article className="flex h-full min-h-0 flex-col gap-[1.875rem] rounded-frame border border-brand-line bg-white p-5 xl:min-h-[39.625rem]">
       <div
         className="relative min-h-0 flex-1 overflow-hidden"
         role="group"
@@ -107,27 +145,10 @@ export const ServiceLineCard: React.FC<ServiceLineCardProps> = ({ lines }) => {
 
         {isSliding && (
           <>
-            <div
-              className={`${slideClass} ${
-                moved
-                  ? dir === 1
-                    ? '-translate-x-full'
-                    : 'translate-x-full'
-                  : 'translate-x-0'
-              }`}
-              aria-hidden="true"
-            >
+            <div className={`${slidePaneClass('outgoing', dir, moved)} flex flex-col`} aria-hidden="true">
               <SlideBody line={lines[fromIndex]} />
             </div>
-            <div
-              className={`${slideClass} ${
-                moved
-                  ? 'translate-x-0'
-                  : dir === 1
-                    ? 'translate-x-full'
-                    : '-translate-x-full'
-              }`}
-            >
+            <div className={`${slidePaneClass('incoming', dir, moved)} flex flex-col`}>
               <SlideBody line={line} />
             </div>
           </>
@@ -147,7 +168,7 @@ export const ServiceLineCard: React.FC<ServiceLineCardProps> = ({ lines }) => {
           href={line.href}
           shape="pill"
           showArrow={false}
-          className="h-12 min-w-0 flex-1 justify-center px-4 sm:h-[3.75rem] sm:w-[11.25rem] sm:max-w-[11.25rem] sm:min-w-[11.25rem] sm:flex-none sm:px-6 sm:py-4"
+          className="h-auto min-h-0 min-w-0 flex-1 justify-center px-6 py-3 font-bold sm:flex-none sm:px-6 sm:py-3"
         >
           Learn More
         </CtaButton>

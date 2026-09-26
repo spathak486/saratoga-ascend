@@ -31,6 +31,7 @@ export interface SectionIntroProps {
   descriptionSize?: TextSize;
   /** Drop the 44rem heading cap so the title/lede can span the row. */
   wide?: boolean;
+  className?: string;
 }
 
 /**
@@ -49,11 +50,12 @@ export const SectionIntro: React.FC<SectionIntroProps> = ({
   titleClassName = '',
   descriptionSize = 'body',
   wide = false,
+  className = 'gap-block',
 }) => (
   <div
-    className={`flex min-w-0 flex-col gap-block lg:flex-row lg:justify-between ${
+    className={`flex min-w-0 flex-col lg:flex-row lg:justify-between ${
       align === 'center' ? 'lg:items-center' : 'lg:items-end'
-    }`}
+    } ${className}`}
   >
     <div className={`flex min-w-0 flex-col gap-3 ${wide ? 'flex-1' : 'max-w-[44rem]'}`}>
       <Heading

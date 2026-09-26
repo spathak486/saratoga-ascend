@@ -38,6 +38,7 @@ const MOCK_WHAT_WE_DO_LINES = [
       'Regulatory Compliance',
     ],
     href: '/solutions',
+    imageSrc: '/images/what-we-do-doctor.png',
   },
   {
     heading: 'Staffing',
@@ -45,27 +46,47 @@ const MOCK_WHAT_WE_DO_LINES = [
       'Cleared, credentialed clinicians placed with federal, military, and community facilities.',
     features: ['Travel and locums coverage', 'Rapid credentialing', '24/7 program support'],
     href: '/solutions',
+    imageSrc: '/images/healthcare-team.png',
   },
   {
     heading: 'Consulting',
     blurb: 'Program design and workforce strategy for government healthcare missions.',
     features: ['Compliance-first delivery', 'On-site and remote teams', 'Mission-ready surge'],
     href: '/solutions',
+    imageSrc: '/images/pharmacist-portrait.png',
   },
 ];
 
+const HAPPY_CLIENT_PHOTOS = [
+  '/images/healthcare-team.png',
+  '/images/pharmacist-portrait.png',
+  '/images/future-doctor.png',
+] as const;
+
 const MOCK_HAPPY_CLIENTS = [
   {
-    role: 'Chief Medical Officer',
-    name: 'Dr. Elena Hart',
-    place: 'Naval Hospital, NC',
+    role: 'Certified Nursing Assistant',
+    name: 'Izabella-Naval Hospital,',
+    place: 'Lejeune- Family Medicine',
     quote:
-      'Saratoga Ascend filled critical roles in days, not months — and every clinician arrived fully cleared.',
-    photos: [
-      '/images/healthcare-team.png',
-      '/images/pharmacist-portrait.png',
-      '/images/future-doctor.png',
-    ] as const,
+      '“After 20+ years in pharmacy, this is the best place I’ve ever worked! I’m proud to serve our military community, enjoy competitive pay, flexible time off, and a true sense of purpose.”',
+    photos: HAPPY_CLIENT_PHOTOS,
+  },
+  {
+    role: 'Medical Assistant',
+    name: 'Camp Lejeune',
+    place: 'Primary Care',
+    quote:
+      '“Every day brings something new, and I love being part of a team that truly cares. The people, the mission, and the opportunity to grow make this a rewarding place to build my career.”',
+    photos: HAPPY_CLIENT_PHOTOS,
+  },
+  {
+    role: 'Pharmacy Technician',
+    name: 'Naval Hospital',
+    place: 'Pharmacy Services',
+    quote:
+      '“I’ve found more than just a job here—I’ve found a team that values what I bring to the table. The supportive environment and meaningful work make coming to work every day something I’m proud of.”',
+    photos: HAPPY_CLIENT_PHOTOS,
   },
 ];
 
@@ -266,7 +287,12 @@ export const SECTION_REGISTRY: Record<
     />
   ),
   MockHealthcare: (_section, index) => (
-    <HealthcareProgramsSection key={`healthcare-${index}`} personSrc="/images/phase5/phase5-nurse.png" />
+    <HealthcareProgramsSection
+      key={`healthcare-${index}`}
+      title="Lorem epsum"
+      description="Simple ideas can have profound impacts. Understanding users leads to better solutions. Each project teaches valuable lessons."
+      personSrc="/images/phase5/phase5-nurse.png"
+    />
   ),
   MockContractVehicles: (_section, index) => (
     <ContractVehiclesSection key={`contract-vehicles-${index}`} />
@@ -278,6 +304,7 @@ export const SECTION_REGISTRY: Record<
     <HappyClientsSection
       key={`happy-clients-${index}`}
       title="Our Happy Clients"
+      description="Success is built on consistent effort."
       reviews={MOCK_HAPPY_CLIENTS}
     />
   ),

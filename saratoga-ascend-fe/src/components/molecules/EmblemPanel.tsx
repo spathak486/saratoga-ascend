@@ -21,7 +21,7 @@ export const EmblemPanel: React.FC<EmblemPanelProps> = ({
   videoSrc,
   paragraphs = [...DEFAULT_COPY],
 }) => (
-  <aside className="flex h-full min-h-0 flex-col overflow-hidden rounded-frame border border-brand-line bg-brand-surface xl:min-h-[39.625rem]">
+  <aside className="flex h-full min-h-0 flex-col overflow-hidden rounded-frame border border-brand-line bg-white xl:min-h-[39.625rem]">
     {videoSrc ? (
       <div className="relative aspect-[502/284.5] w-full overflow-hidden bg-ink">
         <video
@@ -52,7 +52,7 @@ export const EmblemPanel: React.FC<EmblemPanelProps> = ({
 
     <div className="flex flex-1 items-start px-5 py-[1.875rem]">
       {paragraphs.map((paragraph) => (
-        <Text key={paragraph} size="body" tone="navy" className="text-card-copy">
+        <Text key={paragraph} size="cardCopy" tone="navy">
           {paragraph}
         </Text>
       ))}

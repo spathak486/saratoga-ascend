@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Image from 'next/image';
-import { Container, MediaFrame } from '../atoms';
+import { Container } from '../atoms';
 import {
   AchievementGlassCard,
   type AchievementGlassCardProps,
@@ -11,13 +11,20 @@ import {
   CAROUSEL_SLIDE_CLASS,
   useCardCarousel,
 } from '../molecules/CardCarousel';
-import { CountUpStat, useInViewOnce } from '../molecules/CountUpStat';
+import { CountUpStat } from '../molecules/CountUpStat';
 import type { StrapiImage } from '@/lib/schemas';
 
 /** Exactly two plates fill the desktop viewport (one gutter between them).
  *  2px inset on each slide keeps the white stroke inside the overflow clip. */
-const TWO_UP_SLIDE_CLASS = `${CAROUSEL_SLIDE_CLASS} box-border shrink-0 basis-[calc((100%-1.5rem)/2)] p-[2px]`;
-const ONE_UP_SLIDE_CLASS = `${CAROUSEL_SLIDE_CLASS} box-border shrink-0 basis-full p-[2px] md:basis-[calc((100%-1.5rem)/2)]`;
+/** 828 + 21 + 828 inside the 1677px track (Figma 2002:1047 / 2002:1053). */
+const CARD_GAP = '1.3125rem';
+const TWO_UP_SLIDE_CLASS = `${CAROUSEL_SLIDE_CLASS} box-border shrink-0 basis-[calc((100%-1.3125rem)/2)] p-[2px]`;
+const ONE_UP_SLIDE_CLASS = `${CAROUSEL_SLIDE_CLASS} box-border shrink-0 basis-full p-[2px] md:basis-[calc((100%-1.3125rem)/2)]`;
+const ACHIEVEMENT_BG = '/images/bg-achievements.gif';
+
+function isPlacementStat(label: string) {
+  return /placement/i.test(label);
+}
 
 /** Same white 60×60 circular control as the Healthcare feature carousel
  *  (`phase5-feature-prev.svg`) — both directions load the one asset, and
@@ -58,28 +65,20 @@ function BandArrow({
   );
 }
 
-function Backdrop({ bgSrc }: { bgSrc?: string }) {
-  const imageSource = bgSrc || '/images/achievements-bg.jpg';
+function Backdrop() {
   return (
     <>
-      <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
-        <div className="absolute top-[-13.58%] left-[-3.88%] h-[121.4%] w-[108.73%]">
-          <MediaFrame
-            src={imageSource}
-            alt=""
-            pendingLabel="achievements-backdrop"
-            tone="navy"
-            sizes="100vw"
-            imageClassName="animate-bg-drift object-cover! motion-reduce:animate-none"
-            className="size-full border-0"
-          />
-        </div>
-      </div>
+      <img
+        src={ACHIEVEMENT_BG}
+        alt=""
+        className="pointer-events-none absolute inset-0 size-full object-cover"
+        aria-hidden="true"
+      />
       <div
         className="absolute inset-0"
         style={{
           background:
-            'linear-gradient(246.37deg, rgba(15, 61, 96, 0.8) 29.33%, rgba(240, 20, 36, 0.8) 100%)',
+            'linear-gradient(237.8deg, rgba(15, 61, 96, 0.8) 29.327%, rgba(240, 20, 36, 0.8) 100%)',
         }}
         aria-hidden="true"
       />
@@ -118,7 +117,7 @@ function AwardsTrack({
         }
       }}
     >
-      <div className="flex gap-grid">
+      <div className="flex" style={{ gap: CARD_GAP }}>
         {slides.map((slide) => (
           <div
             key={slide.key}
@@ -166,21 +165,18 @@ export interface OurAchievementsSectionProps {
 }
 
 /**
- * Seventh-last homepage band (Figma node 1:394). Locked 1920×1080 stage:
- * clinical photo, 232° navy-to-red wash, two 828×538 glass plates, 120px
- * numerals, and 60px arrows in the page gutter. Cards slide on the same
- * snap track as Past Performance — no fade.
+ * Achievements band (Figma 2002:1028), 1920×1334. The CMS still supplies
+ * title, counters, and cards. The backdrop is the local GIF; `bgImage` stays
+ * on the props so the registry query is unchanged. Only a Placements counter
+ * uses the Numbers1 hover reel.
  */
 export const OurAchievementsSection: React.FC<OurAchievementsSectionProps> = ({
   title,
-  bgImage,
   counters,
   cards,
 }) => {
   const desktop = useCardCarousel({ loop: true });
   const mobile = useCardCarousel({ loop: true });
-  const { ref: desktopStatsRef, inView: isDesktopStatsInView } = useInViewOnce<HTMLDivElement>(0.45);
-  const { ref: mobileStatsRef, inView: isMobileStatsInView } = useInViewOnce<HTMLDListElement>(0.4);
 
   const headingText = title?.trim() ? title : 'Our Achievements';
 
@@ -248,17 +244,17 @@ export const OurAchievementsSection: React.FC<OurAchievementsSectionProps> = ({
         {headingText}
       </h2>
 
-      <div className="relative hidden aspect-[1920/1080] w-full xl:block">
-        <Backdrop bgSrc={bgImage ?? undefined} />
+      <div className="relative hidden aspect-[1920/1334] w-full xl:block">
+        <Backdrop />
 
         <p
           aria-hidden="true"
-          className="absolute top-[7.41%] left-1/2 -translate-x-1/2 font-serif text-section whitespace-nowrap text-white"
+          className="absolute top-[5.997%] left-1/2 -translate-x-1/2 font-serif text-section leading-[1.2] whitespace-nowrap text-white"
         >
           {headingText}
         </p>
 
-        <div className="absolute top-[20.93%] left-[6.41%] w-[87.34%] overflow-visible">
+        <div className="absolute top-[16.942%] left-[6.406%] w-[87.344%] overflow-visible">
           <AwardsTrack
             viewportRef={desktop.viewportRef}
             slideClassName={TWO_UP_SLIDE_CLASS}
@@ -268,20 +264,21 @@ export const OurAchievementsSection: React.FC<OurAchievementsSectionProps> = ({
           />
         </div>
 
-        <div
-          ref={desktopStatsRef}
-          className="absolute inset-x-0 top-[78%] h-[18%]"
-        >
-          <dl className="mx-auto flex h-full max-w-[1500px] items-center justify-around px-8">
+        <div className="absolute top-[75.112%] left-[6.25%] w-[87.5%]">
+          <dl className="flex items-start justify-between">
             {resolvedStats.map((stat, idx) => (
               <div
                 key={`${stat.label}-${idx}`}
-                className="flex flex-col items-center justify-center text-center"
+                className="flex flex-col items-center text-center"
               >
-                <dd className="font-serif text-numeral leading-none text-white">
-                  <CountUpStat value={stat.value} active={isDesktopStatsInView} />
+                <dd className="font-serif text-numeral text-white">
+                  {isPlacementStat(stat.label) ? (
+                    <CountUpStat value={stat.value} />
+                  ) : (
+                    stat.value
+                  )}
                 </dd>
-                <dt className="mt-2 text-stat-label font-medium whitespace-nowrap text-white">
+                <dt className="mt-1.5 font-sans text-stat-label font-medium whitespace-nowrap text-white">
                   {stat.label}
                 </dt>
               </div>
@@ -292,22 +289,22 @@ export const OurAchievementsSection: React.FC<OurAchievementsSectionProps> = ({
         <BandArrow
           direction="prev"
           onClick={desktop.scrollPrev}
-          className="absolute inset-[43.06%_95.26%_51.39%_1.61%] z-10"
+          className="absolute inset-[34.86%_95.26%_60.64%_1.61%] z-10"
         />
         <BandArrow
           direction="next"
           onClick={desktop.scrollNext}
-          className="absolute inset-[43.06%_1.46%_51.39%_95.42%] z-10"
+          className="absolute inset-[34.86%_1.458%_60.64%_95.417%] z-10"
         />
       </div>
 
       <div className="relative xl:hidden">
-        <Backdrop bgSrc={bgImage ?? undefined} />
+        <Backdrop />
 
         <Container className="relative py-10 sm:py-section">
           <p
             aria-hidden="true"
-            className="text-center font-serif text-section text-balance text-white"
+            className="text-center font-serif text-section leading-[1.2] text-balance text-white"
           >
             {headingText}
           </p>
@@ -335,19 +332,19 @@ export const OurAchievementsSection: React.FC<OurAchievementsSectionProps> = ({
             />
           </div>
 
-          <dl
-            ref={mobileStatsRef}
-            className="mt-block grid grid-cols-2 gap-x-4 gap-y-8 text-center text-white"
-          >
+          <dl className="mt-block grid grid-cols-2 gap-x-4 gap-y-8 text-center text-white">
             {resolvedStats.map((stat, idx) => (
               <div key={`${stat.label}-${idx}`} className="min-w-0">
-                <dt className="sr-only">{stat.label}</dt>
-                <dd className="font-serif text-[clamp(2.25rem,12vw,4.5rem)] leading-none">
-                  <CountUpStat value={stat.value} active={isMobileStatsInView} />
+                <dd className="font-serif text-[clamp(2.25rem,12vw,7.5rem)] leading-[1.125]">
+                  {isPlacementStat(stat.label) ? (
+                    <CountUpStat value={stat.value} />
+                  ) : (
+                    stat.value
+                  )}
                 </dd>
-                <p className="mt-2 text-[clamp(0.875rem,3.2vw,1.5rem)] font-medium">
+                <dt className="mt-1.5 font-sans text-[clamp(0.875rem,3.2vw,2rem)] font-medium">
                   {stat.label}
-                </p>
+                </dt>
               </div>
             ))}
           </dl>

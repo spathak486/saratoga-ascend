@@ -36,8 +36,9 @@ function Badge({
 }
 
 /**
- * Figma node 1:414 — 828×538 frosted plate on desktop. Below `xl` the same
- * content stacks so the year, seal and 60px title stay readable.
+ * Figma 2002:1047 — 828×713 frosted plate. Year and seal sit 60px in from the
+ * top and sides; the 60px title and 24px body follow. Below `xl` the same
+ * content stacks.
  */
 export const AchievementGlassCard: React.FC<AchievementGlassCardProps> = ({
   year,
@@ -50,11 +51,11 @@ export const AchievementGlassCard: React.FC<AchievementGlassCardProps> = ({
   const cleanBody = typeof body === 'string' ? body.replace(/<[^>]*>/g, '').trim() : body;
 
   return (
-    <article className="relative w-full rounded-panel border-2 border-white bg-ink/10 backdrop-blur-[12px] xl:aspect-[828/538]">
+    <article className="relative w-full rounded-panel border-2 border-white bg-ink/10 backdrop-blur-[12px] xl:aspect-[828/713]">
       <div className="size-full overflow-hidden rounded-[inherit]">
         <div className="flex flex-col gap-4 p-5 sm:p-6 xl:hidden">
           <div className="flex items-start justify-between gap-4">
-            <p className="pt-1 font-bold leading-[1.2] text-[clamp(1.125rem,4vw,1.5rem)] text-white">
+            <p className="pt-1 font-sans text-[clamp(1.125rem,4vw,1.75rem)] font-bold leading-[1.2] text-white">
               {year}
             </p>
             <Badge
@@ -73,10 +74,10 @@ export const AchievementGlassCard: React.FC<AchievementGlassCardProps> = ({
             {title}
           </Heading>
 
-          <p className="text-body font-medium text-white">{cleanBody}</p>
+          <p className="font-sans text-body-lg font-medium leading-[1.6] text-white">{cleanBody}</p>
         </div>
 
-        <p className="absolute top-[11.15%] left-[7.25%] hidden font-bold leading-[1.2] text-[clamp(1.125rem,0.974rem+0.647vw,1.75rem)] text-white xl:block">
+        <p className="absolute top-[8.415%] left-[7.246%] hidden font-sans text-[clamp(1.125rem,0.974rem+0.647vw,1.75rem)] font-bold leading-[1.2] text-white xl:block">
           {year}
         </p>
 
@@ -86,8 +87,8 @@ export const AchievementGlassCard: React.FC<AchievementGlassCardProps> = ({
           shape={badgeShape}
           className={
             badgeShape === 'round'
-              ? 'absolute top-[11.15%] right-[7.25%] hidden aspect-square h-[46.47%] overflow-hidden rounded-full shadow-[5.37px_4.6px_11.5px_3.83px_rgb(0_0_0/0.25)] xl:block'
-              : 'absolute top-[11.15%] right-[7.25%] hidden h-[46.47%] w-[24.05%] shadow-[0_2.89px_2.89px_rgb(0_0_0/0.25)] xl:block'
+              ? 'absolute top-[8.415%] right-[7.246%] hidden aspect-square w-[38.768%] overflow-hidden rounded-full shadow-[5.37px_4.6px_11.5px_3.83px_rgb(0_0_0/0.25)] xl:block'
+              : 'absolute top-[8.415%] right-[7.246%] hidden h-[46.704%] w-[32.005%] shadow-[0_2.89px_2.89px_rgb(0_0_0/0.25)] xl:block'
           }
         />
 
@@ -95,12 +96,12 @@ export const AchievementGlassCard: React.FC<AchievementGlassCardProps> = ({
           level={3}
           size="feature"
           tone="onDark"
-          className="absolute top-[34.94%] left-[7.25%] hidden h-[29%] w-[53.5%] text-white xl:block"
+          className="absolute top-[45.44%] left-[7.246%] hidden h-[21.88%] w-[53.5%] text-white xl:block"
         >
           {title}
         </Heading>
 
-        <p className="absolute top-[67.66%] left-[7.25%] hidden w-[54%] text-body-lg font-medium text-white xl:block">
+        <p className="absolute top-[70.13%] left-[7.246%] hidden w-[53.5%] font-sans text-body-lg font-medium leading-[1.6] text-white xl:block">
           {cleanBody}
         </p>
       </div>
