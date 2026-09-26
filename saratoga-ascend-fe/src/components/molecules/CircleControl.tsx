@@ -10,7 +10,8 @@ export type CircleControlTone =
   | 'cardPlayPhoto'
   | 'cardPlayInfo'
   | 'achievementArrow'
-  | 'iconPlay';
+  | 'iconPlay'
+  | 'jobCardArrow';
 
 export interface CircleControlProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   label: string;
@@ -124,6 +125,19 @@ const tones: Record<CircleControlTone, ToneConfig> = {
     viewBox: '0 0 24 25',
     paths: PLAY_BLOBS,
     fills: { prev: '#2B88D9', next: '#F01424' },
+    iconClassName: 'block h-[40%] w-auto',
+    outerStyle: {
+      border: '1px solid rgb(198, 198, 198)',
+      background: 'rgba(240, 20, 36, 0.02)',
+    },
+    focus: 'focus-visible:outline-brand-navy',
+  },
+  /** Healthcare job-card next control — Figma Frame 5, 60×60 glass ring. */
+  jobCardArrow: {
+    size: 'size-[3.75rem]',
+    viewBox: '0 0 24 25',
+    paths: PLAY_BLOBS,
+    fills: { prev: '#ffffff', next: '#ffffff' },
     iconClassName: 'block h-[40%] w-auto',
     outerStyle: {
       border: '1px solid rgb(198, 198, 198)',

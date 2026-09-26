@@ -2,9 +2,9 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 
-const BASE_MS = 1600;
-const STEP_MS = 280;
-const STAGGER_MS = 140;
+/** Figma Numbers1: each column is a 0–9 strip, line box 135px on a 120px face. */
+const LINE_EM = 1.125;
+const SPIN_MS = 1000;
 
 function parseStat(value: string) {
   const match = value.match(/^(\d+)(.*)$/);
@@ -16,57 +16,33 @@ function parseStat(value: string) {
 
 function DigitReel({
   digit,
-  active,
+  hovered,
   index,
+  reduceMotion,
 }: {
   digit: number;
-  active: boolean;
+  hovered: boolean;
   index: number;
+  reduceMotion: boolean;
 }) {
-  const [offset, setOffset] = useState(0);
-  const [animate, setAnimate] = useState(false);
-  const cycles = 1 + Math.min(index, 2);
-
-  useEffect(() => {
-    if (!active) {
-      setAnimate(false);
-      setOffset(0);
-      return undefined;
-    }
-
-    const reduceMotion =
-      typeof window !== 'undefined' &&
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    if (reduceMotion) {
-      setAnimate(false);
-      setOffset(digit);
-      return undefined;
-    }
-
-    const start = window.setTimeout(() => {
-      setAnimate(true);
-      setOffset(cycles * 10 + digit);
-    }, 40 + index * STAGGER_MS);
-
-    return () => window.clearTimeout(start);
-  }, [active, cycles, digit, index]);
-
-  const strip = Array.from({ length: cycles * 10 + 10 }, (_, i) => i % 10);
+  const rest = 10 + digit;
+  const spun = index % 2 === 0 ? 20 + digit : digit;
+  const offset = reduceMotion || !hovered ? rest : spun;
+  const strip = Array.from({ length: 30 }, (_, i) => i % 10);
 
   return (
-    <span className="inline-block h-[1em] w-[1ch] overflow-hidden align-top text-center leading-none">
+    <span className="inline-block h-[1.125em] w-[1ch] overflow-hidden align-top text-center">
       <span
-        className="flex flex-col will-change-transform motion-reduce:transition-none"
+        className="flex flex-col will-change-transform"
         style={{
-          transform: `translate3d(0, ${-offset}em, 0)`,
+          transform: `translate3d(0, ${-offset * LINE_EM}em, 0)`,
           transitionProperty: 'transform',
-          transitionDuration: animate ? `${BASE_MS + index * STEP_MS}ms` : '0ms',
+          transitionDuration: reduceMotion ? '0ms' : `${SPIN_MS}ms`,
           transitionTimingFunction: 'ease-in-out',
         }}
       >
         {strip.map((n, i) => (
-          <span key={`${n}-${i}`} className="block h-[1em] leading-none">
+          <span key={`${n}-${i}`} className="block h-[1.125em] leading-none">
             {n}
           </span>
         ))}
@@ -78,32 +54,48 @@ function DigitReel({
 export interface CountUpStatProps {
   value: string;
   className?: string;
-  /** When true, each digit reel rolls to its target. */
-  active: boolean;
 }
 
 /**
- * Odometer / slot-machine numerals (Figma Numbers1): each digit rolls on its
- * own reel, later places spinning longer. Triggered on scroll-into-view.
+ * Placements numeral (Figma Numbers1). The resting frame already reads the
+ * CMS value. Hover smart-animates each reel one full cycle in 1s ease-in-out
+ * and lands on the same digits; pointer leave plays that spin in reverse.
  */
 export const CountUpStat: React.FC<CountUpStatProps> = ({
   value,
   className = '',
-  active,
 }) => {
   const { digits, suffix } = parseStat(value);
+  const [hovered, setHovered] = useState(false);
+  const [reduceMotion, setReduceMotion] = useState(false);
+
+  useEffect(() => {
+    const query = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const apply = () => setReduceMotion(query.matches);
+    apply();
+    query.addEventListener('change', apply);
+    return () => query.removeEventListener('change', apply);
+  }, []);
 
   return (
-    <span className={`inline-flex items-start leading-none ${className}`.trim()}>
-      {digits.map((digit, index) => (
-        <DigitReel
-          key={`${value}-${index}`}
-          digit={digit}
-          active={active}
-          index={index}
-        />
-      ))}
-      {suffix}
+    <span
+      className={`inline-flex items-start leading-none ${className}`.trim()}
+      aria-label={value}
+      onPointerEnter={() => setHovered(true)}
+      onPointerLeave={() => setHovered(false)}
+    >
+      <span aria-hidden="true" className="inline-flex items-start">
+        {digits.map((digit, index) => (
+          <DigitReel
+            key={`${value}-${index}`}
+            digit={digit}
+            hovered={hovered}
+            index={index}
+            reduceMotion={reduceMotion}
+          />
+        ))}
+        {suffix}
+      </span>
     </span>
   );
 };

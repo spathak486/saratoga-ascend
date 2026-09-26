@@ -1,5 +1,5 @@
 import React from 'react';
-import { CaretDownIcon } from '../atoms/icons';
+import { ArrowUpRightIcon, CaretDownIcon } from '../atoms/icons';
 import { GeneralLink } from '../atoms/GeneralLink';
 import { MegaMenu } from '../organisms/MegaMenu';
 
@@ -8,6 +8,8 @@ export interface HeaderNavItem {
   label: string;
   /** Shows the dropdown caret. Every primary item carries one in the design. */
   hasMenu?: boolean;
+  /** Utility-bar ↗ used for Careers, Investor Relations, and Blog. */
+  hasExternalIcon?: boolean;
 }
 
 /**
@@ -44,7 +46,7 @@ const variantStyles: Record<
     active: NAV_ACTIVE,
   },
   utility: {
-    size: 'text-nav',
+    size: 'text-body',
     rest: `text-ink ${NAV_HOVER}`,
     active: NAV_ACTIVE,
   },
@@ -62,11 +64,11 @@ function isItemActive(pathname: string | undefined, href: string): boolean {
 
 const gapClass: Record<HeaderNavVariant, Record<HeaderNavOrientation, string>> = {
   primary: {
-    horizontal: 'gap-6 2xl:gap-10',
+    horizontal: 'gap-5',
     vertical: 'gap-4',
   },
   utility: {
-    horizontal: 'gap-10',
+    horizontal: 'gap-5',
     vertical: 'gap-3',
   },
   utilityPlain: {
@@ -106,6 +108,8 @@ export const HeaderNavList: React.FC<HeaderNavListProps> = ({
           >
             <CaretDownIcon className="size-[12px]" />
           </span>
+        ) : item.hasExternalIcon ? (
+          <ArrowUpRightIcon className="size-3" />
         ) : undefined;
 
         const link = (
@@ -115,7 +119,7 @@ export const HeaderNavList: React.FC<HeaderNavListProps> = ({
             aria-current={isActive ? 'page' : undefined}
             aria-haspopup={item.hasMenu ? 'true' : undefined}
             rightIcon={caret}
-            className={`inline-flex items-center gap-1.5 font-sans font-medium leading-[1.5] whitespace-nowrap transition-colors ${NAV_MOTION} ${isPrimaryBar ? 'h-full' : ''} ${styles.size} ${isActive ? styles.active : styles.rest} ${isPrimaryBar ? 'group-hover:text-brand-red group-focus-within:text-brand-red' : ''}`}
+            className={`inline-flex items-center gap-2.5 rounded-lg px-3 py-2 font-sans font-medium leading-[1.5] whitespace-nowrap transition-colors ${NAV_MOTION} ${isPrimaryBar ? 'h-full' : ''} ${styles.size} ${isActive ? styles.active : styles.rest} ${isPrimaryBar ? 'group-hover:text-brand-red group-focus-within:text-brand-red' : ''}`}
           >
             {item.label}
           </GeneralLink>

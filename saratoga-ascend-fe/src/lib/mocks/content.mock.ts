@@ -28,45 +28,86 @@ const homeSections: DynamicZoneSection[] = [
       },
     },
   },
+  { __typename: 'MockWhatWeDo' },
   {
-    __typename: 'ComponentReferencesFaQs',
-    content: {
-      documentId: 'cm2faqcontent123',
-      referenceTitle: 'FAQ Content Section',
-      ContentSection: {
-        title: 'Any Questions?',
-        subTitle: 'Proudly Serving Federal, State and Local clients',
-        description: null,
-        image: null,
-        link: {
-          label: 'Know More',
-          href: '/about',
-          target: '_self',
-          isExternal: false,
-        },
-      },
+    __typename: 'ComponentReferencesServiceReference',
+    heading: {
+      title: 'Market We Serve',
+      description:
+        'Connecting cleared, credentialed healthcare professionals with government, military, and local facilities nationwide.',
     },
-    faqs: [
+    services: [
       {
-        documentId: 'cm2faq1',
-        referenceTitle: 'FAQ 1',
-        faq: {
-          title: 'How this work?',
-          description:
-            'Lorem ipsum is the standard placeholder text used in graphic design, publishing, and web development to showcase layouts and visual elements without the distraction of meaningful content.',
+        documentId: 'cm2svc-federal',
+        slug: 'federal-military',
+        title: 'Federal & Military',
+        summary:
+          'Cleared clinicians and program staff for VA, DoD, and federal healthcare missions.',
+        image: {
+          url: '/images/phase4/market-federal-military.png',
+          width: 828,
+          height: 480,
+          alternativeText: 'Federal and military healthcare',
+          formats: null,
         },
+        cta: { label: 'Learn More', href: '/who-we-serve', target: '_self', isExternal: false },
       },
       {
-        documentId: 'cm2faq2',
-        referenceTitle: 'FAQ 2',
-        faq: {
-          title: 'How this work?',
-          description:
-            'Lorem ipsum is the standard placeholder text used in graphic design, publishing, and web development to showcase layouts and visual elements without the distraction of meaningful content.',
+        documentId: 'cm2svc-state',
+        slug: 'state-local',
+        title: 'State & Local',
+        summary:
+          'Credentialed teams for state, municipal, and community health programs nationwide.',
+        image: {
+          url: '/images/phase4/market-state-local.png',
+          width: 828,
+          height: 480,
+          alternativeText: 'State and local healthcare',
+          formats: null,
         },
+        cta: { label: 'Learn More', href: '/who-we-serve', target: '_self', isExternal: false },
       },
     ],
   },
+  { __typename: 'MockHealthcare' },
+  {
+    __typename: 'ComponentReferencesMissionReference',
+    missionSection: {
+      documentId: 'cm2mission01',
+      referenceTitle: 'Mission',
+      title: 'Four Decades of Military & Federal Healthcare Solutions',
+      description:
+        'Founded to serve federal and military healthcare, we grew into a nationwide partner for hospitals, clinics, and public health programs. We combine military-grade precision with responsive, people-first service—matching licensed, background-checked, and fully credentialed professionals to serve every mission.',
+      highlights: [
+        { text: 'Nationwide Coverage' },
+        { text: 'Cleared Personnel' },
+        { text: 'Dedicated Compliance' },
+        { text: '24/7 Mission Support' },
+      ],
+      image: {
+        url: '/images/about/heart.png',
+        width: 750,
+        height: 750,
+        alternativeText: 'Mission heart',
+        formats: null,
+      },
+      shieldIcon: {
+        url: '/images/about/icon-shield.svg',
+        width: 80,
+        height: 80,
+        alternativeText: 'Shield',
+        formats: null,
+      },
+      pulseIcon: {
+        url: '/images/about/icon-pulse.svg',
+        width: 80,
+        height: 80,
+        alternativeText: 'Pulse',
+        formats: null,
+      },
+    },
+  },
+  { __typename: 'MockContractVehicles' },
   {
     __typename: 'ComponentReferencesAchievements',
     ourAchievement: {
@@ -124,6 +165,107 @@ const homeSections: DynamicZoneSection[] = [
       ],
     },
   },
+  { __typename: 'MockPastPerformance' },
+  { __typename: 'MockHappyClients' },
+  {
+    __typename: 'ComponentReferencesClientLogosReference',
+    clientLogosSection: {
+      documentId: 'cm2logos01',
+      referenceTitle: 'Our Clients',
+      title: 'Our Clients',
+      description: 'Success is built on consistent effort.',
+      logos: [
+        {
+          url: '/images/image 6.png',
+          width: 160,
+          height: 80,
+          alternativeText: 'Joint Commission',
+          formats: null,
+        },
+        {
+          url: '/images/image 8.png',
+          width: 160,
+          height: 80,
+          alternativeText: 'WOSB',
+          formats: null,
+        },
+        {
+          url: '/images/image 9.png',
+          width: 160,
+          height: 80,
+          alternativeText: 'Client logo',
+          formats: null,
+        },
+        {
+          url: '/images/image 11.png',
+          width: 160,
+          height: 80,
+          alternativeText: 'Client logo',
+          formats: null,
+        },
+      ],
+    },
+  },
+  {
+    __typename: 'ComponentReferencesFaQs',
+    content: {
+      documentId: 'cm2faqcontent123',
+      referenceTitle: 'FAQ Content Section',
+      ContentSection: {
+        title: 'Any Questions?',
+        subTitle: 'Proudly Serving Federal, State and Local clients',
+        description: null,
+        image: null,
+        link: {
+          label: 'Know More',
+          href: '/about',
+          target: '_self',
+          isExternal: false,
+        },
+      },
+    },
+    faqs: [
+      {
+        documentId: 'cm2faq1',
+        referenceTitle: 'FAQ 1',
+        faq: {
+          title: 'How this work?',
+          description:
+            'Lorem ipsum is the standard placeholder text used in graphic design, publishing, and web development to showcase layouts and visual elements without the distraction of meaningful content.',
+        },
+      },
+      {
+        documentId: 'cm2faq2',
+        referenceTitle: 'FAQ 2',
+        faq: {
+          title: 'How this work?',
+          description:
+            'Lorem ipsum is the standard placeholder text used in graphic design, publishing, and web development to showcase layouts and visual elements without the distraction of meaningful content.',
+        },
+      },
+    ],
+  },
+  {
+    __typename: 'ComponentReferencesCta',
+    cta: {
+      documentId: 'cm2cta01',
+      referenceTitle: 'Need Help',
+      cta: {
+        title: 'Need Help?',
+        subTitle: 'Sign up now and get hired easily',
+        description: null,
+        image: {
+          url: '/images/need-help-nurse.png',
+          width: 767,
+          height: 733,
+          alternativeText: 'Nurse',
+          formats: null,
+        },
+        link: { label: 'Get Started', href: '/contact', target: '_self', isExternal: false },
+      },
+    },
+  },
+  { __typename: 'MockLatestNews' },
 ];
 
 const aboutSections: DynamicZoneSection[] = [
