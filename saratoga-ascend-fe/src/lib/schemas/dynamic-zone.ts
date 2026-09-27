@@ -145,6 +145,17 @@ export const ServiceReferenceSchema = z.object({
 
 export type ServiceReference = z.infer<typeof ServiceReferenceSchema>;
 
+export const CustomItemSchema = z.object({
+  id: z.any().optional(),
+  title: z.string().nullable().optional(),
+  summary: z.string().nullable().optional(),
+  image: StrapiImageSchema.nullable().optional(),
+  cta: GeneralLinkSchema.nullable().optional(),
+  highlights: z.array(MissionHighlightSchema).nullable().optional(),
+});
+
+export type CustomItem = z.infer<typeof CustomItemSchema>;
+
 export const WhatWeDoSectionEntitySchema = z.object({
   documentId: z.string().optional(),
   referenceTitle: z.string().nullable().optional(),
@@ -156,6 +167,7 @@ export const WhatWeDoSectionEntitySchema = z.object({
   video: StrapiImageSchema.nullable().optional(),
   videoCopy: z.string().nullable().optional(),
   services: z.array(ServiceEntitySchema).nullable().optional(),
+  customItems: z.array(CustomItemSchema).nullable().optional(),
 });
 
 export type WhatWeDoSectionEntity = z.infer<typeof WhatWeDoSectionEntitySchema>;

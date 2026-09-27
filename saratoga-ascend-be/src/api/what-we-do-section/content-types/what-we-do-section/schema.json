@@ -54,6 +54,11 @@
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::service.service"
+    },
+    "customItems": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.custom-item"
     }
   }
 }
