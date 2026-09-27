@@ -1,0 +1,30 @@
+{
+  "kind": "collectionType",
+  "collectionName": "happy_clients_sections",
+  "info": {
+    "singularName": "happy-clients-section",
+    "pluralName": "happy-clients-sections",
+    "displayName": "Happy Clients Section",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "referenceTitle": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "text"
+    },
+    "reviews": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.client-review"
+    }
+  }
+}

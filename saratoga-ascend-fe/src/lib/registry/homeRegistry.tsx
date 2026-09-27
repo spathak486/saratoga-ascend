@@ -324,7 +324,8 @@ export const SECTION_REGISTRY: Record<
     // Requires an `any` cast until types.ts and schemas are fully regenerated
     // or if `HappyClientsReference` isn't fully narrowed in DynamicZoneSection type
     const hcRef = section as any;
-    const reviews = hcRef.reviews?.map((r: any) => ({
+    const hcSection = hcRef.happyClientsSection;
+    const reviews = hcSection?.reviews?.map((r: any) => ({
       role: r.role ?? undefined,
       name: r.name,
       place: r.place,
@@ -335,8 +336,8 @@ export const SECTION_REGISTRY: Record<
     return (
       <HappyClientsSection
         key={`happy-clients-${index}`}
-        title={hcRef.title ?? undefined}
-        description={hcRef.description ?? undefined}
+        title={hcSection?.title ?? undefined}
+        description={hcSection?.description ?? undefined}
         reviews={reviews}
       />
     );
