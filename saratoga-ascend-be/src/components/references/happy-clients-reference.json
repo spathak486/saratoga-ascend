@@ -6,16 +6,10 @@
   },
   "options": {},
   "attributes": {
-    "title": {
-      "type": "string"
-    },
-    "description": {
-      "type": "text"
-    },
-    "reviews": {
-      "type": "component",
-      "repeatable": true,
-      "component": "shared.client-review"
+    "happyClientsSection": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::happy-clients-section.happy-clients-section"
     }
   }
 }

@@ -240,11 +240,17 @@ export interface RawClientReview {
   photos?: RawStrapiMedia[] | null;
 }
 
-export interface RawHappyClientsReference {
-  __typename: 'ComponentReferencesHappyClientsReference';
+export interface RawHappyClientsSection {
+  documentId?: string;
+  referenceTitle?: string | null;
   title?: string | null;
   description?: string | null;
   reviews?: RawClientReview[] | null;
+}
+
+export interface RawHappyClientsReference {
+  __typename: 'ComponentReferencesHappyClientsReference';
+  happyClientsSection?: RawHappyClientsSection | null;
 }
 
 /**

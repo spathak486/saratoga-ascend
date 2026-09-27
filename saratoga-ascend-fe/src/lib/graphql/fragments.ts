@@ -237,15 +237,19 @@ export const WHAT_WE_DO_REFERENCE_FIELDS = `
 export const HAPPY_CLIENTS_REFERENCE_FIELDS = `
   __typename
   ... on ComponentReferencesHappyClientsReference {
-    title
-    description
-    reviews {
-      id
-      role
-      name
-      place
-      quote
-      photos { ${IMAGE_FIELDS} }
+    happyClientsSection {
+      documentId
+      referenceTitle
+      title
+      description
+      reviews {
+        id
+        role
+        name
+        place
+        quote
+        photos { ${IMAGE_FIELDS} }
+      }
     }
   }
 `;
