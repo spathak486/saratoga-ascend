@@ -1,0 +1,16 @@
+{
+  "collectionName": "components_references_what_we_do_references",
+  "info": {
+    "displayName": "What We Do Reference",
+    "icon": "briefcase"
+  },
+  "options": {},
+  "attributes": {
+    "whatWeDoSection": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::what-we-do-section.what-we-do-section"
+    }
+  },
+  "config": {}
+}

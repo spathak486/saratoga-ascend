@@ -878,6 +878,7 @@ export interface ApiPagePage extends Struct.CollectionTypeSchema {
         'references.fa-qs',
         'references.client-logos-reference',
         'references.service-reference',
+        'references.what-we-do-reference',
         'references.mission-reference',
         'references.achievements',
         'references.legal-content',
@@ -913,6 +914,7 @@ export interface ApiServiceService extends Struct.CollectionTypeSchema {
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     cta: Schema.Attribute.Component<'shared.general-link', false>;
+    highlights: Schema.Attribute.Component<'shared.highlight', true>;
     image: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
@@ -932,6 +934,43 @@ export interface ApiServiceService extends Struct.CollectionTypeSchema {
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+  };
+}
+
+export interface ApiWhatWeDoSectionWhatWeDoSection
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'what_we_do_sections';
+  info: {
+    displayName: 'What We Do Section';
+    pluralName: 'what-we-do-sections';
+    singularName: 'what-we-do-section';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    cta: Schema.Attribute.Component<'shared.general-link', false>;
+    description: Schema.Attribute.Text;
+    emblem: Schema.Attribute.Media<'images'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::what-we-do-section.what-we-do-section'
+    > &
+      Schema.Attribute.Private;
+    photo: Schema.Attribute.Media<'images'>;
+    publishedAt: Schema.Attribute.DateTime;
+    referenceTitle: Schema.Attribute.String & Schema.Attribute.Required;
+    services: Schema.Attribute.Relation<'oneToMany', 'api::service.service'>;
+    title: Schema.Attribute.String;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    video: Schema.Attribute.Media<'videos'>;
+    videoCopy: Schema.Attribute.String;
   };
 }
 
@@ -1460,6 +1499,7 @@ declare module '@strapi/strapi' {
       'api::our-achievement.our-achievement': ApiOurAchievementOurAchievement;
       'api::page.page': ApiPagePage;
       'api::service.service': ApiServiceService;
+      'api::what-we-do-section.what-we-do-section': ApiWhatWeDoSectionWhatWeDoSection;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;

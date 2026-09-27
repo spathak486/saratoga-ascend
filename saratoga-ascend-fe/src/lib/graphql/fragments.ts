@@ -125,6 +125,11 @@ export const SERVICE_REFERENCE_FIELDS = `
       summary
       cta { ${GENERAL_LINK_FIELDS} }
       image { ${IMAGE_FIELDS} }
+      highlights {
+        id
+        text
+        subtext
+      }
     }
   }
 `;
@@ -186,6 +191,37 @@ export const ACHIEVEMENTS_REFERENCE_FIELDS = `
   }
 `;
 
+export const WHAT_WE_DO_REFERENCE_FIELDS = `
+  __typename
+  ... on ComponentReferencesWhatWeDoReference {
+    whatWeDoSection {
+      documentId
+      referenceTitle
+      title
+      description
+      cta { ${GENERAL_LINK_FIELDS} }
+      photo { ${IMAGE_FIELDS} }
+      emblem { ${IMAGE_FIELDS} }
+      video { ${IMAGE_FIELDS} }
+      videoCopy
+      services {
+        documentId
+        pageTitle
+        slug
+        title
+        summary
+        cta { ${GENERAL_LINK_FIELDS} }
+        image { ${IMAGE_FIELDS} }
+        highlights {
+          id
+          text
+          subtext
+        }
+      }
+    }
+  }
+`;
+
 // Every dynamic-zone inline fragment, joined with newlines. Used by any query
 // that selects a Strapi dynamic zone (pages, home, about, and future content
 // types). Declared above PAGE_FIELDS because that fragment interpolates it.
@@ -198,6 +234,7 @@ export const DYNAMIC_SECTION_FRAGMENTS = [
   MISSION_REFERENCE_FIELDS,
   ACHIEVEMENTS_REFERENCE_FIELDS,
   LEGAL_CONTENT_REFERENCE_FIELDS,
+  WHAT_WE_DO_REFERENCE_FIELDS,
 ].join('\n');
 
 export const PAGE_FIELDS = `

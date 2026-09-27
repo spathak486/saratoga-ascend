@@ -130,6 +130,7 @@ export interface RawServiceEntity {
   summary?: string | null;
   cta?: RawGeneralLink | null;
   image?: RawStrapiMedia | null;
+  highlights?: RawMissionHighlight[] | null;
 }
 
 export interface RawServiceReference {
@@ -139,6 +140,24 @@ export interface RawServiceReference {
     description?: string | null;
   } | null;
   services?: RawServiceEntity[] | null;
+}
+
+export interface RawWhatWeDoSection {
+  documentId?: string;
+  referenceTitle?: string | null;
+  title?: string | null;
+  description?: string | null;
+  cta?: RawGeneralLink | null;
+  photo?: RawStrapiMedia | null;
+  emblem?: RawStrapiMedia | null;
+  video?: RawStrapiMedia | null;
+  videoCopy?: string | null;
+  services?: RawServiceEntity[] | null;
+}
+
+export interface RawWhatWeDoReference {
+  __typename: 'ComponentReferencesWhatWeDoReference';
+  whatWeDoSection?: RawWhatWeDoSection | null;
 }
 
 export interface RawMissionHighlight {
@@ -216,6 +235,7 @@ export type RawDynamicZoneSection =
   | RawMissionReference
   | RawAchievementsReference
   | RawLegalContentReference
+  | RawWhatWeDoReference
   | ({ __typename: string } & Record<string, unknown>);
 
 /** Universal slug-driven page (Strapi `pages` collection). */
