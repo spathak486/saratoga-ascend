@@ -1,0 +1,34 @@
+{
+  "collectionName": "components_shared_custom_items",
+  "info": {
+    "displayName": "Custom Item",
+    "icon": "bulletList"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "summary": {
+      "type": "text"
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "cta": {
+      "type": "component",
+      "component": "shared.general-link",
+      "repeatable": false
+    },
+    "highlights": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.highlight"
+    }
+  },
+  "config": {}
+}

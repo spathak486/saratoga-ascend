@@ -218,6 +218,18 @@ export const WHAT_WE_DO_REFERENCE_FIELDS = `
           subtext
         }
       }
+      customItems {
+        id
+        title
+        summary
+        cta { ${GENERAL_LINK_FIELDS} }
+        image { ${IMAGE_FIELDS} }
+        highlights {
+          id
+          text
+          subtext
+        }
+      }
     }
   }
 `;

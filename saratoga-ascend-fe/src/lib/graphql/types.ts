@@ -142,6 +142,15 @@ export interface RawServiceReference {
   services?: RawServiceEntity[] | null;
 }
 
+export interface RawCustomItem {
+  id?: any;
+  title?: string | null;
+  summary?: string | null;
+  image?: RawStrapiMedia | null;
+  cta?: RawGeneralLink | null;
+  highlights?: RawMissionHighlight[] | null;
+}
+
 export interface RawWhatWeDoSection {
   documentId?: string;
   referenceTitle?: string | null;
@@ -153,6 +162,7 @@ export interface RawWhatWeDoSection {
   video?: RawStrapiMedia | null;
   videoCopy?: string | null;
   services?: RawServiceEntity[] | null;
+  customItems?: RawCustomItem[] | null;
 }
 
 export interface RawWhatWeDoReference {

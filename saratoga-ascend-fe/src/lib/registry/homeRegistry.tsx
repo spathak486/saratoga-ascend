@@ -244,6 +244,16 @@ export const SECTION_REGISTRY: Record<
       imageSrc: svc?.image?.url || undefined,
     })) || [];
 
+    const customLines = wwd?.customItems?.map(item => ({
+      heading: item?.title || '',
+      blurb: item?.summary || '',
+      features: item?.highlights?.map(h => h.text).filter(Boolean) || [],
+      href: item?.cta?.href || '/',
+      imageSrc: item?.image?.url || undefined,
+    })) || [];
+
+    const mergedLines = [...serviceLines, ...customLines];
+
     return (
       <WhatWeDoSection
         key={`what-we-do-${index}`}
@@ -255,7 +265,7 @@ export const SECTION_REGISTRY: Record<
         videoCopy={wwd?.videoCopy ?? undefined}
         ctaLabel={wwd?.cta?.label ?? undefined}
         ctaHref={wwd?.cta?.href ?? undefined}
-        serviceLines={serviceLines}
+        serviceLines={mergedLines}
       />
     );
   },
