@@ -320,6 +320,28 @@ export const SECTION_REGISTRY: Record<
     );
   },
 
+  ComponentReferencesHappyClientsReference: (section, index) => {
+    // Requires an `any` cast until types.ts and schemas are fully regenerated
+    // or if `HappyClientsReference` isn't fully narrowed in DynamicZoneSection type
+    const hcRef = section as any;
+    const reviews = hcRef.reviews?.map((r: any) => ({
+      role: r.role ?? undefined,
+      name: r.name,
+      place: r.place,
+      quote: r.quote,
+      photos: [r.photos?.[0]?.url, r.photos?.[1]?.url, r.photos?.[2]?.url],
+    })) || [];
+
+    return (
+      <HappyClientsSection
+        key={`happy-clients-${index}`}
+        title={hcRef.title ?? undefined}
+        description={hcRef.description ?? undefined}
+        reviews={reviews}
+      />
+    );
+  },
+
   // Frontend-only Figma bands — used by local mocks until Strapi types exist.
   MockWhatWeDo: (_section, index) => (
     <WhatWeDoSection

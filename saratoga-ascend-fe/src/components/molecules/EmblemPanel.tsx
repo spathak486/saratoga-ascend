@@ -50,9 +50,9 @@ export const EmblemPanel: React.FC<EmblemPanelProps> = ({
       </div>
     )}
 
-    <div className="flex flex-1 items-start px-5 py-[1.875rem]">
+    <div className="flex flex-1 items-start px-5 py-[1.875rem] min-w-0 w-full">
       {paragraphs.map((paragraph) => (
-        <Text key={paragraph} size="cardCopy" tone="navy">
+        <Text key={paragraph} size="cardCopy" tone="navy" className="break-words w-full">
           {paragraph}
         </Text>
       ))}
