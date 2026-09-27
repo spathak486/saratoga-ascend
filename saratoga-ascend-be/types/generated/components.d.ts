@@ -225,6 +225,21 @@ export interface ReferencesWhatWeDoReference extends Struct.ComponentSchema {
   };
 }
 
+export interface SharedCustomItem extends Struct.ComponentSchema {
+  collectionName: 'components_shared_custom_items';
+  info: {
+    displayName: 'Custom Item';
+    icon: 'bulletList';
+  };
+  attributes: {
+    cta: Schema.Attribute.Component<'shared.general-link', false>;
+    highlights: Schema.Attribute.Component<'shared.highlight', true>;
+    image: Schema.Attribute.Media<'images'>;
+    summary: Schema.Attribute.Text;
+    title: Schema.Attribute.String;
+  };
+}
+
 export interface SharedGeneralLink extends Struct.ComponentSchema {
   collectionName: 'components_shared_general_links';
   info: {
@@ -312,6 +327,7 @@ declare module '@strapi/strapi' {
       'references.mission-reference': ReferencesMissionReference;
       'references.service-reference': ReferencesServiceReference;
       'references.what-we-do-reference': ReferencesWhatWeDoReference;
+      'shared.custom-item': SharedCustomItem;
       'shared.general-link': SharedGeneralLink;
       'shared.highlight': SharedHighlight;
       'shared.link-column': SharedLinkColumn;

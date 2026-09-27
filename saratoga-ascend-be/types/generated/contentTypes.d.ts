@@ -953,6 +953,7 @@ export interface ApiWhatWeDoSectionWhatWeDoSection
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     cta: Schema.Attribute.Component<'shared.general-link', false>;
+    customItems: Schema.Attribute.Component<'shared.custom-item', true>;
     description: Schema.Attribute.Text;
     emblem: Schema.Attribute.Media<'images'>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
