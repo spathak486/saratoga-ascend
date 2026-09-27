@@ -144,6 +144,7 @@ export interface RawServiceReference {
 export interface RawMissionHighlight {
   id?: string;
   text: string;
+  subtext?: string | null;
 }
 
 export interface RawMissionReference {
@@ -155,6 +156,7 @@ export interface RawMissionReference {
     image?: RawStrapiMedia | null;
     shieldIcon?: RawStrapiMedia | null;
     pulseIcon?: RawStrapiMedia | null;
+    cta?: RawGeneralLink | null;
     highlights?: RawMissionHighlight[] | null;
   } | null;
 }

@@ -35,18 +35,25 @@ export const MarketWeServeSection: React.FC<MarketWeServeSectionProps> = ({
     <Section
       aria-labelledby="market-we-serve-heading"
       tone="surface"
-      spacing="lg"
+      spacing="none"
+      className="mt-10 py-10"
     >
-      <div className="flex flex-col gap-[clamp(2.5rem,3.125vw,3.75rem)]">
+      <div className="flex flex-col gap-10">
         {(title || description) ? (
           <SectionIntro
             id="market-we-serve-heading"
             title={title ?? ''}
             description={description ?? ''}
+            wide
+            titleTone="inherit"
+            titleClassName="text-brand-cta-from"
+            descriptionSize="sectionLead"
+            descriptionStyle={{ color: 'var(--color-ink)' }}
+            className="gap-3"
           />
         ) : null}
 
-        <div className="grid grid-cols-1 gap-grid lg:grid-cols-2">
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
           {displayMarkets.map((market) => (
             <MarketServeCard
               key={market.id}

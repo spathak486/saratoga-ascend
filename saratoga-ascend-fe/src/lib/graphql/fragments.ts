@@ -139,9 +139,11 @@ export const MISSION_REFERENCE_FIELDS = `
       image { ${IMAGE_FIELDS} }
       shieldIcon { ${IMAGE_FIELDS} }
       pulseIcon { ${IMAGE_FIELDS} }
+      cta { ${GENERAL_LINK_FIELDS} }
       highlights {
         id
         text
+        subtext
       }
     }
   }

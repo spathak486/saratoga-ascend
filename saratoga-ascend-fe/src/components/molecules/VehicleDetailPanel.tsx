@@ -11,6 +11,8 @@ export interface VehicleDetail {
 
 export interface VehicleDetailPanelProps {
   detail: VehicleDetail;
+  /** Federal keeps the navy card. State swaps the card behind the same title. */
+  scope?: 'federal' | 'state';
 }
 
 /**
@@ -19,9 +21,26 @@ export interface VehicleDetailPanelProps {
  */
 export const VehicleDetailPanel: React.FC<VehicleDetailPanelProps> = ({
   detail,
+  scope = 'federal',
 }) => (
   <div className="flex min-w-0 flex-col">
-    <div className="bg-gsa-banner relative min-h-[clamp(12rem,14.58vw,17.5rem)] overflow-hidden rounded-panel">
+    <div
+      className={`relative min-h-[clamp(12rem,14.58vw,17.5rem)] overflow-hidden transition-[border-radius] duration-200 ease-out motion-reduce:transition-none ${
+        scope === 'state' ? 'rounded-button' : 'rounded-panel'
+      }`}
+    >
+      <div
+        className={`absolute inset-0 bg-gsa-banner transition-opacity duration-200 ease-out motion-reduce:transition-none ${
+          scope === 'state' ? 'opacity-0' : 'opacity-100'
+        }`}
+        aria-hidden="true"
+      />
+      <div
+        className={`absolute inset-0 bg-cta-gradient transition-opacity duration-200 ease-out motion-reduce:transition-none ${
+          scope === 'state' ? 'opacity-100' : 'opacity-0'
+        }`}
+        aria-hidden="true"
+      />
       <div className="pointer-events-none absolute inset-0" aria-hidden="true">
         <MediaFrame
           src="/images/vehicles/gsa-mask.svg"

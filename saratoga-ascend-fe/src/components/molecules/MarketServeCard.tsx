@@ -9,13 +9,14 @@ export interface MarketServeCardProps {
   href?: string;
 }
 
+/** Figma We serve → Variant2: Smart animate dissolve, ease-in, 300ms. */
 const overlayEase =
   'transition-opacity duration-300 ease-in motion-reduce:transition-none';
 
 /**
  * Photo tile for the Market We Serve band (Figma 828×480). Rest: title on the
- * foot scrim. Hover: Figma We serve → Variant2 (Smart animate, ease in, 300ms)
- * as a fade, not a slide.
+ * foot scrim. Hover: fade to navy wash, sky rule, blurb, and a sky Learn More
+ * pill — no slide, no ring.
  */
 export const MarketServeCard: React.FC<MarketServeCardProps> = ({
   label,
@@ -25,7 +26,7 @@ export const MarketServeCard: React.FC<MarketServeCardProps> = ({
   href,
 }) => {
   const content = (
-    <article className="relative aspect-[828/480] min-h-[14rem] overflow-hidden rounded-card ring-1 ring-inset ring-transparent transition-[box-shadow,ring-color] duration-300 ease-in group-hover:ring-brand-sky group-focus-visible:ring-brand-sky">
+    <article className="relative aspect-[828/480] min-h-[14rem] overflow-hidden rounded-card">
       <MediaFrame
         src={imageSrc}
         alt=""
@@ -42,7 +43,7 @@ export const MarketServeCard: React.FC<MarketServeCardProps> = ({
       />
 
       <div
-        className={`absolute inset-0 z-[2] flex flex-col items-center justify-end px-[clamp(1rem,3.125vw,3.75rem)] py-[clamp(1.25rem,3.125vw,3.75rem)] text-center ${overlayEase} group-hover:opacity-0 group-focus-visible:opacity-0`}
+        className={`absolute inset-0 z-[2] flex flex-col items-center justify-end px-6 py-[3.75rem] text-center ${overlayEase} group-hover:opacity-0 group-focus-visible:opacity-0`}
       >
         <Heading
           level={3}
@@ -56,7 +57,7 @@ export const MarketServeCard: React.FC<MarketServeCardProps> = ({
       </div>
 
       <div
-        className={`pointer-events-none absolute inset-0 z-[3] flex flex-col items-center justify-center bg-[linear-gradient(180deg,rgb(2_46_76/0.28)_0%,rgb(2_46_76/0.92)_100%)] px-[clamp(1rem,3.125vw,3.75rem)] py-[clamp(1.25rem,3.125vw,3.75rem)] text-center opacity-0 ${overlayEase} group-hover:opacity-100 group-focus-visible:opacity-100`}
+        className={`pointer-events-none absolute inset-0 z-[3] flex flex-col items-center justify-center bg-[linear-gradient(180deg,rgb(20_76_121/0.45)_0%,rgb(20_76_121/0.92)_100%)] px-6 py-[3.75rem] text-center opacity-0 ${overlayEase} group-hover:opacity-100 group-focus-visible:opacity-100`}
       >
         <p
           className="font-serif text-subtitle text-white lg:whitespace-nowrap"
@@ -65,13 +66,13 @@ export const MarketServeCard: React.FC<MarketServeCardProps> = ({
           {label}
         </p>
         <span
-          className="mx-auto mt-3 block h-[4px] w-[130px] rounded-[4px] bg-brand-sky"
+          className="mx-auto mt-3 block h-1 w-[130px] rounded bg-brand-sky"
           aria-hidden="true"
         />
-        <p className="mx-auto mt-4 max-w-[36ch] text-body font-medium text-white">
+        <p className="mx-auto mt-4 max-w-[36ch] text-body-lg font-medium text-white">
           {description}
         </p>
-        <span className="mt-6 inline-flex min-h-cta min-w-cta-wide items-center justify-center rounded-pill bg-brand-sky px-cta-x py-cta-y text-button font-medium text-white shadow-button">
+        <span className="mt-6 inline-flex items-center justify-center rounded-pill bg-brand-sky px-8 py-3.5 text-button font-medium text-white">
           Learn More
         </span>
       </div>

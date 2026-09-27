@@ -16,6 +16,11 @@ const nextConfig: NextConfig = {
         ...(strapiUrl.port ? { port: strapiUrl.port } : {}),
         pathname: '/uploads/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'cms.saratogaascend.com',
+        pathname: '/uploads/**',
+      },
     ],
     // Strapi in local dev resolves to a private IP (localhost), which
     // Next's SSRF guard blocks by default. Production Strapi is a real

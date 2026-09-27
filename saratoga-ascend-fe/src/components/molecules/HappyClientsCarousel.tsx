@@ -20,34 +20,32 @@ export interface HappyClientsCarouselProps {
   className?: string;
 }
 
-const FAN = [
-  {
-    inset: 'inset-[15.24%_73.69%_15.43%_8.27%]',
-    imageOpacity: 'opacity-30',
-    label: 'Previous client',
-  },
-  {
-    inset: 'inset-[10.22%_64.17%_10.41%_15.18%]',
-    imageOpacity: 'opacity-70',
-    label: 'Nearby client',
-  },
-  {
-    inset: 'inset-[6.32%_53.39%_6.32%_23.93%]',
-    imageOpacity: 'opacity-100',
-    label: 'Featured client',
-  },
+/** Back, middle, front. Next click walks each photo one slot forward. */
+const FAN_SLOTS = [
+  { top: '15.24%', right: '73.69%', bottom: '15.43%', left: '8.27%', opacity: 0.3, z: 1 },
+  { top: '10.22%', right: '64.17%', bottom: '10.41%', left: '15.18%', opacity: 0.7, z: 2 },
+  { top: '6.32%', right: '53.39%', bottom: '6.32%', left: '23.93%', opacity: 1, z: 3 },
 ] as const;
+
+/** Figma click: Smart animate, Gentle, 800ms. Photos and copy share it. */
+const FAN_EASE =
+  'transition-[top,right,bottom,left] duration-[800ms] ease-[cubic-bezier(0.47,0,0.23,1)] motion-reduce:transition-none';
+const COPY_EASE =
+  'transition-[opacity,transform] duration-[800ms] ease-[cubic-bezier(0.47,0,0.23,1)] motion-reduce:transition-none motion-reduce:transform-none';
+
+/** Figma Polygon 2, 67×68 inside the 100px circle, rotated to point outward. */
+const ARROW_PATH =
+  'M23.1683 18.0465 C27.6301 10.1252 39.0365 10.1252 43.4984 18.0465 L52.4043 33.8577 C56.7849 41.6348 51.1653 51.25 42.2393 51.25 L24.4274 51.25 C15.5014 51.25 9.88176 41.6348 14.2624 33.8577 L23.1683 18.0465 Z';
 
 function ArrowGlyph({ direction }: { direction: 'prev' | 'next' }) {
   return (
     <svg
-      viewBox="0 0 24 24"
-      className={`size-[67%] ${direction === 'next' ? 'rotate-180' : ''}`}
-      fill="currentColor"
+      viewBox="0 0 66.667 68.333"
+      className={`h-[68.33%] w-[66.67%] ${direction === 'prev' ? '-rotate-90' : 'rotate-90'}`}
       aria-hidden="true"
       focusable="false"
     >
-      <path d="M15.5 4.2 6.8 12l8.7 7.8V4.2Z" />
+      <path d={ARROW_PATH} fill="currentColor" />
     </svg>
   );
 }
@@ -61,49 +59,61 @@ function QuoteCopy({ review }: { review: ClientReview }) {
         </Heading>
       ) : null}
       <p
-        className={`text-body-lg font-bold leading-[1.6] text-white ${review.role ? 'mt-[clamp(0.75rem,1.8vw,1.35rem)]' : ''}`}
+        className={`font-sans text-body-lg font-bold leading-[1.6] text-white ${review.role ? 'mt-[1.875rem]' : ''}`}
       >
         {review.name}
         <br />
         {review.place}
       </p>
-      <p className="mt-auto max-w-[40ch] text-button font-medium leading-[1.5] text-white">
+      <p className="mt-[1.875rem] max-w-[42rem] font-sans text-button font-medium leading-[1.5] text-white">
         {review.quote}
       </p>
     </>
   );
 }
 
-function DesktopSlide({ review }: { review: ClientReview }) {
+function DesktopSlide({
+  photos,
+  rotation,
+}: {
+  photos: ClientReview['photos'];
+  rotation: number;
+}) {
   return (
     <div className="relative aspect-[1680/538] min-h-[20rem] w-full">
-      {/* Figma fill is prime-r / #f01424 — same token as the brand red. */}
-      <div className="absolute inset-y-0 left-[34.46%] right-[8.45%] rounded-[3.125rem] bg-[#f01424]" />
+      <div className="absolute inset-y-0 left-[34.46%] right-[8.45%] rounded-[3.125rem] bg-brand-red" />
 
-      {FAN.map((card, cardIndex) => (
-        <div
-          key={card.inset}
-          className={`absolute overflow-hidden rounded-media bg-white ${card.inset}`}
-        >
-          <MediaFrame
-            src={review.photos[cardIndex]}
-            alt={card.label}
-            pendingLabel="client-portrait"
-            tone="tile"
-            sizes="(max-width: 1280px) 30vw, 381px"
-            imageClassName={`object-cover! ${card.imageOpacity}`}
-            className="size-full border-0 bg-white"
-          />
-        </div>
-      ))}
-
-      {/* Figma's text block is inset-[20.45%_14.85%_27.7%_49.29%] on the
-          1680×538 stage — the shorter box (vs. the full column height) is
-          what keeps the quote's `mt-auto` landing at the same baseline as
-          the file instead of drifting toward the bottom edge. */}
-      <div className="absolute inset-[20.45%_14.85%_27.7%_49.29%] z-10 flex flex-col">
-        <QuoteCopy review={review} />
-      </div>
+      {photos.map((src, photoIndex) => {
+        const slot = FAN_SLOTS[(photoIndex + rotation) % FAN_SLOTS.length];
+        return (
+          <div
+            key={photoIndex}
+            className={`absolute overflow-hidden rounded-media bg-white ${FAN_EASE}`}
+            style={{
+              top: slot.top,
+              right: slot.right,
+              bottom: slot.bottom,
+              left: slot.left,
+              zIndex: slot.z,
+            }}
+          >
+            <div
+              className="size-full transition-opacity duration-[800ms] ease-[cubic-bezier(0.47,0,0.23,1)] motion-reduce:transition-none"
+              style={{ opacity: slot.opacity }}
+            >
+              <MediaFrame
+                src={src}
+                alt=""
+                pendingLabel="client-portrait"
+                tone="tile"
+                sizes="(max-width: 1280px) 30vw, 381px"
+                imageClassName="object-cover!"
+                className="size-full border-0 bg-white"
+              />
+            </div>
+          </div>
+        );
+      })}
     </div>
   );
 }
@@ -118,14 +128,29 @@ export const HappyClientsCarousel: React.FC<HappyClientsCarouselProps> = ({
   className = '',
 }) => {
   const [index, setIndex] = useState(0);
+  const [from, setFrom] = useState(0);
   const [dir, setDir] = useState(1);
   const count = reviews.length;
   const review = reviews[index];
+  const deck = reviews[0]?.photos;
   const touchStart = useRef<{ x: number; y: number } | null>(null);
 
   const go = (delta: number) => {
     setDir(delta);
+    setFrom(index);
     setIndex((current) => (current + delta + count) % count);
+  };
+
+  const copyMotion = (slideIndex: number) => {
+    if (slideIndex === index) return 'z-10 translate-y-0 opacity-100';
+    if (slideIndex === from) {
+      return dir > 0
+        ? 'z-0 -translate-y-8 opacity-0'
+        : 'z-0 translate-y-8 opacity-0';
+    }
+    return dir > 0
+      ? 'z-0 translate-y-8 opacity-0'
+      : 'z-0 -translate-y-8 opacity-0';
   };
 
   const handleTouchStart = (event: React.TouchEvent) => {
@@ -159,7 +184,7 @@ export const HappyClientsCarousel: React.FC<HappyClientsCarouselProps> = ({
           ? 'relative'
           : 'absolute inset-x-0 top-0'
         : 'absolute inset-0';
-    return `${position} transition-[opacity,transform] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none motion-reduce:transform-none ${
+    return `${position} ${COPY_EASE} ${
       active
         ? 'z-10 translate-x-0 opacity-100'
         : `z-0 ${exit} pointer-events-none opacity-0`
@@ -177,15 +202,19 @@ export const HappyClientsCarousel: React.FC<HappyClientsCarouselProps> = ({
           type scale and starts overflowing the panel, so the stacked
           layout takes over earlier than the rest of the site's `lg` cutoff. */}
       <div className="relative hidden aspect-[1680/538] min-h-[20rem] xl:block">
-        {reviews.map((item, slideIndex) => (
-          <div
-            key={`${item.name}-${slideIndex}`}
-            className={slideMotion(slideIndex)}
-            aria-hidden={slideIndex !== index}
-          >
-            <DesktopSlide review={item} />
-          </div>
-        ))}
+        {deck ? <DesktopSlide photos={deck} rotation={index % FAN_SLOTS.length} /> : null}
+
+        <div className="pointer-events-none absolute inset-[20.45%_14.85%_27.7%_49.29%] z-10 overflow-hidden">
+          {reviews.map((item, slideIndex) => (
+            <div
+              key={`${item.role}-${slideIndex}`}
+              className={`absolute inset-0 flex flex-col ${COPY_EASE} ${copyMotion(slideIndex)}`}
+              aria-hidden={slideIndex !== index}
+            >
+              <QuoteCopy review={item} />
+            </div>
+          ))}
+        </div>
 
         <button
           type="button"
@@ -216,7 +245,7 @@ export const HappyClientsCarousel: React.FC<HappyClientsCarouselProps> = ({
             >
               <div className="relative mx-auto aspect-[381/470] w-[min(100%,20rem)] shrink-0 overflow-hidden rounded-media bg-white">
                 <MediaFrame
-                  src={item.photos[2]}
+                  src={(deck ?? item.photos)[(2 - (index % 3) + 3) % 3]}
                   alt=""
                   pendingLabel="client-portrait"
                   tone="tile"
@@ -226,7 +255,7 @@ export const HappyClientsCarousel: React.FC<HappyClientsCarouselProps> = ({
                 />
               </div>
 
-              <div className="rounded-[3.125rem] bg-[#f01424] px-8 py-10">
+              <div className="rounded-[3.125rem] bg-brand-red px-8 py-10">
                 <div className="flex flex-col">
                   <QuoteCopy review={item} />
                 </div>
