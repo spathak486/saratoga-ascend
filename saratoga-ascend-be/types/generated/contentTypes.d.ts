@@ -505,6 +505,40 @@ export interface ApiClientLogosSectionClientLogosSection
   };
 }
 
+export interface ApiClientReviewClientReview
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'client_reviews';
+  info: {
+    description: 'Individual client reviews for the carousel';
+    displayName: 'Client Review';
+    pluralName: 'client-reviews';
+    singularName: 'client-review';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::client-review.client-review'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
+    photos: Schema.Attribute.Media<'images', true> & Schema.Attribute.Required;
+    place: Schema.Attribute.String & Schema.Attribute.Required;
+    publishedAt: Schema.Attribute.DateTime;
+    quote: Schema.Attribute.Text & Schema.Attribute.Required;
+    role: Schema.Attribute.String;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiContactSubmissionContactSubmission
   extends Struct.CollectionTypeSchema {
   collectionName: 'contact-submissions';
@@ -882,6 +916,7 @@ export interface ApiPagePage extends Struct.CollectionTypeSchema {
         'references.mission-reference',
         'references.achievements',
         'references.legal-content',
+        'references.happy-clients-reference',
       ]
     >;
     seo: Schema.Attribute.Component<'shared.seo', false> &
@@ -1488,6 +1523,7 @@ declare module '@strapi/strapi' {
       'admin::user': AdminUser;
       'api::achievement-card.achievement-card': ApiAchievementCardAchievementCard;
       'api::client-logos-section.client-logos-section': ApiClientLogosSectionClientLogosSection;
+      'api::client-review.client-review': ApiClientReviewClientReview;
       'api::contact-submission.contact-submission': ApiContactSubmissionContactSubmission;
       'api::content-block.content-block': ApiContentBlockContentBlock;
       'api::cta.cta': ApiCtaCta;
