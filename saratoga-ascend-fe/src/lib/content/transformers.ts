@@ -13,6 +13,7 @@ import type {
   RawPageNode,
   RawSeo,
   RawServiceReference,
+  RawWhatWeDoReference,
 } from '@/lib/graphql';
 
 // Pure transforms: turn raw Strapi GraphQL shapes into the resolved shapes
@@ -154,6 +155,37 @@ export function resolveSectionImages(
                       logo: unwrapImage(cardEntity.card.logo),
                     }
                   : null,
+              }))
+            : null,
+        },
+      };
+    }
+
+    case 'ComponentReferencesWhatWeDoReference': {
+      const wwdRef = section as RawWhatWeDoReference;
+      const wwd = wwdRef.whatWeDoSection;
+      if (!wwd) return section;
+
+      return {
+        ...section,
+        whatWeDoSection: {
+          ...wwd,
+          photo: unwrapImage(wwd.photo),
+          emblem: unwrapImage(wwd.emblem),
+          video: unwrapImage(wwd.video),
+          cta: resolveLink(wwd.cta),
+          services: wwd.services
+            ? wwd.services.map(svc => ({
+                ...svc,
+                image: unwrapImage(svc.image),
+                cta: resolveLink(svc.cta),
+              }))
+            : null,
+          customItems: wwd.customItems
+            ? wwd.customItems.map(item => ({
+                ...item,
+                image: unwrapImage(item.image),
+                cta: resolveLink(item.cta),
               }))
             : null,
         },
