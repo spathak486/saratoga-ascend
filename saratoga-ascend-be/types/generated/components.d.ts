@@ -211,6 +211,20 @@ export interface ReferencesServiceReference extends Struct.ComponentSchema {
   };
 }
 
+export interface ReferencesWhatWeDoReference extends Struct.ComponentSchema {
+  collectionName: 'components_references_what_we_do_references';
+  info: {
+    displayName: 'What We Do Reference';
+    icon: 'briefcase';
+  };
+  attributes: {
+    whatWeDoSection: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::what-we-do-section.what-we-do-section'
+    >;
+  };
+}
+
 export interface SharedGeneralLink extends Struct.ComponentSchema {
   collectionName: 'components_shared_general_links';
   info: {
@@ -297,6 +311,7 @@ declare module '@strapi/strapi' {
       'references.legal-content': ReferencesLegalContent;
       'references.mission-reference': ReferencesMissionReference;
       'references.service-reference': ReferencesServiceReference;
+      'references.what-we-do-reference': ReferencesWhatWeDoReference;
       'shared.general-link': SharedGeneralLink;
       'shared.highlight': SharedHighlight;
       'shared.link-column': SharedLinkColumn;

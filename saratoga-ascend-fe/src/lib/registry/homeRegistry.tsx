@@ -6,6 +6,7 @@ import type {
   CtaReference,
   FaqsReference,
   ServiceReference,
+  WhatWeDoReference,
   MissionReference,
   AchievementsReference,
   LegalContentReference,
@@ -227,6 +228,34 @@ export const SECTION_REGISTRY: Record<
         title={heading?.title ?? undefined}
         description={cleanDescription}
         services={services && services.length > 0 ? services : undefined}
+      />
+    );
+  },
+
+  ComponentReferencesWhatWeDoReference: (section, index) => {
+    const wRef = section as WhatWeDoReference;
+    const wwd = wRef.whatWeDoSection;
+    
+    const serviceLines = wwd?.services?.map(svc => ({
+      heading: svc?.title || svc?.pageTitle || '',
+      blurb: svc?.summary || '',
+      features: svc?.highlights?.map(h => h.text).filter(Boolean) || [],
+      href: svc?.cta?.href || (svc?.slug ? `/${svc.slug}` : '/'),
+      imageSrc: svc?.image?.url || undefined,
+    })) || [];
+
+    return (
+      <WhatWeDoSection
+        key={`what-we-do-${index}`}
+        title={wwd?.title ?? undefined}
+        description={wwd?.description ?? undefined}
+        photoSrc={wwd?.photo?.url ?? undefined}
+        emblemSrc={wwd?.emblem?.url ?? undefined}
+        videoSrc={wwd?.video?.url ?? undefined}
+        videoCopy={wwd?.videoCopy ?? undefined}
+        ctaLabel={wwd?.cta?.label ?? undefined}
+        ctaHref={wwd?.cta?.href ?? undefined}
+        serviceLines={serviceLines}
       />
     );
   },
