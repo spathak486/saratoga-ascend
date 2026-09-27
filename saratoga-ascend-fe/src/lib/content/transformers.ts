@@ -14,6 +14,7 @@ import type {
   RawSeo,
   RawServiceReference,
   RawWhatWeDoReference,
+  RawHappyClientsReference,
 } from '@/lib/graphql';
 
 // Pure transforms: turn raw Strapi GraphQL shapes into the resolved shapes
@@ -189,6 +190,19 @@ export function resolveSectionImages(
               }))
             : null,
         },
+      };
+    }
+
+    case 'ComponentReferencesHappyClientsReference': {
+      const hcRef = section as RawHappyClientsReference;
+      if (!hcRef.reviews) return section;
+
+      return {
+        ...section,
+        reviews: hcRef.reviews.map((review) => ({
+          ...review,
+          photos: review.photos ? review.photos.map((p) => unwrapImage(p)) : null,
+        })),
       };
     }
 

@@ -231,6 +231,22 @@ export interface RawLegalContentReference {
   bodyColor?: string | null;
 }
 
+export interface RawClientReview {
+  id?: string;
+  role?: string | null;
+  name: string;
+  place: string;
+  quote: string;
+  photos?: RawStrapiMedia[] | null;
+}
+
+export interface RawHappyClientsReference {
+  __typename: 'ComponentReferencesHappyClientsReference';
+  title?: string | null;
+  description?: string | null;
+  reviews?: RawClientReview[] | null;
+}
+
 /**
  * Anything a Strapi dynamic zone can return. The catch-all member keeps
  * forward compatibility: components not yet registered resolve through Zod
@@ -246,6 +262,7 @@ export type RawDynamicZoneSection =
   | RawAchievementsReference
   | RawLegalContentReference
   | RawWhatWeDoReference
+  | RawHappyClientsReference
   | ({ __typename: string } & Record<string, unknown>);
 
 /** Universal slug-driven page (Strapi `pages` collection). */
