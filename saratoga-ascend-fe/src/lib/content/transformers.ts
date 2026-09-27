@@ -132,6 +132,7 @@ export function resolveSectionImages(
           image: unwrapImage(ms.image),
           shieldIcon: unwrapImage(ms.shieldIcon),
           pulseIcon: unwrapImage(ms.pulseIcon),
+          cta: resolveLink(ms.cta),
         },
       };
     }

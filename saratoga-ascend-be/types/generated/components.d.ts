@@ -242,6 +242,7 @@ export interface SharedHighlight extends Struct.ComponentSchema {
     icon: 'check';
   };
   attributes: {
+    subtext: Schema.Attribute.String;
     text: Schema.Attribute.String & Schema.Attribute.Required;
   };
 }

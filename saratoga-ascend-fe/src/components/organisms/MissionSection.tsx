@@ -13,21 +13,19 @@ export interface MissionSectionProps {
   imageSrc?: string;
   shieldIconSrc?: string;
   pulseIconSrc?: string;
-  highlights?: string[];
+  highlights?: { text: string; subtext?: string | null }[];
   heartSrc?: string;
+  cta?: {
+    label: string;
+    href: string;
+    target?: string;
+    isExternal?: boolean;
+  };
 }
 
 const BUTTERFLY_SRC = '/images/four-decades.gif';
 const ACCENT = 'Military & Federal';
 const FEDERAL_HREF = '/federal';
-
-/** Second lines from the Figma cards. Applied only when the CMS title matches and does not already include them. */
-const FEATURE_DETAILS: Record<string, string> = {
-  'Nationwide Coverage': 'Active across all 50 states & territories',
-  'Cleared Personnel': 'Government & military facilities ready',
-  'Dedicated Compliance': '100% rigorous credentialing teams',
-  '24/7 Mission Support': 'Always on standby for providers & clients',
-};
 
 function titleWithAccent(title: string): React.ReactNode {
   const index = title.indexOf(ACCENT);
@@ -39,12 +37,6 @@ function titleWithAccent(title: string): React.ReactNode {
       {title.slice(index + ACCENT.length)}
     </>
   );
-}
-
-function detailFor(text: string): string | undefined {
-  const detail = FEATURE_DETAILS[text.trim()];
-  if (!detail || text.includes(detail)) return undefined;
-  return detail;
 }
 
 function FeatureCheck() {
@@ -97,10 +89,10 @@ function GlassTile({
  * that whole mark inside the Figma plate (641×707), at the same size as the
  * 750px artwork, without clipping the wings.
  */
-function ButterflyMark() {
+function ButterflyMark({ src }: { src?: string }) {
   return (
     <img
-      src={BUTTERFLY_SRC}
+      src={src || BUTTERFLY_SRC}
       alt=""
       className="pointer-events-none absolute max-w-none"
       style={{
@@ -120,11 +112,13 @@ function ButterflyMark() {
 export const MissionSection: React.FC<MissionSectionProps> = ({
   title,
   description,
+  imageSrc,
   shieldIconSrc = '/images/about/icon-shield.svg',
   pulseIconSrc = '/images/about/icon-pulse.svg',
   highlights,
+  cta,
 }) => {
-  const items = (highlights ?? []).map((text) => text.trim()).filter(Boolean);
+  const items = highlights ?? [];
 
   return (
     <Section
@@ -159,8 +153,10 @@ export const MissionSection: React.FC<MissionSectionProps> = ({
 
           {items.length > 0 ? (
             <ul className="grid grid-cols-1 gap-[1.875rem] sm:grid-cols-2">
-              {items.map((text, index) => {
-                const detail = detailFor(text);
+              {items.map((item, index) => {
+                const text = item.text.trim();
+                if (!text) return null;
+                const detail = item.subtext?.trim();
                 return (
                   <li
                     key={`${index}-${text}`}
@@ -184,12 +180,13 @@ export const MissionSection: React.FC<MissionSectionProps> = ({
           ) : null}
 
           <GeneralLink
-            href={FEDERAL_HREF}
+            href={cta?.href || FEDERAL_HREF}
+            target={cta?.target || '_self'}
             variant="unstyled"
             rightIcon={<ArrowUpRightIcon className="size-6" />}
             className="inline-flex w-fit items-center gap-3 rounded-button bg-cta-gradient px-6 py-3 font-sans text-button font-medium text-white shadow-button transition-opacity duration-200 hover:opacity-90"
           >
-            Explore Federal Solutions
+            {cta?.label || 'Explore Federal Solutions'}
           </GeneralLink>
         </div>
 
@@ -197,7 +194,7 @@ export const MissionSection: React.FC<MissionSectionProps> = ({
           data-butterfly-stage
           className="relative mx-auto aspect-[641/707] w-full max-w-[40.0625rem] overflow-hidden xl:mx-0 xl:max-w-none"
         >
-          <ButterflyMark />
+          <ButterflyMark src={imageSrc} />
           <GlassTile
             src={shieldIconSrc}
             className="top-[3.262%] left-[14.041%] z-[1] w-[17.773%] rounded-[12.3%] backdrop-blur-[12px]"

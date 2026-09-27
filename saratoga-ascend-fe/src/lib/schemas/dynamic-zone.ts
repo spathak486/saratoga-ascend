@@ -139,6 +139,7 @@ export type ServiceReference = z.infer<typeof ServiceReferenceSchema>;
 
 export const MissionHighlightSchema = z.object({
   text: z.string(),
+  subtext: z.string().nullable().optional(),
 });
 
 export type MissionHighlight = z.infer<typeof MissionHighlightSchema>;
@@ -152,6 +153,7 @@ export const MissionSectionEntitySchema = z.object({
   image: StrapiImageSchema.nullable().optional(),
   shieldIcon: StrapiImageSchema.nullable().optional(),
   pulseIcon: StrapiImageSchema.nullable().optional(),
+  cta: GeneralLinkSchema.nullable().optional(),
 });
 
 export type MissionSectionEntity = z.infer<typeof MissionSectionEntitySchema>;

@@ -242,7 +242,13 @@ export const SECTION_REGISTRY: Record<
         imageSrc={ms?.image?.url ?? undefined}
         shieldIconSrc={ms?.shieldIcon?.url ?? undefined}
         pulseIconSrc={ms?.pulseIcon?.url ?? undefined}
-        highlights={ms?.highlights?.map((h) => h.text) ?? undefined}
+        cta={ms?.cta ? {
+          label: ms.cta.label,
+          href: ms.cta.href,
+          target: ms.cta.target,
+          isExternal: ms.cta.isExternal ?? undefined,
+        } : undefined}
+        highlights={ms?.highlights?.map((h) => ({ text: h.text, subtext: h.subtext })) ?? undefined}
       />
     );
   },

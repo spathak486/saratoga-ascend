@@ -85,10 +85,10 @@ const homeSections: DynamicZoneSection[] = [
         { text: '24/7 Mission Support' },
       ],
       image: {
-        url: '/images/about/heart.png',
+        url: '/images/four-decades.gif',
         width: 750,
         height: 750,
-        alternativeText: 'Mission heart',
+        alternativeText: 'Mission animation',
         formats: null,
       },
       shieldIcon: {
