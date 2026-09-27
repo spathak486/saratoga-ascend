@@ -2,6 +2,8 @@ import React from 'react';
 import { Container, Heading, Section, Text } from '../atoms';
 import { CtaButton } from '../molecules/CtaButton';
 
+const HERO_BG = '/images/hero-final-bg.png';
+
 function stripHtml(value?: string | null): string | null {
   if (!value) return null;
   const stripped = value.replace(/<[^>]*>?/gm, '').trim();
@@ -31,7 +33,7 @@ function splitHeroTitle(title?: string | null) {
 }
 
 export interface HeroSectionProps {
-  /** Motion clip when available — falls back to the still. */
+  /** Motion clip when available — kept for CMS video banners. */
   videoSrc?: string;
   helixSrc?: string;
   mediaAlt?: string;
@@ -45,12 +47,12 @@ export interface HeroSectionProps {
 }
 
 const bandStyle: React.CSSProperties = {
-  minHeight: 'min(36rem, 100svh)',
+  minHeight: 'min(56.25rem, 100svh)',
 };
 
 const copyStyle: React.CSSProperties = {
-  paddingTop: 'calc(var(--spacing-nav-h) + clamp(2rem, 11.458vw, 13.75rem))',
-  paddingBottom: 'clamp(2rem, 11.458vw, 13.75rem)',
+  paddingTop: 'clamp(8rem, 17.708vw, 21.25rem)',
+  paddingBottom: 'clamp(3rem, 8.333vw, 6.5rem)',
 };
 
 const headingStyle: React.CSSProperties = {
@@ -63,40 +65,19 @@ const ledeStyle: React.CSSProperties = {
 };
 
 const ctaStyle: React.CSSProperties = {
-  marginTop: 'clamp(1.75rem, 3.594vw, 4.3125rem)',
-};
-
-const leafStyle: React.CSSProperties = {
-  position: 'absolute',
-  top: '-6.97%',
-  left: 0,
-  width: '100%',
-  height: '114.63%',
-  maxWidth: 'none',
-  objectFit: 'cover',
-  objectPosition: 'center 42%',
+  marginTop: 'clamp(1.5rem, 2.5vw, 2.5rem)',
 };
 
 /**
- * Opens the page with the DNA helix bleeding off the right edge and the thesis
- * headline on the left. Pulled up under the sticky nav (`-mt-nav-h`) so the
- * artwork reads continuous with the header, matching the artboard where the
- * hero band begins beneath the utility row only.
- *
- * Artboard 23:133 / 23:134 — 1920×1020 visual band. Copy on the 120px gutter.
- * Headline 340px from the band top. Body 47px below the headline (24px
- * medium, 599px). CTA 69px below the body (180×60). Helix frame 2162×1020,
- * centred on 50% + 495px, image leaf 114.63% tall and pulled up 6.97%.
- *
- * Nested clamp/min values live in `style` because commas inside Tailwind
- * arbitrary classes are treated as class separators and never emit CSS.
+ * Homepage hero (Figma 525:1346) — 1920×900, washed photo ground, two-line
+ * serif title, navy lede. CMS title / description / CTA still drive copy.
+ * `helixSrc` and video props stay on the interface so GraphQL banners
+ * validate; the visible background is the local hero plate.
  */
 export const HeroSection: React.FC<HeroSectionProps> = ({
   videoSrc,
   helixSrc,
-  mediaAlt,
   title,
-  subTitle,
   description,
   ctaLabel,
   ctaHref,
@@ -111,34 +92,22 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
     mediaExt === '.webm' ||
     mediaExt === '.mov';
   const resolvedVideoSrc = videoSrc || (isCmsVideo ? helixSrc : undefined);
-  const stillSrc = isCmsVideo && !videoSrc ? undefined : helixSrc;
 
   return (
-  <Section
-    id="overview"
-    aria-labelledby="hero-heading"
-    tone="surface"
-    spacing="none"
-    bleed
-    className="-mt-nav-h overflow-hidden"
-  >
-    <div className="relative md:h-hero-min md:min-h-hero-min" style={bandStyle}>
-      {/*
-        23:135 is 2162 wide, left = 50% + 495px of the 1920 artboard
-        (75.78125%), then pulled back by half its own width. Below md the
-        same crop sits in the lower half so the headline keeps a clear
-        column — the file has no mobile frame; that is the hierarchy the
-        desktop composition implies, not a scaled-down 1920 layout.
-      */}
-      <div
-        className="pointer-events-none absolute inset-x-0 bottom-0 overflow-hidden max-md:h-[20rem] md:inset-0 md:h-full"
-        aria-hidden="true"
-      >
-        <div className="absolute inset-y-0 left-[75.78125%] w-[112.604166%] -translate-x-1/2">
+    <Section
+      id="overview"
+      aria-labelledby="hero-heading"
+      tone="surface"
+      spacing="none"
+      bleed
+      className="-mt-nav-h overflow-hidden"
+    >
+      <div className="relative md:h-hero-min md:min-h-hero-min" style={bandStyle}>
+        <div className="pointer-events-none absolute inset-0" aria-hidden="true">
           {resolvedVideoSrc ? (
             <video
-              style={leafStyle}
-              poster={stillSrc}
+              className="absolute inset-0 size-full object-cover object-center"
+              poster={HERO_BG}
               autoPlay
               muted
               loop
@@ -149,66 +118,57 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             </video>
           ) : (
             <img
-              src={stillSrc}
-              alt={mediaAlt}
-              width={2162}
-              height={1020}
-              style={leafStyle}
+              src={HERO_BG}
+              alt=""
+              width={1920}
+              height={900}
+              className="absolute inset-0 size-full object-cover object-center"
               decoding="async"
               fetchPriority="high"
             />
           )}
         </div>
+
+        <Container
+          className="relative z-10 flex min-h-full flex-col items-start"
+          style={copyStyle}
+        >
+          {heading ? (
+            <Heading
+              id="hero-heading"
+              level={1}
+              size="hero"
+              tone="inherit"
+              className="tracking-normal"
+              style={headingStyle}
+            >
+              <span className="block text-ink">{heading.line1}</span>
+              {heading.line2 ? (
+                <span className="block text-brand-cta-from">{heading.line2}</span>
+              ) : null}
+            </Heading>
+          ) : null}
+
+          {lede ? (
+            <Text
+              size="lead"
+              tone="navy"
+              className="font-medium tracking-normal"
+              style={ledeStyle}
+            >
+              {lede}
+            </Text>
+          ) : null}
+
+          {ctaLabel && ctaHref ? (
+            <div style={ctaStyle}>
+              <CtaButton href={ctaHref} className="self-start">
+                {ctaLabel}
+              </CtaButton>
+            </div>
+          ) : null}
+        </Container>
       </div>
-
-      <div className="bg-hero-scrim pointer-events-none absolute inset-0 z-[1]" aria-hidden="true" />
-
-      <Container
-        className="relative z-10 flex min-h-full flex-col items-start"
-        style={copyStyle}
-      >
-        {subTitle ? (
-          <span className="mb-2 block text-sm font-semibold tracking-wider uppercase text-brand-cta-from">
-            {subTitle}
-          </span>
-        ) : null}
-
-        {heading ? (
-          <Heading
-            id="hero-heading"
-            level={1}
-            size="hero"
-            tone="inherit"
-            className="tracking-normal"
-            style={headingStyle}
-          >
-            <span className="block text-ink">{heading.line1}</span>
-            {heading.line2 ? (
-              <span className="block text-brand-cta-from">{heading.line2}</span>
-            ) : null}
-          </Heading>
-        ) : null}
-
-        {lede ? (
-          <Text
-            size="lead"
-            tone="navy"
-            className="font-medium tracking-normal"
-            style={ledeStyle}
-          >
-            {lede}
-          </Text>
-        ) : null}
-
-        {(ctaLabel && ctaHref) ? (
-          <div style={ctaStyle}>
-            <CtaButton href={ctaHref} className="self-start">
-              {ctaLabel}
-            </CtaButton>
-          </div>
-        ) : null}
-      </Container>
-    </div>
-  </Section>
+    </Section>
   );
 };

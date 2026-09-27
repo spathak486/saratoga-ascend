@@ -35,6 +35,27 @@ export const ArrowUpRightIcon: React.FC<IconProps> = ({
   </svg>
 );
 
+/** Magnifying glass in the header search control (Figma node 525:1686). */
+export const SearchIcon: React.FC<IconProps> = ({
+  className = 'size-6',
+}) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    className={className}
+    aria-hidden="true"
+    focusable="false"
+  >
+    <path
+      d="M16.6725 16.6412L21 21M19 11C19 15.4183 15.4183 19 11 19C6.58172 19 3 15.4183 3 11C3 6.58172 6.58172 3 11 3C15.4183 3 19 6.58172 19 11Z"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
 /** Dropdown indicator beside a primary navigation item. */
 export const CaretDownIcon: React.FC<IconProps> = ({
   className = 'size-4',
