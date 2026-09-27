@@ -195,18 +195,14 @@ export function resolveSectionImages(
 
     case 'ComponentReferencesHappyClientsReference': {
       const hcRef = section as RawHappyClientsReference;
-      const hcSection = hcRef.happyClientsSection;
-      if (!hcSection || !hcSection.reviews) return section;
+      if (!hcRef.reviews) return section;
 
       return {
         ...section,
-        happyClientsSection: {
-          ...hcSection,
-          reviews: hcSection.reviews.map((review) => ({
-            ...review,
-            photos: review.photos ? review.photos.map((p) => unwrapImage(p)) : null,
-          })),
-        }
+        reviews: hcRef.reviews.map((review) => ({
+          ...review,
+          photos: review.photos ? review.photos.map((p) => unwrapImage(p)) : null,
+        })),
       };
     }
 

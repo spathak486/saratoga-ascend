@@ -162,6 +162,23 @@ export interface ReferencesFaQs extends Struct.ComponentSchema {
   };
 }
 
+export interface ReferencesHappyClientsReference
+  extends Struct.ComponentSchema {
+  collectionName: 'components_references_happy_clients_references';
+  info: {
+    description: '';
+    displayName: 'Happy Clients Reference';
+  };
+  attributes: {
+    description: Schema.Attribute.Text;
+    reviews: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::client-review.client-review'
+    >;
+    title: Schema.Attribute.String;
+  };
+}
+
 export interface ReferencesLegalContent extends Struct.ComponentSchema {
   collectionName: 'components_references_legal_contents';
   info: {
@@ -323,6 +340,7 @@ declare module '@strapi/strapi' {
       'references.client-logos-reference': ReferencesClientLogosReference;
       'references.cta': ReferencesCta;
       'references.fa-qs': ReferencesFaQs;
+      'references.happy-clients-reference': ReferencesHappyClientsReference;
       'references.legal-content': ReferencesLegalContent;
       'references.mission-reference': ReferencesMissionReference;
       'references.service-reference': ReferencesServiceReference;

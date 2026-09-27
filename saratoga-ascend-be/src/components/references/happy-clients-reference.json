@@ -6,10 +6,16 @@
   },
   "options": {},
   "attributes": {
-    "happyClientsSection": {
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "text"
+    },
+    "reviews": {
       "type": "relation",
-      "relation": "oneToOne",
-      "target": "api::happy-clients-section.happy-clients-section"
+      "relation": "oneToMany",
+      "target": "api::client-review.client-review"
     }
   }
 }

@@ -232,7 +232,7 @@ export interface RawLegalContentReference {
 }
 
 export interface RawClientReview {
-  id?: string;
+  documentId?: string;
   role?: string | null;
   name: string;
   place: string;
@@ -240,17 +240,11 @@ export interface RawClientReview {
   photos?: RawStrapiMedia[] | null;
 }
 
-export interface RawHappyClientsSection {
-  documentId?: string;
-  referenceTitle?: string | null;
+export interface RawHappyClientsReference {
+  __typename: 'ComponentReferencesHappyClientsReference';
   title?: string | null;
   description?: string | null;
   reviews?: RawClientReview[] | null;
-}
-
-export interface RawHappyClientsReference {
-  __typename: 'ComponentReferencesHappyClientsReference';
-  happyClientsSection?: RawHappyClientsSection | null;
 }
 
 /**
