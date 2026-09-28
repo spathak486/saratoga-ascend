@@ -485,6 +485,9 @@ export interface ApiBlogBlog extends Struct.CollectionTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
+    articleDate: Schema.Attribute.Date;
+    categoryType: Schema.Attribute.Enumeration<['Blog', 'Newspaper']> &
+      Schema.Attribute.DefaultTo<'Blog'>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -494,6 +497,7 @@ export interface ApiBlogBlog extends Struct.CollectionTypeSchema {
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::blog.blog'> &
       Schema.Attribute.Private;
     publishedAt: Schema.Attribute.DateTime;
+    readTime: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<5>;
     Section: Schema.Attribute.DynamicZone<
       [
         'references.banner-reference',
@@ -509,7 +513,7 @@ export interface ApiBlogBlog extends Struct.CollectionTypeSchema {
       ]
     >;
     seo: Schema.Attribute.Component<'shared.seo', false>;
-    slug: Schema.Attribute.UID<'title'> & Schema.Attribute.Required;
+    slug: Schema.Attribute.String & Schema.Attribute.Required;
     summary: Schema.Attribute.Text;
     title: Schema.Attribute.String & Schema.Attribute.Required;
     updatedAt: Schema.Attribute.DateTime;
@@ -865,6 +869,7 @@ export interface ApiNewsNews extends Struct.CollectionTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
+    articleDate: Schema.Attribute.Date;
     categoryType: Schema.Attribute.Enumeration<['Blog', 'Newspaper']> &
       Schema.Attribute.DefaultTo<'Newspaper'>;
     createdAt: Schema.Attribute.DateTime;
@@ -876,6 +881,7 @@ export interface ApiNewsNews extends Struct.CollectionTypeSchema {
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::news.news'> &
       Schema.Attribute.Private;
     publishedAt: Schema.Attribute.DateTime;
+    readTime: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<5>;
     Section: Schema.Attribute.DynamicZone<
       [
         'references.banner-reference',
@@ -891,7 +897,7 @@ export interface ApiNewsNews extends Struct.CollectionTypeSchema {
       ]
     >;
     seo: Schema.Attribute.Component<'shared.seo', false>;
-    slug: Schema.Attribute.UID<'title'> & Schema.Attribute.Required;
+    slug: Schema.Attribute.String & Schema.Attribute.Required;
     summary: Schema.Attribute.Text;
     title: Schema.Attribute.String & Schema.Attribute.Required;
     updatedAt: Schema.Attribute.DateTime;
