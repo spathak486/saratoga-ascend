@@ -17,7 +17,7 @@ export function getMockPageBySlug(slug: string): Page | null {
 
 export function getMockArticles(page = 1, pageSize = 10): { articles: Article[]; pagination: Pagination } {
   const sorted = [...mockArticles].sort(
-    (a, b) => new Date(b.publishedAt ?? 0).getTime() - new Date(a.publishedAt ?? 0).getTime()
+    (a, b) => new Date(b.articleDate ?? 0).getTime() - new Date(a.articleDate ?? 0).getTime()
   );
   const start = (page - 1) * pageSize;
   const articles = sorted.slice(start, start + pageSize);
