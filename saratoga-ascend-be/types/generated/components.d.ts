@@ -179,6 +179,23 @@ export interface ReferencesHappyClientsReference
   };
 }
 
+export interface ReferencesLatestInsights extends Struct.ComponentSchema {
+  collectionName: 'components_references_latest_insights';
+  info: {
+    description: 'Select news and blogs for the Latest Insights section';
+    displayName: 'Latest Insights';
+    icon: 'newspaper';
+  };
+  attributes: {
+    blogs: Schema.Attribute.Relation<'oneToMany', 'api::blog.blog'>;
+    heading: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Latest news and insights'>;
+    news: Schema.Attribute.Relation<'oneToMany', 'api::news.news'>;
+    subheading: Schema.Attribute.Text &
+      Schema.Attribute.DefaultTo<'Success is built on consistent effort.'>;
+  };
+}
+
 export interface ReferencesLegalContent extends Struct.ComponentSchema {
   collectionName: 'components_references_legal_contents';
   info: {
@@ -341,6 +358,7 @@ declare module '@strapi/strapi' {
       'references.cta': ReferencesCta;
       'references.fa-qs': ReferencesFaQs;
       'references.happy-clients-reference': ReferencesHappyClientsReference;
+      'references.latest-insights': ReferencesLatestInsights;
       'references.legal-content': ReferencesLegalContent;
       'references.mission-reference': ReferencesMissionReference;
       'references.service-reference': ReferencesServiceReference;

@@ -1,0 +1,74 @@
+{
+  "kind": "collectionType",
+  "collectionName": "blogs",
+  "info": {
+    "singularName": "blog",
+    "pluralName": "blogs",
+    "displayName": "Blog",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "title",
+      "required": true
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "summary": {
+      "type": "text"
+    },
+    "articleDate": {
+      "type": "date"
+    },
+    "readTime": {
+      "type": "integer",
+      "default": 5
+    },
+    "categoryType": {
+      "type": "enumeration",
+      "enum": [
+        "Blog",
+        "Newspaper"
+      ],
+      "default": "Blog"
+    },
+    "description": {
+      "type": "richtext"
+    },
+    "seo": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.seo"
+    },
+    "Section": {
+      "type": "dynamiczone",
+      "components": [
+        "references.banner-reference",
+        "references.cta",
+        "references.fa-qs",
+        "references.client-logos-reference",
+        "references.service-reference",
+        "references.what-we-do-reference",
+        "references.mission-reference",
+        "references.achievements",
+        "references.legal-content",
+        "references.happy-clients-reference"
+      ]
+    }
+  }
+}

@@ -8,6 +8,7 @@ export interface LatestNewsCardProps {
   meta: string;
   href?: string;
   imageSrc?: string;
+  badge?: string;
 }
 
 /**
@@ -19,17 +20,25 @@ export const LatestNewsCard: React.FC<LatestNewsCardProps> = ({
   meta,
   href = '/newsroom',
   imageSrc,
+  badge,
 }) => (
   <article className="group relative flex w-full max-w-[34rem] flex-col">
-    <MediaFrame
-      src={imageSrc}
-      alt=""
+    <div className="relative">
+      <MediaFrame
+        src={imageSrc}
+        alt=""
       pendingLabel="news-photo"
       tone="navyCard"
       sizes="(max-width: 1280px) 100vw, 544px"
       imageClassName="object-cover!"
       className="aspect-[544/431] w-full rounded-none rounded-tr-[6.25rem] border-0 bg-transparent"
     />
+      {badge && (
+        <span className="absolute left-6 top-6 z-10 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-xs text-white backdrop-blur-md">
+          {badge}
+        </span>
+      )}
+    </div>
 
     <div className="mt-7 flex items-center justify-between gap-4">
       <p className="text-body text-brand-on-dark">{meta}</p>
