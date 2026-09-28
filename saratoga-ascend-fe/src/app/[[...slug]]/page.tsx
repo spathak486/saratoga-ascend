@@ -25,7 +25,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: DynamicPageProps): Promise<Metadata> {
   const { slug } = await params;
   const slugPath = slug && slug.length > 0 ? slug.join('/') : '';
-  
+
   let pageData: any = null;
 
   // 1. Try Page
@@ -37,6 +37,13 @@ export async function generateMetadata({ params }: DynamicPageProps): Promise<Me
     const { getArticleBySlug } = await import('@/lib/services');
     const newsResult = await getArticleBySlug(slugPath);
     if (newsResult.data) pageData = newsResult.data;
+  }
+
+  // 3. Try Blog
+  if (!pageData) {
+    const { getBlogBySlug } = await import('@/lib/services');
+    const blogResult = await getBlogBySlug(slugPath);
+    if (blogResult.data) pageData = blogResult.data;
   }
 
   if (!pageData) {
@@ -85,11 +92,12 @@ export default async function DynamicPage({ params }: DynamicPageProps) {
     }
   }
 
-  // 3. (Optional) Try to fetch as a Blog (If you add getBlogBySlug later)
-  // if (!pageData) {
-  //   const blogResult = await getBlogBySlug(slugPath);
-  //   if (blogResult.data) pageData = blogResult.data;
-  // }
+  // 3. Try to fetch as a Blog
+  if (!pageData) {
+    const { getBlogBySlug } = await import('@/lib/services');
+    const blogResult = await getBlogBySlug(slugPath);
+    if (blogResult.data) pageData = blogResult.data;
+  }
 
   if (!pageData) {
     notFound();

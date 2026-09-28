@@ -17,8 +17,8 @@
       "required": true
     },
     "slug": {
-      "type": "uid",
-      "targetField": "title",
+      "type": "string",
+      "regex": "^[A-Za-z0-9-_.~/]*$",
       "required": true
     },
     "image": {
