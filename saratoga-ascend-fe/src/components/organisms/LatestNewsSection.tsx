@@ -95,21 +95,26 @@ export const LatestNewsSection = async ({
   return (
     <section
       aria-labelledby="latest-news-heading"
-      className="relative overflow-hidden bg-brand-navy"
+      className="relative overflow-hidden"
+      style={{ background: 'linear-gradient(176.75deg, #D31E2D 2.68%, #022E4C 97.36%)' }}
     >
       <Container className="py-section">
-        <div className="flex flex-col items-start md:items-center">
+        <div className="flex flex-col items-start gap-[12px]">
           <Heading
             id="latest-news-heading"
             level={2}
             size="section"
             tone="onDark"
-            className="md:text-center"
+            className="text-white text-[72px] leading-[1.2] font-normal text-left"
+            style={{ fontFamily: "'DM Serif Text', serif" }}
           >
             {title}
           </Heading>
           {subTitle && (
-            <p className="mt-4 text-brand-on-dark text-lg md:text-center">
+            <p 
+              className="text-white text-[30px] leading-[40px] text-left"
+              style={{ fontFamily: "'Google Sans Flex', sans-serif" }}
+            >
               {subTitle}
             </p>
           )}
