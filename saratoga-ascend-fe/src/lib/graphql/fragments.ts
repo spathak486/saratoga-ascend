@@ -283,15 +283,16 @@ export const ARTICLE_FIELDS = `
   documentId
   title
   slug
-  content
-  excerpt
-  author
-  category
-  publishedAt
-  createdAt
-  updatedAt
-  featuredImage { ${IMAGE_FIELDS} }
+  summary
+  articleDate
+  readTime
+  categoryType
+  description
+  image { ${IMAGE_FIELDS} }
   seo { ${SEO_FIELDS} }
+  Section {
+    ${DYNAMIC_SECTION_FRAGMENTS}
+  }
 `;
 
 export const BLOG_FIELDS = `

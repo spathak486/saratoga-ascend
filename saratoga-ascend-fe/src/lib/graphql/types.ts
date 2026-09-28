@@ -35,15 +35,14 @@ export interface RawContentNode {
   documentId: string;
   title?: string | null;
   slug?: string | null;
-  content?: string | null;
-  excerpt?: string | null;
-  author?: string | null;
-  category?: string | null;
-  publishedAt?: string | null;
-  createdAt?: string | null;
-  updatedAt?: string | null;
-  featuredImage?: RawStrapiMedia | null;
+  summary?: string | null;
+  articleDate?: string | null;
+  readTime?: number | null;
+  categoryType?: string | null;
+  description?: any | null;
+  image?: RawStrapiMedia | null;
   seo?: RawSeo | null;
+  Section?: RawDynamicZoneSection[] | null;
 }
 
 export interface RawHeroBanner {

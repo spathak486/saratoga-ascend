@@ -7,14 +7,14 @@ export interface ArticlesQueryVariables {
 }
 
 export interface ArticlesQueryResult {
-  articles_connection: RawPaginationConnection<RawContentNode>;
+  newsArticles_connection: RawPaginationConnection<RawContentNode>;
 }
 
 // Uses the *_connection form because it's the only one that returns
 // pagination metadata (page/pageSize/pageCount/total) alongside the list.
 export const ARTICLES_QUERY = `
   query GetArticles($page: Int!, $pageSize: Int!) {
-    articles_connection(
+    newsArticles_connection(
       pagination: { page: $page, pageSize: $pageSize }
       sort: "publishedAt:desc"
       filters: { publishedAt: { notNull: true } }
@@ -30,21 +30,21 @@ export interface ArticleBySlugQueryVariables {
 }
 
 export interface ArticleBySlugQueryResult {
-  articles: RawContentNode[];
+  newsArticles: RawContentNode[];
 }
 
 export const ARTICLE_BY_SLUG_QUERY = `
   query GetArticleBySlug($slug: String!) {
-    articles(filters: { slug: { eq: $slug } }) { ${ARTICLE_FIELDS} }
+    newsArticles(filters: { slug: { eq: $slug } }) { ${ARTICLE_FIELDS} }
   }
 `;
 
 export interface AllArticleSlugsQueryResult {
-  articles: Array<{ slug: string }>;
+  newsArticles: Array<{ slug: string }>;
 }
 
 export const ALL_ARTICLE_SLUGS_QUERY = `
   query GetAllArticleSlugs {
-    articles(filters: { publishedAt: { notNull: true } }) { slug }
+    newsArticles(filters: { publishedAt: { notNull: true } }) { slug }
   }
 `;

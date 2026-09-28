@@ -35,8 +35,9 @@ export function resolveSeo(
 export function resolveImages(node: RawContentNode): RawContentNode {
   return {
     ...node,
-    featuredImage: unwrapImage(node.featuredImage),
+    image: unwrapImage(node.image),
     seo: resolveSeo(node.seo),
+    Section: node.Section ? node.Section.map((sec) => resolveSectionImages(sec)) : node.Section,
   };
 }
 

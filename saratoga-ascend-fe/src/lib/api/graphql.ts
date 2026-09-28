@@ -29,7 +29,7 @@ export const gql = {
       // array is the only reliable failure signal.
       if (body.errors?.length) {
         if (process.env.NODE_ENV === 'development') {
-          console.error('[GQL] Query errors:', body.errors);
+          console.error('[GQL] Query errors:', JSON.stringify(body.errors, null, 2));
         }
         return fail('UNKNOWN', res.status, body.errors[0].message, body.errors);
       }
