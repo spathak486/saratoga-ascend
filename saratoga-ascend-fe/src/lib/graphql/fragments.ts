@@ -293,3 +293,19 @@ export const ARTICLE_FIELDS = `
   featuredImage { ${IMAGE_FIELDS} }
   seo { ${SEO_FIELDS} }
 `;
+
+export const BLOG_FIELDS = `
+  documentId
+  title
+  slug
+  summary
+  articleDate
+  readTime
+  categoryType
+  description
+  image { ${IMAGE_FIELDS} }
+  seo { ${SEO_FIELDS} }
+  Section {
+    ${DYNAMIC_SECTION_FRAGMENTS}
+  }
+`;
