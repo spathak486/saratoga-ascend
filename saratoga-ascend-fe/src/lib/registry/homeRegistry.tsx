@@ -320,6 +320,19 @@ export const SECTION_REGISTRY: Record<
     );
   },
 
+  ComponentReferencesLatestInsights: (section, index) => {
+    const insightsRef = section as any;
+    return (
+      <LatestNewsSection
+        key={`latest-insights-${index}`}
+        title={insightsRef.heading}
+        subTitle={insightsRef.subheading}
+        blogs={insightsRef.blogs}
+        news={insightsRef.news}
+      />
+    );
+  },
+
   ComponentReferencesHappyClientsReference: (section, index) => {
     // Requires an `any` cast until types.ts and schemas are fully regenerated
     // or if `HappyClientsReference` isn't fully narrowed in DynamicZoneSection type

@@ -1,0 +1,29 @@
+{
+  "collectionName": "components_references_latest_insights",
+  "info": {
+    "displayName": "Latest Insights",
+    "icon": "newspaper",
+    "description": "Select news and blogs for the Latest Insights section"
+  },
+  "options": {},
+  "attributes": {
+    "heading": {
+      "type": "string",
+      "default": "Latest news and insights"
+    },
+    "subheading": {
+      "type": "text",
+      "default": "Success is built on consistent effort."
+    },
+    "blogs": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::blog.blog"
+    },
+    "news": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::news.news"
+    }
+  }
+}
