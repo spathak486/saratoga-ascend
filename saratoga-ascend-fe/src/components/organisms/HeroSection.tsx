@@ -100,9 +100,12 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
       tone="surface"
       spacing="none"
       bleed
-      className="-mt-nav-h overflow-hidden"
+      className="overflow-hidden min-[90rem]:-mt-nav-h"
     >
-      <div className="relative md:h-hero-min md:min-h-hero-min" style={bandStyle}>
+      <div
+        className="relative md:h-hero-min md:min-h-hero-min max-md:h-[38.125rem] max-md:!min-h-[38.125rem]"
+        style={bandStyle}
+      >
         <div className="pointer-events-none absolute inset-0" aria-hidden="true">
           {resolvedVideoSrc ? (
             <video
@@ -130,7 +133,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         </div>
 
         <Container
-          className="relative z-10 flex min-h-full flex-col items-start"
+          className="relative z-10 flex min-h-full flex-col items-start max-md:justify-end max-md:gap-5 max-md:!px-5 max-md:!pb-5 max-md:!pt-[18.75rem]"
           style={copyStyle}
         >
           {heading ? (
@@ -139,7 +142,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               level={1}
               size="hero"
               tone="inherit"
-              className="tracking-normal"
+              className="tracking-normal max-md:text-[2rem] max-md:leading-[2.5rem]"
               style={headingStyle}
             >
               <span className="block text-ink">{heading.line1}</span>
@@ -153,7 +156,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             <Text
               size="lead"
               tone="navy"
-              className="font-medium tracking-normal"
+              className="font-medium tracking-normal max-md:text-[1.5rem] max-md:leading-[1.6]"
               style={ledeStyle}
             >
               {lede}

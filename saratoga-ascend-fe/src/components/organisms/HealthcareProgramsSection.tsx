@@ -67,7 +67,8 @@ export const HealthcareProgramsSection: React.FC<HealthcareProgramsSectionProps>
       aria-label={title ? undefined : 'Healthcare programs'}
       tone="surface"
       spacing="none"
-      className="bg-section-wash mt-10 py-10"
+      className="bg-section-wash mt-10 py-10 max-xl:mt-0 max-xl:py-[1.875rem]"
+      containerClassName="max-xl:!px-[7px]"
     >
       <div className="flex flex-col gap-10">
         {title || description ? (
@@ -80,7 +81,7 @@ export const HealthcareProgramsSection: React.FC<HealthcareProgramsSectionProps>
             titleClassName="text-brand-cta-from"
             descriptionSize="sectionLead"
             descriptionStyle={{ color: 'var(--color-ink)' }}
-            className="gap-3"
+            className="gap-3 max-xl:hidden"
           />
         ) : null}
 
