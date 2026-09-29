@@ -1,0 +1,39 @@
+{
+  "kind": "collectionType",
+  "collectionName": "client_reviews",
+  "info": {
+    "singularName": "client-review",
+    "pluralName": "client-reviews",
+    "displayName": "Client Review",
+    "description": "Individual client reviews for the carousel"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "role": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "place": {
+      "type": "string",
+      "required": true
+    },
+    "quote": {
+      "type": "text",
+      "required": true
+    },
+    "photos": {
+      "type": "media",
+      "multiple": true,
+      "required": true,
+      "allowedTypes": [
+        "images"
+      ]
+    }
+  }
+}

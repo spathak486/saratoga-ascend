@@ -30,7 +30,7 @@ export async function getArticles(
   const result = await gql.query<ArticlesQueryResult>(ARTICLES_QUERY, { page, pageSize });
   if (result.error) return result;
 
-  const { nodes, pageInfo } = result.data.articles_connection;
+  const { nodes, pageInfo } = result.data.newsArticles_connection;
   const articles: Article[] = [];
 
   for (const node of nodes) {
@@ -55,7 +55,7 @@ export async function getArticleBySlug(slug: string): Promise<ApiResult<Article>
   const result = await gql.query<ArticleBySlugQueryResult>(ARTICLE_BY_SLUG_QUERY, { slug });
   if (result.error) return result;
 
-  const [entry] = result.data.articles;
+  const [entry] = result.data.newsArticles;
   if (!entry) return fail('NOT_FOUND', 404, `Article not found: ${slug}`);
 
   const parsed = ArticleSchema.safeParse(resolveImages(entry));
@@ -76,5 +76,5 @@ export async function getAllArticleSlugs(): Promise<ApiResult<string[]>> {
   const result = await gql.query<AllArticleSlugsQueryResult>(ALL_ARTICLE_SLUGS_QUERY);
   if (result.error) return result;
 
-  return ok(result.data.articles.map((a) => a.slug));
+  return ok(result.data.newsArticles.map((a) => a.slug));
 }

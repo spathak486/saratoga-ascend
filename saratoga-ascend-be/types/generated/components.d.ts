@@ -162,6 +162,40 @@ export interface ReferencesFaQs extends Struct.ComponentSchema {
   };
 }
 
+export interface ReferencesHappyClientsReference
+  extends Struct.ComponentSchema {
+  collectionName: 'components_references_happy_clients_references';
+  info: {
+    description: '';
+    displayName: 'Happy Clients Reference';
+  };
+  attributes: {
+    description: Schema.Attribute.Text;
+    reviews: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::client-review.client-review'
+    >;
+    title: Schema.Attribute.String;
+  };
+}
+
+export interface ReferencesLatestInsights extends Struct.ComponentSchema {
+  collectionName: 'components_references_latest_insights';
+  info: {
+    description: 'Select news and blogs for the Latest Insights section';
+    displayName: 'Latest Insights';
+    icon: 'newspaper';
+  };
+  attributes: {
+    blogs: Schema.Attribute.Relation<'oneToMany', 'api::blog.blog'>;
+    heading: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Latest news and insights'>;
+    news: Schema.Attribute.Relation<'oneToMany', 'api::news.news'>;
+    subheading: Schema.Attribute.Text &
+      Schema.Attribute.DefaultTo<'Success is built on consistent effort.'>;
+  };
+}
+
 export interface ReferencesLegalContent extends Struct.ComponentSchema {
   collectionName: 'components_references_legal_contents';
   info: {
@@ -211,6 +245,35 @@ export interface ReferencesServiceReference extends Struct.ComponentSchema {
   };
 }
 
+export interface ReferencesWhatWeDoReference extends Struct.ComponentSchema {
+  collectionName: 'components_references_what_we_do_references';
+  info: {
+    displayName: 'What We Do Reference';
+    icon: 'briefcase';
+  };
+  attributes: {
+    whatWeDoSection: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::what-we-do-section.what-we-do-section'
+    >;
+  };
+}
+
+export interface SharedCustomItem extends Struct.ComponentSchema {
+  collectionName: 'components_shared_custom_items';
+  info: {
+    displayName: 'Custom Item';
+    icon: 'bulletList';
+  };
+  attributes: {
+    cta: Schema.Attribute.Component<'shared.general-link', false>;
+    highlights: Schema.Attribute.Component<'shared.highlight', true>;
+    image: Schema.Attribute.Media<'images'>;
+    summary: Schema.Attribute.Text;
+    title: Schema.Attribute.String;
+  };
+}
+
 export interface SharedGeneralLink extends Struct.ComponentSchema {
   collectionName: 'components_shared_general_links';
   info: {
@@ -242,6 +305,7 @@ export interface SharedHighlight extends Struct.ComponentSchema {
     icon: 'check';
   };
   attributes: {
+    subtext: Schema.Attribute.String;
     text: Schema.Attribute.String & Schema.Attribute.Required;
   };
 }
@@ -293,9 +357,13 @@ declare module '@strapi/strapi' {
       'references.client-logos-reference': ReferencesClientLogosReference;
       'references.cta': ReferencesCta;
       'references.fa-qs': ReferencesFaQs;
+      'references.happy-clients-reference': ReferencesHappyClientsReference;
+      'references.latest-insights': ReferencesLatestInsights;
       'references.legal-content': ReferencesLegalContent;
       'references.mission-reference': ReferencesMissionReference;
       'references.service-reference': ReferencesServiceReference;
+      'references.what-we-do-reference': ReferencesWhatWeDoReference;
+      'shared.custom-item': SharedCustomItem;
       'shared.general-link': SharedGeneralLink;
       'shared.highlight': SharedHighlight;
       'shared.link-column': SharedLinkColumn;

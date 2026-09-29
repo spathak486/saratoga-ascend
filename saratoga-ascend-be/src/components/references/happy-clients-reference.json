@@ -1,0 +1,21 @@
+{
+  "collectionName": "components_references_happy_clients_references",
+  "info": {
+    "displayName": "Happy Clients Reference",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "text"
+    },
+    "reviews": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::client-review.client-review"
+    }
+  }
+}

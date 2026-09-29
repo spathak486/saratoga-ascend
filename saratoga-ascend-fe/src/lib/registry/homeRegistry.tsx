@@ -6,6 +6,7 @@ import type {
   CtaReference,
   FaqsReference,
   ServiceReference,
+  WhatWeDoReference,
   MissionReference,
   AchievementsReference,
   LegalContentReference,
@@ -231,6 +232,44 @@ export const SECTION_REGISTRY: Record<
     );
   },
 
+  ComponentReferencesWhatWeDoReference: (section, index) => {
+    const wRef = section as WhatWeDoReference;
+    const wwd = wRef.whatWeDoSection;
+    
+    const serviceLines = wwd?.services?.map(svc => ({
+      heading: svc?.title || svc?.pageTitle || '',
+      blurb: svc?.summary || '',
+      features: svc?.highlights?.map(h => h.text).filter(Boolean) || [],
+      href: svc?.cta?.href || (svc?.slug ? `/${svc.slug}` : '/'),
+      imageSrc: svc?.image?.url || undefined,
+    })) || [];
+
+    const customLines = wwd?.customItems?.map(item => ({
+      heading: item?.title || '',
+      blurb: item?.summary || '',
+      features: item?.highlights?.map(h => h.text).filter(Boolean) || [],
+      href: item?.cta?.href || '/',
+      imageSrc: item?.image?.url || undefined,
+    })) || [];
+
+    const mergedLines = [...serviceLines, ...customLines];
+
+    return (
+      <WhatWeDoSection
+        key={`what-we-do-${index}`}
+        title={wwd?.title ?? undefined}
+        description={wwd?.description ?? undefined}
+        photoSrc={wwd?.photo?.url ?? undefined}
+        emblemSrc={wwd?.emblem?.url ?? undefined}
+        videoSrc={wwd?.video?.url ?? undefined}
+        videoCopy={wwd?.videoCopy ?? undefined}
+        ctaLabel={wwd?.cta?.label ?? undefined}
+        ctaHref={wwd?.cta?.href ?? undefined}
+        serviceLines={mergedLines}
+      />
+    );
+  },
+
   ComponentReferencesMissionReference: (section, index) => {
     const mRef = section as MissionReference;
     const ms = mRef.missionSection;
@@ -242,7 +281,13 @@ export const SECTION_REGISTRY: Record<
         imageSrc={ms?.image?.url ?? undefined}
         shieldIconSrc={ms?.shieldIcon?.url ?? undefined}
         pulseIconSrc={ms?.pulseIcon?.url ?? undefined}
-        highlights={ms?.highlights?.map((h) => h.text) ?? undefined}
+        cta={ms?.cta ? {
+          label: ms.cta.label,
+          href: ms.cta.href,
+          target: ms.cta.target,
+          isExternal: ms.cta.isExternal ?? undefined,
+        } : undefined}
+        highlights={ms?.highlights?.map((h) => ({ text: h.text, subtext: h.subtext })) ?? undefined}
       />
     );
   },
@@ -271,6 +316,41 @@ export const SECTION_REGISTRY: Record<
         showToc={legalRef.showToc ?? true}
         titleColor={legalRef.titleColor ?? undefined}
         bodyColor={legalRef.bodyColor ?? undefined}
+      />
+    );
+  },
+
+  ComponentReferencesLatestInsights: (section, index) => {
+    const insightsRef = section as any;
+    return (
+      <LatestNewsSection
+        key={`latest-insights-${index}`}
+        title={insightsRef.heading}
+        subTitle={insightsRef.subheading}
+        blogs={insightsRef.blogs}
+        news={insightsRef.news}
+      />
+    );
+  },
+
+  ComponentReferencesHappyClientsReference: (section, index) => {
+    // Requires an `any` cast until types.ts and schemas are fully regenerated
+    // or if `HappyClientsReference` isn't fully narrowed in DynamicZoneSection type
+    const hcRef = section as any;
+    const reviews = hcRef.reviews?.map((r: any) => ({
+      role: r.role ?? undefined,
+      name: r.name,
+      place: r.place,
+      quote: r.quote,
+      photos: [r.photos?.[0]?.url, r.photos?.[1]?.url, r.photos?.[2]?.url],
+    })) || [];
+
+    return (
+      <HappyClientsSection
+        key={`happy-clients-${index}`}
+        title={hcRef.title ?? undefined}
+        description={hcRef.description ?? undefined}
+        reviews={reviews}
       />
     );
   },

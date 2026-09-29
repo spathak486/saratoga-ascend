@@ -35,15 +35,14 @@ export interface RawContentNode {
   documentId: string;
   title?: string | null;
   slug?: string | null;
-  content?: string | null;
-  excerpt?: string | null;
-  author?: string | null;
-  category?: string | null;
-  publishedAt?: string | null;
-  createdAt?: string | null;
-  updatedAt?: string | null;
-  featuredImage?: RawStrapiMedia | null;
+  summary?: string | null;
+  articleDate?: string | null;
+  readTime?: number | null;
+  categoryType?: string | null;
+  description?: any | null;
+  image?: RawStrapiMedia | null;
   seo?: RawSeo | null;
+  Section?: RawDynamicZoneSection[] | null;
 }
 
 export interface RawHeroBanner {
@@ -130,6 +129,7 @@ export interface RawServiceEntity {
   summary?: string | null;
   cta?: RawGeneralLink | null;
   image?: RawStrapiMedia | null;
+  highlights?: RawMissionHighlight[] | null;
 }
 
 export interface RawServiceReference {
@@ -141,9 +141,38 @@ export interface RawServiceReference {
   services?: RawServiceEntity[] | null;
 }
 
+export interface RawCustomItem {
+  id?: any;
+  title?: string | null;
+  summary?: string | null;
+  image?: RawStrapiMedia | null;
+  cta?: RawGeneralLink | null;
+  highlights?: RawMissionHighlight[] | null;
+}
+
+export interface RawWhatWeDoSection {
+  documentId?: string;
+  referenceTitle?: string | null;
+  title?: string | null;
+  description?: string | null;
+  cta?: RawGeneralLink | null;
+  photo?: RawStrapiMedia | null;
+  emblem?: RawStrapiMedia | null;
+  video?: RawStrapiMedia | null;
+  videoCopy?: string | null;
+  services?: RawServiceEntity[] | null;
+  customItems?: RawCustomItem[] | null;
+}
+
+export interface RawWhatWeDoReference {
+  __typename: 'ComponentReferencesWhatWeDoReference';
+  whatWeDoSection?: RawWhatWeDoSection | null;
+}
+
 export interface RawMissionHighlight {
   id?: string;
   text: string;
+  subtext?: string | null;
 }
 
 export interface RawMissionReference {
@@ -155,6 +184,7 @@ export interface RawMissionReference {
     image?: RawStrapiMedia | null;
     shieldIcon?: RawStrapiMedia | null;
     pulseIcon?: RawStrapiMedia | null;
+    cta?: RawGeneralLink | null;
     highlights?: RawMissionHighlight[] | null;
   } | null;
 }
@@ -200,6 +230,22 @@ export interface RawLegalContentReference {
   bodyColor?: string | null;
 }
 
+export interface RawClientReview {
+  documentId?: string;
+  role?: string | null;
+  name: string;
+  place: string;
+  quote: string;
+  photos?: RawStrapiMedia[] | null;
+}
+
+export interface RawHappyClientsReference {
+  __typename: 'ComponentReferencesHappyClientsReference';
+  title?: string | null;
+  description?: string | null;
+  reviews?: RawClientReview[] | null;
+}
+
 /**
  * Anything a Strapi dynamic zone can return. The catch-all member keeps
  * forward compatibility: components not yet registered resolve through Zod
@@ -214,6 +260,8 @@ export type RawDynamicZoneSection =
   | RawMissionReference
   | RawAchievementsReference
   | RawLegalContentReference
+  | RawWhatWeDoReference
+  | RawHappyClientsReference
   | ({ __typename: string } & Record<string, unknown>);
 
 /** Universal slug-driven page (Strapi `pages` collection). */

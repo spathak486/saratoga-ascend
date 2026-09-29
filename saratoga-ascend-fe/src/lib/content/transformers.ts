@@ -13,6 +13,8 @@ import type {
   RawPageNode,
   RawSeo,
   RawServiceReference,
+  RawWhatWeDoReference,
+  RawHappyClientsReference,
 } from '@/lib/graphql';
 
 // Pure transforms: turn raw Strapi GraphQL shapes into the resolved shapes
@@ -33,8 +35,9 @@ export function resolveSeo(
 export function resolveImages(node: RawContentNode): RawContentNode {
   return {
     ...node,
-    featuredImage: unwrapImage(node.featuredImage),
+    image: unwrapImage(node.image),
     seo: resolveSeo(node.seo),
+    Section: node.Section ? node.Section.map((sec) => resolveSectionImages(sec)) : node.Section,
   };
 }
 
@@ -132,6 +135,7 @@ export function resolveSectionImages(
           image: unwrapImage(ms.image),
           shieldIcon: unwrapImage(ms.shieldIcon),
           pulseIcon: unwrapImage(ms.pulseIcon),
+          cta: resolveLink(ms.cta),
         },
       };
     }
@@ -156,6 +160,50 @@ export function resolveSectionImages(
               }))
             : null,
         },
+      };
+    }
+
+    case 'ComponentReferencesWhatWeDoReference': {
+      const wwdRef = section as RawWhatWeDoReference;
+      const wwd = wwdRef.whatWeDoSection;
+      if (!wwd) return section;
+
+      return {
+        ...section,
+        whatWeDoSection: {
+          ...wwd,
+          photo: unwrapImage(wwd.photo),
+          emblem: unwrapImage(wwd.emblem),
+          video: unwrapImage(wwd.video),
+          cta: resolveLink(wwd.cta),
+          services: wwd.services
+            ? wwd.services.map(svc => ({
+                ...svc,
+                image: unwrapImage(svc.image),
+                cta: resolveLink(svc.cta),
+              }))
+            : null,
+          customItems: wwd.customItems
+            ? wwd.customItems.map(item => ({
+                ...item,
+                image: unwrapImage(item.image),
+                cta: resolveLink(item.cta),
+              }))
+            : null,
+        },
+      };
+    }
+
+    case 'ComponentReferencesHappyClientsReference': {
+      const hcRef = section as RawHappyClientsReference;
+      if (!hcRef.reviews) return section;
+
+      return {
+        ...section,
+        reviews: hcRef.reviews.map((review) => ({
+          ...review,
+          photos: review.photos ? review.photos.map((p) => unwrapImage(p)) : null,
+        })),
       };
     }
 

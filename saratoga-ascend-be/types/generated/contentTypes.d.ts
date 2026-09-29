@@ -473,6 +473,55 @@ export interface ApiAchievementCardAchievementCard
   };
 }
 
+export interface ApiBlogBlog extends Struct.CollectionTypeSchema {
+  collectionName: 'blogs';
+  info: {
+    description: '';
+    displayName: 'Blog';
+    pluralName: 'blogs';
+    singularName: 'blog';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    articleDate: Schema.Attribute.Date;
+    categoryType: Schema.Attribute.Enumeration<['Blog', 'Newspaper']> &
+      Schema.Attribute.DefaultTo<'Blog'>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    description: Schema.Attribute.RichText;
+    image: Schema.Attribute.Media<'images'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::blog.blog'> &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    readTime: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<5>;
+    Section: Schema.Attribute.DynamicZone<
+      [
+        'references.banner-reference',
+        'references.cta',
+        'references.fa-qs',
+        'references.client-logos-reference',
+        'references.service-reference',
+        'references.what-we-do-reference',
+        'references.mission-reference',
+        'references.achievements',
+        'references.legal-content',
+        'references.happy-clients-reference',
+      ]
+    >;
+    seo: Schema.Attribute.Component<'shared.seo', false>;
+    slug: Schema.Attribute.String & Schema.Attribute.Required;
+    summary: Schema.Attribute.Text;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiClientLogosSectionClientLogosSection
   extends Struct.CollectionTypeSchema {
   collectionName: 'client_logos_sections';
@@ -499,6 +548,40 @@ export interface ApiClientLogosSectionClientLogosSection
     publishedAt: Schema.Attribute.DateTime;
     referenceTitle: Schema.Attribute.String;
     title: Schema.Attribute.String;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiClientReviewClientReview
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'client_reviews';
+  info: {
+    description: 'Individual client reviews for the carousel';
+    displayName: 'Client Review';
+    pluralName: 'client-reviews';
+    singularName: 'client-review';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::client-review.client-review'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
+    photos: Schema.Attribute.Media<'images', true> & Schema.Attribute.Required;
+    place: Schema.Attribute.String & Schema.Attribute.Required;
+    publishedAt: Schema.Attribute.DateTime;
+    quote: Schema.Attribute.Text & Schema.Attribute.Required;
+    role: Schema.Attribute.String;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -747,6 +830,7 @@ export interface ApiMissionSectionMissionSection
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    cta: Schema.Attribute.Component<'shared.general-link', false>;
     description: Schema.Attribute.RichText &
       Schema.Attribute.CustomField<
         'plugin::ckeditor5.CKEditor',
@@ -766,6 +850,55 @@ export interface ApiMissionSectionMissionSection
     pulseIcon: Schema.Attribute.Media<'images'>;
     referenceTitle: Schema.Attribute.String;
     shieldIcon: Schema.Attribute.Media<'images'>;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiNewsNews extends Struct.CollectionTypeSchema {
+  collectionName: 'news';
+  info: {
+    description: '';
+    displayName: 'News';
+    pluralName: 'news-articles';
+    singularName: 'news';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    articleDate: Schema.Attribute.Date;
+    categoryType: Schema.Attribute.Enumeration<['Blog', 'Newspaper']> &
+      Schema.Attribute.DefaultTo<'Newspaper'>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    description: Schema.Attribute.RichText;
+    image: Schema.Attribute.Media<'images'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::news.news'> &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    readTime: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<5>;
+    Section: Schema.Attribute.DynamicZone<
+      [
+        'references.banner-reference',
+        'references.cta',
+        'references.fa-qs',
+        'references.client-logos-reference',
+        'references.service-reference',
+        'references.what-we-do-reference',
+        'references.mission-reference',
+        'references.achievements',
+        'references.legal-content',
+        'references.happy-clients-reference',
+      ]
+    >;
+    seo: Schema.Attribute.Component<'shared.seo', false>;
+    slug: Schema.Attribute.String & Schema.Attribute.Required;
+    summary: Schema.Attribute.Text;
     title: Schema.Attribute.String & Schema.Attribute.Required;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
@@ -877,9 +1010,12 @@ export interface ApiPagePage extends Struct.CollectionTypeSchema {
         'references.fa-qs',
         'references.client-logos-reference',
         'references.service-reference',
+        'references.what-we-do-reference',
         'references.mission-reference',
         'references.achievements',
         'references.legal-content',
+        'references.happy-clients-reference',
+        'references.latest-insights',
       ]
     >;
     seo: Schema.Attribute.Component<'shared.seo', false> &
@@ -912,6 +1048,7 @@ export interface ApiServiceService extends Struct.CollectionTypeSchema {
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     cta: Schema.Attribute.Component<'shared.general-link', false>;
+    highlights: Schema.Attribute.Component<'shared.highlight', true>;
     image: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
@@ -931,6 +1068,44 @@ export interface ApiServiceService extends Struct.CollectionTypeSchema {
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+  };
+}
+
+export interface ApiWhatWeDoSectionWhatWeDoSection
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'what_we_do_sections';
+  info: {
+    displayName: 'What We Do Section';
+    pluralName: 'what-we-do-sections';
+    singularName: 'what-we-do-section';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    cta: Schema.Attribute.Component<'shared.general-link', false>;
+    customItems: Schema.Attribute.Component<'shared.custom-item', true>;
+    description: Schema.Attribute.Text;
+    emblem: Schema.Attribute.Media<'images'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::what-we-do-section.what-we-do-section'
+    > &
+      Schema.Attribute.Private;
+    photo: Schema.Attribute.Media<'images'>;
+    publishedAt: Schema.Attribute.DateTime;
+    referenceTitle: Schema.Attribute.String & Schema.Attribute.Required;
+    services: Schema.Attribute.Relation<'oneToMany', 'api::service.service'>;
+    title: Schema.Attribute.String;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    video: Schema.Attribute.Media<'videos'>;
+    videoCopy: Schema.Attribute.String;
   };
 }
 
@@ -1446,7 +1621,9 @@ declare module '@strapi/strapi' {
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
       'api::achievement-card.achievement-card': ApiAchievementCardAchievementCard;
+      'api::blog.blog': ApiBlogBlog;
       'api::client-logos-section.client-logos-section': ApiClientLogosSectionClientLogosSection;
+      'api::client-review.client-review': ApiClientReviewClientReview;
       'api::contact-submission.contact-submission': ApiContactSubmissionContactSubmission;
       'api::content-block.content-block': ApiContentBlockContentBlock;
       'api::cta.cta': ApiCtaCta;
@@ -1455,10 +1632,12 @@ declare module '@strapi/strapi' {
       'api::footer.footer': ApiFooterFooter;
       'api::hero-banner.hero-banner': ApiHeroBannerHeroBanner;
       'api::mission-section.mission-section': ApiMissionSectionMissionSection;
+      'api::news.news': ApiNewsNews;
       'api::not-found.not-found': ApiNotFoundNotFound;
       'api::our-achievement.our-achievement': ApiOurAchievementOurAchievement;
       'api::page.page': ApiPagePage;
       'api::service.service': ApiServiceService;
+      'api::what-we-do-section.what-we-do-section': ApiWhatWeDoSectionWhatWeDoSection;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;

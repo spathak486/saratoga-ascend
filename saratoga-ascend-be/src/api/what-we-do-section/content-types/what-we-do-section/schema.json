@@ -1,0 +1,64 @@
+{
+  "kind": "collectionType",
+  "collectionName": "what_we_do_sections",
+  "info": {
+    "singularName": "what-we-do-section",
+    "pluralName": "what-we-do-sections",
+    "displayName": "What We Do Section"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "referenceTitle": {
+      "type": "string",
+      "required": true
+    },
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "text"
+    },
+    "cta": {
+      "type": "component",
+      "component": "shared.general-link",
+      "repeatable": false
+    },
+    "photo": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "emblem": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "video": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "videos"
+      ]
+    },
+    "videoCopy": {
+      "type": "string"
+    },
+    "services": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::service.service"
+    },
+    "customItems": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.custom-item"
+    }
+  }
+}

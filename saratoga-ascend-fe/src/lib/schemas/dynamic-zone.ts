@@ -111,6 +111,13 @@ export const ClientLogosReferenceSchema = z.object({
 
 export type ClientLogosReference = z.infer<typeof ClientLogosReferenceSchema>;
 
+export const MissionHighlightSchema = z.object({
+  text: z.string(),
+  subtext: z.string().nullable().optional(),
+});
+
+export type MissionHighlight = z.infer<typeof MissionHighlightSchema>;
+
 export const ServiceEntitySchema = z.object({
   documentId: z.string().optional(),
   pageTitle: z.string().optional(),
@@ -119,6 +126,7 @@ export const ServiceEntitySchema = z.object({
   summary: z.string().nullable().optional(),
   cta: GeneralLinkSchema.nullable().optional(),
   image: StrapiImageSchema.nullable().optional(),
+  highlights: z.array(MissionHighlightSchema).nullable().optional(),
 });
 
 export type ServiceEntity = z.infer<typeof ServiceEntitySchema>;
@@ -137,11 +145,40 @@ export const ServiceReferenceSchema = z.object({
 
 export type ServiceReference = z.infer<typeof ServiceReferenceSchema>;
 
-export const MissionHighlightSchema = z.object({
-  text: z.string(),
+export const CustomItemSchema = z.object({
+  id: z.any().optional(),
+  title: z.string().nullable().optional(),
+  summary: z.string().nullable().optional(),
+  image: StrapiImageSchema.nullable().optional(),
+  cta: GeneralLinkSchema.nullable().optional(),
+  highlights: z.array(MissionHighlightSchema).nullable().optional(),
 });
 
-export type MissionHighlight = z.infer<typeof MissionHighlightSchema>;
+export type CustomItem = z.infer<typeof CustomItemSchema>;
+
+export const WhatWeDoSectionEntitySchema = z.object({
+  documentId: z.string().optional(),
+  referenceTitle: z.string().nullable().optional(),
+  title: z.string().nullable().optional(),
+  description: z.string().nullable().optional(),
+  cta: GeneralLinkSchema.nullable().optional(),
+  photo: StrapiImageSchema.nullable().optional(),
+  emblem: StrapiImageSchema.nullable().optional(),
+  video: StrapiImageSchema.nullable().optional(),
+  videoCopy: z.string().nullable().optional(),
+  services: z.array(ServiceEntitySchema).nullable().optional(),
+  customItems: z.array(CustomItemSchema).nullable().optional(),
+});
+
+export type WhatWeDoSectionEntity = z.infer<typeof WhatWeDoSectionEntitySchema>;
+
+export const WhatWeDoReferenceSchema = z.object({
+  __typename: z.literal('ComponentReferencesWhatWeDoReference'),
+  whatWeDoSection: WhatWeDoSectionEntitySchema.nullable().optional(),
+});
+
+export type WhatWeDoReference = z.infer<typeof WhatWeDoReferenceSchema>;
+
 
 export const MissionSectionEntitySchema = z.object({
   documentId: z.string().optional(),
@@ -152,6 +189,7 @@ export const MissionSectionEntitySchema = z.object({
   image: StrapiImageSchema.nullable().optional(),
   shieldIcon: StrapiImageSchema.nullable().optional(),
   pulseIcon: StrapiImageSchema.nullable().optional(),
+  cta: GeneralLinkSchema.nullable().optional(),
 });
 
 export type MissionSectionEntity = z.infer<typeof MissionSectionEntitySchema>;
@@ -227,6 +265,7 @@ export const DynamicZoneSectionSchema = z.union([
   FaqsReferenceSchema,
   ClientLogosReferenceSchema,
   ServiceReferenceSchema,
+  WhatWeDoReferenceSchema,
   MissionReferenceSchema,
   AchievementsReferenceSchema,
   LegalContentReferenceSchema,

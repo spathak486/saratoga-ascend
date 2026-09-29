@@ -25,16 +25,34 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: DynamicPageProps): Promise<Metadata> {
   const { slug } = await params;
   const slugPath = slug && slug.length > 0 ? slug.join('/') : '';
-  const result = await getPageBySlug(slugPath);
-  const page = result.data;
 
-  if (!page) {
+  let pageData: any = null;
+
+  // 1. Try Page
+  const pageResult = await getPageBySlug(slugPath);
+  if (pageResult.data) pageData = pageResult.data;
+
+  // 2. Try News
+  if (!pageData) {
+    const { getArticleBySlug } = await import('@/lib/services');
+    const newsResult = await getArticleBySlug(slugPath);
+    if (newsResult.data) pageData = newsResult.data;
+  }
+
+  // 3. Try Blog
+  if (!pageData) {
+    const { getBlogBySlug } = await import('@/lib/services');
+    const blogResult = await getBlogBySlug(slugPath);
+    if (blogResult.data) pageData = blogResult.data;
+  }
+
+  if (!pageData) {
     return { title: 'Page Not Found' };
   }
 
-  const seo = page.seo;
+  const seo = pageData.seo;
   return {
-    title: seo?.metaTitle ?? page.pageTitle ?? undefined,
+    title: seo?.metaTitle ?? pageData.pageTitle ?? pageData.title ?? undefined,
     description: seo?.metaDescription ?? seo?.ogDescription ?? undefined,
     openGraph: {
       title: seo?.ogTitle ?? seo?.metaTitle ?? undefined,
@@ -54,22 +72,46 @@ export async function generateMetadata({ params }: DynamicPageProps): Promise<Me
 export default async function DynamicPage({ params }: DynamicPageProps) {
   const { slug } = await params;
   const slugPath = slug && slug.length > 0 ? slug.join('/') : '';
-  const result = await getPageBySlug(slugPath);
-  const page = result.data;
+  
+  let pageData: any = null;
 
-  if (!page) {
+  // 1. First, try to fetch as a Page
+  const pageResult = await getPageBySlug(slugPath);
+  if (pageResult.data) {
+    pageData = pageResult.data;
+  }
+
+  // 2. Next, try to fetch as an Article/News
+  if (!pageData) {
+    // We import getArticleBySlug dynamically or we can just import it at the top
+    // For now we will use the dynamic import to prevent any circular deps
+    const { getArticleBySlug } = await import('@/lib/services');
+    const newsResult = await getArticleBySlug(slugPath);
+    if (newsResult.data) {
+      pageData = newsResult.data;
+    }
+  }
+
+  // 3. Try to fetch as a Blog
+  if (!pageData) {
+    const { getBlogBySlug } = await import('@/lib/services');
+    const blogResult = await getBlogBySlug(slugPath);
+    if (blogResult.data) pageData = blogResult.data;
+  }
+
+  if (!pageData) {
     notFound();
   }
 
-  const sections = page.Section ?? [];
+  const sections = pageData.Section ?? [];
 
-  const isDark = page.pageType === 'Dark' || page.variant === 'dark';
-  const isLight = page.pageType === 'Light' || page.variant === 'light';
+  const isDark = pageData.pageType === 'Dark' || pageData.variant === 'dark';
+  const isLight = pageData.pageType === 'Light' || pageData.variant === 'light';
   const toneClass = isDark ? 'bg-brand-navy text-white' : isLight ? 'bg-brand-surface' : '';
 
   return (
     <main id="main" className={`min-h-screen ${toneClass}`.trim()}>
-      {sections.map((sec, idx) => renderRegisteredSection(sec, idx))}
+      {sections.map((sec: any, idx: number) => renderRegisteredSection(sec, idx))}
     </main>
   );
 }

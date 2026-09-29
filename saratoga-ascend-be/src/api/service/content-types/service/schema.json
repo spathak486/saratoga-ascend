@@ -46,6 +46,11 @@
         "videos",
         "audios"
       ]
+    },
+    "highlights": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.highlight"
     }
   }
 }

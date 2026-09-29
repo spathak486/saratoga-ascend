@@ -125,6 +125,11 @@ export const SERVICE_REFERENCE_FIELDS = `
       summary
       cta { ${GENERAL_LINK_FIELDS} }
       image { ${IMAGE_FIELDS} }
+      highlights {
+        id
+        text
+        subtext
+      }
     }
   }
 `;
@@ -139,9 +144,11 @@ export const MISSION_REFERENCE_FIELDS = `
       image { ${IMAGE_FIELDS} }
       shieldIcon { ${IMAGE_FIELDS} }
       pulseIcon { ${IMAGE_FIELDS} }
+      cta { ${GENERAL_LINK_FIELDS} }
       highlights {
         id
         text
+        subtext
       }
     }
   }
@@ -184,6 +191,65 @@ export const ACHIEVEMENTS_REFERENCE_FIELDS = `
   }
 `;
 
+export const WHAT_WE_DO_REFERENCE_FIELDS = `
+  __typename
+  ... on ComponentReferencesWhatWeDoReference {
+    whatWeDoSection {
+      documentId
+      referenceTitle
+      title
+      description
+      cta { ${GENERAL_LINK_FIELDS} }
+      photo { ${IMAGE_FIELDS} }
+      emblem { ${IMAGE_FIELDS} }
+      video { ${IMAGE_FIELDS} }
+      videoCopy
+      services {
+        documentId
+        pageTitle
+        slug
+        title
+        summary
+        cta { ${GENERAL_LINK_FIELDS} }
+        image { ${IMAGE_FIELDS} }
+        highlights {
+          id
+          text
+          subtext
+        }
+      }
+      customItems {
+        id
+        title
+        summary
+        cta { ${GENERAL_LINK_FIELDS} }
+        image { ${IMAGE_FIELDS} }
+        highlights {
+          id
+          text
+          subtext
+        }
+      }
+    }
+  }
+`;
+
+export const HAPPY_CLIENTS_REFERENCE_FIELDS = `
+  __typename
+  ... on ComponentReferencesHappyClientsReference {
+    title
+    description
+    reviews {
+      documentId
+      role
+      name
+      place
+      quote
+      photos { ${IMAGE_FIELDS} }
+    }
+  }
+`;
+
 // Every dynamic-zone inline fragment, joined with newlines. Used by any query
 // that selects a Strapi dynamic zone (pages, home, about, and future content
 // types). Declared above PAGE_FIELDS because that fragment interpolates it.
@@ -196,6 +262,8 @@ export const DYNAMIC_SECTION_FRAGMENTS = [
   MISSION_REFERENCE_FIELDS,
   ACHIEVEMENTS_REFERENCE_FIELDS,
   LEGAL_CONTENT_REFERENCE_FIELDS,
+  WHAT_WE_DO_REFERENCE_FIELDS,
+  HAPPY_CLIENTS_REFERENCE_FIELDS,
 ].join('\n');
 
 export const PAGE_FIELDS = `
@@ -215,13 +283,30 @@ export const ARTICLE_FIELDS = `
   documentId
   title
   slug
-  content
-  excerpt
-  author
-  category
-  publishedAt
-  createdAt
-  updatedAt
-  featuredImage { ${IMAGE_FIELDS} }
+  summary
+  articleDate
+  readTime
+  categoryType
+  description
+  image { ${IMAGE_FIELDS} }
   seo { ${SEO_FIELDS} }
+  Section {
+    ${DYNAMIC_SECTION_FRAGMENTS}
+  }
+`;
+
+export const BLOG_FIELDS = `
+  documentId
+  title
+  slug
+  summary
+  articleDate
+  readTime
+  categoryType
+  description
+  image { ${IMAGE_FIELDS} }
+  seo { ${SEO_FIELDS} }
+  Section {
+    ${DYNAMIC_SECTION_FRAGMENTS}
+  }
 `;
