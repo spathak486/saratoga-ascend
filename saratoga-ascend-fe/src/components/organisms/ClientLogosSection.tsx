@@ -5,9 +5,10 @@ import { Container, Heading, Text } from '../atoms';
 import { ClientLogoCard } from '../molecules/ClientLogoCard';
 import type { StrapiImage } from '@/lib/schemas';
 
+/** Figma scroll prototype: rest 800ms, then Smart animate, Gentle, 1022ms. */
 const DWELL_MS = 800;
 const SLIDE_MS = 1022;
-const GENTLE = 'cubic-bezier(0.42, 0, 0.58, 1)';
+const GENTLE = 'cubic-bezier(0.47, 0, 0.23, 1)';
 const CARD_GAP_PX = 75;
 const DRAG_THRESHOLD_PX = 40;
 
@@ -50,7 +51,6 @@ export const ClientLogosSection: React.FC<ClientLogosectionProps> = ({
   const loop = items.length > 1 ? [...items, ...items] : items;
 
   const [index, setIndex] = useState(0);
-  const [paused, setPaused] = useState(false);
   const [snap, setSnap] = useState(false);
   const [stepPx, setStepPx] = useState(545);
   const trackRef = useRef<HTMLDivElement>(null);
@@ -77,16 +77,21 @@ export const ClientLogosSection: React.FC<ClientLogosectionProps> = ({
   );
 
   useEffect(() => {
-    if (paused || items.length < 2) return undefined;
+    if (items.length < 2) return undefined;
     if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       return undefined;
     }
 
-    const timer = window.setTimeout(() => step(1), DWELL_MS);
+    // Index 0 is a resting frame: the first paint, and the instant reset
+    // after one full loop. Later indexes have just started the 1022ms slide,
+    // so the 800ms dwell begins when that slide ends.
+    const delay = index === 0 ? DWELL_MS : DWELL_MS + SLIDE_MS;
+    const timer = window.setTimeout(() => step(1), delay);
     return () => window.clearTimeout(timer);
-  }, [index, paused, items.length, step]);
+  }, [index, items.length, step]);
 
-  const finishSlide = () => {
+  const finishSlide = (event: React.TransitionEvent<HTMLDivElement>) => {
+    if (event.target !== event.currentTarget || event.propertyName !== 'transform') return;
     if (items.length < 2 || index < items.length) return;
     setSnap(true);
     setIndex(index % items.length);
@@ -98,18 +103,21 @@ export const ClientLogosSection: React.FC<ClientLogosectionProps> = ({
   const onPointerDown = (event: React.PointerEvent<HTMLDivElement>) => {
     if (event.button !== 0) return;
     drag.current = { x: event.clientX };
-    setPaused(true);
-    event.currentTarget.setPointerCapture(event.pointerId);
+    try {
+      event.currentTarget.setPointerCapture(event.pointerId);
+    } catch {
+      /* Capture is unavailable for a pointer the browser has already released. */
+    }
   };
 
   const onPointerUp = (event: React.PointerEvent<HTMLDivElement>) => {
     const start = drag.current;
     drag.current = null;
-    setPaused(false);
     if (!start) return;
     const dx = event.clientX - start.x;
     if (Math.abs(dx) < DRAG_THRESHOLD_PX) return;
-    step(dx < 0 ? 1 : -1);
+    // The prototype's On drag reaction only changes to the next frame.
+    step(1);
   };
 
   if (!title && !description && items.length === 0) return null;
@@ -151,14 +159,11 @@ export const ClientLogosSection: React.FC<ClientLogosectionProps> = ({
         ) : null}
 
         <div
-          className={`relative overflow-hidden ${paused ? 'cursor-grabbing select-none' : 'cursor-grab'}`}
-          onMouseEnter={() => setPaused(true)}
-          onMouseLeave={() => setPaused(false)}
+          className="relative cursor-grab overflow-hidden"
           onPointerDown={onPointerDown}
           onPointerUp={onPointerUp}
           onPointerCancel={() => {
             drag.current = null;
-            setPaused(false);
           }}
         >
           <div

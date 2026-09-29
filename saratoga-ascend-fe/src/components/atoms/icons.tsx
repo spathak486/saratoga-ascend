@@ -77,3 +77,21 @@ export const CaretDownIcon: React.FC<IconProps> = ({
     />
   </svg>
 );
+
+/** News card arrow — Figma 2002:722, 32×33, fill #E3E3E3. */
+export const NewsArrowIcon: React.FC<IconProps> = ({
+  className = 'h-[33px] w-8',
+}) => (
+  <svg
+    viewBox="0 0 32 33"
+    fill="none"
+    className={className}
+    aria-hidden="true"
+    focusable="false"
+  >
+    <path
+      d="M18.6693 24.75L16.8026 22.7563L21.5359 17.875H5.33594V15.125H21.5359L16.8026 10.2438L18.6693 8.25L26.6693 16.5L18.6693 24.75Z"
+      fill="currentColor"
+    />
+  </svg>
+);

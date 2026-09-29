@@ -7,14 +7,26 @@ export interface ClientLogoCardProps {
 }
 
 /**
- * Figma Our Clients plate (2002:448) — 470×456, 60px corners, #d0d0d0
- * hairline, transparent fill, Glass blur ~78px.
+ * Figma Our Clients plate (2002:448). The inspect panel reports a
+ * transparent fill plus a Glass shader (blur 78). On this flat page that
+ * shader paints as the pale frosted plate in the prototype.
  */
 export const ClientLogoCard: React.FC<ClientLogoCardProps> = ({
   name,
   src,
 }) => (
-  <div className="relative aspect-[470/456] w-[min(calc(100vw-2rem),29.390625rem)] shrink-0 overflow-hidden rounded-[3.75rem] border border-[#d0d0d0] bg-[rgb(43_136_217/0)] shadow-[inset_0_1px_1px_rgb(255_255_255/0.55)] backdrop-blur-[78px] backdrop-saturate-150">
+  <div
+    className="relative aspect-[470/456] w-[min(calc(100vw-2rem),29.390625rem)] shrink-0 overflow-hidden"
+    style={{
+      borderRadius: 60,
+      background: 'rgba(255, 255, 255, 0.72)',
+      backdropFilter: 'blur(78px)',
+      WebkitBackdropFilter: 'blur(78px)',
+      border: '1px solid rgb(208, 208, 208)',
+      boxSizing: 'border-box',
+      boxShadow: 'inset 0 1px 0 rgba(255, 255, 255, 0.9)',
+    }}
+  >
     <MediaFrame
       src={src}
       alt={name}
@@ -22,7 +34,7 @@ export const ClientLogoCard: React.FC<ClientLogoCardProps> = ({
       tone="tile"
       sizes="(max-width: 768px) 90vw, 470px"
       imageClassName="object-contain! p-[17%]"
-      className="size-full border-0 bg-transparent"
+      className="size-full border-0 bg-transparent!"
     />
   </div>
 );

@@ -308,7 +308,13 @@ export const SECTION_REGISTRY: Record<
       reviews={MOCK_HAPPY_CLIENTS}
     />
   ),
-  MockLatestNews: (_section, index) => <LatestNewsSection key={`latest-news-${index}`} />,
+  MockLatestNews: (_section, index) => (
+    <LatestNewsSection
+      key={`latest-news-${index}`}
+      title="Latest news and insights"
+      description="Success is built on consistent effort."
+    />
+  ),
 };
 
 /**

@@ -15,16 +15,20 @@ export interface StaffingSlideCardProps {
 /** Figma Job Card ON_HOVER → Property 1=2, Smart Animate, Quick, 744ms. */
 const HOVER_TRANSITION = {
   duration: 0.744,
-  ease: [0.25, 0.1, 0.25, 1] as const,
+  ease: [0.2, 0, 0, 1] as const,
 };
 
 const DEFAULT_BODY =
   'Connecting cleared, credentialed healthcare professionals with government, military.';
 
+const NAVY_WASH =
+  'linear-gradient(180deg, rgb(0 40 69 / 0) 0%, var(--color-brand-navy-band) 100%)';
+
 /**
- * Travel Staffing tile (Figma Job Card 2002:260 / 2002:266).
- * Rest: photo, 20% wash, title at y=377.
- * Hover: extra navy wash, title rises to y=162, body fades in.
+ * Travel Staffing tile (Figma Job Card 2002:261 / 2002:266).
+ * Rest: 402×450, 32px corners, 1px #C6C6C6, 20% black + navy foot wash,
+ * title at y=377. Hover (744ms Quick): second navy wash, title to y=162,
+ * 18/22 body at y=223.
  */
 export const StaffingSlideCard: React.FC<StaffingSlideCardProps> = ({
   title = 'Travel Staffing',
@@ -35,6 +39,7 @@ export const StaffingSlideCard: React.FC<StaffingSlideCardProps> = ({
   const reduce = useReducedMotion();
   const [active, setActive] = useState(false);
   const hovered = Boolean(active && !reduce);
+  const motionTime = reduce ? { duration: 0 } : HOVER_TRANSITION;
 
   return (
     <a
@@ -45,9 +50,12 @@ export const StaffingSlideCard: React.FC<StaffingSlideCardProps> = ({
       onMouseLeave={() => setActive(false)}
       onFocus={() => setActive(true)}
       onBlur={() => setActive(false)}
-      className="group block rounded-panel focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-sky"
+      className="group block focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-sky"
     >
-      <article className="relative aspect-[402/450] w-full overflow-hidden rounded-panel border border-brand-line">
+      <article
+        className="relative aspect-[402/450] w-full overflow-hidden rounded-panel"
+        style={{ border: '1px solid #c6c6c6', boxSizing: 'border-box' }}
+      >
         <MediaFrame
           src={imageSrc}
           alt=""
@@ -60,41 +68,47 @@ export const StaffingSlideCard: React.FC<StaffingSlideCardProps> = ({
 
         <div className="pointer-events-none absolute inset-0 bg-black/20" aria-hidden="true" />
         <div
-          className="pointer-events-none absolute inset-0 bg-gradient-to-t from-brand-navy-band/70 to-transparent"
+          className="pointer-events-none absolute inset-0"
+          style={{ backgroundImage: NAVY_WASH }}
           aria-hidden="true"
         />
         <motion.div
           aria-hidden
-          className="pointer-events-none absolute inset-0 bg-brand-navy-band"
+          className="pointer-events-none absolute inset-0"
+          style={{ backgroundImage: NAVY_WASH }}
           initial={false}
-          animate={{ opacity: hovered ? 0.72 : 0 }}
-          transition={reduce ? { duration: 0 } : HOVER_TRANSITION}
+          animate={{ opacity: hovered ? 1 : 0 }}
+          transition={motionTime}
         />
 
         <motion.div
-          className="absolute inset-x-[10.7%] flex flex-col items-center text-center"
+          className="pointer-events-none absolute"
           initial={false}
-          animate={{ top: hovered ? '36%' : '83.78%' }}
-          transition={reduce ? { duration: 0 } : HOVER_TRANSITION}
+          animate={{
+            top: hovered ? 162 : 377,
+            left: hovered ? 43 : 58,
+            width: hovered ? 316 : 285,
+          }}
+          transition={motionTime}
         >
           <Heading
             level={3}
             size="subtitle"
             font="serif"
             tone="onDark"
-            className="text-[2.75rem] leading-[1.2] text-white"
+            className="w-[285px] text-[2.75rem] leading-[1.2] text-white xl:mx-auto"
           >
             {title}
           </Heading>
           <motion.p
-            className="w-full max-w-[19.75rem] overflow-hidden text-[1.125rem] leading-[1.375rem] font-medium text-white"
+            className="w-full text-center font-sans text-[1.125rem] leading-[1.375rem] font-medium text-white"
             initial={false}
             animate={{
               opacity: hovered ? 1 : 0,
               height: hovered ? 66 : 0,
               marginTop: hovered ? 8 : 0,
             }}
-            transition={reduce ? { duration: 0 } : HOVER_TRANSITION}
+            transition={motionTime}
           >
             {body}
           </motion.p>

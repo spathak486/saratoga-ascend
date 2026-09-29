@@ -3,9 +3,7 @@
 import React from 'react';
 import { Section } from '../atoms';
 import {
-  CAROUSEL_BLEED_CLASS,
   CAROUSEL_SLIDE_CLASS,
-  CAROUSEL_VIEWPORT_CLASS,
   useCardCarousel,
   useDragToScroll,
   useWheelToScroll,
@@ -96,10 +94,9 @@ export const HealthcareProgramsSection: React.FC<HealthcareProgramsSectionProps>
           />
 
           <div className="relative">
-            <div className={CAROUSEL_BLEED_CLASS}>
               <div
                 ref={viewportRef}
-                className={`${CAROUSEL_VIEWPORT_CLASS} ${isDragging ? 'cursor-grabbing select-none' : 'cursor-grab'}`}
+                className={`snap-x snap-mandatory overflow-x-auto [scrollbar-width:none] focus-visible:outline-2 focus-visible:outline-offset-2 [&::-webkit-scrollbar]:hidden ${isDragging ? 'cursor-grabbing select-none' : 'cursor-grab'}`}
                 role="group"
                 aria-roledescription="carousel"
                 aria-label="Travel staffing services"
@@ -107,11 +104,11 @@ export const HealthcareProgramsSection: React.FC<HealthcareProgramsSectionProps>
                 onDragStart={(event) => event.preventDefault()}
                 {...dragHandlers}
               >
-                <div className="-ml-6 flex">
+                <div className="-ml-6 flex xl:ml-0 xl:gap-6">
                   {displayJobs.map((job) => (
                     <div
                       key={job.id}
-                      className={`${CAROUSEL_SLIDE_CLASS} shrink-0 basis-[min(100%,25.125rem)] pl-6 sm:basis-[min(70%,25.125rem)] lg:basis-[min(42%,25.125rem)] xl:basis-[25.125rem]`}
+                      className={`${CAROUSEL_SLIDE_CLASS} w-[min(100%,25.125rem)] shrink-0 pl-6 sm:w-[min(70%,25.125rem)] lg:w-[min(42%,25.125rem)] xl:w-[25.125rem] xl:pl-0`}
                       role="group"
                       aria-roledescription="slide"
                       data-carousel-slide
@@ -126,18 +123,15 @@ export const HealthcareProgramsSection: React.FC<HealthcareProgramsSectionProps>
                   ))}
                 </div>
               </div>
-            </div>
 
-            {/* Figma Frame 5: 60×60 on the last visible card, y=125, 12px from its right. */}
-            <div className="pointer-events-none absolute inset-4 z-20">
-              <CircleControl
-                label="Next travel staffing card"
-                direction="next"
-                tone="jobCardArrow"
-                onClick={scrollNext}
-                className="pointer-events-auto absolute top-[27.78%] right-3"
-              />
-            </div>
+            {/* Figma Frame 5: 60×60, top 125px, 12px in from the last card. */}
+            <CircleControl
+              label="Next travel staffing card"
+              direction="next"
+              tone="jobCardArrow"
+              onClick={scrollNext}
+              className="absolute top-[125px] -right-12 z-20"
+            />
           </div>
         </div>
       </div>

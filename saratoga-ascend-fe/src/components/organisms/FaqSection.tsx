@@ -15,15 +15,13 @@ export interface FaqSectionProps {
 const ALL_KEY = '__all__';
 
 /**
- * FAQ Section — Figma "Main FAQ Section"
- * Layout: Header row (left: title+subtitle+pills | right: 263×263 image)
- *         Below: full-width accordion.
+ * FAQ Section — Figma 2002:1110. Title, lead, and category pills stack in
+ * the header. Questions stay closed until the plus is clicked.
  */
 export const FaqSection: React.FC<FaqSectionProps> = ({
   title,
   subTitle,
   description,
-  imageSrc,
   items = [],
 }) => {
   const [activeKey, setActiveKey] = useState(ALL_KEY);
@@ -61,7 +59,7 @@ export const FaqSection: React.FC<FaqSectionProps> = ({
       <div className="faq-section__inner">
 
         {/* ── Header row: [left] title + subtitle + pills | [right] image ── */}
-        <div className="faq-section__header-row">
+        <div className={`faq-section__header-row${hasPills ? ' faq-section__header-row--framed' : ''}`}>
 
           {/* Left column */}
           <div className="faq-section__header-left">
@@ -93,9 +91,6 @@ export const FaqSection: React.FC<FaqSectionProps> = ({
                 </button>
 
                 {categories.map((name) => {
-                  const count = items.filter((i) =>
-                    i.categories?.some((c) => c.name === name),
-                  ).length;
                   const isActive = activeKey === name;
                   return (
                     <button
@@ -104,33 +99,20 @@ export const FaqSection: React.FC<FaqSectionProps> = ({
                       role="tab"
                       aria-selected={isActive}
                       onClick={() => setActiveKey(name)}
-                      className={`faq-pill faq-pill--outline${isActive ? ' faq-pill--outline-active' : ''}`}
+                      className={`faq-pill${isActive ? '' : ' faq-pill--outline'}`}
                     >
-                      {name} ({count})
+                      {name}
                     </button>
                   );
                 })}
               </div>
             )}
           </div>
-
-          {/* Right column: decorative 263×263 image */}
-          {imageSrc && (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={imageSrc}
-              alt=""
-              aria-hidden="true"
-              width={263}
-              height={263}
-              className="faq-section__deco-img"
-            />
-          )}
         </div>
 
         {/* ── Accordion (filtered items) ── */}
         {filtered.length > 0 && (
-          <FaqAccordion items={filtered} className="faq-section__accordion" />
+          <FaqAccordion key={activeKey} items={filtered} className="faq-section__accordion" />
         )}
 
       </div>
