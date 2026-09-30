@@ -339,7 +339,7 @@ export const SECTION_REGISTRY: Record<
     return (
       <BlogListingSection
         key={`blog-listing-${index}`}
-        title={listingRef.heading}
+        title={listingRef.blogHeading}
         subTitle={listingRef.subheading}
       />
     );
