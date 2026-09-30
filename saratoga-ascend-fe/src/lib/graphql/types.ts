@@ -39,6 +39,8 @@ export interface RawContentNode {
   articleDate?: string | null;
   readTime?: number | null;
   categoryType?: string | null;
+  author?: string | null;
+  topic?: string | null;
   description?: any | null;
   image?: RawStrapiMedia | null;
   seo?: RawSeo | null;
@@ -246,6 +248,12 @@ export interface RawHappyClientsReference {
   reviews?: RawClientReview[] | null;
 }
 
+export interface RawBlogListingReference {
+  __typename: 'ComponentReferencesBlogListing';
+  heading?: string | null;
+  subheading?: string | null;
+}
+
 /**
  * Anything a Strapi dynamic zone can return. The catch-all member keeps
  * forward compatibility: components not yet registered resolve through Zod
@@ -262,6 +270,7 @@ export type RawDynamicZoneSection =
   | RawLegalContentReference
   | RawWhatWeDoReference
   | RawHappyClientsReference
+  | RawBlogListingReference
   | ({ __typename: string } & Record<string, unknown>);
 
 /** Universal slug-driven page (Strapi `pages` collection). */
