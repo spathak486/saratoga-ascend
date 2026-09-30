@@ -42,7 +42,7 @@ export const BlogCard: React.FC<BlogCardProps> = ({
           {date && <span>{date}</span>}
         </div>
 
-        <Heading level={3} size="h3" tone="base" className="mb-6 font-serif text-[28px] leading-[36px] text-black line-clamp-2">
+        <Heading level={3} className="mb-6 font-serif text-[28px] leading-[36px] text-black line-clamp-2">
           <GeneralLink
             href={href}
             variant="unstyled"
