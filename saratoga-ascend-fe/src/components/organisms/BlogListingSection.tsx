@@ -154,6 +154,7 @@ export const BlogListingSection: React.FC<BlogListingSectionProps> = ({
             No blogs found matching the selected filters.
           </div>
         )}
+        </div>
       </div>
     </section>
   );
