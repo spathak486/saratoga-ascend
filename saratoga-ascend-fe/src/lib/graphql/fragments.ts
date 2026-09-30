@@ -250,6 +250,14 @@ export const HAPPY_CLIENTS_REFERENCE_FIELDS = `
   }
 `;
 
+export const BLOG_LISTING_REFERENCE_FIELDS = `
+  __typename
+  ... on ComponentReferencesBlogListing {
+    heading
+    subheading
+  }
+`;
+
 // Every dynamic-zone inline fragment, joined with newlines. Used by any query
 // that selects a Strapi dynamic zone (pages, home, about, and future content
 // types). Declared above PAGE_FIELDS because that fragment interpolates it.
@@ -264,6 +272,7 @@ export const DYNAMIC_SECTION_FRAGMENTS = [
   LEGAL_CONTENT_REFERENCE_FIELDS,
   WHAT_WE_DO_REFERENCE_FIELDS,
   HAPPY_CLIENTS_REFERENCE_FIELDS,
+  BLOG_LISTING_REFERENCE_FIELDS,
 ].join('\n');
 
 export const PAGE_FIELDS = `
@@ -287,6 +296,8 @@ export const ARTICLE_FIELDS = `
   articleDate
   readTime
   categoryType
+  author
+  topic
   description
   image { ${IMAGE_FIELDS} }
   seo { ${SEO_FIELDS} }
@@ -303,6 +314,8 @@ export const BLOG_FIELDS = `
   articleDate
   readTime
   categoryType
+  author
+  topic
   description
   image { ${IMAGE_FIELDS} }
   seo { ${SEO_FIELDS} }
