@@ -250,7 +250,7 @@ export interface RawHappyClientsReference {
 
 export interface RawBlogListingReference {
   __typename: 'ComponentReferencesBlogListing';
-  heading?: string | null;
+  blogHeading?: string | null;
   subheading?: string | null;
 }
 

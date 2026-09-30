@@ -256,7 +256,7 @@ export type LegalContentReference = z.infer<typeof LegalContentReferenceSchema>;
 
 export const BlogListingReferenceSchema = z.object({
   __typename: z.literal('ComponentReferencesBlogListing'),
-  heading: z.string().nullable().optional(),
+  blogHeading: z.string().nullable().optional(),
   subheading: z.string().nullable().optional(),
 });
 
