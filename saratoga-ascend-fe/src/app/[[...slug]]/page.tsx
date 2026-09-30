@@ -103,7 +103,24 @@ export default async function DynamicPage({ params }: DynamicPageProps) {
     notFound();
   }
 
-  const sections = pageData.Section ?? [];
+  let sections = pageData.Section ?? [];
+
+  const hasBlogListing = sections.some(
+    (sec: any) => sec.__typename === 'ComponentReferencesBlogListing'
+  );
+
+  if (hasBlogListing) {
+    const { getAllBlogs } = await import('@/lib/services');
+    const blogsResult = await getAllBlogs();
+    if (blogsResult.data) {
+      sections = sections.map((sec: any) => {
+        if (sec.__typename === 'ComponentReferencesBlogListing') {
+          return { ...sec, blogs: blogsResult.data };
+        }
+        return sec;
+      });
+    }
+  }
 
   const isDark = pageData.pageType === 'Dark' || pageData.variant === 'dark';
   const isLight = pageData.pageType === 'Light' || pageData.variant === 'light';

@@ -341,6 +341,7 @@ export const SECTION_REGISTRY: Record<
         key={`blog-listing-${index}`}
         title={listingRef.blogHeading}
         subTitle={listingRef.subheading}
+        blogs={listingRef.blogs}
       />
     );
   },
