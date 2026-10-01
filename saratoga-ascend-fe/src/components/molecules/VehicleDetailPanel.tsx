@@ -25,8 +25,8 @@ export const VehicleDetailPanel: React.FC<VehicleDetailPanelProps> = ({
 }) => (
   <div className="flex min-w-0 flex-col">
     <div
-      className={`relative min-h-[clamp(12rem,14.58vw,17.5rem)] overflow-hidden transition-[border-radius] duration-200 ease-out motion-reduce:transition-none ${
-        scope === 'state' ? 'rounded-button' : 'rounded-panel'
+      className={`relative min-h-[clamp(12rem,14.58vw,17.5rem)] overflow-hidden transition-[border-radius] duration-200 ease-out motion-reduce:transition-none max-xl:min-h-[12.875rem] ${
+        scope === 'state' ? 'rounded-button max-xl:rounded-xl!' : 'rounded-panel max-xl:rounded-xl!'
       }`}
     >
       <div
@@ -56,23 +56,23 @@ export const VehicleDetailPanel: React.FC<VehicleDetailPanelProps> = ({
         level={3}
         size="subtitle"
         tone="onDark"
-        className="relative z-[1] max-w-[12.5em] px-[clamp(1.5rem,3.125vw,3.75rem)] py-[clamp(1.75rem,3.18vw,3.8125rem)]"
+        className="relative z-[1] max-w-[12.5em] px-[clamp(1.5rem,3.125vw,3.75rem)] py-[clamp(1.75rem,3.18vw,3.8125rem)] max-xl:mt-0 max-xl:max-w-[12.425rem] max-xl:px-[1.375rem] max-xl:pt-[4.368rem] max-xl:pb-8 max-xl:text-[1.25rem]! max-xl:leading-[1.875rem]!"
       >
         {detail.title}
       </Heading>
     </div>
 
-    <p className="mt-10 max-w-[61.3125rem] text-button font-medium leading-[1.5] text-slate-copy">
+    <p className="mt-10 max-w-[61.3125rem] text-button font-medium leading-[1.5] text-slate-copy max-xl:mt-5 max-xl:text-base max-xl:leading-5 max-xl:font-normal max-xl:text-[#475569]">
       {detail.body}
     </p>
 
-    <div className="mt-10 flex flex-wrap gap-4">
+    <div className="mt-10 flex flex-wrap gap-4 max-xl:mt-5 max-xl:flex-nowrap max-xl:gap-5">
       <GeneralLink
         href={detail.primary.href}
         variant="button"
         buttonVariant="solidNavy"
         size="ctaPill"
-        className="bg-brand-navy-panel px-[2.125rem] font-bold"
+        className="bg-brand-navy-panel px-[2.125rem] font-bold max-xl:h-auto max-xl:min-h-0 max-xl:min-w-0 max-xl:flex-1 max-xl:px-[0.75rem] max-xl:py-3 max-xl:text-sm max-xl:leading-[1.125rem]"
       >
         {detail.primary.label}
       </GeneralLink>
@@ -81,7 +81,7 @@ export const VehicleDetailPanel: React.FC<VehicleDetailPanelProps> = ({
         variant="button"
         buttonVariant="outlineNavy"
         size="ctaPill"
-        className="border-brand-navy-panel px-[2.125rem] font-bold text-brand-navy-band"
+        className="border-brand-navy-panel px-[2.125rem] font-bold text-brand-navy-band max-xl:h-auto max-xl:min-h-0 max-xl:min-w-0 max-xl:flex-1 max-xl:px-[0.75rem] max-xl:py-3 max-xl:text-sm max-xl:leading-[1.125rem]"
       >
         {detail.secondary.label}
       </GeneralLink>

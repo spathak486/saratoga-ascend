@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Section } from '../atoms';
+import { GeneralLink, Section } from '../atoms';
 import {
   CAROUSEL_SLIDE_CLASS,
   useCardCarousel,
@@ -94,10 +94,10 @@ export const HealthcareProgramsSection: React.FC<HealthcareProgramsSectionProps>
             slides={slides}
           />
 
-          <div className="relative">
+          <div className="relative max-xl:flex max-xl:flex-col max-xl:items-center max-xl:gap-10">
               <div
                 ref={viewportRef}
-                className={`snap-x snap-mandatory overflow-x-auto [scrollbar-width:none] focus-visible:outline-2 focus-visible:outline-offset-2 [&::-webkit-scrollbar]:hidden ${isDragging ? 'cursor-grabbing select-none' : 'cursor-grab'}`}
+                className={`w-full snap-x snap-mandatory overflow-x-auto [scrollbar-width:none] focus-visible:outline-2 focus-visible:outline-offset-2 [&::-webkit-scrollbar]:hidden ${isDragging ? 'cursor-grabbing select-none' : 'cursor-grab'}`}
                 role="group"
                 aria-roledescription="carousel"
                 aria-label="Travel staffing services"
@@ -105,11 +105,11 @@ export const HealthcareProgramsSection: React.FC<HealthcareProgramsSectionProps>
                 onDragStart={(event) => event.preventDefault()}
                 {...dragHandlers}
               >
-                <div className="-ml-6 flex xl:ml-0 xl:gap-6">
+                <div className="flex gap-4 xl:gap-6">
                   {displayJobs.map((job) => (
                     <div
                       key={job.id}
-                      className={`${CAROUSEL_SLIDE_CLASS} w-[min(100%,25.125rem)] shrink-0 pl-6 sm:w-[min(70%,25.125rem)] lg:w-[min(42%,25.125rem)] xl:w-[25.125rem] xl:pl-0`}
+                      className={`${CAROUSEL_SLIDE_CLASS} w-[15.375rem] xl:w-[25.125rem]`}
                       role="group"
                       aria-roledescription="slide"
                       data-carousel-slide
@@ -125,14 +125,22 @@ export const HealthcareProgramsSection: React.FC<HealthcareProgramsSectionProps>
                 </div>
               </div>
 
-            {/* Figma Frame 5: 60×60, top 125px, 12px in from the last card. */}
+            {/* Figma Frame 5: 60×60, top 125px, 12px in from the last card. Off-canvas on mobile. */}
             <CircleControl
               label="Next travel staffing card"
               direction="next"
               tone="jobCardArrow"
               onClick={scrollNext}
-              className="absolute top-[125px] -right-12 z-20"
+              className="absolute top-[125px] -right-12 z-20 max-xl:hidden"
             />
+
+            <GeneralLink
+              href={ctaHref ?? '/careers'}
+              variant="unstyled"
+              className="inline-flex h-[2.875rem] min-w-[11.25rem] items-center justify-center rounded-pill bg-brand-cta-to px-6 text-[1.25rem] leading-[1.5] font-medium text-white shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)] hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-sky xl:hidden"
+            >
+              {ctaLabel ?? 'Explore Jobs'}
+            </GeneralLink>
           </div>
         </div>
       </div>

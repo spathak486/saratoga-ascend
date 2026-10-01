@@ -10,6 +10,7 @@ const DWELL_MS = 800;
 const SLIDE_MS = 1022;
 const GENTLE = 'cubic-bezier(0.47, 0, 0.23, 1)';
 const CARD_GAP_PX = 75;
+const MOBILE_CARD_GAP_PX = 20;
 const DRAG_THRESHOLD_PX = 40;
 
 const FALLBACK_LOGOS = [
@@ -59,7 +60,8 @@ export const ClientLogosSection: React.FC<ClientLogosectionProps> = ({
   const measure = useCallback(() => {
     const first = trackRef.current?.querySelector<HTMLElement>('[data-client-logo]');
     if (!first) return;
-    setStepPx(first.offsetWidth + CARD_GAP_PX);
+    const mobile = window.matchMedia('(max-width: 1279.98px)').matches;
+    setStepPx(first.offsetWidth + (mobile ? MOBILE_CARD_GAP_PX : CARD_GAP_PX));
   }, []);
 
   useEffect(() => {
@@ -128,15 +130,15 @@ export const ClientLogosSection: React.FC<ClientLogosectionProps> = ({
     <section
       aria-labelledby={heading ? 'client-logos-heading' : undefined}
       aria-label={heading ? undefined : 'Our clients'}
-      className="mt-10 overflow-hidden py-10"
+      className="mt-10 overflow-hidden py-10 max-xl:mt-0 max-xl:py-5"
       style={{
         backgroundImage:
           'linear-gradient(159.05deg, var(--color-brand-surface-muted) 0%, var(--color-brand-surface-sunk) 100%)',
       }}
     >
-      <div className="flex flex-col gap-[3.75rem]">
+      <div className="flex flex-col gap-[3.75rem] max-xl:gap-10">
         {heading || lede ? (
-          <Container>
+          <Container className="max-xl:px-5!">
             <div className="flex w-full flex-col items-start gap-3">
               {heading ? (
                 <Heading
@@ -144,13 +146,13 @@ export const ClientLogosSection: React.FC<ClientLogosectionProps> = ({
                   level={2}
                   size="section"
                   tone="inherit"
-                  className="text-brand-cta-from"
+                  className="text-brand-cta-from max-xl:text-[2rem]! max-xl:leading-[2.5rem]!"
                 >
                   {heading}
                 </Heading>
               ) : null}
               {lede ? (
-                <Text size="sectionLead" tone="inherit" className="text-ink">
+                <Text size="sectionLead" tone="inherit" className="text-ink max-xl:text-base max-xl:leading-5">
                   {lede}
                 </Text>
               ) : null}
@@ -168,9 +170,8 @@ export const ClientLogosSection: React.FC<ClientLogosectionProps> = ({
         >
           <div
             ref={trackRef}
-            className="flex will-change-transform"
+            className="flex gap-[4.6875rem] will-change-transform max-xl:gap-5"
             style={{
-              gap: `${CARD_GAP_PX}px`,
               transform: `translate3d(${-index * stepPx}px, 0, 0)`,
               transition: snap ? 'none' : `transform ${SLIDE_MS}ms ${GENTLE}`,
             }}

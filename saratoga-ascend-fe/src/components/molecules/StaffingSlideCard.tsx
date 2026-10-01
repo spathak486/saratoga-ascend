@@ -26,9 +26,10 @@ const NAVY_WASH =
 
 /**
  * Travel Staffing tile (Figma Job Card 2002:261 / 2002:266).
- * Rest: 402×450, 32px corners, 1px #C6C6C6, 20% black + navy foot wash,
+ * Desktop rest: 402×450, 32px corners, 1px #C6C6C6, 20% black + navy foot wash,
  * title at y=377. Hover (744ms Quick): second navy wash, title to y=162,
  * 18/22 body at y=223.
+ * Mobile instance 2105:646 is 246×276 — title + body stay centered at rest.
  */
 export const StaffingSlideCard: React.FC<StaffingSlideCardProps> = ({
   title = 'Travel Staffing',
@@ -53,7 +54,7 @@ export const StaffingSlideCard: React.FC<StaffingSlideCardProps> = ({
       className="group block focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-sky"
     >
       <article
-        className="relative aspect-[402/450] w-full overflow-hidden rounded-panel"
+        className="relative aspect-[402/450] w-full overflow-hidden rounded-[1.25rem] xl:rounded-panel"
         style={{ border: '1px solid #c6c6c6', boxSizing: 'border-box' }}
       >
         <MediaFrame
@@ -61,7 +62,7 @@ export const StaffingSlideCard: React.FC<StaffingSlideCardProps> = ({
           alt=""
           pendingLabel="Rectangle 113.png"
           tone="navy"
-          sizes="(max-width: 768px) 90vw, 402px"
+          sizes="(max-width: 1279px) 246px, 402px"
           imageClassName="object-cover! pointer-events-none"
           className="absolute inset-0 size-full border-0"
         />
@@ -82,7 +83,7 @@ export const StaffingSlideCard: React.FC<StaffingSlideCardProps> = ({
         />
 
         <motion.div
-          className="pointer-events-none absolute"
+          className="pointer-events-none absolute hidden xl:block"
           initial={false}
           animate={{
             top: hovered ? 162 : 377,
@@ -113,6 +114,21 @@ export const StaffingSlideCard: React.FC<StaffingSlideCardProps> = ({
             {body}
           </motion.p>
         </motion.div>
+
+        <div className="pointer-events-none absolute inset-0 z-[1] flex flex-col items-center justify-center gap-2 px-3.5 xl:hidden">
+          <Heading
+            level={3}
+            size="subtitle"
+            font="serif"
+            tone="onDark"
+            className="w-full text-center text-[1.375rem] leading-[1.2] text-white"
+          >
+            {title}
+          </Heading>
+          <p className="w-full text-center font-sans text-[0.8125rem] leading-[1.125rem] font-medium text-white">
+            {body}
+          </p>
+        </div>
       </article>
     </a>
   );

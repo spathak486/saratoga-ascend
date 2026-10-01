@@ -16,9 +16,8 @@ export const ClientLogoCard: React.FC<ClientLogoCardProps> = ({
   src,
 }) => (
   <div
-    className="relative aspect-[470/456] w-[min(calc(100vw-2rem),29.390625rem)] shrink-0 overflow-hidden"
+    className="relative aspect-[470/456] w-[min(calc(100vw-2rem),29.390625rem)] shrink-0 overflow-hidden rounded-[3.75rem] max-xl:aspect-[268/260] max-xl:w-[16.75rem] max-xl:rounded-[2.1375rem]!"
     style={{
-      borderRadius: 60,
       background: 'rgba(255, 255, 255, 0.72)',
       backdropFilter: 'blur(78px)',
       WebkitBackdropFilter: 'blur(78px)',

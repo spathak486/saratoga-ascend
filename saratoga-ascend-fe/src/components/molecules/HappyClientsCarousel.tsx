@@ -37,11 +37,93 @@ const COPY_REST = '20.45%';
 const COPY_PARK = '79.93%';
 
 const FAN_EASE =
-  'transition-[top,right,bottom,left] duration-[1022ms] ease-[cubic-bezier(0.47,0,0.23,1)] motion-reduce:transition-none';
+  'transition-[top,right,bottom,left,width,height,opacity,transform] duration-[1022ms] ease-[cubic-bezier(0.47,0,0.23,1)] motion-reduce:transition-none';
 const PHOTO_OPACITY_EASE =
   'transition-opacity duration-[1022ms] ease-[cubic-bezier(0.47,0,0.23,1)] motion-reduce:transition-none';
-const COPY_EASE =
-  'transition-[opacity,transform] duration-[1022ms] ease-[cubic-bezier(0.47,0,0.23,1)] motion-reduce:transition-none motion-reduce:transform-none';
+
+function reviewDeck(review: ClientReview) {
+  const first = review.photos[0];
+  return [review.photos[0], review.photos[1] ?? first, review.photos[2] ?? first] as const;
+}
+
+function fanDeck(reviews: readonly ClientReview[], index: number) {
+  const current = reviewDeck(reviews[index]);
+  const distinct = new Set(current.filter(Boolean)).size;
+  if (distinct >= 2 || reviews.length < 2) return current;
+
+  const count = reviews.length;
+  const portrait = (i: number) => {
+    const item = reviews[(i + count) % count];
+    return item.photos[2] ?? item.photos[0] ?? item.photos[1];
+  };
+  return [portrait(index - 1), portrait(index), portrait(index + 1)] as const;
+}
+
+const MOBILE_MAIN_SLOTS = [
+  {
+    top: '6%',
+    left: '16%',
+    right: 'auto',
+    width: '33.6%',
+    height: '80.5%',
+    opacity: 0.7,
+    zIndex: 2,
+    transform: 'none',
+  },
+  {
+    top: '0%',
+    left: '50%',
+    right: 'auto',
+    width: '42%',
+    height: '100%',
+    opacity: 1,
+    zIndex: 5,
+    transform: 'translateX(-50%)',
+  },
+  {
+    top: '13.3%',
+    left: 'auto',
+    right: '16%',
+    width: '33.4%',
+    height: '80%',
+    opacity: 0.7,
+    zIndex: 2,
+    transform: 'none',
+  },
+] as const;
+
+const MOBILE_FAR_SLOTS = [
+  {
+    top: '16.5%',
+    left: '6%',
+    right: 'auto',
+    width: '29.4%',
+    height: '70%',
+    opacity: 0.3,
+    zIndex: 1,
+    transform: 'none',
+  },
+  {
+    top: '0%',
+    left: '50%',
+    right: 'auto',
+    width: '42%',
+    height: '100%',
+    opacity: 0,
+    zIndex: 0,
+    transform: 'translateX(-50%)',
+  },
+  {
+    top: '23%',
+    left: 'auto',
+    right: '6%',
+    width: '29.4%',
+    height: '70%',
+    opacity: 0.3,
+    zIndex: 1,
+    transform: 'none',
+  },
+] as const;
 
 /** Figma Polygon 2, 67×68 inside the 100px circle, rotated to point outward. */
 const ARROW_PATH =
@@ -63,10 +145,36 @@ function ArrowGlyph({ direction }: { direction: 'prev' | 'next' }) {
 function QuoteCopy({
   review,
   active = true,
+  compact = false,
 }: {
   review: ClientReview;
   active?: boolean;
+  compact?: boolean;
 }) {
+  if (compact) {
+    return (
+      <>
+        {review.role ? (
+          <p className="font-serif text-[1.25rem] leading-[1.875rem] text-white">
+            {review.role}
+          </p>
+        ) : null}
+        <p className={`font-sans text-sm leading-[1.125rem] font-bold text-white ${review.role ? 'mt-[0.6875rem]' : ''}`}>
+          {review.name}
+          {review.place ? (
+            <>
+              <br />
+              {review.place}
+            </>
+          ) : null}
+        </p>
+        <p className="mt-3 break-words font-sans text-[1.25rem] leading-[1.5] font-medium text-white">
+          {review.quote}
+        </p>
+      </>
+    );
+  }
+
   return (
     <>
       {review.role ? (
@@ -139,7 +247,6 @@ export const HappyClientsCarousel: React.FC<HappyClientsCarouselProps> = ({
   const [dir, setDir] = useState(1);
   const count = reviews.length;
   const review = reviews[index];
-  const deck = reviews[0]?.photos;
   const touchStart = useRef<{ x: number; y: number } | null>(null);
 
   const go = (delta: number) => {
@@ -170,22 +277,7 @@ export const HappyClientsCarousel: React.FC<HappyClientsCarouselProps> = ({
 
   if (!review) return null;
 
-  const slideMotion = (slideIndex: number) => {
-    const active = slideIndex === index;
-    const outgoing = slideIndex === from && from !== index;
-    const position = active ? 'relative' : 'absolute inset-x-0 top-0';
-
-    let shift = 'translate-y-[40%]';
-    if (active) shift = 'translate-y-0';
-    else if (outgoing && dir > 0) shift = 'translate-y-0';
-    else if (outgoing && dir < 0) shift = 'translate-y-[40%]';
-
-    return `${position} ${COPY_EASE} ${
-      active
-        ? `z-10 ${shift} opacity-100`
-        : `z-0 ${shift} pointer-events-none opacity-0`
-    }`;
-  };
+  const deck = fanDeck(reviews, index);
 
   return (
     <div
@@ -197,39 +289,37 @@ export const HappyClientsCarousel: React.FC<HappyClientsCarouselProps> = ({
       <div className="relative hidden aspect-[1680/538] min-h-[20rem] xl:block">
         <div className="absolute inset-y-0 left-[34.46%] right-[8.45%] overflow-hidden rounded-[3.125rem] bg-brand-red" />
 
-        {deck
-          ? deck.map((src, photoIndex) => {
-              const slot = FAN_SLOTS[(photoIndex + (index % FAN_SLOTS.length)) % FAN_SLOTS.length];
-              return (
-                <div
-                  key={photoIndex}
-                  className={`absolute overflow-hidden rounded-media bg-white ${FAN_EASE}`}
-                  style={{
-                    top: slot.top,
-                    right: slot.right,
-                    bottom: slot.bottom,
-                    left: slot.left,
-                    zIndex: slot.z,
-                  }}
-                >
-                  <div
-                    className={`relative size-full ${PHOTO_OPACITY_EASE}`}
-                    style={{ opacity: slot.opacity }}
-                  >
-                    <MediaFrame
-                      src={src}
-                      alt=""
-                      pendingLabel="client-portrait"
-                      tone="tile"
-                      sizes="(max-width: 1280px) 30vw, 381px"
-                      imageClassName="object-cover!"
-                      className="size-full border-0 bg-white"
-                    />
-                  </div>
-                </div>
-              );
-            })
-          : null}
+        {deck.map((src, photoIndex) => {
+          const slot = FAN_SLOTS[(photoIndex + index) % FAN_SLOTS.length];
+          return (
+            <div
+              key={`desk-photo-${photoIndex}`}
+              className={`absolute overflow-hidden rounded-media bg-white ${FAN_EASE}`}
+              style={{
+                top: slot.top,
+                right: slot.right,
+                bottom: slot.bottom,
+                left: slot.left,
+                zIndex: slot.z,
+              }}
+            >
+              <div
+                className={`relative size-full ${PHOTO_OPACITY_EASE}`}
+                style={{ opacity: slot.opacity }}
+              >
+                <MediaFrame
+                  src={src}
+                  alt=""
+                  pendingLabel="client-portrait"
+                  tone="tile"
+                  sizes="(max-width: 1280px) 30vw, 381px"
+                  imageClassName="object-cover!"
+                  className="size-full border-0 bg-white"
+                />
+              </div>
+            </div>
+          );
+        })}
 
         <div className="pointer-events-none absolute inset-y-0 left-[49.29%] right-[14.85%] z-10 overflow-hidden">
           {reviews.map((item, slideIndex) => (
@@ -264,40 +354,54 @@ export const HappyClientsCarousel: React.FC<HappyClientsCarouselProps> = ({
       </div>
 
       <div className="xl:hidden">
-        <div className="relative overflow-hidden">
-          {reviews.map((item, slideIndex) => (
-            <div
-              key={`${item.name}-m-${slideIndex}`}
-              className={`${slideMotion(slideIndex)} flex flex-col gap-6`}
-              aria-hidden={slideIndex !== index}
-            >
-              <div className="relative mx-auto aspect-[381/470] w-[min(100%,20rem)] shrink-0 overflow-hidden rounded-media bg-white">
-                <MediaFrame
-                  src={(deck ?? item.photos)[(2 - (index % 3) + 3) % 3]}
-                  alt=""
-                  pendingLabel="client-portrait"
-                  tone="tile"
-                  sizes="20rem"
-                  imageClassName="object-cover object-[center_12%]!"
-                  className="size-full border-0 bg-white"
-                />
-              </div>
-
-              <div className="overflow-hidden rounded-[3.125rem] bg-brand-red px-8 py-10">
-                <div className="flex flex-col">
-                  <QuoteCopy review={item} active={slideIndex === index} />
+        <div className="relative h-[12.625rem] w-full">
+          {deck.map((src, photoIndex) => {
+            const slot = (photoIndex + index) % MOBILE_MAIN_SLOTS.length;
+            return (
+              <React.Fragment key={`m-photo-${photoIndex}`}>
+                <div
+                  className={`absolute overflow-hidden rounded-[1.25rem] bg-white ${FAN_EASE}`}
+                  style={MOBILE_MAIN_SLOTS[slot]}
+                >
+                  <MediaFrame
+                    src={src}
+                    alt=""
+                    pendingLabel="client-portrait"
+                    tone="tile"
+                    sizes="164px"
+                    imageClassName="object-cover object-[center_12%]!"
+                    className="size-full border-0 bg-white"
+                  />
                 </div>
-              </div>
-            </div>
-          ))}
+                <div
+                  className={`absolute overflow-hidden rounded-[1.25rem] bg-white ${FAN_EASE}`}
+                  style={MOBILE_FAR_SLOTS[slot]}
+                >
+                  <MediaFrame
+                    src={src}
+                    alt=""
+                    pendingLabel="client-portrait"
+                    tone="tile"
+                    sizes="115px"
+                    imageClassName="object-cover!"
+                    className="size-full border-0 bg-white"
+                  />
+                </div>
+              </React.Fragment>
+            );
+          })}
         </div>
 
-        <div className="mt-6 flex justify-center gap-4">
+        <div className="relative z-[4] -mt-[3.75rem] min-h-[22rem] overflow-visible rounded-[3.125rem] bg-[#f01424] px-8 pb-10 pt-[3.75rem]">
+          <div className="min-w-0">
+            <QuoteCopy review={review} compact />
+          </div>
+
           <button
             type="button"
             aria-label="Previous client story"
             onClick={() => go(-1)}
-            className="flex size-14 cursor-pointer items-center justify-center rounded-full bg-[rgb(43_136_217/0.03)] text-[#2b88d9] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-sky"
+            className="absolute top-[9.4375rem] left-0 z-20 flex size-[2.95rem] -translate-x-1/2 cursor-pointer items-center justify-center rounded-full border border-[#c6c6c6] bg-[rgb(240_20_36/0.02)] text-[#2b88d9] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-sky"
           >
             <ArrowGlyph direction="prev" />
           </button>
@@ -305,7 +409,7 @@ export const HappyClientsCarousel: React.FC<HappyClientsCarouselProps> = ({
             type="button"
             aria-label="Next client story"
             onClick={() => go(1)}
-            className="flex size-14 cursor-pointer items-center justify-center rounded-full bg-[rgb(240_20_36/0.02)] text-[#f01424] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
+            className="absolute top-[9.4375rem] right-0 z-20 flex size-[2.95rem] translate-x-1/2 cursor-pointer items-center justify-center rounded-full bg-[rgb(240_20_36/0.02)] text-[#f01424] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
           >
             <ArrowGlyph direction="next" />
           </button>
