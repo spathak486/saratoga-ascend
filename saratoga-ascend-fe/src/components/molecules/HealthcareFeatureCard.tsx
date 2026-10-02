@@ -30,7 +30,7 @@ const FALLBACK_PERSON = '/images/phase5/phase5-nurse.png';
 const PILL =
   'inline-flex h-[3.75rem] w-[11.25rem] items-center justify-center rounded-pill bg-brand-cta-to px-6 text-button font-medium text-white shadow-button hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-on-dark';
 const PORTRAIT_BOX =
-  'absolute top-4 left-1/2 h-[min(22rem,70vw)] w-[min(16rem,55vw)] -translate-x-1/2 xl:top-[-10px] xl:right-[9.52%] xl:left-auto xl:h-[152.57%] xl:w-[41.67%] xl:translate-x-0';
+  'absolute top-[40.86%] left-1/2 h-[84.48%] w-[77.88%] -translate-x-1/2 xl:top-[-10px] xl:right-[9.52%] xl:left-auto xl:h-[152.57%] xl:w-[41.67%] xl:translate-x-0';
 const SWIPE_THRESHOLD_PX = 40;
 const EASE_ENTER = [0.16, 1, 0.3, 1] as const;
 const EASE_EXIT = [0.4, 0, 0.2, 1] as const;
@@ -135,18 +135,26 @@ function FadeCopy({
 
   return (
     <motion.div
-      className="flex flex-col gap-[1.875rem]"
+      className="flex flex-col gap-[1.875rem] max-xl:items-center max-xl:gap-5 max-xl:text-center"
       initial={reduce || !fadingIn ? { opacity: 1 } : { opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={reduce ? { duration: 0 } : { duration: FADE_MS, ease: EASE_FADE }}
     >
-      <div className="flex flex-col gap-[1.875rem]">
-        <Heading level={2} size="hero" tone="onDark" font="serif" className="text-[#fffefe]">
+      <div className="flex flex-col gap-[1.875rem] max-xl:gap-0">
+        <Heading
+          level={2}
+          size="hero"
+          tone="onDark"
+          font="serif"
+          className="text-[#fffefe] max-xl:text-center max-xl:text-[2rem] max-xl:leading-[2.5rem]"
+        >
           {slide.category}
         </Heading>
-        <p className="text-card-copy font-bold leading-[1.2] text-brand-blue-soft">{slide.role}</p>
+        <p className="text-card-copy font-bold leading-[1.2] text-brand-blue-soft max-xl:hidden">
+          {slide.role}
+        </p>
       </div>
-      <Text size="cardCopy" tone="onDark">
+      <Text size="cardCopy" tone="onDark" className="max-xl:text-base max-xl:leading-5">
         {slide.blurb}
       </Text>
     </motion.div>
@@ -238,7 +246,7 @@ export const HealthcareFeatureCard: React.FC<HealthcareFeatureCardProps> = ({
 
   return (
     <article
-      className="relative overflow-hidden rounded-frame border border-brand-line xl:aspect-[1680/700]"
+      className="relative overflow-hidden rounded-frame border border-brand-line max-xl:min-h-[36.25rem] xl:aspect-[1680/700]"
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
@@ -251,6 +259,12 @@ export const HealthcareFeatureCard: React.FC<HealthcareFeatureCardProps> = ({
       </div>
 
       <div className="pointer-events-none absolute inset-0 z-[1] overflow-hidden" aria-hidden="true">
+        <p
+          className="absolute top-[18.5625rem] left-1/2 h-16 w-[26.8125rem] -translate-x-1/2 text-center font-serif text-[4rem] leading-none text-[#fffefe] opacity-10 select-none whitespace-nowrap xl:hidden"
+          aria-hidden="true"
+        >
+          {incoming.category}
+        </p>
         {outgoingSrc ? (
           <MotionPortrait key={`out-${fromIndex}`} src={outgoingSrc} variant="exit" dir={dir} />
         ) : null}
@@ -277,7 +291,7 @@ export const HealthcareFeatureCard: React.FC<HealthcareFeatureCardProps> = ({
         />
       </div>
 
-      <div className="relative z-[2] min-h-[28rem] xl:absolute xl:inset-0 xl:min-h-0">
+      <div className="relative z-[2] min-h-[28rem] max-xl:min-h-[36.25rem] xl:absolute xl:inset-0 xl:min-h-0">
         <p
           className="pointer-events-none absolute top-0 left-[38.5%] hidden h-[1em] font-serif text-[13.375rem] leading-[1.15] text-[#fffefe] opacity-10 select-none whitespace-nowrap xl:block"
           aria-hidden="true"
@@ -302,7 +316,7 @@ export const HealthcareFeatureCard: React.FC<HealthcareFeatureCardProps> = ({
             {incoming.category}
           </motion.span>
         </p>
-        <div className="relative z-[2] flex h-full max-w-[44.875rem] flex-col justify-center gap-[1.875rem] px-6 py-8 xl:px-10 xl:py-5">
+        <div className="relative z-[2] flex h-full max-w-[44.875rem] flex-col justify-center gap-[1.875rem] px-6 py-8 max-xl:max-w-none max-xl:items-center max-xl:justify-start max-xl:gap-5 max-xl:px-5 max-xl:py-5 xl:px-10 xl:py-5">
           <div className="relative">
             {outgoing ? (
               <motion.div
@@ -316,7 +330,7 @@ export const HealthcareFeatureCard: React.FC<HealthcareFeatureCardProps> = ({
             ) : null}
             <FadeCopy slide={incoming} fadingIn={isSliding} />
           </div>
-          <GeneralLink href={ctaHref} variant="unstyled" className={PILL}>
+          <GeneralLink href={ctaHref} variant="unstyled" className={`${PILL} max-xl:hidden`}>
             {ctaLabel}
           </GeneralLink>
         </div>
@@ -328,7 +342,7 @@ export const HealthcareFeatureCard: React.FC<HealthcareFeatureCardProps> = ({
             type="button"
             onClick={() => step(-1)}
             aria-label="Previous healthcare slide"
-            className="absolute top-1/2 left-[calc(50%-5.625rem)] z-[3] hidden size-[3.75rem] -translate-y-1/2 cursor-pointer transition-transform duration-150 hover:scale-105 active:scale-95 motion-reduce:transition-none motion-reduce:hover:scale-100 xl:block"
+            className="absolute top-1/2 left-[calc(50%-5.625rem)] z-[3] size-[3.75rem] -translate-y-1/2 cursor-pointer transition-transform duration-150 hover:scale-105 active:scale-95 motion-reduce:transition-none motion-reduce:hover:scale-100 max-xl:top-auto max-xl:bottom-[1.125rem] max-xl:left-3 max-xl:size-10 max-xl:translate-y-0"
           >
             <Image
               src="/images/phase5/phase5-feature-prev.svg"
@@ -343,7 +357,7 @@ export const HealthcareFeatureCard: React.FC<HealthcareFeatureCardProps> = ({
             type="button"
             onClick={() => step(1)}
             aria-label="Next healthcare slide"
-            className="absolute top-1/2 right-10 z-[3] hidden size-[3.75rem] -translate-y-1/2 cursor-pointer transition-transform duration-150 hover:scale-105 active:scale-95 motion-reduce:transition-none motion-reduce:hover:scale-100 xl:block"
+            className="absolute top-1/2 right-10 z-[3] size-[3.75rem] -translate-y-1/2 cursor-pointer transition-transform duration-150 hover:scale-105 active:scale-95 motion-reduce:transition-none motion-reduce:hover:scale-100 max-xl:top-auto max-xl:right-3 max-xl:bottom-[1.125rem] max-xl:size-10 max-xl:translate-y-0"
           >
             <span className="flex size-full -scale-y-100 rotate-180">
               <Image

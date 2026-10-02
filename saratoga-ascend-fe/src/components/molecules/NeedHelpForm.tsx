@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useId, useState } from 'react';
+import React, { useEffect, useId, useState } from 'react';
 
 export interface NeedHelpFormProps {
   buttonLabel?: string;
@@ -16,7 +16,7 @@ const fieldClass =
   'w-full border-0 border-b border-white/40 bg-transparent pb-2.5 text-[18px] leading-[150%] font-normal text-white placeholder:text-white/50 focus:border-white focus:outline-none';
 
 const buttonClass =
-  'mt-[clamp(2rem,4.5vw,135px)] inline-flex h-[60px] w-[180px] shrink-0 cursor-pointer items-center justify-center self-start rounded-[999px] bg-white px-6 py-4 text-[20px] font-bold leading-[150%] text-[#2B88D9] shadow-button transition-transform hover:scale-[1.02] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white disabled:cursor-not-allowed disabled:opacity-70';
+  'mt-[clamp(2rem,4.5vw,135px)] inline-flex h-[60px] w-[180px] shrink-0 cursor-pointer items-center justify-center self-start rounded-[999px] bg-white px-6 py-4 text-[20px] font-bold leading-[150%] text-[#2B88D9] shadow-button transition-transform hover:scale-[1.02] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white disabled:cursor-not-allowed disabled:opacity-70 max-xl:mt-[1.875rem]';
 
 /**
  * Name / email capture on the Need Help card. Submits to the same-origin
@@ -35,6 +35,15 @@ export const NeedHelpForm: React.FC<NeedHelpFormProps> = ({
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [state, setState] = useState<SubmitState>({ status: 'idle' });
+  const [mobileCopy, setMobileCopy] = useState(false);
+
+  useEffect(() => {
+    const media = window.matchMedia('(max-width: 1279.98px)');
+    const sync = () => setMobileCopy(media.matches);
+    sync();
+    media.addEventListener('change', sync);
+    return () => media.removeEventListener('change', sync);
+  }, []);
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -111,7 +120,7 @@ export const NeedHelpForm: React.FC<NeedHelpFormProps> = ({
             autoComplete="name"
             required
             disabled={state.status === 'submitting'}
-            placeholder="Name"
+            placeholder={mobileCopy ? 'Enter your name here....' : 'Name'}
             value={name}
             onChange={(event) => setName(event.target.value)}
             className={fieldClass}
@@ -129,7 +138,7 @@ export const NeedHelpForm: React.FC<NeedHelpFormProps> = ({
             autoComplete="email"
             required
             disabled={state.status === 'submitting'}
-            placeholder="Email"
+            placeholder={mobileCopy ? 'Enter your Email here....' : 'Email'}
             value={email}
             onChange={(event) => setEmail(event.target.value)}
             className={fieldClass}

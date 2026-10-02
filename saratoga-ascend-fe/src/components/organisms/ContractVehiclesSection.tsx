@@ -43,17 +43,22 @@ export const ContractVehiclesSection: React.FC = () => {
       aria-labelledby="contract-vehicles-heading"
       tone="surface"
       spacing="lg"
+      className="max-xl:py-5!"
     >
-      <div className="flex flex-col gap-[clamp(2.5rem,3.125vw,3.75rem)]">
+      <div className="flex flex-col gap-[clamp(2.5rem,3.125vw,3.75rem)] max-xl:gap-5">
         <SectionIntro
           id="contract-vehicles-heading"
           title="Contract Vehicles"
           description={INTRO_COPY}
+          wide
+          titleClassName="max-xl:text-[2rem]! max-xl:leading-[2.5rem]! max-xl:text-brand-cta-from"
+          descriptionClassName="max-xl:text-base max-xl:leading-5"
+          className="gap-3"
         />
 
-        <div className="rounded-[2.5rem] border-2 border-slate-line bg-brand-surface p-[clamp(1.5rem,2.08vw,2.5rem)]">
-          <div className="grid grid-cols-1 gap-10 xl:grid-cols-[25.125rem_1px_minmax(0,1fr)] xl:items-start">
-            <div className="flex flex-col gap-10">
+        <div className="rounded-[2.5rem] border-2 border-slate-line bg-brand-surface p-[clamp(1.5rem,2.08vw,2.5rem)] max-xl:rounded-none max-xl:border-0 max-xl:bg-transparent max-xl:p-0">
+          <div className="grid grid-cols-1 gap-10 xl:grid-cols-[25.125rem_1px_minmax(0,1fr)] xl:items-start max-xl:gap-5">
+            <div className="flex flex-col gap-10 max-xl:gap-5">
               <VehicleScopeToggle value={scope} onChange={setScope} />
               <VehicleNavList
                 items={VEHICLES}

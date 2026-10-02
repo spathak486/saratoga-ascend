@@ -5,10 +5,12 @@ import { Container, Heading, Text } from '../atoms';
 import { ClientLogoCard } from '../molecules/ClientLogoCard';
 import type { StrapiImage } from '@/lib/schemas';
 
+/** Figma scroll prototype: rest 800ms, then Smart animate, Gentle, 1022ms. */
 const DWELL_MS = 800;
 const SLIDE_MS = 1022;
-const GENTLE = 'cubic-bezier(0.42, 0, 0.58, 1)';
+const GENTLE = 'cubic-bezier(0.47, 0, 0.23, 1)';
 const CARD_GAP_PX = 75;
+const MOBILE_CARD_GAP_PX = 20;
 const DRAG_THRESHOLD_PX = 40;
 
 const FALLBACK_LOGOS = [
@@ -50,7 +52,6 @@ export const ClientLogosSection: React.FC<ClientLogosectionProps> = ({
   const loop = items.length > 1 ? [...items, ...items] : items;
 
   const [index, setIndex] = useState(0);
-  const [paused, setPaused] = useState(false);
   const [snap, setSnap] = useState(false);
   const [stepPx, setStepPx] = useState(545);
   const trackRef = useRef<HTMLDivElement>(null);
@@ -59,7 +60,8 @@ export const ClientLogosSection: React.FC<ClientLogosectionProps> = ({
   const measure = useCallback(() => {
     const first = trackRef.current?.querySelector<HTMLElement>('[data-client-logo]');
     if (!first) return;
-    setStepPx(first.offsetWidth + CARD_GAP_PX);
+    const mobile = window.matchMedia('(max-width: 1279.98px)').matches;
+    setStepPx(first.offsetWidth + (mobile ? MOBILE_CARD_GAP_PX : CARD_GAP_PX));
   }, []);
 
   useEffect(() => {
@@ -77,16 +79,21 @@ export const ClientLogosSection: React.FC<ClientLogosectionProps> = ({
   );
 
   useEffect(() => {
-    if (paused || items.length < 2) return undefined;
+    if (items.length < 2) return undefined;
     if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       return undefined;
     }
 
-    const timer = window.setTimeout(() => step(1), DWELL_MS);
+    // Index 0 is a resting frame: the first paint, and the instant reset
+    // after one full loop. Later indexes have just started the 1022ms slide,
+    // so the 800ms dwell begins when that slide ends.
+    const delay = index === 0 ? DWELL_MS : DWELL_MS + SLIDE_MS;
+    const timer = window.setTimeout(() => step(1), delay);
     return () => window.clearTimeout(timer);
-  }, [index, paused, items.length, step]);
+  }, [index, items.length, step]);
 
-  const finishSlide = () => {
+  const finishSlide = (event: React.TransitionEvent<HTMLDivElement>) => {
+    if (event.target !== event.currentTarget || event.propertyName !== 'transform') return;
     if (items.length < 2 || index < items.length) return;
     setSnap(true);
     setIndex(index % items.length);
@@ -98,18 +105,21 @@ export const ClientLogosSection: React.FC<ClientLogosectionProps> = ({
   const onPointerDown = (event: React.PointerEvent<HTMLDivElement>) => {
     if (event.button !== 0) return;
     drag.current = { x: event.clientX };
-    setPaused(true);
-    event.currentTarget.setPointerCapture(event.pointerId);
+    try {
+      event.currentTarget.setPointerCapture(event.pointerId);
+    } catch {
+      /* Capture is unavailable for a pointer the browser has already released. */
+    }
   };
 
   const onPointerUp = (event: React.PointerEvent<HTMLDivElement>) => {
     const start = drag.current;
     drag.current = null;
-    setPaused(false);
     if (!start) return;
     const dx = event.clientX - start.x;
     if (Math.abs(dx) < DRAG_THRESHOLD_PX) return;
-    step(dx < 0 ? 1 : -1);
+    // The prototype's On drag reaction only changes to the next frame.
+    step(1);
   };
 
   if (!title && !description && items.length === 0) return null;
@@ -120,15 +130,15 @@ export const ClientLogosSection: React.FC<ClientLogosectionProps> = ({
     <section
       aria-labelledby={heading ? 'client-logos-heading' : undefined}
       aria-label={heading ? undefined : 'Our clients'}
-      className="mt-10 overflow-hidden py-10"
+      className="mt-10 overflow-hidden py-10 max-xl:mt-0 max-xl:py-5"
       style={{
         backgroundImage:
           'linear-gradient(159.05deg, var(--color-brand-surface-muted) 0%, var(--color-brand-surface-sunk) 100%)',
       }}
     >
-      <div className="flex flex-col gap-[3.75rem]">
+      <div className="flex flex-col gap-[3.75rem] max-xl:gap-10">
         {heading || lede ? (
-          <Container>
+          <Container className="max-xl:px-5!">
             <div className="flex w-full flex-col items-start gap-3">
               {heading ? (
                 <Heading
@@ -136,13 +146,13 @@ export const ClientLogosSection: React.FC<ClientLogosectionProps> = ({
                   level={2}
                   size="section"
                   tone="inherit"
-                  className="text-brand-cta-from"
+                  className="text-brand-cta-from max-xl:text-[2rem]! max-xl:leading-[2.5rem]!"
                 >
                   {heading}
                 </Heading>
               ) : null}
               {lede ? (
-                <Text size="sectionLead" tone="inherit" className="text-ink">
+                <Text size="sectionLead" tone="inherit" className="text-ink max-xl:text-base max-xl:leading-5">
                   {lede}
                 </Text>
               ) : null}
@@ -151,21 +161,17 @@ export const ClientLogosSection: React.FC<ClientLogosectionProps> = ({
         ) : null}
 
         <div
-          className={`relative overflow-hidden ${paused ? 'cursor-grabbing select-none' : 'cursor-grab'}`}
-          onMouseEnter={() => setPaused(true)}
-          onMouseLeave={() => setPaused(false)}
+          className="relative cursor-grab overflow-hidden"
           onPointerDown={onPointerDown}
           onPointerUp={onPointerUp}
           onPointerCancel={() => {
             drag.current = null;
-            setPaused(false);
           }}
         >
           <div
             ref={trackRef}
-            className="flex will-change-transform"
+            className="flex gap-[4.6875rem] will-change-transform max-xl:gap-5"
             style={{
-              gap: `${CARD_GAP_PX}px`,
               transform: `translate3d(${-index * stepPx}px, 0, 0)`,
               transition: snap ? 'none' : `transform ${SLIDE_MS}ms ${GENTLE}`,
             }}

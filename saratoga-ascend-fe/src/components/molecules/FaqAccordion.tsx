@@ -27,7 +27,7 @@ export const FaqAccordion: React.FC<FaqAccordionProps> = ({
   className = '',
 }) => {
   const baseId = useId();
-  const [openIndex, setOpenIndex] = useState<number>(0);
+  const [openIndex, setOpenIndex] = useState<number>(-1);
 
   return (
     <div className={className}>
@@ -51,22 +51,15 @@ export const FaqAccordion: React.FC<FaqAccordionProps> = ({
                   onClick={() => setOpenIndex(isOpen ? -1 : index)}
                   className="faq-accordion-trigger"
                 >
-                  <span className={`faq-accordion-question${isOpen ? ' faq-accordion-question--open' : ''}`}>
+                  <span className="faq-accordion-question">
                     {item.question}
                   </span>
 
-                  {/* Circular +/- icon */}
                   <span className="faq-accordion-icon-wrap" aria-hidden="true">
-                    <span className={`faq-accordion-icon${isOpen ? ' faq-accordion-icon--minus' : ''}`}>
-                      {isOpen ? (
-                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                          <path d="M4 8H12" stroke="#475569" strokeWidth="1.667" strokeLinecap="round"/>
-                        </svg>
-                      ) : (
-                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                          <path d="M8 4V12M4 8H12" stroke="#475569" strokeWidth="1.667" strokeLinecap="round"/>
-                        </svg>
-                      )}
+                    <span className="faq-accordion-icon">
+                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                        <path d="M8 4V12M4 8H12" stroke="#475569" strokeWidth="1.667" strokeLinecap="round"/>
+                      </svg>
                     </span>
                   </span>
                 </button>

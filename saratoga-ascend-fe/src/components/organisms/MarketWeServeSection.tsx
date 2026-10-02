@@ -36,7 +36,7 @@ export const MarketWeServeSection: React.FC<MarketWeServeSectionProps> = ({
       aria-labelledby="market-we-serve-heading"
       tone="surface"
       spacing="none"
-      className="mt-10 py-10"
+      className="mt-10 py-10 max-[89.99rem]:mt-0 max-[89.99rem]:py-[1.875rem]"
     >
       <div className="flex flex-col gap-10">
         {(title || description) ? (
@@ -46,14 +46,15 @@ export const MarketWeServeSection: React.FC<MarketWeServeSectionProps> = ({
             description={description ?? ''}
             wide
             titleTone="inherit"
-            titleClassName="text-brand-cta-from"
+            titleClassName="text-brand-cta-from max-[89.99rem]:text-[2rem] max-[89.99rem]:leading-[2.5rem]"
             descriptionSize="sectionLead"
             descriptionStyle={{ color: 'var(--color-ink)' }}
+            descriptionClassName="max-[89.99rem]:text-base max-[89.99rem]:leading-5"
             className="gap-3"
           />
         ) : null}
 
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+        <div className="grid min-w-0 grid-cols-1 gap-6 lg:grid-cols-2">
           {displayMarkets.map((market) => (
             <MarketServeCard
               key={market.id}

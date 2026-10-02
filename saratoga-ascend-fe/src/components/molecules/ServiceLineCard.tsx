@@ -100,12 +100,12 @@ export function useServiceLineSlide(length: number): ServiceLineSlide {
 function SlideBody({ line }: { line: ServiceLine }) {
   return (
     <div className="flex flex-col gap-[1.875rem]">
-      <Heading level={3} size="feature" tone="ink" className="text-ink">
+      <Heading level={3} size="feature" tone="ink" className="text-ink max-[89.99rem]:text-[2rem] max-[89.99rem]:leading-[2.5rem]">
         {line.heading}
       </Heading>
 
       <div className="flex flex-col gap-5">
-        <Text size="cardCopy" tone="navy">
+        <Text size="cardCopy" tone="navy" className="max-[89.99rem]:text-base max-[89.99rem]:leading-5">
           {line.blurb}
         </Text>
 
@@ -161,14 +161,14 @@ export const ServiceLineCard: React.FC<ServiceLineCardProps> = ({ lines, slide }
           direction="prev"
           tone="iconPlay"
           onClick={() => step(-1)}
-          className="size-12 shrink-0 transition-transform duration-150 hover:scale-105 active:scale-95 motion-reduce:transition-none motion-reduce:hover:scale-100 sm:size-[3.75rem]"
+          className="size-12 shrink-0 transition-transform duration-150 hover:scale-105 active:scale-95 motion-reduce:transition-none motion-reduce:hover:scale-100 sm:size-[3.75rem] max-[89.99rem]:size-[3.75rem]"
         />
 
         <CtaButton
           href={line.href}
           shape="pill"
           showArrow={false}
-          className="h-auto min-h-0 min-w-0 flex-1 justify-center px-6 py-3 font-bold sm:flex-none sm:px-6 sm:py-3"
+          className="h-auto min-h-0 min-w-0 flex-1 justify-center px-6 py-3 font-bold sm:flex-none sm:px-6 sm:py-3 max-[89.99rem]:px-3 max-[89.99rem]:text-[0.875rem] max-[89.99rem]:leading-[1.125rem] max-[89.99rem]:font-normal"
         >
           Learn More
         </CtaButton>
@@ -178,7 +178,7 @@ export const ServiceLineCard: React.FC<ServiceLineCardProps> = ({ lines, slide }
           direction="next"
           tone="iconPlay"
           onClick={() => step(1)}
-          className="size-12 shrink-0 transition-transform duration-150 hover:scale-105 active:scale-95 motion-reduce:transition-none motion-reduce:hover:scale-100 sm:size-[3.75rem]"
+          className="size-12 shrink-0 transition-transform duration-150 hover:scale-105 active:scale-95 motion-reduce:transition-none motion-reduce:hover:scale-100 sm:size-[3.75rem] max-[89.99rem]:size-[3.75rem]"
         />
       </div>
     </article>
