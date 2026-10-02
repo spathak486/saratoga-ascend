@@ -1,6 +1,7 @@
 import React from 'react';
 import { Container, Heading } from '../atoms';
 import { LatestNewsCard, type LatestNewsCardProps } from '../molecules/LatestNewsCard';
+import { LatestNewsCarousel } from '../molecules/LatestNewsCarousel';
 import { strapiUrl, strapiToken } from '@/lib/api/config';
 
 export interface LatestNewsSectionProps {
@@ -98,21 +99,21 @@ export const LatestNewsSection = async ({
       className="relative overflow-hidden"
       style={{ background: 'linear-gradient(176.75deg, #D31E2D 2.68%, #022E4C 97.36%)' }}
     >
-      <Container className="py-section">
-        <div className="flex flex-col items-start gap-[12px]">
+      <Container className="py-section max-xl:px-5! max-xl:py-10">
+        <div className="flex flex-col items-start gap-3">
           <Heading
             id="latest-news-heading"
             level={2}
             size="section"
             tone="onDark"
-            className="text-white text-[72px] leading-[1.2] font-normal text-left"
+            className="text-left text-[72px] leading-[1.2] font-normal text-white max-xl:text-[2rem]! max-xl:leading-[2.5rem]!"
             style={{ fontFamily: "'DM Serif Text', serif" }}
           >
             {title}
           </Heading>
           {subTitle && (
-            <p 
-              className="text-white text-[30px] leading-[40px] text-left"
+            <p
+              className="text-left text-[30px] leading-[40px] text-white max-xl:text-base max-xl:leading-5"
               style={{ fontFamily: "'Google Sans Flex', sans-serif" }}
             >
               {subTitle}
@@ -120,11 +121,13 @@ export const LatestNewsSection = async ({
           )}
         </div>
 
-        <div className="mt-block grid grid-cols-1 justify-items-center gap-grid md:grid-cols-2 xl:grid-cols-3 xl:justify-items-stretch">
+        <div className="mt-block hidden grid-cols-1 justify-items-center gap-grid md:grid-cols-2 xl:grid xl:grid-cols-3 xl:justify-items-stretch">
           {ARTICLES.map((article, idx) => (
             <LatestNewsCard key={`${article.title}-${idx}`} {...article} />
           ))}
         </div>
+
+        <LatestNewsCarousel articles={ARTICLES} />
       </Container>
     </section>
   );

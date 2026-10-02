@@ -29,6 +29,8 @@ export interface GeneralLinkProps
   external?: boolean;
   children: React.ReactNode;
   className?: string;
+  /** Classes for the inner label span (text + in-flow icons). */
+  contentClassName?: string;
 }
 
 const focusRing =
@@ -87,6 +89,7 @@ export const GeneralLink: React.FC<GeneralLinkProps> = ({
   external,
   children,
   className = '',
+  contentClassName,
   target,
   rel,
   ...props
@@ -99,7 +102,7 @@ export const GeneralLink: React.FC<GeneralLinkProps> = ({
   const content = (
     <>
       {leftIcon && <span className="inline-flex shrink-0 items-center">{leftIcon}</span>}
-      <span>{children}</span>
+      <span className={contentClassName}>{children}</span>
       {rightIcon && <span className="inline-flex shrink-0 items-center">{rightIcon}</span>}
 
       {variant === 'arrow' && !rightIcon && (

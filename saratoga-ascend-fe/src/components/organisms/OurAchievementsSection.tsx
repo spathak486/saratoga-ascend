@@ -10,6 +10,8 @@ import {
 import {
   CAROUSEL_SLIDE_CLASS,
   useCardCarousel,
+  useDragToScroll,
+  useWheelToScroll,
 } from '../molecules/CardCarousel';
 import { CountUpStat } from '../molecules/CountUpStat';
 import type { StrapiImage } from '@/lib/schemas';
@@ -18,9 +20,18 @@ import type { StrapiImage } from '@/lib/schemas';
  *  2px inset on each slide keeps the white stroke inside the overflow clip. */
 /** 828 + 21 + 828 inside the 1677px track (Figma 2002:1047 / 2002:1053). */
 const CARD_GAP = '1.3125rem';
+const MOBILE_CARD_GAP = '1.25rem';
 const TWO_UP_SLIDE_CLASS = `${CAROUSEL_SLIDE_CLASS} box-border shrink-0 basis-[calc((100%-1.3125rem)/2)] p-[2px]`;
-const ONE_UP_SLIDE_CLASS = `${CAROUSEL_SLIDE_CLASS} box-border shrink-0 basis-full p-[2px] md:basis-[calc((100%-1.3125rem)/2)]`;
+const MOBILE_SLIDE_CLASS = `${CAROUSEL_SLIDE_CLASS} box-border w-[calc(100vw-3.5rem)] shrink-0`;
 const ACHIEVEMENT_BG = '/images/bg-achievements.gif';
+const INTRO_COPY =
+  'Connecting cleared, credentialed healthcare professionals with government, military, and local facilities nationwide.';
+const DESKTOP_OVERLAY =
+  'linear-gradient(237.8deg, rgba(15, 61, 96, 0.8) 29.327%, rgba(240, 20, 36, 0.8) 100%)';
+const MOBILE_OVERLAY =
+  'linear-gradient(264.65deg, rgba(15, 61, 96, 0.8) 29.327%, rgba(240, 20, 36, 0.8) 100%)';
+const STAT_NUMERAL_CLASS =
+  'bg-[linear-gradient(92.08deg,#d31e2d_0.47%,#2a91dc_102.45%)] bg-clip-text font-serif text-[1.75rem] leading-7 text-transparent';
 
 function isPlacementStat(label: string) {
   return /placement/i.test(label);
@@ -65,7 +76,7 @@ function BandArrow({
   );
 }
 
-function Backdrop() {
+function Backdrop({ overlay }: { overlay: string }) {
   return (
     <>
       <img
@@ -76,10 +87,7 @@ function Backdrop() {
       />
       <div
         className="absolute inset-0"
-        style={{
-          background:
-            'linear-gradient(237.8deg, rgba(15, 61, 96, 0.8) 29.327%, rgba(240, 20, 36, 0.8) 100%)',
-        }}
+        style={{ background: overlay }}
         aria-hidden="true"
       />
     </>
@@ -92,21 +100,30 @@ function AwardsTrack({
   slides,
   onPrev,
   onNext,
+  gap = CARD_GAP,
+  dragHandlers,
+  isDragging,
 }: {
   viewportRef: React.RefObject<HTMLDivElement | null>;
   slideClassName: string;
   slides: Array<AchievementGlassCardProps & { key: string }>;
   onPrev: () => void;
   onNext: () => void;
+  gap?: string;
+  dragHandlers?: React.HTMLAttributes<HTMLDivElement>;
+  isDragging?: boolean;
 }) {
   return (
     <div
       ref={viewportRef}
-      className="snap-x snap-mandatory overflow-x-auto py-1 [scrollbar-width:none] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white [&::-webkit-scrollbar]:hidden"
+      className={`snap-x snap-mandatory overflow-x-auto py-1 [scrollbar-width:none] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white [&::-webkit-scrollbar]:hidden ${
+        isDragging ? 'cursor-grabbing select-none' : dragHandlers ? 'cursor-grab' : ''
+      }`.trim()}
       role="group"
       aria-roledescription="carousel"
       aria-label="Achievement awards"
       tabIndex={0}
+      onDragStart={(event) => event.preventDefault()}
       onKeyDown={(event) => {
         if (event.key === 'ArrowLeft') {
           event.preventDefault();
@@ -116,8 +133,9 @@ function AwardsTrack({
           onNext();
         }
       }}
+      {...dragHandlers}
     >
-      <div className="flex" style={{ gap: CARD_GAP }}>
+      <div className="flex" style={{ gap }}>
         {slides.map((slide) => (
           <div
             key={slide.key}
@@ -177,6 +195,8 @@ export const OurAchievementsSection: React.FC<OurAchievementsSectionProps> = ({
 }) => {
   const desktop = useCardCarousel({ loop: true });
   const mobile = useCardCarousel({ loop: true });
+  const { isDragging, dragHandlers } = useDragToScroll(mobile.viewportRef);
+  useWheelToScroll(mobile.viewportRef);
 
   const headingText = title?.trim() ? title : 'Our Achievements';
 
@@ -245,7 +265,7 @@ export const OurAchievementsSection: React.FC<OurAchievementsSectionProps> = ({
       </h2>
 
       <div className="relative hidden aspect-[1920/1334] w-full xl:block">
-        <Backdrop />
+        <Backdrop overlay={DESKTOP_OVERLAY} />
 
         <p
           aria-hidden="true"
@@ -298,58 +318,64 @@ export const OurAchievementsSection: React.FC<OurAchievementsSectionProps> = ({
         />
       </div>
 
-      <div className="relative xl:hidden">
-        <Backdrop />
+      <div className="relative scroll-mt-24 xl:hidden">
+        <Backdrop overlay={MOBILE_OVERLAY} />
 
-        <Container className="relative py-10 sm:py-section">
-          <p
-            aria-hidden="true"
-            className="text-center font-serif text-section leading-[1.2] text-balance text-white"
-          >
-            {headingText}
-          </p>
+        <Container className="relative px-5! py-5">
+          <div className="flex flex-col gap-3">
+            <p
+              aria-hidden="true"
+              className="font-serif text-[2rem] leading-[2.5rem] text-white"
+            >
+              {headingText}
+            </p>
+            <p className="font-sans text-base leading-5 text-[#ebebeb]">{INTRO_COPY}</p>
+          </div>
 
-          <div className="mt-block">
+          <div className="mt-10 -mr-5">
             <AwardsTrack
               viewportRef={mobile.viewportRef}
-              slideClassName={ONE_UP_SLIDE_CLASS}
+              slideClassName={MOBILE_SLIDE_CLASS}
               slides={slides}
               onPrev={mobile.scrollPrev}
               onNext={mobile.scrollNext}
+              gap={MOBILE_CARD_GAP}
+              dragHandlers={dragHandlers}
+              isDragging={isDragging}
             />
           </div>
-
-          <div className="mt-6 flex justify-center gap-4">
-            <BandArrow
-              direction="prev"
-              onClick={mobile.scrollPrev}
-              className="relative size-12 sm:size-[3.75rem]"
-            />
-            <BandArrow
-              direction="next"
-              onClick={mobile.scrollNext}
-              className="relative size-12 sm:size-[3.75rem]"
-            />
-          </div>
-
-          <dl className="mt-block grid grid-cols-2 gap-x-4 gap-y-8 text-center text-white">
-            {resolvedStats.map((stat, idx) => (
-              <div key={`${stat.label}-${idx}`} className="min-w-0">
-                <dd className="font-serif text-[clamp(2.25rem,12vw,7.5rem)] leading-[1.125]">
-                  {isPlacementStat(stat.label) ? (
-                    <CountUpStat value={stat.value} />
-                  ) : (
-                    stat.value
-                  )}
-                </dd>
-                <dt className="mt-1.5 font-sans text-[clamp(0.875rem,3.2vw,2rem)] font-medium">
-                  {stat.label}
-                </dt>
-              </div>
-            ))}
-          </dl>
         </Container>
       </div>
+
+      {resolvedStats.length > 0 ? (
+        <div id="our-achievements-stats" className="bg-[rgba(42,145,220,0.1)] xl:hidden">
+          <Container className="flex flex-col gap-[1.875rem] px-5! py-[1.3125rem]">
+            <div className="flex flex-col gap-3">
+              <p
+                aria-hidden="true"
+                className="font-serif text-[2rem] leading-[2.5rem] text-brand-cta-from"
+              >
+                {headingText}
+              </p>
+              <p className="font-sans text-base leading-5 text-ink">{INTRO_COPY}</p>
+            </div>
+
+            <dl className="grid grid-cols-2 gap-[1.875rem] text-center">
+              {resolvedStats.map((stat, idx) => (
+                <div
+                  key={`${stat.label}-${idx}`}
+                  className="flex min-w-0 flex-col items-center gap-5"
+                >
+                  <dd className={STAT_NUMERAL_CLASS}>{stat.value}</dd>
+                  <dt className="font-sans text-[1.25rem] leading-[1.875rem] font-medium whitespace-nowrap text-[#2b2b2b]">
+                    {stat.label}
+                  </dt>
+                </div>
+              ))}
+            </dl>
+          </Container>
+        </div>
+      ) : null}
     </section>
   );
 };

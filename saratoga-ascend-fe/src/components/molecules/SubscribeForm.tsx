@@ -35,7 +35,8 @@ export const SubscribeForm: React.FC<SubscribeFormProps> = ({
       className={className}
       onSubmit={(event) => {
         event.preventDefault();
-        if (!consented) return;
+        const mobile = window.matchMedia('(max-width: 1279.98px)').matches;
+        if (!mobile && !consented) return;
         onSubmit?.(email);
       }}
     >
@@ -69,11 +70,10 @@ export const SubscribeForm: React.FC<SubscribeFormProps> = ({
         </button>
       </div>
 
-      <div className="mt-4 flex items-start gap-3">
+      <div className="mt-4 flex items-start gap-3 max-xl:hidden">
         <input
           id={consentId}
           type="checkbox"
-          required
           checked={consented}
           onChange={(event) => setConsented(event.target.checked)}
           className="mt-0.5 size-[1.125rem] shrink-0 cursor-pointer rounded-[0.25rem] accent-brand-link"

@@ -132,13 +132,16 @@ const tones: Record<CircleControlTone, ToneConfig> = {
     },
     focus: 'focus-visible:outline-brand-navy',
   },
-  /** Healthcare job-card next control — Figma Frame 5, 60×60 glass ring. */
+  /** Healthcare job-card next control — Figma Frame 5, 60×60, white triangle. */
   jobCardArrow: {
     size: 'size-[3.75rem]',
-    viewBox: '0 0 24 25',
-    paths: PLAY_BLOBS,
+    viewBox: '0 0 66.667 68.333',
+    paths: {
+      prev: 'M23.1683 18.0465 C27.6301 10.1252 39.0365 10.1252 43.4984 18.0465 L52.4043 33.8577 C56.7849 41.6348 51.1653 51.25 42.2393 51.25 L24.4274 51.25 C15.5014 51.25 9.88176 41.6348 14.2624 33.8577 L23.1683 18.0465 Z',
+      next: 'M23.1683 18.0465 C27.6301 10.1252 39.0365 10.1252 43.4984 18.0465 L52.4043 33.8577 C56.7849 41.6348 51.1653 51.25 42.2393 51.25 L24.4274 51.25 C15.5014 51.25 9.88176 41.6348 14.2624 33.8577 L23.1683 18.0465 Z',
+    },
     fills: { prev: '#ffffff', next: '#ffffff' },
-    iconClassName: 'block h-[40%] w-auto',
+    iconClassName: 'block h-[66.67%] w-[68.33%] rotate-90',
     outerStyle: {
       border: '1px solid rgb(198, 198, 198)',
       background: 'rgba(240, 20, 36, 0.02)',

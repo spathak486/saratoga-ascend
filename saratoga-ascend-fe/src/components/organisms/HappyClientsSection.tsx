@@ -27,9 +27,9 @@ export const HappyClientsSection: React.FC<HappyClientsSectionProps> = ({
       aria-labelledby="happy-clients-heading"
       tone="surface"
       spacing="none"
-      containerClassName="py-10"
+      containerClassName="overflow-visible py-10 max-xl:overflow-x-visible max-xl:px-5! max-xl:py-5"
     >
-      <div className="flex flex-col items-start gap-20">
+      <div className="flex flex-col items-start gap-20 max-xl:gap-10">
         {title || description ? (
           <div className="flex w-full flex-col items-start gap-3">
             {title ? (
@@ -38,7 +38,7 @@ export const HappyClientsSection: React.FC<HappyClientsSectionProps> = ({
                 level={2}
                 size="section"
                 tone="inherit"
-                className="text-brand-cta-from"
+                className="text-brand-cta-from max-xl:text-[2rem]! max-xl:leading-[2.5rem]! max-xl:font-normal"
               >
                 {title}
               </Heading>
@@ -48,7 +48,7 @@ export const HappyClientsSection: React.FC<HappyClientsSectionProps> = ({
               </h2>
             )}
             {description ? (
-              <Text size="sectionLead" tone="inherit" className="text-ink">
+              <Text size="sectionLead" tone="inherit" className="text-ink max-xl:text-base! max-xl:leading-5! max-xl:font-normal">
                 {description}
               </Text>
             ) : null}

@@ -41,8 +41,16 @@ const DEFAULT_LEGAL: FooterLink[] = [
   { href: '/terms', label: 'Terms of Service' },
 ];
 
+const pickFooterSocialIcons = (links: FooterLink[]) => {
+  const by = (pattern: RegExp) => links.find((link) => pattern.test(link.label));
+  const picked = [by(/twitter|^x$/i), by(/instagram/i), by(/discord|youtube/i)].filter(
+    (link): link is FooterLink => Boolean(link),
+  );
+  return picked.length === 3 ? picked : links.slice(0, 3);
+};
+
 const footerLinkClass =
-  'text-caption text-slate-faint transition-colors duration-150 hover:text-brand-on-dark';
+  'text-caption text-slate-faint transition-colors duration-150 hover:text-brand-on-dark max-xl:text-[1.125rem] max-xl:leading-7 max-xl:text-white';
 
 const ColumnRule: React.FC = () => (
   <img
@@ -50,16 +58,16 @@ const ColumnRule: React.FC = () => (
     alt=""
     width={40}
     height={2}
-    className="mt-3 h-0.5 w-10"
+    className="mt-3 h-0.5 w-10 max-xl:hidden"
     aria-hidden="true"
   />
 );
 
 const FooterNavGroup: React.FC<FooterColumn> = ({ heading, links }) => (
   <div>
-    <h2 className="text-body-lg font-medium text-brand-on-dark">{heading}</h2>
+    <h2 className="text-body-lg font-medium text-brand-on-dark max-xl:font-serif max-xl:text-[1.625rem] max-xl:leading-[2.125rem] max-xl:font-normal">{heading}</h2>
     <ColumnRule />
-    <ul className="mt-5 flex flex-col gap-4">
+    <ul className="mt-5 flex flex-col gap-4 max-xl:mt-2.5 max-xl:gap-3">
       {links.map((link) => (
         <li key={link.label}>
           <GeneralLink
@@ -125,8 +133,8 @@ export const Footer: React.FC<FooterProps> = ({ data }) => {
 
   return (
     <footer className="relative bg-footer text-brand-on-dark-muted">
-      <Container className="pt-[clamp(3.5rem,4.17vw,5rem)] pb-block">
-        <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+      <Container className="pt-[clamp(3.5rem,4.17vw,5rem)] pb-block max-xl:px-5! max-xl:pt-[1.875rem] max-xl:pb-0">
+        <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between max-xl:gap-[1.875rem]">
           <GeneralLink
             href="/"
             variant="unstyled"
@@ -138,11 +146,11 @@ export const Footer: React.FC<FooterProps> = ({ data }) => {
               alt=""
               width={64}
               height={64}
-              className="size-16 object-contain"
+              className="size-16 object-contain max-xl:h-[4.4375rem] max-xl:w-[18.3125rem] max-xl:max-w-full"
             />
           </GeneralLink>
 
-          <p className="max-w-[22ch] font-serif text-subtitle leading-[1.2] text-brand-on-dark sm:max-w-none sm:text-right">
+          <p className="max-w-[22ch] font-serif text-subtitle leading-[1.2] text-brand-on-dark sm:max-w-none sm:text-right max-xl:max-w-none max-xl:text-[1.625rem] max-xl:leading-[2.125rem] max-xl:text-left">
             {data?.headline || 'Federal State Programs & Solutions'}
           </p>
         </div>
@@ -154,16 +162,60 @@ export const Footer: React.FC<FooterProps> = ({ data }) => {
           aria-hidden="true"
         />
 
-        <div className="mt-block grid grid-cols-1 gap-block sm:grid-cols-2 xl:grid-cols-[25.125rem_1fr_1fr_1fr] xl:gap-x-[clamp(2rem,5vw,6rem)]">
-          <div>
-            <p className="font-serif text-stat-label text-brand-on-dark">
+        <div className="mt-block grid grid-cols-1 gap-block xl:grid-cols-[25.125rem_1fr_1fr_1fr] xl:gap-x-[clamp(2rem,5vw,6rem)] max-xl:mt-10 max-xl:grid-cols-3 max-xl:gap-5">
+          <div className="max-xl:col-span-3">
+            <p className="font-serif text-stat-label text-brand-on-dark max-xl:font-sans max-xl:text-[1.25rem] max-xl:leading-7 max-xl:font-semibold">
               {data?.newsletterHeading || 'Sign up for Our Newsletter'}
             </p>
             <SubscribeForm
-              className="mt-6 max-w-[25.125rem]"
+              className="mt-6 max-w-[25.125rem] max-xl:mt-[1.875rem] max-xl:max-w-none"
               privacyConsentText={data?.privacyConsentText}
               privacyConsentLink={data?.privacyConsentLink}
             />
+            <div className="mt-[1.875rem] hidden items-center justify-between max-xl:flex">
+              <div className="flex gap-2">
+                {pickFooterSocialIcons(social.links).map((link, index) => (
+                <GeneralLink
+                  key={link.label}
+                  href={link.href}
+                  variant="unstyled"
+                  target={(link.target as '_self' | '_blank') || '_blank'}
+                  aria-label={link.label}
+                  className="size-10 shrink-0 overflow-hidden rounded-full"
+                >
+                  <img
+                    src={`/images/footer/social-${index + 1}.svg`}
+                    alt=""
+                    width={40}
+                    height={40}
+                    className="size-10"
+                  />
+                </GeneralLink>
+                ))}
+              </div>
+              <a
+                href="#"
+                aria-label="Back to top"
+                className="relative flex size-12 shrink-0 items-center justify-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-sky"
+              >
+                <img
+                  src="/images/footer/back-top.svg"
+                  alt=""
+                  width={48}
+                  height={48}
+                  className="absolute inset-0 size-full"
+                  aria-hidden="true"
+                />
+                <img
+                  src="/images/footer/back-chevron.svg"
+                  alt=""
+                  width={18}
+                  height={12}
+                  className="relative h-3 w-[1.125rem]"
+                  aria-hidden="true"
+                />
+              </a>
+            </div>
           </div>
 
           <nav aria-label={social.heading}>
@@ -175,15 +227,15 @@ export const Footer: React.FC<FooterProps> = ({ data }) => {
           </nav>
 
           <div>
-            <h2 className="text-body-lg font-medium text-brand-on-dark">
+            <h2 className="text-body-lg font-medium text-brand-on-dark max-xl:font-serif max-xl:text-[1.625rem] max-xl:leading-[2.125rem] max-xl:font-normal">
               {data?.contactHeading || 'Say Hello!'}
             </h2>
             <ColumnRule />
-            <p className="mt-5">
+            <p className="mt-5 max-xl:mt-2.5">
               <GeneralLink
                 href={`mailto:${contactEmail}`}
                 variant="unstyled"
-                className="break-all text-caption font-bold text-brand-on-dark transition-colors duration-150 hover:text-brand-sky sm:break-normal"
+                className="break-all text-caption font-bold text-brand-on-dark transition-colors duration-150 hover:text-brand-sky sm:break-normal max-xl:text-[1.125rem] max-xl:leading-7 max-xl:font-normal max-xl:text-white"
               >
                 {contactEmail}
               </GeneralLink>
@@ -210,15 +262,15 @@ export const Footer: React.FC<FooterProps> = ({ data }) => {
             aria-hidden="true"
           />
         </Container>
-        <Container className="flex flex-col items-center gap-4 py-6 sm:relative sm:flex-row sm:justify-center sm:gap-0">
-          <p className="flex flex-col items-center gap-2 text-center text-eyebrow text-slate-muted sm:block sm:max-w-[46rem] sm:px-14">
+        <Container className="flex flex-col items-center gap-4 py-6 sm:relative sm:flex-row sm:justify-center sm:gap-0 max-xl:px-5!">
+          <p className="flex flex-col items-center gap-2 text-center text-eyebrow text-slate-muted sm:block sm:max-w-[46rem] sm:px-14 max-xl:block max-xl:text-[1.125rem] max-xl:leading-7 max-xl:text-[#f5f8fa]">
             <span>
               {data?.copyrightText ||
                 `© ${new Date().getFullYear()} Saratoga Ascend. All rights reserved`}
             </span>
             {legalLinks.map((link) => (
               <React.Fragment key={link.label}>
-                <span className="hidden sm:inline">{' | '}</span>
+                <span className="hidden sm:inline max-xl:inline">{' | '}</span>
                 <GeneralLink
                   href={link.href}
                   variant="unstyled"
@@ -234,7 +286,7 @@ export const Footer: React.FC<FooterProps> = ({ data }) => {
           <a
             href="#"
             aria-label="Back to top"
-            className="relative flex size-[3.0625rem] items-center justify-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-sky sm:absolute sm:top-1/2 sm:right-0 sm:-translate-y-1/2"
+            className="relative flex size-[3.0625rem] items-center justify-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-sky sm:absolute sm:top-1/2 sm:right-0 sm:-translate-y-1/2 max-xl:hidden"
           >
             <img
               src="/images/footer/back-top.svg"

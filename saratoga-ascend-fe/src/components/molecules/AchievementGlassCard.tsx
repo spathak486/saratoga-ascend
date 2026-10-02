@@ -28,7 +28,7 @@ function Badge({
         pendingLabel={alt}
         tone="navyCard"
         sizes="250px"
-        imageClassName="object-cover!"
+        imageClassName="object-cover! max-xl:object-contain!"
         className="size-full border-0 bg-transparent"
       />
     </div>
@@ -36,9 +36,8 @@ function Badge({
 }
 
 /**
- * Figma 2002:1047 — 828×713 frosted plate. Year and seal sit 60px in from the
- * top and sides; the 60px title and 24px body follow. Below `xl` the same
- * content stacks.
+ * Figma 2002:1047 — 828×713 frosted plate on desktop. Mobile (2105:733)
+ * stacks the 250px seal above year, title, and body.
  */
 export const AchievementGlassCard: React.FC<AchievementGlassCardProps> = ({
   year,
@@ -51,30 +50,35 @@ export const AchievementGlassCard: React.FC<AchievementGlassCardProps> = ({
   const cleanBody = typeof body === 'string' ? body.replace(/<[^>]*>/g, '').trim() : body;
 
   return (
-    <article className="relative w-full rounded-panel border-2 border-white bg-ink/10 backdrop-blur-[12px] xl:aspect-[828/713]">
+    <article className="relative w-full rounded-panel border-2 border-white bg-ink/10 backdrop-blur-[12px] xl:aspect-[828/713] max-xl:bg-white/16">
       <div className="size-full overflow-hidden rounded-[inherit]">
-        <div className="flex flex-col gap-4 p-5 sm:p-6 xl:hidden">
-          <div className="flex items-start justify-between gap-4">
-            <p className="pt-1 font-sans text-[clamp(1.125rem,4vw,1.75rem)] font-bold leading-[1.2] text-white">
+        <div className="flex flex-col items-center justify-center gap-[1.875rem] p-5 xl:hidden">
+          <Badge
+            src={badgeSrc}
+            alt={badgeAlt}
+            shape={badgeShape}
+            className={
+              badgeShape === 'round'
+                ? 'size-[15.625rem] shrink-0 overflow-hidden rounded-full shadow-[5.37px_4.6px_11.5px_3.83px_rgb(0_0_0/0.25)]'
+                : 'h-[15.625rem] w-[12.448rem] shrink-0 shadow-[0_2.89px_2.89px_rgb(0_0_0/0.25)]'
+            }
+          />
+          <div className="flex w-full flex-col gap-[1.875rem]">
+            <p className="font-sans text-[1.75rem] font-bold leading-[1.2] text-white">
               {year}
             </p>
-            <Badge
-              src={badgeSrc}
-              alt={badgeAlt}
-              shape={badgeShape}
-              className={
-                badgeShape === 'round'
-                  ? 'size-20 shrink-0 overflow-hidden rounded-full shadow-[5.37px_4.6px_11.5px_3.83px_rgb(0_0_0/0.25)] sm:size-24'
-                  : 'h-24 w-[4.75rem] shrink-0 shadow-[0_2.89px_2.89px_rgb(0_0_0/0.25)] sm:h-28 sm:w-[5.5rem]'
-              }
-            />
+            <Heading
+              level={3}
+              size="section"
+              tone="onDark"
+              className="text-[2rem]! leading-[2.5rem]! text-white"
+            >
+              {title}
+            </Heading>
+            <p className="font-sans text-base font-normal leading-5 text-white">
+              {cleanBody}
+            </p>
           </div>
-
-          <Heading level={3} size="feature" tone="onDark" className="text-white">
-            {title}
-          </Heading>
-
-          <p className="font-sans text-body-lg font-medium leading-[1.6] text-white">{cleanBody}</p>
         </div>
 
         <p className="absolute top-[8.415%] left-[7.246%] hidden font-sans text-[clamp(1.125rem,0.974rem+0.647vw,1.75rem)] font-bold leading-[1.2] text-white xl:block">

@@ -17,7 +17,7 @@ export const VehicleScopeToggle: React.FC<VehicleScopeToggleProps> = ({
   <div
     role="tablist"
     aria-label="Contract scope"
-    className="relative flex h-14 w-full max-w-[25.125rem] rounded-pill border border-slate-line bg-brand-surface-sunk p-1"
+    className="relative flex h-14 w-full max-w-[25.125rem] rounded-pill border border-slate-line bg-brand-surface-sunk p-1 max-xl:max-w-none"
   >
     <span
       aria-hidden="true"
@@ -39,7 +39,7 @@ export const VehicleScopeToggle: React.FC<VehicleScopeToggleProps> = ({
           type="button"
           role="tab"
           aria-selected={selected}
-          className={`relative z-[1] flex h-12 flex-1 items-center justify-center rounded-pill text-caption font-bold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-navy ${
+          className={`relative z-[1] flex h-12 flex-1 items-center justify-center rounded-pill text-caption font-bold max-xl:text-sm max-xl:leading-[1.125rem] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-navy ${
             selected ? 'text-brand-on-dark' : 'text-slate-body'
           }`}
           onClick={() => onChange(option.id)}

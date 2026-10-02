@@ -50,7 +50,7 @@
   /* Contract Vehicles panel, GSA banner, and solid pills — #0C2B4E in the file. */
   --color-brand-navy-panel: #0c2b4e;
   --color-brand-blue-royal: #1e40af;
-  /* Footer ground end stop — #040D1A in the file. News stays solid navy. */
+  /* Footer ground end stop — #040D1A in the file. */
   --color-brand-navy-abyss: #040d1a;
   /* Footer hairline and back-to-top ring — #1E3A5F in the file. */
   --color-brand-navy-stroke: #1e3a5f;
@@ -333,6 +333,24 @@ body {
   background-image: linear-gradient(91.647deg,
       var(--color-brand-cta-from) 0.475%,
       var(--color-brand-cta-to) 102.45%);
+}
+
+/* Latest news band — Figma 2002:1138, red at the top into navy at the foot. */
+.bg-latest-news {
+  background-image: linear-gradient(
+    178.46deg,
+    var(--color-brand-cta-from) 2.684%,
+    var(--color-brand-navy) 97.355%
+  );
+}
+
+/* Hover wash on a news card photo — Figma Rectangle 86, #002845 stops. */
+.latest-news-card__wash {
+  background-image: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--color-brand-navy-band) 50%, transparent) 0%,
+    var(--color-brand-navy-band) 100%
+  );
 }
 
 /* 404 page CTAs — Figma Frame 205 (primary, "Get in Touch": brand sky fill,
@@ -820,6 +838,7 @@ body {
 .faq-section {
   background: #ffffff;
   width: 100%;
+  margin-top: 40px;
   padding: clamp(2rem, 4.17vw, 40px) clamp(1.5rem, 6.25vw, 120px);
   display: flex;
   flex-direction: column;
@@ -837,33 +856,24 @@ body {
   gap: clamp(1.5rem, 2.08vw, 40px);
 }
 
-/* ── Header row — Figma: 1680×342, left content + right image ── */
+/* Header stack — Figma 1680×342, title, lead, then pills. */
 .faq-section__header-row {
   width: 100%;
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  gap: 40px;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.faq-section__header-row--framed {
   min-height: clamp(10rem, 17.81vw, 342px);
 }
 
-/* Left side: title + subtitle + (pills rendered below in accordion) */
 .faq-section__header-left {
   display: flex;
   flex-direction: column;
   justify-content: center;
   gap: 12px;
-  flex: 1;
-}
-
-/* Decorative image — Figma: 263×263 */
-.faq-section__deco-img {
-  width: clamp(120px, 13.7vw, 263px);
-  height: clamp(120px, 13.7vw, 263px);
-  object-fit: cover;
-  border-radius: 50%;
-  flex-shrink: 0;
+  width: 100%;
 }
 
 /* Title — "Any Questions?" */
@@ -901,7 +911,7 @@ body {
   flex-direction: row;
   align-items: center;
   flex-wrap: wrap;
-  padding: 0;
+  padding: 12px;
   gap: 8px;
   overflow-x: auto;
   scrollbar-width: none;
@@ -929,7 +939,7 @@ body {
   border: none;
   border-radius: 8px;
   transition: opacity 0.2s ease;
-  background: linear-gradient(90.55deg, #d31e2d 0.47%, #2a91dc 102.45%);
+  background: linear-gradient(92.08deg, #d31e2d 0.47%, #2a91dc 102.45%);
   box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
   color: #ffffff;
   flex-shrink: 0;
@@ -955,19 +965,11 @@ body {
   opacity: 1;
 }
 
-/* Active category pill */
-.faq-pill--outline-active {
-  background: linear-gradient(90.55deg, #d31e2d 0.47%, #2a91dc 102.45%);
-  border-color: transparent;
-  color: #ffffff;
-  font-weight: 600;
-  border-radius: 9999px;
-}
-
 /* ── Accordion List ── */
 .faq-accordion-list {
   display: flex;
   flex-direction: column;
+  gap: 20px;
   width: 100%;
 }
 
@@ -994,8 +996,7 @@ body {
   align-items: flex-start;
   gap: 24px;
   width: 100%;
-  min-height: clamp(2.5rem, 2.71vw, 52px);
-  padding: 12px 0 0;
+  padding: 0;
   background: none;
   border: none;
   cursor: pointer;
@@ -1017,11 +1018,6 @@ body {
   line-height: 40px;
   color: #0a0a0a;
   flex: 1;
-  transition: color 0.15s ease;
-}
-
-.faq-accordion-question--open {
-  color: #0a0a0a;
 }
 
 /* Circular +/- icon — Figma: 32×32, border:1px #CBD5E1, radius:9999, margin-top:4px */
@@ -1040,12 +1036,6 @@ body {
   height: 32px;
   border: 1px solid #cbd5e1;
   border-radius: 9999px;
-  transition: border-color 0.2s ease, background-color 0.2s ease;
-}
-
-.faq-accordion-icon--minus {
-  border-color: #d31e2d;
-  background-color: #fff5f5;
 }
 
 /* Answer panel */
@@ -1061,8 +1051,49 @@ body {
 .faq-accordion-answer {
   font-family: 'Google Sans Flex', 'Google Sans', sans-serif;
   font-weight: 400;
-  font-size: clamp(0.875rem, 1.04vw, 20px);
-  line-height: 32px;
+  font-size: clamp(1rem, 0.75rem + 0.625vw, 24px);
+  line-height: 1.4167;
   color: #475569;
   margin: 0;
+}
+
+@media (max-width: 1279.98px) {
+  .faq-section {
+    margin-top: 0;
+    padding: 1.25rem;
+    gap: 2.5rem;
+  }
+
+  .faq-section__header-left {
+    align-items: center;
+  }
+
+  .faq-section__title {
+    font-size: 2rem;
+    line-height: 2.5rem;
+    text-align: center;
+  }
+
+  .faq-section__subtitle {
+    font-size: 1rem;
+    line-height: 1.25rem;
+    text-align: center;
+    max-width: none;
+  }
+
+  .faq-pills-row {
+    gap: 0.75rem;
+    justify-content: center;
+  }
+
+  .faq-pill,
+  .faq-pill--outline {
+    height: 2.875rem;
+    font-size: 1.25rem;
+  }
+
+  .faq-accordion-question {
+    font-size: 1.375rem;
+    line-height: 2rem;
+  }
 }

@@ -1,5 +1,6 @@
 import React from 'react';
-import { Heading, Text, type HeadingTone, type TextSize } from '../atoms';
+import { GeneralLink, Heading, Text, type HeadingTone, type TextSize } from '../atoms';
+import { ArrowUpRightIcon } from '../atoms/icons';
 import { CtaButton } from './CtaButton';
 
 export interface SectionIntroProps {
@@ -11,6 +12,11 @@ export interface SectionIntroProps {
     href: string;
     label: string;
   };
+  /**
+   * `inlineLink` is the mobile What We Do treatment (Figma 2002:1979):
+   * title and text link share a row; the gradient CTA stays on desktop.
+   */
+  actionVariant?: 'cta' | 'inlineLink';
   /**
    * Cross-axis alignment of the heading block against the CTA on wide
    * screens. Defaults to `end` (current sections' baseline-aligned look);
@@ -43,6 +49,7 @@ export const SectionIntro: React.FC<SectionIntroProps> = ({
   title,
   description,
   action,
+  actionVariant = 'cta',
   align = 'end',
   descriptionClassName = '',
   descriptionStyle,
@@ -58,15 +65,28 @@ export const SectionIntro: React.FC<SectionIntroProps> = ({
     } ${className}`}
   >
     <div className={`flex min-w-0 flex-col gap-3 ${wide ? 'flex-1' : 'max-w-[44rem]'}`}>
-      <Heading
-        id={id}
-        level={2}
-        size="section"
-        tone={titleTone}
-        className={`text-balance ${titleClassName}`.trim()}
-      >
-        {title}
-      </Heading>
+      <div className="flex w-full items-start gap-3">
+        <Heading
+          id={id}
+          level={2}
+          size="section"
+          tone={titleTone}
+          className={`min-w-0 flex-1 text-balance ${titleClassName}`.trim()}
+        >
+          {title}
+        </Heading>
+        {action && actionVariant === 'inlineLink' ? (
+          <GeneralLink
+            href={action.href}
+            variant="unstyled"
+            className="hidden shrink-0 items-center gap-3 pt-1 text-[1.125rem] leading-[1.625rem] text-[#3688ce] transition-opacity duration-150 hover:opacity-80 max-[89.99rem]:inline-flex"
+            contentClassName="flex items-center justify-center gap-2.5"
+          >
+            {action.label}
+            <ArrowUpRightIcon className="size-6" />
+          </GeneralLink>
+        ) : null}
+      </div>
       <Text
         size={descriptionSize}
         tone="ink"
@@ -78,7 +98,12 @@ export const SectionIntro: React.FC<SectionIntroProps> = ({
     </div>
 
     {action && (
-      <CtaButton href={action.href} className="shrink-0 self-start lg:self-auto">
+      <CtaButton
+        href={action.href}
+        className={`shrink-0 self-start lg:self-auto ${
+          actionVariant === 'inlineLink' ? 'max-[89.99rem]:hidden' : ''
+        }`}
+      >
         {action.label}
       </CtaButton>
     )}
