@@ -17,9 +17,9 @@
       "target": "api::faq.faq"
     },
     "supportCta": {
-      "type": "component",
-      "repeatable": false,
-      "component": "core-component.promo"
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::content-block.content-block"
     }
   },
   "config": {}

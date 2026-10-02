@@ -90,7 +90,11 @@ export const FAQS_REFERENCE_FIELDS = `
       referenceTitle
       faq { ${HEADING_FIELDS} }
     }
-    supportCta { ${PROMO_FIELDS} }
+    supportCta {
+      documentId
+      referenceTitle
+      ContentSection { ${PROMO_FIELDS} }
+    }
   }
 `;
 

@@ -94,7 +94,7 @@ const MOCK_HAPPY_CLIENTS = [
 
 function renderFaqSection(faqsRef: FaqsReference, index: number) {
   const promo = faqsRef.content?.ContentSection;
-  const supportCta = faqsRef.supportCta;
+  const supportCta = faqsRef.supportCta?.ContentSection;
   
   const items: { question: string; answer: string }[] = [];
 
