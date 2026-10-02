@@ -104,7 +104,7 @@ export const BlogListingSection: React.FC<BlogListingSectionProps> = ({
 
           {/* Blog Grid */}
           {displayBlogs.length > 0 ? (
-            <div className="flex flex-wrap items-start content-start gap-[20px] w-full max-w-[1678px]">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[24px] w-full max-w-[1680px]">
               {displayBlogs.map((blog, idx) => (
                 <BlogCard
                   key={`${blog.id}-${idx}`}
