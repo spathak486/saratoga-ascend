@@ -90,7 +90,11 @@ export const FaqsReferenceSchema = z.object({
     })
     .nullable()
     .optional(),
-  supportCta: PromoComponentSchema.nullable().optional(),
+  supportCta: z.object({
+    documentId: z.string().optional(),
+    referenceTitle: z.string().nullable().optional(),
+    ContentSection: PromoComponentSchema.nullable().optional()
+  }).nullable().optional(),
   faqs: z.array(FaqEntitySchema).nullable().optional(),
 });
 
