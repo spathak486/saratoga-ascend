@@ -1,6 +1,6 @@
 import 'server-only';
 import { gql } from '@/lib/api/graphql';
-import { BLOG_BY_SLUG_QUERY, type BlogBySlugQueryResult } from '@/lib/graphql';
+import { BLOG_BY_SLUG_QUERY, ALL_BLOGS_QUERY, type BlogBySlugQueryResult } from '@/lib/graphql';
 import { resolveImages } from '@/lib/content/transformers';
 import { type ApiResult, ok, fail } from '@/lib/schemas';
 
@@ -14,5 +14,15 @@ export async function getBlogBySlug(slug: string): Promise<ApiResult<any>> {
   // Resolve images and seo for content node
   const resolved = resolveImages(entry);
 
+  return ok(resolved);
+}
+
+export async function getAllBlogs(): Promise<ApiResult<any[]>> {
+  const result = await gql.query<any>(ALL_BLOGS_QUERY);
+  if (result.error) return result;
+
+  const blogs = result.data.blogs || [];
+  const resolved = blogs.map((b: any) => resolveImages(b));
+  
   return ok(resolved);
 }

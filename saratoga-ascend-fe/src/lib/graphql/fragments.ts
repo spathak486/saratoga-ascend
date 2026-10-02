@@ -250,10 +250,16 @@ export const HAPPY_CLIENTS_REFERENCE_FIELDS = `
   }
 `;
 
-// Every dynamic-zone inline fragment, joined with newlines. Used by any query
-// that selects a Strapi dynamic zone (pages, home, about, and future content
-// types). Declared above PAGE_FIELDS because that fragment interpolates it.
-export const DYNAMIC_SECTION_FRAGMENTS = [
+export const BLOG_LISTING_REFERENCE_FIELDS = `
+  __typename
+  ... on ComponentReferencesBlogListing {
+    blogHeading: heading
+    subheading
+  }
+`;
+
+// Common dynamic-zone inline fragments shared by articles, blogs, and pages.
+export const COMMON_SECTION_FRAGMENTS = [
   BANNER_REFERENCE_FIELDS,
   CTA_REFERENCE_FIELDS,
   FAQS_REFERENCE_FIELDS,
@@ -266,6 +272,12 @@ export const DYNAMIC_SECTION_FRAGMENTS = [
   HAPPY_CLIENTS_REFERENCE_FIELDS,
 ].join('\n');
 
+// Page-specific dynamic-zone fragments (includes Blog Listing which is only for Pages)
+export const PAGE_SECTION_FRAGMENTS = [
+  ...COMMON_SECTION_FRAGMENTS.split('\n'),
+  BLOG_LISTING_REFERENCE_FIELDS,
+].join('\n');
+
 export const PAGE_FIELDS = `
   documentId
   internalName
@@ -275,7 +287,7 @@ export const PAGE_FIELDS = `
   variant
   seo { ${SEO_FIELDS} }
   Section {
-    ${DYNAMIC_SECTION_FRAGMENTS}
+    ${PAGE_SECTION_FRAGMENTS}
   }
 `;
 
@@ -287,11 +299,13 @@ export const ARTICLE_FIELDS = `
   articleDate
   readTime
   categoryType
+  author
+  topic
   description
   image { ${IMAGE_FIELDS} }
   seo { ${SEO_FIELDS} }
   Section {
-    ${DYNAMIC_SECTION_FRAGMENTS}
+    ${COMMON_SECTION_FRAGMENTS}
   }
 `;
 
@@ -303,10 +317,12 @@ export const BLOG_FIELDS = `
   articleDate
   readTime
   categoryType
+  author
+  topic
   description
   image { ${IMAGE_FIELDS} }
   seo { ${SEO_FIELDS} }
   Section {
-    ${DYNAMIC_SECTION_FRAGMENTS}
+    ${COMMON_SECTION_FRAGMENTS}
   }
 `;

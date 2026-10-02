@@ -254,6 +254,14 @@ export const LegalContentReferenceSchema = z.object({
 
 export type LegalContentReference = z.infer<typeof LegalContentReferenceSchema>;
 
+export const BlogListingReferenceSchema = z.object({
+  __typename: z.literal('ComponentReferencesBlogListing'),
+  blogHeading: z.string().nullable().optional(),
+  subheading: z.string().nullable().optional(),
+});
+
+export type BlogListingReference = z.infer<typeof BlogListingReferenceSchema>;
+
 /**
  * Union of every section the Strapi dynamic zone can emit. The pass-through
  * catch-all keeps forward compatibility — components that aren't registered
@@ -269,6 +277,7 @@ export const DynamicZoneSectionSchema = z.union([
   MissionReferenceSchema,
   AchievementsReferenceSchema,
   LegalContentReferenceSchema,
+  BlogListingReferenceSchema,
   z.object({ __typename: z.string() }).passthrough(),
 ]);
 

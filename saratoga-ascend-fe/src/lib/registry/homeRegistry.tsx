@@ -26,6 +26,7 @@ import {
   HappyClientsSection,
   LatestNewsSection,
   LegalPolicySection,
+  BlogListingSection,
 } from '@/components/organisms';
 
 const MOCK_WHAT_WE_DO_LINES = [
@@ -329,6 +330,18 @@ export const SECTION_REGISTRY: Record<
         subTitle={insightsRef.subheading}
         blogs={insightsRef.blogs}
         news={insightsRef.news}
+      />
+    );
+  },
+
+  ComponentReferencesBlogListing: (section, index) => {
+    const listingRef = section as any;
+    return (
+      <BlogListingSection
+        key={`blog-listing-${index}`}
+        title={listingRef.blogHeading}
+        subTitle={listingRef.subheading}
+        blogs={listingRef.blogs}
       />
     );
   },

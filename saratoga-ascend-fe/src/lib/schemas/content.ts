@@ -38,6 +38,8 @@ export const ArticleSchema = z.object({
   articleDate: z.string().nullable().optional(),
   readTime: z.number().nullable().optional(),
   categoryType: z.string().nullable().optional(),
+  author: z.string().nullable().optional(),
+  topic: z.string().nullable().optional(),
   description: z.any().nullable().optional(),
   image: StrapiImageSchema.nullable().optional(),
   seo: SEOMetadataSchema.nullable().optional(),

@@ -119,6 +119,20 @@ export interface ReferencesBannerReference extends Struct.ComponentSchema {
   };
 }
 
+export interface ReferencesBlogListing extends Struct.ComponentSchema {
+  collectionName: 'components_references_blog_listings';
+  info: {
+    description: 'A section that lists all blogs with client-side filtering';
+    displayName: 'Blog Listing';
+    icon: 'bulletList';
+  };
+  attributes: {
+    heading: Schema.Attribute.String & Schema.Attribute.DefaultTo<'Blogs'>;
+    subheading: Schema.Attribute.Text &
+      Schema.Attribute.DefaultTo<'Explore Insights Shaping the Future of Federal Healthcare'>;
+  };
+}
+
 export interface ReferencesClientLogosReference extends Struct.ComponentSchema {
   collectionName: 'components_references_client_logos_references';
   info: {
@@ -354,6 +368,7 @@ declare module '@strapi/strapi' {
       'media.banner': MediaBanner;
       'references.achievements': ReferencesAchievements;
       'references.banner-reference': ReferencesBannerReference;
+      'references.blog-listing': ReferencesBlogListing;
       'references.client-logos-reference': ReferencesClientLogosReference;
       'references.cta': ReferencesCta;
       'references.fa-qs': ReferencesFaQs;

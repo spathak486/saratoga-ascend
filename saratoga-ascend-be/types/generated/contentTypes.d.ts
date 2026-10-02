@@ -486,6 +486,7 @@ export interface ApiBlogBlog extends Struct.CollectionTypeSchema {
   };
   attributes: {
     articleDate: Schema.Attribute.Date;
+    author: Schema.Attribute.String & Schema.Attribute.DefaultTo<'Jane Cooper'>;
     categoryType: Schema.Attribute.Enumeration<['Blog', 'Newspaper']> &
       Schema.Attribute.DefaultTo<'Blog'>;
     createdAt: Schema.Attribute.DateTime;
@@ -516,6 +517,16 @@ export interface ApiBlogBlog extends Struct.CollectionTypeSchema {
     slug: Schema.Attribute.String & Schema.Attribute.Required;
     summary: Schema.Attribute.Text;
     title: Schema.Attribute.String & Schema.Attribute.Required;
+    topic: Schema.Attribute.Enumeration<
+      [
+        'Military Medicine',
+        'Federal Staffing',
+        'Joint Commission Standards',
+        'Veterans Affairs',
+        'Regulatory Compliance',
+      ]
+    > &
+      Schema.Attribute.DefaultTo<'Military Medicine'>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -1016,6 +1027,7 @@ export interface ApiPagePage extends Struct.CollectionTypeSchema {
         'references.legal-content',
         'references.happy-clients-reference',
         'references.latest-insights',
+        'references.blog-listing',
       ]
     >;
     seo: Schema.Attribute.Component<'shared.seo', false> &

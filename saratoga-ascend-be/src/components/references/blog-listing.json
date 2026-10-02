@@ -1,0 +1,19 @@
+{
+  "collectionName": "components_references_blog_listings",
+  "info": {
+    "displayName": "Blog Listing",
+    "icon": "bulletList",
+    "description": "A section that lists all blogs with client-side filtering"
+  },
+  "options": {},
+  "attributes": {
+    "heading": {
+      "type": "string",
+      "default": "Blogs"
+    },
+    "subheading": {
+      "type": "text",
+      "default": "Explore Insights Shaping the Future of Federal Healthcare"
+    }
+  }
+}

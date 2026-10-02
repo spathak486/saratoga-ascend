@@ -14,3 +14,13 @@ export const BLOG_BY_SLUG_QUERY = `
     blogs(filters: { slug: { eq: $slug } }) { ${BLOG_FIELDS} }
   }
 `;
+
+export interface AllBlogsQueryResult {
+  blogs: RawContentNode[];
+}
+
+export const ALL_BLOGS_QUERY = `
+  query GetAllBlogs {
+    blogs(sort: "articleDate:desc") { ${BLOG_FIELDS} }
+  }
+`;
