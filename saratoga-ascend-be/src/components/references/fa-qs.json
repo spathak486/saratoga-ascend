@@ -11,10 +11,15 @@
       "relation": "oneToOne",
       "target": "api::content-block.content-block"
     },
-    "categories": {
+    "faqs": {
       "type": "relation",
       "relation": "oneToMany",
-      "target": "api::faq-category.faq-category"
+      "target": "api::faq.faq"
+    },
+    "supportCta": {
+      "type": "component",
+      "repeatable": false,
+      "component": "core-component.promo"
     }
   },
   "config": {}

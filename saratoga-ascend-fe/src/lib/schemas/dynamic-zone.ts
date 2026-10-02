@@ -90,7 +90,8 @@ export const FaqsReferenceSchema = z.object({
     })
     .nullable()
     .optional(),
-  categories: z.array(FaqCategorySchema).nullable().optional(),
+  supportCta: PromoComponentSchema.nullable().optional(),
+  faqs: z.array(FaqEntitySchema).nullable().optional(),
 });
 
 export type FaqsReference = z.infer<typeof FaqsReferenceSchema>;

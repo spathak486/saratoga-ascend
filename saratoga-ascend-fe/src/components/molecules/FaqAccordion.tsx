@@ -30,53 +30,57 @@ export const FaqAccordion: React.FC<FaqAccordionProps> = ({
   const [openIndex, setOpenIndex] = useState<number>(-1);
 
   return (
-    <div className={className}>
-      <div className="faq-accordion-list">
-        {items.map((item, index) => {
-          const isOpen = openIndex === index;
-          const panelId = `${baseId}-panel-${index}`;
-          const buttonId = `${baseId}-button-${index}`;
+    <div className={`flex flex-col gap-4 w-full ${className}`}>
+      {items.map((item, index) => {
+        const isOpen = openIndex === index;
+        const panelId = `${baseId}-panel-${index}`;
+        const buttonId = `${baseId}-button-${index}`;
 
-          return (
-            <div
-              key={`${item.question}-${index}`}
-              className="faq-accordion-item"
+        return (
+          <div
+            key={`${item.question}-${index}`}
+            className={`border-2 border-[#2B88D9] rounded-[20px] overflow-hidden transition-colors duration-300 ${isOpen ? 'bg-[#2A91DC]/10' : 'bg-transparent'}`}
+          >
+            <button
+              type="button"
+              id={buttonId}
+              aria-expanded={isOpen}
+              aria-controls={panelId}
+              onClick={() => setOpenIndex(isOpen ? -1 : index)}
+              className="flex w-full items-center justify-between px-[40px] py-[20px] text-left gap-10"
             >
-              <h3 className="faq-accordion-heading">
-                <button
-                  type="button"
-                  id={buttonId}
-                  aria-expanded={isOpen}
-                  aria-controls={panelId}
-                  onClick={() => setOpenIndex(isOpen ? -1 : index)}
-                  className="faq-accordion-trigger"
-                >
-                  <span className="faq-accordion-question">
-                    {item.question}
-                  </span>
+              <span className="font-sans text-[28px] leading-[40px] font-medium text-black pr-4">
+                {item.question}
+              </span>
 
-                  <span className="faq-accordion-icon-wrap" aria-hidden="true">
-                    <span className="faq-accordion-icon">
-                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                        <path d="M8 4V12M4 8H12" stroke="#475569" strokeWidth="1.667" strokeLinecap="round"/>
-                      </svg>
-                    </span>
-                  </span>
-                </button>
-              </h3>
-
-              <div
-                id={panelId}
-                role="region"
-                aria-labelledby={buttonId}
-                className={`faq-accordion-panel${isOpen ? ' faq-accordion-panel--open' : ''}`}
+              <span 
+                className={`flex-shrink-0 flex items-center justify-center w-[52px] h-[51px] rounded-full transition-colors duration-300 ${isOpen ? 'bg-[#2FA3F4] text-black' : 'bg-[#B0D8F4] text-black'}`}
+                aria-hidden="true"
               >
-                <p className="faq-accordion-answer">{item.answer}</p>
+                <svg 
+                  width="18" height="18" viewBox="0 0 14 14" fill="none" 
+                  className={`transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}
+                >
+                  <path d="M3.5 5.25L7 8.75L10.5 5.25" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </span>
+            </button>
+
+            <div
+              id={panelId}
+              role="region"
+              aria-labelledby={buttonId}
+              className={`grid transition-[grid-template-rows] duration-300 ease-in-out ${isOpen ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}`}
+            >
+              <div className="overflow-hidden">
+                <div className="px-[40px] pb-[20px] font-sans text-[24px] leading-[36px] text-[#475569]">
+                  {item.answer}
+                </div>
               </div>
             </div>
-          );
-        })}
-      </div>
+          </div>
+        );
+      })}
     </div>
   );
 };
