@@ -85,15 +85,12 @@ export const FAQS_REFERENCE_FIELDS = `
       referenceTitle
       ContentSection { ${PROMO_FIELDS} }
     }
-    categories {
+    faqs {
       documentId
-      name
-      faqs {
-        documentId
-        referenceTitle
-        faq { ${HEADING_FIELDS} }
-      }
+      referenceTitle
+      faq { ${HEADING_FIELDS} }
     }
+    supportCta { ${PROMO_FIELDS} }
   }
 `;
 

@@ -1,120 +1,73 @@
 'use client';
 
-import React, { useMemo, useState } from 'react';
+import React from 'react';
 import { FaqAccordion, type FaqItem } from '../molecules/FaqAccordion';
+import { GeneralLink } from '../atoms/GeneralLink';
 
 export interface FaqSectionProps {
   title?: string;
   subTitle?: string;
   description?: string;
-  /** Decorative image — Figma: 263×263, right side of header */
   imageSrc?: string;
   items?: readonly FaqItem[];
+  supportCta?: any;
 }
 
-const ALL_KEY = '__all__';
-
-/**
- * FAQ Section — Figma 2002:1110. Title, lead, and category pills stack in
- * the header. Questions stay closed until the plus is clicked.
- */
 export const FaqSection: React.FC<FaqSectionProps> = ({
   title,
   subTitle,
   description,
   items = [],
+  supportCta,
 }) => {
-  const [activeKey, setActiveKey] = useState(ALL_KEY);
-
-  /* Collect unique categories */
-  const categories = useMemo(() => {
-    const seen = new Set<string>();
-    const cats: string[] = [];
-    for (const item of items) {
-      for (const c of item.categories ?? []) {
-        if (!seen.has(c.name)) {
-          seen.add(c.name);
-          cats.push(c.name);
-        }
-      }
-    }
-    return cats;
-  }, [items]);
-
-  /* Filter items by active category */
-  const filtered = useMemo(
-    () =>
-      activeKey === ALL_KEY
-        ? items
-        : items.filter((item) =>
-            item.categories?.some((c) => c.name === activeKey),
-          ),
-    [items, activeKey],
-  );
-
-  const hasPills = categories.length > 0;
-
   return (
-    <section aria-labelledby="faq-heading" className="faq-section">
-      <div className="faq-section__inner">
+    <section aria-labelledby="faq-heading" className="w-full bg-white py-16 md:py-24">
+      <div className="container mx-auto px-4 md:px-8 max-w-[1920px]">
+        <div className="flex flex-col lg:flex-row items-start justify-center gap-10 lg:gap-20">
+          
+          {/* Left Column (Content & CTA) */}
+          <div className="w-full lg:w-[680px] flex-shrink-0 flex flex-col gap-10">
+            <div className="flex flex-col gap-10">
+              <h2 id="faq-heading" className="font-serif text-[72px] leading-[1.2] text-[#D31E2D]">
+                {title ?? 'Any Questions?'}
+              </h2>
+              {(subTitle || description) && (
+                <p className="font-sans text-[24px] leading-[40px] text-[#0A0A0A]">
+                  {subTitle ?? (description ? description.replace(/<[^>]*>?/gm, '').trim() : null)}
+                </p>
+              )}
+            </div>
 
-        {/* ── Header row: [left] title + subtitle + pills | [right] image ── */}
-        <div className={`faq-section__header-row${hasPills ? ' faq-section__header-row--framed' : ''}`}>
-
-          {/* Left column */}
-          <div className="faq-section__header-left">
-            <h2 id="faq-heading" className="faq-section__title">
-              {title ?? 'Any Questions?'}
-            </h2>
-
-            {(subTitle || description) && (
-              <p className="faq-section__subtitle">
-                {subTitle ??
-                  (description
-                    ? description.replace(/<[^>]*>?/gm, '').trim()
-                    : null)}
-              </p>
-            )}
-
-            {/* ── Category Filter Pills — in header per Figma ── */}
-            {hasPills && (
-              <div className="faq-pills-row" role="tablist" aria-label="Filter FAQs by category">
-                {/* "All Inquiries" pill */}
-                <button
-                  type="button"
-                  role="tab"
-                  aria-selected={activeKey === ALL_KEY}
-                  onClick={() => setActiveKey(ALL_KEY)}
-                  className={`faq-pill${activeKey === ALL_KEY ? '' : ' faq-pill--outline'}`}
-                >
-                  All Inquiries ({items.length})
-                </button>
-
-                {categories.map((name) => {
-                  const isActive = activeKey === name;
-                  return (
-                    <button
-                      key={name}
-                      type="button"
-                      role="tab"
-                      aria-selected={isActive}
-                      onClick={() => setActiveKey(name)}
-                      className={`faq-pill${isActive ? '' : ' faq-pill--outline'}`}
-                    >
-                      {name}
-                    </button>
-                  );
-                })}
+            {supportCta && (
+              <div className="bg-[#2A91DC]/20 border-2 border-[#2B88D9] rounded-[20px] pt-[40px] pr-[39px] pb-[40px] pl-[32px] flex flex-col items-start gap-[10px] backdrop-blur-[18px]">
+                <h3 className="font-serif text-[38px] leading-[40px] text-black">
+                  {supportCta.title || 'Still have questions?'}
+                </h3>
+                {supportCta.subTitle && (
+                  <p className="font-sans font-medium text-[24px] leading-[36px] text-[#475569] mt-2 mb-6">
+                    {supportCta.subTitle}
+                  </p>
+                )}
+                {supportCta.link && (
+                  <GeneralLink
+                    {...supportCta.link}
+                    variant="primary"
+                  />
+                )}
               </div>
             )}
           </div>
+
+          {/* Right Column (Accordion) */}
+          <div className="w-full lg:w-[954px] flex-shrink-0">
+            {items.length > 0 ? (
+              <FaqAccordion items={items} />
+            ) : (
+              <p className="text-gray-500">No FAQs available.</p>
+            )}
+          </div>
+          
         </div>
-
-        {/* ── Accordion (filtered items) ── */}
-        {filtered.length > 0 && (
-          <FaqAccordion key={activeKey} items={filtered} className="faq-section__accordion" />
-        )}
-
       </div>
     </section>
   );

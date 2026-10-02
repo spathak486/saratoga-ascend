@@ -94,39 +94,23 @@ const MOCK_HAPPY_CLIENTS = [
 
 function renderFaqSection(faqsRef: FaqsReference, index: number) {
   const promo = faqsRef.content?.ContentSection;
+  const supportCta = faqsRef.supportCta;
   
-  const items: { question: string; answer: string; categories: { name: string }[] }[] = [];
-  const itemsMap = new Map<string, { question: string; answer: string; categories: Set<string> }>();
+  const items: { question: string; answer: string }[] = [];
 
-  if (faqsRef.categories) {
-    for (const cat of faqsRef.categories) {
-      if (!cat.faqs) continue;
-      for (const f of cat.faqs) {
-        const q = f.faq?.title || f.referenceTitle;
-        const a = f.faq?.description;
-        if (!q) continue;
-        const cleanAnswer = a ? a.replace(/<[^>]*>/g, '').trim() : '';
-        
-        if (itemsMap.has(q)) {
-          itemsMap.get(q)!.categories.add(cat.name);
-        } else {
-          itemsMap.set(q, {
-            question: q,
-            answer: cleanAnswer,
-            categories: new Set([cat.name])
-          });
-        }
-      }
+  if (faqsRef.faqs) {
+    for (const f of faqsRef.faqs) {
+      const q = f.faq?.title || f.referenceTitle;
+      const a = f.faq?.description;
+      if (!q) continue;
+      const cleanAnswer = a ? a.replace(/<[^>]*>/g, '').trim() : '';
+      
+      items.push({
+        question: q,
+        answer: cleanAnswer,
+      });
     }
   }
-
-  itemsMap.forEach((val) => {
-    items.push({
-      question: val.question,
-      answer: val.answer,
-      categories: Array.from(val.categories).map(name => ({ name }))
-    });
-  });
 
   return (
     <FaqSection
@@ -136,6 +120,7 @@ function renderFaqSection(faqsRef: FaqsReference, index: number) {
       description={promo?.description ?? undefined}
       imageSrc={promo?.image?.url ?? undefined}
       items={items && items.length > 0 ? items : undefined}
+      supportCta={supportCta}
     />
   );
 }
@@ -405,7 +390,7 @@ export const SECTION_REGISTRY: Record<
     <LatestNewsSection
       key={`latest-news-${index}`}
       title="Latest news and insights"
-      description="Success is built on consistent effort."
+      subTitle="Success is built on consistent effort."
     />
   ),
 };
