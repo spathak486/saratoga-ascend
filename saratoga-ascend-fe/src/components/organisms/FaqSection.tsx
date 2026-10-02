@@ -50,9 +50,14 @@ export const FaqSection: React.FC<FaqSectionProps> = ({
                 )}
                 {supportCta.link && (
                   <GeneralLink
-                    {...supportCta.link}
-                    variant="primary"
-                  />
+                    href={supportCta.link.href || '#'}
+                    isExternal={supportCta.link.isExternal}
+                    variant="button"
+                    buttonVariant="cta"
+                    size="cta"
+                  >
+                    {supportCta.link.label || 'Contact Us'}
+                  </GeneralLink>
                 )}
               </div>
             )}
