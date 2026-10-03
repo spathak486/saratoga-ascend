@@ -9,21 +9,16 @@ export interface LegalTocProps {
 }
 
 /**
- * Table-of-contents navigation for legal documents, styled as the site's navy
- * panel card. The list is derived from the h2/h3 headings of the CKEditor body
- * authored in Strapi (see the `scanLegalHeadings` helper), so content editors
- * control the sidebar simply by writing headings in the admin — no separate
- * BE schema is required.
- *
- * Desktop: sticky sidebar column with a scroll-spy highlight. Mobile: a
- * collapsible "On this page" disclosure above the body, mirroring the OneTrust
- * notice pattern.
+ * Blog-details table of contents (Figma 2131:641). Shown only when the CMS
+ * Legal Content `showToc` flag is on and the body has h2/h3 headings.
  */
 export const LegalToc: React.FC<LegalTocProps> = ({
   headings,
   className = '',
 }) => {
-  const [activeId, setActiveId] = useState<string | null>(null);
+  const [activeId, setActiveId] = useState<string | null>(
+    headings[0]?.id ?? null,
+  );
   const [open, setOpen] = useState(false);
 
   const tocId = useMemo(
@@ -60,7 +55,8 @@ export const LegalToc: React.FC<LegalTocProps> = ({
     <li key={heading.id} className="m-0">
       <a
         href={`#${heading.id}`}
-        className={`legal-toc-link focus-brand ${
+        onClick={() => setOpen(false)}
+        className={`legal-toc-link ${
           heading.level === 3 ? 'legal-toc-link--nested' : ''
         } ${activeId === heading.id ? 'is-active' : ''}`}
       >
@@ -69,17 +65,46 @@ export const LegalToc: React.FC<LegalTocProps> = ({
     </li>
   );
 
-  const list = <ul className="legal-toc-list">{headings.map(toLink)}</ul>;
+  const backToTop = (
+    <a
+      href="#main"
+      className="legal-toc-top"
+      onClick={() => setOpen(false)}
+    >
+      <span className="legal-toc-top-icon" aria-hidden="true">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="12" r="11" stroke="currentColor" strokeWidth="1.5" />
+          <path
+            d="M12 16.25V8.75M12 8.75L8.5 12.25M12 8.75L15.5 12.25"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      </span>
+      Back to top
+    </a>
+  );
+
+  const frame = (listId?: string) => (
+    <div className="legal-toc-frame">
+      <ul id={listId} className="legal-toc-list">
+        {headings.map(toLink)}
+      </ul>
+      {backToTop}
+    </div>
+  );
 
   return (
     <nav
       className={`legal-toc-panel ${className}`.trim()}
-      aria-label="In this policy"
+      aria-label="Table of contents"
       id={tocId}
     >
       <div className="hidden lg:block">
-        <h2 className="legal-toc-label">In this policy</h2>
-        {list}
+        <h2 className="legal-toc-label">Table of contents</h2>
+        {frame()}
       </div>
 
       <div className="lg:hidden">
@@ -90,21 +115,12 @@ export const LegalToc: React.FC<LegalTocProps> = ({
           aria-controls={`${tocId}-mobile`}
           className="legal-toc-toggle"
         >
-          <span aria-hidden="true" className="legal-toc-label">
-            In this policy
-          </span>
-          <span
-            aria-hidden="true"
-            className="mt-1 mb-2 text-left text-brand-navy"
-          >
+          <span className="legal-toc-label">Table of contents</span>
+          <span aria-hidden="true" className="legal-toc-toggle-icon">
             {open ? '−' : '+'}
           </span>
         </button>
-        {open ? (
-          <ul id={`${tocId}-mobile`} className="legal-toc-list">
-            {headings.map(toLink)}
-          </ul>
-        ) : null}
+        {open ? frame(`${tocId}-mobile`) : null}
       </div>
     </nav>
   );

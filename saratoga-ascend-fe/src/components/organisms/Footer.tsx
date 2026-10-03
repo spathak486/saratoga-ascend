@@ -37,8 +37,8 @@ const MENU: FooterColumn = {
 };
 
 const DEFAULT_LEGAL: FooterLink[] = [
-  { href: '/privacy', label: 'Privacy Policy' },
-  { href: '/terms', label: 'Terms of Service' },
+  { href: '/privacy-policy', label: 'Privacy Policy' },
+  { href: '/terms-of-service', label: 'Terms of Service' },
 ];
 
 const pickFooterSocialIcons = (links: FooterLink[]) => {

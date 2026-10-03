@@ -81,7 +81,7 @@ export const SubscribeForm: React.FC<SubscribeFormProps> = ({
         <label htmlFor={consentId} className="text-eyebrow text-slate-muted">
           {privacyConsentText || 'I agree to the'}{' '}
           <GeneralLink
-            href={privacyConsentLink?.href || '/privacy'}
+            href={privacyConsentLink?.href || '/privacy-policy'}
             variant="unstyled"
             target={(privacyConsentLink?.target as '_self' | '_blank') || '_self'}
             className="font-bold text-brand-on-dark underline underline-offset-2 hover:text-brand-on-dark"
