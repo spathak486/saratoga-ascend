@@ -12,22 +12,34 @@ import { resolvePageNode } from '@/lib/content/transformers';
 import { PageSchema, type Page, type ApiResult, ok, fail } from '@/lib/schemas';
 import { getMockPageBySlug, getMockAllPageSlugs } from '@/lib/mocks';
 
+/** Alternate CMS slugs that should resolve to the same legal pages. */
+const PAGE_SLUG_ALIASES: Record<string, string[]> = {
+  'terms-of-service': ['terms', 'terms-and-conditions'],
+  terms: ['terms-of-service'],
+  'privacy-policy': ['privacy'],
+  privacy: ['privacy-policy'],
+};
+
+function normalizeSlug(slug: string): string {
+  return slug.replace(/^\/+|\/+$/g, '');
+}
+
+function slugCandidates(slug: string): string[] {
+  const normalized = normalizeSlug(slug);
+  const aliases = PAGE_SLUG_ALIASES[normalized] ?? [];
+  return [normalized, ...aliases];
+}
+
 /** Normalized from the route segment so admin slugs may start with a `/`. */
 function slugQueryVariables(slug: string): Pick<PageBySlugQueryVariables, 'slug' | 'altSlug'> {
-  const normalized = slug.replace(/^\/+|\/+$/g, '');
+  const normalized = normalizeSlug(slug);
   return {
     slug: normalized,
     altSlug: normalized === '' ? '/' : `/${normalized}`,
   };
 }
 
-/** Used by [slug]. */
-export async function getPageBySlug(slug: string): Promise<ApiResult<Page>> {
-  if (isMockMode) {
-    const page = getMockPageBySlug(slug.replace(/^\/+|\/+$/g, ''));
-    return page ? ok(page) : fail('NOT_FOUND', 404, `Page not found: ${slug}`);
-  }
-
+async function queryPageBySlug(slug: string): Promise<ApiResult<PageBySlugQueryResult>> {
   const { slug: primary, altSlug } = slugQueryVariables(slug);
 
   let result = await gql.query<PageBySlugQueryResult>(PAGE_BY_SLUG_QUERY, {
@@ -37,18 +49,36 @@ export async function getPageBySlug(slug: string): Promise<ApiResult<Page>> {
   });
   if (result.error) return result;
 
-  // Nothing matched on the primary status in development — the entry may have
-  // been published; fall back to PUBLISHED before giving up.
   if (result.data.pages.length === 0 && defaultPublicationStatus === 'DRAFT') {
     result = await gql.query<PageBySlugQueryResult>(PAGE_BY_SLUG_QUERY, {
       slug: primary,
       altSlug,
       status: 'PUBLISHED',
     });
-    if (result.error) return result;
+  }
+  return result;
+}
+
+/** Used by [slug]. */
+export async function getPageBySlug(slug: string): Promise<ApiResult<Page>> {
+  if (isMockMode) {
+    for (const candidate of slugCandidates(slug)) {
+      const page = getMockPageBySlug(candidate);
+      if (page) return ok(page);
+    }
+    return fail('NOT_FOUND', 404, `Page not found: ${slug}`);
   }
 
-  const [entry] = result.data.pages;
+  let entry: PageBySlugQueryResult['pages'][number] | undefined;
+  for (const candidate of slugCandidates(slug)) {
+    const result = await queryPageBySlug(candidate);
+    if (result.error) return result;
+    if (result.data.pages[0]) {
+      entry = result.data.pages[0];
+      break;
+    }
+  }
+
   if (!entry) return fail('NOT_FOUND', 404, `Page not found: ${slug}`);
 
   const parsed = PageSchema.safeParse(resolvePageNode(entry));

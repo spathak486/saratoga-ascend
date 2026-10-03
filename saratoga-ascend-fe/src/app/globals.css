@@ -176,20 +176,24 @@
   --text-404-sub--line-height: 1.25;
 
   /* ---- Legal / policy copy -------------------------------------------------
-     Legal document pages (privacy policy, terms). Title navy in the file is
-     #0F3D60, set in the site serif (Cardo → DM Serif Text); the body is Duru
-     Sans Regular 400 in near-black #000000, mapped to the site sans.           */
+     Blog details (Figma 2131:641): page title 50/60, sections 40/60,
+     body 24/1.6 #5a5a5a. */
 
-  --color-brand-navy-legal: #0f3d60;
-  --color-legal-body: #000000;
+  --color-brand-navy-legal: #00162d;
+  --color-legal-heading: #00162d;
+  --color-legal-body: #5a5a5a;
 
-  /* 32 -> 64 — the policy title, 65px leading, centred, soft drop shadow. */
-  --text-legal-title: clamp(2rem, 1.5146rem + 2.0712vw, 4rem);
-  --text-legal-title--line-height: 1.02;
+  /* 28 -> 50 — article H1, 60px leading, -1px tracking. */
+  --text-legal-title: clamp(1.75rem, 1.3864rem + 1.5534vw, 3.125rem);
+  --text-legal-title--line-height: 1.2;
 
-  /* 16 -> 32 — the policy body, 40px leading, Duru Sans regular. */
-  --text-legal-body: clamp(1rem, 0.7573rem + 1.0356vw, 2rem);
-  --text-legal-body--line-height: 1.25;
+  /* 16 -> 24 — article body. */
+  --text-legal-body: clamp(1rem, 0.8786rem + 0.5178vw, 1.5rem);
+  --text-legal-body--line-height: 1.6;
+
+  /* 24 -> 40 — in-article section headings, 60px leading. */
+  --text-legal-section: clamp(1.5rem, 1.2573rem + 1.0356vw, 2.5rem);
+  --text-legal-section--line-height: 1.5;
 
   /* ---- Layout -----------------------------------------------------------
      Every section renders its content inside <Container>.                   */
@@ -623,60 +627,73 @@ body {
   mask-image: linear-gradient(180deg, #000 0%, #000 55%, transparent 100%);
 }
 
-/* Legal / policy body — renders the CKEditor HTML authored in Strapi. The
-   section only provides the container; this cascade styles the rich text so
-   a content editor can keep writing headings, lists and links in the admin
-   without touching design tokens. */
+/* Legal page title — blog-details H1: DM Serif 50/60, #00162d, -1px track. */
+.legal-page-title {
+  margin: 0 0 1.5rem;
+  color: var(--color-legal-heading);
+  font-family: var(--font-serif);
+  font-size: var(--text-legal-title);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: var(--text-legal-title--line-height);
+}
+
+@media (min-width: 80rem) {
+  .legal-page-title {
+    margin-bottom: 2rem;
+  }
+}
+
+/* Legal / policy body — CKEditor HTML from Strapi, typed like blog details. */
 .legal-body {
   color: var(--color-legal-body);
   font-size: var(--text-legal-body);
   font-weight: 400;
   line-height: var(--text-legal-body--line-height);
   overflow-wrap: break-word;
-  text-align: justify;
+  text-align: left;
 }
 
 .legal-body p {
-  margin: 0 0 1em;
+  margin: 0 0 1.35em;
 }
 
 .legal-body h2,
 .legal-body h3,
 .legal-body h4 {
-  color: var(--color-brand-navy-legal);
+  color: var(--color-legal-heading);
   font-family: var(--font-serif);
   font-weight: 400;
-  line-height: 1.2;
-  margin: 1.5em 0 0.5em;
-  /* Anchor jumps land below the fixed utility + navigation bands. */
+  letter-spacing: -0.025em;
+  line-height: var(--text-legal-section--line-height);
+  margin: 2em 0 0.75em;
   scroll-margin-top: calc(var(--spacing-utility-h) + var(--spacing-nav-h) + 1rem);
 }
 
-/* Section headings — simple serif navy */
+.legal-body h2:first-child,
+.legal-body h3:first-child {
+  margin-top: 0;
+}
+
 .legal-body h2 {
-  padding-bottom: 0.35em;
-  font-size: 1.3em;
-  border-bottom: none;
+  font-size: var(--text-legal-section);
 }
 
 .legal-body h3 {
-  font-size: 1.1em;
+  font-size: clamp(1.25rem, 1.0073rem + 1.0356vw, 2rem);
 }
 
 .legal-body h4 {
-  font-size: 1.02em;
+  font-size: 1.125em;
+  letter-spacing: 0;
 }
 
 .legal-body ul,
 .legal-body ol {
-  margin: 0 0 1em;
+  margin: 0 0 1.35em;
   padding-left: 1.5em;
 }
 
-/* Tailwind v4 preflight resets list-style to none — restore it for the
-   rich-text body so CKEditor bullets/numbers actually render. Longhand
-   properties: LightningCSS drops the type keyword from the `list-style`
-   shorthand in this build, so write them out separately. */
 .legal-body ul {
   list-style-type: disc;
   list-style-position: outside;
@@ -698,109 +715,140 @@ body {
 }
 
 .legal-body li {
-  margin: 0.25em 0;
+  margin: 0.45em 0;
 }
 
 .legal-body a {
   color: var(--color-brand-navy);
   text-decoration: underline;
+  text-underline-offset: 0.15em;
 }
 
 .legal-body strong {
-  color: var(--color-brand-navy-legal);
+  color: var(--color-legal-heading);
 }
 
-/* ---- Legal table of contents ------------------------------------------
-   Redesigned sidebar panel matching the provided screenshot: light grey
-   background, custom scrollbar, and clean text links with ample spacing. */
+/* ---- Legal table of contents (blog details 2131:641) ------------------- */
 .legal-toc-panel {
   width: 100%;
-  background-color: var(--color-brand-surface-muted);
-  /* #f8fafc */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  /* Soft drop shadow */
-  padding: 1.5rem 1rem 1.5rem 1.5rem;
-  /* Less right padding for scrollbar */
+  background: transparent;
+  padding: 0;
 }
 
 .legal-toc-label {
-  display: none;
-  /* Removed as per screenshot */
+  display: block;
+  margin: 0 0 1.5rem;
+  color: var(--color-brand-red);
+  font-family: var(--font-serif);
+  font-size: clamp(1.5rem, 1.1966rem + 1.2945vw, 2.5rem);
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.legal-toc-frame {
+  padding: 1.5rem 1.35rem 1.35rem;
+  border: 2.18px solid transparent;
+  border-radius: 2.75rem;
+  background:
+    linear-gradient(#fff, #fff) padding-box,
+    linear-gradient(160deg, var(--color-brand-cta-from) 0%, var(--color-brand-sky) 100%)
+      border-box;
 }
 
 .legal-toc-list {
   display: flex;
   flex-direction: column;
+  gap: 0.35rem;
   margin: 0;
   padding: 0;
   list-style: none;
-  max-height: 400px;
-  overflow-y: auto;
-  gap: 1.5rem;
-  padding-right: 0.5rem;
-}
-
-/* Custom scrollbar for the TOC list */
-.legal-toc-list::-webkit-scrollbar {
-  width: 8px;
-}
-
-.legal-toc-list::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.legal-toc-list::-webkit-scrollbar-thumb {
-  background-color: #9CA3AF;
-  /* gray-400 */
-  border-radius: 999px;
 }
 
 .legal-toc-link {
-  position: relative;
   display: block;
-  color: var(--color-slate-copy);
+  padding: 0.7rem 1.25rem;
+  border: 1.64px solid transparent;
+  border-radius: 1.228rem;
+  color: var(--color-ink);
   font-family: var(--font-sans);
-  font-size: 1rem;
-  font-weight: 700;
-  line-height: 1.4;
-  text-decoration: none !important;
-  border: none !important;
-  outline: none !important;
-  transition: color 0.2s ease;
+  font-size: clamp(1rem, 0.909rem + 0.3883vw, 1.25rem);
+  font-weight: 400;
+  line-height: 1.36;
+  text-decoration: none;
+  transition: border-color 0.2s ease, font-weight 0.2s ease;
 }
 
-.legal-toc-link:hover,
+.legal-toc-link:hover {
+  color: var(--color-ink);
+  border-color: color-mix(in srgb, var(--color-brand-red) 40%, transparent);
+}
+
 .legal-toc-link.is-active {
-  color: var(--color-brand-navy);
-  border: none;
-  text-decoration: none;
-  outline: none;
+  color: var(--color-ink);
+  font-weight: 600;
+  border-color: var(--color-brand-red);
 }
 
 .legal-toc-link--nested {
-  font-size: 0.9375rem;
-  font-weight: 500;
-  color: var(--color-slate-muted);
+  font-weight: 400;
 }
 
-.legal-toc-link--nested:hover,
-.legal-toc-link--nested.is-active {
-  color: var(--color-brand-navy);
-}
-
-/* Focus ring on the pale panel — navy outline on the light fill. */
-.legal-toc-toggle {
-  display: block;
+.legal-toc-top {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
   width: 100%;
+  margin-top: 0.85rem;
+  padding: 1rem 1.25rem 0.15rem;
+  border-top: 2px solid #d9d9d9;
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-size: clamp(1rem, 0.909rem + 0.3883vw, 1.25rem);
+  font-weight: 600;
+  line-height: 1.36;
+  text-decoration: none;
+}
+
+.legal-toc-top-icon {
+  display: inline-flex;
+  color: var(--color-brand-red);
+}
+
+.legal-toc-toggle {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
   border: 0;
   padding: 0;
   background: none;
   color: inherit;
   cursor: pointer;
+  text-align: left;
+}
+
+.legal-toc-toggle .legal-toc-label {
+  margin-bottom: 0;
+}
+
+.legal-toc-toggle + .legal-toc-frame {
+  margin-top: 1rem;
+}
+
+.legal-toc-toggle-icon {
+  flex-shrink: 0;
+  color: var(--color-brand-red);
+  font-family: var(--font-serif);
+  font-size: 1.75rem;
+  line-height: 1;
 }
 
 .legal-toc-toggle:focus-visible,
-.legal-toc-link:focus-visible {
+.legal-toc-link:focus-visible,
+.legal-toc-top:focus-visible {
   outline: 2px solid var(--color-brand-navy);
   outline-offset: 2px;
 }
