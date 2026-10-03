@@ -98,7 +98,14 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 
   if (variant === 'default') {
     return (
-      <section className="relative w-full h-auto min-h-[400px] md:min-h-[541px] flex flex-col justify-center py-16 px-4 md:px-[120px] bg-cover bg-center" style={{ background: 'linear-gradient(90.52deg, #E4EBF1 0.41%, rgba(228, 235, 241, 0.2) 69.2%)' }}>
+      <section 
+        className="relative w-full h-auto min-h-[400px] md:min-h-[541px] flex flex-col justify-center py-16 px-4 md:px-[120px]"
+        style={{ 
+          background: helixSrc 
+            ? `linear-gradient(90.52deg, #E4EBF1 0.41%, rgba(228, 235, 241, 0.2) 69.2%), url(${helixSrc}) center right / cover no-repeat` 
+            : 'linear-gradient(90.52deg, #E4EBF1 0.41%, rgba(228, 235, 241, 0.2) 69.2%)' 
+        }}
+      >
         <div className="flex flex-col justify-center items-start gap-[30px] w-full max-w-[1760px] mx-auto z-10">
           {title && (
             <Heading level={1} className="font-serif font-normal text-[50px] md:text-[90px] leading-[1.15] text-black max-w-[744px]">

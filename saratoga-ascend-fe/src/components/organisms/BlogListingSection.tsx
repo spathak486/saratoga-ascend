@@ -22,7 +22,7 @@ export const BlogListingSection: React.FC<BlogListingSectionProps> = ({
     id: b.documentId || b.id || Math.random().toString(),
     title: b.title || 'Untitled',
     readTime: b.readTime ? `${b.readTime} min` : undefined,
-    date: b.articleDate 
+    date: b.articleDate
       ? new Date(b.articleDate).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
       : undefined,
     author: b.author || 'Saratoga Team',
@@ -32,10 +32,13 @@ export const BlogListingSection: React.FC<BlogListingSectionProps> = ({
     excerpt: b.excerpt || undefined,
   }));
 
-  const categories = ['All Categories', ...Array.from(new Set(formattedBlogs.map(b => b.category).filter(Boolean)))];
+  const categories = [
+    'All Topics',
+    ...Array.from(new Set(formattedBlogs.map(b => b.category).filter(c => c && c !== 'Uncategorized')))
+  ];
 
   const displayBlogs = formattedBlogs.filter((blog) => {
-    const matchCategory = activeCategory === 'All Categories' || blog.category === activeCategory;
+    const matchCategory = activeCategory === 'All Topics' || blog.category === activeCategory;
     return matchCategory;
   });
 
@@ -47,7 +50,7 @@ export const BlogListingSection: React.FC<BlogListingSectionProps> = ({
 
           {/* Filters Top Bar */}
           <div className="flex flex-col items-center justify-center gap-[40px] mb-16">
-            
+
 
             {/* Separator / Categories Filter */}
             {categories.length > 1 && (
@@ -56,11 +59,10 @@ export const BlogListingSection: React.FC<BlogListingSectionProps> = ({
                   <button
                     key={cat as string}
                     onClick={() => setActiveCategory(cat as string)}
-                    className={`px-5 py-2 rounded-full text-[20px] font-sans font-medium transition-colors border ${
-                      activeCategory === cat
-                        ? 'bg-[#B81C31] text-white border-transparent shadow-sm'
-                        : 'bg-white text-[#717171] border-[#E3E3E3] hover:bg-gray-50'
-                    }`}
+                    className={`px-5 py-2 rounded-full text-[20px] font-sans font-medium transition-colors border ${activeCategory === cat
+                      ? 'bg-[#B81C31] text-white border-transparent shadow-sm'
+                      : 'bg-white text-[#717171] border-[#E3E3E3] hover:bg-gray-50'
+                      }`}
                   >
                     {cat as string}
                   </button>
@@ -71,7 +73,7 @@ export const BlogListingSection: React.FC<BlogListingSectionProps> = ({
 
           {/* Grid Container */}
           <div className="flex flex-col items-center gap-[40px] w-full mx-auto">
-            
+
             {/* Featured Blog Card */}
             {displayBlogs.length > 0 && (
               <FeaturedBlogCard
@@ -117,10 +119,10 @@ export const BlogListingSection: React.FC<BlogListingSectionProps> = ({
                 ))}
               </div>
             ) : displayBlogs.length === 0 ? (
-            <div className="text-center py-12 text-brand-neutral w-full">
-              No blogs found matching the selected filters.
-            </div>
-          ) : null}
+              <div className="text-center py-12 text-brand-neutral w-full">
+                No blogs found matching the selected filters.
+              </div>
+            ) : null}
           </div>
         </div>
       </section>
