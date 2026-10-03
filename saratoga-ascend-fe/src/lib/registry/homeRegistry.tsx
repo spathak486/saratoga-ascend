@@ -148,6 +148,7 @@ export const SECTION_REGISTRY: Record<
         mediaAlt={banner?.bannerImage?.alternativeText ?? undefined}
         ctaLabel={banner?.buttonCTA?.label}
         ctaHref={banner?.buttonCTA?.href}
+        variant={banner?.variant as any}
       />
     );
   },

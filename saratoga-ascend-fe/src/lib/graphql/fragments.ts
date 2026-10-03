@@ -38,6 +38,7 @@ export const BANNER_FIELDS = `
   bannerTitle
   bannerSubTitle
   bannerDescription
+  variant
   bannerImage { ${IMAGE_FIELDS} }
   buttonCTA { ${GENERAL_LINK_FIELDS} }
 `;
@@ -301,7 +302,10 @@ export const ARTICLE_FIELDS = `
   readTime
   categoryType
   author
-  topic
+  category {
+    name
+    slug
+  }
   description
   image { ${IMAGE_FIELDS} }
   seo { ${SEO_FIELDS} }
@@ -319,7 +323,10 @@ export const BLOG_FIELDS = `
   readTime
   categoryType
   author
-  topic
+  category {
+    name
+    slug
+  }
   description
   image { ${IMAGE_FIELDS} }
   seo { ${SEO_FIELDS} }

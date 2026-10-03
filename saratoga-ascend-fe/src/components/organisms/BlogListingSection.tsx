@@ -41,17 +41,10 @@ export const BlogListingSection: React.FC<BlogListingSectionProps> = ({
 
   return (
     <>
-      {/* Hero Banner */}
-      <HeroSection 
-        variant="default"
-        title={title}
-        subTitle={subTitle}
-      />
-
       {/* Main Content */}
       <section className="w-full bg-white py-16 md:py-24">
         <div className="container mx-auto px-4 md:px-8 max-w-[1680px]">
-          
+
           {/* Filters Top Bar */}
           <div className="flex flex-col items-center justify-center gap-[40px] mb-16">
             
@@ -90,6 +83,22 @@ export const BlogListingSection: React.FC<BlogListingSectionProps> = ({
                 imageSrc={displayBlogs[0].imageSrc}
                 href={displayBlogs[0].href}
               />
+            )}
+
+            {/* List Heading (Below Featured) */}
+            {(title || subTitle) && displayBlogs.length > 1 && (
+              <div className="w-full flex flex-col items-start gap-[12px] mt-[64px] mb-[32px]">
+                {title && (
+                  <h2 className="text-[40px] md:text-[72px] leading-[1.2] font-serif font-normal text-[#D31E2D]">
+                    {title}
+                  </h2>
+                )}
+                {subTitle && (
+                  <p className="text-[20px] md:text-[30px] leading-[1.33] text-[#0A0A0A] font-sans font-normal max-w-[1041px]">
+                    {subTitle}
+                  </p>
+                )}
+              </div>
             )}
 
             {/* Blog Grid */}
