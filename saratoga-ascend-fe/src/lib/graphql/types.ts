@@ -40,7 +40,10 @@ export interface RawContentNode {
   readTime?: number | null;
   categoryType?: string | null;
   author?: string | null;
-  topic?: string | null;
+  category?: {
+    name: string;
+    slug: string;
+  } | null;
   description?: any | null;
   image?: RawStrapiMedia | null;
   seo?: RawSeo | null;
