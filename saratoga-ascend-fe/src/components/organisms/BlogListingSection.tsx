@@ -87,14 +87,14 @@ export const BlogListingSection: React.FC<BlogListingSectionProps> = ({
 
             {/* List Heading (Below Featured) */}
             {(title || subTitle) && displayBlogs.length > 1 && (
-              <div className="w-full flex flex-col items-start text-left mt-8 mb-2">
+              <div className="w-full flex flex-col items-start gap-[12px] mt-[64px] mb-[32px]">
                 {title && (
-                  <Heading level={2} className="text-[40px] md:text-[50px] font-serif text-[#B81C31] mb-2 font-bold tracking-tight">
+                  <h2 className="text-[40px] md:text-[72px] leading-[1.2] font-serif font-normal text-[#D31E2D]">
                     {title}
-                  </Heading>
+                  </h2>
                 )}
                 {subTitle && (
-                  <p className="text-[18px] md:text-[20px] text-gray-800 font-sans font-medium">
+                  <p className="text-[20px] md:text-[30px] leading-[1.33] text-[#0A0A0A] font-sans font-normal max-w-[1041px]">
                     {subTitle}
                   </p>
                 )}
