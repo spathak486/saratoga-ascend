@@ -258,7 +258,7 @@ export const OurAchievementsSection: React.FC<OurAchievementsSectionProps> = ({
   return (
     <section
       aria-labelledby="our-achievements-heading"
-      className="relative isolate"
+      className="relative isolate max-xl:mt-10"
     >
       <h2 id="our-achievements-heading" className="sr-only">
         {headingText}
@@ -284,7 +284,7 @@ export const OurAchievementsSection: React.FC<OurAchievementsSectionProps> = ({
           />
         </div>
 
-        <div className="absolute top-[75.112%] left-[6.25%] w-[87.5%]">
+        <div className="absolute top-[78.112%] left-[6.25%] w-[87.5%]">
           <dl className="flex items-start justify-between">
             {resolvedStats.map((stat, idx) => (
               <div
@@ -348,7 +348,7 @@ export const OurAchievementsSection: React.FC<OurAchievementsSectionProps> = ({
       </div>
 
       {resolvedStats.length > 0 ? (
-        <div id="our-achievements-stats" className="bg-[rgba(42,145,220,0.1)] xl:hidden">
+        <div id="our-achievements-stats" className="mt-10 bg-[rgba(42,145,220,0.1)] xl:hidden">
           <Container className="flex flex-col gap-[1.875rem] px-5! py-[1.3125rem]">
             <div className="flex flex-col gap-3">
               <p
