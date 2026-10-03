@@ -108,7 +108,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
       >
         <div className="flex flex-col justify-center items-start gap-[30px] w-full max-w-[1760px] mx-auto z-10">
           {title && (
-            <Heading level={1} className="font-serif font-normal text-[50px] md:text-[90px] leading-[1.15] text-black max-w-[744px]">
+            <Heading level={1} className="font-serif font-normal text-[50px] md:text-[90px] leading-[1.15] text-black max-w-full md:max-w-none">
               {title}
             </Heading>
           )}

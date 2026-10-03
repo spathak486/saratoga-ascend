@@ -16,7 +16,7 @@ export const BlogListingSection: React.FC<BlogListingSectionProps> = ({
   subTitle = 'Explore Insights Shaping the Future of Federal Healthcare',
   blogs = [],
 }) => {
-  const [activeCategory, setActiveCategory] = useState('All Categories');
+  const [activeCategory, setActiveCategory] = useState('All Topics');
 
   const formattedBlogs = blogs.map((b: any) => ({
     id: b.documentId || b.id || Math.random().toString(),
