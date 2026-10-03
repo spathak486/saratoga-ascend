@@ -27,6 +27,8 @@ export interface GeneralLinkProps
   rightIcon?: React.ReactNode;
   /** Force external treatment. Auto-detected for `http(s):` and `//` URLs. */
   external?: boolean;
+  /** From CMS schema */
+  isExternal?: boolean;
   children: React.ReactNode;
   className?: string;
   /** Classes for the inner label span (text + in-flow icons). */
@@ -87,6 +89,7 @@ export const GeneralLink: React.FC<GeneralLinkProps> = ({
   leftIcon,
   rightIcon,
   external,
+  isExternal: cmsIsExternal,
   children,
   className = '',
   contentClassName,
@@ -94,7 +97,7 @@ export const GeneralLink: React.FC<GeneralLinkProps> = ({
   rel,
   ...props
 }) => {
-  const isExternal = external ?? isHttpUrl(href);
+  const isExternal = external ?? cmsIsExternal ?? isHttpUrl(href);
   const opensInNewTab = isExternal && target !== '_self';
   const classNames =
     `${getVariantClass(variant, buttonVariant, size, isActive, onDark)} ${className}`.trim();

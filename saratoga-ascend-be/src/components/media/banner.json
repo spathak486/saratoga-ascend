@@ -33,6 +33,15 @@
       "type": "component",
       "component": "shared.general-link",
       "repeatable": false
+    },
+    "variant": {
+      "type": "enumeration",
+      "enum": [
+        "homebanner",
+        "default"
+      ],
+      "default": "homebanner",
+      "required": true
     }
   },
   "config": {}

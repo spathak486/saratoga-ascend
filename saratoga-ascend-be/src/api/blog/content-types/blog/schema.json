@@ -51,16 +51,11 @@
       "type": "string",
       "default": "Jane Cooper"
     },
-    "topic": {
-      "type": "enumeration",
-      "enum": [
-        "Military Medicine",
-        "Federal Staffing",
-        "Joint Commission Standards",
-        "Veterans Affairs",
-        "Regulatory Compliance"
-      ],
-      "default": "Military Medicine"
+    "category": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::category.category",
+      "inversedBy": "blogs"
     },
     "description": {
       "type": "richtext"
