@@ -6,6 +6,12 @@ import type { NextConfig } from "next";
 const strapiUrl = new URL(process.env.STRAPI_API_URL ?? "http://localhost:1337");
 
 const nextConfig: NextConfig = {
+  async redirects() {
+    return [
+      { source: '/terms', destination: '/terms-of-service', permanent: true },
+      { source: '/privacy', destination: '/privacy-policy', permanent: true },
+    ];
+  },
   images: {
     qualities: [75, 90],
     formats: ['image/avif', 'image/webp'],

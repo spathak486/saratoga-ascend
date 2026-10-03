@@ -6,7 +6,7 @@ export const mockFooterData: FooterData = {
   privacyConsentText: 'I agree to the',
   privacyConsentLink: {
     label: 'Privacy Policy',
-    href: '/privacy',
+    href: '/privacy-policy',
     target: '_self',
     isExternal: false,
   },
@@ -41,7 +41,7 @@ export const mockFooterData: FooterData = {
     alternativeText: 'Saratoga Ascend logo',
   },
   legalLinks: [
-    { label: 'Privacy Policy', href: '/privacy', target: '_self', isExternal: false },
-    { label: 'Terms of Service', href: '/terms', target: '_self', isExternal: false },
+    { label: 'Privacy Policy', href: '/privacy-policy', target: '_self', isExternal: false },
+    { label: 'Terms of Service', href: '/terms-of-service', target: '_self', isExternal: false },
   ],
 };

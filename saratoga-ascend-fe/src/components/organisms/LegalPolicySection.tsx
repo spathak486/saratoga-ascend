@@ -6,30 +6,15 @@ import { scanLegalHeadings } from '@/lib/legalToc';
 export interface LegalPolicySectionProps {
   title?: string;
   content?: string;
-  /** Show the sticky table-of-contents sidebar. Defaults to on; statement
-   *  pages like Terms & Conditions turn it off from the CMS. */
+  /** CMS `showToc`. When false the sidebar is omitted and the article is full width. */
   showToc?: boolean;
-  /** Optional title colour override (e.g. "#0F3D60"). Falls back to the
-   *  legal navy token. */
   titleColor?: string;
-  /** Optional body (paragraph) colour override (e.g. "#000000"). */
   bodyColor?: string;
 }
 
 /**
- * Legal document band (Privacy Policy / Terms). Renders the CMS-authored
- * title centred per the Figma legal artboard — Cardo serif in the legal navy
- * with a soft drop shadow — above the CKEditor rich text typed in Strapi.
- *
- * Two layouts, both driven from the CMS:
- *  - `showToc: true` (Privacy Policy): a sticky table-of-contents sidebar
- *    beside the body, derived from the h2/h3 headings in that body (see
- *    `scanLegalHeadings`) — the same way OneTrust builds its notice menu.
- *  - `showToc: false` (Terms & Conditions): a simple centred statement with
- *    no sidebar.
- *
- * Both honour `titleColor` / `bodyColor` overrides via CSS variables so a
- * page can carry its own theme without touching the design tokens.
+ * Privacy / terms: blog-listing gradient header (Figma 2131:1035) plus
+ * blog-details TOC column (Figma 2131:641). `showToc` comes from the CMS.
  */
 export const LegalPolicySection: React.FC<LegalPolicySectionProps> = ({
   title,
@@ -39,35 +24,27 @@ export const LegalPolicySection: React.FC<LegalPolicySectionProps> = ({
   bodyColor,
 }) => {
   const { html, headings } = scanLegalHeadings(content ?? '');
+  const withToc = Boolean(showToc && headings.length > 0);
 
   const themeStyle = {
-    ...(titleColor ? { '--color-brand-navy-legal': titleColor } : {}),
+    ...(titleColor ? { '--color-legal-heading': titleColor } : {}),
     ...(bodyColor ? { '--color-legal-body': bodyColor } : {}),
   } as React.CSSProperties;
 
   return (
-    <div className="bg-brand-surface text-brand-navy" style={themeStyle}>
-      <Container className="mx-auto max-w-[103.6875rem] py-section">
-        {title ? (
-          <>
-            <h1
-              className="font-serif text-center text-legal-title text-brand-navy-legal"
-              style={{ textShadow: '0 4px 4px rgb(0 0 0 / 0.25)' }}
-            >
-              {title}
-            </h1>
-            {/* Divider below the title — Figma "Line 23": 1px solid black,
-                ~1635px wide, centred on the 1920 artboard. */}
-            <hr
-              className="mx-auto mt-8 mb-block h-px max-w-[102.1875rem] border-0 bg-black"
-              aria-hidden="true"
-            />
-          </>
-        ) : null}
+    <section className="bg-white text-ink" style={themeStyle}>
+      {title ? (
+        <div className="bg-cta-gradient px-page py-10 text-center xl:py-20">
+          <h1 className="mx-auto max-w-[68.75rem] font-serif text-[clamp(2rem,1.2rem+3.4vw,5.625rem)] leading-[1.15] text-white">
+            {title}
+          </h1>
+        </div>
+      ) : null}
 
+      <Container className="mx-auto max-w-home py-10 xl:py-[3.75rem]">
         {html ? (
-          headings.length > 0 && showToc ? (
-            <div className="grid gap-10 lg:grid-cols-[minmax(0,17rem)_minmax(0,1fr)] lg:items-start lg:gap-24">
+          withToc ? (
+            <div className="grid items-start gap-10 lg:grid-cols-[minmax(16rem,32.75rem)_minmax(0,1fr)] lg:gap-16 xl:gap-[6.5rem]">
               <LegalToc
                 className="lg:top-[calc(var(--spacing-utility-h)+var(--spacing-nav-h)+1rem)] lg:sticky"
                 headings={headings}
@@ -85,6 +62,6 @@ export const LegalPolicySection: React.FC<LegalPolicySectionProps> = ({
           )
         ) : null}
       </Container>
-    </div>
+    </section>
   );
 };

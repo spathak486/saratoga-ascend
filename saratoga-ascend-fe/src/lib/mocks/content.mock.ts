@@ -327,7 +327,7 @@ const privacyPolicySections: DynamicZoneSection[] = [
 const termsSections: DynamicZoneSection[] = [
   {
     __typename: 'ComponentReferencesLegalContent',
-    title: 'Terms & Condition',
+    title: 'Terms of Service',
     showToc: false,
     body: `
       <p>Saratoga Medical Center, Inc. may contact you via SMS text messages to provide important updates about jobs you have applied for, other relevant job opportunities, or to communicate with you regarding your application. These messages are designed to keep you informed and connected throughout the hiring process.</p>
@@ -429,7 +429,7 @@ export const mockPages: Page[] = [
     documentId: 'cm2a8h4j10003qk3f9m2v6rt',
     internalName: 'Terms of Service',
     pageTitle: 'Terms of Service',
-    slug: 'terms',
+    slug: 'terms-of-service',
     pageType: 'LegalPolicy',
     variant: 'legal_policy',
     seo: {
