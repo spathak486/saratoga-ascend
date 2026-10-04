@@ -40,6 +40,7 @@ export interface RawContentNode {
   readTime?: number | null;
   categoryType?: string | null;
   author?: string | null;
+  topic?: string | null;
   category?: {
     name: string;
     slug: string;
@@ -56,6 +57,7 @@ export interface RawHeroBanner {
   bannerDescription?: string | null;
   bannerImage?: RawStrapiMedia | null;
   buttonCTA?: RawGeneralLink | null;
+  variant?: 'homebanner' | 'default' | string | null;
 }
 
 export interface RawPromo {

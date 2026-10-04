@@ -166,6 +166,7 @@ export const SECTION_REGISTRY: Record<
         mediaAlt={promo?.image?.alternativeText ?? undefined}
         ctaLabel={promo?.link?.label ?? undefined}
         ctaHref={promo?.link?.href ?? undefined}
+        compact={Boolean((ctaRef as { compact?: boolean }).compact)}
       />
     );
   },
@@ -325,7 +326,9 @@ export const SECTION_REGISTRY: Record<
     return (
       <BlogListingSection
         key={`blog-listing-${index}`}
-        title={listingRef.blogHeading}
+        heroTitle={listingRef.heroTitle}
+        heroSubtitle={listingRef.heroSubtitle}
+        title={listingRef.blogHeading ?? listingRef.heading}
         subTitle={listingRef.subheading}
         blogs={listingRef.blogs}
       />

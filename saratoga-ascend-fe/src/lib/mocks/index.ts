@@ -1,5 +1,5 @@
 import type { Page, Article, Pagination, FooterData, NotFoundData } from '@/lib/schemas';
-import { mockPages, mockArticles } from './content.mock';
+import { mockPages, mockArticles, mockBlogs } from './content.mock';
 import { mockFooterData } from './footer.mock';
 import { mockNotFoundData } from './not-found.mock';
 
@@ -38,4 +38,14 @@ export function getMockAllPageSlugs(): string[] {
 
 export function getMockAllArticleSlugs(): string[] {
   return mockArticles.map((a) => a.slug);
+}
+
+export function getMockBlogs(): Article[] {
+  return [...mockBlogs].sort(
+    (a, b) => new Date(b.articleDate ?? 0).getTime() - new Date(a.articleDate ?? 0).getTime()
+  );
+}
+
+export function getMockBlogBySlug(slug: string): Article | null {
+  return mockBlogs.find((b) => b.slug === slug) ?? null;
 }

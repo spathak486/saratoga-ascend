@@ -10,9 +10,16 @@ import { getMockFooterData } from '@/lib/mocks';
 export async function getFooterData(): Promise<ApiResult<FooterData>> {
   if (isMockMode) return ok(getMockFooterData());
 
-  const result = await gql.query<FooterQueryResult>(FOOTER_QUERY, {
-    status: defaultPublicationStatus,
-  });
+  let result = await gql.query<FooterQueryResult>(
+    FOOTER_QUERY,
+    { status: defaultPublicationStatus },
+    { quiet: defaultPublicationStatus === 'DRAFT' },
+  );
+  if (result.error && defaultPublicationStatus === 'DRAFT') {
+    result = await gql.query<FooterQueryResult>(FOOTER_QUERY, {
+      status: 'PUBLISHED',
+    });
+  }
   if (result.error) return result;
 
   const rawFooter = result.data?.footer;

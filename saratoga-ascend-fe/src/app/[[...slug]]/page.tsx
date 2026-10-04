@@ -39,8 +39,8 @@ export async function generateMetadata({ params }: DynamicPageProps): Promise<Me
     if (newsResult.data) pageData = newsResult.data;
   }
 
-  // 3. Try Blog
-  if (!pageData) {
+  // 3. Try Blog (skip listing slugs so /blogs is never treated as a post)
+  if (!pageData && slugPath !== 'blogs' && slugPath !== 'blog') {
     const { getBlogBySlug } = await import('@/lib/services');
     const blogResult = await getBlogBySlug(slugPath);
     if (blogResult.data) pageData = blogResult.data;
@@ -92,8 +92,8 @@ export default async function DynamicPage({ params }: DynamicPageProps) {
     }
   }
 
-  // 3. Try to fetch as a Blog
-  if (!pageData) {
+  // 3. Try to fetch as a Blog (skip listing slugs so /blogs is never treated as a post)
+  if (!pageData && slugPath !== 'blogs' && slugPath !== 'blog') {
     const { getBlogBySlug } = await import('@/lib/services');
     const blogResult = await getBlogBySlug(slugPath);
     if (blogResult.data) pageData = blogResult.data;
@@ -104,21 +104,64 @@ export default async function DynamicPage({ params }: DynamicPageProps) {
   }
 
   let sections = pageData.Section ?? [];
+  const isBlogListingRoute = slugPath === 'blogs' || slugPath === 'blog';
 
   const hasBlogListing = sections.some(
     (sec: any) => sec.__typename === 'ComponentReferencesBlogListing'
   );
 
-  if (hasBlogListing) {
+  if (!hasBlogListing && isBlogListingRoute) {
+    sections = [...sections, { __typename: 'ComponentReferencesBlogListing' }];
+  }
+
+  if (hasBlogListing || isBlogListingRoute) {
     const { getAllBlogs } = await import('@/lib/services');
     const blogsResult = await getAllBlogs();
-    if (blogsResult.data) {
-      sections = sections.map((sec: any) => {
-        if (sec.__typename === 'ComponentReferencesBlogListing') {
-          return { ...sec, blogs: blogsResult.data };
-        }
-        return sec;
-      });
+
+    // The listing route draws the Figma gradient hero itself. Fold the page
+    // banner's copy into that hero so the title is not rendered twice.
+    const banner = isBlogListingRoute
+      ? sections.find((sec: any) => sec.__typename === 'ComponentReferencesBannerReference')
+          ?.heroBanner?.banner
+      : undefined;
+    const heroTitle = isBlogListingRoute
+      ? banner?.bannerTitle || pageData.pageTitle || undefined
+      : undefined;
+    const heroSubtitle = isBlogListingRoute
+      ? banner?.bannerDescription ||
+        banner?.bannerSubTitle ||
+        pageData.seo?.metaDescription ||
+        pageData.seo?.ogDescription ||
+        undefined
+      : undefined;
+
+    if (isBlogListingRoute && (heroTitle || heroSubtitle)) {
+      sections = sections.filter(
+        (sec: any) => sec.__typename !== 'ComponentReferencesBannerReference',
+      );
+    }
+
+    sections = sections.map((sec: any) => {
+      if (sec.__typename !== 'ComponentReferencesBlogListing') return sec;
+      return {
+        ...sec,
+        blogs: blogsResult.data ?? sec.blogs,
+        heroTitle,
+        heroSubtitle,
+      };
+    });
+
+    const hasCta = sections.some((sec: any) => sec.__typename === 'ComponentReferencesCta');
+    if (!hasCta) {
+      const homeResult = await getPageBySlug('');
+      const homeCta = homeResult.data?.Section?.find(
+        (sec: any) => sec.__typename === 'ComponentReferencesCta'
+      );
+      if (homeCta) sections = [...sections, { ...homeCta, compact: true }];
+    } else {
+      sections = sections.map((sec: any) =>
+        sec.__typename === 'ComponentReferencesCta' ? { ...sec, compact: true } : sec
+      );
     }
   }
 
