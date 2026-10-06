@@ -1,133 +1,177 @@
 'use client';
 
-import React from 'react';
-import { MediaFrame, Section } from '../atoms';
-import { EmblemPanel } from '../molecules/EmblemPanel';
-import { SectionIntro } from '../molecules/SectionIntro';
-import {
-  ServiceLineCard,
-  slidePaneClass,
-  useServiceLineSlide,
-  type ServiceLine,
-} from '../molecules/ServiceLineCard';
+import React, { useRef } from 'react';
+import { Section } from '../atoms';
+import type { ServiceLine } from '../molecules/ServiceLineCard';
+import { CtaButton } from '../molecules/CtaButton';
 
 export interface WhatWeDoSectionProps {
   title?: string;
   description?: string;
   photoSrc?: string;
-  emblemSrc?: string;
-  videoSrc?: string;
   serviceLines?: ServiceLine[];
   ctaLabel?: string;
   ctaHref?: string;
-  videoCopy?: string;
 }
 
 const DEFAULT_TITLE = 'What We Do';
 const DEFAULT_DESCRIPTION =
   'Connecting cleared, credentialed healthcare professionals with government, military, and local facilities nationwide.';
 
-function photoFor(line: ServiceLine | undefined, fallback?: string) {
-  return line?.imageSrc ?? fallback;
-}
-
-function ServicePhotoCard({
-  src,
-  alt,
-}: {
-  src: string;
-  alt: string;
-}) {
-  return (
-    <MediaFrame
-      src={src}
-      alt={alt}
-      pendingLabel="photo"
-      tone="navy"
-      sizes="(max-width: 1280px) 100vw, 34vw"
-      imageClassName="object-cover!"
-      className="size-full border-0 bg-transparent"
-    />
-  );
-}
-
 export const WhatWeDoSection: React.FC<WhatWeDoSectionProps> = ({
   title = DEFAULT_TITLE,
   description = DEFAULT_DESCRIPTION,
   photoSrc = '/images/what-we-do-doctor.png',
-  emblemSrc,
-  videoSrc = '/images/butterfly-gif.mp4',
   serviceLines,
   ctaLabel = 'About us',
   ctaHref = '/about',
-  videoCopy,
 }) => {
   const displayLines = serviceLines && serviceLines.length > 0 ? serviceLines : [];
-  const slide = useServiceLineSlide(displayLines.length);
-  const { index, fromIndex, dir, moved } = slide;
-  const isSliding = fromIndex !== null;
+  const scrollRef = useRef<HTMLDivElement>(null);
 
-  const currentSrc = photoFor(displayLines[index], photoSrc);
-  const outgoingSrc = isSliding ? photoFor(displayLines[fromIndex], photoSrc) : currentSrc;
-  const showPhoto = Boolean(currentSrc || outgoingSrc);
+  const scroll = (direction: 'left' | 'right') => {
+    if (scrollRef.current) {
+      // Card width (1119) + Gap (30) = 1149
+      const scrollAmount = 1149;
+      scrollRef.current.scrollBy({
+        left: direction === 'left' ? -scrollAmount : scrollAmount,
+        behavior: 'smooth',
+      });
+    }
+  };
 
   return (
     <Section
+      id="what-we-do"
       aria-labelledby="what-we-do-heading"
       tone="surface"
       spacing="none"
-      className="mt-10 py-10 max-[89.99rem]:mt-5 max-[89.99rem]:py-5"
+      className="py-16 overflow-hidden"
     >
-      <div className="flex flex-col gap-10">
-        <SectionIntro
-          id="what-we-do-heading"
-          title={title}
-          description={description}
-          align="center"
-          wide
-          titleTone="inherit"
-          titleClassName="text-brand-cta-from max-[89.99rem]:text-[2rem] max-[89.99rem]:leading-[2.5rem]"
-          descriptionSize="sectionLead"
-          descriptionStyle={{ color: 'var(--color-ink)' }}
-          action={{ href: ctaHref, label: ctaLabel }}
-          actionVariant="inlineLink"
-          descriptionClassName="max-[89.99rem]:text-base max-[89.99rem]:leading-5"
-          className="gap-3 lg:gap-[1.875rem]"
-        />
-
-        <div className="grid grid-cols-1 gap-5 xl:grid-cols-3 xl:items-stretch">
-          {showPhoto ? (
-            <div className="relative aspect-[4096/2731] overflow-hidden rounded-frame bg-white xl:aspect-auto xl:min-h-[39.625rem] max-[89.99rem]:aspect-[390/455]">
-              <div className={`size-full ${isSliding ? 'invisible' : ''}`}>
-                {outgoingSrc ? (
-                  <ServicePhotoCard src={outgoingSrc} alt="Healthcare professionals at work" />
-                ) : null}
-              </div>
-
-              {isSliding && outgoingSrc && currentSrc ? (
-                <>
-                  <div className={slidePaneClass('outgoing', dir, moved)} aria-hidden="true">
-                    <ServicePhotoCard src={outgoingSrc} alt="" />
-                  </div>
-                  <div className={slidePaneClass('incoming', dir, moved)}>
-                    <ServicePhotoCard src={currentSrc} alt="Healthcare professionals at work" />
-                  </div>
-                </>
-              ) : null}
-            </div>
-          ) : null}
-
-          {displayLines.length > 0 ? <ServiceLineCard lines={displayLines} slide={slide} /> : null}
-
-          <div className="max-[89.99rem]:hidden">
-            <EmblemPanel
-              emblemSrc={emblemSrc}
-              videoSrc={videoSrc}
-              paragraphs={videoCopy ? [videoCopy] : undefined}
-            />
+      <div className="w-full max-w-[1680px] mx-auto flex flex-col gap-[60px] px-4 md:px-0">
+        {/* Header Row */}
+        <div className="flex flex-col xl:flex-row justify-between items-start xl:items-center w-full gap-8">
+          <div className="flex flex-col gap-3 max-w-[1041px]">
+            <h2
+              id="what-we-do-heading"
+              className="text-[#D31E2D] font-serif font-normal text-[48px] md:text-[72px] leading-[1.2]"
+            >
+              {title}
+            </h2>
+            <p className="text-[#0A0A0A] font-sans font-normal text-[20px] md:text-[30px] leading-[1.33]">
+              {description}
+            </p>
           </div>
+          <CtaButton
+            href={ctaHref}
+            className="shrink-0 min-w-[180px] h-[60px] flex items-center justify-center bg-[linear-gradient(90.55deg,#D31E2D_0.47%,#2A91DC_102.45%)] text-white font-sans font-medium text-[20px] rounded-lg shadow-sm border-none"
+            showArrow={true}
+          >
+            {ctaLabel}
+          </CtaButton>
+        </div>
+
+        {/* Scrollable Cards */}
+        <div 
+          ref={scrollRef}
+          className="flex flex-row gap-[30px] overflow-x-auto pb-8 snap-x snap-mandatory hide-scrollbar"
+        >
+          {displayLines.map((line, idx) => {
+            const currentSrc = line.imageSrc || photoSrc;
+
+            return (
+              <div
+                key={line.heading || idx}
+                className="shrink-0 w-[1119px] h-[637px] rounded-[20px] border-[1.5px] border-[#BDE4FF] shadow-[0px_0px_20px_rgba(0,0,0,0.08)] bg-white p-6 md:p-[35px] flex flex-col md:flex-row gap-8 snap-start"
+              >
+                {/* Left side: Image and Button */}
+                <div className="flex flex-col gap-5 w-full md:w-[443px] shrink-0">
+                  <div className="w-full md:w-[443px] h-[300px] md:h-[506px] rounded-xl overflow-hidden border border-[#BDE4FF]">
+                    <img
+                      src={currentSrc}
+                      alt={line.heading}
+                      className="w-full h-full object-cover"
+                      loading="lazy"
+                    />
+                  </div>
+                  <CtaButton
+                    href={line.href}
+                    showArrow={false}
+                    className="w-full justify-center text-[20px] h-[54px] rounded-[10px] bg-[linear-gradient(90.55deg,#D31E2D_0.47%,#2A91DC_102.45%)] font-bold text-white border-none shadow-[0px_1px_2px_rgba(16,24,40,0.05)]"
+                  >
+                    Learn More
+                  </CtaButton>
+                </div>
+
+                {/* Right side: Content */}
+                <div className="flex flex-col flex-1 pt-0">
+                  <h3 className="text-[40px] md:text-[60px] leading-[1.2] font-serif text-[#0A0A0A] mb-5">
+                    {line.heading}
+                  </h3>
+                  <p className="text-[20px] md:text-[24px] leading-[1.33] text-[#022E4C] font-sans mb-8">
+                    {line.blurb}
+                  </p>
+
+                  <div className="flex flex-col gap-5 mt-auto pb-4 md:pb-0">
+                    {line.features.map((feature) => (
+                      <div key={feature} className="flex items-center gap-4">
+                        <div className="w-10 h-10 rounded-full bg-[#E0F2FE] flex items-center justify-center shrink-0 relative">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="#2A91DC"
+                            strokeWidth="3"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          >
+                            <polyline points="20 6 9 17 4 12" />
+                          </svg>
+                        </div>
+                        <span className="text-[20px] md:text-[26px] leading-[1.23] text-[#0F172A] font-sans">
+                          {feature}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Carousel Controls */}
+        <div className="flex justify-center items-center gap-[30px] mt-4">
+          <button
+            onClick={() => scroll('left')}
+            aria-label="Previous"
+            className="w-[66px] h-[66px] rounded-full border-[1.375px] border-black flex justify-center items-center shadow-[0px_1.375px_2.75px_rgba(16,24,40,0.05)] hover:bg-gray-50 transition-colors"
+          >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="2.75" strokeLinecap="round" strokeLinejoin="round" className="rotate-180">
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+          </button>
+          <button
+            onClick={() => scroll('right')}
+            aria-label="Next"
+            className="w-[66px] h-[66px] rounded-full border-[1.375px] border-black flex justify-center items-center shadow-[0px_1.375px_2.75px_rgba(16,24,40,0.05)] hover:bg-gray-50 transition-colors"
+          >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="2.75" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+          </button>
         </div>
       </div>
+      <style dangerouslySetInnerHTML={{__html: `
+        .hide-scrollbar::-webkit-scrollbar {
+          display: none;
+        }
+        .hide-scrollbar {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+      `}} />
     </Section>
   );
 };
