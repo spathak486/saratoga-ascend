@@ -21,9 +21,9 @@ export const FeaturedBlogCard: React.FC<FeaturedBlogCardProps> = ({
   href = '#',
 }) => {
   return (
-    <div className="w-full max-w-[1689px] lg:h-[452px] bg-white rounded-[40px] p-[18px] flex flex-col lg:flex-row items-center gap-[40px] lg:gap-[46px] shadow-sm relative mb-[40px] mx-auto">
+    <div className="w-full max-w-[1689px] h-auto lg:min-h-[452px] bg-white rounded-[40px] p-[18px] flex flex-col lg:flex-row items-center gap-[40px] lg:gap-[46px] shadow-sm relative mb-[40px] mx-auto">
       {/* Image */}
-      <div className="w-full lg:w-[45%] h-[300px] lg:h-[415px] relative shrink-0 rounded-[24px] overflow-hidden bg-gray-100">
+      <div className="w-full lg:w-[45%] aspect-[16/9] lg:aspect-auto lg:min-h-[415px] relative shrink-0 rounded-[24px] overflow-hidden bg-gray-100">
         {imageSrc ? (
           <img src={imageSrc} alt={title} className="w-full h-full object-cover" />
         ) : (
@@ -41,13 +41,13 @@ export const FeaturedBlogCard: React.FC<FeaturedBlogCardProps> = ({
         )}
 
         {/* Title */}
-        <h3 className="font-serif font-normal text-[32px] lg:text-[40px] leading-[1.2] lg:leading-[60px] tracking-[-1px] text-[#00162D] mb-[24px] line-clamp-2">
+        <h3 className="font-serif font-normal text-[clamp(32px,2.5vw,40px)] leading-[1.2] lg:leading-[60px] tracking-[-1px] text-[#00162D] mb-[24px] line-clamp-2">
           {title}
         </h3>
 
         {/* Excerpt */}
         {excerpt && (
-          <p className="font-sans font-normal text-[18px] lg:text-[24px] leading-[160%] text-[#5A5A5A] mb-[40px] line-clamp-3">
+          <p className="font-sans font-normal text-[clamp(18px,1.5vw,24px)] leading-[160%] text-[#5A5A5A] mb-[40px] line-clamp-3">
             {excerpt}
           </p>
         )}

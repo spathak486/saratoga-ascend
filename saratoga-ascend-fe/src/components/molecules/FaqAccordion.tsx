@@ -49,7 +49,7 @@ export const FaqAccordion: React.FC<FaqAccordionProps> = ({
               onClick={() => setOpenIndex(isOpen ? -1 : index)}
               className="flex w-full items-center justify-between px-[40px] py-[20px] text-left gap-10"
             >
-              <span className="font-sans text-[28px] leading-[40px] font-medium text-black pr-4">
+              <span className="font-sans text-[clamp(18px,2vw,28px)] leading-[1.4] font-medium text-black pr-4">
                 {item.question}
               </span>
 
@@ -73,7 +73,7 @@ export const FaqAccordion: React.FC<FaqAccordionProps> = ({
               className={`grid transition-[grid-template-rows] duration-300 ease-in-out ${isOpen ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}`}
             >
               <div className="overflow-hidden">
-                <div className="px-[40px] pb-[20px] font-sans text-[24px] leading-[36px] text-[#475569]">
+                <div className="px-[40px] pb-[20px] font-sans text-[clamp(16px,1.5vw,24px)] leading-[1.5] text-[#475569]">
                   {item.answer}
                 </div>
               </div>

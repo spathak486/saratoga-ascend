@@ -37,7 +37,7 @@ export const MegaMenu: React.FC<MegaMenuProps> = ({ type }) => {
   return (
     <div className="pointer-events-none absolute left-1/2 top-[69px] z-50 -translate-x-1/2 opacity-0 transition-all duration-300 group-hover:pointer-events-auto group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:opacity-100">
       <div
-        className={`flex w-[526px] flex-col rounded-[20px] p-[39px] shadow-[0_10px_30px_rgba(0,0,0,0.05)] ${bgClass}`}
+        className={`flex w-full sm:w-[526px] flex-col rounded-[20px] p-[39px] shadow-[0_10px_30px_rgba(0,0,0,0.05)] ${bgClass}`}
       >
         {links.map((link, i) => (
           <Link

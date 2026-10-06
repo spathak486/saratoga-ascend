@@ -80,7 +80,7 @@ export default async function RootLayout({
       suppressHydrationWarning
     >
       <body
-        className="antialiased bg-brand-surface text-brand-navy font-sans selection:bg-brand-red selection:text-brand-surface"
+        className="antialiased bg-brand-surface text-brand-navy font-sans selection:bg-brand-red selection:text-brand-surface relative w-full overflow-x-hidden"
         suppressHydrationWarning
       >
         <Navbar />

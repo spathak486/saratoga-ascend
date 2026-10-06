@@ -162,9 +162,7 @@ export interface RawWhatWeDoSection {
   description?: string | null;
   cta?: RawGeneralLink | null;
   photo?: RawStrapiMedia | null;
-  emblem?: RawStrapiMedia | null;
-  video?: RawStrapiMedia | null;
-  videoCopy?: string | null;
+
   services?: RawServiceEntity[] | null;
   customItems?: RawCustomItem[] | null;
 }

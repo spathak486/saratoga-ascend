@@ -204,9 +204,7 @@ export const WHAT_WE_DO_REFERENCE_FIELDS = `
       description
       cta { ${GENERAL_LINK_FIELDS} }
       photo { ${IMAGE_FIELDS} }
-      emblem { ${IMAGE_FIELDS} }
-      video { ${IMAGE_FIELDS} }
-      videoCopy
+
       services {
         documentId
         pageTitle

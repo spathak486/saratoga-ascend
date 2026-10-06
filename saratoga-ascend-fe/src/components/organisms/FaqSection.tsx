@@ -23,16 +23,16 @@ export const FaqSection: React.FC<FaqSectionProps> = ({
   return (
     <section aria-labelledby="faq-heading" className="w-full bg-white py-16 md:py-24">
       <div className="container mx-auto px-4 md:px-8 max-w-[1920px]">
-        <div className="flex flex-col lg:flex-row items-start justify-center gap-10 lg:gap-20">
-          
+        <div className="flex flex-col xl:flex-row items-start justify-center gap-10 xl:gap-20">
+
           {/* Left Column (Content & CTA) */}
-          <div className="w-full lg:w-[680px] flex-shrink-0 flex flex-col gap-10">
-            <div className="flex flex-col gap-10">
-              <h2 id="faq-heading" className="font-serif text-[72px] leading-[1.2] text-[#D31E2D]">
+          <div className="w-full xl:w-[41%] max-w-[680px] flex-1 flex flex-col gap-10">
+            <div className="flex flex-col gap-6 xl:gap-10">
+              <h2 id="faq-heading" className="font-serif text-[clamp(48px,4vw,72px)] leading-[1.1] xl:leading-[1.2] text-[#D31E2D]">
                 {title ?? 'Any Questions?'}
               </h2>
               {(subTitle || description) && (
-                <p className="font-sans text-[24px] leading-[40px] text-[#0A0A0A]">
+                <p className="font-sans text-[clamp(20px,1.5vw,24px)] leading-[32px] xl:leading-[40px] text-[#0A0A0A]">
                   {subTitle ?? (description ? description.replace(/<[^>]*>?/gm, '').trim() : null)}
                 </p>
               )}
@@ -40,11 +40,11 @@ export const FaqSection: React.FC<FaqSectionProps> = ({
 
             {supportCta && (
               <div className="bg-[#2A91DC]/20 border-2 border-[#2B88D9] rounded-[20px] pt-[40px] pr-[39px] pb-[40px] pl-[32px] flex flex-col items-start gap-[10px] backdrop-blur-[18px]">
-                <h3 className="font-serif text-[38px] leading-[40px] text-black">
+                <h3 className="font-serif text-[clamp(28px,2.5vw,38px)] leading-[40px] text-black">
                   {supportCta.title || 'Still have questions?'}
                 </h3>
                 {supportCta.subTitle && (
-                  <p className="font-sans font-medium text-[24px] leading-[36px] text-[#475569] mt-2 mb-6">
+                  <p className="font-sans font-medium text-[clamp(16px,1.5vw,24px)] leading-[36px] text-[#475569] mt-2 mb-6">
                     {supportCta.subTitle}
                   </p>
                 )}
@@ -64,14 +64,14 @@ export const FaqSection: React.FC<FaqSectionProps> = ({
           </div>
 
           {/* Right Column (Accordion) */}
-          <div className="w-full lg:w-[954px] flex-shrink-0">
+          <div className="w-full xl:w-[58%] max-w-[954px] flex-[1.4]">
             {items.length > 0 ? (
               <FaqAccordion items={items} />
             ) : (
               <p className="text-gray-500">No FAQs available.</p>
             )}
           </div>
-          
+
         </div>
       </div>
     </section>
