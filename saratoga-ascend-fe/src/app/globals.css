@@ -224,7 +224,7 @@
 
   /* Header bands — literal Figma heights at 1920. */
   --spacing-utility-h: 3.75rem; /* 60px */
-  --spacing-nav-h: clamp(4.5rem, 6.25vw, 7.5rem); /* 72 -> 120px */
+  --spacing-nav-h: clamp(4.5rem, 5.9375vw, 7.125rem); /* 72 -> 114px */
 
   /* ---- Gradient CTA -----------------------------------------------------
      180x60 at 1920, with 24/16 padding and a 12px gap to its arrow. Height
