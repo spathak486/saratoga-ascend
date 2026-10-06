@@ -23,7 +23,7 @@ export const BlogCard: React.FC<BlogCardProps> = ({
   return (
     <article className="group relative flex w-full max-w-[544px] flex-col gap-[30px] rounded-tr-[100px] mx-auto">
       {/* Image Container */}
-      <div className="relative w-full h-[431px] rounded-tr-[100px] overflow-hidden">
+      <div className="relative w-full aspect-[544/431] rounded-tr-[100px] overflow-hidden">
         <MediaFrame
           src={imageSrc}
           alt={title}
@@ -50,7 +50,7 @@ export const BlogCard: React.FC<BlogCardProps> = ({
           </div>
         </div>
 
-        <Heading level={3} className="font-serif text-[44px] leading-[1.2] text-black">
+        <Heading level={3} className="font-serif text-[clamp(32px,2.7vw,44px)] leading-[1.2] text-black">
           <GeneralLink
             href={href}
             variant="unstyled"

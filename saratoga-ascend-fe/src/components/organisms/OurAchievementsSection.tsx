@@ -264,15 +264,18 @@ export const OurAchievementsSection: React.FC<OurAchievementsSectionProps> = ({
         {headingText}
       </h2>
 
-      <div className="relative hidden aspect-[1920/1334] w-full xl:block">
-        <Backdrop overlay={DESKTOP_OVERLAY} />
+      <div className="relative hidden w-full xl:flex xl:justify-center">
+        <div className="absolute inset-0 w-full h-full">
+          <Backdrop overlay={DESKTOP_OVERLAY} />
+        </div>
 
-        <p
-          aria-hidden="true"
-          className="absolute top-[5.997%] left-1/2 -translate-x-1/2 font-serif text-section leading-[1.2] whitespace-nowrap text-white"
-        >
-          {headingText}
-        </p>
+        <div className="relative aspect-[1920/1334] w-full max-w-[1920px]">
+          <p
+            aria-hidden="true"
+            className="absolute top-[5.997%] left-1/2 -translate-x-1/2 font-serif text-section leading-[1.2] whitespace-nowrap text-white"
+          >
+            {headingText}
+          </p>
 
         <div className="absolute top-[16.942%] left-[6.406%] w-[87.344%] overflow-visible">
           <AwardsTrack
@@ -306,16 +309,17 @@ export const OurAchievementsSection: React.FC<OurAchievementsSectionProps> = ({
           </dl>
         </div>
 
-        <BandArrow
-          direction="prev"
-          onClick={desktop.scrollPrev}
-          className="absolute inset-[34.86%_95.26%_60.64%_1.61%] z-10"
-        />
-        <BandArrow
-          direction="next"
-          onClick={desktop.scrollNext}
-          className="absolute inset-[34.86%_1.458%_60.64%_95.417%] z-10"
-        />
+          <BandArrow
+            direction="prev"
+            onClick={desktop.scrollPrev}
+            className="absolute inset-[34.86%_95.26%_60.64%_1.61%] z-10"
+          />
+          <BandArrow
+            direction="next"
+            onClick={desktop.scrollNext}
+            className="absolute inset-[34.86%_1.458%_60.64%_95.417%] z-10"
+          />
+        </div>
       </div>
 
       <div className="relative scroll-mt-24 xl:hidden">

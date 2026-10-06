@@ -51,14 +51,14 @@ export const WhatWeDoSection: React.FC<WhatWeDoSectionProps> = ({
       <div className="w-full max-w-[1680px] mx-auto flex flex-col gap-[60px] px-4 md:px-0">
         {/* Header Row */}
         <div className="flex flex-col xl:flex-row justify-between items-start xl:items-center w-full gap-8">
-          <div className="flex flex-col gap-3 max-w-[1041px]">
+          <div className="flex flex-col gap-3 w-full xl:w-[60%] max-w-[1041px]">
             <h2
               id="what-we-do-heading"
-              className="text-[#D31E2D] font-serif font-normal text-[48px] md:text-[72px] leading-[1.2]"
+              className="text-[#D31E2D] font-serif font-normal text-[clamp(48px,4vw,72px)] leading-[1.2]"
             >
               {title}
             </h2>
-            <p className="text-[#0A0A0A] font-sans font-normal text-[20px] md:text-[30px] leading-[1.33]">
+            <p className="text-[#0A0A0A] font-sans font-normal text-[clamp(20px,1.8vw,30px)] leading-[1.33]">
               {description}
             </p>
           </div>
@@ -72,7 +72,7 @@ export const WhatWeDoSection: React.FC<WhatWeDoSectionProps> = ({
         </div>
 
         {/* Scrollable Cards */}
-        <div 
+        <div
           ref={scrollRef}
           className="flex flex-row gap-[30px] overflow-x-auto pb-8 snap-x snap-mandatory hide-scrollbar"
         >
@@ -82,11 +82,11 @@ export const WhatWeDoSection: React.FC<WhatWeDoSectionProps> = ({
             return (
               <div
                 key={line.heading || idx}
-                className="shrink-0 w-[1119px] h-[637px] rounded-[20px] border-[1.5px] border-[#BDE4FF] shadow-[0px_0px_20px_rgba(0,0,0,0.08)] bg-white p-6 md:p-[35px] flex flex-col md:flex-row gap-8 snap-start"
+                className="shrink-0 w-[90vw] md:w-[600px] xl:w-[85vw] max-w-[1119px] h-auto xl:h-[637px] rounded-[20px] border-[1.5px] border-[#BDE4FF] shadow-[0px_0px_20px_rgba(0,0,0,0.08)] bg-white p-6 md:p-8 xl:p-[35px] flex flex-col xl:flex-row gap-6 xl:gap-8 snap-start"
               >
                 {/* Left side: Image and Button */}
-                <div className="flex flex-col gap-5 w-full md:w-[443px] shrink-0">
-                  <div className="w-full md:w-[443px] h-[300px] md:h-[506px] rounded-xl overflow-hidden border border-[#BDE4FF]">
+                <div className="flex flex-col gap-5 w-full xl:w-[40%] max-w-[443px] shrink-0">
+                  <div className="w-full h-[300px] xl:h-[506px] rounded-xl overflow-hidden border border-[#BDE4FF]">
                     <img
                       src={currentSrc}
                       alt={line.heading}
@@ -105,10 +105,10 @@ export const WhatWeDoSection: React.FC<WhatWeDoSectionProps> = ({
 
                 {/* Right side: Content */}
                 <div className="flex flex-col flex-1 pt-0">
-                  <h3 className="text-[40px] md:text-[60px] leading-[1.2] font-serif text-[#0A0A0A] mb-5">
+                  <h3 className="text-[clamp(40px,3.5vw,60px)] leading-[1.2] font-serif text-[#0A0A0A] mb-5">
                     {line.heading}
                   </h3>
-                  <p className="text-[20px] md:text-[24px] leading-[1.33] text-[#022E4C] font-sans mb-8">
+                  <p className="text-[clamp(20px,1.5vw,24px)] leading-[1.33] text-[#022E4C] font-sans mb-8">
                     {line.blurb}
                   </p>
 
@@ -129,7 +129,7 @@ export const WhatWeDoSection: React.FC<WhatWeDoSectionProps> = ({
                             <polyline points="20 6 9 17 4 12" />
                           </svg>
                         </div>
-                        <span className="text-[20px] md:text-[26px] leading-[1.23] text-[#0F172A] font-sans">
+                        <span className="text-[clamp(20px,1.5vw,26px)] leading-[1.23] text-[#0F172A] font-sans">
                           {feature}
                         </span>
                       </div>
@@ -163,7 +163,8 @@ export const WhatWeDoSection: React.FC<WhatWeDoSectionProps> = ({
           </button>
         </div>
       </div>
-      <style dangerouslySetInnerHTML={{__html: `
+      <style dangerouslySetInnerHTML={{
+        __html: `
         .hide-scrollbar::-webkit-scrollbar {
           display: none;
         }

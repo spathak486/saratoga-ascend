@@ -33,23 +33,7 @@
         "images"
       ]
     },
-    "emblem": {
-      "type": "media",
-      "multiple": false,
-      "allowedTypes": [
-        "images"
-      ]
-    },
-    "video": {
-      "type": "media",
-      "multiple": false,
-      "allowedTypes": [
-        "videos"
-      ]
-    },
-    "videoCopy": {
-      "type": "string"
-    },
+
     "services": {
       "type": "relation",
       "relation": "oneToMany",

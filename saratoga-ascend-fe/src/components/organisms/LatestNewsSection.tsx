@@ -106,14 +106,14 @@ export const LatestNewsSection = async ({
             level={2}
             size="section"
             tone="onDark"
-            className="text-left text-[72px] leading-[1.2] font-normal text-white max-xl:text-[2rem]! max-xl:leading-[2.5rem]!"
+            className="text-left text-[clamp(32px,4vw,72px)] leading-[1.2] font-normal text-white"
             style={{ fontFamily: "'DM Serif Text', serif" }}
           >
             {title}
           </Heading>
           {subTitle && (
             <p
-              className="text-left text-[30px] leading-[40px] text-white max-xl:text-base max-xl:leading-5"
+              className="text-left text-[clamp(16px,1.8vw,30px)] leading-[40px] max-xl:leading-normal text-white"
               style={{ fontFamily: "'Google Sans Flex', sans-serif" }}
             >
               {subTitle}

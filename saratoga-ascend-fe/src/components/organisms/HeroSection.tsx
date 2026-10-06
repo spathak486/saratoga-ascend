@@ -6,7 +6,7 @@ const HERO_BG = '/images/hero-final-bg.png';
 
 function stripHtml(value?: string | null): string | null {
   if (!value) return null;
-  const stripped = value.replace(/<[^>]*>?/gm, '').trim();
+  const stripped = value.replace(/<[^>]*>?/gm, '').replace(/&nbsp;/g, ' ').trim();
   return stripped || null;
 }
 
@@ -109,12 +109,12 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
       >
         <div className="flex flex-col justify-center items-start gap-[30px] w-full max-w-[1760px] mx-auto z-10">
           {title && (
-            <Heading level={1} className="font-serif font-normal text-[50px] md:text-[90px] leading-[1.15] text-black max-w-full md:max-w-none">
+            <Heading level={1} className="font-serif font-normal text-[clamp(50px,5vw,90px)] leading-[1.15] text-black max-w-full md:max-w-none">
               {title}
             </Heading>
           )}
           {(description || subTitle) && (
-            <p className="font-sans font-medium text-[18px] md:text-[24px] leading-[1.6] text-black max-w-[755px]">
+            <p className="font-sans font-medium text-[clamp(18px,1.5vw,24px)] leading-[1.6] text-black max-w-[755px]">
               {description || subTitle}
             </p>
           )}
@@ -149,19 +149,19 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0)_46.5%,#000000_106.95%)]" />
 
         {/* Content */}
-        <div className="relative z-10 w-full max-w-[1338px] mx-auto mb-[30px] px-4 md:px-0 text-white flex flex-col md:flex-row md:items-center gap-[54px] md:h-[122.5px]">
-          <div className="flex-shrink-0 md:w-[348px]">
-            <h2 className="font-serif font-normal text-[40px] md:text-[60px] leading-[1.2] text-white">
+        <div className="relative z-10 w-[80%] max-w-[1338px] mx-auto mb-[30px] xl:mb-[50px] text-white flex flex-col xl:flex-row xl:items-center gap-8 xl:gap-[54px] xl:h-[122.5px]">
+          <div className="flex-shrink-0 xl:w-[26%] max-w-[348px]">
+            <h2 className="font-serif font-normal text-[clamp(40px,3.5vw,60px)] leading-[1.2] text-white">
               {title}
             </h2>
           </div>
           
-          {/* Divider (visible on md+) */}
-          <div className="hidden md:block w-0 h-[122.5px] border-l-[3px] border-white" />
+          {/* Divider (visible on xl+) */}
+          <div className="hidden xl:block w-0 h-[122.5px] border-l-[3px] border-white" />
 
-          <div className="flex-shrink-0 md:w-[882px]">
+          <div className="flex-1 max-w-[882px]">
             {lede && (
-              <p className="font-sans font-normal text-[20px] md:text-[28px] leading-[38px] text-white">
+              <p className="font-sans font-normal text-[clamp(20px,1.6vw,28px)] leading-[38px] text-white">
                 {lede}
               </p>
             )}
