@@ -43,6 +43,7 @@ export const BANNER_FIELDS = `
   buttonCTA { ${GENERAL_LINK_FIELDS} }
 `;
 
+
 export const PROMO_FIELDS = `
   title
   subTitle
