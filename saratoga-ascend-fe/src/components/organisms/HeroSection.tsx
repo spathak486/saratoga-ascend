@@ -125,8 +125,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 
   if (variant === 'gradient') {
     return (
-      <div className="relative w-full overflow-hidden rounded-2xl bg-gray-900 shadow-lg min-h-[400px] md:min-h-[500px] flex items-end">
-        {/* Background Image / Video */}
+      <section className="w-full px-4 md:px-[120px] py-16">
+        <div className="relative w-full max-w-[1680px] mx-auto overflow-hidden rounded-[26px] bg-gray-900 shadow-lg min-h-[400px] md:h-[868px] flex items-end">
+          {/* Background Image / Video */}
         {resolvedVideoSrc ? (
           <video
             src={resolvedVideoSrc}
@@ -145,29 +146,29 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         ) : null}
 
         {/* Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#003366]/80 via-transparent to-[#ff3366]/80" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0)_46.5%,#000000_106.95%)]" />
 
         {/* Content */}
-        <div className="relative z-10 w-full p-8 md:p-12 lg:p-16 text-white flex flex-col md:flex-row md:items-end gap-6 md:gap-12">
-          <div className="flex-1">
-            <h2 className="text-4xl md:text-5xl font-serif font-bold tracking-tight">
+        <div className="relative z-10 w-full max-w-[1338px] mx-auto mb-[30px] px-4 md:px-0 text-white flex flex-col md:flex-row md:items-center gap-[54px] md:h-[122.5px]">
+          <div className="flex-shrink-0 md:w-[348px]">
+            <h2 className="font-serif font-normal text-[40px] md:text-[60px] leading-[1.2] text-white">
               {title}
             </h2>
           </div>
           
           {/* Divider (visible on md+) */}
-          <div className="hidden md:block w-[2px] h-20 bg-white/50" />
+          <div className="hidden md:block w-0 h-[122.5px] border-l-[3px] border-white" />
 
-          <div className="flex-1 max-w-2xl">
+          <div className="flex-shrink-0 md:w-[882px]">
             {lede && (
-              <p className="text-lg md:text-xl text-white/90 leading-relaxed">
+              <p className="font-sans font-normal text-[20px] md:text-[28px] leading-[38px] text-white">
                 {lede}
               </p>
             )}
           </div>
         </div>
       </div>
+      </section>
     );
   }
 
