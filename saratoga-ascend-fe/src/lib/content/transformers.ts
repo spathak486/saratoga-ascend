@@ -173,8 +173,6 @@ export function resolveSectionImages(
         whatWeDoSection: {
           ...wwd,
           photo: unwrapImage(wwd.photo),
-          emblem: unwrapImage(wwd.emblem),
-          video: unwrapImage(wwd.video),
           cta: resolveLink(wwd.cta),
           services: wwd.services
             ? wwd.services.map(svc => ({
