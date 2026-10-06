@@ -269,15 +269,15 @@ export const OurAchievementsSection: React.FC<OurAchievementsSectionProps> = ({
           <Backdrop overlay={DESKTOP_OVERLAY} />
         </div>
 
-        <div className="relative aspect-[1920/1334] w-full max-w-[1920px]">
+        <div className="relative aspect-[1920/973] w-full max-w-[1920px]">
           <p
             aria-hidden="true"
-            className="absolute top-[5.997%] left-1/2 -translate-x-1/2 font-serif text-section leading-[1.2] whitespace-nowrap text-white"
+            className="absolute top-[8.22%] left-1/2 -translate-x-1/2 font-serif text-section leading-[1.2] whitespace-nowrap text-white"
           >
             {headingText}
           </p>
 
-        <div className="absolute top-[16.942%] left-[6.406%] w-[87.344%] overflow-visible">
+        <div className="absolute top-[23.43%] left-[6.406%] w-[87.344%] overflow-visible">
           <AwardsTrack
             viewportRef={desktop.viewportRef}
             slideClassName={TWO_UP_SLIDE_CLASS}
@@ -287,24 +287,26 @@ export const OurAchievementsSection: React.FC<OurAchievementsSectionProps> = ({
           />
         </div>
 
-        <div className="absolute top-[75.112%] left-[6.25%] w-[87.5%]">
-          <dl className="flex items-start justify-between">
+        <div className="absolute top-[73.68%] left-[6.25%] w-[87.5%]">
+          <dl className="flex items-center justify-between h-[183px]">
             {resolvedStats.map((stat, idx) => (
-              <div
-                key={`${stat.label}-${idx}`}
-                className="flex flex-col items-center text-center"
-              >
-                <dd className="font-serif text-numeral text-white">
-                  {isPlacementStat(stat.label) ? (
-                    <CountUpStat value={stat.value} />
-                  ) : (
-                    stat.value
-                  )}
-                </dd>
-                <dt className="mt-1.5 font-sans text-stat-label font-medium whitespace-nowrap text-white">
-                  {stat.label}
-                </dt>
-              </div>
+              <React.Fragment key={`${stat.label}-${idx}`}>
+                <div className="flex flex-col items-center text-center">
+                  <dd className="font-serif text-[clamp(4rem,6.25vw,120px)] leading-[1.12] tracking-normal text-white">
+                    {isPlacementStat(stat.label) ? (
+                      <CountUpStat value={stat.value} />
+                    ) : (
+                      stat.value
+                    )}
+                  </dd>
+                  <dt className="mt-4 font-sans text-[clamp(1.5rem,1.66vw,32px)] leading-tight font-medium whitespace-nowrap text-white">
+                    {stat.label}
+                  </dt>
+                </div>
+                {idx < resolvedStats.length - 1 && (
+                  <div className="h-[183px] w-[3px] bg-white opacity-50"></div>
+                )}
+              </React.Fragment>
             ))}
           </dl>
         </div>
@@ -312,12 +314,12 @@ export const OurAchievementsSection: React.FC<OurAchievementsSectionProps> = ({
           <BandArrow
             direction="prev"
             onClick={desktop.scrollPrev}
-            className="absolute inset-[34.86%_95.26%_60.64%_1.61%] z-10"
+            className="absolute top-[41.93%] left-[19px] z-10 size-[66px] border-[1.38px] border-white/40"
           />
           <BandArrow
             direction="next"
             onClick={desktop.scrollNext}
-            className="absolute inset-[34.86%_1.458%_60.64%_95.417%] z-10"
+            className="absolute top-[41.93%] right-[19px] z-10 size-[66px] border-[1.38px] border-white/40"
           />
         </div>
       </div>
