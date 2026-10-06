@@ -224,6 +224,23 @@ const homeSections: DynamicZoneSection[] = [
         },
       },
     },
+    supportCta: {
+      documentId: 'cm2faqsupportcta',
+      referenceTitle: 'FAQ Support CTA',
+      ContentSection: {
+        title: 'Still have questions?',
+        subTitle:
+          'Need clarity before moving forward? Speak with our operations team to get clear, direct answers tailored to your business challenges.',
+        description: null,
+        image: null,
+        link: {
+          label: 'Book a Consultation',
+          href: '/contact',
+          target: '_self',
+          isExternal: false,
+        },
+      },
+    },
     faqs: [
       {
         documentId: 'cm2faq1',
@@ -471,6 +488,35 @@ export const mockPages: Page[] = [
     createdAt: '2026-08-10T00:00:00.000Z',
     updatedAt: '2026-08-10T00:00:00.000Z',
   },
+  {
+    documentId: 'cm2a8h4j10005qk3fblogs001',
+    internalName: 'Blogs',
+    pageTitle: 'Blogs',
+    slug: 'blogs',
+    pageType: 'Standard',
+    variant: 'default',
+    seo: {
+      metaTitle: 'Blogs | Saratoga Ascend',
+      metaDescription: 'Explore insights shaping the future of federal healthcare.',
+      ogTitle: null,
+      ogDescription: null,
+      ogImage: null,
+      metaRobots: 'index',
+      twitterCardTitle: null,
+      canonicalURL: null,
+      structuredData: null,
+      languageTag: 'en',
+    },
+    Section: [
+      {
+        __typename: 'ComponentReferencesBlogListing',
+        blogHeading: 'Blogs',
+        subheading: 'Explore Insights Shaping the Future of Federal Healthcare',
+      },
+    ],
+    createdAt: '2026-08-10T00:00:00.000Z',
+    updatedAt: '2026-08-10T00:00:00.000Z',
+  },
 ];
 
 export const mockArticles: Article[] = [
@@ -530,6 +576,75 @@ export const mockArticles: Article[] = [
     seo: null,
     createdAt: '2026-08-04T00:00:00.000Z',
     updatedAt: '2026-08-05T14:00:00.000Z',
+  },
+];
+
+export const mockBlogs: Article[] = [
+  {
+    documentId: 'cm2blog001federal',
+    title: 'The Future of Federal Healthcare Staffing in 2026',
+    slug: 'future-federal-healthcare-2026',
+    summary: 'Key trends shaping federal healthcare staffing in 2026 and how Saratoga Ascend is adapting.',
+    articleDate: '2026-08-05T14:00:00.000Z',
+    readTime: 4,
+    categoryType: 'Blog',
+    author: 'Jane Cooper',
+    category: { name: 'Federal Staffing', slug: 'federal-staffing' },
+    description: '<p>As we move through 2026, the landscape of federal healthcare staffing continues to evolve.</p>',
+    image: {
+      url: '/images/healthcare-team.png',
+      width: 800,
+      height: 600,
+      alternativeText: 'Healthcare team collaborating',
+      formats: null,
+    },
+    seo: null,
+    createdAt: '2026-08-04T00:00:00.000Z',
+    updatedAt: '2026-08-05T14:00:00.000Z',
+  },
+  {
+    documentId: 'cm2blog002military',
+    title: 'Military Medicine Readiness Starts With Credentialed Staff',
+    slug: 'military-medicine-readiness',
+    summary: 'How credentialed clinicians keep military treatment facilities mission-ready.',
+    articleDate: '2026-07-22T09:00:00.000Z',
+    readTime: 6,
+    categoryType: 'Blog',
+    author: 'Jane Cooper',
+    category: { name: 'Military Medicine', slug: 'military-medicine' },
+    description: '<p>Credentialed clinicians keep military treatment facilities mission-ready.</p>',
+    image: {
+      url: '/images/healthcare-team.png',
+      width: 800,
+      height: 600,
+      alternativeText: 'Military healthcare professionals',
+      formats: null,
+    },
+    seo: null,
+    createdAt: '2026-07-21T00:00:00.000Z',
+    updatedAt: '2026-07-22T09:00:00.000Z',
+  },
+  {
+    documentId: 'cm2blog003joint',
+    title: 'Joint Commission Standards Without the Guesswork',
+    slug: 'joint-commission-standards',
+    summary: 'A practical look at Joint Commission staffing expectations for federal programs.',
+    articleDate: '2026-06-18T11:00:00.000Z',
+    readTime: 5,
+    categoryType: 'Blog',
+    author: 'Jane Cooper',
+    category: { name: 'Joint Commission Standards', slug: 'joint-commission-standards' },
+    description: '<p>Joint Commission staffing expectations for federal programs.</p>',
+    image: {
+      url: '/images/healthcare-team.png',
+      width: 800,
+      height: 600,
+      alternativeText: 'Clinical compliance review',
+      formats: null,
+    },
+    seo: null,
+    createdAt: '2026-06-17T00:00:00.000Z',
+    updatedAt: '2026-06-18T11:00:00.000Z',
   },
 ];
 

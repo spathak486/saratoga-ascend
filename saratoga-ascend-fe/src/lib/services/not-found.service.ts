@@ -14,9 +14,16 @@ import { getMockNotFoundData } from '@/lib/mocks';
 export async function getNotFoundData(): Promise<ApiResult<NotFoundData>> {
   if (isMockMode) return ok(getMockNotFoundData());
 
-  const result = await gql.query<NotFoundQueryResult>(NOT_FOUND_QUERY, {
-    status: defaultPublicationStatus,
-  });
+  let result = await gql.query<NotFoundQueryResult>(
+    NOT_FOUND_QUERY,
+    { status: defaultPublicationStatus },
+    { quiet: defaultPublicationStatus === 'DRAFT' },
+  );
+  if (result.error && defaultPublicationStatus === 'DRAFT') {
+    result = await gql.query<NotFoundQueryResult>(NOT_FOUND_QUERY, {
+      status: 'PUBLISHED',
+    });
+  }
   if (result.error) return result;
 
   const rawPatch = result.data?.notFound;

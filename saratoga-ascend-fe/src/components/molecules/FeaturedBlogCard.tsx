@@ -1,5 +1,7 @@
 import React from 'react';
-import Link from 'next/link';
+import { MediaFrame } from '../atoms/MediaFrame';
+import { GeneralLink } from '../atoms/GeneralLink';
+import { CtaButton } from './CtaButton';
 
 export interface FeaturedBlogCardProps {
   title: string;
@@ -13,57 +15,53 @@ export interface FeaturedBlogCardProps {
 
 export const FeaturedBlogCard: React.FC<FeaturedBlogCardProps> = ({
   title,
-  excerpt = 'The transition from fragmented branch credentialing to unified DHA commercial surge contracting represents the most critical modernization of military trauma readiness in three decades...',
+  excerpt,
   readTime,
   date,
-  author,
   imageSrc,
   href = '#',
 }) => {
+  const meta = [readTime, date].filter(Boolean).join(' · ');
+
   return (
-    <div className="w-full max-w-[1689px] lg:h-[452px] bg-white rounded-[40px] p-[18px] flex flex-col lg:flex-row items-center gap-[40px] lg:gap-[46px] shadow-sm relative mb-[40px] mx-auto">
-      {/* Image */}
-      <div className="w-full lg:w-[45%] h-[300px] lg:h-[415px] relative shrink-0 rounded-[24px] overflow-hidden bg-gray-100">
-        {imageSrc ? (
-          <img src={imageSrc} alt={title} className="w-full h-full object-cover" />
-        ) : (
-          <div className="w-full h-full bg-gray-200" />
-        )}
+    <article
+      className="relative mx-auto flex w-full flex-col gap-6 rounded-[1.5rem] border bg-white p-[18px] max-xl:max-w-none xl:min-h-[28.25rem] xl:flex-row xl:items-center xl:gap-[46px] xl:rounded-[40px]"
+      style={{ borderWidth: 1.333, borderColor: '#D31E2D' }}
+    >
+      <div className="relative h-[13.75rem] w-full shrink-0 overflow-hidden rounded-2xl xl:h-[415px] xl:w-[45%] xl:rounded-[24px]">
+        <MediaFrame
+          src={imageSrc}
+          alt={title}
+          pendingLabel="blog-image"
+          sizes="(max-width: 1280px) 100vw, 737px"
+          className="size-full border-0 bg-transparent rounded-2xl xl:rounded-[24px]"
+          imageClassName="object-cover rounded-2xl xl:rounded-[24px]"
+        />
       </div>
 
-      {/* Content */}
-      <div className="flex flex-col items-start w-full lg:w-[55%] pr-0 lg:pr-[40px]">
-        {/* Read Time / Date */}
-        {(readTime || date) && (
-          <p className="font-sans font-normal text-[22px] leading-[150%] text-black mb-[16px]">
-            {[readTime, date].filter(Boolean).join(' · ')}
+      <div className="flex min-w-0 flex-1 flex-col items-start pr-0 xl:w-[55%] xl:pr-10">
+        {meta ? (
+          <p className="mb-4 font-sans text-[clamp(0.875rem,0.7rem+0.5vw,1.375rem)] leading-[1.5] text-black">
+            {meta}
           </p>
-        )}
+        ) : null}
 
-        {/* Title */}
-        <h3 className="font-serif font-normal text-[32px] lg:text-[40px] leading-[1.2] lg:leading-[60px] tracking-[-1px] text-[#00162D] mb-[24px] line-clamp-2">
-          {title}
+        <h3 className="mb-6 font-serif text-[clamp(1.5rem,1.1rem+1.4vw,2.5rem)] leading-[1.2] tracking-[-1px] text-[#00162D] xl:leading-[60px]">
+          <GeneralLink href={href} variant="unstyled" className="after:absolute after:inset-0">
+            {title}
+          </GeneralLink>
         </h3>
 
-        {/* Excerpt */}
-        {excerpt && (
-          <p className="font-sans font-normal text-[18px] lg:text-[24px] leading-[160%] text-[#5A5A5A] mb-[40px] line-clamp-3">
+        {excerpt ? (
+          <p className="mb-10 font-sans text-[clamp(1rem,0.85rem+0.5vw,1.5rem)] leading-[1.6] text-[#5A5A5A] line-clamp-3">
             {excerpt}
           </p>
-        )}
+        ) : null}
 
-        {/* Button */}
-        <Link href={href}>
-          <div className="flex flex-row justify-center items-center px-[24px] py-[16px] gap-[12px] w-[180px] h-[60px] rounded-[8px] shadow-[0px_1px_2px_rgba(16,24,40,0.05)]" style={{ background: 'linear-gradient(90.55deg, #D31E2D 0.47%, #2A91DC 102.45%)' }}>
-            <span className="font-sans font-medium text-[20px] leading-[150%] text-white">
-              Read
-            </span>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-          </div>
-        </Link>
+        <CtaButton href={href} className="relative z-10 w-[180px] justify-center">
+          Read More
+        </CtaButton>
       </div>
-    </div>
+    </article>
   );
 };

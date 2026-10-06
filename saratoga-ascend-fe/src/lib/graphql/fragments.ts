@@ -302,10 +302,7 @@ export const ARTICLE_FIELDS = `
   readTime
   categoryType
   author
-  category {
-    name
-    slug
-  }
+  topic
   description
   image { ${IMAGE_FIELDS} }
   seo { ${SEO_FIELDS} }

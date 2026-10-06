@@ -10,6 +10,8 @@ export interface NeedHelpSectionProps {
   mediaAlt?: string;
   ctaLabel?: string;
   ctaHref?: string;
+  /** Blog listing (Figma 2131:1213) uses 40px vertical padding, not the homepage section token. */
+  compact?: boolean;
 }
 
 /**
@@ -27,13 +29,14 @@ export const NeedHelpSection: React.FC<NeedHelpSectionProps> = ({
   mediaAlt,
   ctaLabel,
   ctaHref,
+  compact = false,
 }) => (
   <Section
     aria-labelledby="need-help-heading"
     tone="surface"
     spacing="none"
     bleed
-    className="relative py-section overflow-hidden max-xl:py-5"
+    className={`relative overflow-hidden max-xl:py-5 ${compact ? 'py-10' : 'py-section'}`}
   >
     <div className="relative mx-auto max-w-home px-page max-xl:px-5">
       {/* Rectangle 14: 1680x733px, radius 52px, Red Blue gradient with 20% black film */}
