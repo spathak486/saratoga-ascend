@@ -44,7 +44,7 @@ export interface HeroSectionProps {
   ctaHref?: string;
   mediaMime?: string;
   mediaExt?: string;
-  variant?: 'homebanner' | 'default';
+  variant?: 'homebanner' | 'default' | 'gradient';
 }
 
 const bandStyle: React.CSSProperties = {
@@ -120,6 +120,54 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           )}
         </div>
       </section>
+    );
+  }
+
+  if (variant === 'gradient') {
+    return (
+      <div className="relative w-full overflow-hidden rounded-2xl bg-gray-900 shadow-lg min-h-[400px] md:min-h-[500px] flex items-end">
+        {/* Background Image / Video */}
+        {resolvedVideoSrc ? (
+          <video
+            src={resolvedVideoSrc}
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="absolute inset-0 w-full h-full object-cover object-center"
+          />
+        ) : helixSrc ? (
+          <img
+            src={helixSrc}
+            alt={mediaAlt || "Banner Background"}
+            className="absolute inset-0 w-full h-full object-cover object-center"
+          />
+        ) : null}
+
+        {/* Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-r from-[#003366]/80 via-transparent to-[#ff3366]/80" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+
+        {/* Content */}
+        <div className="relative z-10 w-full p-8 md:p-12 lg:p-16 text-white flex flex-col md:flex-row md:items-end gap-6 md:gap-12">
+          <div className="flex-1">
+            <h2 className="text-4xl md:text-5xl font-serif font-bold tracking-tight">
+              {title}
+            </h2>
+          </div>
+          
+          {/* Divider (visible on md+) */}
+          <div className="hidden md:block w-[2px] h-20 bg-white/50" />
+
+          <div className="flex-1 max-w-2xl">
+            {lede && (
+              <p className="text-lg md:text-xl text-white/90 leading-relaxed">
+                {lede}
+              </p>
+            )}
+          </div>
+        </div>
+      </div>
     );
   }
 
