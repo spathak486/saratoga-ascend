@@ -41,8 +41,8 @@ const variantStyles: Record<
   { size: string; rest: string; active: string }
 > = {
   primary: {
-    size: 'text-body',
-    rest: `text-ink ${NAV_HOVER}`,
+    size: 'text-[22px] leading-[28px]',
+    rest: `text-black ${NAV_HOVER}`,
     active: NAV_ACTIVE,
   },
   utility: {
@@ -64,7 +64,7 @@ function isItemActive(pathname: string | undefined, href: string): boolean {
 
 const gapClass: Record<HeaderNavVariant, Record<HeaderNavOrientation, string>> = {
   primary: {
-    horizontal: 'gap-5',
+    horizontal: 'gap-[30px]',
     vertical: 'gap-4',
   },
   utility: {
@@ -119,7 +119,7 @@ export const HeaderNavList: React.FC<HeaderNavListProps> = ({
             aria-current={isActive ? 'page' : undefined}
             aria-haspopup={item.hasMenu ? 'true' : undefined}
             rightIcon={caret}
-            className={`inline-flex items-center gap-2.5 rounded-lg px-3 py-2 font-sans font-medium leading-[1.5] whitespace-nowrap transition-colors ${NAV_MOTION} ${isPrimaryBar ? 'h-full' : ''} ${styles.size} ${isActive ? styles.active : styles.rest} ${isPrimaryBar ? 'group-hover:text-brand-red group-focus-within:text-brand-red' : ''}`}
+            className={`inline-flex items-center gap-1.5 rounded-lg font-sans font-medium whitespace-nowrap transition-colors ${NAV_MOTION} ${isPrimaryBar ? 'h-full px-0' : 'px-3 py-2'} ${styles.size} ${isActive ? styles.active : styles.rest} ${isPrimaryBar ? 'group-hover:text-brand-red group-focus-within:text-brand-red' : ''}`}
           >
             {item.label}
           </GeneralLink>
@@ -136,7 +136,7 @@ export const HeaderNavList: React.FC<HeaderNavListProps> = ({
         return (
           <div
             key={item.href}
-            className="group flex h-full items-center"
+            className="group relative flex h-full items-center"
           >
             <div className="relative flex h-full items-center">
               {link}

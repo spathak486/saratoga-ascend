@@ -48,7 +48,7 @@ export interface HeroSectionProps {
 }
 
 const bandStyle: React.CSSProperties = {
-  minHeight: 'min(56.25rem, 100svh)',
+  minHeight: '723px',
 };
 
 const copyStyle: React.CSSProperties = {
@@ -78,6 +78,7 @@ const ctaStyle: React.CSSProperties = {
 export const HeroSection: React.FC<HeroSectionProps> = ({
   videoSrc,
   helixSrc,
+  mediaAlt,
   title,
   subTitle,
   description,
@@ -140,7 +141,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         <div className="pointer-events-none absolute inset-0" aria-hidden="true">
           {resolvedVideoSrc ? (
             <video
-              className="absolute inset-0 size-full object-cover object-center"
+              className="absolute inset-0 size-full object-cover object-right"
               poster={HERO_BG}
               autoPlay
               muted
@@ -152,11 +153,11 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             </video>
           ) : (
             <img
-              src={HERO_BG}
-              alt=""
+              src={helixSrc || HERO_BG}
+              alt={mediaAlt || ""}
               width={1920}
               height={900}
-              className="absolute inset-0 size-full object-cover object-center"
+              className="absolute inset-0 size-full object-cover object-right"
               decoding="async"
               fetchPriority="high"
             />
