@@ -43,6 +43,7 @@ export const BANNER_FIELDS = `
   buttonCTA { ${GENERAL_LINK_FIELDS} }
 `;
 
+
 export const PROMO_FIELDS = `
   title
   subTitle
@@ -203,9 +204,7 @@ export const WHAT_WE_DO_REFERENCE_FIELDS = `
       description
       cta { ${GENERAL_LINK_FIELDS} }
       photo { ${IMAGE_FIELDS} }
-      emblem { ${IMAGE_FIELDS} }
-      video { ${IMAGE_FIELDS} }
-      videoCopy
+
       services {
         documentId
         pageTitle
@@ -302,7 +301,10 @@ export const ARTICLE_FIELDS = `
   readTime
   categoryType
   author
-  topic
+  category {
+    name
+    slug
+  }
   description
   image { ${IMAGE_FIELDS} }
   seo { ${SEO_FIELDS} }

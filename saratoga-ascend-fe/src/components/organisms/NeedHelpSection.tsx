@@ -10,8 +10,6 @@ export interface NeedHelpSectionProps {
   mediaAlt?: string;
   ctaLabel?: string;
   ctaHref?: string;
-  /** Blog listing (Figma 2131:1213) uses 40px vertical padding, not the homepage section token. */
-  compact?: boolean;
 }
 
 /**
@@ -29,20 +27,19 @@ export const NeedHelpSection: React.FC<NeedHelpSectionProps> = ({
   mediaAlt,
   ctaLabel,
   ctaHref,
-  compact = false,
 }) => (
   <Section
     aria-labelledby="need-help-heading"
     tone="surface"
     spacing="none"
     bleed
-    className={`relative overflow-hidden max-xl:py-5 ${compact ? 'py-10' : 'py-section'}`}
+    className="relative py-section overflow-hidden max-xl:py-5"
   >
     <div className="relative mx-auto max-w-home px-page max-xl:px-5">
-      {/* Rectangle 14: 1680x733px, radius 52px, Red Blue gradient with 20% black film */}
-      <div className="relative isolate overflow-hidden rounded-[clamp(24px,2.7vw,52px)] bg-need-help-gradient min-h-[clamp(28rem,38.18vw,733px)] lg:h-[733px] max-xl:min-h-[46.625rem] max-xl:rounded-xl">
-        {/* Left Column: 100px padding (left: 220px in 1920 artboard) */}
-        <div className="relative z-10 flex min-w-0 max-w-full lg:max-w-[50%] flex-col justify-between p-[clamp(1.5rem,5.21vw,100px)] h-full max-xl:max-w-none max-xl:gap-[1.875rem] max-xl:px-5 max-xl:py-10">
+      {/* Rectangle 14: 1680x519px, radius 52px, Red Blue gradient with 20% black film */}
+      <div className="relative isolate overflow-hidden rounded-[clamp(24px,2.7vw,52px)] bg-need-help-gradient min-h-[clamp(28rem,38.18vw,519px)] lg:h-[519px] max-xl:min-h-[46.625rem] max-xl:rounded-xl">
+        {/* Left Column: 70px padding */}
+        <div className="relative z-10 flex min-w-0 max-w-full lg:max-w-[50%] flex-col justify-between p-[clamp(1.5rem,5.21vw,70px)] h-full max-xl:max-w-none max-xl:gap-[1.875rem] max-xl:px-5 max-xl:py-10">
           <div>
             {title ? (
               <Heading
@@ -55,9 +52,9 @@ export const NeedHelpSection: React.FC<NeedHelpSectionProps> = ({
               </Heading>
             ) : null}
 
-            {/* Sign up now and get hired easily - Google Sans Flex 24px / 160% medium, gap 24px */}
+            {/* Sign up now and get hired easily */}
             {(subTitle || description) ? (
-              <p className="mt-6 max-w-[356px] text-[clamp(1.125rem,1.25vw,24px)] leading-[160%] font-medium text-white max-xl:mt-5 max-xl:max-w-none max-xl:text-base max-xl:leading-5 max-xl:font-normal">
+              <p className="mt-2 max-w-[356px] text-[clamp(1.125rem,1.25vw,24px)] leading-[160%] font-medium text-white max-xl:mt-5 max-xl:max-w-none max-xl:text-base max-xl:leading-5 max-xl:font-normal">
                 {subTitle ||
                   (description
                     ? description.replace(/<[^>]*>?/gm, '').trim()
@@ -67,31 +64,19 @@ export const NeedHelpSection: React.FC<NeedHelpSectionProps> = ({
           </div>
 
           {/* Inputs & CTA Button */}
-          <div className="mt-[clamp(2rem,4.16vw,80px)] max-xl:mt-0">
+          <div className="mt-6 max-xl:mt-0">
             <NeedHelpForm buttonLabel={ctaLabel} buttonHref={ctaHref} />
           </div>
         </div>
 
         {personSrc ? (
           <div
-            className="pointer-events-none absolute bottom-0 right-0 z-0 flex h-[clamp(18rem,38.18vw,733px)] w-full items-end justify-center lg:right-[clamp(0px,4.9vw,94px)] lg:h-[733px] lg:w-[clamp(20rem,45.65%,767px)] lg:justify-end max-xl:left-0 max-xl:h-[24.5rem] max-xl:w-full max-xl:max-w-none!"
-            style={{
-              maxWidth: '767px',
-              maxHeight: '733px',
-              opacity: 1,
-              transform: 'rotate(0deg)',
-            }}
+            className="pointer-events-none absolute bottom-0 right-0 z-0 flex h-full w-full items-end justify-center lg:right-0 lg:h-[519px] lg:w-[45%] lg:max-w-[767px] lg:justify-end max-xl:left-0 max-xl:h-[24.5rem] max-xl:w-full max-xl:max-w-none!"
           >
             <img
               src={personSrc}
               alt={mediaAlt || 'Healthcare worker offering help'}
-              width={767}
-              height={733}
-              className="h-full w-auto max-h-[733px] max-w-[767px] object-contain object-bottom max-xl:w-full max-xl:max-w-none max-xl:object-cover max-xl:object-[center_20%]"
-              style={{
-                opacity: 1,
-                transform: 'rotate(0deg)',
-              }}
+              className="h-full w-full object-contain object-bottom max-xl:object-cover max-xl:object-[center_20%]"
             />
           </div>
         ) : null}

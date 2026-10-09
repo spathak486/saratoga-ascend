@@ -1,6 +1,8 @@
 'use client';
 import React, { useMemo, useState } from 'react';
 import { GeneralLink } from '../atoms/GeneralLink';
+import { Heading } from '../atoms/Heading';
+import { Text } from '../atoms/Text';
 import { BlogCard } from '../molecules/BlogCard';
 import { FeaturedBlogCard } from '../molecules/FeaturedBlogCard';
 
@@ -61,18 +63,19 @@ function FilterPill({
 }) {
   const selected =
     tone === 'navy'
-      ? 'border-transparent bg-[#00162D] font-semibold text-white shadow-[0px_1px_1px_rgba(0,0,0,0.05)]'
+      ? 'border-transparent bg-brand-navy-legal font-semibold text-white shadow-[0px_1px_1px_rgba(0,0,0,0.05)]'
       : 'border-transparent bg-[#B81C31] font-semibold text-white shadow-[0px_1px_1px_rgba(0,0,0,0.05)]';
+  const padding = tone === 'navy' ? 'px-3 py-1' : 'px-4 py-1.5';
 
   return (
     <button
       type="button"
       aria-pressed={active}
       onClick={onClick}
-      className={`rounded-full border px-3 py-1 font-sans text-[clamp(0.875rem,0.75rem+0.3vw,1.25rem)] leading-[1.5] tracking-[0.015em] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#00162D] xl:px-4 xl:py-1.5 ${
+      className={`rounded-full border font-sans text-button tracking-[0.012em] transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-navy-legal motion-reduce:transition-none ${padding} ${
         active
           ? selected
-          : 'border-[#E3E3E3] bg-white font-medium text-[#717171] hover:border-[#00162D] hover:text-[#00162D]'
+          : 'border-brand-hairline bg-white font-medium text-[#717171] hover:border-brand-navy-legal hover:text-brand-navy-legal'
       }`}
     >
       {children}
@@ -138,11 +141,11 @@ export const BlogListingSection: React.FC<BlogListingSectionProps> = ({
       {heading ? (
         <nav
           aria-label="Breadcrumb"
-          className="mx-auto hidden max-w-home px-page pt-4 pb-2 min-[90rem]:block"
+          className="mx-auto max-w-home px-page pt-4 pb-2"
         >
-          <ol className="flex flex-wrap items-center gap-2 font-sans text-sm leading-normal font-medium text-black">
+          <ol className="flex flex-wrap items-center gap-2 font-sans text-eyebrow font-medium text-ink">
             <li>
-              <GeneralLink href="/" variant="unstyled" className="hover:text-[#B81C31]">
+              <GeneralLink href="/" variant="unstyled" className="hover:text-brand-cta-from">
                 Home
               </GeneralLink>
             </li>
@@ -155,15 +158,19 @@ export const BlogListingSection: React.FC<BlogListingSectionProps> = ({
       ) : null}
 
       {heading || lede ? (
-        <div className="bg-cta-gradient px-page pt-[7.25rem] pb-10 text-center min-[90rem]:py-20">
-          <div className="mx-auto flex w-full max-w-[110rem] flex-col items-center justify-center gap-[1.125rem] xl:gap-[1.875rem]">
+        <div className="relative overflow-hidden bg-[#E4EBF1]">
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 bg-[linear-gradient(92deg,#E4EBF1_0.4%,rgba(228,235,241,0.2)_69%)]"
+          />
+          <div className="relative mx-auto flex min-h-[clamp(16rem,28.2vw,33.8125rem)] w-full max-w-home flex-col items-start justify-center gap-6 px-page py-10 xl:gap-[1.875rem]">
             {heading ? (
-              <h1 className="max-w-[74.125rem] font-serif text-[clamp(2rem,1.1rem+3.6vw,5.625rem)] leading-[1.15] font-normal text-white">
+              <h1 className="max-w-[46.5rem] font-serif text-hero break-words text-ink">
                 {heading}
               </h1>
             ) : null}
             {lede ? (
-              <p className="max-w-[71.125rem] font-sans text-[clamp(1rem,0.85rem+0.7vw,1.5rem)] leading-[1.6] font-medium text-white">
+              <p className="max-w-[47.2rem] text-body-lg font-medium break-words text-ink">
                 {lede}
               </p>
             ) : null}
@@ -171,14 +178,16 @@ export const BlogListingSection: React.FC<BlogListingSectionProps> = ({
         </div>
       ) : null}
 
-      <div className="mx-auto flex max-w-home flex-col gap-8 px-page py-8 xl:gap-10 xl:py-10">
+      <div className="mx-auto flex max-w-home flex-col px-page py-8 xl:py-10">
         {readModes.length > 0 ? (
           <div
             role="group"
             aria-label="Reading mode"
-            className="flex flex-wrap items-center justify-center gap-3 xl:gap-5"
+            className={`flex flex-wrap items-center justify-center gap-3 xl:gap-5 ${
+              categories.length > 0 ? 'mb-6 xl:mb-[1.875rem]' : 'mb-8 xl:mb-[3.75rem]'
+            }`}
           >
-            <p className="font-serif text-[clamp(0.875rem,0.8rem+0.2vw,1.125rem)] leading-[1.45] tracking-[0.6px] text-[#43474D] uppercase">
+            <p className="font-serif text-nav tracking-[0.6px] text-[#43474D] uppercase">
               Reading mode:
             </p>
             <FilterPill
@@ -205,7 +214,7 @@ export const BlogListingSection: React.FC<BlogListingSectionProps> = ({
           <div
             role="group"
             aria-label="Topics"
-            className="flex flex-wrap items-center justify-center gap-3 xl:gap-5"
+            className="mb-8 flex flex-wrap items-center justify-center gap-3 xl:mb-[3.75rem] xl:gap-5"
           >
             <FilterPill
               tone="red"
@@ -237,7 +246,7 @@ export const BlogListingSection: React.FC<BlogListingSectionProps> = ({
             href={featured.href}
           />
         ) : (
-          <p className="text-center font-sans text-[clamp(1rem,0.9rem+0.3vw,1.25rem)] leading-[1.5] text-[#5A5A5A]">
+          <p className="text-center text-body text-[color:var(--color-legal-body)]">
             {formattedBlogs.length === 0
               ? 'No articles have been published yet.'
               : 'No articles match this filter.'}
@@ -247,22 +256,26 @@ export const BlogListingSection: React.FC<BlogListingSectionProps> = ({
         {((sectionTitle && sectionTitle !== heading) ||
           (sectionLede && sectionLede !== lede)) &&
         rest.length > 0 ? (
-          <div className="flex w-full flex-col items-start gap-3 pt-2 xl:pt-6">
+          <div className="mt-10 flex w-full min-w-0 flex-col items-start gap-3 xl:mt-20">
             {sectionTitle && sectionTitle !== heading ? (
-              <h2 className="font-serif text-[clamp(2rem,1.2rem+3.2vw,4.5rem)] leading-[1.2] font-normal text-[#D31E2D]">
+              <Heading level={2} size="section" tone="inherit" className="text-brand-cta-from">
                 {sectionTitle}
-              </h2>
+              </Heading>
             ) : null}
             {sectionLede && sectionLede !== lede ? (
-              <p className="max-w-[65.0625rem] font-sans text-[clamp(1.125rem,0.9rem+0.8vw,1.875rem)] leading-[1.33] text-[#0A0A0A]">
+              <Text
+                size="sectionLead"
+                tone="inherit"
+                className="max-w-[65.0625rem] text-ink"
+              >
                 {sectionLede}
-              </p>
+              </Text>
             ) : null}
           </div>
         ) : null}
 
         {rest.length > 0 ? (
-          <div className="grid w-full grid-cols-1 gap-x-6 gap-y-10 md:grid-cols-2 xl:grid-cols-3 xl:gap-y-16">
+          <div className="mt-8 grid w-full grid-cols-1 gap-x-6 gap-y-10 md:grid-cols-2 md:gap-y-12 xl:mt-10 xl:grid-cols-3 xl:gap-y-16">
             {rest.map((blog, idx) => (
               <BlogCard
                 key={`${blog.id}-${idx}`}

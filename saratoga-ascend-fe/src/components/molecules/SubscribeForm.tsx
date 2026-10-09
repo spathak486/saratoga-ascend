@@ -29,6 +29,7 @@ export const SubscribeForm: React.FC<SubscribeFormProps> = ({
   const consentId = useId();
   const [email, setEmail] = useState('');
   const [consented, setConsented] = useState(false);
+  const [consentError, setConsentError] = useState(false);
 
   return (
     <form
@@ -36,11 +37,15 @@ export const SubscribeForm: React.FC<SubscribeFormProps> = ({
       onSubmit={(event) => {
         event.preventDefault();
         const mobile = window.matchMedia('(max-width: 1279.98px)').matches;
-        if (!mobile && !consented) return;
+        if (!mobile && !consented) {
+          setConsentError(true);
+          return;
+        }
+        setConsentError(false);
         onSubmit?.(email);
       }}
     >
-      <div className="relative flex h-14 items-center rounded-pill bg-brand-surface pl-5 pr-16 has-[input:focus-visible]:outline-2 has-[input:focus-visible]:outline-offset-2 has-[input:focus-visible]:outline-brand-sky">
+      <div className="relative flex h-14 items-center rounded-pill bg-brand-surface pl-6 pr-16 has-[input:focus-visible]:outline-2 has-[input:focus-visible]:outline-offset-2 has-[input:focus-visible]:outline-brand-sky xl:pl-5">
         <label htmlFor={fieldId} className="sr-only">
           Email address
         </label>
@@ -52,7 +57,7 @@ export const SubscribeForm: React.FC<SubscribeFormProps> = ({
           placeholder="Enter your email address"
           value={email}
           onChange={(event) => setEmail(event.target.value)}
-          className="min-w-0 flex-1 bg-transparent text-caption text-brand-navy placeholder:text-slate-body focus:outline-none"
+          className="min-w-0 flex-1 bg-transparent text-base leading-5 text-brand-navy placeholder:text-slate-body focus:outline-none xl:text-caption"
         />
         <button
           type="submit"
@@ -70,13 +75,18 @@ export const SubscribeForm: React.FC<SubscribeFormProps> = ({
         </button>
       </div>
 
-      <div className="mt-4 flex items-start gap-3 max-xl:hidden">
+      <div className="mt-[clamp(1rem,1.2vw,1.5rem)] hidden items-start gap-3 xl:flex">
         <input
           id={consentId}
           type="checkbox"
           checked={consented}
-          onChange={(event) => setConsented(event.target.checked)}
-          className="mt-0.5 size-[1.125rem] shrink-0 cursor-pointer rounded-[0.25rem] accent-brand-link"
+          aria-invalid={consentError || undefined}
+          aria-describedby={consentError ? `${consentId}-error` : undefined}
+          onChange={(event) => {
+            setConsented(event.target.checked);
+            if (event.target.checked) setConsentError(false);
+          }}
+          className="mt-0.5 size-4 shrink-0 cursor-pointer rounded-[0.25rem] accent-brand-link"
         />
         <label htmlFor={consentId} className="text-eyebrow text-slate-muted">
           {privacyConsentText || 'I agree to the'}{' '}
@@ -88,8 +98,14 @@ export const SubscribeForm: React.FC<SubscribeFormProps> = ({
           >
             {privacyConsentLink?.label || 'Privacy Policy'}
           </GeneralLink>
+          .
         </label>
       </div>
+      {consentError ? (
+        <p id={`${consentId}-error`} className="mt-2 hidden text-eyebrow text-brand-red xl:block">
+          Please agree to the Privacy Policy before subscribing.
+        </p>
+      ) : null}
     </form>
   );
 };

@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { CAROUSEL_SLIDE_CLASS } from './CardCarousel';
 import { LatestNewsCard, type LatestNewsCardProps } from './LatestNewsCard';
 
 /** Figma 2105:865 — center card 329px, peek cards 222px. */
@@ -56,10 +57,7 @@ export function LatestNewsCarousel({
   articles: LatestNewsCardProps[];
 }) {
   const viewportRef = useRef<HTMLDivElement | null>(null);
-  const dragRef = useRef({ active: false, startX: 0, startScrollLeft: 0, moved: false });
-  const ignoreScrollRef = useRef(false);
   const [active, setActive] = useState(0);
-  const [isDragging, setIsDragging] = useState(false);
   const count = articles.length;
 
   const goTo = useCallback(
@@ -72,97 +70,20 @@ export function LatestNewsCarousel({
 
   useLayoutEffect(() => {
     const viewport = viewportRef.current;
-    if (!viewport || dragRef.current.active) return;
-    ignoreScrollRef.current = true;
-    scrollSlideToCenter(viewport, active, 'auto');
-    window.setTimeout(() => {
-      ignoreScrollRef.current = false;
-    }, 120);
+    if (!viewport) return;
+    scrollSlideToCenter(viewport, active, 'smooth');
   }, [active]);
 
   useEffect(() => {
     const viewport = viewportRef.current;
     if (!viewport) return;
 
-    let settleTimer = 0;
-    const settle = () => {
-      if (dragRef.current.active || ignoreScrollRef.current) return;
-      const next = nearestCenteredIndex(viewport);
-      setActive((current) => {
-        if (current === next) {
-          scrollSlideToCenter(viewport, next, 'smooth');
-          return current;
-        }
-        return next;
-      });
+    const onScrollEnd = () => {
+      setActive(nearestCenteredIndex(viewport));
     };
 
-    const onScroll = () => {
-      if (dragRef.current.active || ignoreScrollRef.current) return;
-      window.clearTimeout(settleTimer);
-      settleTimer = window.setTimeout(settle, 80);
-    };
-
-    viewport.addEventListener('scroll', onScroll, { passive: true });
-    viewport.addEventListener('scrollend', settle);
-    return () => {
-      window.clearTimeout(settleTimer);
-      viewport.removeEventListener('scroll', onScroll);
-      viewport.removeEventListener('scrollend', settle);
-    };
-  }, []);
-
-  const endDrag = useCallback(() => {
-    const drag = dragRef.current;
-    if (!drag.active) return;
-    drag.active = false;
-    setIsDragging(false);
-
-    const viewport = viewportRef.current;
-    if (!viewport) return;
-    viewport.style.scrollSnapType = '';
-
-    const next = nearestCenteredIndex(viewport);
-    if (next === active) {
-      scrollSlideToCenter(viewport, next, 'smooth');
-      return;
-    }
-    setActive(next);
-  }, [active]);
-
-  const onPointerDown = useCallback((event: React.PointerEvent<HTMLDivElement>) => {
-    if (event.button !== 0) return;
-    const viewport = viewportRef.current;
-    if (!viewport) return;
-    const target = event.target as HTMLElement | null;
-    if (target?.closest('button')) return;
-
-    dragRef.current = {
-      active: true,
-      startX: event.clientX,
-      startScrollLeft: viewport.scrollLeft,
-      moved: false,
-    };
-    setIsDragging(true);
-    viewport.style.scrollSnapType = 'none';
-    viewport.setPointerCapture(event.pointerId);
-  }, []);
-
-  const onPointerMove = useCallback((event: React.PointerEvent<HTMLDivElement>) => {
-    const drag = dragRef.current;
-    if (!drag.active) return;
-    const viewport = viewportRef.current;
-    if (!viewport) return;
-    const delta = event.clientX - drag.startX;
-    if (Math.abs(delta) > 3) drag.moved = true;
-    viewport.scrollLeft = drag.startScrollLeft - delta;
-  }, []);
-
-  const onClickCapture = useCallback((event: React.MouseEvent) => {
-    if (!dragRef.current.moved) return;
-    event.preventDefault();
-    event.stopPropagation();
-    dragRef.current.moved = false;
+    viewport.addEventListener('scrollend', onScrollEnd);
+    return () => viewport.removeEventListener('scrollend', onScrollEnd);
   }, []);
 
   if (articles.length === 0) return null;
@@ -171,45 +92,19 @@ export function LatestNewsCarousel({
     <div className="relative mt-[2.3125rem] -mx-5 xl:hidden">
       <div
         ref={viewportRef}
-        className={`snap-x snap-mandatory overflow-x-auto overscroll-x-contain [scrollbar-width:none] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white [&::-webkit-scrollbar]:hidden ${
-          isDragging ? 'cursor-grabbing select-none' : 'cursor-grab'
-        }`}
+        className="snap-x snap-mandatory overflow-x-auto px-[max(1.25rem,calc((100%-20.566rem)/2))] [scrollbar-width:none] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white [&::-webkit-scrollbar]:hidden"
         role="group"
         aria-roledescription="carousel"
         aria-label="Latest news"
         tabIndex={0}
-        onPointerDown={onPointerDown}
-        onPointerMove={onPointerMove}
-        onPointerUp={endDrag}
-        onPointerCancel={endDrag}
-        onClickCapture={onClickCapture}
-        onDragStart={(event) => event.preventDefault()}
-        onKeyDown={(event) => {
-          if (event.key === 'ArrowLeft') {
-            event.preventDefault();
-            goTo(active - 1);
-          } else if (event.key === 'ArrowRight') {
-            event.preventDefault();
-            goTo(active + 1);
-          }
-        }}
       >
-        <div className="inline-flex items-center">
-          <div
-            aria-hidden="true"
-            className="shrink-0"
-            style={{
-              flex: '0 0 max(1.25rem, calc((100vw - min(20.566rem, calc(100vw - 6.3125rem))) / 2))',
-              width: 'max(1.25rem, calc((100vw - min(20.566rem, calc(100vw - 6.3125rem))) / 2))',
-              minWidth: 'max(1.25rem, calc((100vw - min(20.566rem, calc(100vw - 6.3125rem))) / 2))',
-            }}
-          />
+        <div className="flex items-center gap-3">
           {articles.map((article, idx) => {
             const featured = idx === active;
             return (
               <div
                 key={`${article.title}-${idx}`}
-                className={`min-w-0 shrink-0 grow-0 snap-center ${idx < count - 1 ? 'mr-3' : ''}`}
+                className={`${CAROUSEL_SLIDE_CLASS} snap-center shrink-0 transition-[width] duration-300 ease-[cubic-bezier(0.47,0,0.23,1)] motion-reduce:transition-none`}
                 style={{ width: featured ? FEATURED_WIDTH : PEEK_WIDTH }}
                 role="group"
                 aria-roledescription="slide"
@@ -220,15 +115,6 @@ export function LatestNewsCarousel({
               </div>
             );
           })}
-          <div
-            aria-hidden="true"
-            className="shrink-0"
-            style={{
-              flex: '0 0 max(1.25rem, calc((100vw - min(20.566rem, calc(100vw - 6.3125rem))) / 2))',
-              width: 'max(1.25rem, calc((100vw - min(20.566rem, calc(100vw - 6.3125rem))) / 2))',
-              minWidth: 'max(1.25rem, calc((100vw - min(20.566rem, calc(100vw - 6.3125rem))) / 2))',
-            }}
-          />
         </div>
       </div>
 

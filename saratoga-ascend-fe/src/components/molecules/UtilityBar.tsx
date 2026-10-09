@@ -8,10 +8,11 @@ export interface UtilityBarProps {
 }
 
 /**
- * The 60px band above the sticky navigation. It scrolls away with the page.
+ * Band above the sticky navigation. Uses the 60px utility token (Figma frame is 61px).
+ * It scrolls away with the page.
  */
 export const UtilityBar: React.FC<UtilityBarProps> = ({ items, activeHref }) => (
-  <div className="relative hidden h-utility-h overflow-hidden bg-brand-surface min-[90rem]:block">
+  <div className="relative hidden h-utility-h overflow-hidden bg-brand-surface xl:block">
     <Container className="relative flex h-full items-center justify-end">
       <HeaderNavList
         ariaLabel="Utility"

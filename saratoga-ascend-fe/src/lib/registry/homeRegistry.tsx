@@ -166,7 +166,6 @@ export const SECTION_REGISTRY: Record<
         mediaAlt={promo?.image?.alternativeText ?? undefined}
         ctaLabel={promo?.link?.label ?? undefined}
         ctaHref={promo?.link?.href ?? undefined}
-        compact={Boolean((ctaRef as { compact?: boolean }).compact)}
       />
     );
   },
@@ -248,9 +247,6 @@ export const SECTION_REGISTRY: Record<
         title={wwd?.title ?? undefined}
         description={wwd?.description ?? undefined}
         photoSrc={wwd?.photo?.url ?? undefined}
-        emblemSrc={wwd?.emblem?.url ?? undefined}
-        videoSrc={wwd?.video?.url ?? undefined}
-        videoCopy={wwd?.videoCopy ?? undefined}
         ctaLabel={wwd?.cta?.label ?? undefined}
         ctaHref={wwd?.cta?.href ?? undefined}
         serviceLines={mergedLines}
@@ -326,9 +322,7 @@ export const SECTION_REGISTRY: Record<
     return (
       <BlogListingSection
         key={`blog-listing-${index}`}
-        heroTitle={listingRef.heroTitle}
-        heroSubtitle={listingRef.heroSubtitle}
-        title={listingRef.blogHeading ?? listingRef.heading}
+        title={listingRef.blogHeading}
         subTitle={listingRef.subheading}
         blogs={listingRef.blogs}
       />
@@ -364,7 +358,6 @@ export const SECTION_REGISTRY: Record<
       title="What We Do"
       description="Connecting cleared, credentialed healthcare professionals with government, military, and local facilities nationwide."
       photoSrc="/images/what-we-do-doctor.png"
-      videoSrc="/images/butterfly-gif.mp4"
       serviceLines={MOCK_WHAT_WE_DO_LINES}
     />
   ),

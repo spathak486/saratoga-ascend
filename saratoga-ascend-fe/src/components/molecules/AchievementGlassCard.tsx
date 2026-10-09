@@ -50,7 +50,7 @@ export const AchievementGlassCard: React.FC<AchievementGlassCardProps> = ({
   const cleanBody = typeof body === 'string' ? body.replace(/<[^>]*>/g, '').trim() : body;
 
   return (
-    <article className="relative w-full rounded-panel border-2 border-white bg-ink/10 backdrop-blur-[12px] xl:aspect-[828/713] max-xl:bg-white/16">
+    <article className="relative w-full rounded-panel border-[2px] border-white bg-[rgba(10,10,10,0.1)] backdrop-blur-[12px] xl:aspect-[828/427] max-xl:bg-white/16">
       <div className="size-full overflow-hidden rounded-[inherit]">
         <div className="flex flex-col items-center justify-center gap-[1.875rem] p-5 xl:hidden">
           <Badge
@@ -81,7 +81,7 @@ export const AchievementGlassCard: React.FC<AchievementGlassCardProps> = ({
           </div>
         </div>
 
-        <p className="absolute top-[8.415%] left-[7.246%] hidden font-sans text-[clamp(1.125rem,0.974rem+0.647vw,1.75rem)] font-bold leading-[1.2] text-white xl:block">
+        <p className="absolute top-[14%] left-[7.246%] hidden font-sans text-[clamp(1.125rem,0.974rem+0.647vw,1.75rem)] font-bold leading-[1.2] text-white xl:block">
           {year}
         </p>
 
@@ -91,8 +91,8 @@ export const AchievementGlassCard: React.FC<AchievementGlassCardProps> = ({
           shape={badgeShape}
           className={
             badgeShape === 'round'
-              ? 'absolute top-[8.415%] right-[7.246%] hidden aspect-square w-[38.768%] overflow-hidden rounded-full shadow-[5.37px_4.6px_11.5px_3.83px_rgb(0_0_0/0.25)] xl:block'
-              : 'absolute top-[8.415%] right-[7.246%] hidden h-[46.704%] w-[32.005%] shadow-[0_2.89px_2.89px_rgb(0_0_0/0.25)] xl:block'
+              ? 'absolute top-[20.84%] right-[6.52%] hidden aspect-square w-[30.67%] overflow-hidden rounded-full shadow-[5.37px_4.6px_11.5px_3.83px_rgb(0_0_0/0.25)] xl:block'
+              : 'absolute top-[20.84%] right-[6.52%] hidden h-[58.45%] w-[24.01%] shadow-[0_2.89px_2.89px_rgb(0_0_0/0.25)] xl:block'
           }
         />
 
@@ -100,12 +100,12 @@ export const AchievementGlassCard: React.FC<AchievementGlassCardProps> = ({
           level={3}
           size="feature"
           tone="onDark"
-          className="absolute top-[45.44%] left-[7.246%] hidden h-[21.88%] w-[53.5%] text-white xl:block"
+          className="absolute top-[20.84%] left-[7.246%] hidden h-[33.72%] w-[53.5%] text-white xl:block"
         >
           {title}
         </Heading>
 
-        <p className="absolute top-[70.13%] left-[7.246%] hidden w-[53.5%] font-sans text-body-lg font-medium leading-[1.6] text-white xl:block">
+        <p className="absolute top-[59.25%] left-[7.246%] hidden w-[53.5%] font-sans text-body-lg font-medium leading-[1.6] text-white xl:block">
           {cleanBody}
         </p>
       </div>

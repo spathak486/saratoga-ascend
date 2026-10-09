@@ -6,7 +6,7 @@ const HERO_BG = '/images/hero-final-bg.png';
 
 function stripHtml(value?: string | null): string | null {
   if (!value) return null;
-  const stripped = value.replace(/<[^>]*>?/gm, '').trim();
+  const stripped = value.replace(/<[^>]*>?/gm, '').replace(/&nbsp;/g, ' ').trim();
   return stripped || null;
 }
 
@@ -44,7 +44,7 @@ export interface HeroSectionProps {
   ctaHref?: string;
   mediaMime?: string;
   mediaExt?: string;
-  variant?: 'homebanner' | 'default';
+  variant?: 'homebanner' | 'default' | 'gradient';
 }
 
 const bandStyle: React.CSSProperties = {
@@ -98,29 +98,76 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   const resolvedVideoSrc = videoSrc || (isCmsVideo ? helixSrc : undefined);
 
   if (variant === 'default') {
-    const defaultLede = stripHtml(description) ?? stripHtml(subTitle);
     return (
       <section
-        aria-labelledby="hero-heading"
-        className="flex w-full min-h-[21.1875rem] flex-col justify-center bg-cta-gradient px-page py-10 text-center xl:min-h-[21.1875rem] xl:px-[5rem] xl:py-20"
+        className="relative flex w-full min-h-[clamp(26rem,40vw,33.8125rem)] flex-col justify-center bg-[#E4EBF1] pt-[calc(max(clamp(0.75rem,4.65vw,1.25rem),env(safe-area-inset-top))+clamp(0.625rem,4.2vw,1.125rem)*2+clamp(2.25rem,9.3vw,2.5rem)+1.5rem)] pb-10 xl:py-16"
+        style={{
+          background: helixSrc
+            ? `linear-gradient(90.52deg, #E4EBF1 0.41%, rgba(228, 235, 241, 0.2) 69.2%), url(${helixSrc}) center right / cover no-repeat`
+            : 'linear-gradient(90.52deg, #E4EBF1 0.41%, rgba(228, 235, 241, 0.2) 69.2%)',
+        }}
       >
-        <div className="mx-auto flex w-full max-w-[110rem] flex-col items-center justify-center gap-[1.125rem] xl:gap-[1.875rem]">
-          {title ? (
-            <Heading
-              id="hero-heading"
-              level={1}
-              tone="onDark"
-              className="max-w-[74.125rem] font-serif text-[clamp(2rem,1.1rem+3.6vw,5.625rem)] leading-[1.15] font-normal"
-            >
+        <div className="z-10 mx-auto flex w-full max-w-home flex-col items-start justify-center gap-6 px-page xl:gap-[1.875rem]">
+          {title && (
+            <Heading level={1} size="hero" className="max-w-[46.5rem] break-words text-ink">
               {title}
             </Heading>
-          ) : null}
-          {defaultLede ? (
-            <p className="max-w-[71.125rem] font-sans text-[clamp(1rem,0.85rem+0.7vw,1.5rem)] leading-[1.6] font-medium text-white">
-              {defaultLede}
+          )}
+          {(description || subTitle) && (
+            <p className="max-w-[47.2rem] text-body-lg font-medium break-words text-ink">
+              {description || subTitle}
             </p>
-          ) : null}
+          )}
         </div>
+      </section>
+    );
+  }
+
+  if (variant === 'gradient') {
+    return (
+      <section className="w-full px-4 md:px-[120px] py-16">
+        <div className="relative w-full max-w-[1680px] mx-auto overflow-hidden rounded-[26px] bg-gray-900 shadow-lg min-h-[400px] md:h-[868px] flex items-end">
+          {/* Background Image / Video */}
+        {resolvedVideoSrc ? (
+          <video
+            src={resolvedVideoSrc}
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="absolute inset-0 w-full h-full object-cover object-center"
+          />
+        ) : helixSrc ? (
+          <img
+            src={helixSrc}
+            alt={mediaAlt || "Banner Background"}
+            className="absolute inset-0 w-full h-full object-cover object-center"
+          />
+        ) : null}
+
+        {/* Gradient Overlay */}
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0)_46.5%,#000000_106.95%)]" />
+
+        {/* Content */}
+        <div className="relative z-10 w-[80%] max-w-[1338px] mx-auto mb-[30px] xl:mb-[50px] text-white flex flex-col xl:flex-row xl:items-center gap-8 xl:gap-[54px] xl:h-[122.5px]">
+          <div className="flex-shrink-0 xl:w-[26%] max-w-[348px]">
+            <h2 className="font-serif font-normal text-[clamp(40px,3.5vw,60px)] leading-[1.2] text-white">
+              {title}
+            </h2>
+          </div>
+          
+          {/* Divider (visible on xl+) */}
+          <div className="hidden xl:block w-0 h-[122.5px] border-l-[3px] border-white" />
+
+          <div className="flex-1 max-w-[882px]">
+            {lede && (
+              <p className="font-sans font-normal text-[clamp(20px,1.6vw,28px)] leading-[38px] text-white">
+                {lede}
+              </p>
+            )}
+          </div>
+        </div>
+      </div>
       </section>
     );
   }
@@ -132,7 +179,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
       tone="surface"
       spacing="none"
       bleed
-      className="overflow-hidden min-[90rem]:-mt-nav-h"
+      className="overflow-hidden xl:-mt-nav-h"
     >
       <div
         className="relative md:h-hero-min md:min-h-hero-min max-md:h-[38.125rem] max-md:!min-h-[38.125rem]"

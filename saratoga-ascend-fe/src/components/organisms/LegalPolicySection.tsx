@@ -34,7 +34,7 @@ export const LegalPolicySection: React.FC<LegalPolicySectionProps> = ({
   return (
     <section className="bg-white text-ink" style={themeStyle}>
       {title ? (
-        <div className="bg-cta-gradient px-page pt-[7.25rem] pb-10 text-center min-[90rem]:py-20">
+        <div className="bg-cta-gradient px-page py-10 text-center min-[90rem]:py-20">
           <h1 className="mx-auto max-w-[68.75rem] text-balance font-serif text-[clamp(2rem,1.2rem+3.4vw,5.625rem)] leading-[1.15] text-white">
             {title}
           </h1>

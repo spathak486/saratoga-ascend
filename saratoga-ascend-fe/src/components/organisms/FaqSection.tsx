@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { FaqAccordion, type FaqItem } from '../molecules/FaqAccordion';
-import { CtaButton } from '../molecules/CtaButton';
+import { GeneralLink } from '../atoms/GeneralLink';
 
 export interface FaqSectionProps {
   title?: string;
@@ -20,45 +20,58 @@ export const FaqSection: React.FC<FaqSectionProps> = ({
   items = [],
   supportCta,
 }) => {
-  const lead =
-    subTitle ?? (description ? description.replace(/<[^>]*>?/gm, '').trim() : null);
-  const ctaHref = supportCta?.link?.href as string | undefined;
-  const ctaLabel = supportCta?.link?.label as string | undefined;
-
   return (
-    <section aria-labelledby="faq-heading" className="faq-section">
-      <div className="faq-section__inner">
-        <div className="faq-section__left">
-          <div className="faq-section__intro">
-            <h2 id="faq-heading" className="faq-section__title">
-              {title ?? 'Any Questions?'}
-            </h2>
-            {lead ? <p className="faq-section__subtitle">{lead}</p> : null}
+    <section aria-labelledby="faq-heading" className="w-full bg-white py-16 md:py-24">
+      <div className="container mx-auto px-4 md:px-8 max-w-[1920px]">
+        <div className="flex flex-col xl:flex-row items-start justify-center gap-10 xl:gap-20">
+
+          {/* Left Column (Content & CTA) */}
+          <div className="w-full xl:w-[41%] max-w-[680px] flex-1 flex flex-col gap-10">
+            <div className="flex flex-col gap-6 xl:gap-10">
+              <h2 id="faq-heading" className="font-serif text-[clamp(48px,4vw,72px)] leading-[1.1] xl:leading-[1.2] text-[#D31E2D]">
+                {title ?? 'Any Questions?'}
+              </h2>
+              {(subTitle || description) && (
+                <p className="font-sans text-[clamp(20px,1.5vw,24px)] leading-[32px] xl:leading-[40px] text-[#0A0A0A]">
+                  {subTitle ?? (description ? description.replace(/<[^>]*>?/gm, '').trim() : null)}
+                </p>
+              )}
+            </div>
+
+            {supportCta && (
+              <div className="bg-[#2A91DC]/20 border-2 border-[#2B88D9] rounded-[20px] pt-[40px] pr-[39px] pb-[40px] pl-[32px] flex flex-col items-start gap-[10px] backdrop-blur-[18px]">
+                <h3 className="font-serif text-[clamp(28px,2.5vw,38px)] leading-[40px] text-black">
+                  {supportCta.title || 'Still have questions?'}
+                </h3>
+                {supportCta.subTitle && (
+                  <p className="font-sans font-medium text-[clamp(16px,1.5vw,24px)] leading-[36px] text-[#475569] mt-2 mb-6">
+                    {supportCta.subTitle}
+                  </p>
+                )}
+                {supportCta.link && (
+                  <GeneralLink
+                    href={supportCta.link.href || '#'}
+                    isExternal={supportCta.link.isExternal}
+                    variant="button"
+                    buttonVariant="cta"
+                    size="cta"
+                  >
+                    {supportCta.link.label || 'Contact Us'}
+                  </GeneralLink>
+                )}
+              </div>
+            )}
           </div>
 
-          {supportCta ? (
-            <aside className="faq-section__cta">
-              <h3 className="faq-section__cta-title">
-                {supportCta.title || 'Still have questions?'}
-              </h3>
-              {supportCta.subTitle ? (
-                <p className="faq-section__cta-copy">{supportCta.subTitle}</p>
-              ) : null}
-              {ctaHref ? (
-                <CtaButton href={ctaHref} className="faq-section__cta-btn max-xl:whitespace-normal">
-                  {ctaLabel || 'Contact Us'}
-                </CtaButton>
-              ) : null}
-            </aside>
-          ) : null}
-        </div>
+          {/* Right Column (Accordion) */}
+          <div className="w-full xl:w-[58%] max-w-[954px] flex-[1.4]">
+            {items.length > 0 ? (
+              <FaqAccordion items={items} />
+            ) : (
+              <p className="text-gray-500">No FAQs available.</p>
+            )}
+          </div>
 
-        <div className="faq-section__accordion">
-          {items.length > 0 ? (
-            <FaqAccordion items={items} />
-          ) : (
-            <p className="text-gray-500">No FAQs available.</p>
-          )}
         </div>
       </div>
     </section>
