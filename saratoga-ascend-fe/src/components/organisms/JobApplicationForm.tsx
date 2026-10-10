@@ -154,7 +154,7 @@ export const JobApplicationForm: React.FC<JobApplicationFormProps> = ({
                 />
               </svg>
             </div>
-            <h2 className="font-serif text-[32px] sm:text-[40px] text-[#1C1C1C] mb-4">
+            <h2 className="font-serif text-[clamp(32px,2.5vw,40px)] text-[#1C1C1C] mb-4">
               Thank You for Applying!
             </h2>
             <p className="font-sans text-[16px] sm:text-[18px] text-[#687582] max-w-xl mx-auto mb-8">
@@ -194,7 +194,7 @@ export const JobApplicationForm: React.FC<JobApplicationFormProps> = ({
         className={`mx-auto max-w-[1184px] rounded-[40px] bg-white p-6 sm:p-8 md:p-10 lg:p-[40px] shadow-[20px_24px_44px_rgba(0,0,0,0.07)] ${className}`}
       >
         {/* Main Title (Heading 03) */}
-        <h1 className="font-serif text-[32px] sm:text-[44px] leading-[120%] text-[#1C1C1C] text-center font-normal mb-10">
+        <h1 className="font-serif text-[clamp(32px,2.7vw,44px)] leading-[120%] text-[#1C1C1C] text-center font-normal mb-10">
           Your Information
         </h1>
 

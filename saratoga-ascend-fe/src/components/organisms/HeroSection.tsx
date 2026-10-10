@@ -99,22 +99,22 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 
   if (variant === 'default') {
     return (
-      <section
-        className="relative flex w-full min-h-[clamp(26rem,40vw,33.8125rem)] flex-col justify-center bg-[#E4EBF1] pt-[calc(max(clamp(0.75rem,4.65vw,1.25rem),env(safe-area-inset-top))+clamp(0.625rem,4.2vw,1.125rem)*2+clamp(2.25rem,9.3vw,2.5rem)+1.5rem)] pb-10 xl:py-16"
-        style={{
-          background: helixSrc
-            ? `linear-gradient(90.52deg, #E4EBF1 0.41%, rgba(228, 235, 241, 0.2) 69.2%), url(${helixSrc}) center right / cover no-repeat`
-            : 'linear-gradient(90.52deg, #E4EBF1 0.41%, rgba(228, 235, 241, 0.2) 69.2%)',
+      <section 
+        className="relative w-full h-auto min-h-[400px] md:min-h-[541px] flex flex-col justify-center py-16 px-4 md:px-[120px]"
+        style={{ 
+          background: helixSrc 
+            ? `linear-gradient(90.52deg, #E4EBF1 0.41%, rgba(228, 235, 241, 0.2) 69.2%), url(${helixSrc}) center right / cover no-repeat` 
+            : 'linear-gradient(90.52deg, #E4EBF1 0.41%, rgba(228, 235, 241, 0.2) 69.2%)' 
         }}
       >
-        <div className="z-10 mx-auto flex w-full max-w-home flex-col items-start justify-center gap-6 px-page xl:gap-[1.875rem]">
+        <div className="flex flex-col justify-center items-start gap-[30px] w-full max-w-[1760px] mx-auto z-10">
           {title && (
-            <Heading level={1} size="hero" className="max-w-[46.5rem] break-words text-ink">
+            <Heading level={1} className="font-serif font-normal text-[clamp(50px,5vw,90px)] leading-[1.15] text-black max-w-full md:max-w-none">
               {title}
             </Heading>
           )}
           {(description || subTitle) && (
-            <p className="max-w-[47.2rem] text-body-lg font-medium break-words text-ink">
+            <p className="font-sans font-medium text-[clamp(18px,1.5vw,24px)] leading-[1.6] text-black max-w-[755px]">
               {description || subTitle}
             </p>
           )}
@@ -179,7 +179,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
       tone="surface"
       spacing="none"
       bleed
-      className="overflow-hidden xl:-mt-nav-h"
+      className="overflow-hidden min-[90rem]:-mt-nav-h"
     >
       <div
         className="relative md:h-hero-min md:min-h-hero-min max-md:h-[38.125rem] max-md:!min-h-[38.125rem]"

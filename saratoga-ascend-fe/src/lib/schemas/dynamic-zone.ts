@@ -169,9 +169,7 @@ export const WhatWeDoSectionEntitySchema = z.object({
   description: z.string().nullable().optional(),
   cta: GeneralLinkSchema.nullable().optional(),
   photo: StrapiImageSchema.nullable().optional(),
-  emblem: StrapiImageSchema.nullable().optional(),
-  video: StrapiImageSchema.nullable().optional(),
-  videoCopy: z.string().nullable().optional(),
+
   services: z.array(ServiceEntitySchema).nullable().optional(),
   customItems: z.array(CustomItemSchema).nullable().optional(),
 });
