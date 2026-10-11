@@ -142,7 +142,7 @@ export const HeaderNavList: React.FC<HeaderNavListProps> = ({
             <CaretDownIcon className="size-[clamp(0.75rem,1.0417vw,1.25rem)]" />
           </span>
         ) : item.hasExternalIcon ? (
-          <ArrowUpRightIcon className="size-3" />
+          <ArrowUpRightIcon className="size-6" />
         ) : undefined;
 
         const link = (
@@ -197,7 +197,7 @@ export const HeaderNavList: React.FC<HeaderNavListProps> = ({
               aria-hidden="true"
             />
             </div>
-            {isOpen ? <MegaMenu type={item.href} /> : null}
+            {showMenu ? <MegaMenu type={item.href} open={isOpen} /> : null}
           </div>
         );
       })}
