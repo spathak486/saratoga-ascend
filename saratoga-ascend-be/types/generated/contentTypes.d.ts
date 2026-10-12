@@ -487,6 +487,7 @@ export interface ApiBlogBlog extends Struct.CollectionTypeSchema {
   attributes: {
     articleDate: Schema.Attribute.Date;
     author: Schema.Attribute.String & Schema.Attribute.DefaultTo<'Jane Cooper'>;
+    category: Schema.Attribute.Relation<'manyToOne', 'api::category.category'>;
     categoryType: Schema.Attribute.Enumeration<['Blog', 'Newspaper']> &
       Schema.Attribute.DefaultTo<'Blog'>;
     createdAt: Schema.Attribute.DateTime;
@@ -511,22 +512,94 @@ export interface ApiBlogBlog extends Struct.CollectionTypeSchema {
         'references.achievements',
         'references.legal-content',
         'references.happy-clients-reference',
+        'references.ceo-message-reference',
       ]
     >;
     seo: Schema.Attribute.Component<'shared.seo', false>;
     slug: Schema.Attribute.String & Schema.Attribute.Required;
     summary: Schema.Attribute.Text;
     title: Schema.Attribute.String & Schema.Attribute.Required;
-    topic: Schema.Attribute.Enumeration<
-      [
-        'Military Medicine',
-        'Federal Staffing',
-        'Joint Commission Standards',
-        'Veterans Affairs',
-        'Regulatory Compliance',
-      ]
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiCategoryCategory extends Struct.CollectionTypeSchema {
+  collectionName: 'categories';
+  info: {
+    description: '';
+    displayName: 'Category';
+    pluralName: 'categories';
+    singularName: 'category';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    blogs: Schema.Attribute.Relation<'oneToMany', 'api::blog.blog'>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::category.category'
     > &
-      Schema.Attribute.DefaultTo<'Military Medicine'>;
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
+    publishedAt: Schema.Attribute.DateTime;
+    slug: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiCeoMessageSectionCeoMessageSection
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'ceo_message_sections';
+  info: {
+    description: 'Executive message from CEO section';
+    displayName: 'CEO Message Section';
+    pluralName: 'ceo-message-sections';
+    singularName: 'ceo-message-section';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    authorName: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Jenny Wilson'>;
+    authorRole: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'CEO of Saratoga Ascend'>;
+    bgWatermarkImage: Schema.Attribute.Media<'images'>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    description: Schema.Attribute.RichText &
+      Schema.Attribute.CustomField<
+        'plugin::ckeditor5.CKEditor',
+        {
+          preset: 'defaultHtml';
+        }
+      >;
+    highlightTitle: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Our CEO'>;
+    image: Schema.Attribute.Media<'images'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::ceo-message-section.ceo-message-section'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    referenceTitle: Schema.Attribute.String;
+    title: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'A Message from Our CEO'>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -729,10 +802,6 @@ export interface ApiFaqFaq extends Struct.CollectionTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
-    categories: Schema.Attribute.Relation<
-      'manyToMany',
-      'api::faq-category.faq-category'
-    >;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -881,6 +950,7 @@ export interface ApiNewsNews extends Struct.CollectionTypeSchema {
   };
   attributes: {
     articleDate: Schema.Attribute.Date;
+    author: Schema.Attribute.String & Schema.Attribute.DefaultTo<'Jane Cooper'>;
     categoryType: Schema.Attribute.Enumeration<['Blog', 'Newspaper']> &
       Schema.Attribute.DefaultTo<'Newspaper'>;
     createdAt: Schema.Attribute.DateTime;
@@ -905,12 +975,23 @@ export interface ApiNewsNews extends Struct.CollectionTypeSchema {
         'references.achievements',
         'references.legal-content',
         'references.happy-clients-reference',
+        'references.ceo-message-reference',
       ]
     >;
     seo: Schema.Attribute.Component<'shared.seo', false>;
     slug: Schema.Attribute.String & Schema.Attribute.Required;
     summary: Schema.Attribute.Text;
     title: Schema.Attribute.String & Schema.Attribute.Required;
+    topic: Schema.Attribute.Enumeration<
+      [
+        'Military Medicine',
+        'Federal Staffing',
+        'Joint Commission Standards',
+        'Veterans Affairs',
+        'Regulatory Compliance',
+      ]
+    > &
+      Schema.Attribute.DefaultTo<'Military Medicine'>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -1028,6 +1109,7 @@ export interface ApiPagePage extends Struct.CollectionTypeSchema {
         'references.happy-clients-reference',
         'references.latest-insights',
         'references.blog-listing',
+        'references.ceo-message-reference',
       ]
     >;
     seo: Schema.Attribute.Component<'shared.seo', false> &
@@ -1101,7 +1183,6 @@ export interface ApiWhatWeDoSectionWhatWeDoSection
     cta: Schema.Attribute.Component<'shared.general-link', false>;
     customItems: Schema.Attribute.Component<'shared.custom-item', true>;
     description: Schema.Attribute.Text;
-    emblem: Schema.Attribute.Media<'images'>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -1116,8 +1197,6 @@ export interface ApiWhatWeDoSectionWhatWeDoSection
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    video: Schema.Attribute.Media<'videos'>;
-    videoCopy: Schema.Attribute.String;
   };
 }
 
@@ -1634,6 +1713,8 @@ declare module '@strapi/strapi' {
       'admin::user': AdminUser;
       'api::achievement-card.achievement-card': ApiAchievementCardAchievementCard;
       'api::blog.blog': ApiBlogBlog;
+      'api::category.category': ApiCategoryCategory;
+      'api::ceo-message-section.ceo-message-section': ApiCeoMessageSectionCeoMessageSection;
       'api::client-logos-section.client-logos-section': ApiClientLogosSectionClientLogosSection;
       'api::client-review.client-review': ApiClientReviewClientReview;
       'api::contact-submission.contact-submission': ApiContactSubmissionContactSubmission;

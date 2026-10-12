@@ -1,0 +1,57 @@
+{
+  "kind": "collectionType",
+  "collectionName": "ceo_message_sections",
+  "info": {
+    "singularName": "ceo-message-section",
+    "pluralName": "ceo-message-sections",
+    "displayName": "CEO Message Section",
+    "description": "Executive message from CEO section"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "referenceTitle": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string",
+      "required": true,
+      "default": "A Message from Our CEO"
+    },
+    "highlightTitle": {
+      "type": "string",
+      "default": "Our CEO"
+    },
+    "description": {
+      "type": "customField",
+      "customField": "plugin::ckeditor5.CKEditor",
+      "options": {
+        "preset": "defaultHtml"
+      }
+    },
+    "authorName": {
+      "type": "string",
+      "default": "Jenny Wilson"
+    },
+    "authorRole": {
+      "type": "string",
+      "default": "CEO of Saratoga Ascend"
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "bgWatermarkImage": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images"
+      ]
+    }
+  }
+}

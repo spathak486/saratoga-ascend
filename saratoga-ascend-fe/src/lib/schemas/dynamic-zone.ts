@@ -266,6 +266,27 @@ export const BlogListingReferenceSchema = z.object({
 
 export type BlogListingReference = z.infer<typeof BlogListingReferenceSchema>;
 
+export const CeoMessageSectionEntitySchema = z.object({
+  documentId: z.string().optional(),
+  referenceTitle: z.string().nullable().optional(),
+  title: z.string().nullable().optional(),
+  highlightTitle: z.string().nullable().optional(),
+  description: z.string().nullable().optional(),
+  authorName: z.string().nullable().optional(),
+  authorRole: z.string().nullable().optional(),
+  image: StrapiImageSchema.nullable().optional(),
+  bgWatermarkImage: StrapiImageSchema.nullable().optional(),
+});
+
+export type CeoMessageSectionEntity = z.infer<typeof CeoMessageSectionEntitySchema>;
+
+export const CeoMessageReferenceSchema = z.object({
+  __typename: z.literal('ComponentReferencesCeoMessageReference'),
+  ceoMessageSection: CeoMessageSectionEntitySchema.nullable().optional(),
+});
+
+export type CeoMessageReference = z.infer<typeof CeoMessageReferenceSchema>;
+
 /**
  * Union of every section the Strapi dynamic zone can emit. The pass-through
  * catch-all keeps forward compatibility — components that aren't registered
@@ -282,6 +303,7 @@ export const DynamicZoneSectionSchema = z.union([
   AchievementsReferenceSchema,
   LegalContentReferenceSchema,
   BlogListingReferenceSchema,
+  CeoMessageReferenceSchema,
   z.object({ __typename: z.string() }).passthrough(),
 ]);
 
