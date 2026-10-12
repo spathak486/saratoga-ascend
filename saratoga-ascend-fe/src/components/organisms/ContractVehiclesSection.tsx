@@ -43,7 +43,7 @@ export const ContractVehiclesSection: React.FC = () => {
       aria-labelledby="contract-vehicles-heading"
       tone="surface"
       spacing="lg"
-      className="max-xl:py-5!"
+      className="max-xl:mt-10 max-xl:py-5!"
     >
       <div className="flex flex-col gap-[clamp(2.5rem,3.125vw,3.75rem)] max-xl:gap-5">
         <SectionIntro
