@@ -10,6 +10,7 @@ import type {
   MissionReference,
   AchievementsReference,
   LegalContentReference,
+  CeoMessageReference,
 } from '@/lib/schemas';
 import {
   HeroSection,
@@ -27,6 +28,7 @@ import {
   LatestNewsSection,
   LegalPolicySection,
   BlogListingSection,
+  CeoMessageSection,
 } from '@/components/organisms';
 
 const MOCK_WHAT_WE_DO_LINES = [
@@ -351,7 +353,27 @@ export const SECTION_REGISTRY: Record<
     );
   },
 
+  ComponentReferencesCeoMessageReference: (section, index) => {
+    const ceoRef = section as CeoMessageReference;
+    const ceo = ceoRef.ceoMessageSection;
+    return (
+      <CeoMessageSection
+        key={`ceo-message-${index}`}
+        title={ceo?.title ?? undefined}
+        highlightTitle={ceo?.highlightTitle ?? undefined}
+        description={ceo?.description ?? undefined}
+        authorName={ceo?.authorName ?? undefined}
+        authorRole={ceo?.authorRole ?? undefined}
+        imageSrc={ceo?.image?.url ?? undefined}
+        watermarkSrc={ceo?.bgWatermarkImage?.url ?? undefined}
+      />
+    );
+  },
+
   // Frontend-only Figma bands — used by local mocks until Strapi types exist.
+  MockCeoMessage: (_section, index) => (
+    <CeoMessageSection key={`ceo-message-${index}`} />
+  ),
   MockWhatWeDo: (_section, index) => (
     <WhatWeDoSection
       key={`what-we-do-${index}`}

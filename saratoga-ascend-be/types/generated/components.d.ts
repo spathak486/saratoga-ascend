@@ -88,6 +88,11 @@ export interface MediaBanner extends Struct.ComponentSchema {
     bannerSubTitle: Schema.Attribute.Text;
     bannerTitle: Schema.Attribute.String & Schema.Attribute.Required;
     buttonCTA: Schema.Attribute.Component<'shared.general-link', false>;
+    variant: Schema.Attribute.Enumeration<
+      ['homebanner', 'default', 'gradient']
+    > &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'homebanner'>;
   };
 }
 
@@ -133,6 +138,21 @@ export interface ReferencesBlogListing extends Struct.ComponentSchema {
   };
 }
 
+export interface ReferencesCeoMessageReference extends Struct.ComponentSchema {
+  collectionName: 'components_references_ceo_message_references';
+  info: {
+    description: 'Executive message from CEO section reference';
+    displayName: 'CEO Message Reference';
+    icon: 'user';
+  };
+  attributes: {
+    ceoMessageSection: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::ceo-message-section.ceo-message-section'
+    >;
+  };
+}
+
 export interface ReferencesClientLogosReference extends Struct.ComponentSchema {
   collectionName: 'components_references_client_logos_references';
   info: {
@@ -165,11 +185,12 @@ export interface ReferencesFaQs extends Struct.ComponentSchema {
     icon: 'layer';
   };
   attributes: {
-    categories: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::faq-category.faq-category'
-    >;
     content: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::content-block.content-block'
+    >;
+    faqs: Schema.Attribute.Relation<'oneToMany', 'api::faq.faq'>;
+    supportCta: Schema.Attribute.Relation<
       'oneToOne',
       'api::content-block.content-block'
     >;
@@ -369,6 +390,7 @@ declare module '@strapi/strapi' {
       'references.achievements': ReferencesAchievements;
       'references.banner-reference': ReferencesBannerReference;
       'references.blog-listing': ReferencesBlogListing;
+      'references.ceo-message-reference': ReferencesCeoMessageReference;
       'references.client-logos-reference': ReferencesClientLogosReference;
       'references.cta': ReferencesCta;
       'references.fa-qs': ReferencesFaQs;

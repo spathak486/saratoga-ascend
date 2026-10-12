@@ -259,6 +259,22 @@ export const BLOG_LISTING_REFERENCE_FIELDS = `
   }
 `;
 
+export const CEO_MESSAGE_REFERENCE_FIELDS = `
+  __typename
+  ... on ComponentReferencesCeoMessageReference {
+    ceoMessageSection {
+      documentId
+      title
+      highlightTitle
+      description
+      authorName
+      authorRole
+      image { ${IMAGE_FIELDS} }
+      bgWatermarkImage { ${IMAGE_FIELDS} }
+    }
+  }
+`;
+
 // Common dynamic-zone inline fragments shared by articles, blogs, and pages.
 export const COMMON_SECTION_FRAGMENTS = [
   BANNER_REFERENCE_FIELDS,
@@ -271,6 +287,7 @@ export const COMMON_SECTION_FRAGMENTS = [
   LEGAL_CONTENT_REFERENCE_FIELDS,
   WHAT_WE_DO_REFERENCE_FIELDS,
   HAPPY_CLIENTS_REFERENCE_FIELDS,
+  CEO_MESSAGE_REFERENCE_FIELDS,
 ].join('\n');
 
 // Page-specific dynamic-zone fragments (includes Blog Listing which is only for Pages)

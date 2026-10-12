@@ -108,6 +108,7 @@ const homeSections: DynamicZoneSection[] = [
     },
   },
   { __typename: 'MockContractVehicles' },
+  { __typename: 'MockCeoMessage' },
   {
     __typename: 'ComponentReferencesAchievements',
     ourAchievement: {

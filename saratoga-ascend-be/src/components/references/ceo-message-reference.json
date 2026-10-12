@@ -1,0 +1,17 @@
+{
+  "collectionName": "components_references_ceo_message_references",
+  "info": {
+    "displayName": "CEO Message Reference",
+    "icon": "user",
+    "description": "Executive message from CEO section reference"
+  },
+  "options": {},
+  "attributes": {
+    "ceoMessageSection": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::ceo-message-section.ceo-message-section"
+    }
+  },
+  "config": {}
+}

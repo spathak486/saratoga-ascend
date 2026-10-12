@@ -65,6 +65,10 @@ export {
   type LegalContentReference,
   BlogListingReferenceSchema,
   type BlogListingReference,
+  CeoMessageSectionEntitySchema,
+  type CeoMessageSectionEntity,
+  CeoMessageReferenceSchema,
+  type CeoMessageReference,
   DynamicZoneSectionSchema,
   type DynamicZoneSection,
 } from './dynamic-zone';
