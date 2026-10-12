@@ -69,110 +69,163 @@ function renderHeading(title?: string, highlight?: string) {
   );
 }
 
+function normalizeImageSrc(url?: string | null): string {
+  if (!url) return DEFAULT_IMAGE_SRC;
+  if (url.startsWith('/uploads/')) {
+    const base = process.env.NEXT_PUBLIC_STRAPI_API_URL || 'http://localhost:1337';
+    return `${base.replace(/\/+$/, '')}${url}`;
+  }
+  return url;
+}
+
 export const CeoMessageSection: React.FC<CeoMessageSectionProps> = ({
   title,
   highlightTitle = DEFAULT_HIGHLIGHT,
   description,
   authorName = DEFAULT_AUTHOR_NAME,
   authorRole = DEFAULT_AUTHOR_ROLE,
-  imageSrc = DEFAULT_IMAGE_SRC,
+  imageSrc,
   watermarkSrc,
 }) => {
-  const foregroundImage = imageSrc || DEFAULT_IMAGE_SRC;
-  const watermarkImage = watermarkSrc || foregroundImage;
+  const [imgSrc, setImgSrc] = React.useState<string>(() => normalizeImageSrc(imageSrc));
+  const [wmSrc, setWmSrc] = React.useState<string>(() => normalizeImageSrc(watermarkSrc || imageSrc));
+
+  React.useEffect(() => {
+    setImgSrc(normalizeImageSrc(imageSrc));
+  }, [imageSrc]);
+
+  React.useEffect(() => {
+    setWmSrc(normalizeImageSrc(watermarkSrc || imageSrc));
+  }, [watermarkSrc, imageSrc]);
 
   return (
     <section
       aria-label="CEO Message"
-      className="relative w-full overflow-hidden bg-[#E4EBF1] min-h-[700px] xl:min-h-[838px] flex items-center"
+      className="relative w-full overflow-hidden bg-[#E4EBF1] flex items-center min-h-[700px] 2xl:min-h-[838px]"
       style={{
         backgroundColor: '#E4EBF1',
       }}
     >
-      {/* Background dot grid pattern (matching Figma opacity: 0.1 / subtle dot structure) */}
+      {/* Background dot grid pattern from Figma (1243x838 at opacity 0.1) */}
       <div
-        className="pointer-events-none absolute inset-0 z-0 opacity-25"
+        className="pointer-events-none absolute inset-0 z-0 select-none opacity-10 mix-blend-multiply"
         style={{
-          backgroundImage: 'radial-gradient(#475569 1.5px, transparent 1.5px)',
-          backgroundSize: '24px 24px',
+          backgroundImage: "url('/images/ceo-dots-pattern.jpg')",
+          backgroundRepeat: 'repeat',
+          backgroundSize: '1243px 838px',
+          backgroundPosition: 'left top',
         }}
         aria-hidden="true"
       />
 
-      {/* Main Container */}
-      <div className="relative z-10 mx-auto w-full max-w-[1920px] px-6 sm:px-12 md:px-16 lg:px-24 xl:px-[135px]">
-        <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-[minmax(0,1fr)_auto] xl:grid-cols-[minmax(0,960px)_minmax(0,680px)] xl:gap-8">
-          
-          {/* Left Column: Heading, Paragraphs, Author Sign-off */}
-          <div className="flex flex-col justify-center py-12 lg:py-16 xl:py-20 z-10 max-w-[927px]">
-            {/* Heading */}
-            <div className="mb-8 xl:mb-10">
-              {renderHeading(title, highlightTitle)}
-            </div>
-
-            {/* Message Body */}
-            {description ? (
-              <div
-                className="prose max-w-none font-sans text-[clamp(1.125rem,0.95rem+0.55vw,1.5rem)] font-normal leading-[160%] text-[#5A5A5A] space-y-6 [&_p]:mb-6 [&_p:last-child]:mb-0"
-                dangerouslySetInnerHTML={{ __html: description }}
-              />
-            ) : (
-              <div className="space-y-6 xl:space-y-7">
-                {DEFAULT_PARAGRAPHS.map((p, idx) => (
-                  <p
-                    key={idx}
-                    className="font-sans text-[clamp(1.125rem,0.95rem+0.55vw,1.5rem)] font-normal leading-[160%] text-[#5A5A5A]"
-                  >
-                    {p}
-                  </p>
-                ))}
-              </div>
-            )}
-
-            {/* Author Signature Block */}
-            <div className="mt-10 xl:mt-12 flex flex-col items-start">
-              <span className="font-serif text-[clamp(1.75rem,1.4rem+1vw,2.25rem)] font-normal leading-tight text-[#F01424]">
-                {authorName}
-              </span>
-              <span className="mt-1 font-sans text-[clamp(1rem,0.9rem+0.3vw,1.25rem)] font-normal leading-normal text-[#1E293B]">
-                {authorRole}
-              </span>
-            </div>
+      {/* Main Container 1920px Frame */}
+      <div className="relative z-10 mx-auto w-full max-w-[1920px] h-[720px] xl:h-[780px] 2xl:h-[838px] flex items-center overflow-hidden">
+        
+        {/* Left Content Area (Figma Group 2085665634: width: 927px, height: 546px, top: 87px, left: 135px) */}
+        <div className="relative z-10 w-full lg:max-w-[50vw] 2xl:max-w-[927px] pl-6 sm:pl-12 md:pl-16 lg:pl-[6vw] 2xl:pl-[135px] pr-4 pt-10 lg:pt-14 2xl:pt-[87px] pb-10 flex flex-col justify-start min-h-[546px]">
+          {/* Heading (Figma: width: 831px, height: 86px) */}
+          <div className="mb-6 2xl:mb-8 max-w-[831px]">
+            {renderHeading(title, highlightTitle)}
           </div>
 
-          {/* Right Column: Visual Stage with Dual Portrait effect */}
-          <div className="relative flex justify-center lg:justify-end items-end self-end w-full min-h-[460px] sm:min-h-[580px] lg:min-h-[720px] xl:min-h-[838px] overflow-hidden">
-            
-            {/* Background Black & White / Watermark Portrait */}
+          {/* Message Body (3 Paragraphs) */}
+          {description ? (
             <div
-              className="absolute right-0 bottom-0 pointer-events-none select-none z-[1] w-[320px] sm:w-[460px] md:w-[540px] xl:w-[618px] h-[520px] sm:h-[680px] xl:h-[838px] opacity-40 grayscale contrast-125 translate-x-8 sm:translate-x-12 xl:translate-x-16"
-              aria-hidden="true"
-            >
-              <Image
-                src={watermarkImage}
-                alt=""
-                fill
-                sizes="(max-width: 1024px) 460px, 618px"
-                className="object-contain object-bottom"
-                priority
-              />
+              className="prose max-w-[927px] font-sans text-[clamp(1rem,0.85rem+0.45vw,1.5rem)] font-normal leading-[160%] text-[#5A5A5A] space-y-4 xl:space-y-6 [&_p]:mb-4 xl:[&_p]:mb-6 [&_p:last-child]:mb-0"
+              dangerouslySetInnerHTML={{ __html: description }}
+            />
+          ) : (
+            <div className="space-y-4 2xl:space-y-6 max-w-[927px]">
+              {DEFAULT_PARAGRAPHS.map((p, idx) => (
+                <p
+                  key={idx}
+                  className="font-sans text-[clamp(1rem,0.85rem+0.45vw,1.5rem)] font-normal leading-[160%] text-[#5A5A5A]"
+                >
+                  {p}
+                </p>
+              ))}
             </div>
+          )}
 
-            {/* Foreground Sharp Color Portrait with Background Removed look */}
-            <div className="relative z-[2] w-[340px] sm:w-[480px] md:w-[580px] lg:w-[640px] xl:w-[717px] h-[500px] sm:h-[660px] lg:h-[760px] xl:h-[838px] shrink-0">
-              <Image
-                src={foregroundImage}
-                alt={`${authorName} - ${authorRole}`}
-                fill
-                sizes="(max-width: 768px) 340px, (max-width: 1280px) 580px, 717px"
-                className="object-contain object-bottom drop-shadow-sm"
-                priority
-              />
-            </div>
+          {/* Author Signature Block (Figma: top: 673px, left: 135px, width: 273px, height: 77px) */}
+          <div className="mt-8 2xl:mt-10 flex flex-col items-start">
+            <span className="font-serif text-[clamp(1.5rem,1.25rem+0.75vw,2.25rem)] font-normal leading-tight text-[#F01424]">
+              {authorName}
+            </span>
+            <span className="mt-1 font-sans text-[clamp(0.9375rem,0.85rem+0.25vw,1.25rem)] font-normal leading-normal text-[#1E293B]">
+              {authorRole}
+            </span>
+          </div>
+        </div>
 
+        {/* Visual Stage: Figma exact placement (Left: 1015px, Watermark Left: 1302px) */}
+        {/* Desktop View (lg and up) */}
+        <div className="hidden lg:block pointer-events-none select-none absolute inset-0 z-0 overflow-visible">
+          {/* Watermark Portrait (Figma: width 618px, height 838px, left: 1302px, top: 0px, opacity: 0.4) */}
+          <div
+            className="absolute top-0 bottom-0 right-0 h-full aspect-[618/838] opacity-40 grayscale contrast-125 z-[1] 2xl:right-auto 2xl:left-[1302px] 2xl:w-[618px]"
+            aria-hidden="true"
+          >
+            <Image
+              src={wmSrc}
+              alt=""
+              fill
+              sizes="(max-width: 1536px) 560px, 618px"
+              className="object-cover object-bottom"
+              priority
+              unoptimized
+              onError={() => setWmSrc(DEFAULT_IMAGE_SRC)}
+            />
           </div>
 
+          {/* Foreground Portrait (Figma: width 717px, height 838px, left: 1015px, top: 0px, opacity: 1) */}
+          <div
+            className="absolute top-0 bottom-0 h-full aspect-[717/838] z-[2] right-[10vw] xl:right-[12vw] 2xl:right-auto 2xl:left-[1015px] 2xl:w-[717px]"
+          >
+            <Image
+              src={imgSrc}
+              alt={`${authorName} - ${authorRole}`}
+              fill
+              sizes="(max-width: 1536px) 640px, 717px"
+              className="object-cover object-bottom drop-shadow-sm"
+              priority
+              unoptimized
+              onError={() => setImgSrc(DEFAULT_IMAGE_SRC)}
+            />
+          </div>
         </div>
+
+        {/* Mobile / Tablet Responsive Fallback Container */}
+        <div className="lg:hidden relative w-full flex justify-center items-end min-h-[460px] sm:min-h-[560px] mt-6 overflow-hidden pointer-events-none select-none">
+          <div
+            className="absolute right-0 bottom-0 w-[280px] sm:w-[380px] h-[440px] sm:h-[540px] opacity-40 grayscale contrast-125 z-[1] translate-x-6"
+            aria-hidden="true"
+          >
+            <Image
+              src={wmSrc}
+              alt=""
+              fill
+              sizes="(max-width: 768px) 280px, 380px"
+              className="object-cover object-bottom"
+              priority
+              unoptimized
+              onError={() => setWmSrc(DEFAULT_IMAGE_SRC)}
+            />
+          </div>
+          <div className="relative z-[2] w-[300px] sm:w-[420px] h-[460px] sm:h-[560px] shrink-0">
+            <Image
+              src={imgSrc}
+              alt={`${authorName} - ${authorRole}`}
+              fill
+              sizes="(max-width: 768px) 300px, 420px"
+              className="object-cover object-bottom drop-shadow-sm"
+              priority
+              unoptimized
+              onError={() => setImgSrc(DEFAULT_IMAGE_SRC)}
+            />
+          </div>
+        </div>
+
       </div>
     </section>
   );

@@ -280,6 +280,22 @@ export interface ReferencesServiceReference extends Struct.ComponentSchema {
   };
 }
 
+export interface ReferencesSupportingMissionReference
+  extends Struct.ComponentSchema {
+  collectionName: 'components_references_supporting_mission_references';
+  info: {
+    description: 'Supporting the missions that move communities forward reference';
+    displayName: 'Supporting Mission Reference';
+    icon: 'shield';
+  };
+  attributes: {
+    supportingMissionSection: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::supporting-mission-section.supporting-mission-section'
+    >;
+  };
+}
+
 export interface ReferencesWhatWeDoReference extends Struct.ComponentSchema {
   collectionName: 'components_references_what_we_do_references';
   info: {
@@ -399,6 +415,7 @@ declare module '@strapi/strapi' {
       'references.legal-content': ReferencesLegalContent;
       'references.mission-reference': ReferencesMissionReference;
       'references.service-reference': ReferencesServiceReference;
+      'references.supporting-mission-reference': ReferencesSupportingMissionReference;
       'references.what-we-do-reference': ReferencesWhatWeDoReference;
       'shared.custom-item': SharedCustomItem;
       'shared.general-link': SharedGeneralLink;

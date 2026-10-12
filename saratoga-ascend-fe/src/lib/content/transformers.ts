@@ -15,6 +15,8 @@ import type {
   RawServiceReference,
   RawWhatWeDoReference,
   RawHappyClientsReference,
+  RawCeoMessageReference,
+  RawSupportingMissionReference,
 } from '@/lib/graphql';
 
 // Pure transforms: turn raw Strapi GraphQL shapes into the resolved shapes
@@ -202,6 +204,36 @@ export function resolveSectionImages(
           ...review,
           photos: review.photos ? review.photos.map((p) => unwrapImage(p)) : null,
         })),
+      };
+    }
+
+    case 'ComponentReferencesCeoMessageReference': {
+      const ceoRef = section as RawCeoMessageReference;
+      const ceo = ceoRef.ceoMessageSection;
+      if (!ceo) return section;
+
+      return {
+        ...section,
+        ceoMessageSection: {
+          ...ceo,
+          image: unwrapImage(ceo.image),
+          bgWatermarkImage: unwrapImage(ceo.bgWatermarkImage),
+        },
+      };
+    }
+
+    case 'ComponentReferencesSupportingMissionReference': {
+      const smRef = section as RawSupportingMissionReference;
+      const sm = smRef.supportingMissionSection;
+      if (!sm) return section;
+
+      return {
+        ...section,
+        supportingMissionSection: {
+          ...sm,
+          image: unwrapImage(sm.image),
+          cta: resolveLink(sm.cta),
+        },
       };
     }
 

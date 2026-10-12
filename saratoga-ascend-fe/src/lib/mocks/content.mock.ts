@@ -28,6 +28,24 @@ const homeSections: DynamicZoneSection[] = [
       },
     },
   },
+  {
+    __typename: 'ComponentReferencesSupportingMissionReference',
+    supportingMissionSection: {
+      documentId: 'cm2supportingmission01',
+      referenceTitle: 'Supporting Missions Section',
+      title: 'Supporting the missions that move communities forward.',
+      description:
+        '<p>Saratoga Ascend brings people, expertise, technology, and disciplined delivery together to support complex healthcare and government missions.</p><p>We are positioned as a mission-focused partner for organizations operating where healthcare, workforce, technology, program management, and public-sector service delivery intersect.</p>',
+      image: {
+        url: '/images/supporting-missions.png',
+        width: 689,
+        height: 852,
+        alternativeText: 'Healthcare team supporting missions',
+        formats: null,
+      },
+      cta: null,
+    },
+  },
   { __typename: 'MockWhatWeDo' },
   {
     __typename: 'ComponentReferencesServiceReference',

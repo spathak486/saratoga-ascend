@@ -69,6 +69,10 @@ export {
   type CeoMessageSectionEntity,
   CeoMessageReferenceSchema,
   type CeoMessageReference,
+  SupportingMissionSectionEntitySchema,
+  type SupportingMissionSectionEntity,
+  SupportingMissionReferenceSchema,
+  type SupportingMissionReference,
   DynamicZoneSectionSchema,
   type DynamicZoneSection,
 } from './dynamic-zone';
