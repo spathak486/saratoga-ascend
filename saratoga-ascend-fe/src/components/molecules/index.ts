@@ -25,6 +25,8 @@ export * from './NeedHelpForm';
 export * from './FaqAccordion';
 export * from './HappyClientsCarousel';
 export * from './LatestNewsCard';
+export * from './FeaturedBlogCard';
+export * from './BlogCard';
 export * from './ClientLogoCard';
 export * from './CountUpStat';
 export * from './AboutHighlightList';

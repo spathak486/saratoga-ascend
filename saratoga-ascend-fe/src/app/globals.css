@@ -339,6 +339,20 @@ body {
       var(--color-brand-cta-to) 102.45%);
 }
 
+/* Featured article stroke — Figma 2186:1563. 1.33px linear, Prime R at 0%
+   to Prime B at 100%. The white padding-box keeps the fill solid while the
+   border-box layer paints the gradient only in the stroke. */
+.border-cta-gradient {
+  border: 1.333px solid transparent;
+  background:
+    linear-gradient(var(--color-brand-surface), var(--color-brand-surface)) padding-box,
+    linear-gradient(
+      to right,
+      var(--color-brand-cta-from) 0%,
+      var(--color-brand-cta-to) 100%
+    ) border-box;
+}
+
 /* Latest news band — Figma 2002:1138, red at the top into navy at the foot. */
 .bg-latest-news {
   background-image: linear-gradient(

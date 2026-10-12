@@ -41,16 +41,26 @@ const DEFAULT_LEGAL: FooterLink[] = [
   { href: '/terms-of-service', label: 'Terms of Service' },
 ];
 
-const pickFooterSocialIcons = (links: FooterLink[]) => {
-  const by = (pattern: RegExp) => links.find((link) => pattern.test(link.label));
-  const picked = [by(/twitter|^x$/i), by(/instagram/i), by(/discord|youtube/i)].filter(
-    (link): link is FooterLink => Boolean(link),
-  );
-  return picked.length === 3 ? picked : links.slice(0, 3);
-};
+/** Outline icons from the 430px footer (Figma 2166:1250), in that order. */
+const MOBILE_SOCIAL = [
+  { pattern: /facebook/i, src: '/images/footer/social-facebook.svg', width: 40, height: 40, ring: false },
+  { pattern: /instagram/i, src: '/images/footer/social-instagram.svg', width: 40, height: 40, ring: false },
+  { pattern: /youtube/i, src: '/images/footer/social-youtube.svg', width: 19.2, height: 19.2, ring: true },
+  { pattern: /linkedin/i, src: '/images/footer/social-linkedin.svg', width: 40, height: 40, ring: false },
+  { pattern: /twitter|^x$/i, src: '/images/footer/social-x.svg', width: 15.3, height: 13.825, ring: true },
+] as const;
+
+const mobileSocialIcons = (links: FooterLink[]) =>
+  MOBILE_SOCIAL.flatMap((icon) => {
+    const link = links.find((item) => icon.pattern.test(item.label.trim()));
+    return link ? [{ ...icon, link }] : [];
+  });
 
 const footerLinkClass =
-  'text-caption text-slate-faint transition-colors duration-150 hover:text-brand-on-dark max-xl:text-[1.125rem] max-xl:leading-7 max-xl:text-white';
+  'text-[clamp(1rem,0.636rem+1.818vw,1.125rem)] leading-7 text-brand-on-dark transition-colors duration-150 hover:text-brand-sky focus-visible:outline-brand-sky motion-reduce:transition-none xl:text-caption xl:leading-normal xl:text-slate-faint [&_svg]:hidden';
+
+const columnHeadingClass =
+  'font-serif text-[clamp(1.5rem,0.857rem+2.857vw,1.625rem)] leading-[2.125rem] font-normal text-brand-on-dark xl:font-sans xl:text-body-lg xl:leading-[1.6] xl:font-medium';
 
 const ColumnRule: React.FC = () => (
   <img
@@ -58,18 +68,18 @@ const ColumnRule: React.FC = () => (
     alt=""
     width={40}
     height={2}
-    className="mt-3 h-0.5 w-10 max-xl:hidden"
+    className="mt-3 hidden h-0.5 w-10 xl:block"
     aria-hidden="true"
   />
 );
 
 const FooterNavGroup: React.FC<FooterColumn> = ({ heading, links }) => (
-  <div>
-    <h2 className="text-body-lg font-medium text-brand-on-dark max-xl:font-serif max-xl:text-[1.625rem] max-xl:leading-[2.125rem] max-xl:font-normal">{heading}</h2>
+  <div className="min-w-0">
+    <h2 className={columnHeadingClass}>{heading}</h2>
     <ColumnRule />
-    <ul className="mt-5 flex flex-col gap-4 max-xl:mt-2.5 max-xl:gap-3">
+    <ul className="mt-2.5 flex flex-col gap-2.5 xl:mt-5 xl:gap-4">
       {links.map((link) => (
-        <li key={link.label}>
+        <li key={link.label} className="min-w-0">
           <GeneralLink
             href={link.href}
             variant="unstyled"
@@ -84,39 +94,59 @@ const FooterNavGroup: React.FC<FooterColumn> = ({ heading, links }) => (
   </div>
 );
 
+const BackToTop: React.FC<{ className?: string }> = ({ className = '' }) => (
+  <a
+    href="#top"
+    aria-label="Back to top"
+    className={`relative flex size-12 shrink-0 items-center justify-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-sky ${className}`}
+  >
+    <img
+      src="/images/footer/back-top.svg"
+      alt=""
+      width={49}
+      height={49}
+      className="absolute inset-0 size-full"
+      aria-hidden="true"
+    />
+    <img
+      src="/images/footer/back-chevron.svg"
+      alt=""
+      width={18}
+      height={12}
+      className="relative h-3 w-[1.125rem]"
+      aria-hidden="true"
+    />
+  </a>
+);
+
 export interface FooterProps {
   data?: FooterData | null;
 }
 
 /**
- * Last homepage band (Figma node 13:308). Navy-to-abyss ground, emblem and
- * brand line on the first row, newsletter plus three link columns, legal bar
- * with a jump-to-top control.
+ * Site footer. Desktop measurements are the blog-listing band (Figma 2158:2502).
+ * The phone layout is the 430px footer (Figma 2166:1209). Sizes interpolate
+ * with clamp so intermediate widths do not lock to either artboard.
  */
 export const Footer: React.FC<FooterProps> = ({ data }) => {
-  const social = data?.linkColumns?.[0]
-    ? {
-        heading: data.linkColumns[0].heading,
-        links:
-          data.linkColumns[0].links?.map((link) => ({
-            href: link.href,
-            label: link.label,
-            target: link.target || '_self',
-          })) ?? [],
-      }
-    : SOCIAL;
-
-  const menu = data?.linkColumns?.[1]
-    ? {
-        heading: data.linkColumns[1].heading,
-        links:
-          data.linkColumns[1].links?.map((link) => ({
-            href: link.href,
-            label: link.label,
-            target: link.target || '_self',
-          })) ?? [],
-      }
-    : MENU;
+  const columns = (data?.linkColumns ?? [])
+    .filter((column) => column.heading)
+    .map((column) => ({
+      heading: column.heading,
+      links:
+        column.links?.map((link) => ({
+          href: link.href,
+          label: link.label,
+          target: link.target || '_self',
+        })) ?? [],
+    }));
+  const socialSource =
+    columns.find((column) => /social/i.test(column.heading)) ?? columns[0];
+  const menuSource =
+    columns.find((column) => column !== socialSource && /menu/i.test(column.heading)) ??
+    columns.find((column) => column !== socialSource);
+  const social = socialSource ?? SOCIAL;
+  const menu = menuSource ?? MENU;
 
   const legalLinks =
     data?.legalLinks && data.legalLinks.length > 0
@@ -129,12 +159,15 @@ export const Footer: React.FC<FooterProps> = ({ data }) => {
 
   const contactEmail = data?.contactEmail || 'careers@saratogaascend.com';
   const contactPhone = data?.contactPhone || '+1 (212) 213-2520';
-  const logoSrc = data?.logo?.url || '/images/Group.png';
+  const matchedSocial = mobileSocialIcons(social.links);
+  const mobileIcons = matchedSocial.length > 0 ? matchedSocial : mobileSocialIcons(SOCIAL.links);
 
   return (
     <footer className="relative bg-footer text-brand-on-dark-muted">
-      <Container className="pt-[clamp(3.5rem,4.17vw,5rem)] pb-block max-xl:px-5! max-xl:pt-[1.875rem] max-xl:pb-0">
-        <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between max-xl:gap-[1.875rem]">
+      <Container
+        className="pt-[clamp(1.875rem,0.973rem+3.356vw,5rem)] pb-[clamp(1.25rem,2vw,1.5rem)]"
+      >
+        <div className="flex min-w-0 flex-col items-start gap-[1.875rem] xl:flex-row xl:items-center xl:justify-between xl:gap-[clamp(1rem,2vw,2.5rem)]">
           <GeneralLink
             href="/"
             variant="unstyled"
@@ -142,15 +175,22 @@ export const Footer: React.FC<FooterProps> = ({ data }) => {
             className="inline-flex shrink-0 items-center"
           >
             <img
-              src={logoSrc}
+              src="/images/footer/logo-wordmark.svg"
+              alt=""
+              width={293}
+              height={72}
+              className="h-auto w-[clamp(12rem,68vw,18.3125rem)] max-w-full xl:hidden"
+            />
+            <img
+              src="/images/footer/emblem.svg"
               alt=""
               width={64}
               height={64}
-              className="size-16 object-contain max-xl:h-[4.4375rem] max-xl:w-[18.3125rem] max-xl:max-w-full"
+              className="hidden size-[clamp(3rem,3.333vw,4rem)] object-contain xl:block"
             />
           </GeneralLink>
 
-          <p className="max-w-[22ch] font-serif text-subtitle leading-[1.2] text-brand-on-dark sm:max-w-none sm:text-right max-xl:max-w-none max-xl:text-[1.625rem] max-xl:leading-[2.125rem] max-xl:text-left">
+          <p className="min-w-0 font-serif text-[clamp(1.625rem,1.301rem+1.208vw,2.75rem)] leading-[1.3] text-brand-on-dark xl:text-right xl:leading-[1.2]">
             {data?.headline || 'Federal State Programs & Solutions'}
           </p>
         </div>
@@ -158,102 +198,94 @@ export const Footer: React.FC<FooterProps> = ({ data }) => {
         <img
           src="/images/footer/rule.svg"
           alt=""
-          className="mt-block h-px w-full"
+          className="mt-[clamp(1.875rem,0.973rem+3.356vw,3.75rem)] hidden h-px w-full xl:block"
           aria-hidden="true"
         />
 
-        <div className="mt-block grid grid-cols-1 gap-block xl:grid-cols-[25.125rem_1fr_1fr_1fr] xl:gap-x-[clamp(2rem,5vw,6rem)] max-xl:mt-10 max-xl:grid-cols-3 max-xl:gap-5">
-          <div className="max-xl:col-span-3">
-            <p className="font-serif text-stat-label text-brand-on-dark max-xl:font-sans max-xl:text-[1.25rem] max-xl:leading-7 max-xl:font-semibold">
+        <div className="mt-[clamp(1.875rem,0.973rem+3.356vw,3.75rem)] flex min-w-0 flex-col gap-10 xl:flex-row xl:items-start xl:justify-between xl:gap-[clamp(1.5rem,4vw,6rem)]">
+          <div className="w-full min-w-0 xl:w-[min(100%,25.125rem)]">
+            <p className="font-sans text-[clamp(1.25rem,1.106rem+0.537vw,1.75rem)] leading-[1.4] font-semibold text-brand-on-dark xl:font-serif xl:leading-[1.2] xl:font-normal">
               {data?.newsletterHeading || 'Sign up for Our Newsletter'}
             </p>
             <SubscribeForm
-              className="mt-6 max-w-[25.125rem] max-xl:mt-[1.875rem] max-xl:max-w-none"
+              className="mt-[clamp(1.5rem,2vw,1.875rem)] w-full max-w-full"
               privacyConsentText={data?.privacyConsentText}
               privacyConsentLink={data?.privacyConsentLink}
             />
-            <div className="mt-[1.875rem] hidden items-center justify-between max-xl:flex">
-              <div className="flex gap-2">
-                {pickFooterSocialIcons(social.links).map((link, index) => (
-                <GeneralLink
-                  key={link.label}
-                  href={link.href}
-                  variant="unstyled"
-                  target={(link.target as '_self' | '_blank') || '_blank'}
-                  aria-label={link.label}
-                  className="size-10 shrink-0 overflow-hidden rounded-full"
-                >
-                  <img
-                    src={`/images/footer/social-${index + 1}.svg`}
-                    alt=""
-                    width={40}
-                    height={40}
-                    className="size-10"
-                  />
-                </GeneralLink>
+            <div className="mt-[clamp(1.25rem,2.5vw,1.875rem)] flex flex-wrap items-center justify-between gap-3 xl:hidden">
+              <div className="flex flex-wrap gap-[clamp(0.5rem,2.8vw,0.75rem)]">
+                {mobileIcons.map((icon) => (
+                  <GeneralLink
+                    key={icon.link.label}
+                    href={icon.link.href}
+                    variant="unstyled"
+                    target={(icon.link.target as '_self' | '_blank') || '_blank'}
+                    aria-label={icon.link.label}
+                    className={
+                      icon.ring
+                        ? 'flex size-[clamp(2rem,10vw,2.5rem)] shrink-0 items-center justify-center overflow-hidden rounded-full border-[0.8px] border-slate-faint [&_svg]:hidden'
+                        : 'inline-flex size-[clamp(2rem,10vw,2.5rem)] shrink-0 items-center justify-center overflow-hidden [&_svg]:hidden'
+                    }
+                  >
+                    <img
+                      src={icon.src}
+                      alt=""
+                      width={icon.width}
+                      height={icon.height}
+                      className={icon.ring ? 'h-auto max-h-[55%] w-auto max-w-[55%]' : 'size-full'}
+                    />
+                  </GeneralLink>
                 ))}
               </div>
-              <a
-                href="#"
-                aria-label="Back to top"
-                className="relative flex size-12 shrink-0 items-center justify-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-sky"
-              >
-                <img
-                  src="/images/footer/back-top.svg"
-                  alt=""
-                  width={48}
-                  height={48}
-                  className="absolute inset-0 size-full"
-                  aria-hidden="true"
-                />
-                <img
-                  src="/images/footer/back-chevron.svg"
-                  alt=""
-                  width={18}
-                  height={12}
-                  className="relative h-3 w-[1.125rem]"
-                  aria-hidden="true"
-                />
-              </a>
+              <BackToTop />
             </div>
           </div>
 
-          <nav aria-label={social.heading}>
-            <FooterNavGroup {...social} />
-          </nav>
+          <div className="grid min-w-0 grid-cols-[max-content_minmax(0,1fr)] items-start gap-x-[clamp(0.75rem,3vw,2rem)] gap-y-8 xl:flex-1 xl:grid-cols-[minmax(0,0.8fr)_minmax(0,0.9fr)_minmax(8.5rem,1.15fr)] xl:gap-x-[clamp(1rem,2vw,2.5rem)]">
+            <nav aria-label={social.heading} className="hidden xl:block">
+              <FooterNavGroup {...social} />
+            </nav>
 
-          <nav aria-label={menu.heading}>
-            <FooterNavGroup {...menu} />
-          </nav>
+            <nav aria-label={menu.heading}>
+              <FooterNavGroup {...menu} />
+            </nav>
 
-          <div>
-            <h2 className="text-body-lg font-medium text-brand-on-dark max-xl:font-serif max-xl:text-[1.625rem] max-xl:leading-[2.125rem] max-xl:font-normal">
-              {data?.contactHeading || 'Say Hello!'}
-            </h2>
-            <ColumnRule />
-            <p className="mt-5 max-xl:mt-2.5">
-              <GeneralLink
-                href={`mailto:${contactEmail}`}
-                variant="unstyled"
-                className="break-all text-caption font-bold text-brand-on-dark transition-colors duration-150 hover:text-brand-sky sm:break-normal max-xl:text-[1.125rem] max-xl:leading-7 max-xl:font-normal max-xl:text-white"
-              >
-                {contactEmail}
-              </GeneralLink>
-            </p>
-            <p className="mt-4">
-              <GeneralLink
-                href={`tel:${contactPhone.replace(/[^\d+]/g, '')}`}
-                variant="unstyled"
-                className={footerLinkClass}
-              >
-                {contactPhone}
-              </GeneralLink>
-            </p>
+            <div className="min-w-0">
+              <h2 className={columnHeadingClass}>{data?.contactHeading || 'Say Hello!'}</h2>
+              <ColumnRule />
+              <p className="mt-2.5 xl:mt-5">
+                <GeneralLink
+                  href={`mailto:${contactEmail}`}
+                  variant="unstyled"
+                  className="text-[clamp(1rem,0.636rem+1.818vw,1.125rem)] leading-7 font-normal break-words text-brand-on-dark transition-colors duration-150 hover:text-brand-sky motion-reduce:transition-none xl:text-caption xl:leading-normal xl:font-bold [&_svg]:hidden"
+                >
+                  {contactEmail.split(/([@.])/).map((part, index) =>
+                    part === '@' || part === '.' ? (
+                      <React.Fragment key={`${part}-${index}`}>
+                        {part}
+                        <wbr />
+                      </React.Fragment>
+                    ) : (
+                      <React.Fragment key={`${part}-${index}`}>{part}</React.Fragment>
+                    ),
+                  )}
+                </GeneralLink>
+              </p>
+              <p className="mt-2.5 xl:mt-4">
+                <GeneralLink
+                  href={`tel:${contactPhone.replace(/[^\d+]/g, '')}`}
+                  variant="unstyled"
+                  className={footerLinkClass}
+                >
+                  {contactPhone}
+                </GeneralLink>
+              </p>
+            </div>
           </div>
         </div>
       </Container>
 
-      <div>
+      <div className="mt-[clamp(1.25rem,2vw,1.875rem)]">
         <Container>
           <img
             src="/images/footer/legal-rule.svg"
@@ -262,15 +294,15 @@ export const Footer: React.FC<FooterProps> = ({ data }) => {
             aria-hidden="true"
           />
         </Container>
-        <Container className="flex flex-col items-center gap-4 py-6 sm:relative sm:flex-row sm:justify-center sm:gap-0 max-xl:px-5!">
-          <p className="flex flex-col items-center gap-2 text-center text-eyebrow text-slate-muted sm:block sm:max-w-[46rem] sm:px-14 max-xl:block max-xl:text-[1.125rem] max-xl:leading-7 max-xl:text-[#f5f8fa]">
+        <Container className="relative flex flex-col items-center gap-4 pt-5 pb-[clamp(1.875rem,2vw,2.75rem)] xl:flex-row xl:justify-center xl:gap-0 xl:py-6">
+          <p className="text-center text-[clamp(1rem,0.636rem+1.818vw,1.125rem)] leading-7 text-brand-surface-muted xl:max-w-[min(100%,46rem)] xl:px-[clamp(3rem,4vw,4rem)] xl:text-eyebrow xl:leading-normal xl:text-slate-muted">
             <span>
               {data?.copyrightText ||
                 `© ${new Date().getFullYear()} Saratoga Ascend. All rights reserved`}
             </span>
             {legalLinks.map((link) => (
               <React.Fragment key={link.label}>
-                <span className="hidden sm:inline max-xl:inline">{' | '}</span>
+                <span>{' | '}</span>
                 <GeneralLink
                   href={link.href}
                   variant="unstyled"
@@ -283,28 +315,7 @@ export const Footer: React.FC<FooterProps> = ({ data }) => {
             ))}
           </p>
 
-          <a
-            href="#"
-            aria-label="Back to top"
-            className="relative flex size-[3.0625rem] items-center justify-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-sky sm:absolute sm:top-1/2 sm:right-0 sm:-translate-y-1/2 max-xl:hidden"
-          >
-            <img
-              src="/images/footer/back-top.svg"
-              alt=""
-              width={49}
-              height={49}
-              className="absolute inset-0 size-full"
-              aria-hidden="true"
-            />
-            <img
-              src="/images/footer/back-chevron.svg"
-              alt=""
-              width={18}
-              height={12}
-              className="relative h-3 w-[1.125rem]"
-              aria-hidden="true"
-            />
-          </a>
+          <BackToTop className="max-xl:hidden xl:absolute xl:top-1/2 xl:right-[var(--spacing-gutter)] xl:-translate-y-1/2" />
         </Container>
       </div>
     </footer>
