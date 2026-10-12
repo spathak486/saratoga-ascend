@@ -11,6 +11,7 @@ import type {
   AchievementsReference,
   LegalContentReference,
   CeoMessageReference,
+  SupportingMissionReference,
 } from '@/lib/schemas';
 import {
   HeroSection,
@@ -29,6 +30,7 @@ import {
   LegalPolicySection,
   BlogListingSection,
   CeoMessageSection,
+  SupportingMissionSection,
 } from '@/components/organisms';
 
 const MOCK_WHAT_WE_DO_LINES = [
@@ -366,6 +368,28 @@ export const SECTION_REGISTRY: Record<
         authorRole={ceo?.authorRole ?? undefined}
         imageSrc={ceo?.image?.url ?? undefined}
         watermarkSrc={ceo?.bgWatermarkImage?.url ?? undefined}
+      />
+    );
+  },
+
+  ComponentReferencesSupportingMissionReference: (section, index) => {
+    const smRef = section as SupportingMissionReference;
+    const sm = smRef.supportingMissionSection;
+    return (
+      <SupportingMissionSection
+        key={`supporting-mission-${index}`}
+        title={sm?.title ?? undefined}
+        description={sm?.description ?? undefined}
+        imageSrc={sm?.image?.url ?? undefined}
+        cta={
+          sm?.cta
+            ? {
+                label: sm.cta.label,
+                href: sm.cta.href,
+                target: sm.cta.target,
+              }
+            : undefined
+        }
       />
     );
   },

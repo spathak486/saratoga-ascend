@@ -1110,6 +1110,7 @@ export interface ApiPagePage extends Struct.CollectionTypeSchema {
         'references.latest-insights',
         'references.blog-listing',
         'references.ceo-message-reference',
+        'references.supporting-mission-reference',
       ]
     >;
     seo: Schema.Attribute.Component<'shared.seo', false> &
@@ -1159,6 +1160,48 @@ export interface ApiServiceService extends Struct.CollectionTypeSchema {
       Schema.Attribute.Unique;
     summary: Schema.Attribute.Text;
     title: Schema.Attribute.String;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiSupportingMissionSectionSupportingMissionSection
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'supporting_mission_sections';
+  info: {
+    description: 'Supporting the missions that move communities forward section';
+    displayName: 'Supporting Mission Section';
+    pluralName: 'supporting-mission-sections';
+    singularName: 'supporting-mission-section';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    cta: Schema.Attribute.Component<'shared.general-link', false>;
+    description: Schema.Attribute.RichText &
+      Schema.Attribute.CustomField<
+        'plugin::ckeditor5.CKEditor',
+        {
+          preset: 'defaultHtml';
+        }
+      >;
+    image: Schema.Attribute.Media<'images'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::supporting-mission-section.supporting-mission-section'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    referenceTitle: Schema.Attribute.String;
+    title: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'Supporting the missions that move communities forward.'>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -1730,6 +1773,7 @@ declare module '@strapi/strapi' {
       'api::our-achievement.our-achievement': ApiOurAchievementOurAchievement;
       'api::page.page': ApiPagePage;
       'api::service.service': ApiServiceService;
+      'api::supporting-mission-section.supporting-mission-section': ApiSupportingMissionSectionSupportingMissionSection;
       'api::what-we-do-section.what-we-do-section': ApiWhatWeDoSectionWhatWeDoSection;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;

@@ -1,0 +1,17 @@
+{
+  "collectionName": "components_references_supporting_mission_references",
+  "info": {
+    "displayName": "Supporting Mission Reference",
+    "icon": "shield",
+    "description": "Supporting the missions that move communities forward reference"
+  },
+  "options": {},
+  "attributes": {
+    "supportingMissionSection": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::supporting-mission-section.supporting-mission-section"
+    }
+  },
+  "config": {}
+}
