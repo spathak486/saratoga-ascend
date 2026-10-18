@@ -67,7 +67,8 @@
         "references.latest-insights",
         "references.blog-listing",
         "references.ceo-message-reference",
-        "references.supporting-mission-reference"
+        "references.supporting-mission-reference",
+        "references.past-performance-reference"
       ]
     }
   }

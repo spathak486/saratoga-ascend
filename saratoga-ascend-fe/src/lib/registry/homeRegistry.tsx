@@ -12,6 +12,7 @@ import type {
   LegalContentReference,
   CeoMessageReference,
   SupportingMissionReference,
+  PastPerformanceReference,
 } from '@/lib/schemas';
 import {
   HeroSection,
@@ -390,6 +391,18 @@ export const SECTION_REGISTRY: Record<
               }
             : undefined
         }
+      />
+    );
+  },
+
+  ComponentReferencesPastPerformanceReference: (section, index) => {
+    const ppRef = section as PastPerformanceReference;
+    return (
+      <PastPerformanceSection
+        key={`past-performance-${index}`}
+        heading={ppRef.heading ?? undefined}
+        subheading={ppRef.subheading ?? undefined}
+        caseStudies={ppRef.caseStudies as any}
       />
     );
   },

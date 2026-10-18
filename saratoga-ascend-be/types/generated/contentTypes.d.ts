@@ -513,6 +513,68 @@ export interface ApiBlogBlog extends Struct.CollectionTypeSchema {
         'references.legal-content',
         'references.happy-clients-reference',
         'references.ceo-message-reference',
+        'references.supporting-mission-reference',
+        'references.past-performance-reference',
+      ]
+    >;
+    seo: Schema.Attribute.Component<'shared.seo', false>;
+    slug: Schema.Attribute.String & Schema.Attribute.Required;
+    summary: Schema.Attribute.Text;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiCaseStudyCaseStudy extends Struct.CollectionTypeSchema {
+  collectionName: 'case_studies';
+  info: {
+    description: 'Case studies and past performance projects';
+    displayName: 'Case Study';
+    pluralName: 'case-studies';
+    singularName: 'case-study';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    articleDate: Schema.Attribute.Date;
+    author: Schema.Attribute.String & Schema.Attribute.DefaultTo<'Jane Cooper'>;
+    category: Schema.Attribute.Relation<'manyToOne', 'api::category.category'>;
+    categoryType: Schema.Attribute.Enumeration<
+      ['Case Study', 'Past Performance']
+    > &
+      Schema.Attribute.DefaultTo<'Case Study'>;
+    client: Schema.Attribute.String;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    description: Schema.Attribute.RichText;
+    image: Schema.Attribute.Media<'images'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::case-study.case-study'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    readTime: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<5>;
+    Section: Schema.Attribute.DynamicZone<
+      [
+        'references.banner-reference',
+        'references.cta',
+        'references.fa-qs',
+        'references.client-logos-reference',
+        'references.service-reference',
+        'references.what-we-do-reference',
+        'references.mission-reference',
+        'references.achievements',
+        'references.legal-content',
+        'references.happy-clients-reference',
+        'references.ceo-message-reference',
+        'references.supporting-mission-reference',
+        'references.past-performance-reference',
       ]
     >;
     seo: Schema.Attribute.Component<'shared.seo', false>;
@@ -538,6 +600,10 @@ export interface ApiCategoryCategory extends Struct.CollectionTypeSchema {
   };
   attributes: {
     blogs: Schema.Attribute.Relation<'oneToMany', 'api::blog.blog'>;
+    caseStudies: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::case-study.case-study'
+    >;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -976,6 +1042,8 @@ export interface ApiNewsNews extends Struct.CollectionTypeSchema {
         'references.legal-content',
         'references.happy-clients-reference',
         'references.ceo-message-reference',
+        'references.supporting-mission-reference',
+        'references.past-performance-reference',
       ]
     >;
     seo: Schema.Attribute.Component<'shared.seo', false>;
@@ -1111,6 +1179,7 @@ export interface ApiPagePage extends Struct.CollectionTypeSchema {
         'references.blog-listing',
         'references.ceo-message-reference',
         'references.supporting-mission-reference',
+        'references.past-performance-reference',
       ]
     >;
     seo: Schema.Attribute.Component<'shared.seo', false> &
@@ -1756,6 +1825,7 @@ declare module '@strapi/strapi' {
       'admin::user': AdminUser;
       'api::achievement-card.achievement-card': ApiAchievementCardAchievementCard;
       'api::blog.blog': ApiBlogBlog;
+      'api::case-study.case-study': ApiCaseStudyCaseStudy;
       'api::category.category': ApiCategoryCategory;
       'api::ceo-message-section.ceo-message-section': ApiCeoMessageSectionCeoMessageSection;
       'api::client-logos-section.client-logos-section': ApiClientLogosSectionClientLogosSection;
