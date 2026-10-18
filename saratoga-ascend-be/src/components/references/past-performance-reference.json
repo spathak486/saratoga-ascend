@@ -1,0 +1,24 @@
+{
+  "collectionName": "components_references_past_performance_references",
+  "info": {
+    "displayName": "Past Performance Reference",
+    "icon": "briefcase",
+    "description": "Select case studies for the Past Performance section"
+  },
+  "options": {},
+  "attributes": {
+    "heading": {
+      "type": "string",
+      "default": "Past Performance"
+    },
+    "subheading": {
+      "type": "text",
+      "default": "Real-world impact. Discover how we deliver rapid, compliant, and critical staffing solutions across the nation."
+    },
+    "caseStudies": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::case-study.case-study"
+    }
+  }
+}

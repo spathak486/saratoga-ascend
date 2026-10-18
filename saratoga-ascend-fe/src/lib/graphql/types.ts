@@ -286,6 +286,29 @@ export interface RawSupportingMissionReference {
   supportingMissionSection?: RawSupportingMissionSection | null;
 }
 
+export interface RawCaseStudy {
+  documentId?: string;
+  title: string;
+  slug?: string;
+  summary?: string | null;
+  articleDate?: string | null;
+  readTime?: number | null;
+  categoryType?: string | null;
+  client?: string | null;
+  author?: string | null;
+  image?: RawStrapiMedia | null;
+  description?: string | null;
+  seo?: RawSeo | null;
+  Section?: RawDynamicZoneSection[] | null;
+}
+
+export interface RawPastPerformanceReference {
+  __typename: 'ComponentReferencesPastPerformanceReference';
+  heading?: string | null;
+  subheading?: string | null;
+  caseStudies?: RawCaseStudy[] | null;
+}
+
 /**
  * Anything a Strapi dynamic zone can return. The catch-all member keeps
  * forward compatibility: components not yet registered resolve through Zod
@@ -305,6 +328,7 @@ export type RawDynamicZoneSection =
   | RawBlogListingReference
   | RawCeoMessageReference
   | RawSupportingMissionReference
+  | RawPastPerformanceReference
   | ({ __typename: string } & Record<string, unknown>);
 
 /** Universal slug-driven page (Strapi `pages` collection). */

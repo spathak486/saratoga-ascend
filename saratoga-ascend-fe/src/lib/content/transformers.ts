@@ -17,6 +17,7 @@ import type {
   RawHappyClientsReference,
   RawCeoMessageReference,
   RawSupportingMissionReference,
+  RawPastPerformanceReference,
 } from '@/lib/graphql';
 
 // Pure transforms: turn raw Strapi GraphQL shapes into the resolved shapes
@@ -234,6 +235,19 @@ export function resolveSectionImages(
           image: unwrapImage(sm.image),
           cta: resolveLink(sm.cta),
         },
+      };
+    }
+
+    case 'ComponentReferencesPastPerformanceReference': {
+      const ppRef = section as RawPastPerformanceReference;
+      if (!ppRef.caseStudies) return section;
+
+      return {
+        ...section,
+        caseStudies: ppRef.caseStudies.map((cs) => ({
+          ...cs,
+          image: unwrapImage(cs.image),
+        })),
       };
     }
 

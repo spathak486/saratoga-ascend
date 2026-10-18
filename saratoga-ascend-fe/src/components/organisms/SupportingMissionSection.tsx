@@ -40,29 +40,29 @@ export const SupportingMissionSection: React.FC<SupportingMissionSectionProps> =
   return (
     <section
       aria-label="Supporting the Missions"
-      className="relative w-full overflow-hidden bg-white flex items-center justify-center min-h-[640px] lg:min-h-[760px] xl:min-h-[800px] 2xl:min-h-[852px] py-12 lg:py-0"
+      className="relative w-full overflow-hidden bg-white flex items-center justify-center lg:h-[clamp(680px,44.375vw,852px)] py-12 lg:py-0 my-0"
     >
       {/* Background Gradient Bar (Figma Rectangle 40130: 1921px x 713px, top: 1049px / centered vertically) */}
       <div
-        className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-full lg:h-[600px] xl:h-[660px] 2xl:h-[713px] z-0 pointer-events-none"
+        className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-[calc(100%-40px)] sm:h-[calc(100%-60px)] lg:h-[clamp(560px,37.135vw,713px)] z-0 pointer-events-none"
         style={{
           background: 'linear-gradient(90.55deg, #D31E2D 0.47%, #2A91DC 102.45%)',
         }}
       />
 
       {/* Main Content Layout (1920px canvas, 120px side margins) */}
-      <div className="relative z-10 w-full max-w-[1920px] mx-auto px-6 sm:px-8 md:px-12 2xl:px-[120px]">
-        <div className="flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-12 xl:gap-[50px] 2xl:gap-[74px]">
+      <div className="relative z-10 w-full max-w-[1920px] mx-auto px-6 sm:px-8 md:px-12 lg:px-[clamp(2.5rem,6.25vw,7.5rem)]">
+        <div className="flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-[clamp(2rem,3.85vw,4.625rem)]">
           
-          {/* Left Doctor Photo Frame (Figma Frame 2147226432: 689px x 852px, border-radius: 24px) */}
-          <div className="relative shrink-0 w-full max-w-[500px] lg:max-w-none lg:w-[440px] xl:w-[560px] 2xl:w-[689px] h-[480px] sm:h-[580px] lg:h-[680px] xl:h-[770px] 2xl:h-[852px] rounded-[24px] overflow-hidden shadow-2xl">
+          {/* Left Doctor Photo Frame (Figma Frame 2147226432: 689px x 852px, left: 120px, top: 979px, border-radius: 24px) */}
+          <div className="relative shrink-0 w-full max-w-[480px] lg:max-w-none lg:w-[clamp(500px,35.885vw,689px)] lg:h-[clamp(680px,44.375vw,852px)] aspect-[689/852] rounded-[24px] overflow-hidden select-none">
             <Image
               src={imgSrc}
               alt={title || 'Supporting Mission'}
               fill
               unoptimized
-              sizes="(max-width: 1024px) 100vw, (max-width: 1536px) 560px, 689px"
-              className="object-cover object-top select-none"
+              sizes="(max-width: 1024px) 100vw, (max-width: 1536px) 550px, 689px"
+              className="object-cover object-top"
               priority
               onError={() => {
                 if (imgSrc !== DEFAULT_IMAGE) {

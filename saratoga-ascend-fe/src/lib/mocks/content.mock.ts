@@ -184,7 +184,56 @@ const homeSections: DynamicZoneSection[] = [
       ],
     },
   },
-  { __typename: 'MockPastPerformance' },
+  {
+    __typename: 'ComponentReferencesPastPerformanceReference',
+    heading: 'Past Performance',
+    subheading:
+      'Real-world impact. Discover how we deliver rapid, compliant, and critical staffing solutions across the nation.',
+    caseStudies: [
+      {
+        documentId: 'cs-01',
+        title: 'Naval Hospital, NC',
+        slug: 'naval-hospital-nc',
+        summary:
+          'Deployed 50+ cleared clinical professionals in under 14 days to support critical surge requirements.',
+        image: {
+          url: '/images/performance/naval-hospital.png',
+          width: 411,
+          height: 650,
+          alternativeText: 'Naval Hospital, NC',
+          formats: null,
+        },
+      },
+      {
+        documentId: 'cs-02',
+        title: 'Texas Public Health',
+        slug: 'texas-public-health',
+        summary:
+          'Scaled a statewide network of Allied Health professionals to ensure continuous, compliant patient care.',
+        image: {
+          url: '/images/performance/texas-public-health.png',
+          width: 411,
+          height: 650,
+          alternativeText: 'Texas Public Health',
+          formats: null,
+        },
+      },
+      {
+        documentId: 'cs-03',
+        title: 'Walter Reed MMC',
+        slug: 'walter-reed-mmc',
+        summary:
+          'Secured highly specialized medical laboratory technicians while maintaining 100% audit readiness.',
+        image: {
+          url: '/images/performance/walter-reed.png',
+          width: 411,
+          height: 650,
+          alternativeText: 'Walter Reed MMC',
+          formats: null,
+        },
+      },
+    ],
+  },
   { __typename: 'MockHappyClients' },
   {
     __typename: 'ComponentReferencesClientLogosReference',

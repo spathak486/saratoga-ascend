@@ -268,6 +268,26 @@ export interface ReferencesMissionReference extends Struct.ComponentSchema {
   };
 }
 
+export interface ReferencesPastPerformanceReference
+  extends Struct.ComponentSchema {
+  collectionName: 'components_references_past_performance_references';
+  info: {
+    description: 'Select case studies for the Past Performance section';
+    displayName: 'Past Performance Reference';
+    icon: 'briefcase';
+  };
+  attributes: {
+    caseStudies: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::case-study.case-study'
+    >;
+    heading: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Past Performance'>;
+    subheading: Schema.Attribute.Text &
+      Schema.Attribute.DefaultTo<'Real-world impact. Discover how we deliver rapid, compliant, and critical staffing solutions across the nation.'>;
+  };
+}
+
 export interface ReferencesServiceReference extends Struct.ComponentSchema {
   collectionName: 'components_references_service_references';
   info: {
@@ -414,6 +434,7 @@ declare module '@strapi/strapi' {
       'references.latest-insights': ReferencesLatestInsights;
       'references.legal-content': ReferencesLegalContent;
       'references.mission-reference': ReferencesMissionReference;
+      'references.past-performance-reference': ReferencesPastPerformanceReference;
       'references.service-reference': ReferencesServiceReference;
       'references.supporting-mission-reference': ReferencesSupportingMissionReference;
       'references.what-we-do-reference': ReferencesWhatWeDoReference;

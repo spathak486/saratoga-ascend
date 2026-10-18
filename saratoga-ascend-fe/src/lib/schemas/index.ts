@@ -73,6 +73,10 @@ export {
   type SupportingMissionSectionEntity,
   SupportingMissionReferenceSchema,
   type SupportingMissionReference,
+  CaseStudyCardSchema,
+  type CaseStudyCard,
+  PastPerformanceReferenceSchema,
+  type PastPerformanceReference,
   DynamicZoneSectionSchema,
   type DynamicZoneSection,
 } from './dynamic-zone';

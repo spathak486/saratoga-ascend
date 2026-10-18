@@ -1,10 +1,12 @@
 import React from 'react';
+import Link from 'next/link';
 import { MediaFrame } from '../atoms/MediaFrame';
 
 export interface PastPerformanceCardProps {
   title: string;
   body: string;
   imageSrc: string;
+  href?: string;
   /**
    * Mobile only: the snapped card shows the navy overlay + Learn More.
    * Peek cards stay in rest (photo + title). Desktop still uses hover.
@@ -25,6 +27,7 @@ export const PastPerformanceCard: React.FC<PastPerformanceCardProps> = ({
   title,
   body,
   imageSrc,
+  href,
   expanded = false,
 }) => (
   <article
@@ -78,9 +81,18 @@ export const PastPerformanceCard: React.FC<PastPerformanceCardProps> = ({
       <p className="mt-3 font-sans text-button font-medium max-xl:mt-0 max-xl:max-w-[19.4rem] max-xl:text-base max-xl:leading-[1.5]">
         {body}
       </p>
-      <span className="mt-3 inline-flex h-[3.75rem] w-[11.25rem] items-center justify-center rounded-pill bg-brand-cta-to font-sans text-button font-medium shadow-[0px_1px_2px_rgba(16,24,40,0.05)] max-xl:mt-0 max-xl:h-[3.0625rem] max-xl:w-[9.25rem] max-xl:text-base max-xl:leading-[1.5]">
-        Learn More
-      </span>
+      {href ? (
+        <Link
+          href={href}
+          className="mt-3 inline-flex h-[3.75rem] w-[11.25rem] items-center justify-center rounded-pill bg-brand-cta-to font-sans text-button font-medium shadow-[0px_1px_2px_rgba(16,24,40,0.05)] hover:brightness-110 transition-all pointer-events-auto max-xl:mt-0 max-xl:h-[3.0625rem] max-xl:w-[9.25rem] max-xl:text-base max-xl:leading-[1.5]"
+        >
+          Learn More
+        </Link>
+      ) : (
+        <span className="mt-3 inline-flex h-[3.75rem] w-[11.25rem] items-center justify-center rounded-pill bg-brand-cta-to font-sans text-button font-medium shadow-[0px_1px_2px_rgba(16,24,40,0.05)] max-xl:mt-0 max-xl:h-[3.0625rem] max-xl:w-[9.25rem] max-xl:text-base max-xl:leading-[1.5]">
+          Learn More
+        </span>
+      )}
     </div>
   </article>
 );

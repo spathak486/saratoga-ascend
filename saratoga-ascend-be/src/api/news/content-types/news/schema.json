@@ -83,7 +83,9 @@
         "references.achievements",
         "references.legal-content",
         "references.happy-clients-reference",
-        "references.ceo-message-reference"
+        "references.ceo-message-reference",
+        "references.supporting-mission-reference",
+        "references.past-performance-reference"
       ]
     }
   }
