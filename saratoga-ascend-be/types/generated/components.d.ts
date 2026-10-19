@@ -70,6 +70,20 @@ export interface CoreComponentPromo extends Struct.ComponentSchema {
   };
 }
 
+export interface CoreComponentValueCard extends Struct.ComponentSchema {
+  collectionName: 'components_core_component_value_cards';
+  info: {
+    description: 'Individual card for Mission, Vision, and Promise values';
+    displayName: 'Value Card';
+    icon: 'bulletList';
+  };
+  attributes: {
+    description: Schema.Attribute.Text & Schema.Attribute.Required;
+    icon: Schema.Attribute.Media<'images'>;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
 export interface MediaBanner extends Struct.ComponentSchema {
   collectionName: 'components_media_banners';
   info: {
@@ -268,6 +282,22 @@ export interface ReferencesMissionReference extends Struct.ComponentSchema {
   };
 }
 
+export interface ReferencesMissionVisionPromiseReference
+  extends Struct.ComponentSchema {
+  collectionName: 'components_references_mission_vision_promise_references';
+  info: {
+    description: 'Our Mission, Vision & Promise section reference';
+    displayName: 'Mission Vision Promise Reference';
+    icon: 'eye';
+  };
+  attributes: {
+    missionVisionPromiseSection: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::mission-vision-promise-section.mission-vision-promise-section'
+    >;
+  };
+}
+
 export interface ReferencesPastPerformanceReference
   extends Struct.ComponentSchema {
   collectionName: 'components_references_past_performance_references';
@@ -422,6 +452,7 @@ declare module '@strapi/strapi' {
       'core-component.counter': CoreComponentCounter;
       'core-component.heading': CoreComponentHeading;
       'core-component.promo': CoreComponentPromo;
+      'core-component.value-card': CoreComponentValueCard;
       'media.banner': MediaBanner;
       'references.achievements': ReferencesAchievements;
       'references.banner-reference': ReferencesBannerReference;
@@ -434,6 +465,7 @@ declare module '@strapi/strapi' {
       'references.latest-insights': ReferencesLatestInsights;
       'references.legal-content': ReferencesLegalContent;
       'references.mission-reference': ReferencesMissionReference;
+      'references.mission-vision-promise-reference': ReferencesMissionVisionPromiseReference;
       'references.past-performance-reference': ReferencesPastPerformanceReference;
       'references.service-reference': ReferencesServiceReference;
       'references.supporting-mission-reference': ReferencesSupportingMissionReference;

@@ -68,7 +68,8 @@
         "references.blog-listing",
         "references.ceo-message-reference",
         "references.supporting-mission-reference",
-        "references.past-performance-reference"
+        "references.past-performance-reference",
+        "references.mission-vision-promise-reference"
       ]
     }
   }

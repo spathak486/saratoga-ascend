@@ -1,0 +1,44 @@
+{
+  "kind": "collectionType",
+  "collectionName": "mission_vision_promise_sections",
+  "info": {
+    "singularName": "mission-vision-promise-section",
+    "pluralName": "mission-vision-promise-sections",
+    "displayName": "Mission Vision Promise Section",
+    "description": "Our Mission, Vision & Promise section"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "referenceTitle": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string",
+      "required": true,
+      "default": "Our Mission, Vision & Promise"
+    },
+    "highlightTitle": {
+      "type": "string",
+      "default": "Mission, Vision & Promise"
+    },
+    "description": {
+      "type": "text",
+      "default": "What drives us, where we're going, and how we deliver lasting impact for the communications we serve."
+    },
+    "bgWatermarkImage": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "cards": {
+      "type": "component",
+      "repeatable": true,
+      "component": "core-component.value-card"
+    }
+  }
+}

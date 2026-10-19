@@ -321,12 +321,41 @@ export type CaseStudyCard = z.infer<typeof CaseStudyCardSchema>;
 
 export const PastPerformanceReferenceSchema = z.object({
   __typename: z.literal('ComponentReferencesPastPerformanceReference'),
+  pastPerformanceHeading: z.string().nullable().optional(),
   heading: z.string().nullable().optional(),
   subheading: z.string().nullable().optional(),
   caseStudies: z.array(CaseStudyCardSchema).nullable().optional(),
 });
 
 export type PastPerformanceReference = z.infer<typeof PastPerformanceReferenceSchema>;
+
+export const MissionVisionPromiseCardSchema = z.object({
+  id: z.string().optional(),
+  title: z.string(),
+  description: z.string(),
+  icon: StrapiImageSchema.nullable().optional(),
+});
+
+export type MissionVisionPromiseCardEntity = z.infer<typeof MissionVisionPromiseCardSchema>;
+
+export const MissionVisionPromiseSectionEntitySchema = z.object({
+  documentId: z.string().optional(),
+  referenceTitle: z.string().nullable().optional(),
+  title: z.string().nullable().optional(),
+  highlightTitle: z.string().nullable().optional(),
+  description: z.string().nullable().optional(),
+  bgWatermarkImage: StrapiImageSchema.nullable().optional(),
+  cards: z.array(MissionVisionPromiseCardSchema).nullable().optional(),
+});
+
+export type MissionVisionPromiseSectionEntity = z.infer<typeof MissionVisionPromiseSectionEntitySchema>;
+
+export const MissionVisionPromiseReferenceSchema = z.object({
+  __typename: z.literal('ComponentReferencesMissionVisionPromiseReference'),
+  missionVisionPromiseSection: MissionVisionPromiseSectionEntitySchema.nullable().optional(),
+});
+
+export type MissionVisionPromiseReference = z.infer<typeof MissionVisionPromiseReferenceSchema>;
 
 /**
  * Union of every section the Strapi dynamic zone can emit. The pass-through
@@ -347,6 +376,7 @@ export const DynamicZoneSectionSchema = z.union([
   CeoMessageReferenceSchema,
   SupportingMissionReferenceSchema,
   PastPerformanceReferenceSchema,
+  MissionVisionPromiseReferenceSchema,
   z.object({ __typename: z.string() }).passthrough(),
 ]);
 

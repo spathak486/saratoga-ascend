@@ -1,0 +1,27 @@
+{
+  "collectionName": "components_core_component_value_cards",
+  "info": {
+    "displayName": "Value Card",
+    "icon": "bulletList",
+    "description": "Individual card for Mission, Vision, and Promise values"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text",
+      "required": true
+    },
+    "icon": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images"
+      ]
+    }
+  },
+  "config": {}
+}

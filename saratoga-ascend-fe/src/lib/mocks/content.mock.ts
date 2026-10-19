@@ -187,6 +187,7 @@ const homeSections: DynamicZoneSection[] = [
   {
     __typename: 'ComponentReferencesPastPerformanceReference',
     heading: 'Past Performance',
+    pastPerformanceHeading: 'Past Performance',
     subheading:
       'Real-world impact. Discover how we deliver rapid, compliant, and critical staffing solutions across the nation.',
     caseStudies: [

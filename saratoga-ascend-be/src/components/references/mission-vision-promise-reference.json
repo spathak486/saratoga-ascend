@@ -1,0 +1,17 @@
+{
+  "collectionName": "components_references_mission_vision_promise_references",
+  "info": {
+    "displayName": "Mission Vision Promise Reference",
+    "icon": "eye",
+    "description": "Our Mission, Vision & Promise section reference"
+  },
+  "options": {},
+  "attributes": {
+    "missionVisionPromiseSection": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::mission-vision-promise-section.mission-vision-promise-section"
+    }
+  },
+  "config": {}
+}

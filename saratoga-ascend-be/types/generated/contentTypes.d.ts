@@ -1003,6 +1003,45 @@ export interface ApiMissionSectionMissionSection
   };
 }
 
+export interface ApiMissionVisionPromiseSectionMissionVisionPromiseSection
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'mission_vision_promise_sections';
+  info: {
+    description: 'Our Mission, Vision & Promise section';
+    displayName: 'Mission Vision Promise Section';
+    pluralName: 'mission-vision-promise-sections';
+    singularName: 'mission-vision-promise-section';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    bgWatermarkImage: Schema.Attribute.Media<'images'>;
+    cards: Schema.Attribute.Component<'core-component.value-card', true>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    description: Schema.Attribute.Text &
+      Schema.Attribute.DefaultTo<"What drives us, where we're going, and how we deliver lasting impact for the communications we serve.">;
+    highlightTitle: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Mission, Vision & Promise'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::mission-vision-promise-section.mission-vision-promise-section'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    referenceTitle: Schema.Attribute.String;
+    title: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'Our Mission, Vision & Promise'>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiNewsNews extends Struct.CollectionTypeSchema {
   collectionName: 'news';
   info: {
@@ -1180,6 +1219,7 @@ export interface ApiPagePage extends Struct.CollectionTypeSchema {
         'references.ceo-message-reference',
         'references.supporting-mission-reference',
         'references.past-performance-reference',
+        'references.mission-vision-promise-reference',
       ]
     >;
     seo: Schema.Attribute.Component<'shared.seo', false> &
@@ -1838,6 +1878,7 @@ declare module '@strapi/strapi' {
       'api::footer.footer': ApiFooterFooter;
       'api::hero-banner.hero-banner': ApiHeroBannerHeroBanner;
       'api::mission-section.mission-section': ApiMissionSectionMissionSection;
+      'api::mission-vision-promise-section.mission-vision-promise-section': ApiMissionVisionPromiseSectionMissionVisionPromiseSection;
       'api::news.news': ApiNewsNews;
       'api::not-found.not-found': ApiNotFoundNotFound;
       'api::our-achievement.our-achievement': ApiOurAchievementOurAchievement;

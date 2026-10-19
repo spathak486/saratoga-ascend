@@ -25,4 +25,4 @@ export * from './JobApplicationForm';
 export * from './BlogListingSection';
 export * from './CeoMessageSection';
 export * from './SupportingMissionSection';
-
+export * from './MissionVisionPromiseSection';

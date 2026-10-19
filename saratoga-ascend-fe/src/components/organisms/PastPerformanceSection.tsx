@@ -66,12 +66,6 @@ export const PastPerformanceSection: React.FC<PastPerformanceSectionProps> = ({
       href: cs.href || (cs.slug ? (cs.slug.startsWith('/') ? cs.slug : `/${cs.slug}`) : undefined),
       key: `cs-${idx}`,
     }));
-    if (formatted.length > 0 && formatted.length < 6) {
-      return [
-        ...formatted.map((f) => ({ ...f, key: `${f.key}-1` })),
-        ...formatted.map((f) => ({ ...f, key: `${f.key}-2` })),
-      ];
-    }
     return formatted;
   }, [caseStudies]);
 
@@ -187,22 +181,24 @@ export const PastPerformanceSection: React.FC<PastPerformanceSectionProps> = ({
               </div>
             </div>
 
-            <div className="flex justify-center gap-6 max-xl:gap-[1.875rem]">
-              <CircleControl
-                label="Previous project"
-                direction="prev"
-                tone="iconPlay"
-                onClick={scrollPrev}
-                className="transition-transform duration-150 hover:scale-105 active:scale-95 motion-reduce:transition-none motion-reduce:hover:scale-100"
-              />
-              <CircleControl
-                label="Next project"
-                direction="next"
-                tone="iconPlay"
-                onClick={scrollNext}
-                className="transition-transform duration-150 hover:scale-105 active:scale-95 motion-reduce:transition-none motion-reduce:hover:scale-100"
-              />
-            </div>
+            {slides.length > 1 && (
+              <div className="flex justify-center gap-6 max-xl:gap-[1.875rem]">
+                <CircleControl
+                  label="Previous project"
+                  direction="prev"
+                  tone="iconPlay"
+                  onClick={scrollPrev}
+                  className="transition-transform duration-150 hover:scale-105 active:scale-95 motion-reduce:transition-none motion-reduce:hover:scale-100"
+                />
+                <CircleControl
+                  label="Next project"
+                  direction="next"
+                  tone="iconPlay"
+                  onClick={scrollNext}
+                  className="transition-transform duration-150 hover:scale-105 active:scale-95 motion-reduce:transition-none motion-reduce:hover:scale-100"
+                />
+              </div>
+            )}
           </>
         )}
       </div>
