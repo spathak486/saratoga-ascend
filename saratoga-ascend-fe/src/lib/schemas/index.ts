@@ -77,6 +77,12 @@ export {
   type CaseStudyCard,
   PastPerformanceReferenceSchema,
   type PastPerformanceReference,
+  MissionVisionPromiseCardSchema,
+  type MissionVisionPromiseCardEntity,
+  MissionVisionPromiseSectionEntitySchema,
+  type MissionVisionPromiseSectionEntity,
+  MissionVisionPromiseReferenceSchema,
+  type MissionVisionPromiseReference,
   DynamicZoneSectionSchema,
   type DynamicZoneSection,
 } from './dynamic-zone';

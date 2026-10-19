@@ -291,7 +291,7 @@ export const SUPPORTING_MISSION_REFERENCE_FIELDS = `
 export const PAST_PERFORMANCE_REFERENCE_FIELDS = `
   __typename
   ... on ComponentReferencesPastPerformanceReference {
-    heading
+    pastPerformanceHeading: heading
     subheading
     caseStudies {
       documentId
@@ -303,6 +303,25 @@ export const PAST_PERFORMANCE_REFERENCE_FIELDS = `
       articleDate
       readTime
       image { ${IMAGE_FIELDS} }
+    }
+  }
+`;
+
+export const MISSION_VISION_PROMISE_REFERENCE_FIELDS = `
+  __typename
+  ... on ComponentReferencesMissionVisionPromiseReference {
+    missionVisionPromiseSection {
+      documentId
+      title
+      highlightTitle
+      description
+      bgWatermarkImage { ${IMAGE_FIELDS} }
+      cards {
+        id
+        title
+        description
+        icon { ${IMAGE_FIELDS} }
+      }
     }
   }
 `;
@@ -322,6 +341,7 @@ export const COMMON_SECTION_FRAGMENTS = [
   CEO_MESSAGE_REFERENCE_FIELDS,
   SUPPORTING_MISSION_REFERENCE_FIELDS,
   PAST_PERFORMANCE_REFERENCE_FIELDS,
+  MISSION_VISION_PROMISE_REFERENCE_FIELDS,
 ].join('\n');
 
 // Page-specific dynamic-zone fragments (includes Blog Listing which is only for Pages)

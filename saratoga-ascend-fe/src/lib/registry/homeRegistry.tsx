@@ -13,6 +13,7 @@ import type {
   CeoMessageReference,
   SupportingMissionReference,
   PastPerformanceReference,
+  MissionVisionPromiseReference,
 } from '@/lib/schemas';
 import {
   HeroSection,
@@ -32,6 +33,7 @@ import {
   BlogListingSection,
   CeoMessageSection,
   SupportingMissionSection,
+  MissionVisionPromiseSection,
 } from '@/components/organisms';
 
 const MOCK_WHAT_WE_DO_LINES = [
@@ -400,9 +402,24 @@ export const SECTION_REGISTRY: Record<
     return (
       <PastPerformanceSection
         key={`past-performance-${index}`}
-        heading={ppRef.heading ?? undefined}
+        heading={ppRef.pastPerformanceHeading ?? ppRef.heading ?? undefined}
         subheading={ppRef.subheading ?? undefined}
         caseStudies={ppRef.caseStudies as any}
+      />
+    );
+  },
+
+  ComponentReferencesMissionVisionPromiseReference: (section, index) => {
+    const mvpRef = section as MissionVisionPromiseReference;
+    const mvp = mvpRef.missionVisionPromiseSection;
+    return (
+      <MissionVisionPromiseSection
+        key={`mission-vision-promise-${index}`}
+        title={mvp?.title ?? undefined}
+        highlightTitle={mvp?.highlightTitle ?? undefined}
+        description={mvp?.description ?? undefined}
+        bgWatermarkImage={mvp?.bgWatermarkImage?.url ?? undefined}
+        cards={mvp?.cards as any}
       />
     );
   },

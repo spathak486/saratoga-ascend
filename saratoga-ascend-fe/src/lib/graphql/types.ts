@@ -304,9 +304,32 @@ export interface RawCaseStudy {
 
 export interface RawPastPerformanceReference {
   __typename: 'ComponentReferencesPastPerformanceReference';
+  pastPerformanceHeading?: string | null;
   heading?: string | null;
   subheading?: string | null;
   caseStudies?: RawCaseStudy[] | null;
+}
+
+export interface RawMissionVisionPromiseCard {
+  id?: string;
+  title: string;
+  description: string;
+  icon?: RawStrapiMedia | null;
+}
+
+export interface RawMissionVisionPromiseSection {
+  documentId?: string;
+  referenceTitle?: string | null;
+  title?: string | null;
+  highlightTitle?: string | null;
+  description?: string | null;
+  bgWatermarkImage?: RawStrapiMedia | null;
+  cards?: RawMissionVisionPromiseCard[] | null;
+}
+
+export interface RawMissionVisionPromiseReference {
+  __typename: 'ComponentReferencesMissionVisionPromiseReference';
+  missionVisionPromiseSection?: RawMissionVisionPromiseSection | null;
 }
 
 /**
@@ -329,6 +352,7 @@ export type RawDynamicZoneSection =
   | RawCeoMessageReference
   | RawSupportingMissionReference
   | RawPastPerformanceReference
+  | RawMissionVisionPromiseReference
   | ({ __typename: string } & Record<string, unknown>);
 
 /** Universal slug-driven page (Strapi `pages` collection). */
