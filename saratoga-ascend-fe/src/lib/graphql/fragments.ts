@@ -341,13 +341,14 @@ export const COMMON_SECTION_FRAGMENTS = [
   CEO_MESSAGE_REFERENCE_FIELDS,
   SUPPORTING_MISSION_REFERENCE_FIELDS,
   PAST_PERFORMANCE_REFERENCE_FIELDS,
-  MISSION_VISION_PROMISE_REFERENCE_FIELDS,
 ].join('\n');
 
-// Page-specific dynamic-zone fragments (includes Blog Listing which is only for Pages)
+// Page dynamic zone includes blog listing and mission/vision/promise.
+// News and blog zones do not, so those fragments stay off the shared list.
 export const PAGE_SECTION_FRAGMENTS = [
-  ...COMMON_SECTION_FRAGMENTS.split('\n'),
+  COMMON_SECTION_FRAGMENTS,
   BLOG_LISTING_REFERENCE_FIELDS,
+  MISSION_VISION_PROMISE_REFERENCE_FIELDS,
 ].join('\n');
 
 export const PAGE_FIELDS = `
@@ -372,10 +373,6 @@ export const ARTICLE_FIELDS = `
   readTime
   categoryType
   author
-  category {
-    name
-    slug
-  }
   description
   image { ${IMAGE_FIELDS} }
   seo { ${SEO_FIELDS} }

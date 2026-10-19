@@ -22,6 +22,7 @@ export * from './LogoTile';
 export * from './NewsCard';
 export * from './SubscribeForm';
 export * from './NeedHelpForm';
+export * from './ContactInquiryForm';
 export * from './FaqAccordion';
 export * from './HappyClientsCarousel';
 export * from './LatestNewsCard';

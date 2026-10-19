@@ -32,6 +32,65 @@ function splitHeroTitle(title?: string | null) {
   return { line1: title.trim(), line2: '' };
 }
 
+/** Newline, `<br>`, and `|` all become line breaks, matching `splitHeroTitle`. */
+function normalizeBreaks(value: string): string {
+  return value
+    .replace(/<br\s*\/?>/gi, '\n')
+    .replace(/\|/g, '\n')
+    .replace(/<[^>]*>/g, '')
+    .replace(/&nbsp;/g, ' ');
+}
+
+function titleWithAccent(title: string, accent?: string | null): React.ReactNode {
+  const source = normalizeBreaks(title).trim();
+  const phrase = accent ? normalizeBreaks(accent).replace(/\s+/g, ' ').trim() : '';
+  const marks = [...source].map((ch) => ({ ch, red: false }));
+
+  if (phrase) {
+    const folded: string[] = [];
+    const origin: number[] = [];
+    let previousWasSpace = false;
+    [...source].forEach((ch, index) => {
+      if (/\s/.test(ch)) {
+        if (!previousWasSpace) {
+          folded.push(' ');
+          origin.push(index);
+          previousWasSpace = true;
+        }
+        return;
+      }
+      previousWasSpace = false;
+      folded.push(ch);
+      origin.push(index);
+    });
+    const at = folded.join('').toLowerCase().indexOf(phrase.toLowerCase());
+    if (at >= 0) {
+      const start = origin[at];
+      const end = origin[at + phrase.length - 1] + 1;
+      for (let index = start; index < end; index += 1) marks[index].red = true;
+    }
+  }
+
+  const runs: { text: string; red: boolean }[] = [];
+  marks.forEach((mark) => {
+    const previous = runs[runs.length - 1];
+    if (previous && previous.red === mark.red) {
+      previous.text += mark.ch;
+      return;
+    }
+    runs.push({ text: mark.ch, red: mark.red });
+  });
+
+  return runs.map((run, runIndex) =>
+    run.text.split('\n').map((line, lineIndex, lines) => (
+      <React.Fragment key={`${runIndex}-${lineIndex}`}>
+        {line ? <span className={run.red ? 'text-brand-red' : undefined}>{line}</span> : null}
+        {lineIndex < lines.length - 1 ? <br /> : null}
+      </React.Fragment>
+    )),
+  );
+}
+
 export interface HeroSectionProps {
   /** Motion clip when available — kept for CMS video banners. */
   videoSrc?: string;
@@ -45,6 +104,12 @@ export interface HeroSectionProps {
   mediaMime?: string;
   mediaExt?: string;
   variant?: 'homebanner' | 'default' | 'gradient';
+  /**
+   * Contact page composition (Figma 2219:1455). CMS still supplies the banner
+   * title, description, image, and subtitle. The subtitle, when it appears
+   * inside the title, is the red phrase. Homepage variants ignore this.
+   */
+  layout?: 'contact';
 }
 
 const bandStyle: React.CSSProperties = {
@@ -87,6 +152,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   mediaMime,
   mediaExt,
   variant = 'homebanner',
+  layout,
 }) => {
   const heading = splitHeroTitle(title);
   const lede = stripHtml(description);
@@ -96,6 +162,79 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
     mediaExt === '.webm' ||
     mediaExt === '.mov';
   const resolvedVideoSrc = videoSrc || (isCmsVideo ? helixSrc : undefined);
+
+  if (layout === 'contact') {
+    const photoAlt = mediaAlt || '';
+    const contactTitle = title ? normalizeBreaks(title).trim() : '';
+
+    return (
+      <Section
+        aria-labelledby={contactTitle ? 'contact-hero-heading' : undefined}
+        aria-label={contactTitle ? undefined : 'Contact'}
+        tone="surface"
+        spacing="none"
+        bleed
+        className="overflow-hidden"
+      >
+        {/*
+          Min height follows the 1920×723 photo. The band may grow with the
+          copy, and object-contain keeps the whole photo on the wash.
+          pt-24 below xl clears the fixed nav pill; desktop has no extra offset.
+        */}
+        <div className="relative flex min-h-[calc(100vw*723/1920)] items-center bg-[#eaf4fb] max-xl:pt-24">
+          <div className="pointer-events-none absolute inset-0" aria-hidden={photoAlt ? undefined : true}>
+            {resolvedVideoSrc ? (
+              <video
+                className="absolute inset-0 size-full object-contain object-right"
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="metadata"
+              >
+                <source src={resolvedVideoSrc} type={mediaMime || 'video/mp4'} />
+              </video>
+            ) : helixSrc ? (
+              <img
+                src={helixSrc}
+                alt={photoAlt}
+                className="absolute inset-0 size-full object-contain object-right"
+                decoding="async"
+                fetchPriority="high"
+              />
+            ) : null}
+          </div>
+          {/* Figma 2219:1457 — #EAF4FB wash, local to this frame. */}
+          <div
+            className="pointer-events-none absolute inset-0 bg-[linear-gradient(89.55deg,#eaf4fb_5.95%,rgba(234,244,251,0)_128%)]"
+            aria-hidden="true"
+          />
+          <Container className="relative z-10 flex flex-col items-start gap-6 py-[clamp(1.5rem,6.5625vw,7.875rem)] xl:gap-12">
+            {contactTitle ? (
+              <Heading
+                id="contact-hero-heading"
+                level={1}
+                size="hero"
+                tone="ink"
+                className="max-w-[min(100%,64.5625rem)] tracking-normal"
+              >
+                {titleWithAccent(title ?? '', stripHtml(subTitle))}
+              </Heading>
+            ) : null}
+            {lede ? (
+              <Text
+                size="lead"
+                tone="navy"
+                className="max-w-[min(100%,48.6875rem)] font-medium tracking-normal"
+              >
+                {lede}
+              </Text>
+            ) : null}
+          </Container>
+        </div>
+      </Section>
+    );
+  }
 
   if (variant === 'default') {
     return (

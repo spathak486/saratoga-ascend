@@ -136,11 +136,20 @@ function renderFaqSection(faqsRef: FaqsReference, index: number) {
  * Component Registry Pattern: Maps Strapi GraphQL __typename to component renderers.
  * Scalable architecture — adding a new Strapi component requires registering only 1 handler here.
  */
+export type SectionRenderOptions = {
+  /** Contact page uses the contact hero composition of the shared banner. */
+  heroLayout?: 'contact';
+};
+
 export const SECTION_REGISTRY: Record<
   string,
-  (section: DynamicZoneSection, index: number) => React.ReactNode
+  (
+    section: DynamicZoneSection,
+    index: number,
+    options?: SectionRenderOptions,
+  ) => React.ReactNode
 > = {
-  ComponentReferencesBannerReference: (section, index) => {
+  ComponentReferencesBannerReference: (section, index, options) => {
     const bannerRef = section as BannerReference;
     const banner = bannerRef.heroBanner?.banner;
     return (
@@ -156,6 +165,7 @@ export const SECTION_REGISTRY: Record<
         ctaLabel={banner?.buttonCTA?.label}
         ctaHref={banner?.buttonCTA?.href}
         variant={banner?.variant as any}
+        layout={options?.heroLayout}
       />
     );
   },
@@ -473,7 +483,8 @@ export const SECTION_REGISTRY: Record<
  */
 export function renderRegisteredSection(
   section: DynamicZoneSection,
-  index: number
+  index: number,
+  options?: SectionRenderOptions,
 ): React.ReactNode {
   const renderer = SECTION_REGISTRY[section.__typename];
   if (!renderer) {
@@ -484,5 +495,5 @@ export function renderRegisteredSection(
     }
     return null;
   }
-  return renderer(section, index);
+  return renderer(section, index, options);
 }
