@@ -30,7 +30,7 @@ const MENU: FooterColumn = {
   links: [
     { href: '/', label: 'Home' },
     { href: '/what-we-do', label: 'Services' },
-    { href: '/about', label: 'About Us' },
+    { href: '/about-us', label: 'About Us' },
     { href: '/careers', label: 'Job Search' },
     { href: '/contact', label: 'Contact Us' },
   ],

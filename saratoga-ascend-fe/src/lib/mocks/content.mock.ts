@@ -287,7 +287,7 @@ const homeSections: DynamicZoneSection[] = [
         image: null,
         link: {
           label: 'Know More',
-          href: '/about',
+          href: '/about-us',
           target: '_self',
           isExternal: false,
         },
@@ -468,7 +468,7 @@ export const mockPages: Page[] = [
     documentId: 'cm2a8h4j10001qk3f2n7x9wb',
     internalName: 'About Us',
     pageTitle: 'About Us',
-    slug: 'about',
+    slug: 'about-us',
     pageType: 'Standard',
     variant: 'default',
     seo: {

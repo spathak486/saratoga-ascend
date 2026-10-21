@@ -28,6 +28,16 @@ const nextConfig: NextConfig = {
         hostname: 'cms.saratogaascend.com',
         pathname: '/uploads/**',
       },
+      ...(process.env.NODE_ENV === 'development'
+        ? [
+            {
+              protocol: 'http' as const,
+              hostname: 'localhost',
+              port: '1337',
+              pathname: '/uploads/**',
+            },
+          ]
+        : []),
     ],
     // Strapi in local dev resolves to a private IP (localhost), which
     // Next's SSRF guard blocks by default. Production Strapi is a real

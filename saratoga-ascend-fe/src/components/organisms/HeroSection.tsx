@@ -112,10 +112,6 @@ export interface HeroSectionProps {
   layout?: 'contact';
 }
 
-const bandStyle: React.CSSProperties = {
-  minHeight: '723px',
-};
-
 const copyStyle: React.CSSProperties = {
   paddingTop: 'clamp(8rem, 17.708vw, 21.25rem)',
   paddingBottom: 'clamp(3rem, 8.333vw, 6.5rem)',
@@ -264,49 +260,45 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 
   if (variant === 'gradient') {
     return (
-      <section className="w-full px-4 md:px-[120px] py-16">
-        <div className="relative w-full max-w-[1680px] mx-auto overflow-hidden rounded-[26px] bg-gray-900 shadow-lg min-h-[400px] md:h-[868px] flex items-end">
-          {/* Background Image / Video */}
-        {resolvedVideoSrc ? (
-          <video
-            src={resolvedVideoSrc}
-            autoPlay
-            muted
-            loop
-            playsInline
-            className="absolute inset-0 w-full h-full object-cover object-center"
-          />
-        ) : helixSrc ? (
-          <img
-            src={helixSrc}
-            alt={mediaAlt || "Banner Background"}
-            className="absolute inset-0 w-full h-full object-cover object-center"
-          />
-        ) : null}
+      <section className="w-full">
+        <div className="mx-auto w-full max-w-home px-page py-4">
+          <div className="relative flex min-h-[26rem] w-full items-end overflow-hidden rounded-[1.625rem] bg-neutral-900 shadow-lg md:min-h-[32rem] xl:min-h-[54.25rem]">
+            {resolvedVideoSrc ? (
+              <video
+                src={resolvedVideoSrc}
+                autoPlay
+                muted
+                loop
+                playsInline
+                aria-hidden="true"
+                className="absolute inset-0 size-full object-cover object-center"
+              />
+            ) : helixSrc ? (
+              <img
+                src={helixSrc}
+                alt={mediaAlt ?? ''}
+                className="absolute inset-0 size-full object-cover object-center"
+              />
+            ) : null}
 
-        {/* Gradient Overlay */}
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0)_46.5%,#000000_106.95%)]" />
+            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0)_46.5%,#000000_106.95%)]" />
 
-        {/* Content */}
-        <div className="relative z-10 w-[80%] max-w-[1338px] mx-auto mb-[30px] xl:mb-[50px] text-white flex flex-col xl:flex-row xl:items-center gap-8 xl:gap-[54px] xl:h-[122.5px]">
-          <div className="flex-shrink-0 xl:w-[26%] max-w-[348px]">
-            <h2 className="font-serif font-normal text-[clamp(40px,3.5vw,60px)] leading-[1.2] text-white">
-              {title}
-            </h2>
-          </div>
-          
-          {/* Divider (visible on xl+) */}
-          <div className="hidden xl:block w-0 h-[122.5px] border-l-[3px] border-white" />
-
-          <div className="flex-1 max-w-[882px]">
-            {lede && (
-              <p className="font-sans font-normal text-[clamp(20px,1.6vw,28px)] leading-[38px] text-white">
-                {lede}
-              </p>
-            )}
+            <div className="relative z-10 mx-auto mb-6 flex w-full max-w-[83.625rem] flex-col gap-4 px-6 text-white xl:mb-[1.875rem] xl:min-h-[7.65625rem] xl:flex-row xl:items-center xl:gap-[3.375rem] xl:px-0">
+              {title ? (
+                <h2 className="font-serif text-feature text-white xl:w-[21.75rem] xl:shrink-0">
+                  {title}
+                </h2>
+              ) : null}
+              {title && lede ? (
+                <div
+                  className="hidden h-[7.65625rem] w-0 shrink-0 border-l-[3px] border-white xl:block"
+                  aria-hidden="true"
+                />
+              ) : null}
+              {lede ? <p className="text-card-copy text-white xl:max-w-[55.125rem]">{lede}</p> : null}
+            </div>
           </div>
         </div>
-      </div>
       </section>
     );
   }
@@ -320,10 +312,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
       bleed
       className="overflow-hidden min-[90rem]:-mt-nav-h"
     >
-      <div
-        className="relative md:h-hero-min md:min-h-hero-min max-md:h-[38.125rem] max-md:!min-h-[38.125rem]"
-        style={bandStyle}
-      >
+      <div className="relative min-h-hero-min">
         <div className="pointer-events-none absolute inset-0" aria-hidden="true">
           {resolvedVideoSrc ? (
             <video
@@ -349,9 +338,14 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             />
           )}
         </div>
+        {/* object-cover crops the baked wash below 1440. The scrim keeps the title readable. */}
+        <div
+          className="bg-hero-scrim pointer-events-none absolute inset-0 min-[90rem]:hidden"
+          aria-hidden="true"
+        />
 
         <Container
-          className="relative z-10 flex min-h-full flex-col items-start max-md:justify-end max-md:gap-5 max-md:!px-5 max-md:!pb-5 max-md:!pt-[18.75rem]"
+          className="relative z-10 flex min-h-full min-w-0 flex-col items-start"
           style={copyStyle}
         >
           {heading ? (
@@ -360,7 +354,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               level={1}
               size="hero"
               tone="inherit"
-              className="tracking-normal max-md:text-[2rem] max-md:leading-[2.5rem]"
+              className="min-w-0 max-w-full tracking-normal"
               style={headingStyle}
             >
               <span className="block text-ink">{heading.line1}</span>
@@ -374,7 +368,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             <Text
               size="lead"
               tone="navy"
-              className="font-medium tracking-normal max-md:text-[1.5rem] max-md:leading-[1.6]"
+              className="min-w-0 font-medium tracking-normal"
               style={ledeStyle}
             >
               {lede}

@@ -65,18 +65,24 @@ export async function generateMetadata({ params }: DynamicPageProps): Promise<Me
   const pageResult = await getPageBySlug(slugPath);
   if (pageResult.data) pageData = pageResult.data;
 
-  // Contact is a page. Skip the news and blog probes so a missing CMS
+  // Known pages. Skip the news and blog probes so a missing CMS
   // page does not run those queries.
-  if (!pageData && slugPath !== 'contact') {
+  const isReservedPage = slugPath === '' || slugPath === 'contact' || slugPath === 'about-us';
+  if (!pageData && !isReservedPage) {
     const { getArticleBySlug } = await import('@/lib/services');
     const newsResult = await getArticleBySlug(slugPath);
     if (newsResult.data) pageData = newsResult.data;
   }
 
-  if (!pageData && slugPath !== 'contact') {
+  if (!pageData && !isReservedPage) {
     const { getBlogBySlug } = await import('@/lib/services');
     const blogResult = await getBlogBySlug(slugPath);
     if (blogResult.data) pageData = blogResult.data;
+  }
+
+  if (!pageData && (slugPath === '' || slugPath === 'about-us')) {
+    const { getMockPageBySlug } = await import('@/lib/mocks');
+    pageData = getMockPageBySlug(slugPath);
   }
 
   if (!pageData) {
@@ -121,9 +127,10 @@ export default async function DynamicPage({ params }: DynamicPageProps) {
     pageData = pageResult.data;
   }
 
-  // Contact is a page. Skip the news and blog probes so a missing CMS
+  // Known pages. Skip the news and blog probes so a missing CMS
   // page does not run those queries.
-  if (!pageData && slugPath !== 'contact') {
+  const isReservedPage = slugPath === '' || slugPath === 'contact' || slugPath === 'about-us';
+  if (!pageData && !isReservedPage) {
     const { getArticleBySlug } = await import('@/lib/services');
     const newsResult = await getArticleBySlug(slugPath);
     if (newsResult.data) {
@@ -131,10 +138,15 @@ export default async function DynamicPage({ params }: DynamicPageProps) {
     }
   }
 
-  if (!pageData && slugPath !== 'contact') {
+  if (!pageData && !isReservedPage) {
     const { getBlogBySlug } = await import('@/lib/services');
     const blogResult = await getBlogBySlug(slugPath);
     if (blogResult.data) pageData = blogResult.data;
+  }
+
+  if (!pageData && (slugPath === '' || slugPath === 'about-us')) {
+    const { getMockPageBySlug } = await import('@/lib/mocks');
+    pageData = getMockPageBySlug(slugPath);
   }
 
   if (!pageData) {

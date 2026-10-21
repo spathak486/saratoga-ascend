@@ -22,7 +22,7 @@ const MENU_CONTENT: Record<string, { label: string; href: string }[]> = {
     { label: 'Data & Analytics', href: '/data' },
     { label: 'Cybersecurity', href: '/cyber' },
   ],
-  '/about': [
+  '/about-us': [
     { label: 'Our Story', href: '/story' },
     { label: 'Leadership', href: '/leadership' },
     { label: 'Careers', href: '/careers' },
