@@ -377,16 +377,17 @@ export const SECTION_REGISTRY: Record<
   ComponentReferencesCeoMessageReference: (section, index) => {
     const ceoRef = section as CeoMessageReference;
     const ceo = ceoRef.ceoMessageSection;
+    if (!ceo) return null;
     return (
       <CeoMessageSection
         key={`ceo-message-${index}`}
-        title={ceo?.title ?? undefined}
-        highlightTitle={ceo?.highlightTitle ?? undefined}
-        description={ceo?.description ?? undefined}
-        authorName={ceo?.authorName ?? undefined}
-        authorRole={ceo?.authorRole ?? undefined}
-        imageSrc={ceo?.image?.url ?? undefined}
-        watermarkSrc={ceo?.bgWatermarkImage?.url ?? undefined}
+        title={ceo.title ?? undefined}
+        highlightTitle={ceo.highlightTitle ?? undefined}
+        description={ceo.description ?? undefined}
+        authorName={ceo.authorName ?? undefined}
+        authorRole={ceo.authorRole ?? undefined}
+        imageSrc={ceo.image?.url ?? undefined}
+        watermarkSrc={ceo.bgWatermarkImage?.url ?? undefined}
       />
     );
   },
@@ -394,14 +395,15 @@ export const SECTION_REGISTRY: Record<
   ComponentReferencesSupportingMissionReference: (section, index) => {
     const smRef = section as SupportingMissionReference;
     const sm = smRef.supportingMissionSection;
+    if (!sm) return null;
     return (
       <SupportingMissionSection
         key={`supporting-mission-${index}`}
-        title={sm?.title ?? undefined}
-        description={sm?.description ?? undefined}
-        imageSrc={sm?.image?.url ?? undefined}
+        title={sm.title ?? undefined}
+        description={sm.description ?? undefined}
+        imageSrc={sm.image?.url ?? undefined}
         cta={
-          sm?.cta
+          sm.cta
             ? {
                 label: sm.cta.label,
                 href: sm.cta.href,
@@ -415,6 +417,7 @@ export const SECTION_REGISTRY: Record<
 
   ComponentReferencesPastPerformanceReference: (section, index) => {
     const ppRef = section as PastPerformanceReference;
+    if (!ppRef.caseStudies || ppRef.caseStudies.length === 0) return null;
     return (
       <PastPerformanceSection
         key={`past-performance-${index}`}
@@ -428,14 +431,15 @@ export const SECTION_REGISTRY: Record<
   ComponentReferencesMissionVisionPromiseReference: (section, index) => {
     const mvpRef = section as MissionVisionPromiseReference;
     const mvp = mvpRef.missionVisionPromiseSection;
+    if (!mvp || !mvp.cards || mvp.cards.length === 0) return null;
     return (
       <MissionVisionPromiseSection
         key={`mission-vision-promise-${index}`}
-        title={mvp?.title ?? undefined}
-        highlightTitle={mvp?.highlightTitle ?? undefined}
-        description={mvp?.description ?? undefined}
-        bgWatermarkImage={mvp?.bgWatermarkImage?.url ?? undefined}
-        cards={mvp?.cards as any}
+        title={mvp.title ?? undefined}
+        highlightTitle={mvp.highlightTitle ?? undefined}
+        description={mvp.description ?? undefined}
+        bgWatermarkImage={mvp.bgWatermarkImage?.url ?? undefined}
+        cards={mvp.cards as any}
       />
     );
   },
@@ -443,15 +447,16 @@ export const SECTION_REGISTRY: Record<
   ComponentReferencesBuiltAroundMissionsReference: (section, index) => {
     const bamRef = section as BuiltAroundMissionsReference;
     const bam = bamRef.builtAroundMissionsSection;
+    if (!bam || !bam.cards || bam.cards.length === 0) return null;
     return (
       <BuiltAroundMissionsSection
         key={`built-around-missions-${index}`}
-        title={bam?.title ?? undefined}
-        highlightTitle={bam?.highlightTitle ?? undefined}
-        description={bam?.description ?? undefined}
-        calloutHighlight={bam?.calloutHighlight ?? undefined}
-        calloutText={bam?.calloutText ?? undefined}
-        cards={bam?.cards as any}
+        title={bam.title ?? undefined}
+        highlightTitle={bam.highlightTitle ?? undefined}
+        description={bam.description ?? undefined}
+        calloutHighlight={bam.calloutHighlight ?? undefined}
+        calloutText={bam.calloutText ?? undefined}
+        cards={bam.cards as any}
       />
     );
   },
@@ -459,12 +464,13 @@ export const SECTION_REGISTRY: Record<
   ComponentReferencesTakeMissionSeriouslyReference: (section, index) => {
     const tmsRef = section as TakeMissionSeriouslyReference;
     const tms = tmsRef.takeMissionSeriouslySection;
+    if (!tms || !tms.cards || tms.cards.length === 0) return null;
     return (
       <TakeMissionSeriouslySection
         key={`take-mission-seriously-${index}`}
-        title={tms?.title ?? undefined}
-        highlightTitle={tms?.highlightTitle ?? undefined}
-        cards={tms?.cards as any}
+        title={tms.title ?? undefined}
+        highlightTitle={tms.highlightTitle ?? undefined}
+        cards={tms.cards as any}
       />
     );
   },
@@ -472,12 +478,13 @@ export const SECTION_REGISTRY: Record<
   ComponentReferencesAccountableOperatingEnvironmentsReference: (section, index) => {
     const aoeRef = section as AccountableOperatingEnvironmentsReference;
     const aoe = aoeRef.accountableOperatingEnvironmentsSection;
+    if (!aoe || !aoe.cards || aoe.cards.length === 0) return null;
     return (
       <AccountableOperatingEnvironmentsSection
         key={`accountable-operating-environments-${index}`}
-        title={aoe?.title ?? undefined}
-        highlightTitle={aoe?.highlightTitle ?? undefined}
-        cards={aoe?.cards as any}
+        title={aoe.title ?? undefined}
+        highlightTitle={aoe.highlightTitle ?? undefined}
+        cards={aoe.cards as any}
       />
     );
   },

@@ -60,24 +60,54 @@ export const BuiltAroundMissionsSection: React.FC<BuiltAroundMissionsSectionProp
   calloutText,
   cards,
 }) => {
-  const finalTitle = title || DEFAULT_TITLE;
-  const finalHighlight = highlightTitle || DEFAULT_HIGHLIGHT;
-  const finalDescription = description || DEFAULT_DESCRIPTION;
-  const finalCalloutHighlight = calloutHighlight || DEFAULT_CALLOUT_HIGHLIGHT;
-  const finalCalloutText = calloutText || DEFAULT_CALLOUT_TEXT;
-  const finalCards = cards && cards.length > 0 ? cards : DEFAULT_CARDS;
+  if (!cards || cards.length === 0) {
+    return null;
+  }
 
-  // Split title to highlight specific part in Figma #F01424 red
+  const finalTitle = title || '';
+  const finalHighlight = highlightTitle || '';
+  const finalDescription = description || '';
+  const finalCalloutHighlight = calloutHighlight || '';
+  const finalCalloutText = calloutText || '';
+
+  // Render title with highlight (case-insensitive match, or append if separate field in CMS)
   const renderTitle = () => {
-    if (!finalHighlight || !finalTitle.includes(finalHighlight)) {
-      return finalTitle;
+    const rawTitle = title?.trim() || '';
+    const rawHighlight = highlightTitle?.trim() || '';
+
+    if (!rawTitle && !rawHighlight) return null;
+
+    if (!rawHighlight) {
+      return rawTitle;
     }
-    const parts = finalTitle.split(finalHighlight);
+
+    if (!rawTitle) {
+      return <span className="text-[#F01424] font-normal">{rawHighlight}</span>;
+    }
+
+    // Check if rawHighlight is contained in rawTitle (case-insensitive)
+    const escapedHighlight = rawHighlight.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const regex = new RegExp(`(${escapedHighlight})`, 'i');
+
+    if (regex.test(rawTitle)) {
+      const parts = rawTitle.split(regex);
+      return parts.map((part, i) => {
+        if (part.toLowerCase() === rawHighlight.toLowerCase()) {
+          return (
+            <span key={i} className="text-[#F01424] font-normal">
+              {part}
+            </span>
+          );
+        }
+        return <span key={i}>{part}</span>;
+      });
+    }
+
+    // If highlightTitle is separate from title
     return (
       <>
-        {parts[0]}
-        <span className="text-[#F01424] font-normal">{finalHighlight}</span>
-        {parts.slice(1).join(finalHighlight)}
+        <span>{rawTitle} </span>
+        <span className="text-[#F01424] font-normal">{rawHighlight}</span>
       </>
     );
   };
@@ -132,7 +162,7 @@ export const BuiltAroundMissionsSection: React.FC<BuiltAroundMissionsSectionProp
 
           {/* Right Column: Figma Group 2085665642 (width: 523px, height: 639px, 3 cards with 30px gap) */}
           <div className="w-full lg:w-[clamp(380px,27.24vw,523px)] flex flex-col gap-[clamp(1rem,1.56vw,1.875rem)] shrink-0">
-            {finalCards.map((card, idx) => {
+            {cards.map((card, idx) => {
               const cardNumber = card.number || `0${idx + 1}`;
               const isHighlighted = Boolean(card.isHighlighted);
 
