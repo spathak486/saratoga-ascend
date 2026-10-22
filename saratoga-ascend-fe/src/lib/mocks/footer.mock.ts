@@ -26,7 +26,7 @@ export const mockFooterData: FooterData = {
       links: [
         { label: 'Home', href: '/', target: '_self', isExternal: false },
         { label: 'Services', href: '/what-we-do', target: '_self', isExternal: false },
-        { label: 'About Us', href: '/about', target: '_self', isExternal: false },
+        { label: 'About Us', href: '/about-us', target: '_self', isExternal: false },
         { label: 'Job Search', href: '/careers', target: '_self', isExternal: false },
         { label: 'Contact Us', href: '/contact', target: '_self', isExternal: false },
       ],

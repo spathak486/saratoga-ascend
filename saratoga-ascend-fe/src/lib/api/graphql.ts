@@ -58,7 +58,19 @@ async function queryOnce<T>(
 function logQueryFailure(result: { error: { message: string; details?: unknown } }) {
   if (process.env.NODE_ENV !== 'development') return;
   const details = result.error.details ?? result.error.message;
-  console.error('[GQL] Query errors:', typeof details === 'string' ? details : JSON.stringify(details, null, 2));
+  const text = typeof details === 'string' ? details : JSON.stringify(details, null, 2);
+  // Draft reads, the public CMS gateway, and a CMS the dev machine cannot
+  // reach already fall back. These must not open the Next.js error overlay.
+  const expectedMiss =
+    text.includes('Forbidden access') ||
+    text === 'Method Not Allowed' ||
+    text === 'fetch failed' ||
+    text === 'Network error';
+  if (expectedMiss) {
+    console.warn('[GQL]', text);
+    return;
+  }
+  console.error('[GQL] Query errors:', text);
 }
 
 export const gql = {
