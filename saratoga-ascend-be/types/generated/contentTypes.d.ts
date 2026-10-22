@@ -1287,6 +1287,45 @@ export interface ApiOurAchievementOurAchievement
   };
 }
 
+export interface ApiOurCapabilitiesSectionOurCapabilitiesSection
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'our_capabilities_sections';
+  info: {
+    description: 'One organization. Connected solution areas carousel section';
+    displayName: 'Our Capabilities Section';
+    pluralName: 'our-capabilities-sections';
+    singularName: 'our-capabilities-section';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    bgImage: Schema.Attribute.Media<'images'>;
+    cards: Schema.Attribute.Relation<'oneToMany', 'api::card.card'>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    description: Schema.Attribute.Text &
+      Schema.Attribute.DefaultTo<'Specialized capabilities come together to support complex healthcare and government missions.'>;
+    highlightTitle: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Connected solution areas.'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::our-capabilities-section.our-capabilities-section'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    referenceTitle: Schema.Attribute.String;
+    title: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'One organization.'>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiPagePage extends Struct.CollectionTypeSchema {
   collectionName: 'pages';
   info: {
@@ -1333,6 +1372,8 @@ export interface ApiPagePage extends Struct.CollectionTypeSchema {
         'references.built-around-missions-reference',
         'references.take-mission-seriously-reference',
         'references.accountable-operating-environments-reference',
+        'references.our-capabilities-reference',
+        'references.workforce-planning-reference',
       ]
     >;
     seo: Schema.Attribute.Component<'shared.seo', false> &
@@ -1495,6 +1536,42 @@ export interface ApiWhatWeDoSectionWhatWeDoSection
     referenceTitle: Schema.Attribute.String & Schema.Attribute.Required;
     services: Schema.Attribute.Relation<'oneToMany', 'api::service.service'>;
     title: Schema.Attribute.String;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiWorkforcePlanningSectionWorkforcePlanningSection
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'workforce_planning_sections';
+  info: {
+    description: 'From Workforce Planning to Ongoing Support interactive step accordion section';
+    displayName: 'Workforce Planning Section';
+    pluralName: 'workforce-planning-sections';
+    singularName: 'workforce-planning-section';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    cards: Schema.Attribute.Relation<'oneToMany', 'api::card.card'>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    highlightTitle: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'From Workforce Planning'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::workforce-planning-section.workforce-planning-section'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    referenceTitle: Schema.Attribute.String;
+    title: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'From Workforce Planning to Ongoing Support'>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -2034,11 +2111,13 @@ declare module '@strapi/strapi' {
       'api::news.news': ApiNewsNews;
       'api::not-found.not-found': ApiNotFoundNotFound;
       'api::our-achievement.our-achievement': ApiOurAchievementOurAchievement;
+      'api::our-capabilities-section.our-capabilities-section': ApiOurCapabilitiesSectionOurCapabilitiesSection;
       'api::page.page': ApiPagePage;
       'api::service.service': ApiServiceService;
       'api::supporting-mission-section.supporting-mission-section': ApiSupportingMissionSectionSupportingMissionSection;
       'api::take-mission-seriously-section.take-mission-seriously-section': ApiTakeMissionSeriouslySectionTakeMissionSeriouslySection;
       'api::what-we-do-section.what-we-do-section': ApiWhatWeDoSectionWhatWeDoSection;
+      'api::workforce-planning-section.workforce-planning-section': ApiWorkforcePlanningSectionWorkforcePlanningSection;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;

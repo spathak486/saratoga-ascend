@@ -387,6 +387,46 @@ export const ACCOUNTABLE_OPERATING_ENVIRONMENTS_REFERENCE_FIELDS = `
   }
 `;
 
+export const OUR_CAPABILITIES_REFERENCE_FIELDS = `
+  __typename
+  ... on ComponentReferencesOurCapabilitiesReference {
+    ourCapabilitiesSection {
+      documentId
+      title
+      highlightTitle
+      description
+      bgImage { ${IMAGE_FIELDS} }
+      cards {
+        documentId
+        title
+        description
+        number
+        isHighlighted
+        icon { ${IMAGE_FIELDS} }
+      }
+    }
+  }
+`;
+
+export const WORKFORCE_PLANNING_REFERENCE_FIELDS = `
+  __typename
+  ... on ComponentReferencesWorkforcePlanningReference {
+    workforcePlanningSection {
+      documentId
+      title
+      highlightTitle
+      cards {
+        documentId
+        title
+        description
+        number
+        isHighlighted
+        icon { ${IMAGE_FIELDS} }
+      }
+    }
+  }
+`;
+
 // Common dynamic-zone inline fragments shared by articles, blogs, and pages.
 export const COMMON_SECTION_FRAGMENTS = [
   BANNER_REFERENCE_FIELDS,
@@ -406,6 +446,8 @@ export const COMMON_SECTION_FRAGMENTS = [
   BUILT_AROUND_MISSIONS_REFERENCE_FIELDS,
   TAKE_MISSION_SERIOUSLY_REFERENCE_FIELDS,
   ACCOUNTABLE_OPERATING_ENVIRONMENTS_REFERENCE_FIELDS,
+  OUR_CAPABILITIES_REFERENCE_FIELDS,
+  WORKFORCE_PLANNING_REFERENCE_FIELDS,
 ].join('\n');
 
 // Page dynamic zone includes blog listing and any page-specific fragments.

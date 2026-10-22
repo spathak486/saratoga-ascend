@@ -1,0 +1,17 @@
+{
+  "collectionName": "components_references_workforce_planning_references",
+  "info": {
+    "displayName": "Workforce Planning Reference",
+    "icon": "bulletList",
+    "description": "From Workforce Planning to Ongoing Support interactive step accordion section reference"
+  },
+  "options": {},
+  "attributes": {
+    "workforcePlanningSection": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::workforce-planning-section.workforce-planning-section"
+    }
+  },
+  "config": {}
+}

@@ -1,0 +1,44 @@
+{
+  "kind": "collectionType",
+  "collectionName": "our_capabilities_sections",
+  "info": {
+    "singularName": "our-capabilities-section",
+    "pluralName": "our-capabilities-sections",
+    "displayName": "Our Capabilities Section",
+    "description": "One organization. Connected solution areas carousel section"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "referenceTitle": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string",
+      "required": true,
+      "default": "One organization."
+    },
+    "highlightTitle": {
+      "type": "string",
+      "default": "Connected solution areas."
+    },
+    "description": {
+      "type": "text",
+      "default": "Specialized capabilities come together to support complex healthcare and government missions."
+    },
+    "bgImage": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "cards": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::card.card"
+    }
+  }
+}
