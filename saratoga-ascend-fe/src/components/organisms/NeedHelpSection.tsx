@@ -10,6 +10,8 @@ export interface NeedHelpSectionProps {
   mediaAlt?: string;
   ctaLabel?: string;
   ctaHref?: string;
+  /** Crop override. The contact frame's photo is wider than the cut-out. */
+  imageClassName?: string;
 }
 
 /**
@@ -27,6 +29,7 @@ export const NeedHelpSection: React.FC<NeedHelpSectionProps> = ({
   mediaAlt,
   ctaLabel,
   ctaHref,
+  imageClassName,
 }) => (
   <Section
     aria-labelledby="need-help-heading"
@@ -76,7 +79,10 @@ export const NeedHelpSection: React.FC<NeedHelpSectionProps> = ({
             <img
               src={personSrc}
               alt={mediaAlt || 'Healthcare worker offering help'}
-              className="h-full w-full object-contain object-bottom max-xl:object-cover max-xl:object-[center_20%]"
+              className={
+                imageClassName ??
+                'h-full w-full object-contain object-bottom max-xl:object-cover max-xl:object-[center_20%]'
+              }
             />
           </div>
         ) : null}

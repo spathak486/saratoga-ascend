@@ -19,7 +19,7 @@ const PRIMARY_LINKS: HeaderNavItem[] = [
   { href: '/who-we-serve', label: 'Who We Serve', hasMenu: true },
   { href: '/government-buyers', label: 'Government Buyers', hasMenu: true },
   { href: '/what-we-do', label: 'Solutions', hasMenu: true },
-  { href: '/about', label: 'About us', hasMenu: true },
+  { href: '/about-us', label: 'About us', hasMenu: true },
 ];
 
 export const Navbar: React.FC = () => {

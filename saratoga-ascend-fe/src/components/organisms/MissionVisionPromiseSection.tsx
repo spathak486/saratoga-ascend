@@ -162,6 +162,7 @@ export const MissionVisionPromiseSection: React.FC<MissionVisionPromiseSectionPr
           src={watermarkUrl || '/images/mission-vision-promise-bg.png'}
           alt="Mission Vision & Promise background decoration"
           fill
+          unoptimized
           priority={false}
           className="object-cover object-top lg:object-center opacity-85"
         />
@@ -225,6 +226,7 @@ export const MissionVisionPromiseSection: React.FC<MissionVisionPromiseSectionPr
                               : card.title
                           }
                           fill
+                          unoptimized
                           className="object-contain"
                         />
                       </div>
