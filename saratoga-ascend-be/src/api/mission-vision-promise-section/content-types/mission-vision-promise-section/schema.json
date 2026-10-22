@@ -36,9 +36,9 @@
       ]
     },
     "cards": {
-      "type": "component",
-      "repeatable": true,
-      "component": "core-component.value-card"
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::card.card"
     }
   }
 }

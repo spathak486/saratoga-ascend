@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 
 export interface MissionVisionPromiseCard {
@@ -21,7 +21,7 @@ export interface MissionVisionPromiseSectionProps {
 function normalizeImageSrc(url?: string | null): string {
   if (!url) return '';
   if (url.startsWith('/uploads/')) {
-    const base = process.env.NEXT_PUBLIC_STRAPI_API_URL || 'http://localhost:1337';
+    const base = process.env.NEXT_PUBLIC_STRAPI_API_URL || 'https://cms.saratogaascend.com';
     return `${base.replace(/\/+$/, '')}${url}`;
   }
   return url;
@@ -31,6 +31,7 @@ const DEFAULT_TITLE = 'Our Mission, Vision & Promise';
 const DEFAULT_HIGHLIGHT = 'Mission, Vision & Promise';
 const DEFAULT_DESCRIPTION =
   'What drives us, where we’re going, and how we deliver lasting impact for the communications we serve.';
+const DEFAULT_BG = '/images/mission-vision-promise-bg.png';
 
 const DEFAULT_CARDS: MissionVisionPromiseCard[] = [
   {
@@ -122,6 +123,41 @@ function FallbackCardIcon({ index }: { index: number }) {
 // Background colors from Figma Rectangle 40122:
 const BADGE_BG_COLORS = ['#F8F4F7', '#E5F0FB', '#F8F4F7'];
 
+function CardIconRenderer({
+  iconUrl,
+  altText,
+  title,
+  index,
+}: {
+  iconUrl: string;
+  altText?: string | null;
+  title: string;
+  index: number;
+}) {
+  const [imgError, setImgError] = useState(false);
+
+  useEffect(() => {
+    setImgError(false);
+  }, [iconUrl]);
+
+  if (!iconUrl || imgError) {
+    return <FallbackCardIcon index={index} />;
+  }
+
+  return (
+    <div className="relative size-[clamp(44px,3.2vw,62px)]">
+      <Image
+        src={iconUrl}
+        alt={altText || title}
+        fill
+        unoptimized
+        className="object-contain"
+        onError={() => setImgError(true)}
+      />
+    </div>
+  );
+}
+
 export const MissionVisionPromiseSection: React.FC<MissionVisionPromiseSectionProps> = ({
   title,
   highlightTitle,
@@ -133,7 +169,13 @@ export const MissionVisionPromiseSection: React.FC<MissionVisionPromiseSectionPr
   const finalHighlight = highlightTitle || DEFAULT_HIGHLIGHT;
   const finalDescription = description || DEFAULT_DESCRIPTION;
   const finalCards = cards && cards.length > 0 ? cards : DEFAULT_CARDS;
-  const watermarkUrl = normalizeImageSrc(bgWatermarkImage);
+
+  const resolvedBg = normalizeImageSrc(bgWatermarkImage) || DEFAULT_BG;
+  const [bgSrc, setBgSrc] = useState<string>(resolvedBg);
+
+  useEffect(() => {
+    setBgSrc(normalizeImageSrc(bgWatermarkImage) || DEFAULT_BG);
+  }, [bgWatermarkImage]);
 
   // Render title with highlight: "Our " in #000000, "Mission, Vision & Promise" in #D31E2D
   const renderTitle = () => {
@@ -159,12 +201,17 @@ export const MissionVisionPromiseSection: React.FC<MissionVisionPromiseSectionPr
       {/* Background Graphic: Figma ChatGPT Image Oct 5, 2026, 10_17_40 PM 1 */}
       <div className="absolute inset-0 w-full h-full pointer-events-none select-none z-0">
         <Image
-          src={watermarkUrl || '/images/mission-vision-promise-bg.png'}
+          src={bgSrc}
           alt="Mission Vision & Promise background decoration"
           fill
           unoptimized
           priority={false}
           className="object-cover object-top lg:object-center opacity-85"
+          onError={() => {
+            if (bgSrc !== DEFAULT_BG) {
+              setBgSrc(DEFAULT_BG);
+            }
+          }}
         />
       </div>
 
@@ -216,23 +263,12 @@ export const MissionVisionPromiseSection: React.FC<MissionVisionPromiseSectionPr
                     style={{ backgroundColor: badgeBg }}
                     className="size-[clamp(90px,6.3vw,121px)] rounded-full border-[2.24px] border-[#2B88D9] flex items-center justify-center p-2 mb-4 lg:mb-6 transition-transform duration-300 group-hover:scale-105"
                   >
-                    {iconUrl ? (
-                      <div className="relative size-[clamp(44px,3.2vw,62px)]">
-                        <Image
-                          src={iconUrl}
-                          alt={
-                            typeof card.icon !== 'string' && card.icon?.alternativeText
-                              ? card.icon.alternativeText
-                              : card.title
-                          }
-                          fill
-                          unoptimized
-                          className="object-contain"
-                        />
-                      </div>
-                    ) : (
-                      <FallbackCardIcon index={index} />
-                    )}
+                    <CardIconRenderer
+                      iconUrl={iconUrl}
+                      altText={typeof card.icon !== 'string' ? card.icon?.alternativeText : card.title}
+                      title={card.title}
+                      index={index}
+                    />
                   </div>
 
                   {/* Card Title: Figma DM Serif Text, 52px, line-height: 71px, letter-spacing: -1px, color: #2B88D9 */}

@@ -69,7 +69,10 @@
         "references.ceo-message-reference",
         "references.supporting-mission-reference",
         "references.past-performance-reference",
-        "references.mission-vision-promise-reference"
+        "references.mission-vision-promise-reference",
+        "references.built-around-missions-reference",
+        "references.take-mission-seriously-reference",
+        "references.accountable-operating-environments-reference"
       ]
     }
   }

@@ -1,0 +1,17 @@
+{
+  "collectionName": "components_references_take_mission_seriously_references",
+  "info": {
+    "displayName": "Take Mission Seriously Reference",
+    "icon": "shield",
+    "description": "People who take the mission seriously section reference"
+  },
+  "options": {},
+  "attributes": {
+    "takeMissionSeriouslySection": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::take-mission-seriously-section.take-mission-seriously-section"
+    }
+  },
+  "config": {}
+}

@@ -1,0 +1,17 @@
+{
+  "collectionName": "components_references_built_around_missions_references",
+  "info": {
+    "displayName": "Built Around Missions Reference",
+    "icon": "layer",
+    "description": "Built around the missions that matter section reference"
+  },
+  "options": {},
+  "attributes": {
+    "builtAroundMissionsSection": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::built-around-missions-section.built-around-missions-section"
+    }
+  },
+  "config": {}
+}

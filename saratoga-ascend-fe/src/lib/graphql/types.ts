@@ -310,12 +310,20 @@ export interface RawPastPerformanceReference {
   caseStudies?: RawCaseStudy[] | null;
 }
 
-export interface RawMissionVisionPromiseCard {
-  id?: string;
+export interface RawCard {
+  documentId?: string;
+  id?: string | number | null;
   title: string;
   description: string;
+  number?: string | null;
+  isHighlighted?: boolean | null;
+  category?: string | null;
   icon?: RawStrapiMedia | null;
 }
+
+export type RawValueCard = RawCard;
+export type RawMissionVisionPromiseCard = RawCard;
+export type RawPurposeCard = RawCard;
 
 export interface RawMissionVisionPromiseSection {
   documentId?: string;
@@ -324,12 +332,60 @@ export interface RawMissionVisionPromiseSection {
   highlightTitle?: string | null;
   description?: string | null;
   bgWatermarkImage?: RawStrapiMedia | null;
-  cards?: RawMissionVisionPromiseCard[] | null;
+  cards?: RawValueCard[] | null;
 }
 
 export interface RawMissionVisionPromiseReference {
   __typename: 'ComponentReferencesMissionVisionPromiseReference';
   missionVisionPromiseSection?: RawMissionVisionPromiseSection | null;
+}
+
+export interface RawNumberedCard {
+  id?: string;
+  number?: string | null;
+  title: string;
+  description: string;
+  isHighlighted?: boolean | null;
+}
+
+export interface RawBuiltAroundMissionsSection {
+  documentId?: string;
+  referenceTitle?: string | null;
+  title?: string | null;
+  highlightTitle?: string | null;
+  description?: string | null;
+  calloutHighlight?: string | null;
+  calloutText?: string | null;
+  cards?: RawNumberedCard[] | null;
+}
+
+export interface RawBuiltAroundMissionsReference {
+  __typename: 'ComponentReferencesBuiltAroundMissionsReference';
+  builtAroundMissionsSection?: RawBuiltAroundMissionsSection | null;
+}
+
+export interface RawTakeMissionSeriouslySection {
+  documentId?: string;
+  title?: string | null;
+  highlightTitle?: string | null;
+  cards?: RawValueCard[] | null;
+}
+
+export interface RawTakeMissionSeriouslyReference {
+  __typename: 'ComponentReferencesTakeMissionSeriouslyReference';
+  takeMissionSeriouslySection?: RawTakeMissionSeriouslySection | null;
+}
+
+export interface RawAccountableOperatingEnvironmentsSection {
+  documentId?: string;
+  title?: string | null;
+  highlightTitle?: string | null;
+  cards?: RawValueCard[] | null;
+}
+
+export interface RawAccountableOperatingEnvironmentsReference {
+  __typename: 'ComponentReferencesAccountableOperatingEnvironmentsReference';
+  accountableOperatingEnvironmentsSection?: RawAccountableOperatingEnvironmentsSection | null;
 }
 
 /**
@@ -353,6 +409,9 @@ export type RawDynamicZoneSection =
   | RawSupportingMissionReference
   | RawPastPerformanceReference
   | RawMissionVisionPromiseReference
+  | RawBuiltAroundMissionsReference
+  | RawTakeMissionSeriouslyReference
+  | RawAccountableOperatingEnvironmentsReference
   | ({ __typename: string } & Record<string, unknown>);
 
 /** Universal slug-driven page (Strapi `pages` collection). */

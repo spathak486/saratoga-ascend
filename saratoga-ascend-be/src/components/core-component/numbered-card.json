@@ -1,0 +1,27 @@
+{
+  "collectionName": "components_core_component_numbered_cards",
+  "info": {
+    "displayName": "Numbered Card",
+    "icon": "bulletList",
+    "description": "Reusable numbered pillar or step card"
+  },
+  "options": {},
+  "attributes": {
+    "number": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text",
+      "required": true
+    },
+    "isHighlighted": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "config": {}
+}

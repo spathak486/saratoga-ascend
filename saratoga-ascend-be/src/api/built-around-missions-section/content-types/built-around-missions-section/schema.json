@@ -1,0 +1,45 @@
+{
+  "kind": "collectionType",
+  "collectionName": "built_around_missions_sections",
+  "info": {
+    "singularName": "built-around-missions-section",
+    "pluralName": "built-around-missions-sections",
+    "displayName": "Built Around Missions Section",
+    "description": "Built around the missions that matter section"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "referenceTitle": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string",
+      "required": true,
+      "default": "Built around the missions that matter"
+    },
+    "highlightTitle": {
+      "type": "string",
+      "default": "missions that matter"
+    },
+    "description": {
+      "type": "text",
+      "default": "Saratoga Ascend is positioned as a mission-focused partner for organizations operating where healthcare, workforce, technology, program management, and public-sector service delivery intersect. Our approach combines specialized capabilities with practical operational coordination."
+    },
+    "calloutHighlight": {
+      "type": "string",
+      "default": "“Built to rise” represents an operating mindset:"
+    },
+    "calloutText": {
+      "type": "text",
+      "default": "build capability, strengthen execution, learn continuously, and help mission-critical organizations move forward."
+    },
+    "cards": {
+      "type": "component",
+      "repeatable": true,
+      "component": "core-component.numbered-card"
+    }
+  }
+}
