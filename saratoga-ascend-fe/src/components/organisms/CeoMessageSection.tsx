@@ -27,44 +27,52 @@ const DEFAULT_PARAGRAPHS = [
 ];
 
 function renderHeading(title?: string, highlight?: string) {
-  if (!title) {
+  const rawTitle = title?.trim() || '';
+  const rawHighlight = highlight?.trim() || '';
+
+  if (!rawTitle && !rawHighlight) {
+    return null;
+  }
+
+  if (!rawHighlight) {
     return (
       <h2 className="font-serif text-[clamp(2.5rem,1.8rem+3vw,4.5rem)] font-normal leading-[1.15] text-[#000000] tracking-[-0.01em]">
-        {DEFAULT_TITLE} <span className="text-[#F01424]">{DEFAULT_HIGHLIGHT}</span>
+        {rawTitle}
       </h2>
     );
   }
 
-  // If highlight is provided and exists inside title, highlight it in red
-  if (highlight && title.includes(highlight)) {
-    const parts = title.split(highlight);
+  if (!rawTitle) {
     return (
       <h2 className="font-serif text-[clamp(2.5rem,1.8rem+3vw,4.5rem)] font-normal leading-[1.15] text-[#000000] tracking-[-0.01em]">
-        {parts[0]}
-        <span className="text-[#F01424]">{highlight}</span>
-        {parts.slice(1).join(highlight)}
+        <span className="text-[#F01424]">{rawHighlight}</span>
       </h2>
     );
   }
 
-  // Check if title ends with "Our CEO"
-  if (title.toLowerCase().includes('our ceo')) {
-    const index = title.toLowerCase().indexOf('our ceo');
-    const before = title.slice(0, index);
-    const target = title.slice(index, index + 7);
-    const after = title.slice(index + 7);
+  const escapedHighlight = rawHighlight.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const regex = new RegExp(`(${escapedHighlight})`, 'i');
+
+  if (regex.test(rawTitle)) {
+    const parts = rawTitle.split(regex);
     return (
       <h2 className="font-serif text-[clamp(2.5rem,1.8rem+3vw,4.5rem)] font-normal leading-[1.15] text-[#000000] tracking-[-0.01em]">
-        {before}
-        <span className="text-[#F01424]">{target}</span>
-        {after}
+        {parts.map((part, i) =>
+          part.toLowerCase() === rawHighlight.toLowerCase() ? (
+            <span key={i} className="text-[#F01424]">{part}</span>
+          ) : (
+            <span key={i}>{part}</span>
+          )
+        )}
       </h2>
     );
   }
 
+  // If highlight is separate from title (e.g. title: "Message from", highlight: "Our CEO")
   return (
     <h2 className="font-serif text-[clamp(2.5rem,1.8rem+3vw,4.5rem)] font-normal leading-[1.15] text-[#000000] tracking-[-0.01em]">
-      {title}
+      <span>{rawTitle} </span>
+      <span className="text-[#F01424]">{rawHighlight}</span>
     </h2>
   );
 }
@@ -80,13 +88,17 @@ function normalizeImageSrc(url?: string | null): string {
 
 export const CeoMessageSection: React.FC<CeoMessageSectionProps> = ({
   title,
-  highlightTitle = DEFAULT_HIGHLIGHT,
+  highlightTitle,
   description,
-  authorName = DEFAULT_AUTHOR_NAME,
-  authorRole = DEFAULT_AUTHOR_ROLE,
+  authorName,
+  authorRole,
   imageSrc,
   watermarkSrc,
 }) => {
+  if (!title && !description && !authorName) {
+    return null;
+  }
+
   const [imgSrc, setImgSrc] = React.useState<string>(() => normalizeImageSrc(imageSrc));
   const [wmSrc, setWmSrc] = React.useState<string>(() => normalizeImageSrc(watermarkSrc || imageSrc));
 
@@ -124,38 +136,35 @@ export const CeoMessageSection: React.FC<CeoMessageSectionProps> = ({
         {/* Left Content Area (Figma Group 2085665634: width: 927px, height: 546px, top: 87px, left: 135px) */}
         <div className="relative z-10 w-full lg:max-w-[50vw] 2xl:max-w-[927px] pl-6 sm:pl-12 md:pl-16 lg:pl-[6vw] 2xl:pl-[135px] pr-4 pt-10 lg:pt-14 2xl:pt-[87px] pb-10 flex flex-col justify-start min-h-[546px]">
           {/* Heading (Figma: width: 831px, height: 86px) */}
-          <div className="mb-6 2xl:mb-8 max-w-[831px]">
-            {renderHeading(title, highlightTitle)}
-          </div>
+          {title && (
+            <div className="mb-6 2xl:mb-8 max-w-[831px]">
+              {renderHeading(title, highlightTitle)}
+            </div>
+          )}
 
-          {/* Message Body (3 Paragraphs) */}
-          {description ? (
+          {/* Message Body */}
+          {description && (
             <div
               className="prose max-w-[927px] font-sans text-[clamp(1rem,0.85rem+0.45vw,1.5rem)] font-normal leading-[160%] text-[#5A5A5A] space-y-4 xl:space-y-6 [&_p]:mb-4 xl:[&_p]:mb-6 [&_p:last-child]:mb-0"
               dangerouslySetInnerHTML={{ __html: description }}
             />
-          ) : (
-            <div className="space-y-4 2xl:space-y-6 max-w-[927px]">
-              {DEFAULT_PARAGRAPHS.map((p, idx) => (
-                <p
-                  key={idx}
-                  className="font-sans text-[clamp(1rem,0.85rem+0.45vw,1.5rem)] font-normal leading-[160%] text-[#5A5A5A]"
-                >
-                  {p}
-                </p>
-              ))}
-            </div>
           )}
 
-          {/* Author Signature Block (Figma: top: 673px, left: 135px, width: 273px, height: 77px) */}
-          <div className="mt-8 2xl:mt-10 flex flex-col items-start">
-            <span className="font-serif text-[clamp(1.5rem,1.25rem+0.75vw,2.25rem)] font-normal leading-tight text-[#F01424]">
-              {authorName}
-            </span>
-            <span className="mt-1 font-sans text-[clamp(0.9375rem,0.85rem+0.25vw,1.25rem)] font-normal leading-normal text-[#1E293B]">
-              {authorRole}
-            </span>
-          </div>
+          {/* Author Signature Block */}
+          {(authorName || authorRole) && (
+            <div className="mt-8 2xl:mt-10 flex flex-col items-start">
+              {authorName && (
+                <span className="font-serif text-[clamp(1.5rem,1.25rem+0.75vw,2.25rem)] font-normal leading-tight text-[#F01424]">
+                  {authorName}
+                </span>
+              )}
+              {authorRole && (
+                <span className="mt-1 font-sans text-[clamp(0.9375rem,0.85rem+0.25vw,1.25rem)] font-normal leading-normal text-[#1E293B]">
+                  {authorRole}
+                </span>
+              )}
+            </div>
+          )}
         </div>
 
         {/* Visual Stage: Figma exact placement (Left: 1015px, Watermark Left: 1302px) */}

@@ -165,10 +165,13 @@ export const MissionVisionPromiseSection: React.FC<MissionVisionPromiseSectionPr
   bgWatermarkImage,
   cards,
 }) => {
-  const finalTitle = title || DEFAULT_TITLE;
-  const finalHighlight = highlightTitle || DEFAULT_HIGHLIGHT;
-  const finalDescription = description || DEFAULT_DESCRIPTION;
-  const finalCards = cards && cards.length > 0 ? cards : DEFAULT_CARDS;
+  if (!cards || cards.length === 0) {
+    return null;
+  }
+
+  const finalTitle = title || '';
+  const finalHighlight = highlightTitle || '';
+  const finalDescription = description || '';
 
   const resolvedBg = normalizeImageSrc(bgWatermarkImage) || DEFAULT_BG;
   const [bgSrc, setBgSrc] = useState<string>(resolvedBg);
@@ -179,15 +182,41 @@ export const MissionVisionPromiseSection: React.FC<MissionVisionPromiseSectionPr
 
   // Render title with highlight: "Our " in #000000, "Mission, Vision & Promise" in #D31E2D
   const renderTitle = () => {
-    if (!finalHighlight || !finalTitle.includes(finalHighlight)) {
-      return finalTitle;
+    const rawTitle = title?.trim() || '';
+    const rawHighlight = highlightTitle?.trim() || '';
+
+    if (!rawTitle && !rawHighlight) return null;
+
+    if (!rawHighlight) {
+      return rawTitle;
     }
-    const parts = finalTitle.split(finalHighlight);
+
+    if (!rawTitle) {
+      return <span className="text-[#D31E2D] font-normal">{rawHighlight}</span>;
+    }
+
+    const escapedHighlight = rawHighlight.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const regex = new RegExp(`(${escapedHighlight})`, 'i');
+
+    if (regex.test(rawTitle)) {
+      const parts = rawTitle.split(regex);
+      return parts.map((part, i) => {
+        if (part.toLowerCase() === rawHighlight.toLowerCase()) {
+          return (
+            <span key={i} className="text-[#D31E2D] font-normal">
+              {part}
+            </span>
+          );
+        }
+        return <span key={i}>{part}</span>;
+      });
+    }
+
+    // If highlightTitle is separate from title (e.g. title: "Our", highlightTitle: "Mission, Vision & Promise")
     return (
       <>
-        {parts[0]}
-        <span className="text-[#D31E2D] font-normal">{finalHighlight}</span>
-        {parts.slice(1).join(finalHighlight)}
+        <span>{rawTitle} </span>
+        <span className="text-[#D31E2D] font-normal">{rawHighlight}</span>
       </>
     );
   };
@@ -235,7 +264,7 @@ export const MissionVisionPromiseSection: React.FC<MissionVisionPromiseSectionPr
 
         {/* Group 2085665691: The 3 Cards Container (1684px total width, 26px gap between 544px cards) */}
         <div className="flex flex-col lg:flex-row items-stretch justify-between gap-6 lg:gap-[clamp(1rem,1.35vw,1.625rem)] w-full max-w-[1684px]">
-          {finalCards.map((card, index) => {
+          {cards.map((card, index) => {
             const iconUrl =
               typeof card.icon === 'string'
                 ? normalizeImageSrc(card.icon)
