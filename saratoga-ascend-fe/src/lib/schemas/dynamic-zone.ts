@@ -432,6 +432,42 @@ export const AccountableOperatingEnvironmentsReferenceSchema = z.object({
 
 export type AccountableOperatingEnvironmentsReference = z.infer<typeof AccountableOperatingEnvironmentsReferenceSchema>;
 
+export const OurCapabilitiesSectionEntitySchema = z.object({
+  documentId: z.string().optional(),
+  referenceTitle: z.string().nullable().optional(),
+  title: z.string().nullable().optional(),
+  highlightTitle: z.string().nullable().optional(),
+  description: z.string().nullable().optional(),
+  bgImage: StrapiImageSchema.nullable().optional(),
+  cards: z.array(ValueCardSchema).nullable().optional(),
+});
+
+export type OurCapabilitiesSectionEntity = z.infer<typeof OurCapabilitiesSectionEntitySchema>;
+
+export const OurCapabilitiesReferenceSchema = z.object({
+  __typename: z.literal('ComponentReferencesOurCapabilitiesReference'),
+  ourCapabilitiesSection: OurCapabilitiesSectionEntitySchema.nullable().optional(),
+});
+
+export type OurCapabilitiesReference = z.infer<typeof OurCapabilitiesReferenceSchema>;
+
+export const WorkforcePlanningSectionEntitySchema = z.object({
+  documentId: z.string().optional(),
+  referenceTitle: z.string().nullable().optional(),
+  title: z.string().nullable().optional(),
+  highlightTitle: z.string().nullable().optional(),
+  cards: z.array(ValueCardSchema).nullable().optional(),
+});
+
+export type WorkforcePlanningSectionEntity = z.infer<typeof WorkforcePlanningSectionEntitySchema>;
+
+export const WorkforcePlanningReferenceSchema = z.object({
+  __typename: z.literal('ComponentReferencesWorkforcePlanningReference'),
+  workforcePlanningSection: WorkforcePlanningSectionEntitySchema.nullable().optional(),
+});
+
+export type WorkforcePlanningReference = z.infer<typeof WorkforcePlanningReferenceSchema>;
+
 /**
  * Union of every section the Strapi dynamic zone can emit. The pass-through
  * catch-all keeps forward compatibility — components that aren't registered
@@ -455,6 +491,8 @@ export const DynamicZoneSectionSchema = z.union([
   BuiltAroundMissionsReferenceSchema,
   TakeMissionSeriouslyReferenceSchema,
   AccountableOperatingEnvironmentsReferenceSchema,
+  OurCapabilitiesReferenceSchema,
+  WorkforcePlanningReferenceSchema,
   z.object({ __typename: z.string() }).passthrough(),
 ]);
 

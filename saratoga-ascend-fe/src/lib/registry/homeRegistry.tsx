@@ -17,6 +17,8 @@ import type {
   BuiltAroundMissionsReference,
   TakeMissionSeriouslyReference,
   AccountableOperatingEnvironmentsReference,
+  OurCapabilitiesReference,
+  WorkforcePlanningReference,
 } from '@/lib/schemas';
 import {
   HeroSection,
@@ -40,6 +42,8 @@ import {
   BuiltAroundMissionsSection,
   TakeMissionSeriouslySection,
   AccountableOperatingEnvironmentsSection,
+  OurCapabilitiesSection,
+  WorkforcePlanningSection,
 } from '@/components/organisms';
 
 const MOCK_WHAT_WE_DO_LINES = [
@@ -489,7 +493,43 @@ export const SECTION_REGISTRY: Record<
     );
   },
 
+  ComponentReferencesOurCapabilitiesReference: (section, index) => {
+    const ocRef = section as OurCapabilitiesReference;
+    const oc = ocRef.ourCapabilitiesSection;
+    if (!oc || !oc.cards || oc.cards.length === 0) return null;
+    return (
+      <OurCapabilitiesSection
+        key={`our-capabilities-${index}`}
+        title={oc.title ?? undefined}
+        highlightTitle={oc.highlightTitle ?? undefined}
+        description={oc.description ?? undefined}
+        bgImage={oc.bgImage as any}
+        cards={oc.cards as any}
+      />
+    );
+  },
+
+  ComponentReferencesWorkforcePlanningReference: (section, index) => {
+    const wpRef = section as WorkforcePlanningReference;
+    const wp = wpRef.workforcePlanningSection;
+    if (!wp || !wp.cards || wp.cards.length === 0) return null;
+    return (
+      <WorkforcePlanningSection
+        key={`workforce-planning-${index}`}
+        title={wp.title ?? undefined}
+        highlightTitle={wp.highlightTitle ?? undefined}
+        cards={wp.cards as any}
+      />
+    );
+  },
+
   // Frontend-only Figma bands — used by local mocks until Strapi types exist.
+  MockWorkforcePlanning: (_section, index) => (
+    <WorkforcePlanningSection key={`workforce-planning-${index}`} />
+  ),
+  MockOurCapabilities: (_section, index) => (
+    <OurCapabilitiesSection key={`our-capabilities-${index}`} />
+  ),
   MockAccountableOperatingEnvironments: (_section, index) => (
     <AccountableOperatingEnvironmentsSection key={`accountable-operating-environments-${index}`} />
   ),

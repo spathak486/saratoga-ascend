@@ -360,6 +360,22 @@ export interface ReferencesMissionVisionPromiseReference
   };
 }
 
+export interface ReferencesOurCapabilitiesReference
+  extends Struct.ComponentSchema {
+  collectionName: 'components_references_our_capabilities_references';
+  info: {
+    description: 'One organization. Connected solution areas carousel section reference';
+    displayName: 'Our Capabilities Reference';
+    icon: 'layer';
+  };
+  attributes: {
+    ourCapabilitiesSection: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::our-capabilities-section.our-capabilities-section'
+    >;
+  };
+}
+
 export interface ReferencesPastPerformanceReference
   extends Struct.ComponentSchema {
   collectionName: 'components_references_past_performance_references';
@@ -434,6 +450,22 @@ export interface ReferencesWhatWeDoReference extends Struct.ComponentSchema {
     whatWeDoSection: Schema.Attribute.Relation<
       'oneToOne',
       'api::what-we-do-section.what-we-do-section'
+    >;
+  };
+}
+
+export interface ReferencesWorkforcePlanningReference
+  extends Struct.ComponentSchema {
+  collectionName: 'components_references_workforce_planning_references';
+  info: {
+    description: 'From Workforce Planning to Ongoing Support interactive step accordion section reference';
+    displayName: 'Workforce Planning Reference';
+    icon: 'bulletList';
+  };
+  attributes: {
+    workforcePlanningSection: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::workforce-planning-section.workforce-planning-section'
     >;
   };
 }
@@ -548,11 +580,13 @@ declare module '@strapi/strapi' {
       'references.legal-content': ReferencesLegalContent;
       'references.mission-reference': ReferencesMissionReference;
       'references.mission-vision-promise-reference': ReferencesMissionVisionPromiseReference;
+      'references.our-capabilities-reference': ReferencesOurCapabilitiesReference;
       'references.past-performance-reference': ReferencesPastPerformanceReference;
       'references.service-reference': ReferencesServiceReference;
       'references.supporting-mission-reference': ReferencesSupportingMissionReference;
       'references.take-mission-seriously-reference': ReferencesTakeMissionSeriouslyReference;
       'references.what-we-do-reference': ReferencesWhatWeDoReference;
+      'references.workforce-planning-reference': ReferencesWorkforcePlanningReference;
       'shared.custom-item': SharedCustomItem;
       'shared.general-link': SharedGeneralLink;
       'shared.highlight': SharedHighlight;

@@ -33,3 +33,5 @@ export * from './MissionVisionPromiseSection';
 export * from './BuiltAroundMissionsSection';
 export * from './TakeMissionSeriouslySection';
 export * from './AccountableOperatingEnvironmentsSection';
+export * from './OurCapabilitiesSection';
+export * from './WorkforcePlanningSection';

@@ -388,6 +388,32 @@ export interface RawAccountableOperatingEnvironmentsReference {
   accountableOperatingEnvironmentsSection?: RawAccountableOperatingEnvironmentsSection | null;
 }
 
+export interface RawOurCapabilitiesSection {
+  documentId?: string;
+  title?: string | null;
+  highlightTitle?: string | null;
+  description?: string | null;
+  bgImage?: RawStrapiMedia | null;
+  cards?: RawValueCard[] | null;
+}
+
+export interface RawOurCapabilitiesReference {
+  __typename: 'ComponentReferencesOurCapabilitiesReference';
+  ourCapabilitiesSection?: RawOurCapabilitiesSection | null;
+}
+
+export interface RawWorkforcePlanningSection {
+  documentId?: string;
+  title?: string | null;
+  highlightTitle?: string | null;
+  cards?: RawValueCard[] | null;
+}
+
+export interface RawWorkforcePlanningReference {
+  __typename: 'ComponentReferencesWorkforcePlanningReference';
+  workforcePlanningSection?: RawWorkforcePlanningSection | null;
+}
+
 /**
  * Anything a Strapi dynamic zone can return. The catch-all member keeps
  * forward compatibility: components not yet registered resolve through Zod
@@ -412,6 +438,8 @@ export type RawDynamicZoneSection =
   | RawBuiltAroundMissionsReference
   | RawTakeMissionSeriouslyReference
   | RawAccountableOperatingEnvironmentsReference
+  | RawOurCapabilitiesReference
+  | RawWorkforcePlanningReference
   | ({ __typename: string } & Record<string, unknown>);
 
 /** Universal slug-driven page (Strapi `pages` collection). */
