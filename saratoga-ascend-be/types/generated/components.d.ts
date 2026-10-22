@@ -49,6 +49,21 @@ export interface CoreComponentHeading extends Struct.ComponentSchema {
   };
 }
 
+export interface CoreComponentNumberedCard extends Struct.ComponentSchema {
+  collectionName: 'components_core_component_numbered_cards';
+  info: {
+    description: 'Reusable numbered pillar or step card';
+    displayName: 'Numbered Card';
+    icon: 'bulletList';
+  };
+  attributes: {
+    description: Schema.Attribute.Text & Schema.Attribute.Required;
+    isHighlighted: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    number: Schema.Attribute.String;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
 export interface CoreComponentPromo extends Struct.ComponentSchema {
   collectionName: 'components_core_component_promos';
   info: {
@@ -70,6 +85,20 @@ export interface CoreComponentPromo extends Struct.ComponentSchema {
   };
 }
 
+export interface CoreComponentPurposeCard extends Struct.ComponentSchema {
+  collectionName: 'components_core_component_purpose_cards';
+  info: {
+    description: 'Reusable card with icon, title, and description for values and purpose';
+    displayName: 'Purpose Card';
+    icon: 'star';
+  };
+  attributes: {
+    description: Schema.Attribute.Text & Schema.Attribute.Required;
+    icon: Schema.Attribute.Media<'images'>;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
 export interface CoreComponentValueCard extends Struct.ComponentSchema {
   collectionName: 'components_core_component_value_cards';
   info: {
@@ -80,6 +109,7 @@ export interface CoreComponentValueCard extends Struct.ComponentSchema {
   attributes: {
     description: Schema.Attribute.Text & Schema.Attribute.Required;
     icon: Schema.Attribute.Media<'images'>;
+    isHighlighted: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     title: Schema.Attribute.String & Schema.Attribute.Required;
   };
 }
@@ -107,6 +137,22 @@ export interface MediaBanner extends Struct.ComponentSchema {
     > &
       Schema.Attribute.Required &
       Schema.Attribute.DefaultTo<'homebanner'>;
+  };
+}
+
+export interface ReferencesAccountableOperatingEnvironmentsReference
+  extends Struct.ComponentSchema {
+  collectionName: 'components_references_accountable_operating_environments_references';
+  info: {
+    description: 'Built for accountable operating environments carousel section reference';
+    displayName: 'Accountable Operating Environments Reference';
+    icon: 'apps';
+  };
+  attributes: {
+    accountableOperatingEnvironmentsSection: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::accountable-operating-environments-section.accountable-operating-environments-section'
+    >;
   };
 }
 
@@ -149,6 +195,22 @@ export interface ReferencesBlogListing extends Struct.ComponentSchema {
     heading: Schema.Attribute.String & Schema.Attribute.DefaultTo<'Blogs'>;
     subheading: Schema.Attribute.Text &
       Schema.Attribute.DefaultTo<'Explore Insights Shaping the Future of Federal Healthcare'>;
+  };
+}
+
+export interface ReferencesBuiltAroundMissionsReference
+  extends Struct.ComponentSchema {
+  collectionName: 'components_references_built_around_missions_references';
+  info: {
+    description: 'Built around the missions that matter section reference';
+    displayName: 'Built Around Missions Reference';
+    icon: 'layer';
+  };
+  attributes: {
+    builtAroundMissionsSection: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::built-around-missions-section.built-around-missions-section'
+    >;
   };
 }
 
@@ -346,6 +408,22 @@ export interface ReferencesSupportingMissionReference
   };
 }
 
+export interface ReferencesTakeMissionSeriouslyReference
+  extends Struct.ComponentSchema {
+  collectionName: 'components_references_take_mission_seriously_references';
+  info: {
+    description: 'People who take the mission seriously section reference';
+    displayName: 'Take Mission Seriously Reference';
+    icon: 'shield';
+  };
+  attributes: {
+    takeMissionSeriouslySection: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::take-mission-seriously-section.take-mission-seriously-section'
+    >;
+  };
+}
+
 export interface ReferencesWhatWeDoReference extends Struct.ComponentSchema {
   collectionName: 'components_references_what_we_do_references';
   info: {
@@ -451,12 +529,16 @@ declare module '@strapi/strapi' {
       'core-component.achievement-cards': CoreComponentAchievementCards;
       'core-component.counter': CoreComponentCounter;
       'core-component.heading': CoreComponentHeading;
+      'core-component.numbered-card': CoreComponentNumberedCard;
       'core-component.promo': CoreComponentPromo;
+      'core-component.purpose-card': CoreComponentPurposeCard;
       'core-component.value-card': CoreComponentValueCard;
       'media.banner': MediaBanner;
+      'references.accountable-operating-environments-reference': ReferencesAccountableOperatingEnvironmentsReference;
       'references.achievements': ReferencesAchievements;
       'references.banner-reference': ReferencesBannerReference;
       'references.blog-listing': ReferencesBlogListing;
+      'references.built-around-missions-reference': ReferencesBuiltAroundMissionsReference;
       'references.ceo-message-reference': ReferencesCeoMessageReference;
       'references.client-logos-reference': ReferencesClientLogosReference;
       'references.cta': ReferencesCta;
@@ -469,6 +551,7 @@ declare module '@strapi/strapi' {
       'references.past-performance-reference': ReferencesPastPerformanceReference;
       'references.service-reference': ReferencesServiceReference;
       'references.supporting-mission-reference': ReferencesSupportingMissionReference;
+      'references.take-mission-seriously-reference': ReferencesTakeMissionSeriouslyReference;
       'references.what-we-do-reference': ReferencesWhatWeDoReference;
       'shared.custom-item': SharedCustomItem;
       'shared.general-link': SharedGeneralLink;

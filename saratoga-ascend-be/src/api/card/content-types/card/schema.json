@@ -1,0 +1,44 @@
+{
+  "kind": "collectionType",
+  "collectionName": "cards",
+  "info": {
+    "singularName": "card",
+    "pluralName": "cards",
+    "displayName": "Card",
+    "description": "Central reusable card for values, operating environments, pillars, and features"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "referenceTitle": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text",
+      "required": true
+    },
+    "number": {
+      "type": "string"
+    },
+    "isHighlighted": {
+      "type": "boolean",
+      "default": false
+    },
+    "category": {
+      "type": "string"
+    },
+    "icon": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images"
+      ]
+    }
+  }
+}

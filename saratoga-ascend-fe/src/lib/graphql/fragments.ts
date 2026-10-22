@@ -317,9 +317,70 @@ export const MISSION_VISION_PROMISE_REFERENCE_FIELDS = `
       description
       bgWatermarkImage { ${IMAGE_FIELDS} }
       cards {
-        id
+        documentId
         title
         description
+        number
+        isHighlighted
+        icon { ${IMAGE_FIELDS} }
+      }
+    }
+  }
+`;
+
+export const BUILT_AROUND_MISSIONS_REFERENCE_FIELDS = `
+  __typename
+  ... on ComponentReferencesBuiltAroundMissionsReference {
+    builtAroundMissionsSection {
+      documentId
+      title
+      highlightTitle
+      description
+      calloutHighlight
+      calloutText
+      cards {
+        id
+        number
+        title
+        description
+        isHighlighted
+      }
+    }
+  }
+`;
+
+export const TAKE_MISSION_SERIOUSLY_REFERENCE_FIELDS = `
+  __typename
+  ... on ComponentReferencesTakeMissionSeriouslyReference {
+    takeMissionSeriouslySection {
+      documentId
+      title
+      highlightTitle
+      cards {
+        documentId
+        title
+        description
+        number
+        isHighlighted
+        icon { ${IMAGE_FIELDS} }
+      }
+    }
+  }
+`;
+
+export const ACCOUNTABLE_OPERATING_ENVIRONMENTS_REFERENCE_FIELDS = `
+  __typename
+  ... on ComponentReferencesAccountableOperatingEnvironmentsReference {
+    accountableOperatingEnvironmentsSection {
+      documentId
+      title
+      highlightTitle
+      cards {
+        documentId
+        title
+        description
+        number
+        isHighlighted
         icon { ${IMAGE_FIELDS} }
       }
     }
@@ -341,14 +402,16 @@ export const COMMON_SECTION_FRAGMENTS = [
   CEO_MESSAGE_REFERENCE_FIELDS,
   SUPPORTING_MISSION_REFERENCE_FIELDS,
   PAST_PERFORMANCE_REFERENCE_FIELDS,
+  MISSION_VISION_PROMISE_REFERENCE_FIELDS,
+  BUILT_AROUND_MISSIONS_REFERENCE_FIELDS,
+  TAKE_MISSION_SERIOUSLY_REFERENCE_FIELDS,
+  ACCOUNTABLE_OPERATING_ENVIRONMENTS_REFERENCE_FIELDS,
 ].join('\n');
 
-// Page dynamic zone includes blog listing and mission/vision/promise.
-// News and blog zones do not, so those fragments stay off the shared list.
+// Page dynamic zone includes blog listing and any page-specific fragments.
 export const PAGE_SECTION_FRAGMENTS = [
   COMMON_SECTION_FRAGMENTS,
   BLOG_LISTING_REFERENCE_FIELDS,
-  MISSION_VISION_PROMISE_REFERENCE_FIELDS,
 ].join('\n');
 
 export const PAGE_FIELDS = `

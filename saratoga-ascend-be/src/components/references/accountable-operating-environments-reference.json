@@ -1,0 +1,17 @@
+{
+  "collectionName": "components_references_accountable_operating_environments_references",
+  "info": {
+    "displayName": "Accountable Operating Environments Reference",
+    "icon": "apps",
+    "description": "Built for accountable operating environments carousel section reference"
+  },
+  "options": {},
+  "attributes": {
+    "accountableOperatingEnvironmentsSection": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::accountable-operating-environments-section.accountable-operating-environments-section"
+    }
+  },
+  "config": {}
+}

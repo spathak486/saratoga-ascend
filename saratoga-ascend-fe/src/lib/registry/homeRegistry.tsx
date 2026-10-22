@@ -14,6 +14,9 @@ import type {
   SupportingMissionReference,
   PastPerformanceReference,
   MissionVisionPromiseReference,
+  BuiltAroundMissionsReference,
+  TakeMissionSeriouslyReference,
+  AccountableOperatingEnvironmentsReference,
 } from '@/lib/schemas';
 import {
   HeroSection,
@@ -34,6 +37,9 @@ import {
   CeoMessageSection,
   SupportingMissionSection,
   MissionVisionPromiseSection,
+  BuiltAroundMissionsSection,
+  TakeMissionSeriouslySection,
+  AccountableOperatingEnvironmentsSection,
 } from '@/components/organisms';
 
 const MOCK_WHAT_WE_DO_LINES = [
@@ -434,7 +440,55 @@ export const SECTION_REGISTRY: Record<
     );
   },
 
+  ComponentReferencesBuiltAroundMissionsReference: (section, index) => {
+    const bamRef = section as BuiltAroundMissionsReference;
+    const bam = bamRef.builtAroundMissionsSection;
+    return (
+      <BuiltAroundMissionsSection
+        key={`built-around-missions-${index}`}
+        title={bam?.title ?? undefined}
+        highlightTitle={bam?.highlightTitle ?? undefined}
+        description={bam?.description ?? undefined}
+        calloutHighlight={bam?.calloutHighlight ?? undefined}
+        calloutText={bam?.calloutText ?? undefined}
+        cards={bam?.cards as any}
+      />
+    );
+  },
+
+  ComponentReferencesTakeMissionSeriouslyReference: (section, index) => {
+    const tmsRef = section as TakeMissionSeriouslyReference;
+    const tms = tmsRef.takeMissionSeriouslySection;
+    return (
+      <TakeMissionSeriouslySection
+        key={`take-mission-seriously-${index}`}
+        title={tms?.title ?? undefined}
+        highlightTitle={tms?.highlightTitle ?? undefined}
+        cards={tms?.cards as any}
+      />
+    );
+  },
+
+  ComponentReferencesAccountableOperatingEnvironmentsReference: (section, index) => {
+    const aoeRef = section as AccountableOperatingEnvironmentsReference;
+    const aoe = aoeRef.accountableOperatingEnvironmentsSection;
+    return (
+      <AccountableOperatingEnvironmentsSection
+        key={`accountable-operating-environments-${index}`}
+        title={aoe?.title ?? undefined}
+        highlightTitle={aoe?.highlightTitle ?? undefined}
+        cards={aoe?.cards as any}
+      />
+    );
+  },
+
   // Frontend-only Figma bands — used by local mocks until Strapi types exist.
+  MockAccountableOperatingEnvironments: (_section, index) => (
+    <AccountableOperatingEnvironmentsSection key={`accountable-operating-environments-${index}`} />
+  ),
+  MockTakeMissionSeriously: (_section, index) => (
+    <TakeMissionSeriouslySection key={`take-mission-seriously-${index}`} />
+  ),
   MockCeoMessage: (_section, index) => (
     <CeoMessageSection key={`ceo-message-${index}`} />
   ),

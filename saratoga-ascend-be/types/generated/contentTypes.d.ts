@@ -443,6 +443,42 @@ export interface AdminUser extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiAccountableOperatingEnvironmentsSectionAccountableOperatingEnvironmentsSection
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'accountable_operating_environments_sections';
+  info: {
+    description: 'Built for accountable operating environments carousel section';
+    displayName: 'Accountable Operating Environments Section';
+    pluralName: 'accountable-operating-environments-sections';
+    singularName: 'accountable-operating-environments-section';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    cards: Schema.Attribute.Relation<'oneToMany', 'api::card.card'>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    highlightTitle: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'operating environments'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::accountable-operating-environments-section.accountable-operating-environments-section'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    referenceTitle: Schema.Attribute.String;
+    title: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'Built for accountable operating environments'>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiAchievementCardAchievementCard
   extends Struct.CollectionTypeSchema {
   collectionName: 'achievement_cards';
@@ -520,6 +556,80 @@ export interface ApiBlogBlog extends Struct.CollectionTypeSchema {
     seo: Schema.Attribute.Component<'shared.seo', false>;
     slug: Schema.Attribute.String & Schema.Attribute.Required;
     summary: Schema.Attribute.Text;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiBuiltAroundMissionsSectionBuiltAroundMissionsSection
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'built_around_missions_sections';
+  info: {
+    description: 'Built around the missions that matter section';
+    displayName: 'Built Around Missions Section';
+    pluralName: 'built-around-missions-sections';
+    singularName: 'built-around-missions-section';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    calloutHighlight: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'\u201CBuilt to rise\u201D represents an operating mindset:'>;
+    calloutText: Schema.Attribute.Text &
+      Schema.Attribute.DefaultTo<'build capability, strengthen execution, learn continuously, and help mission-critical organizations move forward.'>;
+    cards: Schema.Attribute.Component<'core-component.numbered-card', true>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    description: Schema.Attribute.Text &
+      Schema.Attribute.DefaultTo<'Saratoga Ascend is positioned as a mission-focused partner for organizations operating where healthcare, workforce, technology, program management, and public-sector service delivery intersect. Our approach combines specialized capabilities with practical operational coordination.'>;
+    highlightTitle: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'missions that matter'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::built-around-missions-section.built-around-missions-section'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    referenceTitle: Schema.Attribute.String;
+    title: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'Built around the missions that matter'>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiCardCard extends Struct.CollectionTypeSchema {
+  collectionName: 'cards';
+  info: {
+    description: 'Central reusable card for values, operating environments, pillars, and features';
+    displayName: 'Card';
+    pluralName: 'cards';
+    singularName: 'card';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    category: Schema.Attribute.String;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    description: Schema.Attribute.Text & Schema.Attribute.Required;
+    icon: Schema.Attribute.Media<'images'>;
+    isHighlighted: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::card.card'> &
+      Schema.Attribute.Private;
+    number: Schema.Attribute.String;
+    publishedAt: Schema.Attribute.DateTime;
+    referenceTitle: Schema.Attribute.String;
     title: Schema.Attribute.String & Schema.Attribute.Required;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
@@ -1017,7 +1127,7 @@ export interface ApiMissionVisionPromiseSectionMissionVisionPromiseSection
   };
   attributes: {
     bgWatermarkImage: Schema.Attribute.Media<'images'>;
-    cards: Schema.Attribute.Component<'core-component.value-card', true>;
+    cards: Schema.Attribute.Relation<'oneToMany', 'api::card.card'>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -1220,6 +1330,9 @@ export interface ApiPagePage extends Struct.CollectionTypeSchema {
         'references.supporting-mission-reference',
         'references.past-performance-reference',
         'references.mission-vision-promise-reference',
+        'references.built-around-missions-reference',
+        'references.take-mission-seriously-reference',
+        'references.accountable-operating-environments-reference',
       ]
     >;
     seo: Schema.Attribute.Component<'shared.seo', false> &
@@ -1311,6 +1424,42 @@ export interface ApiSupportingMissionSectionSupportingMissionSection
     title: Schema.Attribute.String &
       Schema.Attribute.Required &
       Schema.Attribute.DefaultTo<'Supporting the missions that move communities forward.'>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiTakeMissionSeriouslySectionTakeMissionSeriouslySection
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'take_mission_seriously_sections';
+  info: {
+    description: 'People who take the mission seriously section';
+    displayName: 'Take Mission Seriously Section';
+    pluralName: 'take-mission-seriously-sections';
+    singularName: 'take-mission-seriously-section';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    cards: Schema.Attribute.Relation<'oneToMany', 'api::card.card'>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    highlightTitle: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'mission seriously'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::take-mission-seriously-section.take-mission-seriously-section'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    referenceTitle: Schema.Attribute.String;
+    title: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'People who take the mission seriously'>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -1863,8 +2012,11 @@ declare module '@strapi/strapi' {
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
+      'api::accountable-operating-environments-section.accountable-operating-environments-section': ApiAccountableOperatingEnvironmentsSectionAccountableOperatingEnvironmentsSection;
       'api::achievement-card.achievement-card': ApiAchievementCardAchievementCard;
       'api::blog.blog': ApiBlogBlog;
+      'api::built-around-missions-section.built-around-missions-section': ApiBuiltAroundMissionsSectionBuiltAroundMissionsSection;
+      'api::card.card': ApiCardCard;
       'api::case-study.case-study': ApiCaseStudyCaseStudy;
       'api::category.category': ApiCategoryCategory;
       'api::ceo-message-section.ceo-message-section': ApiCeoMessageSectionCeoMessageSection;
@@ -1885,6 +2037,7 @@ declare module '@strapi/strapi' {
       'api::page.page': ApiPagePage;
       'api::service.service': ApiServiceService;
       'api::supporting-mission-section.supporting-mission-section': ApiSupportingMissionSectionSupportingMissionSection;
+      'api::take-mission-seriously-section.take-mission-seriously-section': ApiTakeMissionSeriouslySectionTakeMissionSeriouslySection;
       'api::what-we-do-section.what-we-do-section': ApiWhatWeDoSectionWhatWeDoSection;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;

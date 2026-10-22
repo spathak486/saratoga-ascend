@@ -329,14 +329,22 @@ export const PastPerformanceReferenceSchema = z.object({
 
 export type PastPerformanceReference = z.infer<typeof PastPerformanceReferenceSchema>;
 
-export const MissionVisionPromiseCardSchema = z.object({
-  id: z.string().optional(),
+export const CardSchema = z.object({
+  documentId: z.string().optional(),
+  id: z.union([z.string(), z.number()]).optional(),
   title: z.string(),
   description: z.string(),
+  number: z.string().nullable().optional(),
+  isHighlighted: z.boolean().nullable().optional(),
+  category: z.string().nullable().optional(),
   icon: StrapiImageSchema.nullable().optional(),
 });
 
-export type MissionVisionPromiseCardEntity = z.infer<typeof MissionVisionPromiseCardSchema>;
+export type CardEntity = z.infer<typeof CardSchema>;
+export const ValueCardSchema = CardSchema;
+export type ValueCardEntity = CardEntity;
+export const MissionVisionPromiseCardSchema = CardSchema;
+export type MissionVisionPromiseCardEntity = CardEntity;
 
 export const MissionVisionPromiseSectionEntitySchema = z.object({
   documentId: z.string().optional(),
@@ -345,7 +353,7 @@ export const MissionVisionPromiseSectionEntitySchema = z.object({
   highlightTitle: z.string().nullable().optional(),
   description: z.string().nullable().optional(),
   bgWatermarkImage: StrapiImageSchema.nullable().optional(),
-  cards: z.array(MissionVisionPromiseCardSchema).nullable().optional(),
+  cards: z.array(ValueCardSchema).nullable().optional(),
 });
 
 export type MissionVisionPromiseSectionEntity = z.infer<typeof MissionVisionPromiseSectionEntitySchema>;
@@ -356,6 +364,73 @@ export const MissionVisionPromiseReferenceSchema = z.object({
 });
 
 export type MissionVisionPromiseReference = z.infer<typeof MissionVisionPromiseReferenceSchema>;
+
+export const NumberedCardSchema = z.object({
+  id: z.string().optional(),
+  number: z.string().nullable().optional(),
+  title: z.string(),
+  description: z.string(),
+  isHighlighted: z.boolean().nullable().optional(),
+});
+
+export type NumberedCardEntity = z.infer<typeof NumberedCardSchema>;
+
+export const BuiltAroundMissionsSectionEntitySchema = z.object({
+  documentId: z.string().optional(),
+  referenceTitle: z.string().nullable().optional(),
+  title: z.string().nullable().optional(),
+  highlightTitle: z.string().nullable().optional(),
+  description: z.string().nullable().optional(),
+  calloutHighlight: z.string().nullable().optional(),
+  calloutText: z.string().nullable().optional(),
+  cards: z.array(NumberedCardSchema).nullable().optional(),
+});
+
+export type BuiltAroundMissionsSectionEntity = z.infer<typeof BuiltAroundMissionsSectionEntitySchema>;
+
+export const BuiltAroundMissionsReferenceSchema = z.object({
+  __typename: z.literal('ComponentReferencesBuiltAroundMissionsReference'),
+  builtAroundMissionsSection: BuiltAroundMissionsSectionEntitySchema.nullable().optional(),
+});
+
+export type BuiltAroundMissionsReference = z.infer<typeof BuiltAroundMissionsReferenceSchema>;
+
+export const PurposeCardSchema = ValueCardSchema;
+export type PurposeCardEntity = ValueCardEntity;
+
+export const TakeMissionSeriouslySectionEntitySchema = z.object({
+  documentId: z.string().optional(),
+  referenceTitle: z.string().nullable().optional(),
+  title: z.string().nullable().optional(),
+  highlightTitle: z.string().nullable().optional(),
+  cards: z.array(ValueCardSchema).nullable().optional(),
+});
+
+export type TakeMissionSeriouslySectionEntity = z.infer<typeof TakeMissionSeriouslySectionEntitySchema>;
+
+export const TakeMissionSeriouslyReferenceSchema = z.object({
+  __typename: z.literal('ComponentReferencesTakeMissionSeriouslyReference'),
+  takeMissionSeriouslySection: TakeMissionSeriouslySectionEntitySchema.nullable().optional(),
+});
+
+export type TakeMissionSeriouslyReference = z.infer<typeof TakeMissionSeriouslyReferenceSchema>;
+
+export const AccountableOperatingEnvironmentsSectionEntitySchema = z.object({
+  documentId: z.string().optional(),
+  referenceTitle: z.string().nullable().optional(),
+  title: z.string().nullable().optional(),
+  highlightTitle: z.string().nullable().optional(),
+  cards: z.array(ValueCardSchema).nullable().optional(),
+});
+
+export type AccountableOperatingEnvironmentsSectionEntity = z.infer<typeof AccountableOperatingEnvironmentsSectionEntitySchema>;
+
+export const AccountableOperatingEnvironmentsReferenceSchema = z.object({
+  __typename: z.literal('ComponentReferencesAccountableOperatingEnvironmentsReference'),
+  accountableOperatingEnvironmentsSection: AccountableOperatingEnvironmentsSectionEntitySchema.nullable().optional(),
+});
+
+export type AccountableOperatingEnvironmentsReference = z.infer<typeof AccountableOperatingEnvironmentsReferenceSchema>;
 
 /**
  * Union of every section the Strapi dynamic zone can emit. The pass-through
@@ -377,6 +452,9 @@ export const DynamicZoneSectionSchema = z.union([
   SupportingMissionReferenceSchema,
   PastPerformanceReferenceSchema,
   MissionVisionPromiseReferenceSchema,
+  BuiltAroundMissionsReferenceSchema,
+  TakeMissionSeriouslyReferenceSchema,
+  AccountableOperatingEnvironmentsReferenceSchema,
   z.object({ __typename: z.string() }).passthrough(),
 ]);
 
