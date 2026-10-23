@@ -427,8 +427,8 @@ export const WORKFORCE_PLANNING_REFERENCE_FIELDS = `
   }
 `;
 
-// Common dynamic-zone inline fragments shared by articles, blogs, and pages.
-export const COMMON_SECTION_FRAGMENTS = [
+// Common dynamic-zone inline fragments supported by Blog.Section in Strapi
+export const BLOG_SECTION_FRAGMENTS = [
   BANNER_REFERENCE_FIELDS,
   CTA_REFERENCE_FIELDS,
   FAQS_REFERENCE_FIELDS,
@@ -442,6 +442,11 @@ export const COMMON_SECTION_FRAGMENTS = [
   CEO_MESSAGE_REFERENCE_FIELDS,
   SUPPORTING_MISSION_REFERENCE_FIELDS,
   PAST_PERFORMANCE_REFERENCE_FIELDS,
+].join('\n');
+
+// Dynamic-zone inline fragments supported by Page.Section
+export const COMMON_SECTION_FRAGMENTS = [
+  BLOG_SECTION_FRAGMENTS,
   MISSION_VISION_PROMISE_REFERENCE_FIELDS,
   BUILT_AROUND_MISSIONS_REFERENCE_FIELDS,
   TAKE_MISSION_SERIOUSLY_REFERENCE_FIELDS,
@@ -482,11 +487,11 @@ export const ARTICLE_FIELDS = `
   image { ${IMAGE_FIELDS} }
   seo { ${SEO_FIELDS} }
   Section {
-    ${COMMON_SECTION_FRAGMENTS}
+    ${BLOG_SECTION_FRAGMENTS}
   }
 `;
 
-export const BLOG_FIELDS = `
+export const BLOG_ITEM_FIELDS = `
   documentId
   title
   slug
@@ -501,8 +506,12 @@ export const BLOG_FIELDS = `
   }
   description
   image { ${IMAGE_FIELDS} }
+`;
+
+export const BLOG_FIELDS = `
+  ${BLOG_ITEM_FIELDS}
   seo { ${SEO_FIELDS} }
   Section {
-    ${COMMON_SECTION_FRAGMENTS}
+    ${BLOG_SECTION_FRAGMENTS}
   }
 `;

@@ -18,6 +18,15 @@ export const BlogListingSection: React.FC<BlogListingSectionProps> = ({
 }) => {
   const [activeCategory, setActiveCategory] = useState('All Topics');
 
+  const normalizeImageSrc = (url?: string | null): string | undefined => {
+    if (!url) return undefined;
+    if (url.startsWith('/uploads/')) {
+      const base = process.env.NEXT_PUBLIC_STRAPI_API_URL || 'https://cms.saratogaascend.com';
+      return `${base.replace(/\/+$/, '')}${url}`;
+    }
+    return url;
+  };
+
   const formattedBlogs = blogs.map((b: any) => ({
     id: b.documentId || b.id || Math.random().toString(),
     title: b.title || 'Untitled',
@@ -27,9 +36,9 @@ export const BlogListingSection: React.FC<BlogListingSectionProps> = ({
       : undefined,
     author: b.author || 'Saratoga Team',
     category: b.category?.name || b.category || 'Uncategorized',
-    imageSrc: b.image?.url || undefined,
-    href: b.slug ? `/${b.slug}` : '#',
-    excerpt: b.excerpt || undefined,
+    imageSrc: normalizeImageSrc(b.image?.url || (typeof b.image === 'string' ? b.image : undefined)),
+    href: b.slug ? (b.slug.startsWith('/') ? b.slug : `/${b.slug}`) : '#',
+    excerpt: b.summary || b.excerpt || undefined,
   }));
 
   const categories = [
