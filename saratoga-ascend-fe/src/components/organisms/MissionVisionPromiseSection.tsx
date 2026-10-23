@@ -7,6 +7,7 @@ export interface MissionVisionPromiseCard {
   id?: string;
   title: string;
   description: string;
+  isHighlighted?: boolean | null;
   icon?: { url: string; alternativeText?: string | null } | string | null;
 }
 
@@ -176,6 +177,9 @@ export const MissionVisionPromiseSection: React.FC<MissionVisionPromiseSectionPr
   const resolvedBg = normalizeImageSrc(bgWatermarkImage) || DEFAULT_BG;
   const [bgSrc, setBgSrc] = useState<string>(resolvedBg);
 
+  // Dynamic hover state: tracks which card is currently hovered
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+
   useEffect(() => {
     setBgSrc(normalizeImageSrc(bgWatermarkImage) || DEFAULT_BG);
   }, [bgWatermarkImage]);
@@ -272,25 +276,37 @@ export const MissionVisionPromiseSection: React.FC<MissionVisionPromiseSectionPr
                 ? normalizeImageSrc(card.icon.url)
                 : '';
 
-            const badgeBg = BADGE_BG_COLORS[index % BADGE_BG_COLORS.length];
+            // Card is highlighted ONLY when hovered
+            const isCardHighlighted = hoveredIndex === index;
+
+            const badgeBgClass =
+              index % 2 === 1 ? 'bg-[#E5F0FB]' : 'bg-[#F8F4F7]';
 
             return (
-              /* Figma Rectangle 74 / 71 / 73: 544px x 592px, background: rgba(249, 251, 254, 0.7), border: 2px solid #2B88D9, backdrop-filter: blur(15.5px), border-radius: 35px */
+              /* Figma Rectangle 74 / 71 / 73: 544px x 592px, border: 2px solid #2B88D9, border-radius: 35px */
               <div
                 key={card.id || `card-${index}`}
+                onMouseEnter={() => setHoveredIndex(index)}
+                onMouseLeave={() => setHoveredIndex(null)}
                 style={{
-                  background: 'rgba(249, 251, 254, 0.7)',
-                  backdropFilter: 'blur(15.5px)',
-                  WebkitBackdropFilter: 'blur(15.5px)',
+                  backdropFilter: isCardHighlighted ? 'none' : 'blur(15.5px)',
+                  WebkitBackdropFilter: isCardHighlighted ? 'none' : 'blur(15.5px)',
                 }}
-                className="group relative flex flex-col items-center justify-between text-center w-full lg:w-[clamp(440px,28.33vw,544px)] lg:h-[clamp(520px,30.83vw,592px)] py-[clamp(2rem,3.2vw,3.75rem)] px-[clamp(1.25rem,2.5vw,3.06rem)] border-2 border-[#2B88D9] rounded-[35px] shadow-[0_10px_35px_rgba(43,136,217,0.08)] hover:shadow-[0_18px_50px_rgba(43,136,217,0.18)] hover:-translate-y-1 transition-all duration-300"
+                className={`group relative flex flex-col items-center justify-between text-center w-full lg:w-[clamp(440px,28.33vw,544px)] lg:h-[clamp(520px,30.83vw,592px)] py-[clamp(2rem,3.2vw,3.75rem)] px-[clamp(1.25rem,2.5vw,3.06rem)] border-2 border-[#2B88D9] rounded-[35px] cursor-pointer transition-all duration-300 ease-out select-none ${
+                  isCardHighlighted
+                    ? 'bg-[#2B88D9] text-white shadow-[0_22px_55px_rgba(43,136,217,0.38)] -translate-y-2'
+                    : 'bg-[rgba(249,251,254,0.7)] text-black shadow-[0_10px_35px_rgba(43,136,217,0.08)] translate-y-0'
+                }`}
               >
                 {/* Top Section: Circular Badge + Title + Underline */}
                 <div className="flex flex-col items-center w-full">
                   {/* Figma Rectangle 40122: Circular Icon Badge (~121px x 121px, border: 2.2411px solid #2B88D9, border-radius: 102.41px) */}
                   <div
-                    style={{ backgroundColor: badgeBg }}
-                    className="size-[clamp(90px,6.3vw,121px)] rounded-full border-[2.24px] border-[#2B88D9] flex items-center justify-center p-2 mb-4 lg:mb-6 transition-transform duration-300 group-hover:scale-105"
+                    className={`size-[clamp(90px,6.3vw,121px)] rounded-full border-[2.24px] flex items-center justify-center p-2 mb-4 lg:mb-6 transition-all duration-300 ${
+                      isCardHighlighted
+                        ? 'bg-white border-white shadow-md scale-105'
+                        : `${badgeBgClass} border-[#2B88D9] scale-100`
+                    }`}
                   >
                     <CardIconRenderer
                       iconUrl={iconUrl}
@@ -300,17 +316,31 @@ export const MissionVisionPromiseSection: React.FC<MissionVisionPromiseSectionPr
                     />
                   </div>
 
-                  {/* Card Title: Figma DM Serif Text, 52px, line-height: 71px, letter-spacing: -1px, color: #2B88D9 */}
-                  <h3 className="font-serif font-normal text-[clamp(2rem,2.7vw,3.25rem)] leading-[clamp(2.75rem,3.7vw,4.4375rem)] tracking-[-1px] text-[#2B88D9] text-center">
+                  {/* Card Title: Figma DM Serif Text, 52px, line-height: 71px, letter-spacing: -1px */}
+                  <h3
+                    className={`font-serif font-normal text-[clamp(2rem,2.7vw,3.25rem)] leading-[clamp(2.75rem,3.7vw,4.4375rem)] tracking-[-1px] text-center transition-colors duration-300 ${
+                      isCardHighlighted ? 'text-white' : 'text-[#2B88D9]'
+                    }`}
+                  >
                     {card.title}
                   </h3>
 
-                  {/* Rectangle 40131: Accent Underline Bar (~146px width, background: #2B88D9, border-radius: 10px) */}
-                  <div className="w-[clamp(90px,7.6vw,146px)] h-[clamp(4px,0.3vw,6px)] bg-[#2B88D9] rounded-[10px] my-3 sm:my-4 transition-all duration-300 group-hover:w-[clamp(110px,8.5vw,164px)]" />
+                  {/* Rectangle 40131: Accent Underline Bar (~146px width, border-radius: 10px) */}
+                  <div
+                    className={`h-[clamp(4px,0.3vw,6px)] rounded-[10px] my-3 sm:my-4 transition-all duration-300 ${
+                      isCardHighlighted
+                        ? 'w-[clamp(110px,8.5vw,164px)] bg-white'
+                        : 'w-[clamp(90px,7.6vw,146px)] bg-[#2B88D9]'
+                    }`}
+                  />
                 </div>
 
-                {/* Card Body: Figma Google Sans Flex, 24px, line-height: 160% (38px), text-align: center, color: #000000 */}
-                <p className="font-sans font-normal text-[clamp(0.95rem,1.25vw,1.5rem)] leading-[160%] text-black text-center mt-2 lg:mt-4">
+                {/* Card Body: Figma Google Sans Flex, 24px, line-height: 160% (38px), text-align: center */}
+                <p
+                  className={`font-sans font-normal text-[clamp(0.95rem,1.25vw,1.5rem)] leading-[160%] text-center mt-2 lg:mt-4 transition-colors duration-300 ${
+                    isCardHighlighted ? 'text-white' : 'text-black'
+                  }`}
+                >
                   {card.description}
                 </p>
               </div>

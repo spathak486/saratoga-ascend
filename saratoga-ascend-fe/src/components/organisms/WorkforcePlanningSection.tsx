@@ -142,8 +142,8 @@ export function WorkforcePlanningSection({
                   }`}
                 />
 
-                {/* Step Body: Big Number + Text Content */}
-                <div className="flex flex-row items-center gap-6 sm:gap-8 lg:gap-[43px] overflow-hidden min-h-[278px]">
+                {/* Step Body: Big Number + Text Content (Figma Frame 2147226472/3: fixed height 278px) */}
+                <div className="flex flex-row items-center gap-6 sm:gap-8 lg:gap-[43px] overflow-hidden h-[278px]">
                   
                   {/* Big Number: DM Serif Text, 358px, #F01424 (active) / #CCCCCC (inactive) with click event */}
                   <button
@@ -154,10 +154,10 @@ export function WorkforcePlanningSection({
                     }}
                     title={`Click to view Step ${stepNum}`}
                     aria-label={`Step number ${stepNum}`}
-                    className={`font-serif text-[140px] sm:text-[220px] lg:text-[358px] leading-[0.85] select-none transition-all duration-300 shrink-0 text-left p-0 bg-transparent border-none cursor-pointer focus:outline-none ${
+                    className={`h-[278px] flex items-center font-serif text-[140px] sm:text-[220px] lg:text-[358px] leading-none select-none transition-colors duration-300 shrink-0 text-left p-0 bg-transparent border-none cursor-pointer focus:outline-none ${
                       isActive
-                        ? 'text-[#F01424] scale-100'
-                        : 'text-[#CCCCCC] hover:text-[#F01424]/70 hover:scale-[1.02] active:scale-95'
+                        ? 'text-[#F01424]'
+                        : 'text-[#CCCCCC] hover:text-[#F01424]/70'
                     }`}
                     style={{ fontFamily: "'DM Serif Text', serif" }}
                   >
@@ -166,27 +166,29 @@ export function WorkforcePlanningSection({
 
                   {/* Text Content (Figma Frame 2147226471: UNDERSTAND / ALIGN / DELIVER / IMPROVE + description) */}
                   <div
-                    className={`flex flex-col justify-center transition-all duration-500 ease-in-out overflow-hidden ${
+                    className={`transition-all duration-500 ease-in-out overflow-hidden shrink-0 self-center ${
                       isActive
-                        ? 'opacity-100 max-w-[398px] translate-x-0'
-                        : 'lg:opacity-0 lg:max-w-0 lg:-translate-x-4 pointer-events-none'
+                        ? 'w-full lg:w-[398px] opacity-100 translate-x-0'
+                        : 'w-0 opacity-0 -translate-x-4 pointer-events-none'
                     }`}
                   >
-                    {/* Step Title: DM Serif Text, 38px, line-height: 52px, color: #000000 */}
-                    <h3
-                      className="font-serif text-[22px] sm:text-[28px] lg:text-[38px] leading-[30px] sm:leading-[38px] lg:leading-[52px] text-[#000000] font-normal uppercase mb-2 sm:mb-3"
-                      style={{ fontFamily: "'DM Serif Text', serif" }}
-                    >
-                      {card.title}
-                    </h3>
+                    <div className="w-[398px] flex flex-col justify-center">
+                      {/* Step Title: DM Serif Text, 38px, line-height: 52px, color: #000000 */}
+                      <h3
+                        className="font-serif text-[22px] sm:text-[28px] lg:text-[38px] leading-[30px] sm:leading-[38px] lg:leading-[52px] text-[#000000] font-normal uppercase mb-2 sm:mb-3"
+                        style={{ fontFamily: "'DM Serif Text', serif" }}
+                      >
+                        {card.title}
+                      </h3>
 
-                    {/* Step Description: Google Sans Flex, 24px, line-height: 35px, color: #000000 */}
-                    <p
-                      className="font-sans text-[15px] sm:text-[18px] lg:text-[24px] leading-[22px] sm:leading-[27px] lg:leading-[35px] text-[#000000] font-medium max-w-[398px]"
-                      style={{ fontFamily: "'Google Sans Flex', sans-serif" }}
-                    >
-                      {card.description}
-                    </p>
+                      {/* Step Description: Google Sans Flex, 24px, line-height: 35px, color: #000000 */}
+                      <p
+                        className="font-sans text-[15px] sm:text-[18px] lg:text-[24px] leading-[22px] sm:leading-[27px] lg:leading-[35px] text-[#000000] font-medium max-w-[398px]"
+                        style={{ fontFamily: "'Google Sans Flex', sans-serif" }}
+                      >
+                        {card.description}
+                      </p>
+                    </div>
                   </div>
 
                 </div>
