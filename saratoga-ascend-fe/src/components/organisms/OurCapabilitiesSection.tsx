@@ -174,6 +174,7 @@ export function OurCapabilitiesSection({
   const [scrollProgress, setScrollProgress] = useState(0); // 0 to 1
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   const updateScrollState = useCallback(() => {
     const el = scrollContainerRef.current;
@@ -297,16 +298,29 @@ export function OurCapabilitiesSection({
             {cards.map((card, index) => {
               const iconUrl = typeof card.icon === 'string' ? card.icon : card.icon?.url;
               const CardIcon = getCapabilityIcon(card.title, index);
+              const isCardHovered = hoveredIndex === index;
 
               return (
                 /* Card: width: 434px / 454px, height: 436px / 456px, border-radius: 0px 66.5985px 0px 0px */
                 <div
                   key={card.id ?? `capability-card-${index}`}
+                  onMouseEnter={() => setHoveredIndex(index)}
+                  onMouseLeave={() => setHoveredIndex(null)}
                   style={{ scrollSnapAlign: 'start' }}
-                  className="box-border relative shrink-0 w-[300px] sm:w-[380px] md:w-[434px] min-h-[420px] md:h-[436px] bg-[#FFFFFF] border-[1.11px] border-[#CFCFCF] hover:border-[#2B88D9] rounded-tr-[66.6px] rounded-tl-none rounded-bl-none rounded-br-none shadow-[0px_0px_16.65px_rgba(0,0,0,0.09)] transition-all duration-300 p-8 md:p-10 flex flex-col items-center text-center justify-between group"
+                  className={`box-border relative shrink-0 w-[300px] sm:w-[380px] md:w-[434px] min-h-[420px] md:h-[436px] rounded-tr-[66.6px] rounded-tl-none rounded-bl-none rounded-br-none p-8 md:p-10 flex flex-col items-center text-center justify-between group cursor-pointer transition-all duration-300 ease-out select-none ${
+                    isCardHovered
+                      ? 'bg-[#D9D9D9] border-[1.11px] border-[#CFCFCF] shadow-[0_14px_35px_rgba(0,0,0,0.12)] -translate-y-1.5'
+                      : 'bg-[#FFFFFF] border-[1.11px] border-[#CFCFCF] shadow-[0px_0px_16.65px_rgba(0,0,0,0.09)] translate-y-0'
+                  }`}
                 >
-                  {/* Top Icon Box: Rectangle 40094 (background: #E4EBF1, border-radius: 15px, 64px x 64px) */}
-                  <div className="w-[64px] h-[64px] md:w-[72px] md:h-[72px] rounded-[15px] bg-[#E4EBF1] group-hover:bg-[#D5E7F7] flex items-center justify-center transition-colors mb-6 shrink-0">
+                  {/* Top Icon Box: Rectangle 40094 & Rectangle 40133 (Figma: 72px x 72px, bg: #D5E7F7 on hover) */}
+                  <div
+                    className={`w-[64px] h-[64px] md:w-[72px] md:h-[72px] rounded-[15px] flex items-center justify-center transition-all duration-300 mb-6 shrink-0 ${
+                      isCardHovered
+                        ? 'bg-[#D5E7F7] scale-105'
+                        : 'bg-[#E4EBF1] scale-100'
+                    }`}
+                  >
                     {iconUrl ? (
                       <div className="relative w-9 h-9 md:w-10 md:h-10">
                         <Image
@@ -325,12 +339,12 @@ export function OurCapabilitiesSection({
                   {/* Card Content Block */}
                   <div className="flex-1 flex flex-col justify-center">
                     {/* Card Title: DM Serif Text, 28px, line-height: 38px, color: #2B2B2B */}
-                    <h3 className="font-['DM_Serif_Text'] text-[22px] sm:text-[25px] md:text-[28px] leading-[30px] md:leading-[38px] text-[#2B2B2B] font-normal mb-3 md:mb-4">
+                    <h3 className="font-['DM_Serif_Text'] text-[22px] sm:text-[25px] md:text-[28px] leading-[30px] md:leading-[38px] text-[#2B2B2B] font-normal mb-3 md:mb-4 transition-colors duration-300">
                       {card.title}
                     </h3>
 
                     {/* Card Description: Google Sans Flex / DM Sans, 20px, line-height: 28px, color: #212121 */}
-                    <p className="font-['Google_Sans_Flex'] text-[15px] sm:text-[17px] md:text-[20px] leading-[22px] sm:leading-[25px] md:leading-[28px] text-[#212121] font-normal">
+                    <p className="font-['Google_Sans_Flex'] text-[15px] sm:text-[17px] md:text-[20px] leading-[22px] sm:leading-[25px] md:leading-[28px] text-[#212121] font-normal transition-colors duration-300">
                       {card.description}
                     </p>
                   </div>
