@@ -63,13 +63,19 @@ export const ContactInquiryForm: React.FC<ContactInquiryFormProps> = ({
     event.preventDefault();
     setState({ status: 'submitting' });
 
-    const name = `${firstName.trim()} ${lastName.trim()}`.trim();
-
     try {
       const response = await fetch('/api/contact-submissions', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, source: 'contact' }),
+        body: JSON.stringify({
+          firstName: firstName.trim(),
+          lastName: lastName.trim(),
+          email: email.trim(),
+          organization: organization.trim(),
+          inquiryType,
+          description: description.trim(),
+          source: 'contact',
+        }),
       });
 
       const payload = (await response.json().catch(() => null)) as { error?: string } | null;

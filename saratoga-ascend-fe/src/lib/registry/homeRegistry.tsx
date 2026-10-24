@@ -19,6 +19,10 @@ import type {
   AccountableOperatingEnvironmentsReference,
   OurCapabilitiesReference,
   WorkforcePlanningReference,
+  ContactInquiryReference,
+  ContactPathwaysReference,
+  ContactLearnReference,
+  ContactOfficesReference,
 } from '@/lib/schemas';
 import {
   HeroSection,
@@ -44,6 +48,10 @@ import {
   AccountableOperatingEnvironmentsSection,
   OurCapabilitiesSection,
   WorkforcePlanningSection,
+  ContactInquirySection,
+  ContactPathwaysSection,
+  ContactLearnSection,
+  ContactOfficesSection,
 } from '@/components/organisms';
 
 const MOCK_WHAT_WE_DO_LINES = [
@@ -519,6 +527,148 @@ export const SECTION_REGISTRY: Record<
         title={wp.title ?? undefined}
         highlightTitle={wp.highlightTitle ?? undefined}
         cards={wp.cards as any}
+      />
+    );
+  },
+
+  ComponentReferencesContactInquiryReference: (section, index) => {
+    const ciRef = section as ContactInquiryReference;
+    const ci = ciRef.contactInquirySection;
+    if (!ci) return null;
+
+    const details = [
+      ci.address
+        ? {
+            icon: 'location' as const,
+            label: 'Address',
+            value: ci.address,
+          }
+        : null,
+      ci.email
+        ? {
+            icon: 'mail' as const,
+            label: 'Email',
+            value: ci.email,
+            href: `mailto:${ci.email}`,
+          }
+        : null,
+      ci.phone
+        ? {
+            icon: 'phone' as const,
+            label: 'Contact',
+            value: ci.phone,
+            href: `tel:${ci.phone.replace(/[^+\d]/g, '')}`,
+          }
+        : null,
+    ].filter(Boolean) as any[];
+
+    return (
+      <ContactInquirySection
+        key={`contact-inquiry-${index}`}
+        titleLead={ci.titleLead ?? undefined}
+        titleAccent={ci.titleAccent ?? undefined}
+        titleClose={ci.titleClose ?? undefined}
+        description={ci.description ?? undefined}
+        details={details.length > 0 ? details : undefined}
+        statementLabel={ci.statementLabel ?? undefined}
+        statementHref={ci.statementFile?.url ?? undefined}
+      />
+    );
+  },
+
+  ComponentReferencesContactPathwaysReference: (section, index) => {
+    const cpRef = section as ContactPathwaysReference;
+    const cp = cpRef.contactPathwaysSection;
+    if (!cp) return null;
+
+    const pathways = cp.cards?.map((card) => {
+      const tone: 'sky' | 'red' = card.actionTone === 'red' ? 'red' : 'sky';
+      const defaultSwoosh = tone === 'red'
+        ? '/images/contact/pathways/swoosh-pink.svg'
+        : '/images/contact/pathways/swoosh-blue.svg';
+
+      return {
+        title: card.title,
+        description: card.description,
+        actionLabel: card.actionLabel || 'Learn More',
+        href: card.href || '#',
+        actionTone: tone,
+        iconSrc: card.icon?.url || '/images/contact/pathways/buyers.svg',
+        swooshSrc: card.swooshImage?.url || defaultSwoosh,
+      };
+    });
+
+    return (
+      <ContactPathwaysSection
+        key={`contact-pathways-${index}`}
+        titleLead={cp.titleLead ?? undefined}
+        titleClose={cp.titleClose ?? undefined}
+        description={cp.description ?? undefined}
+        pathways={pathways && pathways.length > 0 ? pathways : undefined}
+      />
+    );
+  },
+
+  ComponentReferencesContactLearnReference: (section, index) => {
+    const clRef = section as ContactLearnReference;
+    const cl = clRef.contactLearnSection;
+    if (!cl) return null;
+
+    const cards = cl.cards?.map((card, idx) => ({
+      number: card.number || String(idx + 1).padStart(2, '0'),
+      title: card.title,
+      description: card.description,
+      actionLabel: card.actionLabel || 'Learn More',
+      href: card.href || '#',
+      featured: card.isHighlighted ?? (idx === 1),
+      imageSrc: card.icon?.url || undefined,
+    }));
+
+    return (
+      <ContactLearnSection
+        key={`contact-learn-${index}`}
+        titleLead={cl.titleLead ?? undefined}
+        titleClose={cl.titleClose ?? undefined}
+        description={cl.description ?? undefined}
+        imageSrc={cl.defaultImage?.url ?? undefined}
+        cards={cards && cards.length > 0 ? cards : undefined}
+      />
+    );
+  },
+
+  ComponentReferencesContactOfficesReference: (section, index) => {
+    const coRef = section as ContactOfficesReference;
+    const co = coRef.contactOfficesSection;
+    if (!co) return null;
+
+    const offices = co.cards?.map((card) => {
+      const details = [];
+      if (card.phone) {
+        details.push({
+          label: 'Phone',
+          parts: [{ text: card.phone, href: `tel:${card.phone.replace(/[^+\d]/g, '')}` }],
+        });
+      }
+      if (card.fax) {
+        details.push({
+          label: 'Fax',
+          parts: [{ text: card.fax }],
+        });
+      }
+
+      return {
+        name: card.title,
+        address: card.address || card.description,
+        details,
+      };
+    });
+
+    return (
+      <ContactOfficesSection
+        key={`contact-offices-${index}`}
+        markerLabel={co.markerLabel ?? undefined}
+        mapSrc={co.mapImage?.url ?? undefined}
+        offices={offices && offices.length > 0 ? offices : undefined}
       />
     );
   },
