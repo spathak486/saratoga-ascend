@@ -5,20 +5,46 @@
     "singularName": "contact-submission",
     "pluralName": "contact-submissions",
     "displayName": "Contact Submission",
-    "description": "Lead form submissions captured from the CTA / Need Help forms"
+    "description": "Lead form submissions captured from the Contact / CTA / Need Help forms"
   },
   "options": {
     "draftAndPublish": false
   },
   "pluginOptions": {},
   "attributes": {
-    "name": {
+    "firstName": {
       "type": "string",
       "required": true
+    },
+    "lastName": {
+      "type": "string",
+      "required": false
     },
     "email": {
       "type": "email",
       "required": true
+    },
+    "organization": {
+      "type": "string",
+      "required": false
+    },
+    "inquiryType": {
+      "type": "enumeration",
+      "enum": [
+        "Government / Contracting Opportunity",
+        "Healthcare Services",
+        "Workforce Solutions",
+        "IT & Digital Solutions",
+        "Contact Center Solutions",
+        "Program & Administrative Support",
+        "Partnership / Business Development",
+        "Media / General Inquiry"
+      ],
+      "required": false
+    },
+    "description": {
+      "type": "text",
+      "required": false
     },
     "source": {
       "type": "enumeration",
@@ -28,6 +54,20 @@
         "contact"
       ],
       "default": "cta"
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": [
+        "new",
+        "in-progress",
+        "resolved",
+        "spam"
+      ],
+      "default": "new"
+    },
+    "notes": {
+      "type": "text",
+      "required": false
     }
   }
 }

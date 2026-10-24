@@ -243,6 +243,70 @@ export interface ReferencesClientLogosReference extends Struct.ComponentSchema {
   };
 }
 
+export interface ReferencesContactInquiryReference
+  extends Struct.ComponentSchema {
+  collectionName: 'components_references_contact_inquiry_references';
+  info: {
+    description: 'Contact inquiry and lead capture section reference';
+    displayName: 'Contact Inquiry Reference';
+    icon: 'mail';
+  };
+  attributes: {
+    contactInquirySection: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::contact-inquiry-section.contact-inquiry-section'
+    >;
+  };
+}
+
+export interface ReferencesContactLearnReference
+  extends Struct.ComponentSchema {
+  collectionName: 'components_references_contact_learn_references';
+  info: {
+    description: 'Learn more about Saratoga Ascend section reference';
+    displayName: 'Contact Learn Reference';
+    icon: 'book';
+  };
+  attributes: {
+    contactLearnSection: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::contact-learn-section.contact-learn-section'
+    >;
+  };
+}
+
+export interface ReferencesContactOfficesReference
+  extends Struct.ComponentSchema {
+  collectionName: 'components_references_contact_offices_references';
+  info: {
+    description: 'Office locations map section reference';
+    displayName: 'Contact Offices Reference';
+    icon: 'pin';
+  };
+  attributes: {
+    contactOfficesSection: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::contact-offices-section.contact-offices-section'
+    >;
+  };
+}
+
+export interface ReferencesContactPathwaysReference
+  extends Struct.ComponentSchema {
+  collectionName: 'components_references_contact_pathways_references';
+  info: {
+    description: 'Connect with the right part of Saratoga Ascend pathways reference';
+    displayName: 'Contact Pathways Reference';
+    icon: 'link';
+  };
+  attributes: {
+    contactPathwaysSection: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::contact-pathways-section.contact-pathways-section'
+    >;
+  };
+}
+
 export interface ReferencesCta extends Struct.ComponentSchema {
   collectionName: 'components_references_ctas';
   info: {
@@ -573,6 +637,10 @@ declare module '@strapi/strapi' {
       'references.built-around-missions-reference': ReferencesBuiltAroundMissionsReference;
       'references.ceo-message-reference': ReferencesCeoMessageReference;
       'references.client-logos-reference': ReferencesClientLogosReference;
+      'references.contact-inquiry-reference': ReferencesContactInquiryReference;
+      'references.contact-learn-reference': ReferencesContactLearnReference;
+      'references.contact-offices-reference': ReferencesContactOfficesReference;
+      'references.contact-pathways-reference': ReferencesContactPathwaysReference;
       'references.cta': ReferencesCta;
       'references.fa-qs': ReferencesFaQs;
       'references.happy-clients-reference': ReferencesHappyClientsReference;

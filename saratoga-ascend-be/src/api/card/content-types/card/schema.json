@@ -39,6 +39,36 @@
       "allowedTypes": [
         "images"
       ]
+    },
+    "actionLabel": {
+      "type": "string"
+    },
+    "href": {
+      "type": "string"
+    },
+    "actionTone": {
+      "type": "enumeration",
+      "enum": [
+        "sky",
+        "red"
+      ],
+      "default": "sky"
+    },
+    "swooshImage": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "address": {
+      "type": "string"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "fax": {
+      "type": "string"
     }
   }
 }

@@ -1,0 +1,43 @@
+{
+  "kind": "collectionType",
+  "collectionName": "contact_learn_sections",
+  "info": {
+    "singularName": "contact-learn-section",
+    "pluralName": "contact-learn-sections",
+    "displayName": "Contact Learn Section",
+    "description": "Learn more about Saratoga Ascend section with reusable cards"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "referenceTitle": {
+      "type": "string"
+    },
+    "titleLead": {
+      "type": "string",
+      "default": "Learn more"
+    },
+    "titleClose": {
+      "type": "string",
+      "default": "about Saratoga Ascend."
+    },
+    "description": {
+      "type": "text",
+      "default": "If you are still evaluating your requirements, explore our solutions, who we serve, contracts, capabilities, and insights before starting a conversation."
+    },
+    "defaultImage": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "cards": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::card.card"
+    }
+  }
+}

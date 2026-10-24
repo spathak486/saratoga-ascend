@@ -1,0 +1,36 @@
+{
+  "kind": "collectionType",
+  "collectionName": "contact_pathways_sections",
+  "info": {
+    "singularName": "contact-pathways-section",
+    "pluralName": "contact-pathways-sections",
+    "displayName": "Contact Pathways Section",
+    "description": "Connect with the right part of Saratoga Ascend section with reusable cards"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "referenceTitle": {
+      "type": "string"
+    },
+    "titleLead": {
+      "type": "string",
+      "default": "Connect with the right part"
+    },
+    "titleClose": {
+      "type": "string",
+      "default": "of Saratoga Ascend."
+    },
+    "description": {
+      "type": "text",
+      "default": "Different needs call for different conversations. Use these pathways to reach the information or team most relevant to your objective."
+    },
+    "cards": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::card.card"
+    }
+  }
+}
