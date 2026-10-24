@@ -581,11 +581,18 @@ export const SECTION_REGISTRY: Record<
     const cp = cpRef.contactPathwaysSection;
     if (!cp) return null;
 
-    const pathways = cp.cards?.map((card) => {
-      const tone: 'sky' | 'red' = card.actionTone === 'red' ? 'red' : 'sky';
-      const defaultSwoosh = tone === 'red'
-        ? '/images/contact/pathways/swoosh-pink.svg'
-        : '/images/contact/pathways/swoosh-blue.svg';
+    const pathways = cp.cards?.map((card, idx) => {
+      // Alternate tone: 0 -> sky, 1 -> red, 2 -> sky (odd/even alternating pattern)
+      const alternatingTone: 'sky' | 'red' = idx % 2 === 1 ? 'red' : 'sky';
+      const tone: 'sky' | 'red' =
+        card.actionTone === 'red' || card.actionTone === 'sky'
+          ? card.actionTone
+          : alternatingTone;
+
+      const defaultSwoosh =
+        tone === 'red'
+          ? '/images/contact/pathways/swoosh-pink.svg'
+          : '/images/contact/pathways/swoosh-blue.svg';
 
       return {
         title: card.title,
@@ -593,7 +600,7 @@ export const SECTION_REGISTRY: Record<
         actionLabel: card.actionLabel || 'Learn More',
         href: card.href || '#',
         actionTone: tone,
-        iconSrc: card.icon?.url || '/images/contact/pathways/buyers.svg',
+        iconSrc: card.icon?.url || (tone === 'red' ? '/images/contact/pathways/solutions.svg' : '/images/contact/pathways/buyers.svg'),
         swooshSrc: card.swooshImage?.url || defaultSwoosh,
       };
     });
