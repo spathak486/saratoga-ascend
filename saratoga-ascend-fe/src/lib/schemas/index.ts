@@ -132,6 +132,12 @@ export {
 } from './dynamic-zone';
 export { FooterDataSchema, type FooterData, LinkColumnSchema, type LinkColumn } from './footer';
 export {
+  NavItemSchema,
+  type NavItem,
+  NavigationDataSchema,
+  type NavigationData,
+} from './navigation';
+export {
   NotFoundDataSchema,
   type NotFoundData,
 } from './not-found';

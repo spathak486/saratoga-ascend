@@ -1,0 +1,32 @@
+{
+  "collectionName": "components_shared_nav_items",
+  "info": {
+    "displayName": "Nav Item",
+    "icon": "link",
+    "description": "Header navigation item with an optional dropdown menu"
+  },
+  "options": {},
+  "attributes": {
+    "label": {
+      "type": "string",
+      "required": true
+    },
+    "href": {
+      "type": "string",
+      "required": true
+    },
+    "hasMenu": {
+      "type": "boolean",
+      "default": false
+    },
+    "hasExternalIcon": {
+      "type": "boolean",
+      "default": false
+    },
+    "links": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.general-link"
+    }
+  }
+}

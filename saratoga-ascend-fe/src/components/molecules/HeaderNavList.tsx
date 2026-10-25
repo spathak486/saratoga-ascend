@@ -3,7 +3,7 @@
 import React, { useEffect, useId, useRef, useState } from 'react';
 import { ArrowUpRightIcon, CaretDownIcon } from '../atoms/icons';
 import { GeneralLink } from '../atoms/GeneralLink';
-import { MegaMenu } from '../organisms/MegaMenu';
+import { MegaMenu, type MegaMenuLink } from '../organisms/MegaMenu';
 
 export interface HeaderNavItem {
   href: string;
@@ -12,6 +12,8 @@ export interface HeaderNavItem {
   hasMenu?: boolean;
   /** Utility-bar ↗ used for Careers, Investor Relations, and Blog. */
   hasExternalIcon?: boolean;
+  /** Dropdown links managed in the Navigation single type. */
+  links?: MegaMenuLink[];
 }
 
 /**
@@ -132,7 +134,8 @@ export const HeaderNavList: React.FC<HeaderNavListProps> = ({
     >
       {items.map((item) => {
         const isActive = isItemActive(activeHref, item.href);
-        const showMenu = Boolean(item.hasMenu && isPrimaryBar);
+        const menuLinks = item.links ?? [];
+        const showMenu = Boolean(isPrimaryBar && menuLinks.length > 0 && (item.hasMenu ?? true));
         const isOpen = showMenu && openHref === item.href;
 
         const caret = showMenu ? (
@@ -197,7 +200,7 @@ export const HeaderNavList: React.FC<HeaderNavListProps> = ({
               aria-hidden="true"
             />
             </div>
-            {showMenu ? <MegaMenu type={item.href} open={isOpen} /> : null}
+            {showMenu ? <MegaMenu links={menuLinks} open={isOpen} /> : null}
           </div>
         );
       })}
