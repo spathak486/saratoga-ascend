@@ -456,6 +456,25 @@ export interface RawPageNode {
   updatedAt?: string | null;
 }
 
+export interface RawNavItem {
+  label: string;
+  href: string;
+  hasMenu?: boolean | null;
+  hasExternalIcon?: boolean | null;
+  links?: RawGeneralLink[] | null;
+}
+
+export interface RawNavigation {
+  documentId: string;
+  logo?: RawStrapiMedia | null;
+  logoAlt?: string | null;
+  homeHref?: string | null;
+  utilityLinks?: RawNavItem[] | null;
+  primaryLinks?: RawNavItem[] | null;
+  cta?: RawGeneralLink | null;
+  searchLabel?: string | null;
+}
+
 export interface RawFooterLinkColumn {
   heading: string;
   links?: RawGeneralLink[] | null;

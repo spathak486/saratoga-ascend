@@ -8,6 +8,9 @@ export interface BrandLogoProps {
   /** Reserved for a light logo export on dark bands — footer still passes this. */
   variant?: 'dark' | 'light';
   className?: string;
+  /** Logo image from the CMS. Falls back to the bundled wordmark. */
+  src?: string;
+  alt?: string;
 }
 
 const widthStyles: Record<BrandLogoSize, string> = {
@@ -18,10 +21,15 @@ const widthStyles: Record<BrandLogoSize, string> = {
 /** Figma logo (node 1:515) is 298×72. */
 const ASPECT = 'aspect-[298/72]';
 
-export const BrandLogo: React.FC<BrandLogoProps> = ({ size = 'md', className = '' }) => (
+export const BrandLogo: React.FC<BrandLogoProps> = ({
+  size = 'md',
+  className = '',
+  src = '/images/Logo.svg',
+  alt = 'Saratoga Ascend',
+}) => (
   <MediaFrame
-    src="/images/Logo.svg"
-    alt="Saratoga Ascend"
+    src={src}
+    alt={alt}
     pendingLabel="Logo.svg"
     tone="tile"
     sizes="(max-width: 640px) 10rem, 15.5rem"

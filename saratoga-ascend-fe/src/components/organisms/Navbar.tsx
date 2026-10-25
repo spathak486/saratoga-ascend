@@ -8,26 +8,54 @@ import { MenuIcon, SearchIcon } from '../atoms/icons';
 import { CtaButton } from '../molecules/CtaButton';
 import { HeaderNavList, type HeaderNavItem } from '../molecules/HeaderNavList';
 import { UtilityBar } from '../molecules/UtilityBar';
+import type { NavItem, NavigationData } from '@/lib/schemas';
+import { defaultNavigationData } from '@/lib/navigation.defaults';
 
-const UTILITY_LINKS: HeaderNavItem[] = [
-  { href: '/careers', label: 'Careers', hasExternalIcon: true },
-  { href: '/investors', label: 'Investor Relations', hasExternalIcon: true },
-  { href: '/blogs', label: 'Blog', hasExternalIcon: true },
-];
+export interface NavbarProps {
+  data?: NavigationData | null;
+}
 
-const PRIMARY_LINKS: HeaderNavItem[] = [
-  { href: '/who-we-serve', label: 'Who We Serve', hasMenu: true },
-  { href: '/government-buyers', label: 'Government Buyers', hasMenu: true },
-  { href: '/what-we-do', label: 'Solutions', hasMenu: true },
-  { href: '/about-us', label: 'About us', hasMenu: true },
-];
+function toHeaderNavItem(item: NavItem): HeaderNavItem {
+  return {
+    href: item.href,
+    label: item.label,
+    hasMenu: item.hasMenu ?? undefined,
+    hasExternalIcon: item.hasExternalIcon ?? undefined,
+    links: (item.links ?? []).map((link) => ({
+      label: link.label,
+      href: link.href,
+      target: link.target,
+      isExternal: link.isExternal,
+    })),
+  };
+}
 
-export const Navbar: React.FC = () => {
+export const Navbar: React.FC<NavbarProps> = ({ data }) => {
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [menuPath, setMenuPath] = useState(pathname);
   const menuId = useId();
+
+  const navigation = data ?? defaultNavigationData;
+  const utilityLinks = (navigation.utilityLinks ?? defaultNavigationData.utilityLinks ?? []).map(
+    toHeaderNavItem,
+  );
+  const primaryLinks = (navigation.primaryLinks ?? defaultNavigationData.primaryLinks ?? []).map(
+    toHeaderNavItem,
+  );
+
+  const logoSrc = navigation.logo?.url ?? defaultNavigationData.logo?.url;
+  const logoAlt =
+    navigation.logoAlt ||
+    navigation.logo?.alternativeText ||
+    defaultNavigationData.logoAlt ||
+    'Saratoga Ascend';
+  const homeHref = navigation.homeHref || '/';
+  const searchLabel = navigation.searchLabel || 'Search';
+  const cta = navigation.cta ?? defaultNavigationData.cta;
+  const ctaHref = cta?.href || '/contact';
+  const ctaLabel = cta?.label || 'Contact us';
 
   if (menuPath !== pathname) {
     setMenuPath(pathname);
@@ -64,7 +92,7 @@ export const Navbar: React.FC = () => {
     <Container className="flex flex-col items-start gap-8 py-8">
       <HeaderNavList
         ariaLabel="Primary"
-        items={PRIMARY_LINKS}
+        items={primaryLinks}
         activeHref={pathname}
         variant="primary"
         orientation="vertical"
@@ -73,7 +101,7 @@ export const Navbar: React.FC = () => {
       <div className="w-full border-t border-brand-hairline pt-6">
         <HeaderNavList
           ariaLabel="Utility"
-          items={UTILITY_LINKS}
+          items={utilityLinks}
           activeHref={pathname}
           variant="utilityPlain"
           orientation="vertical"
@@ -82,13 +110,13 @@ export const Navbar: React.FC = () => {
 
       <button
         type="button"
-        aria-label="Search"
+        aria-label={searchLabel}
         className="inline-flex size-[clamp(2.25rem,2.34375vw,2.8125rem)] items-center justify-center rounded-full border border-slate-faint bg-white p-1 text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-navy"
       >
         <SearchIcon className="size-6" />
       </button>
 
-      <CtaButton href="/contact">Contact us</CtaButton>
+      <CtaButton href={ctaHref}>{ctaLabel}</CtaButton>
     </Container>
   );
 
@@ -112,15 +140,17 @@ export const Navbar: React.FC = () => {
         <div className="pointer-events-auto w-full min-w-0 px-[clamp(0.75rem,4.65vw,1.25rem)] pt-[max(clamp(0.75rem,4.65vw,1.25rem),env(safe-area-inset-top))]">
           <div className="mx-auto flex w-full min-w-0 max-w-full items-center justify-between gap-[clamp(0.5rem,3vw,1rem)] rounded-pill bg-white px-[clamp(0.75rem,4.65vw,1.25rem)] py-[clamp(0.625rem,4.2vw,1.125rem)] shadow-[0_1px_1.5px_rgba(0,0,0,0.25)] sm:max-w-[40rem]">
             <GeneralLink
-              href="/"
+              href={homeHref}
               variant="unstyled"
-              aria-label="Saratoga Ascend home"
+              aria-label={`${logoAlt} home`}
               className="inline-flex min-w-0 max-w-[calc(100%-clamp(2.75rem,11vw,3.25rem))] items-center"
             >
               {/* Sized box owns the logo width. BrandLogo fills it, so size-full cannot stretch the pill. */}
               <span className="relative block aspect-[298/72] w-[clamp(5.5rem,27.7vw,7.4375rem)] max-w-full min-w-0">
                 <BrandLogo
                   size="sm"
+                  src={logoSrc}
+                  alt={logoAlt}
                   className="!absolute !inset-0 !h-full !max-h-full !w-full !max-w-full"
                 />
               </span>
@@ -149,7 +179,7 @@ export const Navbar: React.FC = () => {
         {isMenuOpen ? <div id={menuId}>{menuPanel}</div> : null}
       </div>
 
-      <UtilityBar items={UTILITY_LINKS} activeHref={pathname} />
+      <UtilityBar items={utilityLinks} activeHref={pathname} />
 
       {/* Sibling of <main>, not wrapped in a short header — sticky only works
           inside a tall ancestor. Solid white at rest; frost once pinned. */}
@@ -160,32 +190,37 @@ export const Navbar: React.FC = () => {
       >
         <Container className="flex h-nav-h min-w-0 items-center justify-between gap-[clamp(1rem,2vw,2.5rem)]">
           <GeneralLink
-            href="/"
+            href={homeHref}
             variant="unstyled"
-            aria-label="Saratoga Ascend home"
+            aria-label={`${logoAlt} home`}
             className="inline-flex h-full shrink-0 items-center"
           >
-            <BrandLogo size="md" className="!w-[clamp(8.5rem,12.92vw,15.5rem)]" />
+            <BrandLogo
+              size="md"
+              src={logoSrc}
+              alt={logoAlt}
+              className="!w-[clamp(8.5rem,12.92vw,15.5rem)]"
+            />
           </GeneralLink>
 
           <div className="flex h-full min-w-0 flex-1 items-center justify-end gap-[clamp(0.75rem,1.5625vw,1.875rem)]">
             <div className="flex h-full min-w-0 items-center gap-[clamp(0.5rem,1.0417vw,1.25rem)]">
               <HeaderNavList
                 ariaLabel="Primary"
-                items={PRIMARY_LINKS}
+                items={primaryLinks}
                 activeHref={pathname}
                 variant="primary"
               />
               <button
                 type="button"
-                aria-label="Search"
+                aria-label={searchLabel}
                 className="inline-flex size-[clamp(2.25rem,2.34375vw,2.8125rem)] shrink-0 items-center justify-center rounded-full border border-slate-faint bg-white p-1 text-ink transition-colors duration-200 hover:border-brand-navy hover:text-brand-navy focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-navy"
               >
                 <SearchIcon className="size-[clamp(1.125rem,1.25vw,1.5rem)]" />
               </button>
             </div>
-            <CtaButton href="/contact" className="h-cta">
-              Contact us
+            <CtaButton href={ctaHref} className="h-cta">
+              {ctaLabel}
             </CtaButton>
           </div>
         </Container>
