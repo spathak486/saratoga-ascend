@@ -45,6 +45,17 @@ export const ArticleSchema = z.object({
   }).nullable().optional(),
   description: z.any().nullable().optional(),
   image: StrapiImageSchema.nullable().optional(),
+  socialLinks: z
+    .array(
+      z.object({
+        platform: z.string().nullable().optional(),
+        title: z.string().nullable().optional(),
+        url: z.string().nullable().optional(),
+        icon: StrapiImageSchema.nullable().optional(),
+      })
+    )
+    .nullable()
+    .optional(),
   seo: SEOMetadataSchema.nullable().optional(),
   Section: z.array(DynamicZoneSectionSchema).nullable().optional(),
   createdAt: z.string().nullable().optional(),
