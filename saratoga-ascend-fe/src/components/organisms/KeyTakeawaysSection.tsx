@@ -46,10 +46,10 @@ export const KeyTakeawaysSection: React.FC<KeyTakeawaysSectionProps> = ({
       break;
 
     case 'quote':
-      // Quote callout with accent and #5A5A5A typography
-      containerStyles = 'bg-transparent border-l-4 border-[#2B88D9] pl-6 sm:pl-8 py-2 my-6 max-w-[1054px]';
-      titleStyles = 'font-serif text-[clamp(28px,2.5vw,40px)] leading-[60px] tracking-[-1px] mb-4 text-[#00162D]';
-      bodyStyles = 'font-sans font-normal text-[clamp(16px,1.25vw,24px)] leading-[160%] text-[#5A5A5A] italic space-y-4';
+      // Exact Figma Quote: border-left: 5.38px solid #2B88D9, padding-left: 30px, 50px DM Serif #2B88D9
+      containerStyles = 'bg-transparent border-l-[5.38px] border-[#2B88D9] pl-6 sm:pl-[30px] py-2 my-8 max-w-[1056px]';
+      titleStyles = 'font-serif font-normal text-[clamp(28px,2.5vw,40px)] leading-[60px] tracking-[-1px] mb-4 text-[#00162D]';
+      bodyStyles = 'font-serif font-normal text-[clamp(28px,2.8vw,50px)] leading-[120%] tracking-[-1px] text-[#2B88D9] space-y-4 [&_p]:mb-3 [&_p:last-child]:mb-0';
       break;
 
     case 'gradient':
