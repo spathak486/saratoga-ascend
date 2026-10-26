@@ -39,7 +39,8 @@
       "enum": [
         "homebanner",
         "default",
-        "gradient"
+        "gradient",
+        "blog"
       ],
       "default": "homebanner",
       "required": true
