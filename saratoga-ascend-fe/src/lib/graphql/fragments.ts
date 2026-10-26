@@ -317,7 +317,6 @@ export const MISSION_VISION_PROMISE_REFERENCE_FIELDS = `
       description
       bgWatermarkImage { ${IMAGE_FIELDS} }
       cards {
-        id
         title
         description
         icon { ${IMAGE_FIELDS} }

@@ -6,6 +6,13 @@ import { Heading, MediaFrame } from '../atoms';
 /** Horizontal drag past this many px counts as a swipe, not a scroll tap. */
 const SWIPE_THRESHOLD_PX = 40;
 
+/**
+ * Mobile stays near the 430 artboard; tablet grows so iPad doesn’t look tiny.
+ * Side padding reserves room for half-off edge arrows.
+ */
+const MOBILE_STAGE =
+  'mx-auto w-full max-w-[26.875rem] px-6 md:max-w-[48rem] md:px-10 lg:max-w-[56rem]';
+
 export interface ClientReview {
   /** Role headline shown above the name — optional since Strapi content may omit it. */
   role?: string;
@@ -125,19 +132,45 @@ const MOBILE_FAR_SLOTS = [
   },
 ] as const;
 
-/** Figma Polygon 2, 67×68 inside the 100px circle, rotated to point outward. */
-const ARROW_PATH =
-  'M23.1683 18.0465 C27.6301 10.1252 39.0365 10.1252 43.4984 18.0465 L52.4043 33.8577 C56.7849 41.6348 51.1653 51.25 42.2393 51.25 L24.4274 51.25 C15.5014 51.25 9.88176 41.6348 14.2624 33.8577 L23.1683 18.0465 Z';
+/**
+ * Figma 2243:3550 / 2243:3551 — stroke chevron (points down; rotate onto the button).
+ * Desktop control is 83px with a 1.729px ink ring and button shadow.
+ * Hover (from design screenshot): CTA gradient fill, white chevron, border off.
+ */
+const ARROW_HOVER =
+  'hover:border-transparent hover:text-white hover:[background-image:linear-gradient(91.647deg,var(--color-brand-cta-from)_0.475%,var(--color-brand-cta-to)_102.45%)] focus-visible:border-transparent focus-visible:text-white focus-visible:[background-image:linear-gradient(91.647deg,var(--color-brand-cta-from)_0.475%,var(--color-brand-cta-to)_102.45%)]';
 
-function ArrowGlyph({ direction }: { direction: 'prev' | 'next' }) {
+const ARROW_BUTTON_DESKTOP =
+  `absolute top-1/2 z-20 flex size-[5.1875rem] -translate-y-1/2 cursor-pointer items-center justify-center rounded-full border-[1.729px] border-ink bg-white text-ink shadow-[0px_1.729px_1.729px_rgba(16,24,40,0.05)] transition-colors duration-300 ease-out ${ARROW_HOVER} focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-navy motion-reduce:transition-none`;
+
+/** Same stroke-chevron language as desktop; smaller, vertically centered on the red card. */
+const ARROW_BUTTON_MOBILE =
+  `absolute top-1/2 z-20 flex size-12 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full border border-ink bg-white text-ink shadow-button transition-colors duration-300 ease-out md:size-14 ${ARROW_HOVER} focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-navy motion-reduce:transition-none`;
+
+function ArrowGlyph({
+  direction,
+  compact = false,
+}: {
+  direction: 'prev' | 'next';
+  compact?: boolean;
+}) {
   return (
     <svg
-      viewBox="0 0 66.667 68.333"
-      className={`h-[68.33%] w-[66.67%] ${direction === 'prev' ? '-rotate-90' : 'rotate-90'}`}
+      width={compact ? '14' : '19.25'}
+      height={compact ? '8' : '11'}
+      viewBox="0 0 24.2086 13.8334"
+      fill="none"
       aria-hidden="true"
       focusable="false"
+      className={direction === 'prev' ? 'rotate-90' : '-rotate-90'}
     >
-      <path d={ARROW_PATH} fill="currentColor" />
+      <path
+        d="M22.4793 1.72936C22.4793 1.72936 14.8382 12.1043 12.1042 12.1043C9.37019 12.1043 1.72928 1.72928 1.72928 1.72928"
+        stroke="currentColor"
+        strokeWidth="3.45833"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </svg>
   );
 }
@@ -155,11 +188,15 @@ function QuoteCopy({
     return (
       <>
         {review.role ? (
-          <p className="font-serif text-[1.25rem] leading-[1.875rem] text-white">
+          <p className="font-serif text-[1.25rem] leading-[1.875rem] text-white md:text-[1.75rem] md:leading-9">
             {review.role}
           </p>
         ) : null}
-        <p className={`font-sans text-sm leading-[1.125rem] font-bold text-white ${review.role ? 'mt-[0.6875rem]' : ''}`}>
+        <p
+          className={`font-sans text-sm leading-[1.125rem] font-bold text-white md:text-base md:leading-6 ${
+            review.role ? 'mt-[0.6875rem] md:mt-4' : ''
+          }`}
+        >
           {review.name}
           {review.place ? (
             <>
@@ -168,7 +205,7 @@ function QuoteCopy({
             </>
           ) : null}
         </p>
-        <p className="mt-3 break-words font-sans text-[1.25rem] leading-[1.5] font-medium text-white">
+        <p className="mt-3 break-words font-sans text-[1.25rem] leading-[1.5] font-medium text-white md:mt-5 md:text-[1.375rem] md:leading-[1.55]">
           {review.quote}
         </p>
       </>
@@ -234,8 +271,41 @@ function copyStyle(
   } as const;
 }
 
+/** Mobile quote slide — same Gentle 1022ms as desktop, parked below the card. */
+function mobileCopyStyle(
+  slideIndex: number,
+  index: number,
+  from: number,
+  dir: number,
+) {
+  const active = slideIndex === index;
+  const outgoing = slideIndex === from && from !== index;
+  const snapY =
+    (active && dir < 0 && from !== index) || (outgoing && dir > 0);
+
+  let y = '100%';
+  let opacity = 0;
+  if (active) {
+    y = '0%';
+    opacity = 1;
+  } else if (outgoing && dir > 0) {
+    y = '0%';
+  } else if (outgoing && dir < 0) {
+    y = '100%';
+  }
+
+  return {
+    transform: `translateY(${y})`,
+    opacity,
+    zIndex: active ? 10 : 0,
+    transitionProperty: 'transform, opacity',
+    transitionDuration: snapY ? `0ms, ${SLIDE_MS}ms` : `${SLIDE_MS}ms`,
+    transitionTimingFunction: GENTLE,
+  } as const;
+}
+
 /**
- * Our Happy Clients fan (Figma 2002:1099 / Group 66). Photos stay on the
+ * Our Happy Clients fan (Figma 2243:3543 / Group 66). Photos stay on the
  * review props. Arrow click smart-animates copy 320px on the 538px stage.
  */
 export const HappyClientsCarousel: React.FC<HappyClientsCarouselProps> = ({
@@ -247,7 +317,8 @@ export const HappyClientsCarousel: React.FC<HappyClientsCarouselProps> = ({
   const [dir, setDir] = useState(1);
   const count = reviews.length;
   const review = reviews[index];
-  const touchStart = useRef<{ x: number; y: number } | null>(null);
+  /** Pointer covers touch + tablet mouse drag (touch-only missed mouse swipes). */
+  const pointerStart = useRef<{ x: number; y: number; id: number } | null>(null);
 
   const go = (delta: number) => {
     setDir(delta);
@@ -255,24 +326,31 @@ export const HappyClientsCarousel: React.FC<HappyClientsCarouselProps> = ({
     setIndex((current) => (current + delta + count) % count);
   };
 
-  const handleTouchStart = (event: React.TouchEvent) => {
-    const touch = event.touches[0];
-    touchStart.current = { x: touch.clientX, y: touch.clientY };
+  const handlePointerDown = (event: React.PointerEvent) => {
+    if (event.pointerType === 'mouse' && event.button !== 0) return;
+    pointerStart.current = {
+      x: event.clientX,
+      y: event.clientY,
+      id: event.pointerId,
+    };
   };
 
-  const handleTouchEnd = (event: React.TouchEvent) => {
-    const start = touchStart.current;
-    touchStart.current = null;
-    if (!start) return;
+  const handlePointerUp = (event: React.PointerEvent) => {
+    const start = pointerStart.current;
+    pointerStart.current = null;
+    if (!start || start.id !== event.pointerId) return;
 
-    const touch = event.changedTouches[0];
-    const dx = touch.clientX - start.x;
-    const dy = touch.clientY - start.y;
+    const dx = event.clientX - start.x;
+    const dy = event.clientY - start.y;
 
     /* A mostly-vertical drag is a page scroll, not a slide swipe. */
     if (Math.abs(dx) < SWIPE_THRESHOLD_PX || Math.abs(dx) < Math.abs(dy)) return;
 
     go(dx < 0 ? 1 : -1);
+  };
+
+  const handlePointerCancel = () => {
+    pointerStart.current = null;
   };
 
   if (!review) return null;
@@ -283,8 +361,9 @@ export const HappyClientsCarousel: React.FC<HappyClientsCarouselProps> = ({
     <div
       className={`relative w-full ${className}`.trim()}
       data-happy-slide={index}
-      onTouchStart={handleTouchStart}
-      onTouchEnd={handleTouchEnd}
+      onPointerDown={handlePointerDown}
+      onPointerUp={handlePointerUp}
+      onPointerCancel={handlePointerCancel}
     >
       <div className="relative hidden aspect-[1680/538] min-h-[20rem] xl:block">
         <div className="absolute inset-y-0 left-[34.46%] right-[8.45%] overflow-hidden rounded-[3.125rem] bg-brand-red" />
@@ -338,7 +417,9 @@ export const HappyClientsCarousel: React.FC<HappyClientsCarouselProps> = ({
           type="button"
           aria-label="Previous client story"
           onClick={() => go(-1)}
-          className="absolute inset-[40.71%_94.05%_40.71%_0] z-20 flex cursor-pointer items-center justify-center rounded-full bg-[rgb(43_136_217/0.03)] text-[#2b88d9] transition-colors duration-300 hover:bg-[rgb(43_136_217/0.16)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-sky"
+          onPointerDown={(event) => event.stopPropagation()}
+          onPointerUp={(event) => event.stopPropagation()}
+          className={`${ARROW_BUTTON_DESKTOP} left-[0.51%]`}
         >
           <ArrowGlyph direction="prev" />
         </button>
@@ -347,14 +428,17 @@ export const HappyClientsCarousel: React.FC<HappyClientsCarouselProps> = ({
           type="button"
           aria-label="Next client story"
           onClick={() => go(1)}
-          className="absolute inset-[40.71%_0_40.71%_94.05%] z-20 flex cursor-pointer items-center justify-center rounded-full bg-[rgb(240_20_36/0.02)] text-[#f01424] transition-colors duration-300 hover:bg-[rgb(240_20_36/0.14)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
+          onPointerDown={(event) => event.stopPropagation()}
+          onPointerUp={(event) => event.stopPropagation()}
+          className={`${ARROW_BUTTON_DESKTOP} right-[0.71%]`}
         >
           <ArrowGlyph direction="next" />
         </button>
       </div>
 
-      <div className="xl:hidden">
-        <div className="relative h-[12.625rem] w-full">
+      {/* Mobile + tablet fan. Placement from 2105:778; arrow chrome matches desktop. */}
+      <div className={`xl:hidden ${MOBILE_STAGE}`}>
+        <div className="relative h-[12.625rem] w-full touch-pan-y md:h-[16.5rem] lg:h-[18.5rem]">
           {deck.map((src, photoIndex) => {
             const slot = (photoIndex + index) % MOBILE_MAIN_SLOTS.length;
             return (
@@ -368,7 +452,7 @@ export const HappyClientsCarousel: React.FC<HappyClientsCarouselProps> = ({
                     alt=""
                     pendingLabel="client-portrait"
                     tone="tile"
-                    sizes="164px"
+                    sizes="(max-width: 768px) 164px, 220px"
                     imageClassName="object-cover object-[center_12%]!"
                     className="size-full border-0 bg-white"
                   />
@@ -382,7 +466,7 @@ export const HappyClientsCarousel: React.FC<HappyClientsCarouselProps> = ({
                     alt=""
                     pendingLabel="client-portrait"
                     tone="tile"
-                    sizes="115px"
+                    sizes="(max-width: 768px) 115px, 160px"
                     imageClassName="object-cover!"
                     className="size-full border-0 bg-white"
                   />
@@ -392,26 +476,43 @@ export const HappyClientsCarousel: React.FC<HappyClientsCarouselProps> = ({
           })}
         </div>
 
-        <div className="relative z-[4] -mt-[3.75rem] min-h-[22rem] overflow-visible rounded-[3.125rem] bg-[#f01424] px-8 pb-10 pt-[3.75rem]">
-          <div className="min-w-0">
-            <QuoteCopy review={review} compact />
+        <div className="relative z-[4] -mt-[3.75rem] overflow-visible rounded-[3.125rem] bg-brand-red px-8 pb-10 pt-[3.75rem] md:-mt-16 md:px-10 md:pb-12 md:pt-16 lg:px-12">
+          <div className="relative overflow-hidden px-1 md:px-2">
+            {/* Spacer keeps card height for the active quote while slides animate. */}
+            <div className="invisible" aria-hidden="true">
+              <QuoteCopy review={review} compact />
+            </div>
+            {reviews.map((item, slideIndex) => (
+              <div
+                key={`${item.role}-${item.name}-m-${slideIndex}`}
+                className="absolute inset-x-0 top-0 min-w-0 px-1 motion-reduce:!transition-none md:px-2"
+                style={mobileCopyStyle(slideIndex, index, from, dir)}
+                aria-hidden={slideIndex !== index}
+              >
+                <QuoteCopy review={item} compact active={slideIndex === index} />
+              </div>
+            ))}
           </div>
 
           <button
             type="button"
             aria-label="Previous client story"
             onClick={() => go(-1)}
-            className="absolute top-[9.4375rem] left-0 z-20 flex size-[2.95rem] -translate-x-1/2 cursor-pointer items-center justify-center rounded-full border border-[#c6c6c6] bg-[rgb(240_20_36/0.02)] text-[#2b88d9] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-sky"
+            onPointerDown={(event) => event.stopPropagation()}
+            onPointerUp={(event) => event.stopPropagation()}
+            className={`${ARROW_BUTTON_MOBILE} left-0 -translate-x-1/2`}
           >
-            <ArrowGlyph direction="prev" />
+            <ArrowGlyph direction="prev" compact />
           </button>
           <button
             type="button"
             aria-label="Next client story"
             onClick={() => go(1)}
-            className="absolute top-[9.4375rem] right-0 z-20 flex size-[2.95rem] translate-x-1/2 cursor-pointer items-center justify-center rounded-full bg-[rgb(240_20_36/0.02)] text-[#f01424] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red"
+            onPointerDown={(event) => event.stopPropagation()}
+            onPointerUp={(event) => event.stopPropagation()}
+            className={`${ARROW_BUTTON_MOBILE} right-0 translate-x-1/2`}
           >
-            <ArrowGlyph direction="next" />
+            <ArrowGlyph direction="next" compact />
           </button>
         </div>
       </div>

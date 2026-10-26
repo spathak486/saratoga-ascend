@@ -172,7 +172,11 @@ export default async function DynamicPage({ params }: DynamicPageProps) {
     notFound();
   }
 
-  let sections = pageData.Section ?? [];
+  // Live CMS mode: only render Strapi-wired sections (keep Mock* code, hide it).
+  let sections = (pageData.Section ?? []).filter((sec: { __typename?: string }) => {
+    if (process.env.USE_MOCKS === 'true') return true;
+    return !String(sec.__typename ?? '').startsWith('Mock');
+  });
   const isContactPage = slugPath === 'contact';
 
   if (

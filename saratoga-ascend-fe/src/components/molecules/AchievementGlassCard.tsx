@@ -52,26 +52,26 @@ export const AchievementGlassCard: React.FC<AchievementGlassCardProps> = ({
   return (
     <article className="relative w-full rounded-panel border-[2px] border-white bg-[rgba(10,10,10,0.1)] backdrop-blur-[12px] xl:aspect-[828/427] max-xl:bg-white/16">
       <div className="size-full overflow-hidden rounded-[inherit]">
-        <div className="flex flex-col items-center justify-center gap-[1.875rem] p-5 xl:hidden">
+        <div className="flex flex-col items-center justify-start gap-3 p-4 xl:hidden">
           <Badge
             src={badgeSrc}
             alt={badgeAlt}
             shape={badgeShape}
             className={
               badgeShape === 'round'
-                ? 'size-[15.625rem] shrink-0 overflow-hidden rounded-full shadow-[5.37px_4.6px_11.5px_3.83px_rgb(0_0_0/0.25)]'
-                : 'h-[15.625rem] w-[12.448rem] shrink-0 shadow-[0_2.89px_2.89px_rgb(0_0_0/0.25)]'
+                ? 'size-[11.25rem] shrink-0 overflow-hidden rounded-full shadow-[5.37px_4.6px_11.5px_3.83px_rgb(0_0_0/0.25)]'
+                : 'h-[11.25rem] w-[8.96rem] shrink-0 shadow-[0_2.89px_2.89px_rgb(0_0_0/0.25)]'
             }
           />
-          <div className="flex w-full flex-col gap-[1.875rem]">
-            <p className="font-sans text-[1.75rem] font-bold leading-[1.2] text-white">
+          <div className="flex w-full flex-col gap-3">
+            <p className="font-sans text-[1.5rem] font-bold leading-[1.2] text-white">
               {year}
             </p>
             <Heading
               level={3}
               size="section"
               tone="onDark"
-              className="text-[2rem]! leading-[2.5rem]! text-white"
+              className="text-[1.75rem]! leading-8! text-white"
             >
               {title}
             </Heading>

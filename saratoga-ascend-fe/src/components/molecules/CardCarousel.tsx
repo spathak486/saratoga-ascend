@@ -36,7 +36,9 @@ export function useCardCarousel({ loop = false }: UseCardCarouselOptions = {}) {
     if (!viewport) return;
 
     const slide = viewport.querySelector<HTMLElement>('[data-carousel-slide]');
-    const distance = slide?.offsetWidth ?? viewport.clientWidth;
+    const track = slide?.parentElement;
+    const gap = track ? Number.parseFloat(getComputedStyle(track).columnGap || getComputedStyle(track).gap || '0') || 0 : 0;
+    const distance = (slide?.offsetWidth ?? viewport.clientWidth) + gap;
     const maxScroll = viewport.scrollWidth - viewport.clientWidth;
 
     if (loop && direction === 1 && viewport.scrollLeft >= maxScroll - 1) {

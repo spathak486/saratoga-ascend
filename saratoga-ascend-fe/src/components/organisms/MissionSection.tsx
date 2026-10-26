@@ -86,23 +86,24 @@ function GlassTile({
 
 /**
  * The GIF is 1920×1080 with the butterfly in the middle. Desktop % values
- * fit that mark in the 641×707 plate. Mobile % values map the same 16:9 GIF
- * onto Figma's 750px artwork in the 390×578 plate (2105:702) so the wings
- * clip the edges instead of sitting in a padded square.
+ * fit that mark in the 641×707 plate. Mobile keeps the smaller centered
+ * crop; tablet (md–xl) uses a larger scale.
  */
 function ButterflyMark({ src }: { src?: string }) {
   return (
     <img
       src={src || BUTTERFLY_SRC}
       alt=""
-      className="pointer-events-none absolute max-w-none left-[-53.59%] top-[-4.46%] h-[106.51%] w-[208.74%] max-xl:left-[-120.77%] max-xl:top-[-15.13%] max-xl:h-[130.21%] max-xl:w-[343.08%]"
+      className="pointer-events-none absolute max-w-none left-[-53.59%] top-[-4.46%] h-[106.51%] w-[208.74%] max-md:left-[-77.9%] max-md:top-[1.2%] max-md:h-[97.7%] max-md:w-[257.3%] md:max-xl:left-[-99.3%] md:max-xl:top-[-7%] md:max-xl:h-[113.9%] md:max-xl:w-[300.2%]"
     />
   );
 }
 
 /**
- * Four Decades band (Figma 2002:1193). CMS title, description, highlights,
- * and glass icons stay as delivered. The butterfly is the local GIF.
+ * Four Decades band — desktop Homepage 2243:3408 (pad 30/120), mobile
+ * 2105:654 (pad 20). Earlier artboard 2002:1193 used pad 20 on desktop.
+ * CMS title, description, highlights, and glass icons stay as delivered.
+ * The butterfly is the local GIF.
  */
 export const MissionSection: React.FC<MissionSectionProps> = ({
   title,
@@ -122,7 +123,7 @@ export const MissionSection: React.FC<MissionSectionProps> = ({
       tone="surface"
       spacing="none"
       className="overflow-hidden max-xl:bg-[linear-gradient(to_bottom,#f2f5f9_38.935%,#ffccd1_100%)]"
-      containerClassName="py-5"
+      containerClassName="py-5 xl:py-[1.875rem]"
       style={{ backgroundColor: '#ffe6e8' }}
     >
       <div className="grid grid-cols-1 items-start gap-10 max-xl:gap-[1.875rem] xl:grid-cols-[minmax(0,960fr)_minmax(0,641fr)] xl:gap-[79px]">
@@ -155,7 +156,7 @@ export const MissionSection: React.FC<MissionSectionProps> = ({
                 return (
                   <li
                     key={`${index}-${text}`}
-                    className="flex items-start gap-3 rounded-2xl border border-[#ffe4e6] bg-white p-[13px] max-xl:flex-col"
+                    className="flex items-start gap-3 rounded-2xl border border-[#ffe4e6] bg-white p-3 max-xl:flex-col"
                   >
                     <FeatureCheck />
                     <div className="flex min-w-0 flex-1 flex-col gap-3">
@@ -187,7 +188,7 @@ export const MissionSection: React.FC<MissionSectionProps> = ({
 
         <div
           data-butterfly-stage
-          className="relative mx-auto aspect-[641/707] w-full max-w-[40.0625rem] overflow-hidden max-xl:aspect-[390/578.3] max-xl:max-w-none xl:mx-0 xl:max-w-none"
+          className="relative mx-auto aspect-[641/707] w-full max-w-[40.0625rem] overflow-hidden max-xl:aspect-[390/578.3] max-md:max-w-[min(100%,22.5rem)] md:max-xl:max-w-[min(100%,34rem)] xl:mx-0 xl:max-w-none"
         >
           <ButterflyMark src={imageSrc} />
           <GlassTile

@@ -19,18 +19,19 @@ export interface FaqAccordionProps {
 }
 
 /**
- * Pure accordion — renders items with border-bottom dividers and +/- icons.
- * Category filtering is handled by the parent FaqSection.
+ * FAQ accordion — Figma 2243:3605 / 2243:3607.
+ * Open: sky wash + rotated chevron. Closed: outline card.
+ * Motion: 300ms grid-rows / color (no prototype tracks returned).
  */
 export const FaqAccordion: React.FC<FaqAccordionProps> = ({
   items,
   className = '',
 }) => {
   const baseId = useId();
-  const [openIndex, setOpenIndex] = useState<number>(-1);
+  const [openIndex, setOpenIndex] = useState<number>(0);
 
   return (
-    <div className={`flex flex-col gap-4 w-full ${className}`}>
+    <div className={`flex w-full flex-col gap-10 ${className}`.trim()}>
       {items.map((item, index) => {
         const isOpen = openIndex === index;
         const panelId = `${baseId}-panel-${index}`;
@@ -39,41 +40,62 @@ export const FaqAccordion: React.FC<FaqAccordionProps> = ({
         return (
           <div
             key={`${item.question}-${index}`}
-            className={`border-2 border-[#2B88D9] rounded-[20px] overflow-hidden transition-colors duration-300 ${isOpen ? 'bg-[#2A91DC]/10' : 'bg-transparent'}`}
+            className={`overflow-hidden rounded-[1.25rem] border-2 border-brand-sky transition-colors duration-300 ease-out motion-reduce:transition-none ${
+              isOpen ? 'bg-[rgb(42_145_220/0.1)]' : 'bg-transparent'
+            }`}
           >
-            <button
-              type="button"
-              id={buttonId}
-              aria-expanded={isOpen}
-              aria-controls={panelId}
-              onClick={() => setOpenIndex(isOpen ? -1 : index)}
-              className="flex w-full items-center justify-between px-[40px] py-[20px] text-left gap-10"
-            >
-              <span className="font-sans text-[clamp(18px,2vw,28px)] leading-[1.4] font-medium text-black pr-4">
-                {item.question}
-              </span>
-
-              <span 
-                className={`flex-shrink-0 flex items-center justify-center w-[52px] h-[51px] rounded-full transition-colors duration-300 ${isOpen ? 'bg-[#2FA3F4] text-black' : 'bg-[#B0D8F4] text-black'}`}
-                aria-hidden="true"
+            <h3 className="m-0">
+              <button
+                type="button"
+                id={buttonId}
+                aria-expanded={isOpen}
+                aria-controls={panelId}
+                onClick={() => setOpenIndex(isOpen ? -1 : index)}
+                className="flex w-full items-center justify-between gap-6 px-5 py-5 text-left md:gap-[3.75rem] md:px-[2.5625rem] md:py-[1.3125rem] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-sky"
               >
-                <svg 
-                  width="18" height="18" viewBox="0 0 14 14" fill="none" 
-                  className={`transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}
+                <span className="min-w-0 flex-1 font-sans text-[clamp(1.125rem,1.5vw,1.75rem)] font-medium leading-[1.4] text-ink md:leading-10">
+                  {item.question}
+                </span>
+
+                <span
+                  className={`flex size-[3.1875rem] shrink-0 items-center justify-center rounded-full transition-colors duration-300 ease-out motion-reduce:transition-none ${
+                    isOpen
+                      ? 'bg-[#2fa3f4] text-ink'
+                      : 'bg-[#b0d8f4] text-ink'
+                  }`}
+                  aria-hidden="true"
                 >
-                  <path d="M3.5 5.25L7 8.75L10.5 5.25" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </span>
-            </button>
+                  <svg
+                    width="18"
+                    height="18"
+                    viewBox="0 0 14 14"
+                    fill="none"
+                    className={`transition-transform duration-300 ease-out motion-reduce:transition-none ${
+                      isOpen ? 'rotate-180' : ''
+                    }`}
+                  >
+                    <path
+                      d="M3.5 5.25L7 8.75L10.5 5.25"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </span>
+              </button>
+            </h3>
 
             <div
               id={panelId}
               role="region"
               aria-labelledby={buttonId}
-              className={`grid transition-[grid-template-rows] duration-300 ease-in-out ${isOpen ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}`}
+              className={`grid transition-[grid-template-rows] duration-300 ease-out motion-reduce:transition-none ${
+                isOpen ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'
+              }`}
             >
               <div className="overflow-hidden">
-                <div className="px-[40px] pb-[20px] font-sans text-[clamp(16px,1.5vw,24px)] leading-[1.5] text-[#475569]">
+                <div className="px-5 pb-5 font-sans text-[clamp(1rem,1.25vw,1.5rem)] leading-[1.5] text-slate-body md:px-[2.5625rem] md:pb-5">
                   {item.answer}
                 </div>
               </div>

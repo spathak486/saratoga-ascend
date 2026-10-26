@@ -480,17 +480,28 @@ export const SECTION_REGISTRY: Record<
 
 /**
  * Resolves a dynamic zone section from the Component Registry.
+ * Mock* typenames stay registered for USE_MOCKS=true, but are not rendered
+ * when the app is talking to Strapi (live wiring only).
  */
 export function renderRegisteredSection(
   section: DynamicZoneSection,
   index: number,
   options?: SectionRenderOptions,
 ): React.ReactNode {
-  const renderer = SECTION_REGISTRY[section.__typename];
+  const typename = section.__typename;
+  if (
+    process.env.USE_MOCKS !== 'true' &&
+    typeof typename === 'string' &&
+    typename.startsWith('Mock')
+  ) {
+    return null;
+  }
+
+  const renderer = SECTION_REGISTRY[typename];
   if (!renderer) {
     if (process.env.NODE_ENV === 'development') {
       console.warn(
-        `[Component Registry] No renderer registered for section typename: "${section.__typename}"`
+        `[Component Registry] No renderer registered for section typename: "${typename}"`
       );
     }
     return null;

@@ -18,11 +18,11 @@ import type { StrapiImage } from '@/lib/schemas';
 
 /** Exactly two plates fill the desktop viewport (one gutter between them).
  *  2px inset on each slide keeps the white stroke inside the overflow clip. */
-/** 828 + 21 + 828 inside the 1677px track (Figma 2002:1047 / 2002:1053). */
-const CARD_GAP = '1.3125rem';
-const MOBILE_CARD_GAP = '1.25rem';
-const TWO_UP_SLIDE_CLASS = `${CAROUSEL_SLIDE_CLASS} box-border shrink-0 basis-[calc((100%-1.3125rem)/2)] p-[2px]`;
-const MOBILE_SLIDE_CLASS = `${CAROUSEL_SLIDE_CLASS} box-border w-[calc(100vw-3.5rem)] shrink-0`;
+/** 828 + 27 + 828 inside the 1683px track (Figma Homepage 2243:3498 / 2243:3505). */
+const CARD_GAP = '1.6875rem';
+const TWO_UP_SLIDE_CLASS = `${CAROUSEL_SLIDE_CLASS} box-border shrink-0 basis-[calc((100%-1.6875rem)/2)] p-[2px]`;
+/** One full card per view on mobile/tablet — no next-card peek. */
+const MOBILE_SLIDE_CLASS = `${CAROUSEL_SLIDE_CLASS} box-border w-full min-w-full shrink-0 grow-0 basis-full`;
 const ACHIEVEMENT_BG = '/images/bg-achievements.gif';
 const INTRO_COPY =
   'Connecting cleared, credentialed healthcare professionals with government, military, and local facilities nationwide.';
@@ -30,8 +30,6 @@ const DESKTOP_OVERLAY =
   'linear-gradient(237.8deg, rgba(15, 61, 96, 0.8) 29.327%, rgba(240, 20, 36, 0.8) 100%)';
 const MOBILE_OVERLAY =
   'linear-gradient(264.65deg, rgba(15, 61, 96, 0.8) 29.327%, rgba(240, 20, 36, 0.8) 100%)';
-const STAT_NUMERAL_CLASS =
-  'bg-[linear-gradient(92.08deg,#d31e2d_0.47%,#2a91dc_102.45%)] bg-clip-text font-serif text-[1.75rem] leading-7 text-transparent';
 
 function isPlacementStat(label: string) {
   return /placement/i.test(label);
@@ -65,7 +63,9 @@ function BandArrow({
       type="button"
       aria-label={direction === 'prev' ? 'Previous achievement' : 'Next achievement'}
       onClick={onClick}
-      className={`flex cursor-pointer items-center justify-center rounded-full transition-transform duration-150 ease-out hover:scale-105 active:scale-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white motion-reduce:transition-none motion-reduce:hover:scale-100 ${className}`.trim()}
+      onPointerDown={(event) => event.stopPropagation()}
+      onPointerUp={(event) => event.stopPropagation()}
+      className={`flex cursor-pointer items-center justify-center rounded-full transition-transform duration-100 ease-out hover:scale-105 active:scale-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white motion-reduce:transition-none motion-reduce:hover:scale-100 ${className}`.trim()}
     >
       {direction === 'next' ? (
         <span className="relative flex size-full -scale-y-100 rotate-180">{icon}</span>
@@ -103,6 +103,8 @@ function AwardsTrack({
   gap = CARD_GAP,
   dragHandlers,
   isDragging,
+  /** When true, slides are direct flex children of the viewport so `min-w-full` = one card. */
+  singleSlide = false,
 }: {
   viewportRef: React.RefObject<HTMLDivElement | null>;
   slideClassName: string;
@@ -112,13 +114,34 @@ function AwardsTrack({
   gap?: string;
   dragHandlers?: React.HTMLAttributes<HTMLDivElement>;
   isDragging?: boolean;
+  singleSlide?: boolean;
 }) {
+  const slideNodes = slides.map((slide) => (
+    <div
+      key={slide.key}
+      className={slideClassName}
+      role="group"
+      aria-roledescription="slide"
+      data-carousel-slide
+    >
+      <AchievementGlassCard
+        year={slide.year}
+        title={slide.title}
+        body={slide.body}
+        badgeSrc={slide.badgeSrc}
+        badgeAlt={slide.badgeAlt}
+        badgeShape={slide.badgeShape}
+      />
+    </div>
+  ));
+
   return (
     <div
       ref={viewportRef}
-      className={`snap-x snap-mandatory overflow-x-auto py-1 [scrollbar-width:none] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white [&::-webkit-scrollbar]:hidden ${
+      className={`${singleSlide ? 'flex' : ''} snap-x snap-mandatory scroll-smooth overflow-x-auto py-1 [scrollbar-width:none] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white motion-reduce:scroll-auto [&::-webkit-scrollbar]:hidden ${
         isDragging ? 'cursor-grabbing select-none' : dragHandlers ? 'cursor-grab' : ''
       }`.trim()}
+      style={singleSlide ? { gap: 0 } : undefined}
       role="group"
       aria-roledescription="carousel"
       aria-label="Achievement awards"
@@ -135,26 +158,13 @@ function AwardsTrack({
       }}
       {...dragHandlers}
     >
-      <div className="flex" style={{ gap }}>
-        {slides.map((slide) => (
-          <div
-            key={slide.key}
-            className={slideClassName}
-            role="group"
-            aria-roledescription="slide"
-            data-carousel-slide
-          >
-            <AchievementGlassCard
-              year={slide.year}
-              title={slide.title}
-              body={slide.body}
-              badgeSrc={slide.badgeSrc}
-              badgeAlt={slide.badgeAlt}
-              badgeShape={slide.badgeShape}
-            />
-          </div>
-        ))}
-      </div>
+      {singleSlide ? (
+        slideNodes
+      ) : (
+        <div className="flex" style={{ gap }}>
+          {slideNodes}
+        </div>
+      )}
     </div>
   );
 }
@@ -183,10 +193,11 @@ export interface OurAchievementsSectionProps {
 }
 
 /**
- * Achievements band (Figma 2002:1028), 1920×1334. The CMS still supplies
- * title, counters, and cards. The backdrop is the local GIF; `bgImage` stays
- * on the props so the registry query is unchanged. Only a Placements counter
- * uses the Numbers1 hover reel.
+ * Achievements band — desktop Homepage 2243:3478 (1920×973), mobile
+ * 2105:725 (430×710). Older artboard 2002:1028 was 1920×1334. CMS title,
+ * counters, and cards stay as delivered. Backdrop is the local GIF; `bgImage`
+ * stays on the props so the registry query is unchanged. Placements uses the
+ * Numbers1 hover reel (1s ease-in-out).
  */
 export const OurAchievementsSection: React.FC<OurAchievementsSectionProps> = ({
   title,
@@ -277,7 +288,7 @@ export const OurAchievementsSection: React.FC<OurAchievementsSectionProps> = ({
             {headingText}
           </p>
 
-        <div className="absolute top-[23.43%] left-[6.406%] w-[87.344%] overflow-visible">
+        <div className="absolute top-[23.43%] left-[6.406%] w-[87.656%] overflow-visible">
           <AwardsTrack
             viewportRef={desktop.viewportRef}
             slideClassName={TWO_UP_SLIDE_CLASS}
@@ -287,8 +298,8 @@ export const OurAchievementsSection: React.FC<OurAchievementsSectionProps> = ({
           />
         </div>
 
-        <div className="absolute top-[73.68%] left-[6.25%] w-[87.5%]">
-          <dl className="flex items-center justify-between h-[183px]">
+        <div className="absolute top-[73.69%] left-[6.25%] w-[87.5%]">
+          <dl className="flex h-[183px] items-center justify-between">
             {resolvedStats.map((stat, idx) => (
               <React.Fragment key={`${stat.label}-${idx}`}>
                 <div className="flex flex-col items-center text-center">
@@ -304,7 +315,7 @@ export const OurAchievementsSection: React.FC<OurAchievementsSectionProps> = ({
                   </dt>
                 </div>
                 {idx < resolvedStats.length - 1 && (
-                  <div className="h-[183px] w-[3px] bg-white opacity-50"></div>
+                  <div className="h-[183px] w-[3px] bg-white opacity-50" />
                 )}
               </React.Fragment>
             ))}
@@ -314,20 +325,21 @@ export const OurAchievementsSection: React.FC<OurAchievementsSectionProps> = ({
           <BandArrow
             direction="prev"
             onClick={desktop.scrollPrev}
-            className="absolute top-[41.93%] left-[19px] z-10 size-[66px] border-[1.38px] border-white/40"
+            className="absolute top-[41.93%] left-[19px] z-10 size-[66px] border-[1.375px] border-white"
           />
           <BandArrow
             direction="next"
             onClick={desktop.scrollNext}
-            className="absolute top-[41.93%] right-[19px] z-10 size-[66px] border-[1.38px] border-white/40"
+            className="absolute top-[41.93%] right-[19px] z-10 size-[66px] border-[1.375px] border-white"
           />
         </div>
       </div>
 
+      {/* Mobile / tablet — Figma 2105:725: pad 20, title↔copy 12, title block→cards 40 */}
       <div className="relative scroll-mt-24 xl:hidden">
         <Backdrop overlay={MOBILE_OVERLAY} />
 
-        <Container className="relative px-5! py-5">
+        <Container className="relative px-5! pt-5 pb-5">
           <div className="flex flex-col gap-3">
             <p
               aria-hidden="true"
@@ -338,50 +350,35 @@ export const OurAchievementsSection: React.FC<OurAchievementsSectionProps> = ({
             <p className="font-sans text-base leading-5 text-[#ebebeb]">{INTRO_COPY}</p>
           </div>
 
-          <div className="mt-10 -mr-5">
+          <div className="relative mt-10">
             <AwardsTrack
               viewportRef={mobile.viewportRef}
               slideClassName={MOBILE_SLIDE_CLASS}
               slides={slides}
               onPrev={mobile.scrollPrev}
               onNext={mobile.scrollNext}
-              gap={MOBILE_CARD_GAP}
+              gap="0px"
+              singleSlide
               dragHandlers={dragHandlers}
               isDragging={isDragging}
             />
+            {slides.length > 1 ? (
+              <>
+                <BandArrow
+                  direction="prev"
+                  onClick={mobile.scrollPrev}
+                  className="absolute top-1/2 left-0 z-50 size-12 -translate-y-1/2 border-[1.375px] border-white bg-black/25 shadow-md backdrop-blur-[2px] md:left-1 md:size-[66px]"
+                />
+                <BandArrow
+                  direction="next"
+                  onClick={mobile.scrollNext}
+                  className="absolute top-1/2 right-0 z-50 size-12 -translate-y-1/2 border-[1.375px] border-white bg-black/25 shadow-md backdrop-blur-[2px] md:right-1 md:size-[66px]"
+                />
+              </>
+            ) : null}
           </div>
         </Container>
       </div>
-
-      {resolvedStats.length > 0 ? (
-        <div id="our-achievements-stats" className="bg-[rgba(42,145,220,0.1)] xl:hidden">
-          <Container className="flex flex-col gap-[1.875rem] px-5! py-[1.3125rem]">
-            <div className="flex flex-col gap-3">
-              <p
-                aria-hidden="true"
-                className="font-serif text-[2rem] leading-[2.5rem] text-brand-cta-from"
-              >
-                {headingText}
-              </p>
-              <p className="font-sans text-base leading-5 text-ink">{INTRO_COPY}</p>
-            </div>
-
-            <dl className="grid grid-cols-2 gap-[1.875rem] text-center">
-              {resolvedStats.map((stat, idx) => (
-                <div
-                  key={`${stat.label}-${idx}`}
-                  className="flex min-w-0 flex-col items-center gap-5"
-                >
-                  <dd className={STAT_NUMERAL_CLASS}>{stat.value}</dd>
-                  <dt className="font-sans text-[1.25rem] leading-[1.875rem] font-medium whitespace-nowrap text-[#2b2b2b]">
-                    {stat.label}
-                  </dt>
-                </div>
-              ))}
-            </dl>
-          </Container>
-        </div>
-      ) : null}
     </section>
   );
 };
