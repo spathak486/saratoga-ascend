@@ -87,7 +87,8 @@
         "references.ceo-message-reference",
         "references.supporting-mission-reference",
         "references.past-performance-reference",
-        "references.key-takeaways-reference"
+        "references.key-takeaways-reference",
+        "references.stat-cards-reference"
       ]
     }
   }

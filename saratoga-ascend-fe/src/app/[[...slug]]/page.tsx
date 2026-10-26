@@ -190,7 +190,11 @@ export default async function DynamicPage({ params }: DynamicPageProps) {
             allHeadings.push(h);
           }
         });
-      } else if (sec.__typename === 'ComponentReferencesKeyTakeawaysReference' && sec.title) {
+      } else if (
+        (sec.__typename === 'ComponentReferencesKeyTakeawaysReference' ||
+          sec.__typename === 'ComponentReferencesStatCardsReference') &&
+        sec.title
+      ) {
         const id = slugify(sec.title);
         if (id && !usedIds.has(id)) {
           usedIds.add(id);

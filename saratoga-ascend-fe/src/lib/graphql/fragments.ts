@@ -177,6 +177,18 @@ export const KEY_TAKEAWAYS_REFERENCE_FIELDS = `
   }
 `;
 
+export const STAT_CARDS_REFERENCE_FIELDS = `
+  __typename
+  ... on ComponentReferencesStatCardsReference {
+    title
+    cards {
+      metric
+      badge
+      description
+    }
+  }
+`;
+
 export const ACHIEVEMENTS_REFERENCE_FIELDS = `
   __typename
   ... on ComponentReferencesAchievements {
@@ -452,6 +464,7 @@ export const BLOG_SECTION_FRAGMENTS = [
   SUPPORTING_MISSION_REFERENCE_FIELDS,
   PAST_PERFORMANCE_REFERENCE_FIELDS,
   KEY_TAKEAWAYS_REFERENCE_FIELDS,
+  STAT_CARDS_REFERENCE_FIELDS,
 ].join('\n');
 
 export const CONTACT_INQUIRY_REFERENCE_FIELDS = `

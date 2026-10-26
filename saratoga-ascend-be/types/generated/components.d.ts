@@ -371,6 +371,65 @@ export interface ReferencesLatestInsights extends Struct.ComponentSchema {
   };
 }
 
+export interface ReferencesKeyTakeawaysReference extends Struct.ComponentSchema {
+  collectionName: 'components_references_key_takeaways_references';
+  info: {
+    description: 'Callout / Key Takeaways card component for articles and blogs';
+    displayName: 'Key Takeaways Reference';
+    icon: 'bulletList';
+  };
+  attributes: {
+    title: Schema.Attribute.String & Schema.Attribute.DefaultTo<'Key Takeaways'>;
+    description: Schema.Attribute.RichText &
+      Schema.Attribute.CustomField<
+        'plugin::ckeditor5.CKEditor',
+        {
+          preset: 'defaultHtml';
+        }
+      >;
+    variant: Schema.Attribute.Enumeration<
+      [
+        'default',
+        'article-section',
+        'quote',
+        'gradient',
+        'blue',
+        'minimal'
+      ]
+    > &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'default'>;
+  };
+}
+
+export interface CoreComponentStatCard extends Struct.ComponentSchema {
+  collectionName: 'components_core_component_stat_cards';
+  info: {
+    displayName: 'Stat Card Item';
+    icon: 'apps';
+    description: 'Card item displaying a metric, badge, and description';
+  };
+  attributes: {
+    metric: Schema.Attribute.String & Schema.Attribute.Required;
+    badge: Schema.Attribute.String;
+    description: Schema.Attribute.Text & Schema.Attribute.Required;
+  };
+}
+
+export interface ReferencesStatCardsReference extends Struct.ComponentSchema {
+  collectionName: 'components_references_stat_cards_references';
+  info: {
+    displayName: 'Stat Cards Reference';
+    icon: 'dashboard';
+    description: 'Grid of highlight stat/feature cards for articles and blog posts';
+  };
+  attributes: {
+    title: Schema.Attribute.String;
+    cards: Schema.Attribute.Component<'core-component.stat-card', true> &
+      Schema.Attribute.Required;
+  };
+}
+
 export interface ReferencesLegalContent extends Struct.ComponentSchema {
   collectionName: 'components_references_legal_contents';
   info: {
@@ -652,6 +711,7 @@ declare module '@strapi/strapi' {
       'core-component.numbered-card': CoreComponentNumberedCard;
       'core-component.promo': CoreComponentPromo;
       'core-component.purpose-card': CoreComponentPurposeCard;
+      'core-component.stat-card': CoreComponentStatCard;
       'core-component.value-card': CoreComponentValueCard;
       'media.banner': MediaBanner;
       'references.accountable-operating-environments-reference': ReferencesAccountableOperatingEnvironmentsReference;
@@ -669,6 +729,7 @@ declare module '@strapi/strapi' {
       'references.fa-qs': ReferencesFaQs;
       'references.happy-clients-reference': ReferencesHappyClientsReference;
       'references.key-takeaways-reference': ReferencesKeyTakeawaysReference;
+      'references.stat-cards-reference': ReferencesStatCardsReference;
       'references.latest-insights': ReferencesLatestInsights;
       'references.legal-content': ReferencesLegalContent;
       'references.mission-reference': ReferencesMissionReference;

@@ -267,6 +267,22 @@ export const KeyTakeawaysReferenceSchema = z.object({
 
 export type KeyTakeawaysReference = z.infer<typeof KeyTakeawaysReferenceSchema>;
 
+export const StatCardItemSchema = z.object({
+  metric: z.string(),
+  badge: z.string().nullable().optional(),
+  description: z.string(),
+});
+
+export type StatCardItem = z.infer<typeof StatCardItemSchema>;
+
+export const StatCardsReferenceSchema = z.object({
+  __typename: z.literal('ComponentReferencesStatCardsReference'),
+  title: z.string().nullable().optional(),
+  cards: z.array(StatCardItemSchema).nullable().optional(),
+});
+
+export type StatCardsReference = z.infer<typeof StatCardsReferenceSchema>;
+
 export const BlogListingReferenceSchema = z.object({
   __typename: z.literal('ComponentReferencesBlogListing'),
   blogHeading: z.string().nullable().optional(),
@@ -577,6 +593,7 @@ export const DynamicZoneSectionSchema = z.union([
   AchievementsReferenceSchema,
   LegalContentReferenceSchema,
   KeyTakeawaysReferenceSchema,
+  StatCardsReferenceSchema,
   BlogListingReferenceSchema,
   CeoMessageReferenceSchema,
   SupportingMissionReferenceSchema,

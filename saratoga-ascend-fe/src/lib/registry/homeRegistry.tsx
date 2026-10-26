@@ -24,6 +24,7 @@ import type {
   ContactLearnReference,
   ContactOfficesReference,
   KeyTakeawaysReference,
+  StatCardsReference,
 } from '@/lib/schemas';
 import {
   HeroSection,
@@ -54,6 +55,7 @@ import {
   ContactLearnSection,
   ContactOfficesSection,
   KeyTakeawaysSection,
+  StatCardsSection,
 } from '@/components/organisms';
 
 const MOCK_WHAT_WE_DO_LINES = [
@@ -373,6 +375,17 @@ export const SECTION_REGISTRY: Record<
         title={ktRef.title ?? undefined}
         description={ktRef.description ?? undefined}
         variant={ktRef.variant ?? 'default'}
+      />
+    );
+  },
+
+  ComponentReferencesStatCardsReference: (section, index) => {
+    const statCardsRef = section as StatCardsReference;
+    return (
+      <StatCardsSection
+        key={`stat-cards-${index}`}
+        title={statCardsRef.title ?? undefined}
+        cards={statCardsRef.cards ?? []}
       />
     );
   },
