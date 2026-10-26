@@ -78,7 +78,8 @@
         "references.contact-inquiry-reference",
         "references.contact-pathways-reference",
         "references.contact-learn-reference",
-        "references.contact-offices-reference"
+        "references.contact-offices-reference",
+        "references.key-takeaways-reference"
       ]
     }
   }

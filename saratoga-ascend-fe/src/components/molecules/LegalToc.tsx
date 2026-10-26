@@ -103,7 +103,7 @@ export const LegalToc: React.FC<LegalTocProps> = ({
       id={tocId}
     >
       <div className="hidden lg:block">
-        <h2 className="legal-toc-label">Table of contents</h2>
+        <h3 className="legal-toc-label">Table of contents</h3>
         {frame()}
       </div>
 
