@@ -132,7 +132,7 @@ export const HeaderNavList: React.FC<HeaderNavListProps> = ({
           : `${layoutStyles[orientation]} ${gapClass[variant][orientation]}`
       }
     >
-      {items.map((item) => {
+      {items.map((item, index) => {
         const isActive = isItemActive(activeHref, item.href);
         const menuLinks = item.links ?? [];
         const showMenu = Boolean(isPrimaryBar && menuLinks.length > 0 && (item.hasMenu ?? true));
@@ -174,9 +174,11 @@ export const HeaderNavList: React.FC<HeaderNavListProps> = ({
           </GeneralLink>
         );
 
+        const itemKey = `${item.href}-${item.label ?? ''}-${index}`;
+
         if (!isPrimaryBar) {
           return (
-            <div key={item.href} className="group">
+            <div key={itemKey} className="group">
               {link}
             </div>
           );
@@ -184,7 +186,7 @@ export const HeaderNavList: React.FC<HeaderNavListProps> = ({
 
         return (
           <div
-            key={item.href}
+            key={itemKey}
             className="group relative flex h-full items-center"
           >
             <div className="relative flex h-full items-center">
