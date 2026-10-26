@@ -36,11 +36,17 @@ export const KeyTakeawaysSection: React.FC<KeyTakeawaysSectionProps> = ({
   let containerStyles = '';
   let titleStyles = 'font-serif text-[clamp(28px,2.5vw,40px)] leading-[150%] tracking-[-1px] mb-4 text-[#00162D]';
   let bodyStyles = 'font-sans font-normal text-[clamp(16px,1.25vw,24px)] leading-[160%] text-[#000000] space-y-4 [&_p]:mb-3 [&_p:last-child]:mb-0';
+  const normalizedVariant = (variant || 'default')
+    .toLowerCase()
+    .trim()
+    .replace(/[_\s]+/g, '-');
 
-  switch (variant) {
+  switch (normalizedVariant) {
     case 'article-section':
+    case 'articlesection':
+    case 'article':
       // Exact Figma Group 2085665614: 1054px container, 40px/60px DM Serif #00162D title, 24px/38px (160%) Google Sans Flex #5A5A5A body
-      containerStyles = 'bg-transparent py-2 my-6 max-w-[1054px] w-full';
+      containerStyles = '!bg-transparent !border-0 !shadow-none !p-0 py-2 my-6 max-w-[1054px] w-full';
       titleStyles = 'font-serif font-normal text-[clamp(28px,2.5vw,40px)] leading-[60px] tracking-[-1px] mb-4 text-[#00162D]';
       bodyStyles = 'font-sans font-normal text-[clamp(18px,1.4vw,24px)] leading-[160%] text-[#5A5A5A] space-y-6 [&_p]:mb-6 [&_p:last-child]:mb-0 [&_blockquote]:border-l-4 [&_blockquote]:border-[var(--Sky-blue,#2B88D9)] [&_blockquote]:pl-6 [&_blockquote]:italic';
       break;
