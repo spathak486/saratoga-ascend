@@ -139,11 +139,11 @@ export default async function DynamicPage({ params }: DynamicPageProps) {
 
   const isDark = pageData.pageType === 'Dark' || pageData.variant === 'dark';
   const isLight = pageData.pageType === 'Light' || pageData.variant === 'light';
-  const isBlog = Boolean(pageData.categoryType || pageData.readTime || pageData.author || slugPath.startsWith('blog'));
-  const toneClass = isDark ? 'bg-brand-navy text-white' : isLight ? 'bg-brand-surface' : isBlog ? 'bg-white text-ink' : '';
+  const isBlogDetail = !hasBlogListing && Boolean(pageData.readTime || pageData.author || pageData.categoryType || (slugPath.startsWith('blog') && slugPath !== 'blogs' && slugPath !== 'blog'));
+  const toneClass = isDark ? 'bg-brand-navy text-white' : isLight ? 'bg-brand-surface' : isBlogDetail ? 'bg-white text-ink' : '';
 
   const hasLegalContent = sections.some((sec: any) => sec.__typename === 'ComponentReferencesLegalContent');
-  if (isBlog && !hasLegalContent && pageData.description) {
+  if (isBlogDetail && !hasLegalContent && pageData.description) {
     sections.push({
       __typename: 'ComponentReferencesLegalContent',
       body: pageData.description,
@@ -153,7 +153,7 @@ export default async function DynamicPage({ params }: DynamicPageProps) {
 
   // For Blog Detail pages, separate hero banner from content sections to render
   // the exact Figma 2-column layout: Left column = Table of Contents, Right column = Article components & body
-  if (isBlog) {
+  if (isBlogDetail) {
     const bannerSection = sections.find(
       (sec: any) => sec.__typename === 'ComponentReferencesBannerReference'
     );
@@ -190,7 +190,11 @@ export default async function DynamicPage({ params }: DynamicPageProps) {
             allHeadings.push(h);
           }
         });
-      } else if (sec.__typename === 'ComponentReferencesKeyTakeawaysReference' && sec.title) {
+      } else if (
+        (sec.__typename === 'ComponentReferencesKeyTakeawaysReference' ||
+          sec.__typename === 'ComponentReferencesStatCardsReference') &&
+        sec.title
+      ) {
         const id = slugify(sec.title);
         if (id && !usedIds.has(id)) {
           usedIds.add(id);

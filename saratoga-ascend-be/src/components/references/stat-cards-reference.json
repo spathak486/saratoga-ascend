@@ -1,0 +1,21 @@
+{
+  "collectionName": "components_references_stat_cards_references",
+  "info": {
+    "displayName": "Stat Cards Reference",
+    "icon": "dashboard",
+    "description": "Grid of highlight stat/feature cards for articles and blog posts"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "cards": {
+      "type": "component",
+      "component": "core-component.stat-card",
+      "repeatable": true,
+      "required": true
+    }
+  },
+  "config": {}
+}

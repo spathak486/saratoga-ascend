@@ -1,0 +1,23 @@
+{
+  "collectionName": "components_core_component_stat_cards",
+  "info": {
+    "displayName": "Stat Card Item",
+    "icon": "apps",
+    "description": "Card item displaying a metric, badge, and description"
+  },
+  "options": {},
+  "attributes": {
+    "metric": {
+      "type": "string",
+      "required": true
+    },
+    "badge": {
+      "type": "string"
+    },
+    "description": {
+      "type": "text",
+      "required": true
+    }
+  },
+  "config": {}
+}

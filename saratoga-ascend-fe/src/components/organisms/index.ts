@@ -36,3 +36,4 @@ export * from './AccountableOperatingEnvironmentsSection';
 export * from './OurCapabilitiesSection';
 export * from './WorkforcePlanningSection';
 export * from './KeyTakeawaysSection';
+export * from './StatCardsSection';
