@@ -28,7 +28,7 @@ async function queryOnce<T>(
         ...(strapiToken ? { Authorization: `Bearer ${strapiToken}` } : {}),
       },
       body: JSON.stringify({ query, variables }),
-      cache: 'no-store',
+      next: { revalidate: 60 },
     });
 
     const raw = await res.text();
