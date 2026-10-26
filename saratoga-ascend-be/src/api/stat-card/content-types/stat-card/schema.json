@@ -1,0 +1,30 @@
+{
+  "kind": "collectionType",
+  "collectionName": "stat_cards",
+  "info": {
+    "singularName": "stat-card",
+    "pluralName": "stat-cards",
+    "displayName": "Stat Card",
+    "description": "Scientific metrics, statistics, and highlight cards"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "referenceTitle": {
+      "type": "string"
+    },
+    "metric": {
+      "type": "string",
+      "required": true
+    },
+    "badge": {
+      "type": "string"
+    },
+    "description": {
+      "type": "text",
+      "required": true
+    }
+  }
+}
