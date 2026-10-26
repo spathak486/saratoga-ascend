@@ -1,6 +1,7 @@
 import React from 'react';
 
 export interface KeyTakeawaysSectionProps {
+  id?: string;
   title?: string;
   description?: string;
   variant?: 'default' | 'gradient' | 'blue' | 'minimal' | string;
@@ -12,12 +13,24 @@ export interface KeyTakeawaysSectionProps {
  * Features multiple styling variants for reusability.
  */
 export const KeyTakeawaysSection: React.FC<KeyTakeawaysSectionProps> = ({
+  id,
   title = 'Key Takeaways',
   description,
   variant = 'default',
   className = '',
 }) => {
   if (!description && !title) return null;
+
+  const sectionId =
+    id ||
+    (title
+      ? title
+          .toLowerCase()
+          .trim()
+          .replace(/[^\p{L}\p{N}\s-]/gu, '')
+          .replace(/[\s-]+/g, '-')
+          .replace(/^-+|-+$/g, '')
+      : undefined);
 
   // Variant-based container styling
   let containerStyles = '';
@@ -62,7 +75,10 @@ export const KeyTakeawaysSection: React.FC<KeyTakeawaysSectionProps> = ({
   }
 
   return (
-    <div className={`w-full max-w-[1054px] my-6 md:my-8 transition-all ${containerStyles} ${className}`.trim()}>
+    <div
+      id={sectionId}
+      className={`w-full max-w-[1054px] my-6 md:my-8 transition-all scroll-mt-28 ${containerStyles} ${className}`.trim()}
+    >
       {title && (
         <h3 className={titleStyles}>
           {title}

@@ -151,6 +151,92 @@ export default async function DynamicPage({ params }: DynamicPageProps) {
     });
   }
 
+  // For Blog Detail pages, separate hero banner from content sections to render
+  // the exact Figma 2-column layout: Left column = Table of Contents, Right column = Article components & body
+  if (isBlog) {
+    const bannerSection = sections.find(
+      (sec: any) => sec.__typename === 'ComponentReferencesBannerReference'
+    );
+    const contentSections = sections.filter(
+      (sec: any) => sec.__typename !== 'ComponentReferencesBannerReference'
+    );
+
+    const bannerNode = bannerSection
+      ? renderRegisteredSection(bannerSection, 0, { contextData: pageData })
+      : null;
+
+    // Collect headings from all content sections (LegalContent body, KeyTakeaways titles, etc.)
+    const { scanLegalHeadings } = await import('@/lib/legalToc');
+    const { LegalToc } = await import('@/components/molecules');
+    const { Container } = await import('@/components/atoms');
+
+    const allHeadings: Array<{ id: string; text: string; level: 2 | 3 }> = [];
+    const usedIds = new Set<string>();
+
+    const slugify = (text: string) =>
+      text
+        .toLowerCase()
+        .trim()
+        .replace(/[^\p{L}\p{N}\s-]/gu, '')
+        .replace(/[\s-]+/g, '-')
+        .replace(/^-+|-+$/g, '');
+
+    contentSections.forEach((sec: any) => {
+      if (sec.__typename === 'ComponentReferencesLegalContent' && sec.body) {
+        const scan = scanLegalHeadings(sec.body);
+        scan.headings.forEach((h) => {
+          if (!usedIds.has(h.id)) {
+            usedIds.add(h.id);
+            allHeadings.push(h);
+          }
+        });
+      } else if (sec.__typename === 'ComponentReferencesKeyTakeawaysReference' && sec.title) {
+        const id = slugify(sec.title);
+        if (id && !usedIds.has(id)) {
+          usedIds.add(id);
+          allHeadings.push({ id, text: sec.title, level: 3 });
+        }
+      }
+    });
+
+    const renderedContent = contentSections.map((sec: any, idx: number) => {
+      // If legal content, don't show internal duplicate sidebar because we provide unified sidebar
+      if (sec.__typename === 'ComponentReferencesLegalContent') {
+        const scan = scanLegalHeadings(sec.body || '');
+        return (
+          <div
+            key={`legal-body-${idx}`}
+            className="legal-body min-w-0 w-full"
+            dangerouslySetInnerHTML={{ __html: scan.html }}
+          />
+        );
+      }
+      return renderRegisteredSection(sec, idx + 1, { contextData: pageData });
+    });
+
+    return (
+      <main id="main" className={`min-h-screen ${toneClass}`.trim()}>
+        {bannerNode}
+        <Container className="mx-auto max-w-[1720px] px-4 sm:px-8 xl:px-12 py-10 xl:py-16">
+          {allHeadings.length > 0 ? (
+            <div className="grid items-start gap-10 lg:grid-cols-[minmax(16rem,578px)_minmax(0,1054px)] lg:gap-14 xl:gap-20">
+              <aside className="lg:sticky lg:top-[calc(var(--spacing-utility-h)+var(--spacing-nav-h)+1.5rem)]">
+                <LegalToc headings={allHeadings} />
+              </aside>
+              <article className="min-w-0 w-full flex flex-col gap-8">
+                {renderedContent}
+              </article>
+            </div>
+          ) : (
+            <article className="mx-auto max-w-[1054px] min-w-0 w-full flex flex-col gap-8">
+              {renderedContent}
+            </article>
+          )}
+        </Container>
+      </main>
+    );
+  }
+
   const rendered = sections.map((sec: any, idx: number) =>
     renderRegisteredSection(
       sec,
@@ -161,8 +247,6 @@ export default async function DynamicPage({ params }: DynamicPageProps) {
       },
     ),
   );
-
-
 
   return (
     <main id="main" className={`min-h-screen ${toneClass}`.trim()}>
