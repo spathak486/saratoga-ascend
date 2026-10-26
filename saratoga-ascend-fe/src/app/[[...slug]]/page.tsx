@@ -198,7 +198,7 @@ export default async function DynamicPage({ params }: DynamicPageProps) {
         const id = slugify(sec.title);
         if (id && !usedIds.has(id)) {
           usedIds.add(id);
-          allHeadings.push({ id, text: sec.title, level: 3 });
+          allHeadings.push({ id, text: sec.title, level: 2 });
         }
       }
     });
