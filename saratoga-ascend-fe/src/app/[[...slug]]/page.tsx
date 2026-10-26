@@ -181,6 +181,18 @@ export default async function DynamicPage({ params }: DynamicPageProps) {
         .replace(/[\s-]+/g, '-')
         .replace(/^-+|-+$/g, '');
 
+    if (process.env.NODE_ENV === 'development') {
+      console.log(
+        '[TOC Debug] contentSections:',
+        contentSections.map((s: any) => ({
+          __typename: s.__typename,
+          title: s.title,
+          referenceTitle: s.referenceTitle,
+          hasBody: Boolean(s.body),
+        }))
+      );
+    }
+
     contentSections.forEach((sec: any) => {
       if (sec.__typename === 'ComponentReferencesLegalContent' && sec.body) {
         const scan = scanLegalHeadings(sec.body);
@@ -191,15 +203,8 @@ export default async function DynamicPage({ params }: DynamicPageProps) {
           }
         });
       } else {
-        const typename = String(sec.__typename || '');
-        const isMatch =
-          typename === 'ComponentReferencesKeyTakeawaysReference' ||
-          typename === 'ComponentReferencesStatCardsReference' ||
-          typename.toLowerCase().includes('statcard') ||
-          typename.toLowerCase().includes('keytakeaway');
         const titleText = sec.title || sec.referenceTitle;
-
-        if (isMatch && titleText) {
+        if (titleText && typeof titleText === 'string') {
           const id = slugify(titleText);
           if (id && !usedIds.has(id)) {
             usedIds.add(id);
