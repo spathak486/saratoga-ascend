@@ -145,7 +145,10 @@ export default async function DynamicPage({ params }: DynamicPageProps) {
     renderRegisteredSection(
       sec,
       idx,
-      isContactPage ? { heroLayout: 'contact' } : undefined,
+      {
+        heroLayout: isContactPage ? 'contact' : undefined,
+        contextData: pageData,
+      },
     ),
   );
 

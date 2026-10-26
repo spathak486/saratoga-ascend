@@ -157,6 +157,24 @@ function renderFaqSection(faqsRef: FaqsReference, index: number) {
 export type SectionRenderOptions = {
   /** Contact page uses the contact hero composition of the shared banner. */
   heroLayout?: 'contact';
+  /** Page or Blog level data to fallback/bind if missing in banner */
+  contextData?: {
+    title?: string;
+    description?: string;
+    authorName?: string;
+    author?: string;
+    date?: string;
+    articleDate?: string;
+    readTime?: string | number;
+    image?: { url?: string };
+    bannerImage?: { url?: string };
+    socialLinks?: Array<{
+      platform?: string | null;
+      title?: string | null;
+      url?: string | null;
+      icon?: { url?: string | null } | null;
+    }> | null;
+  };
 };
 
 export const SECTION_REGISTRY: Record<
@@ -170,19 +188,25 @@ export const SECTION_REGISTRY: Record<
   ComponentReferencesBannerReference: (section, index, options) => {
     const bannerRef = section as BannerReference;
     const banner = bannerRef.heroBanner?.banner;
+    const ctx = options?.contextData;
+
     return (
       <HeroSection
         key={`banner-${index}`}
-        title={banner?.bannerTitle}
+        title={banner?.bannerTitle || ctx?.title}
         subTitle={banner?.bannerSubTitle ?? undefined}
-        description={banner?.bannerDescription ?? undefined}
-        helixSrc={banner?.bannerImage?.url}
+        description={banner?.bannerDescription || ctx?.description || undefined}
+        helixSrc={banner?.bannerImage?.url || ctx?.image?.url || ctx?.bannerImage?.url}
         mediaMime={banner?.bannerImage?.mime ?? undefined}
         mediaExt={banner?.bannerImage?.ext ?? undefined}
-        mediaAlt={banner?.bannerImage?.alternativeText ?? undefined}
+        mediaAlt={banner?.bannerImage?.alternativeText ?? ctx?.title ?? undefined}
         ctaLabel={banner?.buttonCTA?.label}
         ctaHref={banner?.buttonCTA?.href}
         variant={banner?.variant as any}
+        authorName={ctx?.authorName || ctx?.author}
+        date={ctx?.date || ctx?.articleDate}
+        readTime={ctx?.readTime}
+        socialLinks={ctx?.socialLinks ?? undefined}
         layout={options?.heroLayout}
       />
     );

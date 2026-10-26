@@ -598,6 +598,12 @@ export const BLOG_ITEM_FIELDS = `
   }
   description
   image { ${IMAGE_FIELDS} }
+  socialLinks {
+    platform
+    title
+    url
+    icon { ${IMAGE_FIELDS} }
+  }
 `;
 
 export const BLOG_FIELDS = `

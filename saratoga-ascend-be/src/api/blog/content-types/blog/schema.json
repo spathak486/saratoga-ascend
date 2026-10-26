@@ -57,6 +57,12 @@
       "target": "api::category.category",
       "inversedBy": "blogs"
     },
+    "socialLinks": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::social-link.social-link",
+      "mappedBy": "blog"
+    },
     "description": {
       "type": "richtext"
     },
