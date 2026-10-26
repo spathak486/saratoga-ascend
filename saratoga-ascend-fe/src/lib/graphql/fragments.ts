@@ -606,7 +606,7 @@ export const ARTICLE_FIELDS = `
   image { ${IMAGE_FIELDS} }
   seo { ${SEO_FIELDS} }
   Section {
-    ${BLOG_SECTION_FRAGMENTS}
+    ${PAGE_BASE_SECTION_FRAGMENTS}
   }
 `;
 
