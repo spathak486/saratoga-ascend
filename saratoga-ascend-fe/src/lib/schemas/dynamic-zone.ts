@@ -268,6 +268,8 @@ export const KeyTakeawaysReferenceSchema = z.object({
 export type KeyTakeawaysReference = z.infer<typeof KeyTakeawaysReferenceSchema>;
 
 export const StatCardItemSchema = z.object({
+  documentId: z.string().optional(),
+  referenceTitle: z.string().nullable().optional(),
   metric: z.string(),
   badge: z.string().nullable().optional(),
   description: z.string(),

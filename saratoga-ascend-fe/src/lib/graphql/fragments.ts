@@ -182,6 +182,8 @@ export const STAT_CARDS_REFERENCE_FIELDS = `
   ... on ComponentReferencesStatCardsReference {
     title
     cards {
+      documentId
+      referenceTitle
       metric
       badge
       description

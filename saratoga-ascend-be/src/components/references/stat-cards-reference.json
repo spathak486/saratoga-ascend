@@ -11,10 +11,9 @@
       "type": "string"
     },
     "cards": {
-      "type": "component",
-      "component": "core-component.stat-card",
-      "repeatable": true,
-      "required": true
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::stat-card.stat-card"
     }
   },
   "config": {}

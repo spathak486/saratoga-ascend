@@ -425,8 +425,7 @@ export interface ReferencesStatCardsReference extends Struct.ComponentSchema {
   };
   attributes: {
     title: Schema.Attribute.String;
-    cards: Schema.Attribute.Component<'core-component.stat-card', true> &
-      Schema.Attribute.Required;
+    cards: Schema.Attribute.Relation<'oneToMany', 'api::stat-card.stat-card'>;
   };
 }
 
