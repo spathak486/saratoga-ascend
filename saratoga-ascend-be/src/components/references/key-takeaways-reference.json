@@ -1,0 +1,36 @@
+{
+  "collectionName": "components_references_key_takeaways_references",
+  "info": {
+    "displayName": "Key Takeaways Reference",
+    "icon": "bulletList",
+    "description": "Callout / Key Takeaways card component for articles and blogs"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "default": "Key Takeaways"
+    },
+    "description": {
+      "type": "customField",
+      "customField": "plugin::ckeditor5.CKEditor",
+      "options": {
+        "preset": "defaultHtml"
+      }
+    },
+    "variant": {
+      "type": "enumeration",
+      "enum": [
+        "default",
+        "article-section",
+        "quote",
+        "gradient",
+        "blue",
+        "minimal"
+      ],
+      "default": "default",
+      "required": true
+    }
+  },
+  "config": {}
+}

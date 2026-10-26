@@ -258,6 +258,15 @@ export const LegalContentReferenceSchema = z.object({
 
 export type LegalContentReference = z.infer<typeof LegalContentReferenceSchema>;
 
+export const KeyTakeawaysReferenceSchema = z.object({
+  __typename: z.literal('ComponentReferencesKeyTakeawaysReference'),
+  title: z.string().nullable().optional(),
+  description: z.string().nullable().optional(),
+  variant: z.string().nullable().optional(),
+});
+
+export type KeyTakeawaysReference = z.infer<typeof KeyTakeawaysReferenceSchema>;
+
 export const BlogListingReferenceSchema = z.object({
   __typename: z.literal('ComponentReferencesBlogListing'),
   blogHeading: z.string().nullable().optional(),
@@ -567,6 +576,7 @@ export const DynamicZoneSectionSchema = z.union([
   MissionReferenceSchema,
   AchievementsReferenceSchema,
   LegalContentReferenceSchema,
+  KeyTakeawaysReferenceSchema,
   BlogListingReferenceSchema,
   CeoMessageReferenceSchema,
   SupportingMissionReferenceSchema,

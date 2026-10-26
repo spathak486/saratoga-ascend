@@ -86,7 +86,8 @@
         "references.happy-clients-reference",
         "references.ceo-message-reference",
         "references.supporting-mission-reference",
-        "references.past-performance-reference"
+        "references.past-performance-reference",
+        "references.key-takeaways-reference"
       ]
     }
   }
