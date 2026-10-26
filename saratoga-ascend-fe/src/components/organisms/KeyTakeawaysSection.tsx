@@ -46,8 +46,8 @@ export const KeyTakeawaysSection: React.FC<KeyTakeawaysSectionProps> = ({
       break;
 
     case 'quote':
-      // Exact Figma Quote: border-left: 5.38px solid var(--Sky-blue, #2B88D9), padding-left: 30px, 50px DM Serif #2B88D9
-      containerStyles = 'bg-transparent border-l-[5.38px] border-[var(--Sky-blue,#2B88D9)] pl-6 sm:pl-[30px] py-2 my-8 max-w-[1056px]';
+      // Exact Figma Quote: border-left: 5.38px solid var(--Sky-blue, #2B88D9), padding-left: 30px, pb: 21.51px, max-w: 1021px, 50px DM Serif
+      containerStyles = 'bg-transparent border-l-[5.38px] border-[var(--Sky-blue,#2B88D9)] pl-6 sm:pl-[30px] pt-0 pb-[21.51px] my-8 max-w-[1021px] w-full';
       titleStyles = 'font-serif font-normal text-[clamp(28px,2.5vw,40px)] leading-[60px] tracking-[-1px] mb-4 text-[#00162D]';
       bodyStyles = 'font-serif font-normal text-[clamp(28px,2.8vw,50px)] leading-[120%] tracking-[-1px] text-[var(--Sky-blue,#2B88D9)] space-y-4 [&_p]:mb-3 [&_p:last-child]:mb-0';
       break;
