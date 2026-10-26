@@ -78,7 +78,7 @@ export async function generateMetadata({ params }: DynamicPageProps): Promise<Me
 export default async function DynamicPage({ params }: DynamicPageProps) {
   const { slug } = await params;
   const slugPath = slug && slug.length > 0 ? slug.join('/') : '';
-  
+
   let pageData: any = null;
 
   // 1. First, try to fetch as a Page
@@ -181,6 +181,9 @@ export default async function DynamicPage({ params }: DynamicPageProps) {
         .replace(/[\s-]+/g, '-')
         .replace(/^-+|-+$/g, '');
 
+    const sectionIdMap = new Map<any, string>();
+    const usedIdsForSections = new Map<string, number>();
+
     contentSections.forEach((sec: any) => {
       if (sec.__typename === 'ComponentReferencesLegalContent' && sec.body) {
         const scan = scanLegalHeadings(sec.body);
@@ -190,15 +193,16 @@ export default async function DynamicPage({ params }: DynamicPageProps) {
             allHeadings.push(h);
           }
         });
-      } else if (
-        (sec.__typename === 'ComponentReferencesKeyTakeawaysReference' ||
-          sec.__typename === 'ComponentReferencesStatCardsReference') &&
-        sec.title
-      ) {
-        const id = slugify(sec.title);
-        if (id && !usedIds.has(id)) {
-          usedIds.add(id);
-          allHeadings.push({ id, text: sec.title, level: 3 });
+      } else {
+        const titleText = sec.title || sec.referenceTitle;
+        if (titleText && typeof titleText === 'string') {
+          const baseId = slugify(titleText) || 'section';
+          const count = (usedIdsForSections.get(baseId) ?? 0) + 1;
+          usedIdsForSections.set(baseId, count);
+          const uniqueId = count === 1 ? baseId : `${baseId}-${count}`;
+
+          sectionIdMap.set(sec, uniqueId);
+          allHeadings.push({ id: uniqueId, text: titleText, level: 2 });
         }
       }
     });
@@ -215,7 +219,14 @@ export default async function DynamicPage({ params }: DynamicPageProps) {
           />
         );
       }
-      return renderRegisteredSection(sec, idx + 1, { contextData: pageData });
+      const rendered = renderRegisteredSection(sec, idx + 1, { contextData: pageData });
+      const sectionId = sectionIdMap.get(sec);
+
+      return (
+        <div key={`section-wrapper-${idx}`} id={sectionId} className="w-full scroll-mt-32">
+          {rendered}
+        </div>
+      );
     });
 
     return (

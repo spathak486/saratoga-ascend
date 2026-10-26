@@ -44,7 +44,7 @@ export const StatCardsSection: React.FC<StatCardsSectionProps> = ({
       className={`w-full max-w-[1054px] my-6 md:my-8 scroll-mt-28 ${className}`}
     >
       {title && (
-        <h2 className="font-sans font-bold text-[24px] sm:text-[30px] md:text-[34px] leading-[130%] text-[#00162D] mb-6">
+        <h2 className="font-outfit font-semibold text-[28px] sm:text-[34px] md:text-[40px] leading-[110%] md:leading-[34px] tracking-[0.03em] capitalize text-[#000000] mb-6">
           {title}
         </h2>
       )}
