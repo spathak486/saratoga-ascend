@@ -1,0 +1,17 @@
+{
+  "collectionName": "components_references_contact_learn_references",
+  "info": {
+    "displayName": "Contact Learn Reference",
+    "icon": "book",
+    "description": "Learn more about Saratoga Ascend section reference"
+  },
+  "options": {},
+  "attributes": {
+    "contactLearnSection": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::contact-learn-section.contact-learn-section"
+    }
+  },
+  "config": {}
+}

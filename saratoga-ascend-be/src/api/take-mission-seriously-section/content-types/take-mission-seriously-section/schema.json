@@ -1,0 +1,33 @@
+{
+  "kind": "collectionType",
+  "collectionName": "take_mission_seriously_sections",
+  "info": {
+    "singularName": "take-mission-seriously-section",
+    "pluralName": "take-mission-seriously-sections",
+    "displayName": "Take Mission Seriously Section",
+    "description": "People who take the mission seriously section"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "referenceTitle": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string",
+      "required": true,
+      "default": "People who take the mission seriously"
+    },
+    "highlightTitle": {
+      "type": "string",
+      "default": "mission seriously"
+    },
+    "cards": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::card.card"
+    }
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "kind": "collectionType",
+  "collectionName": "contact_inquiry_sections",
+  "info": {
+    "singularName": "contact-inquiry-section",
+    "pluralName": "contact-inquiry-sections",
+    "displayName": "Contact Inquiry Section",
+    "description": "Contact Inquiry band with form and contact info"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "referenceTitle": {
+      "type": "string"
+    },
+    "titleLead": {
+      "type": "string",
+      "default": "Let’s Start a"
+    },
+    "titleAccent": {
+      "type": "string",
+      "default": "Conversation"
+    },
+    "titleClose": {
+      "type": "string",
+      "default": "About Your Mission."
+    },
+    "description": {
+      "type": "text",
+      "default": "Whether you are exploring a new requirement, discussing a contract opportunity, seeking a qualified delivery partner, or looking for career information, our team is ready to connect."
+    },
+    "address": {
+      "type": "string",
+      "default": "12 East 32nd Street, 7th Floor New York, NY 10016"
+    },
+    "email": {
+      "type": "string",
+      "default": "careers@saratogaascend.com"
+    },
+    "phone": {
+      "type": "string",
+      "default": "+1 (212) 213-2520"
+    },
+    "statementLabel": {
+      "type": "string",
+      "default": "Download SMC Capability Statement"
+    },
+    "statementFile": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "files",
+        "images"
+      ]
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "collectionName": "components_references_contact_offices_references",
+  "info": {
+    "displayName": "Contact Offices Reference",
+    "icon": "pin",
+    "description": "Office locations map section reference"
+  },
+  "options": {},
+  "attributes": {
+    "contactOfficesSection": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::contact-offices-section.contact-offices-section"
+    }
+  },
+  "config": {}
+}

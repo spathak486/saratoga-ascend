@@ -1,0 +1,17 @@
+{
+  "collectionName": "components_references_our_capabilities_references",
+  "info": {
+    "displayName": "Our Capabilities Reference",
+    "icon": "layer",
+    "description": "One organization. Connected solution areas carousel section reference"
+  },
+  "options": {},
+  "attributes": {
+    "ourCapabilitiesSection": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::our-capabilities-section.our-capabilities-section"
+    }
+  },
+  "config": {}
+}

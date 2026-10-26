@@ -1,0 +1,17 @@
+{
+  "collectionName": "components_references_contact_inquiry_references",
+  "info": {
+    "displayName": "Contact Inquiry Reference",
+    "icon": "mail",
+    "description": "Contact inquiry and lead capture section reference"
+  },
+  "options": {},
+  "attributes": {
+    "contactInquirySection": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::contact-inquiry-section.contact-inquiry-section"
+    }
+  },
+  "config": {}
+}

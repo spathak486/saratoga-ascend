@@ -1,0 +1,33 @@
+{
+  "kind": "collectionType",
+  "collectionName": "workforce_planning_sections",
+  "info": {
+    "singularName": "workforce-planning-section",
+    "pluralName": "workforce-planning-sections",
+    "displayName": "Workforce Planning Section",
+    "description": "From Workforce Planning to Ongoing Support interactive step accordion section"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "referenceTitle": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string",
+      "required": true,
+      "default": "From Workforce Planning to Ongoing Support"
+    },
+    "highlightTitle": {
+      "type": "string",
+      "default": "From Workforce Planning"
+    },
+    "cards": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::card.card"
+    }
+  }
+}

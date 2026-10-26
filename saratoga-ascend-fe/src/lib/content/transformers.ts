@@ -18,6 +18,9 @@ import type {
   RawCeoMessageReference,
   RawSupportingMissionReference,
   RawPastPerformanceReference,
+  RawMissionVisionPromiseReference,
+  RawTakeMissionSeriouslyReference,
+  RawAccountableOperatingEnvironmentsReference,
 } from '@/lib/graphql';
 
 // Pure transforms: turn raw Strapi GraphQL shapes into the resolved shapes
@@ -248,6 +251,68 @@ export function resolveSectionImages(
           ...cs,
           image: unwrapImage(cs.image),
         })),
+      };
+    }
+
+    case 'ComponentReferencesMissionVisionPromiseReference': {
+      const mvpRef = section as RawMissionVisionPromiseReference;
+      const mvp = mvpRef.missionVisionPromiseSection;
+      if (!mvp) return section;
+
+      return {
+        ...section,
+        missionVisionPromiseSection: {
+          ...mvp,
+          bgWatermarkImage: unwrapImage(mvp.bgWatermarkImage),
+          cards: mvp.cards
+            ? mvp.cards.map((c) => ({
+                ...c,
+                icon: unwrapImage(c.icon),
+              }))
+            : mvp.cards,
+        },
+      };
+    }
+
+    case 'ComponentReferencesBuiltAroundMissionsReference': {
+      return section;
+    }
+
+    case 'ComponentReferencesTakeMissionSeriouslyReference': {
+      const tmsRef = section as RawTakeMissionSeriouslyReference;
+      const tms = tmsRef.takeMissionSeriouslySection;
+      if (!tms) return section;
+
+      return {
+        ...section,
+        takeMissionSeriouslySection: {
+          ...tms,
+          cards: tms.cards
+            ? tms.cards.map((c) => ({
+                ...c,
+                icon: unwrapImage(c.icon),
+              }))
+            : tms.cards,
+        },
+      };
+    }
+
+    case 'ComponentReferencesAccountableOperatingEnvironmentsReference': {
+      const aoeRef = section as RawAccountableOperatingEnvironmentsReference;
+      const aoe = aoeRef.accountableOperatingEnvironmentsSection;
+      if (!aoe) return section;
+
+      return {
+        ...section,
+        accountableOperatingEnvironmentsSection: {
+          ...aoe,
+          cards: aoe.cards
+            ? aoe.cards.map((c) => ({
+                ...c,
+                icon: unwrapImage(c.icon),
+              }))
+            : aoe.cards,
+        },
       };
     }
 

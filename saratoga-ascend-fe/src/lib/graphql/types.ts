@@ -310,12 +310,20 @@ export interface RawPastPerformanceReference {
   caseStudies?: RawCaseStudy[] | null;
 }
 
-export interface RawMissionVisionPromiseCard {
-  id?: string;
+export interface RawCard {
+  documentId?: string;
+  id?: string | number | null;
   title: string;
   description: string;
+  number?: string | null;
+  isHighlighted?: boolean | null;
+  category?: string | null;
   icon?: RawStrapiMedia | null;
 }
+
+export type RawValueCard = RawCard;
+export type RawMissionVisionPromiseCard = RawCard;
+export type RawPurposeCard = RawCard;
 
 export interface RawMissionVisionPromiseSection {
   documentId?: string;
@@ -324,12 +332,86 @@ export interface RawMissionVisionPromiseSection {
   highlightTitle?: string | null;
   description?: string | null;
   bgWatermarkImage?: RawStrapiMedia | null;
-  cards?: RawMissionVisionPromiseCard[] | null;
+  cards?: RawValueCard[] | null;
 }
 
 export interface RawMissionVisionPromiseReference {
   __typename: 'ComponentReferencesMissionVisionPromiseReference';
   missionVisionPromiseSection?: RawMissionVisionPromiseSection | null;
+}
+
+export interface RawNumberedCard {
+  id?: string;
+  number?: string | null;
+  title: string;
+  description: string;
+  isHighlighted?: boolean | null;
+}
+
+export interface RawBuiltAroundMissionsSection {
+  documentId?: string;
+  referenceTitle?: string | null;
+  title?: string | null;
+  highlightTitle?: string | null;
+  description?: string | null;
+  calloutHighlight?: string | null;
+  calloutText?: string | null;
+  cards?: RawNumberedCard[] | null;
+}
+
+export interface RawBuiltAroundMissionsReference {
+  __typename: 'ComponentReferencesBuiltAroundMissionsReference';
+  builtAroundMissionsSection?: RawBuiltAroundMissionsSection | null;
+}
+
+export interface RawTakeMissionSeriouslySection {
+  documentId?: string;
+  title?: string | null;
+  highlightTitle?: string | null;
+  cards?: RawValueCard[] | null;
+}
+
+export interface RawTakeMissionSeriouslyReference {
+  __typename: 'ComponentReferencesTakeMissionSeriouslyReference';
+  takeMissionSeriouslySection?: RawTakeMissionSeriouslySection | null;
+}
+
+export interface RawAccountableOperatingEnvironmentsSection {
+  documentId?: string;
+  title?: string | null;
+  highlightTitle?: string | null;
+  cards?: RawValueCard[] | null;
+}
+
+export interface RawAccountableOperatingEnvironmentsReference {
+  __typename: 'ComponentReferencesAccountableOperatingEnvironmentsReference';
+  accountableOperatingEnvironmentsSection?: RawAccountableOperatingEnvironmentsSection | null;
+}
+
+export interface RawOurCapabilitiesSection {
+  documentId?: string;
+  title?: string | null;
+  highlightTitle?: string | null;
+  description?: string | null;
+  bgImage?: RawStrapiMedia | null;
+  cards?: RawValueCard[] | null;
+}
+
+export interface RawOurCapabilitiesReference {
+  __typename: 'ComponentReferencesOurCapabilitiesReference';
+  ourCapabilitiesSection?: RawOurCapabilitiesSection | null;
+}
+
+export interface RawWorkforcePlanningSection {
+  documentId?: string;
+  title?: string | null;
+  highlightTitle?: string | null;
+  cards?: RawValueCard[] | null;
+}
+
+export interface RawWorkforcePlanningReference {
+  __typename: 'ComponentReferencesWorkforcePlanningReference';
+  workforcePlanningSection?: RawWorkforcePlanningSection | null;
 }
 
 /**
@@ -353,6 +435,11 @@ export type RawDynamicZoneSection =
   | RawSupportingMissionReference
   | RawPastPerformanceReference
   | RawMissionVisionPromiseReference
+  | RawBuiltAroundMissionsReference
+  | RawTakeMissionSeriouslyReference
+  | RawAccountableOperatingEnvironmentsReference
+  | RawOurCapabilitiesReference
+  | RawWorkforcePlanningReference
   | ({ __typename: string } & Record<string, unknown>);
 
 /** Universal slug-driven page (Strapi `pages` collection). */
@@ -367,6 +454,25 @@ export interface RawPageNode {
   Section?: RawDynamicZoneSection[] | null;
   createdAt?: string | null;
   updatedAt?: string | null;
+}
+
+export interface RawNavItem {
+  label: string;
+  href: string;
+  hasMenu?: boolean | null;
+  hasExternalIcon?: boolean | null;
+  links?: RawGeneralLink[] | null;
+}
+
+export interface RawNavigation {
+  documentId: string;
+  logo?: RawStrapiMedia | null;
+  logoAlt?: string | null;
+  homeHref?: string | null;
+  utilityLinks?: RawNavItem[] | null;
+  primaryLinks?: RawNavItem[] | null;
+  cta?: RawGeneralLink | null;
+  searchLabel?: string | null;
 }
 
 export interface RawFooterLinkColumn {

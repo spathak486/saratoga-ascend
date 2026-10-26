@@ -14,6 +14,15 @@ import type {
   SupportingMissionReference,
   PastPerformanceReference,
   MissionVisionPromiseReference,
+  BuiltAroundMissionsReference,
+  TakeMissionSeriouslyReference,
+  AccountableOperatingEnvironmentsReference,
+  OurCapabilitiesReference,
+  WorkforcePlanningReference,
+  ContactInquiryReference,
+  ContactPathwaysReference,
+  ContactLearnReference,
+  ContactOfficesReference,
 } from '@/lib/schemas';
 import {
   HeroSection,
@@ -34,6 +43,15 @@ import {
   CeoMessageSection,
   SupportingMissionSection,
   MissionVisionPromiseSection,
+  BuiltAroundMissionsSection,
+  TakeMissionSeriouslySection,
+  AccountableOperatingEnvironmentsSection,
+  OurCapabilitiesSection,
+  WorkforcePlanningSection,
+  ContactInquirySection,
+  ContactPathwaysSection,
+  ContactLearnSection,
+  ContactOfficesSection,
 } from '@/components/organisms';
 
 const MOCK_WHAT_WE_DO_LINES = [
@@ -371,16 +389,17 @@ export const SECTION_REGISTRY: Record<
   ComponentReferencesCeoMessageReference: (section, index) => {
     const ceoRef = section as CeoMessageReference;
     const ceo = ceoRef.ceoMessageSection;
+    if (!ceo) return null;
     return (
       <CeoMessageSection
         key={`ceo-message-${index}`}
-        title={ceo?.title ?? undefined}
-        highlightTitle={ceo?.highlightTitle ?? undefined}
-        description={ceo?.description ?? undefined}
-        authorName={ceo?.authorName ?? undefined}
-        authorRole={ceo?.authorRole ?? undefined}
-        imageSrc={ceo?.image?.url ?? undefined}
-        watermarkSrc={ceo?.bgWatermarkImage?.url ?? undefined}
+        title={ceo.title ?? undefined}
+        highlightTitle={ceo.highlightTitle ?? undefined}
+        description={ceo.description ?? undefined}
+        authorName={ceo.authorName ?? undefined}
+        authorRole={ceo.authorRole ?? undefined}
+        imageSrc={ceo.image?.url ?? undefined}
+        watermarkSrc={ceo.bgWatermarkImage?.url ?? undefined}
       />
     );
   },
@@ -388,14 +407,15 @@ export const SECTION_REGISTRY: Record<
   ComponentReferencesSupportingMissionReference: (section, index) => {
     const smRef = section as SupportingMissionReference;
     const sm = smRef.supportingMissionSection;
+    if (!sm) return null;
     return (
       <SupportingMissionSection
         key={`supporting-mission-${index}`}
-        title={sm?.title ?? undefined}
-        description={sm?.description ?? undefined}
-        imageSrc={sm?.image?.url ?? undefined}
+        title={sm.title ?? undefined}
+        description={sm.description ?? undefined}
+        imageSrc={sm.image?.url ?? undefined}
         cta={
-          sm?.cta
+          sm.cta
             ? {
                 label: sm.cta.label,
                 href: sm.cta.href,
@@ -409,6 +429,7 @@ export const SECTION_REGISTRY: Record<
 
   ComponentReferencesPastPerformanceReference: (section, index) => {
     const ppRef = section as PastPerformanceReference;
+    if (!ppRef.caseStudies || ppRef.caseStudies.length === 0) return null;
     return (
       <PastPerformanceSection
         key={`past-performance-${index}`}
@@ -422,19 +443,256 @@ export const SECTION_REGISTRY: Record<
   ComponentReferencesMissionVisionPromiseReference: (section, index) => {
     const mvpRef = section as MissionVisionPromiseReference;
     const mvp = mvpRef.missionVisionPromiseSection;
+    if (!mvp || !mvp.cards || mvp.cards.length === 0) return null;
     return (
       <MissionVisionPromiseSection
         key={`mission-vision-promise-${index}`}
-        title={mvp?.title ?? undefined}
-        highlightTitle={mvp?.highlightTitle ?? undefined}
-        description={mvp?.description ?? undefined}
-        bgWatermarkImage={mvp?.bgWatermarkImage?.url ?? undefined}
-        cards={mvp?.cards as any}
+        title={mvp.title ?? undefined}
+        highlightTitle={mvp.highlightTitle ?? undefined}
+        description={mvp.description ?? undefined}
+        bgWatermarkImage={mvp.bgWatermarkImage?.url ?? undefined}
+        cards={mvp.cards as any}
+      />
+    );
+  },
+
+  ComponentReferencesBuiltAroundMissionsReference: (section, index) => {
+    const bamRef = section as BuiltAroundMissionsReference;
+    const bam = bamRef.builtAroundMissionsSection;
+    if (!bam || !bam.cards || bam.cards.length === 0) return null;
+    return (
+      <BuiltAroundMissionsSection
+        key={`built-around-missions-${index}`}
+        title={bam.title ?? undefined}
+        highlightTitle={bam.highlightTitle ?? undefined}
+        description={bam.description ?? undefined}
+        calloutHighlight={bam.calloutHighlight ?? undefined}
+        calloutText={bam.calloutText ?? undefined}
+        cards={bam.cards as any}
+      />
+    );
+  },
+
+  ComponentReferencesTakeMissionSeriouslyReference: (section, index) => {
+    const tmsRef = section as TakeMissionSeriouslyReference;
+    const tms = tmsRef.takeMissionSeriouslySection;
+    if (!tms || !tms.cards || tms.cards.length === 0) return null;
+    return (
+      <TakeMissionSeriouslySection
+        key={`take-mission-seriously-${index}`}
+        title={tms.title ?? undefined}
+        highlightTitle={tms.highlightTitle ?? undefined}
+        cards={tms.cards as any}
+      />
+    );
+  },
+
+  ComponentReferencesAccountableOperatingEnvironmentsReference: (section, index) => {
+    const aoeRef = section as AccountableOperatingEnvironmentsReference;
+    const aoe = aoeRef.accountableOperatingEnvironmentsSection;
+    if (!aoe || !aoe.cards || aoe.cards.length === 0) return null;
+    return (
+      <AccountableOperatingEnvironmentsSection
+        key={`accountable-operating-environments-${index}`}
+        title={aoe.title ?? undefined}
+        highlightTitle={aoe.highlightTitle ?? undefined}
+        cards={aoe.cards as any}
+      />
+    );
+  },
+
+  ComponentReferencesOurCapabilitiesReference: (section, index) => {
+    const ocRef = section as OurCapabilitiesReference;
+    const oc = ocRef.ourCapabilitiesSection;
+    if (!oc || !oc.cards || oc.cards.length === 0) return null;
+    return (
+      <OurCapabilitiesSection
+        key={`our-capabilities-${index}`}
+        title={oc.title ?? undefined}
+        highlightTitle={oc.highlightTitle ?? undefined}
+        description={oc.description ?? undefined}
+        bgImage={oc.bgImage as any}
+        cards={oc.cards as any}
+      />
+    );
+  },
+
+  ComponentReferencesWorkforcePlanningReference: (section, index) => {
+    const wpRef = section as WorkforcePlanningReference;
+    const wp = wpRef.workforcePlanningSection;
+    if (!wp || !wp.cards || wp.cards.length === 0) return null;
+    return (
+      <WorkforcePlanningSection
+        key={`workforce-planning-${index}`}
+        title={wp.title ?? undefined}
+        highlightTitle={wp.highlightTitle ?? undefined}
+        cards={wp.cards as any}
+      />
+    );
+  },
+
+  ComponentReferencesContactInquiryReference: (section, index) => {
+    const ciRef = section as ContactInquiryReference;
+    const ci = ciRef.contactInquirySection;
+    if (!ci) return null;
+
+    const details = [
+      ci.address
+        ? {
+            icon: 'location' as const,
+            label: 'Address',
+            value: ci.address,
+          }
+        : null,
+      ci.email
+        ? {
+            icon: 'mail' as const,
+            label: 'Email',
+            value: ci.email,
+            href: `mailto:${ci.email}`,
+          }
+        : null,
+      ci.phone
+        ? {
+            icon: 'phone' as const,
+            label: 'Contact',
+            value: ci.phone,
+            href: `tel:${ci.phone.replace(/[^+\d]/g, '')}`,
+          }
+        : null,
+    ].filter(Boolean) as any[];
+
+    return (
+      <ContactInquirySection
+        key={`contact-inquiry-${index}`}
+        titleLead={ci.titleLead ?? undefined}
+        titleAccent={ci.titleAccent ?? undefined}
+        titleClose={ci.titleClose ?? undefined}
+        description={ci.description ?? undefined}
+        details={details.length > 0 ? details : undefined}
+        statementLabel={ci.statementLabel ?? undefined}
+        statementHref={ci.statementFile?.url ?? undefined}
+      />
+    );
+  },
+
+  ComponentReferencesContactPathwaysReference: (section, index) => {
+    const cpRef = section as ContactPathwaysReference;
+    const cp = cpRef.contactPathwaysSection;
+    if (!cp) return null;
+
+    const pathways = cp.cards?.map((card, idx) => {
+      // Alternate tone: 0 -> sky, 1 -> red, 2 -> sky (odd/even alternating pattern)
+      const alternatingTone: 'sky' | 'red' = idx % 2 === 1 ? 'red' : 'sky';
+      const tone: 'sky' | 'red' =
+        card.actionTone === 'red' || card.actionTone === 'sky'
+          ? card.actionTone
+          : alternatingTone;
+
+      const defaultSwoosh =
+        tone === 'red'
+          ? '/images/contact/pathways/swoosh-pink.svg'
+          : '/images/contact/pathways/swoosh-blue.svg';
+
+      return {
+        title: card.title,
+        description: card.description,
+        actionLabel: card.actionLabel || 'Learn More',
+        href: card.href || '#',
+        actionTone: tone,
+        iconSrc: card.icon?.url || (tone === 'red' ? '/images/contact/pathways/solutions.svg' : '/images/contact/pathways/buyers.svg'),
+        swooshSrc: card.swooshImage?.url || defaultSwoosh,
+      };
+    });
+
+    return (
+      <ContactPathwaysSection
+        key={`contact-pathways-${index}`}
+        titleLead={cp.titleLead ?? undefined}
+        titleClose={cp.titleClose ?? undefined}
+        description={cp.description ?? undefined}
+        pathways={pathways && pathways.length > 0 ? pathways : undefined}
+      />
+    );
+  },
+
+  ComponentReferencesContactLearnReference: (section, index) => {
+    const clRef = section as ContactLearnReference;
+    const cl = clRef.contactLearnSection;
+    if (!cl) return null;
+
+    const cards = cl.cards?.map((card, idx) => ({
+      number: card.number || String(idx + 1).padStart(2, '0'),
+      title: card.title,
+      description: card.description,
+      actionLabel: card.actionLabel || 'Learn More',
+      href: card.href || '#',
+      featured: card.isHighlighted ?? (idx === 1),
+      imageSrc: card.icon?.url || undefined,
+    }));
+
+    return (
+      <ContactLearnSection
+        key={`contact-learn-${index}`}
+        titleLead={cl.titleLead ?? undefined}
+        titleClose={cl.titleClose ?? undefined}
+        description={cl.description ?? undefined}
+        imageSrc={cl.defaultImage?.url ?? undefined}
+        cards={cards && cards.length > 0 ? cards : undefined}
+      />
+    );
+  },
+
+  ComponentReferencesContactOfficesReference: (section, index) => {
+    const coRef = section as ContactOfficesReference;
+    const co = coRef.contactOfficesSection;
+    if (!co) return null;
+
+    const offices = co.cards?.map((card) => {
+      const details = [];
+      if (card.phone) {
+        details.push({
+          label: 'Phone',
+          parts: [{ text: card.phone, href: `tel:${card.phone.replace(/[^+\d]/g, '')}` }],
+        });
+      }
+      if (card.fax) {
+        details.push({
+          label: 'Fax',
+          parts: [{ text: card.fax }],
+        });
+      }
+
+      return {
+        name: card.title,
+        address: card.address || card.description,
+        details,
+      };
+    });
+
+    return (
+      <ContactOfficesSection
+        key={`contact-offices-${index}`}
+        markerLabel={co.markerLabel ?? undefined}
+        mapSrc={co.mapImage?.url ?? undefined}
+        offices={offices && offices.length > 0 ? offices : undefined}
       />
     );
   },
 
   // Frontend-only Figma bands — used by local mocks until Strapi types exist.
+  MockWorkforcePlanning: (_section, index) => (
+    <WorkforcePlanningSection key={`workforce-planning-${index}`} />
+  ),
+  MockOurCapabilities: (_section, index) => (
+    <OurCapabilitiesSection key={`our-capabilities-${index}`} />
+  ),
+  MockAccountableOperatingEnvironments: (_section, index) => (
+    <AccountableOperatingEnvironmentsSection key={`accountable-operating-environments-${index}`} />
+  ),
+  MockTakeMissionSeriously: (_section, index) => (
+    <TakeMissionSeriouslySection key={`take-mission-seriously-${index}`} />
+  ),
   MockCeoMessage: (_section, index) => (
     <CeoMessageSection key={`ceo-message-${index}`} />
   ),

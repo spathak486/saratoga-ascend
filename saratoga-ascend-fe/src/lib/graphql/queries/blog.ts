@@ -1,4 +1,4 @@
-import { BLOG_FIELDS } from '../fragments';
+import { BLOG_FIELDS, BLOG_ITEM_FIELDS } from '../fragments';
 import type { RawContentNode } from '../types';
 
 export interface BlogBySlugQueryVariables {
@@ -21,6 +21,6 @@ export interface AllBlogsQueryResult {
 
 export const ALL_BLOGS_QUERY = `
   query GetAllBlogs {
-    blogs(sort: "articleDate:desc") { ${BLOG_FIELDS} }
+    blogs(sort: "articleDate:desc") { ${BLOG_ITEM_FIELDS} }
   }
 `;

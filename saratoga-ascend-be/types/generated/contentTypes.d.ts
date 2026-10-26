@@ -443,6 +443,42 @@ export interface AdminUser extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiAccountableOperatingEnvironmentsSectionAccountableOperatingEnvironmentsSection
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'accountable_operating_environments_sections';
+  info: {
+    description: 'Built for accountable operating environments carousel section';
+    displayName: 'Accountable Operating Environments Section';
+    pluralName: 'accountable-operating-environments-sections';
+    singularName: 'accountable-operating-environments-section';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    cards: Schema.Attribute.Relation<'oneToMany', 'api::card.card'>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    highlightTitle: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'operating environments'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::accountable-operating-environments-section.accountable-operating-environments-section'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    referenceTitle: Schema.Attribute.String;
+    title: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'Built for accountable operating environments'>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiAchievementCardAchievementCard
   extends Struct.CollectionTypeSchema {
   collectionName: 'achievement_cards';
@@ -520,6 +556,88 @@ export interface ApiBlogBlog extends Struct.CollectionTypeSchema {
     seo: Schema.Attribute.Component<'shared.seo', false>;
     slug: Schema.Attribute.String & Schema.Attribute.Required;
     summary: Schema.Attribute.Text;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiBuiltAroundMissionsSectionBuiltAroundMissionsSection
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'built_around_missions_sections';
+  info: {
+    description: 'Built around the missions that matter section';
+    displayName: 'Built Around Missions Section';
+    pluralName: 'built-around-missions-sections';
+    singularName: 'built-around-missions-section';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    calloutHighlight: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'\u201CBuilt to rise\u201D represents an operating mindset:'>;
+    calloutText: Schema.Attribute.Text &
+      Schema.Attribute.DefaultTo<'build capability, strengthen execution, learn continuously, and help mission-critical organizations move forward.'>;
+    cards: Schema.Attribute.Component<'core-component.numbered-card', true>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    description: Schema.Attribute.Text &
+      Schema.Attribute.DefaultTo<'Saratoga Ascend is positioned as a mission-focused partner for organizations operating where healthcare, workforce, technology, program management, and public-sector service delivery intersect. Our approach combines specialized capabilities with practical operational coordination.'>;
+    highlightTitle: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'missions that matter'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::built-around-missions-section.built-around-missions-section'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    referenceTitle: Schema.Attribute.String;
+    title: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'Built around the missions that matter'>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiCardCard extends Struct.CollectionTypeSchema {
+  collectionName: 'cards';
+  info: {
+    description: 'Central reusable card for values, operating environments, pillars, and features';
+    displayName: 'Card';
+    pluralName: 'cards';
+    singularName: 'card';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    actionLabel: Schema.Attribute.String;
+    actionTone: Schema.Attribute.Enumeration<['sky', 'red']> &
+      Schema.Attribute.DefaultTo<'sky'>;
+    address: Schema.Attribute.String;
+    category: Schema.Attribute.String;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    description: Schema.Attribute.Text & Schema.Attribute.Required;
+    fax: Schema.Attribute.String;
+    href: Schema.Attribute.String;
+    icon: Schema.Attribute.Media<'images'>;
+    isHighlighted: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::card.card'> &
+      Schema.Attribute.Private;
+    number: Schema.Attribute.String;
+    phone: Schema.Attribute.String;
+    publishedAt: Schema.Attribute.DateTime;
+    referenceTitle: Schema.Attribute.String;
+    swooshImage: Schema.Attribute.Media<'images'>;
     title: Schema.Attribute.String & Schema.Attribute.Required;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
@@ -738,11 +856,167 @@ export interface ApiClientReviewClientReview
   };
 }
 
+export interface ApiContactInquirySectionContactInquirySection
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'contact_inquiry_sections';
+  info: {
+    description: 'Contact Inquiry band with form and contact info';
+    displayName: 'Contact Inquiry Section';
+    pluralName: 'contact-inquiry-sections';
+    singularName: 'contact-inquiry-section';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    address: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'12 East 32nd Street, 7th Floor New York, NY 10016'>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    description: Schema.Attribute.Text &
+      Schema.Attribute.DefaultTo<'Whether you are exploring a new requirement, discussing a contract opportunity, seeking a qualified delivery partner, or looking for career information, our team is ready to connect.'>;
+    email: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'careers@saratogaascend.com'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::contact-inquiry-section.contact-inquiry-section'
+    > &
+      Schema.Attribute.Private;
+    phone: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'+1 (212) 213-2520'>;
+    publishedAt: Schema.Attribute.DateTime;
+    referenceTitle: Schema.Attribute.String;
+    statementFile: Schema.Attribute.Media<'files' | 'images'>;
+    statementLabel: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Download SMC Capability Statement'>;
+    titleAccent: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Conversation'>;
+    titleClose: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'About Your Mission.'>;
+    titleLead: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Let\u2019s Start a'>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiContactLearnSectionContactLearnSection
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'contact_learn_sections';
+  info: {
+    description: 'Learn more about Saratoga Ascend section with reusable cards';
+    displayName: 'Contact Learn Section';
+    pluralName: 'contact-learn-sections';
+    singularName: 'contact-learn-section';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    cards: Schema.Attribute.Relation<'oneToMany', 'api::card.card'>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    defaultImage: Schema.Attribute.Media<'images'>;
+    description: Schema.Attribute.Text &
+      Schema.Attribute.DefaultTo<'If you are still evaluating your requirements, explore our solutions, who we serve, contracts, capabilities, and insights before starting a conversation.'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::contact-learn-section.contact-learn-section'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    referenceTitle: Schema.Attribute.String;
+    titleClose: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'about Saratoga Ascend.'>;
+    titleLead: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Learn more'>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiContactOfficesSectionContactOfficesSection
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'contact_offices_sections';
+  info: {
+    description: 'Office locations map section with glass office cards';
+    displayName: 'Contact Offices Section';
+    pluralName: 'contact-offices-sections';
+    singularName: 'contact-offices-section';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    cards: Schema.Attribute.Relation<'oneToMany', 'api::card.card'>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::contact-offices-section.contact-offices-section'
+    > &
+      Schema.Attribute.Private;
+    mapImage: Schema.Attribute.Media<'images'>;
+    markerLabel: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Saratoga ascend'>;
+    publishedAt: Schema.Attribute.DateTime;
+    referenceTitle: Schema.Attribute.String;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiContactPathwaysSectionContactPathwaysSection
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'contact_pathways_sections';
+  info: {
+    description: 'Connect with the right part of Saratoga Ascend section with reusable cards';
+    displayName: 'Contact Pathways Section';
+    pluralName: 'contact-pathways-sections';
+    singularName: 'contact-pathways-section';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    cards: Schema.Attribute.Relation<'oneToMany', 'api::card.card'>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    description: Schema.Attribute.Text &
+      Schema.Attribute.DefaultTo<'Different needs call for different conversations. Use these pathways to reach the information or team most relevant to your objective.'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::contact-pathways-section.contact-pathways-section'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    referenceTitle: Schema.Attribute.String;
+    titleClose: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'of Saratoga Ascend.'>;
+    titleLead: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Connect with the right part'>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiContactSubmissionContactSubmission
   extends Struct.CollectionTypeSchema {
   collectionName: 'contact-submissions';
   info: {
-    description: 'Lead form submissions captured from the CTA / Need Help forms';
+    description: 'Lead form submissions captured from the Contact / CTA / Need Help forms';
     displayName: 'Contact Submission';
     pluralName: 'contact-submissions';
     singularName: 'contact-submission';
@@ -754,17 +1028,37 @@ export interface ApiContactSubmissionContactSubmission
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    description: Schema.Attribute.Text;
     email: Schema.Attribute.Email & Schema.Attribute.Required;
+    firstName: Schema.Attribute.String & Schema.Attribute.Required;
+    inquiryType: Schema.Attribute.Enumeration<
+      [
+        'Government / Contracting Opportunity',
+        'Healthcare Services',
+        'Workforce Solutions',
+        'IT & Digital Solutions',
+        'Contact Center Solutions',
+        'Program & Administrative Support',
+        'Partnership / Business Development',
+        'Media / General Inquiry',
+      ]
+    >;
+    lastName: Schema.Attribute.String;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
       'api::contact-submission.contact-submission'
     > &
       Schema.Attribute.Private;
-    name: Schema.Attribute.String & Schema.Attribute.Required;
+    notes: Schema.Attribute.Text;
+    organization: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
     source: Schema.Attribute.Enumeration<['cta', 'need-help', 'contact']> &
       Schema.Attribute.DefaultTo<'cta'>;
+    status: Schema.Attribute.Enumeration<
+      ['new', 'in-progress', 'resolved', 'spam']
+    > &
+      Schema.Attribute.DefaultTo<'new'>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -1017,7 +1311,7 @@ export interface ApiMissionVisionPromiseSectionMissionVisionPromiseSection
   };
   attributes: {
     bgWatermarkImage: Schema.Attribute.Media<'images'>;
-    cards: Schema.Attribute.Component<'core-component.value-card', true>;
+    cards: Schema.Attribute.Relation<'oneToMany', 'api::card.card'>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -1177,6 +1471,45 @@ export interface ApiOurAchievementOurAchievement
   };
 }
 
+export interface ApiOurCapabilitiesSectionOurCapabilitiesSection
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'our_capabilities_sections';
+  info: {
+    description: 'One organization. Connected solution areas carousel section';
+    displayName: 'Our Capabilities Section';
+    pluralName: 'our-capabilities-sections';
+    singularName: 'our-capabilities-section';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    bgImage: Schema.Attribute.Media<'images'>;
+    cards: Schema.Attribute.Relation<'oneToMany', 'api::card.card'>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    description: Schema.Attribute.Text &
+      Schema.Attribute.DefaultTo<'Specialized capabilities come together to support complex healthcare and government missions.'>;
+    highlightTitle: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Connected solution areas.'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::our-capabilities-section.our-capabilities-section'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    referenceTitle: Schema.Attribute.String;
+    title: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'One organization.'>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiPagePage extends Struct.CollectionTypeSchema {
   collectionName: 'pages';
   info: {
@@ -1220,6 +1553,15 @@ export interface ApiPagePage extends Struct.CollectionTypeSchema {
         'references.supporting-mission-reference',
         'references.past-performance-reference',
         'references.mission-vision-promise-reference',
+        'references.built-around-missions-reference',
+        'references.take-mission-seriously-reference',
+        'references.accountable-operating-environments-reference',
+        'references.our-capabilities-reference',
+        'references.workforce-planning-reference',
+        'references.contact-inquiry-reference',
+        'references.contact-pathways-reference',
+        'references.contact-learn-reference',
+        'references.contact-offices-reference',
       ]
     >;
     seo: Schema.Attribute.Component<'shared.seo', false> &
@@ -1317,6 +1659,42 @@ export interface ApiSupportingMissionSectionSupportingMissionSection
   };
 }
 
+export interface ApiTakeMissionSeriouslySectionTakeMissionSeriouslySection
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'take_mission_seriously_sections';
+  info: {
+    description: 'People who take the mission seriously section';
+    displayName: 'Take Mission Seriously Section';
+    pluralName: 'take-mission-seriously-sections';
+    singularName: 'take-mission-seriously-section';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    cards: Schema.Attribute.Relation<'oneToMany', 'api::card.card'>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    highlightTitle: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'mission seriously'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::take-mission-seriously-section.take-mission-seriously-section'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    referenceTitle: Schema.Attribute.String;
+    title: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'People who take the mission seriously'>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiWhatWeDoSectionWhatWeDoSection
   extends Struct.CollectionTypeSchema {
   collectionName: 'what_we_do_sections';
@@ -1346,6 +1724,42 @@ export interface ApiWhatWeDoSectionWhatWeDoSection
     referenceTitle: Schema.Attribute.String & Schema.Attribute.Required;
     services: Schema.Attribute.Relation<'oneToMany', 'api::service.service'>;
     title: Schema.Attribute.String;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiWorkforcePlanningSectionWorkforcePlanningSection
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'workforce_planning_sections';
+  info: {
+    description: 'From Workforce Planning to Ongoing Support interactive step accordion section';
+    displayName: 'Workforce Planning Section';
+    pluralName: 'workforce-planning-sections';
+    singularName: 'workforce-planning-section';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    cards: Schema.Attribute.Relation<'oneToMany', 'api::card.card'>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    highlightTitle: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'From Workforce Planning'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::workforce-planning-section.workforce-planning-section'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    referenceTitle: Schema.Attribute.String;
+    title: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'From Workforce Planning to Ongoing Support'>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -1863,13 +2277,20 @@ declare module '@strapi/strapi' {
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
+      'api::accountable-operating-environments-section.accountable-operating-environments-section': ApiAccountableOperatingEnvironmentsSectionAccountableOperatingEnvironmentsSection;
       'api::achievement-card.achievement-card': ApiAchievementCardAchievementCard;
       'api::blog.blog': ApiBlogBlog;
+      'api::built-around-missions-section.built-around-missions-section': ApiBuiltAroundMissionsSectionBuiltAroundMissionsSection;
+      'api::card.card': ApiCardCard;
       'api::case-study.case-study': ApiCaseStudyCaseStudy;
       'api::category.category': ApiCategoryCategory;
       'api::ceo-message-section.ceo-message-section': ApiCeoMessageSectionCeoMessageSection;
       'api::client-logos-section.client-logos-section': ApiClientLogosSectionClientLogosSection;
       'api::client-review.client-review': ApiClientReviewClientReview;
+      'api::contact-inquiry-section.contact-inquiry-section': ApiContactInquirySectionContactInquirySection;
+      'api::contact-learn-section.contact-learn-section': ApiContactLearnSectionContactLearnSection;
+      'api::contact-offices-section.contact-offices-section': ApiContactOfficesSectionContactOfficesSection;
+      'api::contact-pathways-section.contact-pathways-section': ApiContactPathwaysSectionContactPathwaysSection;
       'api::contact-submission.contact-submission': ApiContactSubmissionContactSubmission;
       'api::content-block.content-block': ApiContentBlockContentBlock;
       'api::cta.cta': ApiCtaCta;
@@ -1882,10 +2303,13 @@ declare module '@strapi/strapi' {
       'api::news.news': ApiNewsNews;
       'api::not-found.not-found': ApiNotFoundNotFound;
       'api::our-achievement.our-achievement': ApiOurAchievementOurAchievement;
+      'api::our-capabilities-section.our-capabilities-section': ApiOurCapabilitiesSectionOurCapabilitiesSection;
       'api::page.page': ApiPagePage;
       'api::service.service': ApiServiceService;
       'api::supporting-mission-section.supporting-mission-section': ApiSupportingMissionSectionSupportingMissionSection;
+      'api::take-mission-seriously-section.take-mission-seriously-section': ApiTakeMissionSeriouslySectionTakeMissionSeriouslySection;
       'api::what-we-do-section.what-we-do-section': ApiWhatWeDoSectionWhatWeDoSection;
+      'api::workforce-planning-section.workforce-planning-section': ApiWorkforcePlanningSectionWorkforcePlanningSection;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;

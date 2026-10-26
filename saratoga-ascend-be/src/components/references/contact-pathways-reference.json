@@ -1,0 +1,17 @@
+{
+  "collectionName": "components_references_contact_pathways_references",
+  "info": {
+    "displayName": "Contact Pathways Reference",
+    "icon": "link",
+    "description": "Connect with the right part of Saratoga Ascend pathways reference"
+  },
+  "options": {},
+  "attributes": {
+    "contactPathwaysSection": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::contact-pathways-section.contact-pathways-section"
+    }
+  },
+  "config": {}
+}

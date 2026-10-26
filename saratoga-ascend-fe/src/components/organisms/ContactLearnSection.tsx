@@ -9,6 +9,7 @@ export interface ContactLearnCard {
   href: string;
   /** The centre card is taller and set one step larger. */
   featured?: boolean;
+  imageSrc?: string;
 }
 
 export interface ContactLearnSectionProps {
@@ -104,7 +105,7 @@ export const ContactLearnSection: React.FC<ContactLearnSectionProps> = ({
             >
               <div className={`relative overflow-hidden ${card.featured ? 'aspect-[5/4]' : 'aspect-[4/3]'}`}>
                 <img
-                  src={imageSrc}
+                  src={card.imageSrc || imageSrc}
                   alt={index === 0 ? imageAlt : ''}
                   className="absolute inset-0 size-full object-cover"
                 />

@@ -329,14 +329,29 @@ export const PastPerformanceReferenceSchema = z.object({
 
 export type PastPerformanceReference = z.infer<typeof PastPerformanceReferenceSchema>;
 
-export const MissionVisionPromiseCardSchema = z.object({
-  id: z.string().optional(),
+export const CardSchema = z.object({
+  documentId: z.string().optional(),
+  id: z.union([z.string(), z.number()]).optional(),
   title: z.string(),
   description: z.string(),
+  number: z.string().nullable().optional(),
+  isHighlighted: z.boolean().nullable().optional(),
+  category: z.string().nullable().optional(),
   icon: StrapiImageSchema.nullable().optional(),
+  actionLabel: z.string().nullable().optional(),
+  href: z.string().nullable().optional(),
+  actionTone: z.enum(['sky', 'red']).nullable().optional(),
+  swooshImage: StrapiImageSchema.nullable().optional(),
+  address: z.string().nullable().optional(),
+  phone: z.string().nullable().optional(),
+  fax: z.string().nullable().optional(),
 });
 
-export type MissionVisionPromiseCardEntity = z.infer<typeof MissionVisionPromiseCardSchema>;
+export type CardEntity = z.infer<typeof CardSchema>;
+export const ValueCardSchema = CardSchema;
+export type ValueCardEntity = CardEntity;
+export const MissionVisionPromiseCardSchema = CardSchema;
+export type MissionVisionPromiseCardEntity = CardEntity;
 
 export const MissionVisionPromiseSectionEntitySchema = z.object({
   documentId: z.string().optional(),
@@ -345,7 +360,7 @@ export const MissionVisionPromiseSectionEntitySchema = z.object({
   highlightTitle: z.string().nullable().optional(),
   description: z.string().nullable().optional(),
   bgWatermarkImage: StrapiImageSchema.nullable().optional(),
-  cards: z.array(MissionVisionPromiseCardSchema).nullable().optional(),
+  cards: z.array(ValueCardSchema).nullable().optional(),
 });
 
 export type MissionVisionPromiseSectionEntity = z.infer<typeof MissionVisionPromiseSectionEntitySchema>;
@@ -356,6 +371,186 @@ export const MissionVisionPromiseReferenceSchema = z.object({
 });
 
 export type MissionVisionPromiseReference = z.infer<typeof MissionVisionPromiseReferenceSchema>;
+
+export const NumberedCardSchema = z.object({
+  id: z.string().optional(),
+  number: z.string().nullable().optional(),
+  title: z.string(),
+  description: z.string(),
+  isHighlighted: z.boolean().nullable().optional(),
+});
+
+export type NumberedCardEntity = z.infer<typeof NumberedCardSchema>;
+
+export const BuiltAroundMissionsSectionEntitySchema = z.object({
+  documentId: z.string().optional(),
+  referenceTitle: z.string().nullable().optional(),
+  title: z.string().nullable().optional(),
+  highlightTitle: z.string().nullable().optional(),
+  description: z.string().nullable().optional(),
+  calloutHighlight: z.string().nullable().optional(),
+  calloutText: z.string().nullable().optional(),
+  cards: z.array(NumberedCardSchema).nullable().optional(),
+});
+
+export type BuiltAroundMissionsSectionEntity = z.infer<typeof BuiltAroundMissionsSectionEntitySchema>;
+
+export const BuiltAroundMissionsReferenceSchema = z.object({
+  __typename: z.literal('ComponentReferencesBuiltAroundMissionsReference'),
+  builtAroundMissionsSection: BuiltAroundMissionsSectionEntitySchema.nullable().optional(),
+});
+
+export type BuiltAroundMissionsReference = z.infer<typeof BuiltAroundMissionsReferenceSchema>;
+
+export const PurposeCardSchema = ValueCardSchema;
+export type PurposeCardEntity = ValueCardEntity;
+
+export const TakeMissionSeriouslySectionEntitySchema = z.object({
+  documentId: z.string().optional(),
+  referenceTitle: z.string().nullable().optional(),
+  title: z.string().nullable().optional(),
+  highlightTitle: z.string().nullable().optional(),
+  cards: z.array(ValueCardSchema).nullable().optional(),
+});
+
+export type TakeMissionSeriouslySectionEntity = z.infer<typeof TakeMissionSeriouslySectionEntitySchema>;
+
+export const TakeMissionSeriouslyReferenceSchema = z.object({
+  __typename: z.literal('ComponentReferencesTakeMissionSeriouslyReference'),
+  takeMissionSeriouslySection: TakeMissionSeriouslySectionEntitySchema.nullable().optional(),
+});
+
+export type TakeMissionSeriouslyReference = z.infer<typeof TakeMissionSeriouslyReferenceSchema>;
+
+export const AccountableOperatingEnvironmentsSectionEntitySchema = z.object({
+  documentId: z.string().optional(),
+  referenceTitle: z.string().nullable().optional(),
+  title: z.string().nullable().optional(),
+  highlightTitle: z.string().nullable().optional(),
+  cards: z.array(ValueCardSchema).nullable().optional(),
+});
+
+export type AccountableOperatingEnvironmentsSectionEntity = z.infer<typeof AccountableOperatingEnvironmentsSectionEntitySchema>;
+
+export const AccountableOperatingEnvironmentsReferenceSchema = z.object({
+  __typename: z.literal('ComponentReferencesAccountableOperatingEnvironmentsReference'),
+  accountableOperatingEnvironmentsSection: AccountableOperatingEnvironmentsSectionEntitySchema.nullable().optional(),
+});
+
+export type AccountableOperatingEnvironmentsReference = z.infer<typeof AccountableOperatingEnvironmentsReferenceSchema>;
+
+export const OurCapabilitiesSectionEntitySchema = z.object({
+  documentId: z.string().optional(),
+  referenceTitle: z.string().nullable().optional(),
+  title: z.string().nullable().optional(),
+  highlightTitle: z.string().nullable().optional(),
+  description: z.string().nullable().optional(),
+  bgImage: StrapiImageSchema.nullable().optional(),
+  cards: z.array(ValueCardSchema).nullable().optional(),
+});
+
+export type OurCapabilitiesSectionEntity = z.infer<typeof OurCapabilitiesSectionEntitySchema>;
+
+export const OurCapabilitiesReferenceSchema = z.object({
+  __typename: z.literal('ComponentReferencesOurCapabilitiesReference'),
+  ourCapabilitiesSection: OurCapabilitiesSectionEntitySchema.nullable().optional(),
+});
+
+export type OurCapabilitiesReference = z.infer<typeof OurCapabilitiesReferenceSchema>;
+
+export const WorkforcePlanningSectionEntitySchema = z.object({
+  documentId: z.string().optional(),
+  referenceTitle: z.string().nullable().optional(),
+  title: z.string().nullable().optional(),
+  highlightTitle: z.string().nullable().optional(),
+  cards: z.array(ValueCardSchema).nullable().optional(),
+});
+
+export type WorkforcePlanningSectionEntity = z.infer<typeof WorkforcePlanningSectionEntitySchema>;
+
+export const WorkforcePlanningReferenceSchema = z.object({
+  __typename: z.literal('ComponentReferencesWorkforcePlanningReference'),
+  workforcePlanningSection: WorkforcePlanningSectionEntitySchema.nullable().optional(),
+});
+
+export type WorkforcePlanningReference = z.infer<typeof WorkforcePlanningReferenceSchema>;
+
+export const ContactInquirySectionEntitySchema = z.object({
+  documentId: z.string().optional(),
+  referenceTitle: z.string().nullable().optional(),
+  titleLead: z.string().nullable().optional(),
+  titleAccent: z.string().nullable().optional(),
+  titleClose: z.string().nullable().optional(),
+  description: z.string().nullable().optional(),
+  address: z.string().nullable().optional(),
+  email: z.string().nullable().optional(),
+  phone: z.string().nullable().optional(),
+  statementLabel: z.string().nullable().optional(),
+  statementFile: StrapiImageSchema.nullable().optional(),
+});
+
+export type ContactInquirySectionEntity = z.infer<typeof ContactInquirySectionEntitySchema>;
+
+export const ContactInquiryReferenceSchema = z.object({
+  __typename: z.literal('ComponentReferencesContactInquiryReference'),
+  contactInquirySection: ContactInquirySectionEntitySchema.nullable().optional(),
+});
+
+export type ContactInquiryReference = z.infer<typeof ContactInquiryReferenceSchema>;
+
+export const ContactPathwaysSectionEntitySchema = z.object({
+  documentId: z.string().optional(),
+  referenceTitle: z.string().nullable().optional(),
+  titleLead: z.string().nullable().optional(),
+  titleClose: z.string().nullable().optional(),
+  description: z.string().nullable().optional(),
+  cards: z.array(CardSchema).nullable().optional(),
+});
+
+export type ContactPathwaysSectionEntity = z.infer<typeof ContactPathwaysSectionEntitySchema>;
+
+export const ContactPathwaysReferenceSchema = z.object({
+  __typename: z.literal('ComponentReferencesContactPathwaysReference'),
+  contactPathwaysSection: ContactPathwaysSectionEntitySchema.nullable().optional(),
+});
+
+export type ContactPathwaysReference = z.infer<typeof ContactPathwaysReferenceSchema>;
+
+export const ContactLearnSectionEntitySchema = z.object({
+  documentId: z.string().optional(),
+  referenceTitle: z.string().nullable().optional(),
+  titleLead: z.string().nullable().optional(),
+  titleClose: z.string().nullable().optional(),
+  description: z.string().nullable().optional(),
+  defaultImage: StrapiImageSchema.nullable().optional(),
+  cards: z.array(CardSchema).nullable().optional(),
+});
+
+export type ContactLearnSectionEntity = z.infer<typeof ContactLearnSectionEntitySchema>;
+
+export const ContactLearnReferenceSchema = z.object({
+  __typename: z.literal('ComponentReferencesContactLearnReference'),
+  contactLearnSection: ContactLearnSectionEntitySchema.nullable().optional(),
+});
+
+export type ContactLearnReference = z.infer<typeof ContactLearnReferenceSchema>;
+
+export const ContactOfficesSectionEntitySchema = z.object({
+  documentId: z.string().optional(),
+  referenceTitle: z.string().nullable().optional(),
+  markerLabel: z.string().nullable().optional(),
+  mapImage: StrapiImageSchema.nullable().optional(),
+  cards: z.array(CardSchema).nullable().optional(),
+});
+
+export type ContactOfficesSectionEntity = z.infer<typeof ContactOfficesSectionEntitySchema>;
+
+export const ContactOfficesReferenceSchema = z.object({
+  __typename: z.literal('ComponentReferencesContactOfficesReference'),
+  contactOfficesSection: ContactOfficesSectionEntitySchema.nullable().optional(),
+});
+
+export type ContactOfficesReference = z.infer<typeof ContactOfficesReferenceSchema>;
 
 /**
  * Union of every section the Strapi dynamic zone can emit. The pass-through
@@ -377,6 +572,15 @@ export const DynamicZoneSectionSchema = z.union([
   SupportingMissionReferenceSchema,
   PastPerformanceReferenceSchema,
   MissionVisionPromiseReferenceSchema,
+  BuiltAroundMissionsReferenceSchema,
+  TakeMissionSeriouslyReferenceSchema,
+  AccountableOperatingEnvironmentsReferenceSchema,
+  OurCapabilitiesReferenceSchema,
+  WorkforcePlanningReferenceSchema,
+  ContactInquiryReferenceSchema,
+  ContactPathwaysReferenceSchema,
+  ContactLearnReferenceSchema,
+  ContactOfficesReferenceSchema,
   z.object({ __typename: z.string() }).passthrough(),
 ]);
 

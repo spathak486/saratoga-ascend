@@ -49,6 +49,21 @@ export interface CoreComponentHeading extends Struct.ComponentSchema {
   };
 }
 
+export interface CoreComponentNumberedCard extends Struct.ComponentSchema {
+  collectionName: 'components_core_component_numbered_cards';
+  info: {
+    description: 'Reusable numbered pillar or step card';
+    displayName: 'Numbered Card';
+    icon: 'bulletList';
+  };
+  attributes: {
+    description: Schema.Attribute.Text & Schema.Attribute.Required;
+    isHighlighted: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    number: Schema.Attribute.String;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
 export interface CoreComponentPromo extends Struct.ComponentSchema {
   collectionName: 'components_core_component_promos';
   info: {
@@ -70,6 +85,20 @@ export interface CoreComponentPromo extends Struct.ComponentSchema {
   };
 }
 
+export interface CoreComponentPurposeCard extends Struct.ComponentSchema {
+  collectionName: 'components_core_component_purpose_cards';
+  info: {
+    description: 'Reusable card with icon, title, and description for values and purpose';
+    displayName: 'Purpose Card';
+    icon: 'star';
+  };
+  attributes: {
+    description: Schema.Attribute.Text & Schema.Attribute.Required;
+    icon: Schema.Attribute.Media<'images'>;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
 export interface CoreComponentValueCard extends Struct.ComponentSchema {
   collectionName: 'components_core_component_value_cards';
   info: {
@@ -80,6 +109,7 @@ export interface CoreComponentValueCard extends Struct.ComponentSchema {
   attributes: {
     description: Schema.Attribute.Text & Schema.Attribute.Required;
     icon: Schema.Attribute.Media<'images'>;
+    isHighlighted: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     title: Schema.Attribute.String & Schema.Attribute.Required;
   };
 }
@@ -107,6 +137,22 @@ export interface MediaBanner extends Struct.ComponentSchema {
     > &
       Schema.Attribute.Required &
       Schema.Attribute.DefaultTo<'homebanner'>;
+  };
+}
+
+export interface ReferencesAccountableOperatingEnvironmentsReference
+  extends Struct.ComponentSchema {
+  collectionName: 'components_references_accountable_operating_environments_references';
+  info: {
+    description: 'Built for accountable operating environments carousel section reference';
+    displayName: 'Accountable Operating Environments Reference';
+    icon: 'apps';
+  };
+  attributes: {
+    accountableOperatingEnvironmentsSection: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::accountable-operating-environments-section.accountable-operating-environments-section'
+    >;
   };
 }
 
@@ -152,6 +198,22 @@ export interface ReferencesBlogListing extends Struct.ComponentSchema {
   };
 }
 
+export interface ReferencesBuiltAroundMissionsReference
+  extends Struct.ComponentSchema {
+  collectionName: 'components_references_built_around_missions_references';
+  info: {
+    description: 'Built around the missions that matter section reference';
+    displayName: 'Built Around Missions Reference';
+    icon: 'layer';
+  };
+  attributes: {
+    builtAroundMissionsSection: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::built-around-missions-section.built-around-missions-section'
+    >;
+  };
+}
+
 export interface ReferencesCeoMessageReference extends Struct.ComponentSchema {
   collectionName: 'components_references_ceo_message_references';
   info: {
@@ -177,6 +239,70 @@ export interface ReferencesClientLogosReference extends Struct.ComponentSchema {
     clientLogosSection: Schema.Attribute.Relation<
       'oneToOne',
       'api::client-logos-section.client-logos-section'
+    >;
+  };
+}
+
+export interface ReferencesContactInquiryReference
+  extends Struct.ComponentSchema {
+  collectionName: 'components_references_contact_inquiry_references';
+  info: {
+    description: 'Contact inquiry and lead capture section reference';
+    displayName: 'Contact Inquiry Reference';
+    icon: 'mail';
+  };
+  attributes: {
+    contactInquirySection: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::contact-inquiry-section.contact-inquiry-section'
+    >;
+  };
+}
+
+export interface ReferencesContactLearnReference
+  extends Struct.ComponentSchema {
+  collectionName: 'components_references_contact_learn_references';
+  info: {
+    description: 'Learn more about Saratoga Ascend section reference';
+    displayName: 'Contact Learn Reference';
+    icon: 'book';
+  };
+  attributes: {
+    contactLearnSection: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::contact-learn-section.contact-learn-section'
+    >;
+  };
+}
+
+export interface ReferencesContactOfficesReference
+  extends Struct.ComponentSchema {
+  collectionName: 'components_references_contact_offices_references';
+  info: {
+    description: 'Office locations map section reference';
+    displayName: 'Contact Offices Reference';
+    icon: 'pin';
+  };
+  attributes: {
+    contactOfficesSection: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::contact-offices-section.contact-offices-section'
+    >;
+  };
+}
+
+export interface ReferencesContactPathwaysReference
+  extends Struct.ComponentSchema {
+  collectionName: 'components_references_contact_pathways_references';
+  info: {
+    description: 'Connect with the right part of Saratoga Ascend pathways reference';
+    displayName: 'Contact Pathways Reference';
+    icon: 'link';
+  };
+  attributes: {
+    contactPathwaysSection: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::contact-pathways-section.contact-pathways-section'
     >;
   };
 }
@@ -298,6 +424,22 @@ export interface ReferencesMissionVisionPromiseReference
   };
 }
 
+export interface ReferencesOurCapabilitiesReference
+  extends Struct.ComponentSchema {
+  collectionName: 'components_references_our_capabilities_references';
+  info: {
+    description: 'One organization. Connected solution areas carousel section reference';
+    displayName: 'Our Capabilities Reference';
+    icon: 'layer';
+  };
+  attributes: {
+    ourCapabilitiesSection: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::our-capabilities-section.our-capabilities-section'
+    >;
+  };
+}
+
 export interface ReferencesPastPerformanceReference
   extends Struct.ComponentSchema {
   collectionName: 'components_references_past_performance_references';
@@ -346,6 +488,22 @@ export interface ReferencesSupportingMissionReference
   };
 }
 
+export interface ReferencesTakeMissionSeriouslyReference
+  extends Struct.ComponentSchema {
+  collectionName: 'components_references_take_mission_seriously_references';
+  info: {
+    description: 'People who take the mission seriously section reference';
+    displayName: 'Take Mission Seriously Reference';
+    icon: 'shield';
+  };
+  attributes: {
+    takeMissionSeriouslySection: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::take-mission-seriously-section.take-mission-seriously-section'
+    >;
+  };
+}
+
 export interface ReferencesWhatWeDoReference extends Struct.ComponentSchema {
   collectionName: 'components_references_what_we_do_references';
   info: {
@@ -356,6 +514,22 @@ export interface ReferencesWhatWeDoReference extends Struct.ComponentSchema {
     whatWeDoSection: Schema.Attribute.Relation<
       'oneToOne',
       'api::what-we-do-section.what-we-do-section'
+    >;
+  };
+}
+
+export interface ReferencesWorkforcePlanningReference
+  extends Struct.ComponentSchema {
+  collectionName: 'components_references_workforce_planning_references';
+  info: {
+    description: 'From Workforce Planning to Ongoing Support interactive step accordion section reference';
+    displayName: 'Workforce Planning Reference';
+    icon: 'bulletList';
+  };
+  attributes: {
+    workforcePlanningSection: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::workforce-planning-section.workforce-planning-section'
     >;
   };
 }
@@ -451,14 +625,22 @@ declare module '@strapi/strapi' {
       'core-component.achievement-cards': CoreComponentAchievementCards;
       'core-component.counter': CoreComponentCounter;
       'core-component.heading': CoreComponentHeading;
+      'core-component.numbered-card': CoreComponentNumberedCard;
       'core-component.promo': CoreComponentPromo;
+      'core-component.purpose-card': CoreComponentPurposeCard;
       'core-component.value-card': CoreComponentValueCard;
       'media.banner': MediaBanner;
+      'references.accountable-operating-environments-reference': ReferencesAccountableOperatingEnvironmentsReference;
       'references.achievements': ReferencesAchievements;
       'references.banner-reference': ReferencesBannerReference;
       'references.blog-listing': ReferencesBlogListing;
+      'references.built-around-missions-reference': ReferencesBuiltAroundMissionsReference;
       'references.ceo-message-reference': ReferencesCeoMessageReference;
       'references.client-logos-reference': ReferencesClientLogosReference;
+      'references.contact-inquiry-reference': ReferencesContactInquiryReference;
+      'references.contact-learn-reference': ReferencesContactLearnReference;
+      'references.contact-offices-reference': ReferencesContactOfficesReference;
+      'references.contact-pathways-reference': ReferencesContactPathwaysReference;
       'references.cta': ReferencesCta;
       'references.fa-qs': ReferencesFaQs;
       'references.happy-clients-reference': ReferencesHappyClientsReference;
@@ -466,10 +648,13 @@ declare module '@strapi/strapi' {
       'references.legal-content': ReferencesLegalContent;
       'references.mission-reference': ReferencesMissionReference;
       'references.mission-vision-promise-reference': ReferencesMissionVisionPromiseReference;
+      'references.our-capabilities-reference': ReferencesOurCapabilitiesReference;
       'references.past-performance-reference': ReferencesPastPerformanceReference;
       'references.service-reference': ReferencesServiceReference;
       'references.supporting-mission-reference': ReferencesSupportingMissionReference;
+      'references.take-mission-seriously-reference': ReferencesTakeMissionSeriouslyReference;
       'references.what-we-do-reference': ReferencesWhatWeDoReference;
+      'references.workforce-planning-reference': ReferencesWorkforcePlanningReference;
       'shared.custom-item': SharedCustomItem;
       'shared.general-link': SharedGeneralLink;
       'shared.highlight': SharedHighlight;

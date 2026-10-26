@@ -317,16 +317,118 @@ export const MISSION_VISION_PROMISE_REFERENCE_FIELDS = `
       description
       bgWatermarkImage { ${IMAGE_FIELDS} }
       cards {
+        documentId
         title
         description
+        number
+        isHighlighted
         icon { ${IMAGE_FIELDS} }
       }
     }
   }
 `;
 
-// Common dynamic-zone inline fragments shared by articles, blogs, and pages.
-export const COMMON_SECTION_FRAGMENTS = [
+export const BUILT_AROUND_MISSIONS_REFERENCE_FIELDS = `
+  __typename
+  ... on ComponentReferencesBuiltAroundMissionsReference {
+    builtAroundMissionsSection {
+      documentId
+      title
+      highlightTitle
+      description
+      calloutHighlight
+      calloutText
+      cards {
+        id
+        number
+        title
+        description
+        isHighlighted
+      }
+    }
+  }
+`;
+
+export const TAKE_MISSION_SERIOUSLY_REFERENCE_FIELDS = `
+  __typename
+  ... on ComponentReferencesTakeMissionSeriouslyReference {
+    takeMissionSeriouslySection {
+      documentId
+      title
+      highlightTitle
+      cards {
+        documentId
+        title
+        description
+        number
+        isHighlighted
+        icon { ${IMAGE_FIELDS} }
+      }
+    }
+  }
+`;
+
+export const ACCOUNTABLE_OPERATING_ENVIRONMENTS_REFERENCE_FIELDS = `
+  __typename
+  ... on ComponentReferencesAccountableOperatingEnvironmentsReference {
+    accountableOperatingEnvironmentsSection {
+      documentId
+      title
+      highlightTitle
+      cards {
+        documentId
+        title
+        description
+        number
+        isHighlighted
+        icon { ${IMAGE_FIELDS} }
+      }
+    }
+  }
+`;
+
+export const OUR_CAPABILITIES_REFERENCE_FIELDS = `
+  __typename
+  ... on ComponentReferencesOurCapabilitiesReference {
+    ourCapabilitiesSection {
+      documentId
+      title
+      highlightTitle
+      description
+      bgImage { ${IMAGE_FIELDS} }
+      cards {
+        documentId
+        title
+        description
+        number
+        isHighlighted
+        icon { ${IMAGE_FIELDS} }
+      }
+    }
+  }
+`;
+
+export const WORKFORCE_PLANNING_REFERENCE_FIELDS = `
+  __typename
+  ... on ComponentReferencesWorkforcePlanningReference {
+    workforcePlanningSection {
+      documentId
+      title
+      highlightTitle
+      cards {
+        documentId
+        title
+        description
+        number
+        isHighlighted
+        icon { ${IMAGE_FIELDS} }
+      }
+    }
+  }
+`;
+
+// Common dynamic-zone inline fragments supported by Blog.Section in Strapi
+export const BLOG_SECTION_FRAGMENTS = [
   BANNER_REFERENCE_FIELDS,
   CTA_REFERENCE_FIELDS,
   FAQS_REFERENCE_FIELDS,
@@ -342,12 +444,113 @@ export const COMMON_SECTION_FRAGMENTS = [
   PAST_PERFORMANCE_REFERENCE_FIELDS,
 ].join('\n');
 
-// Page dynamic zone includes blog listing and mission/vision/promise.
-// News and blog zones do not, so those fragments stay off the shared list.
+export const CONTACT_INQUIRY_REFERENCE_FIELDS = `
+  __typename
+  ... on ComponentReferencesContactInquiryReference {
+    contactInquirySection {
+      documentId
+      referenceTitle
+      titleLead
+      titleAccent
+      titleClose
+      description
+      address
+      email
+      phone
+      statementLabel
+      statementFile { ${IMAGE_FIELDS} }
+    }
+  }
+`;
+
+export const CONTACT_PATHWAYS_REFERENCE_FIELDS = `
+  __typename
+  ... on ComponentReferencesContactPathwaysReference {
+    contactPathwaysSection {
+      documentId
+      referenceTitle
+      titleLead
+      titleClose
+      description
+      cards {
+        documentId
+        title
+        description
+        number
+        isHighlighted
+        actionLabel
+        href
+        actionTone
+        icon { ${IMAGE_FIELDS} }
+        swooshImage { ${IMAGE_FIELDS} }
+      }
+    }
+  }
+`;
+
+export const CONTACT_LEARN_REFERENCE_FIELDS = `
+  __typename
+  ... on ComponentReferencesContactLearnReference {
+    contactLearnSection {
+      documentId
+      referenceTitle
+      titleLead
+      titleClose
+      description
+      defaultImage { ${IMAGE_FIELDS} }
+      cards {
+        documentId
+        title
+        description
+        number
+        isHighlighted
+        actionLabel
+        href
+        icon { ${IMAGE_FIELDS} }
+      }
+    }
+  }
+`;
+
+export const CONTACT_OFFICES_REFERENCE_FIELDS = `
+  __typename
+  ... on ComponentReferencesContactOfficesReference {
+    contactOfficesSection {
+      documentId
+      referenceTitle
+      markerLabel
+      mapImage { ${IMAGE_FIELDS} }
+      cards {
+        documentId
+        title
+        description
+        address
+        phone
+        fax
+      }
+    }
+  }
+`;
+
+// Dynamic-zone inline fragments supported by Page.Section
+export const COMMON_SECTION_FRAGMENTS = [
+  BLOG_SECTION_FRAGMENTS,
+  MISSION_VISION_PROMISE_REFERENCE_FIELDS,
+  BUILT_AROUND_MISSIONS_REFERENCE_FIELDS,
+  TAKE_MISSION_SERIOUSLY_REFERENCE_FIELDS,
+  ACCOUNTABLE_OPERATING_ENVIRONMENTS_REFERENCE_FIELDS,
+  OUR_CAPABILITIES_REFERENCE_FIELDS,
+  WORKFORCE_PLANNING_REFERENCE_FIELDS,
+  CONTACT_INQUIRY_REFERENCE_FIELDS,
+  CONTACT_PATHWAYS_REFERENCE_FIELDS,
+  CONTACT_LEARN_REFERENCE_FIELDS,
+  CONTACT_OFFICES_REFERENCE_FIELDS,
+].join('\n');
+
+// Page dynamic zone includes blog listing and any page-specific fragments.
 export const PAGE_SECTION_FRAGMENTS = [
   COMMON_SECTION_FRAGMENTS,
   BLOG_LISTING_REFERENCE_FIELDS,
-  MISSION_VISION_PROMISE_REFERENCE_FIELDS,
 ].join('\n');
 
 export const PAGE_FIELDS = `
@@ -376,11 +579,11 @@ export const ARTICLE_FIELDS = `
   image { ${IMAGE_FIELDS} }
   seo { ${SEO_FIELDS} }
   Section {
-    ${COMMON_SECTION_FRAGMENTS}
+    ${BLOG_SECTION_FRAGMENTS}
   }
 `;
 
-export const BLOG_FIELDS = `
+export const BLOG_ITEM_FIELDS = `
   documentId
   title
   slug
@@ -395,8 +598,12 @@ export const BLOG_FIELDS = `
   }
   description
   image { ${IMAGE_FIELDS} }
+`;
+
+export const BLOG_FIELDS = `
+  ${BLOG_ITEM_FIELDS}
   seo { ${SEO_FIELDS} }
   Section {
-    ${COMMON_SECTION_FRAGMENTS}
+    ${BLOG_SECTION_FRAGMENTS}
   }
 `;

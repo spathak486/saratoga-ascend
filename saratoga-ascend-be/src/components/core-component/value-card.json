@@ -21,6 +21,10 @@
       "allowedTypes": [
         "images"
       ]
+    },
+    "isHighlighted": {
+      "type": "boolean",
+      "default": false
     }
   },
   "config": {}

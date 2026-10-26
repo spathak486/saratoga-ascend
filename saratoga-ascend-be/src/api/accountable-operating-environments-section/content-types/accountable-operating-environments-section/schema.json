@@ -1,0 +1,33 @@
+{
+  "kind": "collectionType",
+  "collectionName": "accountable_operating_environments_sections",
+  "info": {
+    "singularName": "accountable-operating-environments-section",
+    "pluralName": "accountable-operating-environments-sections",
+    "displayName": "Accountable Operating Environments Section",
+    "description": "Built for accountable operating environments carousel section"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "referenceTitle": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string",
+      "required": true,
+      "default": "Built for accountable operating environments"
+    },
+    "highlightTitle": {
+      "type": "string",
+      "default": "operating environments"
+    },
+    "cards": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::card.card"
+    }
+  }
+}
