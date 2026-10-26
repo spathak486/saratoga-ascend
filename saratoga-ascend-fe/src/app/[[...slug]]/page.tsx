@@ -190,15 +190,21 @@ export default async function DynamicPage({ params }: DynamicPageProps) {
             allHeadings.push(h);
           }
         });
-      } else if (
-        (sec.__typename === 'ComponentReferencesKeyTakeawaysReference' ||
-          sec.__typename === 'ComponentReferencesStatCardsReference') &&
-        sec.title
-      ) {
-        const id = slugify(sec.title);
-        if (id && !usedIds.has(id)) {
-          usedIds.add(id);
-          allHeadings.push({ id, text: sec.title, level: 2 });
+      } else {
+        const typename = String(sec.__typename || '');
+        const isMatch =
+          typename === 'ComponentReferencesKeyTakeawaysReference' ||
+          typename === 'ComponentReferencesStatCardsReference' ||
+          typename.toLowerCase().includes('statcard') ||
+          typename.toLowerCase().includes('keytakeaway');
+        const titleText = sec.title || sec.referenceTitle;
+
+        if (isMatch && titleText) {
+          const id = slugify(titleText);
+          if (id && !usedIds.has(id)) {
+            usedIds.add(id);
+            allHeadings.push({ id, text: titleText, level: 2 });
+          }
         }
       }
     });
