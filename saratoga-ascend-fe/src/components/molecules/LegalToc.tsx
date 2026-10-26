@@ -55,7 +55,15 @@ export const LegalToc: React.FC<LegalTocProps> = ({
     <li key={heading.id} className="m-0">
       <a
         href={`#${heading.id}`}
-        onClick={() => setOpen(false)}
+        onClick={(e) => {
+          setOpen(false);
+          const target = document.getElementById(heading.id);
+          if (target) {
+            e.preventDefault();
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            history.pushState(null, '', `#${heading.id}`);
+          }
+        }}
         className={`legal-toc-link ${
           heading.level === 3 ? 'legal-toc-link--nested' : ''
         } ${activeId === heading.id ? 'is-active' : ''}`}
