@@ -168,6 +168,15 @@ export const LEGAL_CONTENT_REFERENCE_FIELDS = `
   }
 `;
 
+export const KEY_TAKEAWAYS_REFERENCE_FIELDS = `
+  __typename
+  ... on ComponentReferencesKeyTakeawaysReference {
+    title
+    description
+    variant
+  }
+`;
+
 export const ACHIEVEMENTS_REFERENCE_FIELDS = `
   __typename
   ... on ComponentReferencesAchievements {
@@ -442,6 +451,7 @@ export const BLOG_SECTION_FRAGMENTS = [
   CEO_MESSAGE_REFERENCE_FIELDS,
   SUPPORTING_MISSION_REFERENCE_FIELDS,
   PAST_PERFORMANCE_REFERENCE_FIELDS,
+  KEY_TAKEAWAYS_REFERENCE_FIELDS,
 ].join('\n');
 
 export const CONTACT_INQUIRY_REFERENCE_FIELDS = `

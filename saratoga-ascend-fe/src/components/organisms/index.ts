@@ -35,3 +35,4 @@ export * from './TakeMissionSeriouslySection';
 export * from './AccountableOperatingEnvironmentsSection';
 export * from './OurCapabilitiesSection';
 export * from './WorkforcePlanningSection';
+export * from './KeyTakeawaysSection';

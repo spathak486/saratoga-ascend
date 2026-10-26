@@ -63,6 +63,8 @@ export {
   type AchievementsReference,
   LegalContentReferenceSchema,
   type LegalContentReference,
+  KeyTakeawaysReferenceSchema,
+  type KeyTakeawaysReference,
   BlogListingReferenceSchema,
   type BlogListingReference,
   CeoMessageSectionEntitySchema,

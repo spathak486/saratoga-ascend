@@ -619,6 +619,30 @@ export interface SharedSeo extends Struct.ComponentSchema {
   };
 }
 
+export interface ReferencesKeyTakeawaysReference extends Struct.ComponentSchema {
+  collectionName: 'components_references_key_takeaways_references';
+  info: {
+    description: 'Callout / Key Takeaways card component for articles and blogs';
+    displayName: 'Key Takeaways Reference';
+    icon: 'bulletList';
+  };
+  attributes: {
+    title: Schema.Attribute.String & Schema.Attribute.DefaultTo<'Key Takeaways'>;
+    description: Schema.Attribute.RichText &
+      Schema.Attribute.CustomField<
+        'plugin::ckeditor5.CKEditor',
+        {
+          preset: 'defaultHtml';
+        }
+      >;
+    variant: Schema.Attribute.Enumeration<
+      ['default', 'article-section', 'quote', 'gradient', 'blue', 'minimal']
+    > &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'default'>;
+  };
+}
+
 declare module '@strapi/strapi' {
   export namespace Public {
     export interface ComponentSchemas {
@@ -644,6 +668,7 @@ declare module '@strapi/strapi' {
       'references.cta': ReferencesCta;
       'references.fa-qs': ReferencesFaQs;
       'references.happy-clients-reference': ReferencesHappyClientsReference;
+      'references.key-takeaways-reference': ReferencesKeyTakeawaysReference;
       'references.latest-insights': ReferencesLatestInsights;
       'references.legal-content': ReferencesLegalContent;
       'references.mission-reference': ReferencesMissionReference;

@@ -139,7 +139,17 @@ export default async function DynamicPage({ params }: DynamicPageProps) {
 
   const isDark = pageData.pageType === 'Dark' || pageData.variant === 'dark';
   const isLight = pageData.pageType === 'Light' || pageData.variant === 'light';
-  const toneClass = isDark ? 'bg-brand-navy text-white' : isLight ? 'bg-brand-surface' : '';
+  const isBlog = Boolean(pageData.categoryType || pageData.readTime || pageData.author || slugPath.startsWith('blog'));
+  const toneClass = isDark ? 'bg-brand-navy text-white' : isLight ? 'bg-brand-surface' : isBlog ? 'bg-white text-ink' : '';
+
+  const hasLegalContent = sections.some((sec: any) => sec.__typename === 'ComponentReferencesLegalContent');
+  if (isBlog && !hasLegalContent && pageData.description) {
+    sections.push({
+      __typename: 'ComponentReferencesLegalContent',
+      body: pageData.description,
+      showToc: true,
+    });
+  }
 
   const rendered = sections.map((sec: any, idx: number) =>
     renderRegisteredSection(

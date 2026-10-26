@@ -23,6 +23,7 @@ import type {
   ContactPathwaysReference,
   ContactLearnReference,
   ContactOfficesReference,
+  KeyTakeawaysReference,
 } from '@/lib/schemas';
 import {
   HeroSection,
@@ -52,6 +53,7 @@ import {
   ContactPathwaysSection,
   ContactLearnSection,
   ContactOfficesSection,
+  KeyTakeawaysSection,
 } from '@/components/organisms';
 
 const MOCK_WHAT_WE_DO_LINES = [
@@ -359,6 +361,18 @@ export const SECTION_REGISTRY: Record<
         showToc={legalRef.showToc ?? true}
         titleColor={legalRef.titleColor ?? undefined}
         bodyColor={legalRef.bodyColor ?? undefined}
+      />
+    );
+  },
+
+  ComponentReferencesKeyTakeawaysReference: (section, index) => {
+    const ktRef = section as KeyTakeawaysReference;
+    return (
+      <KeyTakeawaysSection
+        key={`key-takeaways-${index}`}
+        title={ktRef.title ?? undefined}
+        description={ktRef.description ?? undefined}
+        variant={ktRef.variant ?? 'default'}
       />
     );
   },

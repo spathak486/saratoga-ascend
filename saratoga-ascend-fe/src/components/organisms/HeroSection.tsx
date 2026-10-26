@@ -339,7 +339,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
       : '10 min Read';
 
     return (
-      <section className="relative w-full overflow-hidden bg-[#CBD5E1]/20 py-8 md:py-12 px-4 sm:px-8 xl:px-[120px] flex justify-center">
+      <section className="relative w-full overflow-hidden bg-white py-8 md:py-12 px-4 sm:px-8 xl:px-[120px] flex justify-center">
         {/* Frame 2147225834: 1680px max width card with 40px rounded corners */}
         <div className="relative w-full max-w-[1680px] min-h-[500px] md:min-h-[600px] xl:min-h-[654px] rounded-[30px] sm:rounded-[40px] overflow-hidden flex flex-col justify-end p-6 sm:p-10 md:p-12 xl:p-[54px] shadow-sm">
           {/* Background image & Fallback */}
