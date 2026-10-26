@@ -39,10 +39,10 @@ export const KeyTakeawaysSection: React.FC<KeyTakeawaysSectionProps> = ({
 
   switch (variant) {
     case 'article-section':
-      // Figma Group 2085665614: Clean article content block with 40px DM Serif title & 24px #5A5A5A copy
-      containerStyles = 'bg-transparent py-4 my-6 max-w-[1054px]';
-      titleStyles = 'font-serif text-[clamp(28px,2.5vw,40px)] leading-[60px] tracking-[-1px] mb-6 text-[#00162D]';
-      bodyStyles = 'font-sans font-normal text-[clamp(16px,1.25vw,24px)] leading-[160%] text-[#5A5A5A] space-y-6 [&_p]:mb-6 [&_p:last-child]:mb-0 [&_blockquote]:border-l-4 [&_blockquote]:border-[#2B88D9] [&_blockquote]:pl-6 [&_blockquote]:italic';
+      // Exact Figma Group 2085665614: 1054px container, 40px/60px DM Serif #00162D title, 24px/38px (160%) Google Sans Flex #5A5A5A body
+      containerStyles = 'bg-transparent py-2 my-6 max-w-[1054px] w-full';
+      titleStyles = 'font-serif font-normal text-[clamp(28px,2.5vw,40px)] leading-[60px] tracking-[-1px] mb-4 text-[#00162D]';
+      bodyStyles = 'font-sans font-normal text-[clamp(18px,1.4vw,24px)] leading-[160%] text-[#5A5A5A] space-y-6 [&_p]:mb-6 [&_p:last-child]:mb-0 [&_blockquote]:border-l-4 [&_blockquote]:border-[var(--Sky-blue,#2B88D9)] [&_blockquote]:pl-6 [&_blockquote]:italic';
       break;
 
     case 'quote':
