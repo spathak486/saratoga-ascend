@@ -273,21 +273,21 @@ export const TakeMissionSeriouslySection: React.FC<TakeMissionSeriouslySectionPr
   return (
     <section
       aria-label={title || highlightTitle || 'People who take the mission seriously'}
-      /* Figma: Frame 2147226448 -> width: 1919px; height: 714px; top: 9614px; left: 0px; */
-      className="relative w-full max-w-[1919px] mx-auto min-h-[714px] bg-white flex flex-col justify-center py-[80px] px-6 sm:px-10 lg:px-[120px] my-0"
+      /* Figma desktop: Frame 2147226448 -> 1919×714, py 80. Mobile/iPad: single column, tighter vertical rhythm (no fixed min-height). */
+      className="relative mx-auto my-0 flex w-full max-w-[1919px] flex-col justify-center bg-white px-6 py-10 sm:px-10 sm:py-12 lg:min-h-[714px] lg:px-[120px] lg:py-[80px]"
     >
-      <div className="w-full max-w-[1679px] mx-auto">
+      <div className="mx-auto w-full max-w-[1679px]">
         {/* Header: Group 2085665675 (width: 1402px, height: 86px, left: 120px, top: 80px) */}
         {hasHeading && (
-          <div className="mb-[60px] max-w-[1402px]">
-            <h2 className="font-['DM_Serif_Text'] text-[36px] sm:text-[52px] lg:text-[72px] leading-[115%] lg:leading-[86px] text-[#000000] font-normal tracking-normal">
+          <div className="mb-8 max-w-[1402px] lg:mb-[60px]">
+            <h2 className="font-['DM_Serif_Text'] text-[36px] font-normal leading-[115%] tracking-normal text-[#000000] sm:text-[52px] lg:text-[72px] lg:leading-[86px]">
               {renderTitle()}
             </h2>
           </div>
         )}
 
-        {/* 6 Cards Grid: Group 2085665696 (width: 1679px, height: 408px, left: 120px, top: 226px, gap: 40px) */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[40px] w-full max-w-[1679px]">
+        {/* Single column through iPad; 3-col from lg. Desktop gap 40px. */}
+        <div className="grid w-full max-w-[1679px] grid-cols-1 gap-6 sm:gap-7 lg:grid-cols-3 lg:gap-[40px]">
           {cards.map((card, index) => {
             const iconUrl =
               typeof card.icon === 'string'
@@ -300,7 +300,7 @@ export const TakeMissionSeriouslySection: React.FC<TakeMissionSeriouslySectionPr
               /* Figma Card: width: 533px, height: 184px, background: #F4F9FD, border: 1px solid #95C3EC, border-radius: 20px */
               <div
                 key={card.id || `card-${index}`}
-                className="box-border relative flex items-center gap-[23px] pl-[40px] pr-[20px] py-[34px] w-full max-w-[533px] min-h-[184px] h-auto lg:h-[184px] rounded-[20px] bg-[#F4F9FD] border border-[#95C3EC] shadow-[0_4px_20px_rgba(149,195,236,0.12)] hover:border-[#2B88D9] hover:shadow-[0_8px_25px_rgba(149,195,236,0.22)] transition-all duration-300"
+                className="box-border relative flex h-auto min-h-[184px] w-full items-center gap-4 rounded-[20px] border border-[#95C3EC] bg-[#F4F9FD] py-6 pl-5 pr-4 shadow-[0_4px_20px_rgba(149,195,236,0.12)] transition-all duration-300 hover:border-[#2B88D9] hover:shadow-[0_8px_25px_rgba(149,195,236,0.22)] sm:gap-[23px] sm:py-[34px] sm:pl-[40px] sm:pr-[20px] lg:h-[184px] lg:max-w-[533px]"
               >
                 {/* Left Icon Container: Rectangle 40068 (width: 104px, height: 104px, background: #95C3EC, border: 1px solid #000000, border-radius: 13px) */}
                 <div className="w-[104px] h-[104px] rounded-[13px] bg-[#95C3EC] border border-black flex items-center justify-center shrink-0 transition-transform duration-300 hover:scale-105">

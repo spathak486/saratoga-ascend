@@ -40,7 +40,7 @@ export const SupportingMissionSection: React.FC<SupportingMissionSectionProps> =
   return (
     <section
       aria-label="Supporting the Missions"
-      className="relative w-full overflow-hidden bg-white flex items-center justify-center lg:h-[clamp(680px,44.375vw,852px)] py-12 lg:py-0 my-0"
+      className="relative my-0 flex w-full items-center justify-center overflow-hidden bg-white py-10 sm:py-12 lg:h-[clamp(680px,44.375vw,852px)] lg:py-0"
     >
       {/* Background Gradient Bar (Figma Rectangle 40130: 1921px x 713px, top: 1049px / centered vertically) */}
       <div
@@ -51,11 +51,11 @@ export const SupportingMissionSection: React.FC<SupportingMissionSectionProps> =
       />
 
       {/* Main Content Layout (1920px canvas, 120px side margins) */}
-      <div className="relative z-10 w-full max-w-[1920px] mx-auto px-6 sm:px-8 md:px-12 lg:px-[clamp(2.5rem,6.25vw,7.5rem)]">
-        <div className="flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-[clamp(2rem,3.85vw,4.625rem)]">
+      <div className="relative z-10 mx-auto w-full max-w-[1920px] px-5 sm:px-8 md:px-10 lg:px-[clamp(2.5rem,6.25vw,7.5rem)]">
+        <div className="flex flex-col items-center justify-between gap-6 sm:gap-8 lg:flex-row lg:gap-[clamp(2rem,3.85vw,4.625rem)]">
           
-          {/* Left Doctor Photo Frame (Figma Frame 2147226432: 689px x 852px, left: 120px, top: 979px, border-radius: 24px) */}
-          <div className="relative shrink-0 w-full max-w-[480px] lg:max-w-none lg:w-[clamp(500px,35.885vw,689px)] lg:h-[clamp(680px,44.375vw,852px)] aspect-[689/852] rounded-[24px] overflow-hidden select-none">
+          {/* Left Doctor Photo Frame (Figma Frame 2147226432: 689px x 852px) */}
+          <div className="relative aspect-[689/852] w-full max-w-[22.5rem] shrink-0 overflow-hidden rounded-[24px] select-none sm:max-w-[28rem] lg:h-[clamp(680px,44.375vw,852px)] lg:max-w-none lg:w-[clamp(500px,35.885vw,689px)]">
             <Image
               src={imgSrc}
               alt={title || 'Supporting Mission'}

@@ -383,6 +383,59 @@ const aboutSections: DynamicZoneSection[] = [
   },
 ];
 
+/** Local fallback when CMS `pages` is unavailable — section components supply default copy. */
+const contactSections: DynamicZoneSection[] = [
+  {
+    __typename: 'ComponentReferencesBannerReference',
+    heroBanner: {
+      documentId: 'cm2contactbanner01',
+      referenceTitle: 'Contact Banner',
+      banner: {
+        bannerTitle: "Let's Start a Conversation",
+        bannerSubTitle: null,
+        bannerDescription:
+          'Reach the Saratoga Ascend team for staffing, contracts, careers, and partnership inquiries.',
+        bannerImage: {
+          url: '/images/DNA-v1.png',
+          width: 1200,
+          height: 800,
+          alternativeText: 'Saratoga Ascend contact hero',
+          formats: null,
+        },
+        buttonCTA: null,
+      },
+    },
+  },
+  {
+    __typename: 'ComponentReferencesContactInquiryReference',
+    contactInquirySection: {
+      documentId: 'cm2contactinquiry01',
+      referenceTitle: 'Contact Inquiry',
+    },
+  },
+  {
+    __typename: 'ComponentReferencesContactPathwaysReference',
+    contactPathwaysSection: {
+      documentId: 'cm2contactpathways01',
+      referenceTitle: 'Contact Pathways',
+    },
+  },
+  {
+    __typename: 'ComponentReferencesContactLearnReference',
+    contactLearnSection: {
+      documentId: 'cm2contactlearn01',
+      referenceTitle: 'Contact Learn',
+    },
+  },
+  {
+    __typename: 'ComponentReferencesContactOfficesReference',
+    contactOfficesSection: {
+      documentId: 'cm2contactoffices01',
+      referenceTitle: 'Contact Offices',
+    },
+  },
+];
+
 const privacyPolicySections: DynamicZoneSection[] = [
   {
     __typename: 'ComponentReferencesLegalContent',
@@ -507,7 +560,7 @@ export const mockPages: Page[] = [
       structuredData: null,
       languageTag: 'en',
     },
-    Section: null,
+    Section: contactSections,
     createdAt: '2026-08-10T00:00:00.000Z',
     updatedAt: '2026-08-10T00:00:00.000Z',
   },

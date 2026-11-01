@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useId, useState } from 'react';
+import React, { useEffect, useId, useRef, useState } from 'react';
 import { Button } from '../atoms';
 import { ArrowUpRightIcon } from '../atoms/icons';
 
@@ -33,6 +33,101 @@ const labelClass = 'font-serif text-[1.25rem] leading-normal text-ink';
 
 /** 25px radius, local to Figma 2219:1584. The shared panel token is 32px. */
 const cardRadius = 'rounded-[1.592rem]';
+
+function InquiryTypeSelect({
+  id,
+  name,
+  value,
+  options,
+  disabled,
+  required,
+  onChange,
+}: {
+  id: string;
+  name: string;
+  value: string;
+  options: readonly string[];
+  disabled?: boolean;
+  required?: boolean;
+  onChange: (value: string) => void;
+}) {
+  const [open, setOpen] = useState(false);
+  const rootRef = useRef<HTMLDivElement>(null);
+  const listId = `${id}-listbox`;
+
+  useEffect(() => {
+    if (!open) return;
+    const onPointerDown = (event: MouseEvent) => {
+      if (!rootRef.current?.contains(event.target as Node)) setOpen(false);
+    };
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setOpen(false);
+    };
+    document.addEventListener('mousedown', onPointerDown);
+    document.addEventListener('keydown', onKeyDown);
+    return () => {
+      document.removeEventListener('mousedown', onPointerDown);
+      document.removeEventListener('keydown', onKeyDown);
+    };
+  }, [open]);
+
+  return (
+    <div ref={rootRef} className="relative">
+      <input type="hidden" name={name} value={value} required={required} />
+      <button
+        id={id}
+        type="button"
+        disabled={disabled}
+        aria-haspopup="listbox"
+        aria-expanded={open}
+        aria-controls={listId}
+        onClick={() => setOpen((prev) => !prev)}
+        className={`${controlClass} flex appearance-none items-center justify-between gap-3 pr-8 text-left ${
+          value ? '' : 'text-slate-muted'
+        }`}
+      >
+        <span className="min-w-0 truncate">{value || 'Select Inquiry Type'}</span>
+      </button>
+      <img
+        src="/images/contact/caret.svg"
+        alt=""
+        width={13.5}
+        height={7.5}
+        className={`pointer-events-none absolute right-1 bottom-3 transition-transform duration-150 ${open ? 'rotate-180' : ''}`}
+      />
+      {open ? (
+        <ul
+          id={listId}
+          role="listbox"
+          aria-labelledby={id}
+          className="absolute inset-x-0 top-[calc(100%+0.25rem)] z-50 max-h-60 overflow-y-auto rounded-frame border border-brand-line bg-white py-1 shadow-button"
+        >
+          {options.map((option) => {
+            const selected = option === value;
+            return (
+              <li key={option} role="presentation">
+                <button
+                  type="button"
+                  role="option"
+                  aria-selected={selected}
+                  className={`w-full px-4 py-2.5 text-left font-sans text-body font-light text-ink transition-colors hover:bg-brand-surface-muted focus-visible:bg-brand-surface-muted focus-visible:outline-none ${
+                    selected ? 'bg-brand-surface-muted' : ''
+                  }`}
+                  onClick={() => {
+                    onChange(option);
+                    setOpen(false);
+                  }}
+                >
+                  {option}
+                </button>
+              </li>
+            );
+          })}
+        </ul>
+      ) : null}
+    </div>
+  );
+}
 
 /**
  * Contact inquiry fields from Figma 2219:1584. The live submission endpoint
@@ -115,33 +210,15 @@ export const ContactInquiryForm: React.FC<ContactInquiryFormProps> = ({
           <label htmlFor={inquiryId} className={labelClass}>
             Inquiry Type<span className="text-brand-red">*</span>
           </label>
-          <div className="relative">
-            <select
-              id={inquiryId}
-              name="inquiryType"
-              required
-              disabled={state.status === 'submitting'}
-              value={inquiryType}
-              onChange={(event) => setInquiryType(event.target.value)}
-              className={`${controlClass} appearance-none pr-8 ${inquiryType ? '' : 'text-slate-muted'}`}
-            >
-              <option value="" disabled>
-                Select Inquiry Type
-              </option>
-              {options.map((option) => (
-                <option key={option} value={option} className="text-ink">
-                  {option}
-                </option>
-              ))}
-            </select>
-            <img
-              src="/images/contact/caret.svg"
-              alt=""
-              width={13.5}
-              height={7.5}
-              className="pointer-events-none absolute right-1 bottom-3"
-            />
-          </div>
+          <InquiryTypeSelect
+            id={inquiryId}
+            name="inquiryType"
+            required
+            disabled={state.status === 'submitting'}
+            value={inquiryType}
+            options={options}
+            onChange={setInquiryType}
+          />
         </div>
 
         <div className="flex flex-col gap-2">
