@@ -113,7 +113,7 @@ export const CeoMessageSection: React.FC<CeoMessageSectionProps> = ({
   return (
     <section
       aria-label="CEO Message"
-      className="relative w-full overflow-hidden bg-[#E4EBF1] flex items-center min-h-[700px] 2xl:min-h-[838px]"
+      className="relative w-full overflow-hidden bg-[#E4EBF1]"
       style={{
         backgroundColor: '#E4EBF1',
       }}
@@ -130,29 +130,25 @@ export const CeoMessageSection: React.FC<CeoMessageSectionProps> = ({
         aria-hidden="true"
       />
 
-      {/* Main Container 1920px Frame */}
-      <div className="relative z-10 mx-auto w-full max-w-[1920px] h-[720px] xl:h-[780px] 2xl:h-[838px] flex items-center overflow-hidden">
-        
-        {/* Left Content Area (Figma Group 2085665634: width: 927px, height: 546px, top: 87px, left: 135px) */}
-        <div className="relative z-10 w-full lg:max-w-[50vw] 2xl:max-w-[927px] pl-6 sm:pl-12 md:pl-16 lg:pl-[6vw] 2xl:pl-[135px] pr-4 pt-10 lg:pt-14 2xl:pt-[87px] pb-10 flex flex-col justify-start min-h-[546px]">
-          {/* Heading (Figma: width: 831px, height: 86px) */}
+      {/* Main: stack on mobile/tablet; fixed desktop height matches Figma 556:1898 (838px) */}
+      <div className="relative z-10 mx-auto flex w-full max-w-[1920px] flex-col overflow-hidden lg:h-[720px] lg:flex-row lg:items-center xl:h-[780px] 2xl:h-[838px]">
+        {/* Left Content Area (Figma Group 2085665634: left 135px, top 87px) */}
+        <div className="relative z-10 flex w-full flex-col justify-start px-5 pb-6 pt-10 sm:px-8 md:px-10 lg:max-w-[50vw] lg:min-h-[546px] lg:px-[6vw] lg:pb-10 lg:pt-14 2xl:max-w-[927px] 2xl:pl-[135px] 2xl:pr-4 2xl:pt-[87px]">
           {title && (
-            <div className="mb-6 2xl:mb-8 max-w-[831px]">
+            <div className="mb-5 max-w-[831px] lg:mb-6 2xl:mb-8">
               {renderHeading(title, highlightTitle)}
             </div>
           )}
 
-          {/* Message Body */}
           {description && (
             <div
-              className="prose max-w-[927px] font-sans text-[clamp(1rem,0.85rem+0.45vw,1.5rem)] font-normal leading-[160%] text-[#5A5A5A] space-y-4 xl:space-y-6 [&_p]:mb-4 xl:[&_p]:mb-6 [&_p:last-child]:mb-0"
+              className="prose max-w-[927px] space-y-4 font-sans text-[clamp(1rem,0.85rem+0.45vw,1.5rem)] font-normal leading-[160%] text-[#5A5A5A] xl:space-y-6 [&_p]:mb-4 [&_p:last-child]:mb-0 xl:[&_p]:mb-6"
               dangerouslySetInnerHTML={{ __html: description }}
             />
           )}
 
-          {/* Author Signature Block */}
           {(authorName || authorRole) && (
-            <div className="mt-8 2xl:mt-10 flex flex-col items-start">
+            <div className="mt-6 flex flex-col items-start lg:mt-8 2xl:mt-10">
               {authorName && (
                 <span className="font-serif text-[clamp(1.5rem,1.25rem+0.75vw,2.25rem)] font-normal leading-tight text-[#F01424]">
                   {authorName}
@@ -167,12 +163,10 @@ export const CeoMessageSection: React.FC<CeoMessageSectionProps> = ({
           )}
         </div>
 
-        {/* Visual Stage: Figma exact placement (Left: 1015px, Watermark Left: 1302px) */}
-        {/* Desktop View (lg and up) */}
-        <div className="hidden lg:block pointer-events-none select-none absolute inset-0 z-0 overflow-visible">
-          {/* Watermark Portrait (Figma: width 618px, height 838px, left: 1302px, top: 0px, opacity: 0.4) */}
+        {/* Desktop portraits — Figma left 1015 / watermark 1302 */}
+        <div className="pointer-events-none absolute inset-0 z-0 hidden overflow-visible select-none lg:block">
           <div
-            className="absolute top-0 bottom-0 right-0 h-full aspect-[618/838] opacity-40 grayscale contrast-125 z-[1] 2xl:right-auto 2xl:left-[1302px] 2xl:w-[618px]"
+            className="absolute top-0 right-0 bottom-0 z-[1] aspect-[618/838] h-full opacity-40 grayscale contrast-125 2xl:right-auto 2xl:left-[1302px] 2xl:w-[618px]"
             aria-hidden="true"
           >
             <Image
@@ -187,10 +181,7 @@ export const CeoMessageSection: React.FC<CeoMessageSectionProps> = ({
             />
           </div>
 
-          {/* Foreground Portrait (Figma: width 717px, height 838px, left: 1015px, top: 0px, opacity: 1) */}
-          <div
-            className="absolute top-0 bottom-0 h-full aspect-[717/838] z-[2] right-[10vw] xl:right-[12vw] 2xl:right-auto 2xl:left-[1015px] 2xl:w-[717px]"
-          >
+          <div className="absolute top-0 right-[10vw] bottom-0 z-[2] aspect-[717/838] h-full xl:right-[12vw] 2xl:right-auto 2xl:left-[1015px] 2xl:w-[717px]">
             <Image
               src={imgSrc}
               alt={`${authorName} - ${authorRole}`}
@@ -204,29 +195,29 @@ export const CeoMessageSection: React.FC<CeoMessageSectionProps> = ({
           </div>
         </div>
 
-        {/* Mobile / Tablet Responsive Fallback Container */}
-        <div className="lg:hidden relative w-full flex justify-center items-end min-h-[460px] sm:min-h-[560px] mt-6 overflow-hidden pointer-events-none select-none">
+        {/* Mobile / tablet portrait under copy */}
+        <div className="relative mt-2 flex w-full items-end justify-center overflow-hidden select-none pointer-events-none lg:hidden min-h-[22rem] sm:min-h-[28rem]">
           <div
-            className="absolute right-0 bottom-0 w-[280px] sm:w-[380px] h-[440px] sm:h-[540px] opacity-40 grayscale contrast-125 z-[1] translate-x-6"
+            className="absolute right-0 bottom-0 z-[1] h-[20rem] w-[16rem] translate-x-4 opacity-40 grayscale contrast-125 sm:h-[26rem] sm:w-[22rem] sm:translate-x-6"
             aria-hidden="true"
           >
             <Image
               src={wmSrc}
               alt=""
               fill
-              sizes="(max-width: 768px) 280px, 380px"
+              sizes="(max-width: 768px) 256px, 352px"
               className="object-cover object-bottom"
               priority
               unoptimized
               onError={() => setWmSrc(DEFAULT_IMAGE_SRC)}
             />
           </div>
-          <div className="relative z-[2] w-[300px] sm:w-[420px] h-[460px] sm:h-[560px] shrink-0">
+          <div className="relative z-[2] h-[22rem] w-[17rem] shrink-0 sm:h-[28rem] sm:w-[24rem]">
             <Image
               src={imgSrc}
               alt={`${authorName} - ${authorRole}`}
               fill
-              sizes="(max-width: 768px) 300px, 420px"
+              sizes="(max-width: 768px) 272px, 384px"
               className="object-cover object-bottom drop-shadow-sm"
               priority
               unoptimized
@@ -234,7 +225,6 @@ export const CeoMessageSection: React.FC<CeoMessageSectionProps> = ({
             />
           </div>
         </div>
-
       </div>
     </section>
   );

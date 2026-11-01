@@ -229,7 +229,7 @@ export const MissionVisionPromiseSection: React.FC<MissionVisionPromiseSectionPr
     <section
       aria-label={finalTitle}
       /* Figma: width: 1920px; height: 990px; background: #F6F6F6; */
-      className="relative w-full max-w-[1920px] mx-auto min-h-[clamp(850px,51.56vw,990px)] overflow-hidden bg-[#F6F6F6] flex flex-col justify-center py-16 lg:py-0 my-0"
+      className="relative mx-auto my-0 flex w-full max-w-[1920px] flex-col justify-center overflow-hidden bg-[#F6F6F6] py-12 sm:py-14 lg:min-h-[clamp(850px,51.56vw,990px)] lg:py-0"
     >
       {/* Background Graphic: Figma ChatGPT Image Oct 5, 2026, 10_17_40 PM 1 */}
       <div className="absolute inset-0 w-full h-full pointer-events-none select-none z-0">
