@@ -116,7 +116,7 @@ export const BuiltAroundMissionsSection: React.FC<BuiltAroundMissionsSectionProp
     <section
       aria-label={finalTitle}
       /* Figma: width: 1920px; height: 799px; background: #FFFFFF; */
-      className="relative w-full max-w-[1920px] mx-auto min-h-[clamp(720px,41.6vw,799px)] overflow-hidden bg-white flex flex-col justify-center py-16 lg:py-[clamp(3.5rem,4.16vw,5rem)] my-0"
+      className="relative mx-auto my-0 flex w-full max-w-[1920px] flex-col justify-center overflow-hidden bg-white py-12 sm:py-14 lg:min-h-[clamp(720px,41.6vw,799px)] lg:py-[clamp(3.5rem,4.16vw,5rem)]"
     >
       {/* 1920px canvas with 120px side margins: (1920 - 1680) / 2 = 120px */}
       <div className="relative z-10 w-full px-6 sm:px-10 lg:px-[clamp(2.5rem,6.25vw,7.5rem)]">

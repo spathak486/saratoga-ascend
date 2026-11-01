@@ -47,7 +47,7 @@ export async function generateMetadata({ params }: DynamicPageProps): Promise<Me
     if (blogResult.data) pageData = blogResult.data;
   }
 
-  if (!pageData && (slugPath === '' || slugPath === 'about-us')) {
+  if (!pageData && (slugPath === '' || slugPath === 'about-us' || slugPath === 'contact')) {
     const { getMockPageBySlug } = await import('@/lib/mocks');
     pageData = getMockPageBySlug(slugPath);
   }
@@ -104,7 +104,7 @@ export default async function DynamicPage({ params }: DynamicPageProps) {
     if (blogResult.data) pageData = blogResult.data;
   }
 
-  if (!pageData && (slugPath === '' || slugPath === 'about-us')) {
+  if (!pageData && (slugPath === '' || slugPath === 'about-us' || slugPath === 'contact')) {
     const { getMockPageBySlug } = await import('@/lib/mocks');
     pageData = getMockPageBySlug(slugPath);
   }
