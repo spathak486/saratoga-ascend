@@ -132,8 +132,9 @@ export interface MediaBanner extends Struct.ComponentSchema {
     bannerSubTitle: Schema.Attribute.Text;
     bannerTitle: Schema.Attribute.String & Schema.Attribute.Required;
     buttonCTA: Schema.Attribute.Component<'shared.general-link', false>;
+    secondaryButtonCTA: Schema.Attribute.Component<'shared.general-link', false>;
     variant: Schema.Attribute.Enumeration<
-      ['homebanner', 'default', 'gradient', 'blog']
+      ['homebanner', 'homebanner-two-buttons', 'default', 'gradient', 'blog']
     > &
       Schema.Attribute.Required &
       Schema.Attribute.DefaultTo<'homebanner'>;

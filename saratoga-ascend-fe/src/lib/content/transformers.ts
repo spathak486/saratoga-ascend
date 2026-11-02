@@ -68,6 +68,7 @@ export function resolveSectionImages(
             ...heroBanner.banner,
             bannerImage: unwrapImage(heroBanner.banner.bannerImage),
             buttonCTA: resolveLink(heroBanner.banner.buttonCTA),
+            secondaryButtonCTA: resolveLink(heroBanner.banner.secondaryButtonCTA),
           },
         },
       };

@@ -12,6 +12,7 @@ export const BannerComponentSchema = z.object({
   bannerDescription: z.string().nullable().optional(),
   bannerImage: StrapiImageSchema.nullable().optional(),
   buttonCTA: GeneralLinkSchema.nullable().optional(),
+  secondaryButtonCTA: GeneralLinkSchema.nullable().optional(),
   variant: z.string().nullable().optional(),
 });
 
