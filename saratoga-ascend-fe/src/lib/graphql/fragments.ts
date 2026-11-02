@@ -41,6 +41,7 @@ export const BANNER_FIELDS = `
   variant
   bannerImage { ${IMAGE_FIELDS} }
   buttonCTA { ${GENERAL_LINK_FIELDS} }
+  secondaryButtonCTA { ${GENERAL_LINK_FIELDS} }
 `;
 
 
