@@ -60,7 +60,6 @@ function getStepTone(card: WorkflowCardItem, index: number, isRightSide: boolean
   if (card.actionTone === 'red' || card.actionTone === 'sky') {
     return card.actionTone;
   }
-  // Alternate tones naturally: Left side (01 Blue, 04 Red), Right side (02 Red, 03 Blue)
   if (isRightSide) {
     return index % 2 === 0 ? 'red' : 'sky';
   }
@@ -76,7 +75,6 @@ function StepIcon({ number, tone, iconUrl, title }: { number: string; tone: 'sky
   const numInt = parseInt(number.replace(/\D/g, '') || '1', 10);
 
   if (numInt % 4 === 1) {
-    // 01 / Stethoscope / Clinical assessment icon
     return (
       <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
         <path d="M4.8 2.4A2.4 2.4 0 0 0 2.4 4.8v4.8a7.2 7.2 0 0 0 14.4 0V4.8a2.4 2.4 0 0 0-2.4-2.4" />
@@ -87,7 +85,6 @@ function StepIcon({ number, tone, iconUrl, title }: { number: string; tone: 'sky
   }
 
   if (numInt % 4 === 2) {
-    // 02 / Database / Planning icon
     return (
       <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
         <ellipse cx="12" cy="5" rx="9" ry="3" />
@@ -98,7 +95,6 @@ function StepIcon({ number, tone, iconUrl, title }: { number: string; tone: 'sky
   }
 
   if (numInt % 4 === 3) {
-    // 03 / Team / Deploy icon
     return (
       <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
         <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
@@ -109,7 +105,6 @@ function StepIcon({ number, tone, iconUrl, title }: { number: string; tone: 'sky
     );
   }
 
-  // 04 / Communication / Support icon
   return (
     <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
       <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
@@ -119,6 +114,7 @@ function StepIcon({ number, tone, iconUrl, title }: { number: string; tone: 'sky
 
 export function WorkforcePlanningSection({
   title = 'From Workforce Planning to Ongoing Support',
+  highlightTitle = 'From Workforce Planning',
   variant = 'orbital',
   centerImage,
   cards,
@@ -127,7 +123,52 @@ export function WorkforcePlanningSection({
     cards && cards.length > 0 ? cards : DEFAULT_STEPS;
 
   const [activeIndex, setActiveIndex] = useState(0);
-  const displayTitle = title?.trim() || 'From Workforce Planning to Ongoing Support';
+
+  // Render title with highlight (highlight in #F01424 Red, non-highlighted in #000000 Black)
+  const renderTitle = () => {
+    const rawTitle = title?.trim() || 'From Workforce Planning to Ongoing Support';
+    const rawHighlight = highlightTitle?.trim() || '';
+
+    if (!rawTitle && !rawHighlight) return null;
+
+    if (!rawHighlight) {
+      return <span className="text-[#F01424] font-normal">{rawTitle}</span>;
+    }
+
+    if (!rawTitle) {
+      return <span className="text-[#F01424] font-normal">{rawHighlight}</span>;
+    }
+
+    // Check if rawHighlight is contained in rawTitle (case-insensitive)
+    const escapedHighlight = rawHighlight.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const regex = new RegExp(`(${escapedHighlight})`, 'i');
+
+    if (regex.test(rawTitle)) {
+      const parts = rawTitle.split(regex);
+      return parts.map((part, i) => {
+        if (part.toLowerCase() === rawHighlight.toLowerCase()) {
+          return (
+            <span key={i} className="text-[#F01424] font-normal">
+              {part}
+            </span>
+          );
+        }
+        return (
+          <span key={i} className="text-[#000000] font-normal">
+            {part}
+          </span>
+        );
+      });
+    }
+
+    // If highlightTitle is separate in CMS
+    return (
+      <>
+        <span className="text-[#F01424] font-normal">{rawHighlight} </span>
+        <span className="text-[#000000] font-normal">{rawTitle}</span>
+      </>
+    );
+  };
 
   const resolvedCenterImage =
     centerImage?.url || '/images/happy-mature-businessman-using-digital-tablet-while-talking-healthcare-workers-hallway-clinic 1.png';
@@ -139,10 +180,10 @@ export function WorkforcePlanningSection({
         <div className="w-full">
           <div className="mb-14 sm:mb-16 lg:mb-20 max-w-[878px]">
             <h2
-              className="font-serif text-[38px] sm:text-[54px] lg:text-[72px] leading-[115%] lg:leading-[86px] tracking-normal font-normal text-[#F01424]"
+              className="font-serif text-[38px] sm:text-[54px] lg:text-[72px] leading-[115%] lg:leading-[86px] tracking-normal font-normal"
               style={{ fontFamily: "'DM Serif Text', serif" }}
             >
-              {displayTitle}
+              {renderTitle()}
             </h2>
           </div>
           <div className="flex w-full flex-col items-start gap-8 overflow-x-auto pb-4 pt-2 scrollbar-none sm:gap-10 lg:flex-row lg:gap-[94px]">
@@ -187,9 +228,7 @@ export function WorkforcePlanningSection({
     );
   }
 
-  // --- 2. DYNAMIC ORBITAL VARIANT ---
-  // Any number of cards (3, 4, 5, 6, 8, etc.):
-  // Left Column takes first half, Right Column takes second half
+  // --- 2. DYNAMIC ORBITAL VARIANT (Frame 2147226331) ---
   const total = displayCards.length;
   const leftCount = Math.ceil(total / 2);
   const leftCards = displayCards.slice(0, leftCount);
@@ -197,21 +236,21 @@ export function WorkforcePlanningSection({
 
   return (
     <section
-      aria-label={displayTitle}
+      aria-label={title || highlightTitle || 'From Workforce Planning to Ongoing Support'}
       className="relative mx-auto w-full max-w-[1920px] overflow-hidden bg-white py-16 lg:py-[80px] px-4 sm:px-8 xl:px-[120px]"
     >
       {/* Title */}
       <div className="w-full text-center mb-12 lg:mb-[70px]">
         <h2
-          className="font-serif text-[36px] sm:text-[48px] md:text-[56px] lg:text-[72px] leading-[1.15] text-[#F01424] max-w-[1442px] mx-auto"
+          className="font-serif text-[36px] sm:text-[48px] md:text-[56px] lg:text-[72px] leading-[1.15] max-w-[1442px] mx-auto"
           style={{ fontFamily: "'DM Serif Text', serif" }}
         >
-          {displayTitle}
+          {renderTitle()}
         </h2>
       </div>
 
-      {/* --- DESKTOP DYNAMIC ORBITAL VIEW (>= 1280px) --- */}
-      <div className="relative mx-auto hidden xl:flex items-center justify-between w-full max-w-[1680px] min-h-[580px] py-6">
+      {/* --- DESKTOP ORBITAL VIEW (>= 1280px) --- */}
+      <div className="relative mx-auto hidden xl:flex items-center justify-between w-full max-w-[1680px] min-h-[580px] py-4">
         
         {/* LEFT COLUMN PILLS: Icon on Left, Text on Right */}
         <div className="flex flex-col justify-between gap-12 z-20 w-[608px] shrink-0">
@@ -263,38 +302,79 @@ export function WorkforcePlanningSection({
           })}
         </div>
 
-        {/* CENTER ELEMENT: Portrait Circle & Orbital SVG Rings */}
-        <div className="relative w-[440px] h-[440px] flex items-center justify-center shrink-0 mx-4">
+        {/* CENTER ELEMENT: Portrait (422px x 422px) + Exact Figma Orbital Arcs & Accent Dots */}
+        <div className="relative w-[460px] h-[570px] flex items-center justify-center shrink-0">
           
-          {/* Orbital Orbit Ring SVG */}
+          {/* EXACT FIGMA ORBITAL SVG LAYER (Centered at 230, 285) */}
           <svg
-            className="absolute inset-0 w-full h-full pointer-events-none z-10 animate-[spin_60s_linear_infinite]"
-            viewBox="0 0 440 440"
+            className="absolute inset-0 w-full h-full pointer-events-none z-10"
+            viewBox="0 0 460 570"
             fill="none"
           >
-            {/* Blue Top Arc */}
+            {/* Ellipse 12747: Top-center arc (#2B88D9, 5px border) */}
             <path
-              d="M 60 140 A 180 180 0 0 1 380 140"
+              d="M 68 85 Q 230 18 392 85"
               stroke="#2B88D9"
               strokeWidth="5"
               strokeLinecap="round"
             />
-            {/* Red Bottom Arc */}
+
+            {/* Ellipse 12744: Bottom-center arc (#F01424, 5px border) */}
             <path
-              d="M 60 300 A 180 180 0 0 0 380 300"
+              d="M 85 485 Q 230 550 375 485"
               stroke="#F01424"
               strokeWidth="5"
               strokeLinecap="round"
             />
-            {/* Satellite Dots */}
-            <circle cx="50" cy="150" r="12" fill="#2B88D9" />
-            <circle cx="390" cy="150" r="12" fill="#F01424" />
-            <circle cx="50" cy="290" r="12" fill="#F01424" />
-            <circle cx="390" cy="290" r="12" fill="#2B88D9" />
+
+            {/* Ellipse 12746: Top-left arc (#2B88D9, 5px border) */}
+            <path
+              d="M 35 155 Q 12 215 15 275"
+              stroke="#2B88D9"
+              strokeWidth="5"
+              strokeLinecap="round"
+            />
+
+            {/* Ellipse 12745: Bottom-left arc (#F01424, 5px border) */}
+            <path
+              d="M 15 295 Q 15 355 45 415"
+              stroke="#F01424"
+              strokeWidth="5"
+              strokeLinecap="round"
+            />
+
+            {/* Ellipse 12742: Top-right arc (#F01424, 5px border) */}
+            <path
+              d="M 425 150 Q 448 215 445 275"
+              stroke="#F01424"
+              strokeWidth="5"
+              strokeLinecap="round"
+            />
+
+            {/* Ellipse 12743: Bottom-right arc (#2B88D9, 5px border) */}
+            <path
+              d="M 445 295 Q 445 355 415 415"
+              stroke="#2B88D9"
+              strokeWidth="5"
+              strokeLinecap="round"
+            />
+
+            {/* SATELLITE DOTS (24px x 24px) */}
+            {/* Ellipse 12748: Top-left dot (#2B88D9) */}
+            <circle cx="50" cy="140" r="12" fill="#2B88D9" />
+
+            {/* Ellipse 12749: Bottom-left dot (#F01424) */}
+            <circle cx="65" cy="462" r="12" fill="#F01424" />
+
+            {/* Ellipse 12751: Top-right dot (#F01424) */}
+            <circle cx="410" cy="140" r="12" fill="#F01424" />
+
+            {/* Ellipse 12750: Bottom-right dot (#2B88D9) */}
+            <circle cx="395" cy="462" r="12" fill="#2B88D9" />
           </svg>
 
-          {/* Central Portrait (400px x 400px) */}
-          <div className="w-[390px] h-[390px] rounded-full overflow-hidden shadow-lg z-20 border-4 border-white">
+          {/* Ellipse 12741: Confident Healthcare Team Portrait (422px x 422px) */}
+          <div className="w-[422px] h-[422px] rounded-full overflow-hidden shadow-lg z-20 border-[6px] border-white">
             <img
               src={resolvedCenterImage}
               alt={centerImage?.alternativeText || 'Healthcare Team'}
