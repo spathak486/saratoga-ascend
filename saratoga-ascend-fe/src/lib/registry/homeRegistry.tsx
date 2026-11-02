@@ -206,6 +206,8 @@ export const SECTION_REGISTRY: Record<
         mediaAlt={banner?.bannerImage?.alternativeText ?? ctx?.title ?? undefined}
         ctaLabel={banner?.buttonCTA?.label}
         ctaHref={banner?.buttonCTA?.href}
+        secondaryCtaLabel={banner?.secondaryButtonCTA?.label}
+        secondaryCtaHref={banner?.secondaryButtonCTA?.href}
         variant={banner?.variant as any}
         authorName={ctx?.authorName || ctx?.author}
         date={ctx?.date || ctx?.articleDate}

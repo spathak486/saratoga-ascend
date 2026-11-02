@@ -110,9 +110,11 @@ export interface HeroSectionProps {
   description?: string;
   ctaLabel?: string;
   ctaHref?: string;
+  secondaryCtaLabel?: string;
+  secondaryCtaHref?: string;
   mediaMime?: string;
   mediaExt?: string;
-  variant?: 'homebanner' | 'default' | 'gradient' | 'blog';
+  variant?: 'homebanner' | 'homebanner-two-buttons' | 'default' | 'gradient' | 'blog';
   authorName?: string;
   date?: string;
   readTime?: string | number;
@@ -163,6 +165,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   description,
   ctaLabel,
   ctaHref,
+  secondaryCtaLabel,
+  secondaryCtaHref,
   mediaMime,
   mediaExt,
   variant = 'homebanner',
@@ -677,11 +681,26 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             </Text>
           ) : null}
 
-          {ctaLabel && ctaHref ? (
-            <div style={ctaStyle}>
-              <CtaButton href={ctaHref} className="self-start">
-                {ctaLabel}
-              </CtaButton>
+          {(ctaLabel && ctaHref) || (secondaryCtaLabel && secondaryCtaHref) ? (
+            <div
+              style={ctaStyle}
+              className="flex flex-wrap items-center gap-[30px]"
+            >
+              {ctaLabel && ctaHref ? (
+                <CtaButton href={ctaHref} className="self-start">
+                  {ctaLabel}
+                </CtaButton>
+              ) : null}
+
+              {(variant === 'homebanner-two-buttons' || secondaryCtaLabel) && secondaryCtaHref && secondaryCtaLabel ? (
+                <CtaButton
+                  href={secondaryCtaHref}
+                  buttonVariant="outlineNavy"
+                  className="self-start"
+                >
+                  {secondaryCtaLabel}
+                </CtaButton>
+              ) : null}
             </div>
           ) : null}
         </Container>

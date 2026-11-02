@@ -34,10 +34,16 @@
       "component": "shared.general-link",
       "repeatable": false
     },
+    "secondaryButtonCTA": {
+      "type": "component",
+      "component": "shared.general-link",
+      "repeatable": false
+    },
     "variant": {
       "type": "enumeration",
       "enum": [
         "homebanner",
+        "homebanner-two-buttons",
         "default",
         "gradient",
         "blog"

@@ -56,6 +56,7 @@ export interface RawHeroBanner {
   bannerDescription?: string | null;
   bannerImage?: RawStrapiMedia | null;
   buttonCTA?: RawGeneralLink | null;
+  secondaryButtonCTA?: RawGeneralLink | null;
 }
 
 export interface RawPromo {

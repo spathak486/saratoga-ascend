@@ -1,6 +1,7 @@
 import React from 'react';
 import { ArrowUpRightIcon } from '../atoms/icons';
 import { GeneralLink } from '../atoms/GeneralLink';
+import type { ActionVariant } from '../atoms/actionStyles';
 
 /**
  * The page's one call to action: a red-to-blue gradient button with a trailing
@@ -19,6 +20,7 @@ export interface CtaButtonProps {
   shape?: CtaShape;
   /** Drop the arrow — the file omits it on the in-card "Learn More". */
   showArrow?: boolean;
+  buttonVariant?: ActionVariant;
   className?: string;
 }
 
@@ -31,12 +33,13 @@ export const CtaButton: React.FC<CtaButtonProps> = ({
   children,
   shape = 'square',
   showArrow = true,
+  buttonVariant = 'cta',
   className = '',
 }) => (
   <GeneralLink
     href={href}
     variant="button"
-    buttonVariant="cta"
+    buttonVariant={buttonVariant}
     size={shape === 'pill' ? 'ctaPill' : 'cta'}
     rightIcon={showArrow ? arrow : undefined}
     className={`whitespace-nowrap ${className}`.trim()}
