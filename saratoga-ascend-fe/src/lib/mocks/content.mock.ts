@@ -25,6 +25,13 @@ const homeSections: DynamicZoneSection[] = [
           target: '_self',
           isExternal: false,
         },
+        secondaryButtonCTA: {
+          label: 'Explore Solutions',
+          href: '/services',
+          target: '_self',
+          isExternal: false,
+        },
+        variant: 'homebanner_two_buttons',
       },
     },
   },

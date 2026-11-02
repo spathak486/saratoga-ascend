@@ -5,7 +5,7 @@
     "singularName": "workforce-planning-section",
     "pluralName": "workforce-planning-sections",
     "displayName": "Workforce Planning Section",
-    "description": "From Workforce Planning to Ongoing Support interactive step accordion section"
+    "description": "From Workforce Planning to Ongoing Support interactive orbital and step process section"
   },
   "options": {
     "draftAndPublish": true
@@ -23,6 +23,22 @@
     "highlightTitle": {
       "type": "string",
       "default": "From Workforce Planning"
+    },
+    "centerImage": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "variant": {
+      "type": "enumeration",
+      "enum": [
+        "orbital",
+        "accordion"
+      ],
+      "default": "orbital"
     },
     "cards": {
       "type": "relation",

@@ -41,6 +41,7 @@ export const BANNER_FIELDS = `
   variant
   bannerImage { ${IMAGE_FIELDS} }
   buttonCTA { ${GENERAL_LINK_FIELDS} }
+  secondaryButtonCTA { ${GENERAL_LINK_FIELDS} }
 `;
 
 
@@ -438,6 +439,8 @@ export const WORKFORCE_PLANNING_REFERENCE_FIELDS = `
       documentId
       title
       highlightTitle
+      variant
+      centerImage { ${IMAGE_FIELDS} }
       cards {
         documentId
         title

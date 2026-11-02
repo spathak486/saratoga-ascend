@@ -579,6 +579,8 @@ export const SECTION_REGISTRY: Record<
         key={`workforce-planning-${index}`}
         title={wp.title ?? undefined}
         highlightTitle={wp.highlightTitle ?? undefined}
+        variant={wp.variant as any}
+        centerImage={wp.centerImage as any}
         cards={wp.cards as any}
       />
     );

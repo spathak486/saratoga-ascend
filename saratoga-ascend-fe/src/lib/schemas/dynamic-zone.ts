@@ -491,6 +491,8 @@ export const WorkforcePlanningSectionEntitySchema = z.object({
   referenceTitle: z.string().nullable().optional(),
   title: z.string().nullable().optional(),
   highlightTitle: z.string().nullable().optional(),
+  variant: z.string().nullable().optional(),
+  centerImage: StrapiImageSchema.nullable().optional(),
   cards: z.array(ValueCardSchema).nullable().optional(),
 });
 

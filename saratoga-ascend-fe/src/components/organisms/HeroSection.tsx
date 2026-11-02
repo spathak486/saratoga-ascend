@@ -114,7 +114,7 @@ export interface HeroSectionProps {
   secondaryCtaHref?: string;
   mediaMime?: string;
   mediaExt?: string;
-  variant?: 'homebanner' | 'homebanner-two-buttons' | 'default' | 'gradient' | 'blog';
+  variant?: 'homebanner' | 'homebanner_two_buttons' | 'default' | 'gradient' | 'blog';
   authorName?: string;
   date?: string;
   readTime?: string | number;
@@ -692,7 +692,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                 </CtaButton>
               ) : null}
 
-              {(variant === 'homebanner-two-buttons' || secondaryCtaLabel) && secondaryCtaHref && secondaryCtaLabel ? (
+              {(variant === 'homebanner_two_buttons' || secondaryCtaLabel) && secondaryCtaHref && secondaryCtaLabel ? (
                 <CtaButton
                   href={secondaryCtaHref}
                   buttonVariant="outlineNavy"
