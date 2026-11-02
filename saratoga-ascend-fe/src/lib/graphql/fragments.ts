@@ -439,6 +439,8 @@ export const WORKFORCE_PLANNING_REFERENCE_FIELDS = `
       documentId
       title
       highlightTitle
+      variant
+      centerImage { ${IMAGE_FIELDS} }
       cards {
         documentId
         title

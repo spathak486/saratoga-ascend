@@ -457,6 +457,9 @@ export interface ApiAccountableOperatingEnvironmentsSectionAccountableOperatingE
   };
   attributes: {
     cards: Schema.Attribute.Relation<'oneToMany', 'api::card.card'>;
+    centerImage: Schema.Attribute.Media<'images'>;
+    variant: Schema.Attribute.Enumeration<['orbital', 'accordion']> &
+      Schema.Attribute.DefaultTo<'orbital'>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;

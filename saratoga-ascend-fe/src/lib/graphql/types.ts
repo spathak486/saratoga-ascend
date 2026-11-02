@@ -407,6 +407,8 @@ export interface RawWorkforcePlanningSection {
   documentId?: string;
   title?: string | null;
   highlightTitle?: string | null;
+  variant?: 'orbital' | 'accordion' | null;
+  centerImage?: RawStrapiMedia | null;
   cards?: RawValueCard[] | null;
 }
 

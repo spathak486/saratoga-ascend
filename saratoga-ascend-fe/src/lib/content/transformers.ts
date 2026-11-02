@@ -279,6 +279,26 @@ export function resolveSectionImages(
       return section;
     }
 
+    case 'ComponentReferencesWorkforcePlanningReference': {
+      const wpRef = section as any;
+      const wp = wpRef.workforcePlanningSection;
+      if (!wp) return section;
+
+      return {
+        ...section,
+        workforcePlanningSection: {
+          ...wp,
+          centerImage: unwrapImage(wp.centerImage),
+          cards: wp.cards
+            ? wp.cards.map((c: any) => ({
+                ...c,
+                icon: unwrapImage(c.icon),
+              }))
+            : wp.cards,
+        },
+      };
+    }
+
     case 'ComponentReferencesTakeMissionSeriouslyReference': {
       const tmsRef = section as RawTakeMissionSeriouslyReference;
       const tms = tmsRef.takeMissionSeriouslySection;
