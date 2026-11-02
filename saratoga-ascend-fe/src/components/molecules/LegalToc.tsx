@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import type { LegalTocHeading } from '@/lib/legalToc';
 
 export interface LegalTocProps {
@@ -16,15 +16,29 @@ export const LegalToc: React.FC<LegalTocProps> = ({
   headings,
   className = '',
 }) => {
-  const [activeId, setActiveId] = useState<string | null>(
-    headings[0]?.id ?? null,
-  );
+  const initialId = headings[0]?.id ?? null;
+  const [activeId, setActiveId] = useState<string | null>(initialId);
   const [open, setOpen] = useState(false);
+  const activeIdRef = useRef<string | null>(initialId);
+  /** Last TOC click — kept when user scrolls back up to the TOC panel. */
+  const selectedIdRef = useRef<string | null>(null);
+  const clickLockUntilRef = useRef(0);
+
+  const headingIds = useMemo(
+    () => new Set(headings.map((h) => h.id)),
+    [headings],
+  );
 
   const tocId = useMemo(
     () => `legal-toc-${headings.map((h) => h.id).join('-')}`,
     [headings],
   );
+
+  const applyActive = (id: string | null) => {
+    if (!id || id === activeIdRef.current) return;
+    activeIdRef.current = id;
+    setActiveId(id);
+  };
 
   useEffect(() => {
     if (headings.length === 0) return;
@@ -35,19 +49,53 @@ export const LegalToc: React.FC<LegalTocProps> = ({
 
     if (targets.length === 0) return;
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-        if (visible) setActiveId(visible.target.id);
-      },
-      { rootMargin: '-20% 0px -70% 0px', threshold: [0, 0.25, 0.5, 1] },
-    );
+    const syncActiveFromScroll = () => {
+      if (Date.now() < clickLockUntilRef.current) return;
 
-    targets.forEach((el) => observer.observe(el));
-    return () => observer.disconnect();
-  }, [headings, tocId]);
+      const rem =
+        parseFloat(getComputedStyle(document.documentElement).fontSize) || 16;
+      const marker = rem * (3.75 + 4.5 + 1);
+
+      let inView: string | null = null;
+      for (const el of targets) {
+        if (el.getBoundingClientRect().top <= marker) {
+          inView = el.id;
+        } else {
+          break;
+        }
+      }
+
+      if (inView) {
+        // Reading article body — follow scroll position.
+        applyActive(inView);
+        return;
+      }
+
+      // No section in the marker band (e.g. scrolled back up to the TOC).
+      // Keep the clicked / hashed item instead of jumping to the first link.
+      const hashId = window.location.hash.replace(/^#/, '');
+      const fallback =
+        selectedIdRef.current && headingIds.has(selectedIdRef.current)
+          ? selectedIdRef.current
+          : hashId && headingIds.has(hashId)
+            ? hashId
+            : null;
+
+      if (fallback) {
+        applyActive(fallback);
+      }
+    };
+
+    syncActiveFromScroll();
+    window.addEventListener('scroll', syncActiveFromScroll, { passive: true });
+    window.addEventListener('resize', syncActiveFromScroll);
+    window.addEventListener('hashchange', syncActiveFromScroll);
+    return () => {
+      window.removeEventListener('scroll', syncActiveFromScroll);
+      window.removeEventListener('resize', syncActiveFromScroll);
+      window.removeEventListener('hashchange', syncActiveFromScroll);
+    };
+  }, [headings, headingIds, tocId]);
 
   if (headings.length === 0) return null;
 
@@ -56,17 +104,28 @@ export const LegalToc: React.FC<LegalTocProps> = ({
       <a
         href={`#${heading.id}`}
         onClick={(e) => {
-          setOpen(false);
+          e.preventDefault();
+
+          selectedIdRef.current = heading.id;
+          clickLockUntilRef.current = Date.now() + 1200;
+          applyActive(heading.id);
+
           const target = document.getElementById(heading.id);
           if (target) {
-            e.preventDefault();
-            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            history.pushState(null, '', `#${heading.id}`);
+            const reduceMotion = window.matchMedia(
+              '(prefers-reduced-motion: reduce)',
+            ).matches;
+            target.scrollIntoView({
+              behavior: reduceMotion ? 'auto' : 'smooth',
+              block: 'start',
+            });
           }
+          history.pushState(null, '', `#${heading.id}`);
         }}
         className={`legal-toc-link ${
           heading.level === 3 ? 'legal-toc-link--nested' : ''
         } ${activeId === heading.id ? 'is-active' : ''}`}
+        aria-current={activeId === heading.id ? 'location' : undefined}
       >
         {heading.text}
       </a>
@@ -110,12 +169,12 @@ export const LegalToc: React.FC<LegalTocProps> = ({
       aria-label="Table of contents"
       id={tocId}
     >
-      <div className="hidden lg:block">
+      <div className="hidden xl:block">
         <h3 className="legal-toc-label">Table of contents</h3>
         {frame()}
       </div>
 
-      <div className="lg:hidden">
+      <div className="xl:hidden">
         <button
           type="button"
           onClick={() => setOpen((prev) => !prev)}

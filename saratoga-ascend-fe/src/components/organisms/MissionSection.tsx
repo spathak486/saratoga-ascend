@@ -27,14 +27,27 @@ const BUTTERFLY_SRC = '/images/four-decades.gif';
 const ACCENT = 'Military & Federal';
 const FEDERAL_HREF = '/federal';
 
-function titleWithAccent(title: string): React.ReactNode {
-  const index = title.indexOf(ACCENT);
-  if (index === -1) return title;
+function accentSegment(text: string): React.ReactNode {
+  const index = text.indexOf(ACCENT);
+  if (index === -1) return text;
   return (
     <>
-      {title.slice(0, index)}
+      {text.slice(0, index)}
       <span className="text-brand-cta-from">{ACCENT}</span>
-      {title.slice(index + ACCENT.length)}
+      {text.slice(index + ACCENT.length)}
+    </>
+  );
+}
+
+/** Break after the first sentence so the second line starts cleanly after the period. */
+function titleWithAccent(title: string): React.ReactNode {
+  const match = title.match(/^(.+?\.)\s+(.+)$/s);
+  if (!match) return accentSegment(title);
+  return (
+    <>
+      {accentSegment(match[1])}
+      <br />
+      {accentSegment(match[2])}
     </>
   );
 }
@@ -123,11 +136,11 @@ export const MissionSection: React.FC<MissionSectionProps> = ({
       tone="surface"
       spacing="none"
       className="overflow-hidden max-xl:bg-[linear-gradient(to_bottom,#f2f5f9_38.935%,#ffccd1_100%)]"
-      containerClassName="py-5 xl:py-[1.875rem]"
+      containerClassName="py-10 sm:py-12 xl:py-16"
       style={{ backgroundColor: '#ffe6e8' }}
     >
       <div className="grid grid-cols-1 items-start gap-10 max-xl:gap-[1.875rem] xl:grid-cols-[minmax(0,960fr)_minmax(0,641fr)] xl:gap-[79px]">
-        <div className="flex min-w-0 flex-col gap-[1.875rem] max-xl:gap-3">
+        <div className="flex min-w-0 flex-col gap-[1.875rem] max-xl:gap-5">
           {title ? (
             <Heading
               id="about-us-heading"
@@ -148,42 +161,58 @@ export const MissionSection: React.FC<MissionSectionProps> = ({
           ) : null}
 
           {items.length > 0 ? (
-            <ul className="grid grid-cols-1 gap-3 xl:grid-cols-2 xl:gap-[1.875rem]">
-              {items.map((item, index) => {
-                const text = item.text.trim();
-                if (!text) return null;
-                const detail = item.subtext?.trim();
-                return (
-                  <li
-                    key={`${index}-${text}`}
-                    className="flex items-start gap-3 rounded-2xl border border-[#ffe4e6] bg-white p-3 max-xl:flex-col"
-                  >
-                    <FeatureCheck />
-                    <div className="flex min-w-0 flex-1 flex-col gap-3">
-                      <p className="font-serif text-[clamp(1.125rem,1.02rem+0.45vw,1.375rem)] leading-8 text-[#1e293b] max-xl:text-[1.375rem]!">
-                        {text}
-                      </p>
-                      {detail ? (
-                        <p className="font-sans text-[clamp(0.9375rem,0.88rem+0.25vw,1.125rem)] leading-5 text-[#64748b] max-xl:text-[1.125rem]!">
-                          {detail}
+            <div className="flex w-full flex-col gap-6 xl:gap-8">
+              <ul className="grid grid-cols-1 gap-3 xl:grid-cols-2 xl:gap-[1.875rem]">
+                {items.map((item, index) => {
+                  const text = item.text.trim();
+                  if (!text) return null;
+                  const detail = item.subtext?.trim();
+                  return (
+                    <li
+                      key={`${index}-${text}`}
+                      className="flex items-start gap-3 rounded-2xl border border-[#ffe4e6] bg-white p-3 max-xl:flex-col sm:p-4"
+                    >
+                      <FeatureCheck />
+                      <div className="flex min-w-0 flex-1 flex-col gap-2 sm:gap-3">
+                        <p className="font-serif text-[clamp(1.25rem,1.1rem+0.6vw,1.625rem)] leading-[1.3] text-[#1e293b] max-xl:text-[1.5rem]!">
+                          {text}
                         </p>
-                      ) : null}
-                    </div>
-                  </li>
-                );
-              })}
-            </ul>
-          ) : null}
+                        {detail ? (
+                          <p className="font-sans text-[clamp(1.0625rem,0.98rem+0.35vw,1.25rem)] leading-[1.4] text-[#64748b] max-xl:text-[1.1875rem]!">
+                            {detail}
+                          </p>
+                        ) : null}
+                      </div>
+                    </li>
+                  );
+                })}
+              </ul>
 
-          <GeneralLink
-            href={cta?.href || FEDERAL_HREF}
-            target={cta?.target || '_self'}
-            variant="unstyled"
-            rightIcon={<ArrowUpRightIcon className="size-6" />}
-            className="inline-flex w-fit items-center gap-3 rounded-button bg-cta-gradient px-6 py-3 font-sans text-button font-medium text-white shadow-button transition-opacity duration-200 hover:opacity-90 max-xl:w-full max-xl:justify-center max-xl:text-sm max-xl:leading-[1.125rem] max-xl:font-normal"
-          >
-            {cta?.label || 'Explore Federal Solutions'}
-          </GeneralLink>
+              <div className="flex justify-center">
+                <GeneralLink
+                  href={cta?.href || FEDERAL_HREF}
+                  target={cta?.target || '_self'}
+                  variant="unstyled"
+                  rightIcon={<ArrowUpRightIcon className="size-6" />}
+                  className="inline-flex w-fit items-center gap-3 rounded-button bg-cta-gradient px-6 py-3 font-sans text-button font-medium text-white shadow-button transition-opacity duration-200 hover:opacity-90 max-xl:w-full max-xl:max-w-md max-xl:justify-center max-xl:text-sm max-xl:leading-[1.125rem] max-xl:font-normal"
+                >
+                  {cta?.label || 'Explore Federal Solutions'}
+                </GeneralLink>
+              </div>
+            </div>
+          ) : (
+            <div className="flex justify-center">
+              <GeneralLink
+                href={cta?.href || FEDERAL_HREF}
+                target={cta?.target || '_self'}
+                variant="unstyled"
+                rightIcon={<ArrowUpRightIcon className="size-6" />}
+                className="inline-flex w-fit items-center gap-3 rounded-button bg-cta-gradient px-6 py-3 font-sans text-button font-medium text-white shadow-button transition-opacity duration-200 hover:opacity-90 max-xl:w-full max-xl:max-w-md max-xl:justify-center max-xl:text-sm max-xl:leading-[1.125rem] max-xl:font-normal"
+              >
+                {cta?.label || 'Explore Federal Solutions'}
+              </GeneralLink>
+            </div>
+          )}
         </div>
 
         <div

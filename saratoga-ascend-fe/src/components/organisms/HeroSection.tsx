@@ -332,16 +332,19 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           day: 'numeric',
           year: 'numeric',
         })
-      : 'December 6, 2025';
-    const displayAuthor = authorName || 'Jenny Wilson';
+      : null;
+    const displayAuthor = authorName?.trim() || null;
     const displayReadTime = readTime
       ? `${typeof readTime === 'string' && readTime.toLowerCase().includes('read') ? readTime : `${readTime} min Read`}`
-      : '10 min Read';
+      : null;
+    const hasMeta = Boolean(displayAuthor || formattedDate || displayReadTime);
+    const shareFocusClass =
+      'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-navy';
 
     return (
-      <section className="relative w-full overflow-hidden bg-white py-8 md:py-12 px-4 sm:px-8 xl:px-[120px] flex justify-center">
-        {/* Frame 2147225834: 1680px max width card with 40px rounded corners */}
-        <div className="relative w-full max-w-[1680px] min-h-[500px] md:min-h-[600px] xl:min-h-[654px] rounded-[30px] sm:rounded-[40px] overflow-hidden flex flex-col justify-end p-6 sm:p-10 md:p-12 xl:p-[54px] shadow-sm">
+      <section className="relative flex w-full justify-center overflow-hidden bg-white px-page py-6 sm:py-8 xl:py-12">
+        {/* Figma 563:1383 Frame 2147225834: 1680×654, radius 40, inset ~54. Stack meta under title through tablet. */}
+        <div className="relative flex min-h-[20rem] w-full max-w-[1680px] flex-col justify-end overflow-hidden rounded-[24px] p-5 shadow-sm sm:min-h-[26rem] sm:rounded-[32px] sm:p-8 md:min-h-[34rem] md:p-10 xl:min-h-[654px] xl:rounded-[40px] xl:p-[54px]">
           {/* Background image & Fallback */}
           {resolvedVideoSrc ? (
             <video
@@ -372,93 +375,101 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           />
 
           {/* Bottom Content Area: Title on Left, Meta & Social Share on Right */}
-          <div className="relative z-10 flex flex-col lg:flex-row lg:items-end justify-between gap-8 w-full">
+          <div className="relative z-10 flex w-full flex-col justify-between gap-5 sm:gap-6 xl:flex-row xl:items-end xl:gap-8">
             {/* Left: How we support state and local agencies / Title */}
             <div className="max-w-[888px] flex-1">
-              <h1 className="font-serif font-normal text-[32px] sm:text-[40px] md:text-[48px] xl:text-[50px] leading-[1.2] xl:leading-[69px] text-[#000000] tracking-tight">
+              <h1 className="font-serif text-[28px] font-normal leading-[1.2] tracking-tight text-[#000000] sm:text-[36px] md:text-[44px] xl:text-[50px] xl:leading-[69px]">
                 {title || 'How we support state and local agencies'}
               </h1>
             </div>
 
             {/* Divider (Figma: Rectangle 40129: width: 3px, height: 110px, background: #8C8C8C) */}
             <div
-              className="hidden xl:block w-[3px] h-[110px] bg-[#8C8C8C] shrink-0 mx-2"
+              className="mx-2 hidden h-[110px] w-[3px] shrink-0 bg-[#8C8C8C] xl:block"
               aria-hidden="true"
             />
 
             {/* Right: Author, Date, Read Time Pills & Share Icons */}
-            <div className="flex flex-col gap-5 sm:gap-6 shrink-0 max-w-full">
-              {/* Meta Pills (Group 2085665607) */}
-              <div className="flex flex-wrap items-center gap-3 sm:gap-4 text-[#022E4C]">
-                {/* Author Pill */}
-                <div className="flex items-center gap-2 bg-[#F2F6F9] px-4 py-2.5 rounded-[20px] h-[44px]">
-                  <svg
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="#141B34"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="shrink-0"
-                  >
-                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                    <circle cx="12" cy="7" r="4" />
-                  </svg>
-                  <span className="font-serif text-[16px] sm:text-[18px] leading-[22px] whitespace-nowrap">
-                    {displayAuthor}
-                  </span>
-                </div>
+            <div className="flex max-w-full shrink-0 flex-col gap-4 sm:gap-5 xl:gap-6">
+              {/* Meta Pills (Group 2085665607) — only CMS-backed fields */}
+              {hasMeta ? (
+                <div className="flex flex-wrap items-center gap-2 text-[#022E4C] sm:gap-3 xl:gap-4">
+                  {displayAuthor ? (
+                    <div className="flex h-10 items-center gap-2 rounded-[20px] bg-[#F2F6F9] px-3 py-2 sm:h-[44px] sm:px-4 sm:py-2.5">
+                      <svg
+                        width="20"
+                        height="20"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="#141B34"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="shrink-0"
+                        aria-hidden="true"
+                      >
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                        <circle cx="12" cy="7" r="4" />
+                      </svg>
+                      <span className="whitespace-nowrap font-serif text-[15px] leading-[22px] sm:text-[18px]">
+                        {displayAuthor}
+                      </span>
+                    </div>
+                  ) : null}
 
-                {/* Date Pill */}
-                <div className="flex items-center gap-2 bg-[#F2F6F9] px-4 py-2.5 rounded-[20px] h-[44px]">
-                  <svg
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="#141B34"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="shrink-0"
-                  >
-                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
-                    <line x1="16" y1="2" x2="16" y2="6" />
-                    <line x1="8" y1="2" x2="8" y2="6" />
-                    <line x1="3" y1="10" x2="21" y2="10" />
-                  </svg>
-                  <span className="font-serif text-[16px] sm:text-[18px] leading-[22px] whitespace-nowrap">
-                    {formattedDate}
-                  </span>
-                </div>
+                  {formattedDate ? (
+                    <div className="flex h-10 items-center gap-2 rounded-[20px] bg-[#F2F6F9] px-3 py-2 sm:h-[44px] sm:px-4 sm:py-2.5">
+                      <svg
+                        width="20"
+                        height="20"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="#141B34"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="shrink-0"
+                        aria-hidden="true"
+                      >
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                        <line x1="16" y1="2" x2="16" y2="6" />
+                        <line x1="8" y1="2" x2="8" y2="6" />
+                        <line x1="3" y1="10" x2="21" y2="10" />
+                      </svg>
+                      <span className="whitespace-nowrap font-serif text-[15px] leading-[22px] sm:text-[18px]">
+                        {formattedDate}
+                      </span>
+                    </div>
+                  ) : null}
 
-                {/* Read Time Pill */}
-                <div className="flex items-center gap-2 bg-[#F2F6F9] px-4 py-2.5 rounded-[20px] h-[44px]">
-                  <svg
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="#022E4C"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="shrink-0"
-                  >
-                    <circle cx="12" cy="12" r="10" />
-                    <polyline points="12 6 12 12 16 14" />
-                  </svg>
-                  <span className="font-serif text-[16px] sm:text-[18px] leading-[22px] whitespace-nowrap">
-                    {displayReadTime}
-                  </span>
+                  {displayReadTime ? (
+                    <div className="flex h-10 items-center gap-2 rounded-[20px] bg-[#F2F6F9] px-3 py-2 sm:h-[44px] sm:px-4 sm:py-2.5">
+                      <svg
+                        width="20"
+                        height="20"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="#022E4C"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="shrink-0"
+                        aria-hidden="true"
+                      >
+                        <circle cx="12" cy="12" r="10" />
+                        <polyline points="12 6 12 12 16 14" />
+                      </svg>
+                      <span className="whitespace-nowrap font-serif text-[15px] leading-[22px] sm:text-[18px]">
+                        {displayReadTime}
+                      </span>
+                    </div>
+                  ) : null}
                 </div>
-              </div>
+              ) : null}
 
               {/* Share Row (Frame 2147226424) */}
-              <div className="flex items-center gap-3">
-                <div className="flex items-center gap-2 font-serif text-[18px] leading-[22px] text-[#022E4C] select-none">
+              <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+                <div className="flex select-none items-center gap-2 font-serif text-[16px] leading-[22px] text-[#022E4C] sm:text-[18px]">
                   <svg
                     width="18"
                     height="18"
@@ -468,6 +479,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                     strokeWidth="1.5"
                     strokeLinecap="round"
                     strokeLinejoin="round"
+                    aria-hidden="true"
                   >
                     <circle cx="18" cy="5" r="3" />
                     <circle cx="6" cy="12" r="3" />
@@ -493,7 +505,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                           target="_blank"
                           rel="noopener noreferrer"
                           aria-label={item.title || item.platform || `Social link ${sIdx + 1}`}
-                          className="w-10 h-10 sm:w-11 sm:h-11 rounded-full border border-gray-300 bg-white/70 hover:bg-white flex items-center justify-center transition-colors shadow-sm overflow-hidden"
+                          className={`flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border border-gray-300 bg-white/70 shadow-sm transition-colors hover:bg-white sm:h-11 sm:w-11 ${shareFocusClass}`}
                         >
                           {iconUrl ? (
                             <img
@@ -541,7 +553,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                         target="_blank"
                         rel="noopener noreferrer"
                         aria-label="Share on X (Twitter)"
-                        className="w-10 h-10 sm:w-11 sm:h-11 rounded-full border border-gray-300 bg-white/70 hover:bg-white flex items-center justify-center transition-colors shadow-sm"
+                        className={`flex h-10 w-10 items-center justify-center rounded-full border border-gray-300 bg-white/70 shadow-sm transition-colors hover:bg-white sm:h-11 sm:w-11 ${shareFocusClass}`}
                       >
                         <svg className="w-4 h-4 fill-black" viewBox="0 0 24 24">
                           <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
@@ -554,7 +566,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                         target="_blank"
                         rel="noopener noreferrer"
                         aria-label="Share on Instagram"
-                        className="w-10 h-10 sm:w-11 sm:h-11 rounded-full border border-gray-300 bg-white/70 hover:bg-white flex items-center justify-center transition-colors shadow-sm"
+                        className={`flex h-10 w-10 items-center justify-center rounded-full border border-gray-300 bg-white/70 shadow-sm transition-colors hover:bg-white sm:h-11 sm:w-11 ${shareFocusClass}`}
                       >
                         <svg
                           className="w-4 h-4 stroke-black fill-none"
@@ -575,7 +587,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                         target="_blank"
                         rel="noopener noreferrer"
                         aria-label="Share on LinkedIn"
-                        className="w-10 h-10 sm:w-11 sm:h-11 rounded-full border border-gray-300 bg-white/70 hover:bg-white flex items-center justify-center transition-colors shadow-sm"
+                        className={`flex h-10 w-10 items-center justify-center rounded-full border border-gray-300 bg-white/70 shadow-sm transition-colors hover:bg-white sm:h-11 sm:w-11 ${shareFocusClass}`}
                       >
                         <svg className="w-4 h-4 fill-black" viewBox="0 0 24 24">
                           <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
@@ -588,7 +600,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                         target="_blank"
                         rel="noopener noreferrer"
                         aria-label="Share on Facebook"
-                        className="w-10 h-10 sm:w-11 sm:h-11 rounded-full border border-gray-300 bg-white/70 hover:bg-white flex items-center justify-center transition-colors shadow-sm"
+                        className={`flex h-10 w-10 items-center justify-center rounded-full border border-gray-300 bg-white/70 shadow-sm transition-colors hover:bg-white sm:h-11 sm:w-11 ${shareFocusClass}`}
                       >
                         <svg className="w-4 h-4 fill-black" viewBox="0 0 24 24">
                           <path d="M9 8H6v4h3v12h5V12h3.642L18 8h-4V6.333C14 5.374 14.5 5 15.6 5H18V0h-3.808C10.592 0 9 1.583 9 4.615V8z" />

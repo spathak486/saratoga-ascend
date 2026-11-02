@@ -232,18 +232,19 @@ export default async function DynamicPage({ params }: DynamicPageProps) {
     return (
       <main id="main" className={`min-h-screen ${toneClass}`.trim()}>
         {bannerNode}
-        <Container className="mx-auto max-w-[1720px] px-4 sm:px-8 xl:px-12 py-10 xl:py-16">
+        {/* Figma 563:1296: 120px gutters (px-page), ~80px band above content, TOC 578 + ~48 gap + article 1054. Stack through tablet; 2-col from xl. */}
+        <Container className="py-8 sm:py-10 xl:py-20">
           {allHeadings.length > 0 ? (
-            <div className="grid items-start gap-10 lg:grid-cols-[minmax(16rem,578px)_minmax(0,1054px)] lg:gap-14 xl:gap-20">
-              <aside className="lg:sticky lg:top-[calc(var(--spacing-utility-h)+var(--spacing-nav-h)+1.5rem)]">
+            <div className="grid items-start gap-8 sm:gap-10 xl:grid-cols-[minmax(16rem,36.125rem)_minmax(0,65.875rem)] xl:gap-12">
+              <aside className="xl:sticky xl:top-[calc(var(--spacing-utility-h)+var(--spacing-nav-h)+1.5rem)]">
                 <LegalToc headings={allHeadings} />
               </aside>
-              <article className="min-w-0 w-full flex flex-col gap-8">
+              <article className="flex w-full min-w-0 flex-col gap-6 sm:gap-7 xl:gap-8">
                 {renderedContent}
               </article>
             </div>
           ) : (
-            <article className="mx-auto max-w-[1054px] min-w-0 w-full flex flex-col gap-8">
+            <article className="mx-auto flex w-full min-w-0 max-w-[1054px] flex-col gap-6 sm:gap-7 xl:gap-8">
               {renderedContent}
             </article>
           )}
