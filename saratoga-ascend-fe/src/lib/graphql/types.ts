@@ -403,6 +403,20 @@ export interface RawOurCapabilitiesReference {
   ourCapabilitiesSection?: RawOurCapabilitiesSection | null;
 }
 
+
+export interface RawCriticalMissionsSection {
+  documentId?: string;
+  title?: string | null;
+  highlightTitle?: string | null;
+  description?: string | null;
+  cards?: RawValueCard[] | null;
+}
+
+export interface RawCriticalMissionsReference {
+  __typename: 'ComponentReferencesCriticalMissionsReference';
+  criticalMissionsSection?: RawCriticalMissionsSection | null;
+}
+
 export interface RawWorkforcePlanningSection {
   documentId?: string;
   title?: string | null;
@@ -443,6 +457,7 @@ export type RawDynamicZoneSection =
   | RawAccountableOperatingEnvironmentsReference
   | RawOurCapabilitiesReference
   | RawWorkforcePlanningReference
+  | RawCriticalMissionsReference
   | ({ __typename: string } & Record<string, unknown>);
 
 /** Universal slug-driven page (Strapi `pages` collection). */

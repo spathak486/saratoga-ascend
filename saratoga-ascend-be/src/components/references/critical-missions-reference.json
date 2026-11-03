@@ -1,0 +1,18 @@
+{
+  "collectionName": "components_references_critical_missions_references",
+  "info": {
+    "displayName": "Critical Missions Reference",
+    "icon": "layer",
+    "description": "Supporting the people behind critical healthcare missions vertical scroll section reference"
+  },
+  "options": {},
+  "attributes": {
+    "criticalMissionsSection": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::critical-missions-section.critical-missions-section"
+    }
+  },
+  "config": {}
+}
+
