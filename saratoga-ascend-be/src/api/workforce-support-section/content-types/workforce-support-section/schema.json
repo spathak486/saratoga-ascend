@@ -1,0 +1,34 @@
+{
+  "kind": "collectionType",
+  "collectionName": "workforce_support_sections",
+  "info": {
+    "singularName": "workforce-support-section",
+    "pluralName": "workforce-support-sections",
+    "displayName": "Workforce Support Section",
+    "description": "Workforce support where it matters most 3-column cards section (Frame 2147226469)"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "referenceTitle": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string",
+      "required": true,
+      "default": "Workforce support where it matters most."
+    },
+    "highlightTitle": {
+      "type": "string",
+      "default": "Workforce support"
+    },
+    "cards": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::card.card"
+    }
+  }
+}
+

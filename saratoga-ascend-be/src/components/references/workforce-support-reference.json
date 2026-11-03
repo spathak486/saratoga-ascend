@@ -1,0 +1,17 @@
+{
+  "collectionName": "components_references_workforce_support_references",
+  "info": {
+    "displayName": "Workforce Support Reference",
+    "icon": "layer-group",
+    "description": "Reference component for Workforce Support Section (Frame 2147226469)"
+  },
+  "options": {},
+  "attributes": {
+    "workforceSupportSection": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::workforce-support-section.workforce-support-section"
+    }
+  }
+}
+

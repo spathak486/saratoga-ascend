@@ -38,3 +38,5 @@ export * from './WorkforcePlanningSection';
 export * from './CriticalMissionsSection';
 export * from './KeyTakeawaysSection';
 export * from './StatCardsSection';
+
+export * from './WorkforceSupportSection';
