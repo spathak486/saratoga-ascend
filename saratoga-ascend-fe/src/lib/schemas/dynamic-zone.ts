@@ -12,6 +12,7 @@ export const BannerComponentSchema = z.object({
   bannerDescription: z.string().nullable().optional(),
   bannerImage: StrapiImageSchema.nullable().optional(),
   buttonCTA: GeneralLinkSchema.nullable().optional(),
+  secondaryButtonCTA: GeneralLinkSchema.nullable().optional(),
   variant: z.string().nullable().optional(),
 });
 
@@ -485,11 +486,50 @@ export const OurCapabilitiesReferenceSchema = z.object({
 
 export type OurCapabilitiesReference = z.infer<typeof OurCapabilitiesReferenceSchema>;
 
+
+
+export const WorkforceSupportSectionEntitySchema = z.object({
+  documentId: z.string().optional(),
+  referenceTitle: z.string().nullable().optional(),
+  title: z.string().nullable().optional(),
+  highlightTitle: z.string().nullable().optional(),
+  cards: z.array(ValueCardSchema).nullable().optional(),
+});
+
+export type WorkforceSupportSectionEntity = z.infer<typeof WorkforceSupportSectionEntitySchema>;
+
+export const WorkforceSupportReferenceSchema = z.object({
+  __typename: z.literal('ComponentReferencesWorkforceSupportReference'),
+  workforceSupportSection: WorkforceSupportSectionEntitySchema.nullable().optional(),
+});
+
+export type WorkforceSupportReference = z.infer<typeof WorkforceSupportReferenceSchema>;
+
+export const CriticalMissionsSectionEntitySchema = z.object({
+  documentId: z.string().optional(),
+  referenceTitle: z.string().nullable().optional(),
+  title: z.string().nullable().optional(),
+  highlightTitle: z.string().nullable().optional(),
+  description: z.string().nullable().optional(),
+  cards: z.array(ValueCardSchema).nullable().optional(),
+});
+
+export type CriticalMissionsSectionEntity = z.infer<typeof CriticalMissionsSectionEntitySchema>;
+
+export const CriticalMissionsReferenceSchema = z.object({
+  __typename: z.literal('ComponentReferencesCriticalMissionsReference'),
+  criticalMissionsSection: CriticalMissionsSectionEntitySchema.nullable().optional(),
+});
+
+export type CriticalMissionsReference = z.infer<typeof CriticalMissionsReferenceSchema>;
+
 export const WorkforcePlanningSectionEntitySchema = z.object({
   documentId: z.string().optional(),
   referenceTitle: z.string().nullable().optional(),
   title: z.string().nullable().optional(),
   highlightTitle: z.string().nullable().optional(),
+  variant: z.string().nullable().optional(),
+  centerImage: StrapiImageSchema.nullable().optional(),
   cards: z.array(ValueCardSchema).nullable().optional(),
 });
 
@@ -606,6 +646,8 @@ export const DynamicZoneSectionSchema = z.union([
   AccountableOperatingEnvironmentsReferenceSchema,
   OurCapabilitiesReferenceSchema,
   WorkforcePlanningReferenceSchema,
+  CriticalMissionsReferenceSchema,
+  WorkforceSupportReferenceSchema,
   ContactInquiryReferenceSchema,
   ContactPathwaysReferenceSchema,
   ContactLearnReferenceSchema,

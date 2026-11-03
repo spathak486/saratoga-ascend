@@ -19,6 +19,8 @@ import type {
   AccountableOperatingEnvironmentsReference,
   OurCapabilitiesReference,
   WorkforcePlanningReference,
+  CriticalMissionsReference,
+  WorkforceSupportReference,
   ContactInquiryReference,
   ContactPathwaysReference,
   ContactLearnReference,
@@ -50,6 +52,8 @@ import {
   AccountableOperatingEnvironmentsSection,
   OurCapabilitiesSection,
   WorkforcePlanningSection,
+  CriticalMissionsSection,
+  WorkforceSupportSection,
   ContactInquirySection,
   ContactPathwaysSection,
   ContactLearnSection,
@@ -206,6 +210,8 @@ export const SECTION_REGISTRY: Record<
         mediaAlt={banner?.bannerImage?.alternativeText ?? ctx?.title ?? undefined}
         ctaLabel={banner?.buttonCTA?.label}
         ctaHref={banner?.buttonCTA?.href}
+        secondaryCtaLabel={banner?.secondaryButtonCTA?.label}
+        secondaryCtaHref={banner?.secondaryButtonCTA?.href}
         variant={banner?.variant as any}
         authorName={ctx?.authorName || ctx?.author}
         date={ctx?.date || ctx?.articleDate}
@@ -568,7 +574,34 @@ export const SECTION_REGISTRY: Record<
     );
   },
 
-  ComponentReferencesWorkforcePlanningReference: (section, index) => {
+  ComponentReferencesWorkforceSupportReference: (section, index) => {
+    const wsRef = section as WorkforceSupportReference;
+    const ws = wsRef.workforceSupportSection;
+    return (
+      <WorkforceSupportSection
+        key={'workforce-support-' + index}
+        title={ws?.title ?? undefined}
+        highlightTitle={ws?.highlightTitle ?? undefined}
+        cards={(ws?.cards as any) ?? undefined}
+      />
+    );
+  },
+
+  ComponentReferencesCriticalMissionsReference: (section, index) => {
+    const cmRef = section as CriticalMissionsReference;
+    const cm = cmRef.criticalMissionsSection;
+    return (
+      <CriticalMissionsSection
+        key={'critical-missions-' + index}
+        title={cm?.title ?? undefined}
+        highlightTitle={cm?.highlightTitle ?? undefined}
+        description={cm?.description ?? undefined}
+        cards={(cm?.cards as any) ?? undefined}
+      />
+    );
+  },
+
+    ComponentReferencesWorkforcePlanningReference: (section, index) => {
     const wpRef = section as WorkforcePlanningReference;
     const wp = wpRef.workforcePlanningSection;
     if (!wp || !wp.cards || wp.cards.length === 0) return null;
@@ -577,6 +610,8 @@ export const SECTION_REGISTRY: Record<
         key={`workforce-planning-${index}`}
         title={wp.title ?? undefined}
         highlightTitle={wp.highlightTitle ?? undefined}
+        variant={wp.variant as any}
+        centerImage={wp.centerImage as any}
         cards={wp.cards as any}
       />
     );

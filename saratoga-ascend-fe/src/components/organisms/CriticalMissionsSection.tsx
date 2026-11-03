@@ -1,0 +1,242 @@
+'use client';
+
+import React from 'react';
+
+export interface CriticalMissionCard {
+  id?: string | number | null;
+  documentId?: string | null;
+  number?: string | null;
+  title: string;
+  description: string;
+  isHighlighted?: boolean | null;
+  icon?: {
+    url?: string | null;
+    alternativeText?: string | null;
+  } | null;
+}
+
+export interface CriticalMissionsSectionProps {
+  title?: string | null;
+  highlightTitle?: string | null;
+  description?: string | null;
+  cards?: CriticalMissionCard[] | null;
+}
+
+// Default 6 items matching exact Figma Frame 2147226540 specs
+const DEFAULT_MISSIONS: CriticalMissionCard[] = [
+  {
+    number: '01',
+    title: 'Workforce shortages',
+    description: 'Address gaps in qualified healthcare professionals across clinical, public health, and specialized environments.',
+  },
+  {
+    number: '02',
+    title: 'Coverage continuity',
+    description: 'Maintain seamless care delivery during transitions, leave periods, seasonal fluctuations, and unexpected staffing disruptions.',
+  },
+  {
+    number: '03',
+    title: 'Specialized expertise',
+    description: 'Access hard-to-find clinical and administrative skill sets required for niche programs, patient populations, and compliance needs.',
+  },
+  {
+    number: '04',
+    title: 'Surge requirements',
+    description: 'Quickly mobilize personnel and resources to address sudden spikes in patient volume, public health emergencies, or mission shifts.',
+  },
+  {
+    number: '05',
+    title: 'Operational complexity',
+    description: 'Navigate strict federal and clinical regulations, credentialing standards, multi-facility coordination, and reporting demands.',
+  },
+  {
+    number: '06',
+    title: 'Mission readiness',
+    description: 'Ensure healthcare teams are fully vetted, trained, and prepared to deliver uninterrupted care in high-stakes environments.',
+  },
+];
+
+// Inline vector fallback icons matching Figma's 104x104 icon box (vector geometry)
+function MissionCardIcon({ index, iconUrl, title }: { index: number; iconUrl?: string | null; title?: string }) {
+  if (iconUrl) {
+    return <img src={iconUrl} alt={title || 'Icon'} className="w-[50px] h-[50px] object-contain" />;
+  }
+
+  // 6 distinctive medical / operational vector designs corresponding to the 6 cards in Figma
+  switch (index % 6) {
+    case 0:
+      // Card 01: Workforce shortages (Doctor / medical group)
+      return (
+        <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#000000" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+          <circle cx="9" cy="7" r="4" />
+          <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+          <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+        </svg>
+      );
+    case 1:
+      // Card 02: Coverage continuity (Clock / calendar continuity)
+      return (
+        <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#000000" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+          <circle cx="12" cy="12" r="10" />
+          <polyline points="12 6 12 12 16 14" />
+        </svg>
+      );
+    case 2:
+      // Card 03: Specialized expertise (Shield / star / stethoscope)
+      return (
+        <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#000000" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M12 2L3 7v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5z" />
+          <path d="M12 8v8" />
+          <path d="M8 12h8" />
+        </svg>
+      );
+    case 3:
+      // Card 04: Surge requirements (Activity / pulse surge)
+      return (
+        <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#000000" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+          <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+        </svg>
+      );
+    case 4:
+      // Card 05: Operational complexity (Settings / gears / network)
+      return (
+        <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#000000" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+          <circle cx="12" cy="12" r="3" />
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
+        </svg>
+      );
+    default:
+      // Card 06: Mission readiness (Clipboard check)
+      return (
+        <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#000000" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" />
+          <rect x="8" y="2" width="8" height="4" rx="1" ry="1" />
+          <path d="m9 14 2 2 4-4" />
+        </svg>
+      );
+  }
+}
+
+export function CriticalMissionsSection({
+  title = 'Supporting the people behind critical healthcare missions.',
+  highlightTitle,
+  description = 'Healthcare organizations need more than access to candidates. They need dependable workforce planning, qualified professionals, operational readiness, and delivery models that can adapt to changing mission requirements.',
+  cards,
+}: CriticalMissionsSectionProps) {
+  const displayCards: CriticalMissionCard[] = cards && cards.length > 0 ? cards : DEFAULT_MISSIONS;
+
+  // Title rendering with optional highlightTitle in Brand Red if configured
+  const renderTitle = () => {
+    const rawTitle = title?.trim() || 'Supporting the people behind critical healthcare missions.';
+    const rawHighlight = highlightTitle?.trim() || '';
+
+    if (!rawHighlight) {
+      return <span className="text-[#000000]">{rawTitle}</span>;
+    }
+
+    const escaped = rawHighlight.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const regex = new RegExp(`(${escaped})`, 'i');
+
+    if (regex.test(rawTitle)) {
+      const parts = rawTitle.split(regex);
+      return parts.map((part, i) =>
+        part.toLowerCase() === rawHighlight.toLowerCase() ? (
+          <span key={i} className="text-[#F01424]">
+            {part}
+          </span>
+        ) : (
+          <span key={i} className="text-[#000000]">
+            {part}
+          </span>
+        )
+      );
+    }
+
+    return (
+      <>
+        <span className="text-[#F01424]">{rawHighlight} </span>
+        <span className="text-[#000000]">{rawTitle}</span>
+      </>
+    );
+  };
+
+  return (
+    <section
+      aria-label={title || 'Critical Healthcare Missions'}
+      className="relative mx-auto w-full max-w-[1920px] bg-white py-14 lg:py-[100px] px-6 sm:px-10 lg:px-[120px]"
+    >
+      <div className="flex flex-col lg:flex-row items-start justify-between gap-12 lg:gap-[60px] w-full">
+        {/* LEFT COLUMN: Sticky / Fixed Content (904px Figma specification) */}
+        <div className="w-full lg:w-[880px] xl:w-[904px] shrink-0 lg:sticky lg:top-28">
+          <h2
+            className="font-serif text-[38px] sm:text-[52px] lg:text-[72px] leading-[1.15] lg:leading-[99px] font-normal tracking-tight text-[#000000]"
+            style={{ fontFamily: "'DM Serif Text', serif" }}
+          >
+            {renderTitle()}
+          </h2>
+          {description && (
+            <p className="mt-8 font-sans text-[18px] sm:text-[20px] lg:text-[24px] leading-[32px] lg:leading-[40px] font-normal text-[#000000] max-w-[860px]">
+              {description}
+            </p>
+          )}
+        </div>
+
+        {/* RIGHT COLUMN: Frame 2147226326 (582px scroll frame with snap & custom scrollbar) */}
+        <div className="w-full lg:w-[582px] shrink-0">
+          <div
+            tabIndex={0}
+            role="region"
+            aria-label="Critical Healthcare Mission Cards"
+            className="w-full h-auto lg:h-[730px] flex flex-col gap-5 lg:overflow-y-auto lg:pr-3 lg:scroll-smooth focus:outline-none scrollbar-thin scrollbar-thumb-[#95C3EC] scrollbar-track-[#F4F9FD]"
+            style={{
+              scrollbarWidth: 'thin',
+              scrollbarColor: '#95C3EC #F4F9FD',
+            }}
+          >
+            {displayCards.map((card, idx) => {
+              const stepNum = card.number || (idx < 9 ? `0${idx + 1}` : `${idx + 1}`);
+
+              return (
+                <div
+                  key={card.id ?? card.documentId ?? `mission-${idx}`}
+                  className="relative w-full lg:w-[582px] h-[350px] shrink-0 rounded-[20px] border border-[#95C3EC] bg-[#F4F9FD] p-10 flex flex-col justify-between overflow-hidden transition-all duration-300 hover:shadow-md hover:border-[#2B88D9]"
+                >
+                  {/* Top Bar: 104x104 Icon Box (Left) and 164px Giant Watermark Number (Right) */}
+                  <div className="flex items-start justify-between w-full relative z-10">
+                    {/* Rectangle 40068: 104px x 104px Icon Box */}
+                    <div className="w-[104px] h-[104px] rounded-[13px] border border-[#000000] bg-[#95C3EC] flex items-center justify-center shrink-0">
+                      <MissionCardIcon index={idx} iconUrl={card.icon?.url} title={card.title} />
+                    </div>
+
+                    {/* Giant Number Watermark (164px Outfit, leading 207px, border/color #212121) */}
+                    <span
+                      className="font-bold text-[140px] sm:text-[164px] leading-none select-none pointer-events-none text-[#212121]/30 font-sans tracking-tight"
+                      style={{ fontFamily: "'Outfit', sans-serif" }}
+                    >
+                      {stepNum}
+                    </span>
+                  </div>
+
+                  {/* Bottom Text Content (Group 2085664883) */}
+                  <div className="relative z-10 mt-auto">
+                    <h3
+                      className="font-serif text-[26px] sm:text-[28px] leading-[32px] font-normal text-[#2F2F2F] mb-3"
+                      style={{ fontFamily: "'DM Serif Text', serif" }}
+                    >
+                      {card.title}
+                    </h3>
+                    <p className="font-sans text-[17px] sm:text-[19px] leading-[26px] sm:leading-[28px] font-light text-[#212121] max-w-[500px]">
+                      {card.description}
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+

@@ -68,6 +68,7 @@ export function resolveSectionImages(
             ...heroBanner.banner,
             bannerImage: unwrapImage(heroBanner.banner.bannerImage),
             buttonCTA: resolveLink(heroBanner.banner.buttonCTA),
+            secondaryButtonCTA: resolveLink(heroBanner.banner.secondaryButtonCTA),
           },
         },
       };
@@ -276,6 +277,72 @@ export function resolveSectionImages(
 
     case 'ComponentReferencesBuiltAroundMissionsReference': {
       return section;
+    }
+
+        
+    case 'ComponentReferencesWorkforceSupportReference': {
+      const raw = section as import('@/lib/graphql/types').RawWorkforceSupportReference;
+      const s = raw.workforceSupportSection;
+      return {
+        __typename: 'ComponentReferencesWorkforceSupportReference',
+        workforceSupportSection: s
+          ? {
+              documentId: s.documentId,
+              title: s.title,
+              highlightTitle: s.highlightTitle,
+              cards: s.cards?.map(c => ({
+                id: c.documentId,
+                documentId: c.documentId,
+                title: c.title,
+                description: c.description,
+                number: c.number,
+                isHighlighted: c.isHighlighted,
+                actionTone: c.actionTone,
+                icon: c.icon ? { url: c.icon.url, alternativeText: c.icon.alternativeText } : null,
+                image: (c as any).image ? { url: (c as any).image.url, alternativeText: (c as any).image.alternativeText } : null,
+              })),
+            }
+          : null,
+      };
+    }
+
+    case 'ComponentReferencesCriticalMissionsReference': {
+      const cmRef = section as any;
+      const cm = cmRef.criticalMissionsSection;
+      if (!cm) return section;
+
+      return {
+        ...section,
+        criticalMissionsSection: {
+          ...cm,
+          cards: cm.cards
+            ? cm.cards.map((c: any) => ({
+                ...c,
+                icon: unwrapImage(c.icon),
+              }))
+            : cm.cards,
+        },
+      };
+    }
+
+    case 'ComponentReferencesWorkforcePlanningReference': {
+      const wpRef = section as any;
+      const wp = wpRef.workforcePlanningSection;
+      if (!wp) return section;
+
+      return {
+        ...section,
+        workforcePlanningSection: {
+          ...wp,
+          centerImage: unwrapImage(wp.centerImage),
+          cards: wp.cards
+            ? wp.cards.map((c: any) => ({
+                ...c,
+                icon: unwrapImage(c.icon),
+              }))
+            : wp.cards,
+        },
+      };
     }
 
     case 'ComponentReferencesTakeMissionSeriouslyReference': {

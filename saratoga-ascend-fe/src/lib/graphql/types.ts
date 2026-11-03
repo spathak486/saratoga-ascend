@@ -56,6 +56,7 @@ export interface RawHeroBanner {
   bannerDescription?: string | null;
   bannerImage?: RawStrapiMedia | null;
   buttonCTA?: RawGeneralLink | null;
+  secondaryButtonCTA?: RawGeneralLink | null;
 }
 
 export interface RawPromo {
@@ -319,6 +320,14 @@ export interface RawCard {
   isHighlighted?: boolean | null;
   category?: string | null;
   icon?: RawStrapiMedia | null;
+  image?: RawStrapiMedia | null;
+  actionTone?: string | null;
+  actionLabel?: string | null;
+  href?: string | null;
+  swooshImage?: RawStrapiMedia | null;
+  address?: string | null;
+  phone?: string | null;
+  fax?: string | null;
 }
 
 export type RawValueCard = RawCard;
@@ -402,10 +411,39 @@ export interface RawOurCapabilitiesReference {
   ourCapabilitiesSection?: RawOurCapabilitiesSection | null;
 }
 
+
+
+export interface RawWorkforceSupportSection {
+  documentId?: string;
+  title?: string | null;
+  highlightTitle?: string | null;
+  cards?: RawValueCard[] | null;
+}
+
+export interface RawWorkforceSupportReference {
+  __typename: 'ComponentReferencesWorkforceSupportReference';
+  workforceSupportSection?: RawWorkforceSupportSection | null;
+}
+
+export interface RawCriticalMissionsSection {
+  documentId?: string;
+  title?: string | null;
+  highlightTitle?: string | null;
+  description?: string | null;
+  cards?: RawValueCard[] | null;
+}
+
+export interface RawCriticalMissionsReference {
+  __typename: 'ComponentReferencesCriticalMissionsReference';
+  criticalMissionsSection?: RawCriticalMissionsSection | null;
+}
+
 export interface RawWorkforcePlanningSection {
   documentId?: string;
   title?: string | null;
   highlightTitle?: string | null;
+  variant?: 'orbital' | 'accordion' | null;
+  centerImage?: RawStrapiMedia | null;
   cards?: RawValueCard[] | null;
 }
 
@@ -440,6 +478,8 @@ export type RawDynamicZoneSection =
   | RawAccountableOperatingEnvironmentsReference
   | RawOurCapabilitiesReference
   | RawWorkforcePlanningReference
+  | RawCriticalMissionsReference
+  | RawWorkforceSupportReference
   | ({ __typename: string } & Record<string, unknown>);
 
 /** Universal slug-driven page (Strapi `pages` collection). */
