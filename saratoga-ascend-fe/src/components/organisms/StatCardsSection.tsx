@@ -27,41 +27,31 @@ export const StatCardsSection: React.FC<StatCardsSectionProps> = ({
 }) => {
   if (!cards || cards.length === 0) return null;
 
-  const sectionId =
-    id ||
-    (title
-      ? title
-          .toLowerCase()
-          .trim()
-          .replace(/[^\p{L}\p{N}\s-]/gu, '')
-          .replace(/[\s-]+/g, '-')
-          .replace(/^-+|-+$/g, '')
-      : undefined);
-
+  // Only use an explicit id — blog detail wraps sections with the TOC target id.
   return (
     <section
-      id={sectionId}
-      className={`w-full max-w-[1054px] my-6 md:my-8 scroll-mt-28 ${className}`}
+      id={id}
+      className={`my-4 w-full max-w-[1054px] scroll-mt-28 sm:my-6 xl:my-8 ${className}`}
     >
       {title && (
-        <h2 className="font-outfit font-semibold text-[28px] sm:text-[34px] md:text-[40px] leading-[110%] md:leading-[34px] tracking-[0.03em] capitalize text-[#000000] mb-6">
+        <h2 className="mb-4 font-serif text-[24px] font-normal capitalize leading-[1.2] tracking-[-0.02em] text-ink sm:mb-5 sm:text-[32px] xl:mb-6 xl:text-[40px]">
           {title}
         </h2>
       )}
 
       <div
-        className={`grid gap-4 sm:gap-6 w-full ${
+        className={`grid w-full gap-4 sm:gap-5 xl:gap-6 ${
           cards.length === 1
             ? 'grid-cols-1'
             : cards.length === 2
-            ? 'grid-cols-1 md:grid-cols-2'
-            : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'
+            ? 'grid-cols-1 xl:grid-cols-2'
+            : 'grid-cols-1 sm:grid-cols-2 xl:grid-cols-3'
         }`}
       >
         {cards.map((card, idx) => (
           <div
             key={idx}
-            className="bg-[#EAF0F6] rounded-[24px] p-6 sm:p-8 flex flex-col justify-start transition-transform duration-200 hover:-translate-y-0.5"
+            className="flex flex-col justify-start rounded-[20px] bg-[#EAF0F6] p-5 transition-transform duration-200 hover:-translate-y-0.5 motion-reduce:transition-none motion-reduce:hover:translate-y-0 sm:rounded-[24px] sm:p-6 xl:p-8"
           >
             {/* Header: Metric & Badge */}
             <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1 mb-4">
