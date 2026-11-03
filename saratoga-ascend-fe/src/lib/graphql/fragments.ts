@@ -432,6 +432,27 @@ export const OUR_CAPABILITIES_REFERENCE_FIELDS = `
   }
 `;
 
+
+export const CRITICAL_MISSIONS_REFERENCE_FIELDS = `
+  __typename
+  ... on ComponentReferencesCriticalMissionsReference {
+    criticalMissionsSection {
+      documentId
+      title
+      highlightTitle
+      description
+      cards {
+        documentId
+        title
+        description
+        number
+        isHighlighted
+        icon { ${IMAGE_FIELDS} }
+      }
+    }
+  }
+`;
+
 export const WORKFORCE_PLANNING_REFERENCE_FIELDS = `
   __typename
   ... on ComponentReferencesWorkforcePlanningReference {
@@ -586,6 +607,7 @@ export const COMMON_SECTION_FRAGMENTS = [
   ACCOUNTABLE_OPERATING_ENVIRONMENTS_REFERENCE_FIELDS,
   OUR_CAPABILITIES_REFERENCE_FIELDS,
   WORKFORCE_PLANNING_REFERENCE_FIELDS,
+  CRITICAL_MISSIONS_REFERENCE_FIELDS,
   CONTACT_INQUIRY_REFERENCE_FIELDS,
   CONTACT_PATHWAYS_REFERENCE_FIELDS,
   CONTACT_LEARN_REFERENCE_FIELDS,

@@ -279,6 +279,25 @@ export function resolveSectionImages(
       return section;
     }
 
+        case 'ComponentReferencesCriticalMissionsReference': {
+      const cmRef = section as any;
+      const cm = cmRef.criticalMissionsSection;
+      if (!cm) return section;
+
+      return {
+        ...section,
+        criticalMissionsSection: {
+          ...cm,
+          cards: cm.cards
+            ? cm.cards.map((c: any) => ({
+                ...c,
+                icon: unwrapImage(c.icon),
+              }))
+            : cm.cards,
+        },
+      };
+    }
+
     case 'ComponentReferencesWorkforcePlanningReference': {
       const wpRef = section as any;
       const wp = wpRef.workforcePlanningSection;

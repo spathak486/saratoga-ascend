@@ -1,0 +1,38 @@
+{
+  "kind": "collectionType",
+  "collectionName": "critical_missions_sections",
+  "info": {
+    "singularName": "critical-missions-section",
+    "pluralName": "critical-missions-sections",
+    "displayName": "Critical Missions Section",
+    "description": "Supporting the people behind critical healthcare missions vertical scroll section"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "referenceTitle": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string",
+      "required": true,
+      "default": "Supporting the people behind critical healthcare missions."
+    },
+    "highlightTitle": {
+      "type": "string",
+      "default": "critical healthcare missions."
+    },
+    "description": {
+      "type": "text",
+      "default": "Healthcare organizations need more than access to candidates. They need dependable workforce planning, qualified professionals, operational readiness, and delivery models that can adapt to changing mission requirements."
+    },
+    "cards": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::card.card"
+    }
+  }
+}
+

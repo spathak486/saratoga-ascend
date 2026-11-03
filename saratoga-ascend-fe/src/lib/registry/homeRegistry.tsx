@@ -19,6 +19,7 @@ import type {
   AccountableOperatingEnvironmentsReference,
   OurCapabilitiesReference,
   WorkforcePlanningReference,
+  CriticalMissionsReference,
   ContactInquiryReference,
   ContactPathwaysReference,
   ContactLearnReference,
@@ -50,6 +51,7 @@ import {
   AccountableOperatingEnvironmentsSection,
   OurCapabilitiesSection,
   WorkforcePlanningSection,
+  CriticalMissionsSection,
   ContactInquirySection,
   ContactPathwaysSection,
   ContactLearnSection,
@@ -570,7 +572,21 @@ export const SECTION_REGISTRY: Record<
     );
   },
 
-  ComponentReferencesWorkforcePlanningReference: (section, index) => {
+  ComponentReferencesCriticalMissionsReference: (section, index) => {
+    const cmRef = section as CriticalMissionsReference;
+    const cm = cmRef.criticalMissionsSection;
+    return (
+      <CriticalMissionsSection
+        key={'critical-missions-' + index}
+        title={cm?.title ?? undefined}
+        highlightTitle={cm?.highlightTitle ?? undefined}
+        description={cm?.description ?? undefined}
+        cards={(cm?.cards as any) ?? undefined}
+      />
+    );
+  },
+
+    ComponentReferencesWorkforcePlanningReference: (section, index) => {
     const wpRef = section as WorkforcePlanningReference;
     const wp = wpRef.workforcePlanningSection;
     if (!wp || !wp.cards || wp.cards.length === 0) return null;
