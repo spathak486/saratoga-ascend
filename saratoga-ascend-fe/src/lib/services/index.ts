@@ -3,7 +3,9 @@ export { getArticles, getArticleBySlug, getAllArticleSlugs } from './news.servic
 export { getFooterData } from './footer.service';
 export { getNavigationData } from './navigation.service';
 export { getNotFoundData } from './not-found.service';
-export { getBlogBySlug, getAllBlogs } from './blog.service';
+export { getBlogBySlug, getAllBlogs, getAllBlogSlugs } from './blog.service';
+export { getSolutionBySlug, getAllSolutionSlugs } from './solution.service';
+
 
 // Phase 3 → export * from './scheduling.service'
 // Phase 4 → export * from './application.service'

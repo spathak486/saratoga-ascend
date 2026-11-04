@@ -1,0 +1,91 @@
+{
+  "kind": "collectionType",
+  "collectionName": "solutions",
+  "info": {
+    "singularName": "solution",
+    "pluralName": "solutions",
+    "displayName": "Solution",
+    "description": "Solution pages with dynamic zone sections identical to Page"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "internalName": {
+      "type": "string"
+    },
+    "pageTitle": {
+      "type": "string",
+      "required": true
+    },
+    "slug": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "pageType": {
+      "type": "enumeration",
+      "default": "Standard",
+      "enum": [
+        "Standard",
+        "Dark",
+        "Light",
+        "LegalPolicy",
+        "FullWidth"
+      ]
+    },
+    "variant": {
+      "type": "enumeration",
+      "default": "default",
+      "enum": [
+        "default",
+        "dark",
+        "light",
+        "legal_policy"
+      ]
+    },
+    "seo": {
+      "type": "component",
+      "component": "shared.seo",
+      "repeatable": false,
+      "required": true
+    },
+    "Section": {
+      "type": "dynamiczone",
+      "components": [
+        "references.banner-reference",
+        "references.cta",
+        "references.fa-qs",
+        "references.client-logos-reference",
+        "references.service-reference",
+        "references.what-we-do-reference",
+        "references.mission-reference",
+        "references.achievements",
+        "references.legal-content",
+        "references.happy-clients-reference",
+        "references.latest-insights",
+        "references.blog-listing",
+        "references.ceo-message-reference",
+        "references.supporting-mission-reference",
+        "references.past-performance-reference",
+        "references.mission-vision-promise-reference",
+        "references.built-around-missions-reference",
+        "references.take-mission-seriously-reference",
+        "references.accountable-operating-environments-reference",
+        "references.our-capabilities-reference",
+        "references.workforce-planning-reference",
+        "references.critical-missions-reference",
+        "references.contact-inquiry-reference",
+        "references.contact-pathways-reference",
+        "references.contact-learn-reference",
+        "references.contact-offices-reference",
+        "references.key-takeaways-reference",
+        "references.workforce-support-reference",
+        "references.workforce-delivery-reference",
+        "references.explore-capabilities-reference"
+      ]
+    }
+  }
+}
+
