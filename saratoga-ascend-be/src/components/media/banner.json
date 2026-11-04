@@ -46,7 +46,8 @@
         "homebanner-two-buttons",
         "default",
         "gradient",
-        "blog"
+        "blog",
+        "banner_cta"
       ],
       "default": "homebanner",
       "required": true
