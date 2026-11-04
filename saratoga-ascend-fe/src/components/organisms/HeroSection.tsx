@@ -259,26 +259,48 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   }
 
   if (variant === 'default') {
+    /* Solutions / service hero (Figma 567:1855): ~853 tall, 120px gutters, dual CTAs */
     return (
-      <section 
-        className="relative w-full h-auto min-h-[400px] md:min-h-[541px] flex flex-col justify-center py-16 px-4 md:px-[120px]"
-        style={{ 
-          background: helixSrc 
-            ? `linear-gradient(90.52deg, #E4EBF1 0.41%, rgba(228, 235, 241, 0.2) 69.2%), url(${helixSrc}) center right / cover no-repeat` 
-            : 'linear-gradient(90.52deg, #E4EBF1 0.41%, rgba(228, 235, 241, 0.2) 69.2%)' 
+      <section
+        className="relative flex w-full flex-col justify-center px-page py-16 max-xl:min-h-[28rem] max-xl:pt-28 xl:min-h-[clamp(32rem,44.4vw,53.3125rem)] xl:py-[clamp(4rem,6.5vw,7.875rem)]"
+        style={{
+          background: helixSrc
+            ? `linear-gradient(89.95deg, #eaf4fb 13.3%, rgba(234, 244, 251, 0) 128%), url(${helixSrc}) center right / cover no-repeat`
+            : 'linear-gradient(89.95deg, #eaf4fb 13.3%, rgba(234, 244, 251, 0) 70%)',
         }}
       >
-        <div className="flex flex-col justify-center items-start gap-[30px] w-full max-w-[1760px] mx-auto z-10">
-          {title && (
-            <Heading level={1} className="font-serif font-normal text-[clamp(50px,5vw,90px)] leading-[1.15] text-black max-w-full md:max-w-none">
-              {title}
+        <div className="relative z-10 mx-auto flex w-full max-w-[1680px] flex-col items-start gap-6 sm:gap-8 xl:gap-[30px]">
+          {title ? (
+            <Heading
+              level={1}
+              className="max-w-[min(100%,64.5rem)] font-serif text-[clamp(2.25rem,1.2rem+4vw,5.625rem)] font-normal leading-[1.15] text-ink"
+            >
+              {titleWithAccent(title, stripHtml(subTitle))}
             </Heading>
-          )}
+          ) : null}
           {(description || subTitle) && (
-            <p className="font-sans font-medium text-[clamp(18px,1.5vw,24px)] leading-[1.6] text-black max-w-[755px]">
-              {description || subTitle}
+            <p className="max-w-[min(100%,48.7rem)] font-sans text-[clamp(1.05rem,0.95rem+0.5vw,1.5rem)] font-medium leading-[1.6] text-brand-navy">
+              {stripHtml(description || subTitle || undefined)}
             </p>
           )}
+          {(ctaLabel && ctaHref) || (secondaryCtaLabel && secondaryCtaHref) ? (
+            <div className="flex flex-wrap items-center gap-3 sm:gap-5 xl:gap-[30px]">
+              {ctaLabel && ctaHref ? (
+                <CtaButton href={ctaHref} className="self-start">
+                  {ctaLabel}
+                </CtaButton>
+              ) : null}
+              {secondaryCtaLabel && secondaryCtaHref ? (
+                <CtaButton
+                  href={secondaryCtaHref}
+                  buttonVariant="outlineNavy"
+                  className="self-start"
+                >
+                  {secondaryCtaLabel}
+                </CtaButton>
+              ) : null}
+            </div>
+          ) : null}
         </div>
       </section>
     );
