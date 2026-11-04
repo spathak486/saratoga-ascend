@@ -36,3 +36,17 @@ export async function getAllBlogs(): Promise<ApiResult<any[]>> {
   
   return ok(resolved);
 }
+
+export async function getAllBlogSlugs(): Promise<ApiResult<string[]>> {
+  if (isMockMode) {
+    const slugs = getMockBlogs().map((b) => b.slug).filter(Boolean);
+    return ok(slugs);
+  }
+
+  const result = await gql.query<any>(ALL_BLOGS_QUERY);
+  if (result.error) return result;
+
+  const blogs = result.data.blogs || [];
+  const slugs = blogs.map((b: any) => b.slug).filter(Boolean);
+  return ok(slugs);
+}

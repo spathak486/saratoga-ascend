@@ -18,8 +18,22 @@ export const revalidate = 60;
  */
 export async function generateStaticParams() {
   const result = await getAllPageSlugs();
-  if (result.error) return [];
-  return result.data.map((slug) => ({ slug: slug.split('/') }));
+  const pageSlugs = result.error ? [] : result.data;
+
+  // Include solution slugs for static generation
+  const { getAllSolutionSlugs, getAllBlogSlugs, getAllArticleSlugs } = await import('@/lib/services');
+  const [solutionResult, blogResult, articleResult] = await Promise.all([
+    getAllSolutionSlugs(),
+    getAllBlogSlugs(),
+    getAllArticleSlugs(),
+  ]);
+
+  const solutionSlugs = solutionResult.error ? [] : solutionResult.data;
+  const blogSlugs = blogResult.error ? [] : blogResult.data;
+  const articleSlugs = articleResult.error ? [] : articleResult.data;
+
+  const allSlugs = Array.from(new Set([...pageSlugs, ...solutionSlugs, ...blogSlugs, ...articleSlugs]));
+  return allSlugs.map((slug) => ({ slug: slug.split('/') }));
 }
 
 export async function generateMetadata({ params }: DynamicPageProps): Promise<Metadata> {
@@ -45,6 +59,12 @@ export async function generateMetadata({ params }: DynamicPageProps): Promise<Me
     const { getBlogBySlug } = await import('@/lib/services');
     const blogResult = await getBlogBySlug(slugPath);
     if (blogResult.data) pageData = blogResult.data;
+  }
+
+  if (!pageData && !isReservedPage) {
+    const { getSolutionBySlug } = await import('@/lib/services');
+    const solutionResult = await getSolutionBySlug(slugPath);
+    if (solutionResult.data) pageData = solutionResult.data;
   }
 
   if (!pageData && (slugPath === '' || slugPath === 'about-us' || slugPath === 'contact')) {
@@ -102,6 +122,12 @@ export default async function DynamicPage({ params }: DynamicPageProps) {
     const { getBlogBySlug } = await import('@/lib/services');
     const blogResult = await getBlogBySlug(slugPath);
     if (blogResult.data) pageData = blogResult.data;
+  }
+
+  if (!pageData && !isReservedPage) {
+    const { getSolutionBySlug } = await import('@/lib/services');
+    const solutionResult = await getSolutionBySlug(slugPath);
+    if (solutionResult.data) pageData = solutionResult.data;
   }
 
   if (!pageData && (slugPath === '' || slugPath === 'about-us' || slugPath === 'contact')) {
