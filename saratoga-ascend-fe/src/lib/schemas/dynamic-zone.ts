@@ -488,6 +488,24 @@ export type OurCapabilitiesReference = z.infer<typeof OurCapabilitiesReferenceSc
 
 
 
+
+export const WorkforceDeliverySectionEntitySchema = z.object({
+  documentId: z.string().optional(),
+  referenceTitle: z.string().nullable().optional(),
+  title: z.string().nullable().optional(),
+  highlightTitle: z.string().nullable().optional(),
+  cards: z.array(ValueCardSchema).nullable().optional(),
+});
+
+export type WorkforceDeliverySectionEntity = z.infer<typeof WorkforceDeliverySectionEntitySchema>;
+
+export const WorkforceDeliveryReferenceSchema = z.object({
+  __typename: z.literal('ComponentReferencesWorkforceDeliveryReference'),
+  workforceDeliverySection: WorkforceDeliverySectionEntitySchema.nullable().optional(),
+});
+
+export type WorkforceDeliveryReference = z.infer<typeof WorkforceDeliveryReferenceSchema>;
+
 export const WorkforceSupportSectionEntitySchema = z.object({
   documentId: z.string().optional(),
   referenceTitle: z.string().nullable().optional(),
@@ -648,6 +666,7 @@ export const DynamicZoneSectionSchema = z.union([
   WorkforcePlanningReferenceSchema,
   CriticalMissionsReferenceSchema,
   WorkforceSupportReferenceSchema,
+  WorkforceDeliveryReferenceSchema,
   ContactInquiryReferenceSchema,
   ContactPathwaysReferenceSchema,
   ContactLearnReferenceSchema,

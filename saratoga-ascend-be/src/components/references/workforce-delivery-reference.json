@@ -1,0 +1,17 @@
+{
+  "collectionName": "components_references_workforce_delivery_references",
+  "info": {
+    "displayName": "Workforce Delivery Reference",
+    "icon": "layer-group",
+    "description": "Reference component for Workforce Delivery Section (Frame 2147226538)"
+  },
+  "options": {},
+  "attributes": {
+    "workforceDeliverySection": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::workforce-delivery-section.workforce-delivery-section"
+    }
+  }
+}
+

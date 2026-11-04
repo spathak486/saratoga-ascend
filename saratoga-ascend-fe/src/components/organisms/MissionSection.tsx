@@ -41,7 +41,7 @@ function accentSegment(text: string): React.ReactNode {
 
 /** Break after the first sentence so the second line starts cleanly after the period. */
 function titleWithAccent(title: string): React.ReactNode {
-  const match = title.match(/^(.+?\.)\s+(.+)$/s);
+  const match = title.match(/^([\s\S]+?\.)\s+([\s\S]+)$/);
   if (!match) return accentSegment(title);
   return (
     <>

@@ -413,6 +413,19 @@ export interface RawOurCapabilitiesReference {
 
 
 
+
+export interface RawWorkforceDeliverySection {
+  documentId?: string;
+  title?: string | null;
+  highlightTitle?: string | null;
+  cards?: RawValueCard[] | null;
+}
+
+export interface RawWorkforceDeliveryReference {
+  __typename: 'ComponentReferencesWorkforceDeliveryReference';
+  workforceDeliverySection?: RawWorkforceDeliverySection | null;
+}
+
 export interface RawWorkforceSupportSection {
   documentId?: string;
   title?: string | null;
@@ -480,6 +493,7 @@ export type RawDynamicZoneSection =
   | RawWorkforcePlanningReference
   | RawCriticalMissionsReference
   | RawWorkforceSupportReference
+  | RawWorkforceDeliveryReference
   | ({ __typename: string } & Record<string, unknown>);
 
 /** Universal slug-driven page (Strapi `pages` collection). */
