@@ -660,7 +660,26 @@ export type ContactOfficesReference = z.infer<typeof ContactOfficesReferenceSche
  * catch-all keeps forward compatibility — components that aren't registered
  * yet still validate instead of failing the whole page.
  */
+export const ClearPathSectionEntitySchema = z.object({
+  documentId: z.string().optional(),
+  referenceTitle: z.string().nullable().optional(),
+  title: z.string().nullable().optional(),
+  highlightTitle: z.string().nullable().optional(),
+  description: z.string().nullable().optional(),
+  cards: z.array(ValueCardSchema).nullable().optional(),
+});
+
+export type ClearPathSectionEntity = z.infer<typeof ClearPathSectionEntitySchema>;
+
+export const ClearPathReferenceSchema = z.object({
+  __typename: z.literal('ComponentReferencesClearPathReference'),
+  clearPathSection: ClearPathSectionEntitySchema.nullable().optional(),
+});
+
+export type ClearPathReference = z.infer<typeof ClearPathReferenceSchema>;
+
 export const DynamicZoneSectionSchema = z.union([
+  ClearPathReferenceSchema,
   BannerReferenceSchema,
   CtaReferenceSchema,
   FaqsReferenceSchema,
