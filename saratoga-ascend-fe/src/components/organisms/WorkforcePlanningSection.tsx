@@ -68,7 +68,7 @@ function getStepTone(card: WorkflowCardItem, index: number, isRightSide: boolean
 
 function StepIcon({ number, tone, iconUrl, title }: { number: string; tone: 'sky' | 'red'; iconUrl?: string | null; title?: string }) {
   if (iconUrl) {
-    return <img src={iconUrl} alt={title || 'Icon'} className="w-[60px] h-[60px] sm:w-[70px] sm:h-[70px] object-contain" />;
+    return <img src={iconUrl} alt={title || 'Icon'} className="w-10 h-10 sm:w-12 sm:h-12 2xl:w-[70px] 2xl:h-[70px] object-contain" />;
   }
 
   const color = tone === 'red' ? '#F01424' : '#2B88D9';
@@ -76,7 +76,7 @@ function StepIcon({ number, tone, iconUrl, title }: { number: string; tone: 'sky
 
   if (numInt % 4 === 1) {
     return (
-      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+      <svg className="w-8 h-8 sm:w-10 sm:h-10 2xl:w-12 2xl:h-12" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
         <path d="M4.8 2.4A2.4 2.4 0 0 0 2.4 4.8v4.8a7.2 7.2 0 0 0 14.4 0V4.8a2.4 2.4 0 0 0-2.4-2.4" />
         <path d="M9.6 16.8v1.2a4.8 4.8 0 0 0 9.6 0v-2.4" />
         <circle cx="19.2" cy="13.2" r="2.4" />
@@ -86,7 +86,7 @@ function StepIcon({ number, tone, iconUrl, title }: { number: string; tone: 'sky
 
   if (numInt % 4 === 2) {
     return (
-      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+      <svg className="w-8 h-8 sm:w-10 sm:h-10 2xl:w-12 2xl:h-12" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
         <ellipse cx="12" cy="5" rx="9" ry="3" />
         <path d="M3 5V19A9 3 0 0 0 21 19V5" />
         <path d="M3 12A9 3 0 0 0 21 12" />
@@ -96,7 +96,7 @@ function StepIcon({ number, tone, iconUrl, title }: { number: string; tone: 'sky
 
   if (numInt % 4 === 3) {
     return (
-      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+      <svg className="w-8 h-8 sm:w-10 sm:h-10 2xl:w-12 2xl:h-12" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
         <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
         <circle cx="9" cy="7" r="4" />
         <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
@@ -106,7 +106,7 @@ function StepIcon({ number, tone, iconUrl, title }: { number: string; tone: 'sky
   }
 
   return (
-    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+    <svg className="w-8 h-8 sm:w-10 sm:h-10 2xl:w-12 2xl:h-12" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
       <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
     </svg>
   );
@@ -129,8 +129,6 @@ export function WorkforcePlanningSection({
     const rawTitle = title?.trim() || 'From Workforce Planning to Ongoing Support';
     const rawHighlight = highlightTitle?.trim() || '';
 
-    if (!rawTitle && !rawHighlight) return null;
-
     if (!rawHighlight) {
       return <span className="text-[#F01424] font-normal">{rawTitle}</span>;
     }
@@ -139,7 +137,6 @@ export function WorkforcePlanningSection({
       return <span className="text-[#F01424] font-normal">{rawHighlight}</span>;
     }
 
-    // Check if rawHighlight is contained in rawTitle (case-insensitive)
     const escapedHighlight = rawHighlight.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     const regex = new RegExp(`(${escapedHighlight})`, 'i');
 
@@ -161,7 +158,6 @@ export function WorkforcePlanningSection({
       });
     }
 
-    // If highlightTitle is separate in CMS
     return (
       <>
         <span className="text-[#F01424] font-normal">{rawHighlight} </span>
@@ -171,7 +167,7 @@ export function WorkforcePlanningSection({
   };
 
   const resolvedCenterImage =
-    centerImage?.url || '/images/happy-mature-businessman-using-digital-tablet-while-talking-healthcare-workers-hallway-clinic 1.png';
+    centerImage?.url || '/images/confident-healthcare-team.png';
 
   // --- 1. ACCORDION VARIANT ---
   if (variant === 'accordion') {
@@ -237,21 +233,21 @@ export function WorkforcePlanningSection({
   return (
     <section
       aria-label={title || highlightTitle || 'From Workforce Planning to Ongoing Support'}
-      /* Figma 567:2062: 1920×910, title ~80 from top, 120px gutters */
-      className="relative mx-auto w-full max-w-[1920px] overflow-hidden bg-white px-page py-10 sm:py-12 xl:py-[80px]"
+      className="relative mx-auto w-full max-w-[1920px] overflow-hidden bg-white px-4 sm:px-6 lg:px-10 2xl:px-[120px] py-10 sm:py-12 xl:py-[80px]"
     >
       {/* Title */}
-      <div className="mb-8 w-full text-left sm:mb-10 sm:text-center xl:mb-[70px]">
+      <div className="mb-8 w-full text-center sm:mb-10 xl:mb-[60px]">
         <h2 className="mx-auto max-w-[1442px] font-serif text-[clamp(2rem,1.35rem+2.6vw,4.5rem)] font-normal leading-[1.15]">
           {renderTitle()}
         </h2>
       </div>
 
       {/* --- DESKTOP ORBITAL VIEW (>= 1280px) --- */}
-      <div className="relative mx-auto hidden xl:flex items-center justify-between w-full max-w-[1680px] min-h-[580px] py-4">
+      {/* Scaled safely so cards never clip on 125% zoom or standard laptop viewports */}
+      <div className="relative mx-auto hidden xl:flex items-center justify-between w-full max-w-[1680px] min-h-[520px] 2xl:min-h-[580px] py-4 gap-4 2xl:gap-8">
         
         {/* LEFT COLUMN PILLS: Icon on Left, Text on Right */}
-        <div className="flex flex-col justify-between gap-12 z-20 w-[608px] shrink-0">
+        <div className="flex flex-col justify-between gap-6 2xl:gap-12 z-20 flex-1 max-w-[480px] 2xl:max-w-[608px] shrink-0">
           {leftCards.map((card, i) => {
             const stepNum = card.number || (i < 9 ? `0${i + 1}` : `${i + 1}`);
             const tone = getStepTone(card, i, false);
@@ -260,7 +256,7 @@ export function WorkforcePlanningSection({
             return (
               <div
                 key={card.id ?? card.documentId ?? `left-card-${i}`}
-                className={`w-full min-h-[241px] rounded-[120.5px] border flex items-center px-10 gap-7 shadow-sm transition-transform duration-300 hover:scale-[1.02] ${
+                className={`w-full min-h-[190px] 2xl:min-h-[241px] rounded-[100px] 2xl:rounded-[120.5px] border flex items-center px-5 2xl:px-8 gap-4 2xl:gap-6 shadow-sm transition-transform duration-300 hover:scale-[1.02] ${
                   isRed
                     ? 'border-[#F01424] bg-[#FFF5F6]'
                     : 'border-[#2B88D9] bg-[#EEF7FE]'
@@ -268,7 +264,7 @@ export function WorkforcePlanningSection({
               >
                 {/* Left Icon Circle */}
                 <div
-                  className={`w-[150px] h-[150px] rounded-full shrink-0 flex items-center justify-center ${
+                  className={`w-[96px] h-[96px] 2xl:w-[130px] 2xl:h-[130px] rounded-full shrink-0 flex items-center justify-center ${
                     isRed ? 'bg-[#FFD8DB]' : 'bg-[#C8E7FB]'
                   }`}
                 >
@@ -276,22 +272,22 @@ export function WorkforcePlanningSection({
                 </div>
 
                 {/* Text Content */}
-                <div className="flex flex-col justify-center flex-1 pr-4">
+                <div className="flex flex-col justify-center flex-1 pr-2 min-w-0">
                   <span
-                    className={`font-sans font-bold text-[24px] leading-[28px] ${
+                    className={`font-sans font-bold text-[18px] 2xl:text-[24px] leading-tight ${
                       isRed ? 'text-[#F01424]' : 'text-[#2B88D9]'
                     }`}
                   >
                     {stepNum}
                   </span>
                   <h3
-                    className={`font-sans font-bold text-[28px] leading-[32px] my-1 ${
+                    className={`font-sans font-bold text-[20px] 2xl:text-[28px] leading-tight my-1 line-clamp-1 ${
                       isRed ? 'text-[#F01424]' : 'text-[#2B88D9]'
                     }`}
                   >
                     {card.title}
                   </h3>
-                  <p className="font-sans text-[17px] leading-[25px] text-[#212121]">
+                  <p className="font-sans text-[14px] 2xl:text-[17px] leading-[20px] 2xl:leading-[25px] text-[#212121] line-clamp-3">
                     {card.description}
                   </p>
                 </div>
@@ -300,10 +296,10 @@ export function WorkforcePlanningSection({
           })}
         </div>
 
-        {/* CENTER ELEMENT: Portrait (422px x 422px) + Exact Figma Orbital Arcs & Accent Dots */}
-        <div className="relative w-[460px] h-[570px] flex items-center justify-center shrink-0">
+        {/* CENTER ELEMENT: Portrait + Exact Figma Orbital Arcs & Accent Dots */}
+        <div className="relative w-[340px] h-[440px] 2xl:w-[460px] 2xl:h-[570px] flex items-center justify-center shrink-0">
           
-          {/* EXACT FIGMA ORBITAL SVG LAYER (Centered at 230, 285) */}
+          {/* EXACT FIGMA ORBITAL SVG LAYER */}
           <svg
             className="absolute inset-0 w-full h-full pointer-events-none z-10"
             viewBox="0 0 460 570"
@@ -358,21 +354,14 @@ export function WorkforcePlanningSection({
             />
 
             {/* SATELLITE DOTS (24px x 24px) */}
-            {/* Ellipse 12748: Top-left dot (#2B88D9) */}
             <circle cx="50" cy="140" r="12" fill="#2B88D9" />
-
-            {/* Ellipse 12749: Bottom-left dot (#F01424) */}
             <circle cx="65" cy="462" r="12" fill="#F01424" />
-
-            {/* Ellipse 12751: Top-right dot (#F01424) */}
             <circle cx="410" cy="140" r="12" fill="#F01424" />
-
-            {/* Ellipse 12750: Bottom-right dot (#2B88D9) */}
             <circle cx="395" cy="462" r="12" fill="#2B88D9" />
           </svg>
 
-          {/* Ellipse 12741: Confident Healthcare Team Portrait (422px x 422px) */}
-          <div className="w-[422px] h-[422px] rounded-full overflow-hidden shadow-lg z-20 border-[6px] border-white">
+          {/* Ellipse 12741: Confident Healthcare Team Portrait */}
+          <div className="w-[300px] h-[300px] 2xl:w-[422px] 2xl:h-[422px] rounded-full overflow-hidden shadow-lg z-20 border-[5px] 2xl:border-[6px] border-white">
             <img
               src={resolvedCenterImage}
               alt={centerImage?.alternativeText || 'Healthcare Team'}
@@ -382,7 +371,7 @@ export function WorkforcePlanningSection({
         </div>
 
         {/* RIGHT COLUMN PILLS: Text on Left, Icon on Right */}
-        <div className="flex flex-col justify-between gap-12 z-20 w-[608px] shrink-0">
+        <div className="flex flex-col justify-between gap-6 2xl:gap-12 z-20 flex-1 max-w-[480px] 2xl:max-w-[608px] shrink-0">
           {rightCards.map((card, i) => {
             const actualIndex = leftCount + i;
             const stepNum = card.number || (actualIndex < 9 ? `0${actualIndex + 1}` : `${actualIndex + 1}`);
@@ -392,36 +381,36 @@ export function WorkforcePlanningSection({
             return (
               <div
                 key={card.id ?? card.documentId ?? `right-card-${i}`}
-                className={`w-full min-h-[241px] rounded-[120.5px] border flex items-center px-10 gap-7 shadow-sm transition-transform duration-300 hover:scale-[1.02] ${
+                className={`w-full min-h-[190px] 2xl:min-h-[241px] rounded-[100px] 2xl:rounded-[120.5px] border flex items-center px-5 2xl:px-8 gap-4 2xl:gap-6 shadow-sm transition-transform duration-300 hover:scale-[1.02] ${
                   isRed
                     ? 'border-[#F01424] bg-[#FFF5F6]'
                     : 'border-[#2B88D9] bg-[#EEF7FE]'
                 }`}
               >
                 {/* Text Content */}
-                <div className="flex flex-col justify-center flex-1 pl-4">
+                <div className="flex flex-col justify-center flex-1 pl-2 min-w-0">
                   <span
-                    className={`font-sans font-bold text-[24px] leading-[28px] ${
+                    className={`font-sans font-bold text-[18px] 2xl:text-[24px] leading-tight ${
                       isRed ? 'text-[#F01424]' : 'text-[#2B88D9]'
                     }`}
                   >
                     {stepNum}
                   </span>
                   <h3
-                    className={`font-sans font-bold text-[28px] leading-[32px] my-1 ${
+                    className={`font-sans font-bold text-[20px] 2xl:text-[28px] leading-tight my-1 line-clamp-1 ${
                       isRed ? 'text-[#F01424]' : 'text-[#2B88D9]'
                     }`}
                   >
                     {card.title}
                   </h3>
-                  <p className="font-sans text-[17px] leading-[25px] text-[#212121]">
+                  <p className="font-sans text-[14px] 2xl:text-[17px] leading-[20px] 2xl:leading-[25px] text-[#212121] line-clamp-3">
                     {card.description}
                   </p>
                 </div>
 
                 {/* Right Icon Circle */}
                 <div
-                  className={`w-[150px] h-[150px] rounded-full shrink-0 flex items-center justify-center ${
+                  className={`w-[96px] h-[96px] 2xl:w-[130px] 2xl:h-[130px] rounded-full shrink-0 flex items-center justify-center ${
                     isRed ? 'bg-[#FFD8DB]' : 'bg-[#C8E7FB]'
                   }`}
                 >
@@ -480,7 +469,7 @@ export function WorkforcePlanningSection({
                 >
                   {card.title}
                 </h3>
-                <p className="font-sans text-[clamp(0.9rem,0.85rem+0.25vw,1rem)] leading-[1.4] text-[#212121]">
+                <p className="font-sans text-[14px] leading-relaxed text-[#212121] sm:text-[16px]">
                   {card.description}
                 </p>
               </div>
@@ -491,5 +480,3 @@ export function WorkforcePlanningSection({
     </section>
   );
 }
-
-export default WorkforcePlanningSection;
