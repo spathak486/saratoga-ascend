@@ -164,31 +164,29 @@ export function CriticalMissionsSection({
   return (
     <section
       aria-label={title || 'Critical Healthcare Missions'}
-      className="relative mx-auto w-full max-w-[1920px] bg-white py-14 lg:py-[100px] px-6 sm:px-10 lg:px-[120px]"
+      /* Figma 567:1864: 1920×598 band, 120px gutters, title ~118 from top; stack below xl */
+      className="relative mx-auto w-full max-w-[1920px] bg-white px-page py-10 sm:py-12 xl:py-[80px]"
     >
-      <div className="flex flex-col lg:flex-row items-start justify-between gap-12 lg:gap-[60px] w-full">
-        {/* LEFT COLUMN: Sticky / Fixed Content (904px Figma specification) */}
-        <div className="w-full lg:w-[880px] xl:w-[904px] shrink-0 lg:sticky lg:top-28">
-          <h2
-            className="font-serif text-[38px] sm:text-[52px] lg:text-[72px] leading-[1.15] lg:leading-[99px] font-normal tracking-tight text-[#000000]"
-            style={{ fontFamily: "'DM Serif Text', serif" }}
-          >
+      <div className="mx-auto flex w-full max-w-[1680px] flex-col items-start justify-between gap-8 sm:gap-10 xl:flex-row xl:gap-[60px]">
+        {/* LEFT COLUMN: Sticky copy (904px Figma) — desktop only sticky */}
+        <div className="w-full shrink-0 xl:sticky xl:top-[calc(var(--spacing-utility-h)+var(--spacing-nav-h)+1.5rem)] xl:w-[min(100%,56.5rem)]">
+          <h2 className="font-serif text-[clamp(2rem,1.4rem+2.5vw,4.5rem)] font-normal leading-[1.15] tracking-tight text-[#000000]">
             {renderTitle()}
           </h2>
           {description && (
-            <p className="mt-8 font-sans text-[18px] sm:text-[20px] lg:text-[24px] leading-[32px] lg:leading-[40px] font-normal text-[#000000] max-w-[860px]">
+            <p className="mt-5 max-w-[56.5rem] font-sans text-[clamp(1.05rem,0.95rem+0.45vw,1.5rem)] font-normal leading-[1.6] text-[#000000] sm:mt-6 xl:mt-8 xl:leading-10">
               {description}
             </p>
           )}
         </div>
 
-        {/* RIGHT COLUMN: Frame 2147226326 (582px scroll frame with snap & custom scrollbar) */}
-        <div className="w-full lg:w-[582px] shrink-0">
+        {/* RIGHT COLUMN: Frame 2147226326 — 582px cards, 20px gap; scroll on desktop */}
+        <div className="w-full shrink-0 xl:w-[36.375rem]">
           <div
             tabIndex={0}
             role="region"
             aria-label="Critical Healthcare Mission Cards"
-            className="w-full h-auto lg:h-[730px] flex flex-col gap-5 lg:overflow-y-auto lg:pr-3 lg:scroll-smooth focus:outline-none scrollbar-thin scrollbar-thumb-[#95C3EC] scrollbar-track-[#F4F9FD]"
+            className="flex h-auto w-full flex-col gap-5 focus:outline-none xl:h-[min(45.625rem,70vh)] xl:overflow-y-auto xl:pr-3 xl:scroll-smooth"
             style={{
               scrollbarWidth: 'thin',
               scrollbarColor: '#95C3EC #F4F9FD',
@@ -200,33 +198,26 @@ export function CriticalMissionsSection({
               return (
                 <div
                   key={card.id ?? card.documentId ?? `mission-${idx}`}
-                  className="relative w-full lg:w-[582px] h-[350px] shrink-0 rounded-[20px] border border-[#95C3EC] bg-[#F4F9FD] p-10 flex flex-col justify-between overflow-hidden transition-all duration-300 hover:shadow-md hover:border-[#2B88D9]"
+                  className="relative flex h-auto min-h-[16rem] w-full shrink-0 flex-col justify-between overflow-hidden rounded-[20px] border border-[#95C3EC] bg-[#F4F9FD] p-6 transition-all duration-300 hover:border-[#2B88D9] hover:shadow-md sm:p-8 xl:h-[350px] xl:min-h-[350px] xl:w-[582px] xl:p-10"
                 >
-                  {/* Top Bar: 104x104 Icon Box (Left) and 164px Giant Watermark Number (Right) */}
-                  <div className="flex items-start justify-between w-full relative z-10">
-                    {/* Rectangle 40068: 104px x 104px Icon Box */}
-                    <div className="w-[104px] h-[104px] rounded-[13px] border border-[#000000] bg-[#95C3EC] flex items-center justify-center shrink-0">
+                  <div className="relative z-10 flex w-full items-start justify-between gap-3">
+                    <div className="flex size-16 shrink-0 items-center justify-center rounded-[13px] border border-[#000000] bg-[#95C3EC] sm:size-[104px]">
                       <MissionCardIcon index={idx} iconUrl={card.icon?.url} title={card.title} />
                     </div>
 
-                    {/* Giant Number Watermark (164px Outfit, leading 207px, border/color #212121) */}
                     <span
-                      className="font-bold text-[140px] sm:text-[164px] leading-none select-none pointer-events-none text-[#212121]/30 font-sans tracking-tight"
-                      style={{ fontFamily: "'Outfit', sans-serif" }}
+                      className="pointer-events-none select-none font-sans text-[clamp(4.5rem,12vw,10.25rem)] font-bold leading-none tracking-tight text-[#212121]/30"
+                      aria-hidden="true"
                     >
                       {stepNum}
                     </span>
                   </div>
 
-                  {/* Bottom Text Content (Group 2085664883) */}
-                  <div className="relative z-10 mt-auto">
-                    <h3
-                      className="font-serif text-[26px] sm:text-[28px] leading-[32px] font-normal text-[#2F2F2F] mb-3"
-                      style={{ fontFamily: "'DM Serif Text', serif" }}
-                    >
+                  <div className="relative z-10 mt-6 xl:mt-auto">
+                    <h3 className="mb-2 font-serif text-[clamp(1.35rem,1.15rem+0.7vw,1.75rem)] font-normal leading-8 text-[#2F2F2F] sm:mb-3">
                       {card.title}
                     </h3>
-                    <p className="font-sans text-[17px] sm:text-[19px] leading-[26px] sm:leading-[28px] font-light text-[#212121] max-w-[500px]">
+                    <p className="max-w-[500px] font-sans text-[clamp(0.95rem,0.88rem+0.3vw,1.1875rem)] font-light leading-[1.45] text-[#212121]">
                       {card.description}
                     </p>
                   </div>
