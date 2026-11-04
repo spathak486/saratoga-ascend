@@ -40,3 +40,5 @@ export * from './KeyTakeawaysSection';
 export * from './StatCardsSection';
 
 export * from './WorkforceSupportSection';
+
+export * from './WorkforceDeliverySection';

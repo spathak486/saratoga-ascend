@@ -1,0 +1,34 @@
+{
+  "kind": "collectionType",
+  "collectionName": "workforce_delivery_sections",
+  "info": {
+    "singularName": "workforce-delivery-section",
+    "pluralName": "workforce-delivery-sections",
+    "displayName": "Workforce Delivery Section",
+    "description": "Workforce delivery built on accountability zigzag steps section (Frame 2147226538)"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "referenceTitle": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string",
+      "required": true,
+      "default": "Workforce delivery built on accountability."
+    },
+    "highlightTitle": {
+      "type": "string",
+      "default": "Workforce delivery"
+    },
+    "cards": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::card.card"
+    }
+  }
+}
+

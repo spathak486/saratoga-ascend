@@ -21,6 +21,7 @@ import type {
   WorkforcePlanningReference,
   CriticalMissionsReference,
   WorkforceSupportReference,
+  WorkforceDeliveryReference,
   ContactInquiryReference,
   ContactPathwaysReference,
   ContactLearnReference,
@@ -54,6 +55,7 @@ import {
   WorkforcePlanningSection,
   CriticalMissionsSection,
   WorkforceSupportSection,
+  WorkforceDeliverySection,
   ContactInquirySection,
   ContactPathwaysSection,
   ContactLearnSection,
@@ -570,6 +572,19 @@ export const SECTION_REGISTRY: Record<
         description={oc.description ?? undefined}
         bgImage={oc.bgImage as any}
         cards={oc.cards as any}
+      />
+    );
+  },
+
+  ComponentReferencesWorkforceDeliveryReference: (section, index) => {
+    const wdRef = section as WorkforceDeliveryReference;
+    const wd = wdRef.workforceDeliverySection;
+    return (
+      <WorkforceDeliverySection
+        key={'workforce-delivery-' + index}
+        title={wd?.title ?? undefined}
+        highlightTitle={wd?.highlightTitle ?? undefined}
+        cards={(wd?.cards as any) ?? undefined}
       />
     );
   },

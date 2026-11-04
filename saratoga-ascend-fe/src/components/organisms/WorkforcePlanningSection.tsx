@@ -237,14 +237,12 @@ export function WorkforcePlanningSection({
   return (
     <section
       aria-label={title || highlightTitle || 'From Workforce Planning to Ongoing Support'}
-      className="relative mx-auto w-full max-w-[1920px] overflow-hidden bg-white py-16 lg:py-[80px] px-4 sm:px-8 xl:px-[120px]"
+      /* Figma 567:2062: 1920×910, title ~80 from top, 120px gutters */
+      className="relative mx-auto w-full max-w-[1920px] overflow-hidden bg-white px-page py-10 sm:py-12 xl:py-[80px]"
     >
       {/* Title */}
-      <div className="w-full text-center mb-12 lg:mb-[70px]">
-        <h2
-          className="font-serif text-[36px] sm:text-[48px] md:text-[56px] lg:text-[72px] leading-[1.15] max-w-[1442px] mx-auto"
-          style={{ fontFamily: "'DM Serif Text', serif" }}
-        >
+      <div className="mb-8 w-full text-left sm:mb-10 sm:text-center xl:mb-[70px]">
+        <h2 className="mx-auto max-w-[1442px] font-serif text-[clamp(2rem,1.35rem+2.6vw,4.5rem)] font-normal leading-[1.15]">
           {renderTitle()}
         </h2>
       </div>
@@ -437,17 +435,15 @@ export function WorkforcePlanningSection({
       </div>
 
       {/* --- RESPONSIVE TABLET / MOBILE VIEW (< 1280px) --- */}
-      <div className="xl:hidden flex flex-col gap-6 items-center w-full max-w-[650px] mx-auto">
-        {/* Center portrait */}
-        <div className="w-56 h-56 sm:w-72 sm:h-72 rounded-full overflow-hidden shadow-md my-4 border-4 border-white">
+      <div className="mx-auto flex w-full max-w-[650px] flex-col items-stretch gap-4 sm:gap-5 xl:hidden">
+        <div className="mx-auto my-2 size-44 overflow-hidden rounded-full border-4 border-white shadow-md sm:my-3 sm:size-64">
           <img
             src={resolvedCenterImage}
             alt={centerImage?.alternativeText || 'Healthcare Team'}
-            className="w-full h-full object-cover object-center"
+            className="size-full object-cover object-center"
           />
         </div>
 
-        {/* Dynamic Cards Stack */}
         {displayCards.map((card, i) => {
           const stepNum = card.number || (i < 9 ? `0${i + 1}` : `${i + 1}`);
           const tone = i % 2 === 0 ? 'sky' : 'red';
@@ -456,35 +452,35 @@ export function WorkforcePlanningSection({
           return (
             <div
               key={card.id ?? card.documentId ?? `mobile-card-${i}`}
-              className={`w-full rounded-[40px] border p-6 sm:p-8 flex items-center gap-5 sm:gap-6 shadow-sm ${
+              className={`flex w-full items-center gap-4 rounded-[28px] border p-5 shadow-sm sm:gap-5 sm:rounded-[40px] sm:p-7 ${
                 isRed
                   ? 'border-[#F01424] bg-[#FFF5F6]'
                   : 'border-[#2B88D9] bg-[#EEF7FE]'
               }`}
             >
               <div
-                className={`w-20 h-20 sm:w-24 sm:h-24 rounded-full shrink-0 flex items-center justify-center ${
+                className={`flex size-16 shrink-0 items-center justify-center rounded-full sm:size-24 ${
                   isRed ? 'bg-[#FFD8DB]' : 'bg-[#C8E7FB]'
                 }`}
               >
                 <StepIcon number={stepNum} tone={tone} iconUrl={card.icon?.url} title={card.title} />
               </div>
-              <div>
+              <div className="min-w-0 flex-1">
                 <span
-                  className={`font-sans font-bold text-[18px] block ${
+                  className={`block font-sans text-[16px] font-bold sm:text-[18px] ${
                     isRed ? 'text-[#F01424]' : 'text-[#2B88D9]'
                   }`}
                 >
                   {stepNum}
                 </span>
                 <h3
-                  className={`font-sans font-bold text-[22px] sm:text-[26px] my-1 ${
+                  className={`my-0.5 font-sans text-[clamp(1.15rem,1rem+0.6vw,1.625rem)] font-bold ${
                     isRed ? 'text-[#F01424]' : 'text-[#2B88D9]'
                   }`}
                 >
                   {card.title}
                 </h3>
-                <p className="font-sans text-[15px] sm:text-[16px] leading-[22px] text-[#212121]">
+                <p className="font-sans text-[clamp(0.9rem,0.85rem+0.25vw,1rem)] leading-[1.4] text-[#212121]">
                   {card.description}
                 </p>
               </div>

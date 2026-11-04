@@ -67,10 +67,10 @@ export const HealthcareProgramsSection: React.FC<HealthcareProgramsSectionProps>
       aria-label={title ? undefined : 'Healthcare programs'}
       tone="surface"
       spacing="none"
-      className="bg-section-wash mt-10 py-10 max-xl:mt-0 max-xl:py-[1.875rem]"
-      containerClassName="max-xl:!px-[7px]"
+      /* Figma 567:1970: ~80px vertical rhythm; keep page gutters on all breakpoints */
+      className="bg-section-wash py-10 sm:py-12 xl:mt-10 xl:py-16"
     >
-      <div className="flex flex-col gap-10">
+      <div className="flex flex-col gap-8 sm:gap-10">
         {title || description ? (
           <SectionIntro
             id="healthcare-programs-heading"
@@ -78,14 +78,14 @@ export const HealthcareProgramsSection: React.FC<HealthcareProgramsSectionProps>
             description={description ?? ''}
             wide
             titleTone="inherit"
-            titleClassName="text-brand-cta-from"
+            titleClassName="text-brand-cta-from max-xl:text-[clamp(1.75rem,1.2rem+2vw,2.5rem)]!"
             descriptionSize="sectionLead"
             descriptionStyle={{ color: 'var(--color-ink)' }}
-            className="gap-3 max-xl:hidden"
+            className="gap-3"
           />
         ) : null}
 
-        <div className="flex flex-col gap-10">
+        <div className="flex flex-col gap-8 sm:gap-10">
           <HealthcareFeatureCard
             personSrc={personSrc}
             heartSrc={heartSrc}
