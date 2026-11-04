@@ -114,7 +114,7 @@ export interface HeroSectionProps {
   secondaryCtaHref?: string;
   mediaMime?: string;
   mediaExt?: string;
-  variant?: 'homebanner' | 'homebanner_two_buttons' | 'default' | 'gradient' | 'blog';
+  variant?: 'homebanner' | 'homebanner_two_buttons' | 'default' | 'gradient' | 'blog' | 'banner_cta';
   authorName?: string;
   date?: string;
   readTime?: string | number;
@@ -255,6 +255,136 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           </Container>
         </div>
       </Section>
+    );
+  }
+
+  if (variant === 'banner_cta') {
+    /* Group 2085665783: 1920x640px, Modern Healthcare Team Banner */
+    const rawTitle = title || 'Build the workforce your mission requires.';
+    const rawDesc = stripHtml(description) || 'Tell us about your staffing needs, program requirements, workforce gaps, or upcoming contract demands. Saratoga Ascend can help shape a practical, scalable workforce solution.';
+    const primaryHref = ctaHref || '#';
+    const primaryLabel = ctaLabel || 'Discuss Your Requirements';
+    const secondaryHref = secondaryCtaHref || '#';
+    const secondaryLabel = secondaryCtaLabel || 'Contact Saratoga Ascend';
+    const bannerImgSrc = helixSrc || '/images/modern-healthcare-team-banner.png';
+
+    // Highlight logic: if subTitle is provided, highlight that; otherwise highlight "mission requires."
+    const highlightTarget = subTitle?.trim() || 'mission requires.';
+    const renderCtaTitle = () => {
+      const parts = rawTitle.split(new RegExp(`(${highlightTarget.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'i'));
+      if (parts.length > 1) {
+        return parts.map((part, idx) =>
+          part.toLowerCase() === highlightTarget.toLowerCase() ? (
+            <span key={idx} className="text-[#F01424]">
+              {part}
+            </span>
+          ) : (
+            <span key={idx} className="text-[#000000]">
+              {part}
+            </span>
+          )
+        );
+      }
+      return <span className="text-[#000000]">{rawTitle}</span>;
+    };
+
+    return (
+      <section
+        aria-label={rawTitle}
+        className="relative mx-auto w-full max-w-[1920px] overflow-hidden min-h-[520px] xl:h-[640px] flex items-center bg-[#FAFAFA]"
+      >
+        {/* Background Image Container */}
+        <div className="absolute inset-0 size-full pointer-events-none select-none overflow-hidden">
+          {resolvedVideoSrc ? (
+            <video
+              className="absolute inset-0 size-full object-cover object-center"
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="metadata"
+            >
+              <source src={resolvedVideoSrc} type={mediaMime || 'video/mp4'} />
+            </video>
+          ) : (
+            <img
+              src={bannerImgSrc}
+              alt={mediaAlt || rawTitle}
+              className="absolute inset-0 size-full object-cover object-right xl:object-center"
+            />
+          )}
+        </div>
+
+        {/* Content Container (Group 2608667: left: 120px on 1920px screen, responsive padding) */}
+        <div className="relative z-10 mx-auto w-full max-w-[1920px] px-6 sm:px-10 lg:px-16 2xl:px-[120px] py-12 xl:py-0">
+          <div className="flex flex-col max-w-[931px]">
+            {/* Title: 72px DM Serif Text, line-height 99px (fluid clamp) */}
+            <h2
+              className="font-serif text-[clamp(2.25rem,1.4rem+2.6vw,4.5rem)] leading-[1.15] xl:leading-[99px] font-normal tracking-tight text-[#000000] max-w-[790px]"
+              style={{ fontFamily: "'DM Serif Text', serif" }}
+            >
+              {renderCtaTitle()}
+            </h2>
+
+            {/* Description: 24px Google Sans Flex, line-height 40px (fluid clamp) */}
+            <p
+              className="font-sans text-[clamp(1.125rem,0.95rem+0.45vw,1.5rem)] leading-[1.5] xl:leading-[40px] font-normal text-[#000000] mt-4 xl:mt-[12px] max-w-[931px]"
+            >
+              {rawDesc}
+            </p>
+
+            {/* Action Buttons: 30px gap */}
+            <div className="flex flex-wrap items-center gap-[20px] sm:gap-[30px] mt-6 xl:mt-[40px]">
+              {/* Primary CTA: 336px x 60px gradient button */}
+              <a
+                href={primaryHref}
+                className="inline-flex items-center justify-center gap-3 px-6 h-[60px] min-w-[280px] sm:w-[336px] rounded-[8px] text-[18px] sm:text-[20px] font-medium leading-[30px] text-white shadow-sm transition-all duration-300 hover:opacity-95 hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2A91DC]"
+                style={{
+                  background: 'linear-gradient(90.55deg, #D31E2D 0.47%, #2A91DC 102.45%)',
+                }}
+              >
+                <span>{primaryLabel}</span>
+                {/* Arrow up-right Icon */}
+                <svg
+                  className="w-6 h-6 shrink-0 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.12"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
+                >
+                  <line x1="7" y1="17" x2="17" y2="7" />
+                  <polyline points="7 7 17 7 17 17" />
+                </svg>
+              </a>
+
+              {/* Secondary CTA: 322px x 60px border outline button */}
+              <a
+                href={secondaryHref}
+                className="inline-flex items-center justify-center gap-3 px-6 h-[60px] min-w-[280px] sm:w-[322px] rounded-[8px] border border-[#022E4C] text-[18px] sm:text-[20px] font-medium leading-[30px] text-[#022E4C] bg-transparent transition-all duration-300 hover:bg-[#022E4C] hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#022E4C]"
+              >
+                <span>{secondaryLabel}</span>
+                {/* Arrow up-right Icon */}
+                <svg
+                  className="w-6 h-6 shrink-0 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.12"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
+                >
+                  <line x1="7" y1="17" x2="17" y2="7" />
+                  <polyline points="7 7 17 7 17 17" />
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
     );
   }
 
