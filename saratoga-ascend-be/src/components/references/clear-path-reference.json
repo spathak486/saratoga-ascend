@@ -1,0 +1,17 @@
+{
+  "collectionName": "components_references_clear_path_references",
+  "info": {
+    "displayName": "Clear Path Reference",
+    "icon": "arrow-right",
+    "description": "Reference component for A Clear Path from Need to Delivery Section (Frame 2147226555)"
+  },
+  "options": {},
+  "attributes": {
+    "clearPathSection": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::clear-path-section.clear-path-section"
+    }
+  }
+}
+

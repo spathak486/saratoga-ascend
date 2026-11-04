@@ -23,6 +23,7 @@ import type {
   WorkforceSupportReference,
   WorkforceDeliveryReference,
   ExploreCapabilitiesReference,
+  ClearPathReference,
   ContactInquiryReference,
   ContactPathwaysReference,
   ContactLearnReference,
@@ -58,6 +59,7 @@ import {
   WorkforceSupportSection,
   WorkforceDeliverySection,
   ExploreCapabilitiesSection,
+  ClearPathSection,
   ContactInquirySection,
   ContactPathwaysSection,
   ContactLearnSection,
@@ -574,6 +576,20 @@ export const SECTION_REGISTRY: Record<
         description={oc.description ?? undefined}
         bgImage={oc.bgImage as any}
         cards={oc.cards as any}
+      />
+    );
+  },
+
+  ComponentReferencesClearPathReference: (section, index) => {
+    const cpRef = section as ClearPathReference;
+    const cp = cpRef.clearPathSection;
+    return (
+      <ClearPathSection
+        key={'clear-path-' + index}
+        title={cp?.title ?? undefined}
+        highlightTitle={cp?.highlightTitle ?? undefined}
+        description={cp?.description ?? undefined}
+        cards={(cp?.cards as any) ?? undefined}
       />
     );
   },
