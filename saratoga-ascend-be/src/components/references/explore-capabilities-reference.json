@@ -1,0 +1,17 @@
+{
+  "collectionName": "components_references_explore_capabilities_references",
+  "info": {
+    "displayName": "Explore Capabilities Reference",
+    "icon": "layer-group",
+    "description": "Reference component for Explore Capabilities Section (Frame 2147226539)"
+  },
+  "options": {},
+  "attributes": {
+    "exploreCapabilitiesSection": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::explore-capabilities-section.explore-capabilities-section"
+    }
+  }
+}
+

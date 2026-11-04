@@ -489,6 +489,24 @@ export type OurCapabilitiesReference = z.infer<typeof OurCapabilitiesReferenceSc
 
 
 
+
+export const ExploreCapabilitiesSectionEntitySchema = z.object({
+  documentId: z.string().optional(),
+  referenceTitle: z.string().nullable().optional(),
+  title: z.string().nullable().optional(),
+  highlightTitle: z.string().nullable().optional(),
+  cards: z.array(ValueCardSchema).nullable().optional(),
+});
+
+export type ExploreCapabilitiesSectionEntity = z.infer<typeof ExploreCapabilitiesSectionEntitySchema>;
+
+export const ExploreCapabilitiesReferenceSchema = z.object({
+  __typename: z.literal('ComponentReferencesExploreCapabilitiesReference'),
+  exploreCapabilitiesSection: ExploreCapabilitiesSectionEntitySchema.nullable().optional(),
+});
+
+export type ExploreCapabilitiesReference = z.infer<typeof ExploreCapabilitiesReferenceSchema>;
+
 export const WorkforceDeliverySectionEntitySchema = z.object({
   documentId: z.string().optional(),
   referenceTitle: z.string().nullable().optional(),
@@ -667,6 +685,7 @@ export const DynamicZoneSectionSchema = z.union([
   CriticalMissionsReferenceSchema,
   WorkforceSupportReferenceSchema,
   WorkforceDeliveryReferenceSchema,
+  ExploreCapabilitiesReferenceSchema,
   ContactInquiryReferenceSchema,
   ContactPathwaysReferenceSchema,
   ContactLearnReferenceSchema,

@@ -281,6 +281,32 @@ export function resolveSectionImages(
 
         
     
+    
+    case 'ComponentReferencesExploreCapabilitiesReference': {
+      const raw = section as import('@/lib/graphql/types').RawExploreCapabilitiesReference;
+      const s = raw.exploreCapabilitiesSection;
+      return {
+        __typename: 'ComponentReferencesExploreCapabilitiesReference',
+        exploreCapabilitiesSection: s
+          ? {
+              documentId: s.documentId,
+              title: s.title,
+              highlightTitle: s.highlightTitle,
+              cards: s.cards?.map(c => ({
+                id: c.documentId,
+                documentId: c.documentId,
+                title: c.title,
+                description: c.description,
+                number: c.number,
+                isHighlighted: c.isHighlighted,
+                actionTone: c.actionTone,
+                icon: c.icon ? { url: c.icon.url, alternativeText: c.icon.alternativeText } : null,
+              })),
+            }
+          : null,
+      };
+    }
+
     case 'ComponentReferencesWorkforceDeliveryReference': {
       const raw = section as import('@/lib/graphql/types').RawWorkforceDeliveryReference;
       const s = raw.workforceDeliverySection;

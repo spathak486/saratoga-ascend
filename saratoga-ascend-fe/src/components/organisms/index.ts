@@ -42,3 +42,5 @@ export * from './StatCardsSection';
 export * from './WorkforceSupportSection';
 
 export * from './WorkforceDeliverySection';
+
+export * from './ExploreCapabilitiesSection';
