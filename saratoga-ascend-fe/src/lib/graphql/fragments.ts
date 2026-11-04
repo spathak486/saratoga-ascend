@@ -435,6 +435,27 @@ export const OUR_CAPABILITIES_REFERENCE_FIELDS = `
 
 
 
+
+export const EXPLORE_CAPABILITIES_REFERENCE_FIELDS = `
+  __typename
+  ... on ComponentReferencesExploreCapabilitiesReference {
+    exploreCapabilitiesSection {
+      documentId
+      title
+      highlightTitle
+      cards {
+        documentId
+        title
+        description
+        number
+        isHighlighted
+        actionTone
+        icon { ${IMAGE_FIELDS} }
+      }
+    }
+  }
+`;
+
 export const WORKFORCE_DELIVERY_REFERENCE_FIELDS = `
   __typename
   ... on ComponentReferencesWorkforceDeliveryReference {
@@ -654,6 +675,7 @@ export const COMMON_SECTION_FRAGMENTS = [
   CRITICAL_MISSIONS_REFERENCE_FIELDS,
   WORKFORCE_SUPPORT_REFERENCE_FIELDS,
   WORKFORCE_DELIVERY_REFERENCE_FIELDS,
+  EXPLORE_CAPABILITIES_REFERENCE_FIELDS,
   CONTACT_INQUIRY_REFERENCE_FIELDS,
   CONTACT_PATHWAYS_REFERENCE_FIELDS,
   CONTACT_LEARN_REFERENCE_FIELDS,

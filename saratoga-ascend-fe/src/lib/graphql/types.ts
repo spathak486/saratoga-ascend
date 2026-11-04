@@ -414,6 +414,19 @@ export interface RawOurCapabilitiesReference {
 
 
 
+
+export interface RawExploreCapabilitiesSection {
+  documentId?: string;
+  title?: string | null;
+  highlightTitle?: string | null;
+  cards?: RawValueCard[] | null;
+}
+
+export interface RawExploreCapabilitiesReference {
+  __typename: 'ComponentReferencesExploreCapabilitiesReference';
+  exploreCapabilitiesSection?: RawExploreCapabilitiesSection | null;
+}
+
 export interface RawWorkforceDeliverySection {
   documentId?: string;
   title?: string | null;
@@ -494,6 +507,7 @@ export type RawDynamicZoneSection =
   | RawCriticalMissionsReference
   | RawWorkforceSupportReference
   | RawWorkforceDeliveryReference
+  | RawExploreCapabilitiesReference
   | ({ __typename: string } & Record<string, unknown>);
 
 /** Universal slug-driven page (Strapi `pages` collection). */

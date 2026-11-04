@@ -22,6 +22,7 @@ import type {
   CriticalMissionsReference,
   WorkforceSupportReference,
   WorkforceDeliveryReference,
+  ExploreCapabilitiesReference,
   ContactInquiryReference,
   ContactPathwaysReference,
   ContactLearnReference,
@@ -56,6 +57,7 @@ import {
   CriticalMissionsSection,
   WorkforceSupportSection,
   WorkforceDeliverySection,
+  ExploreCapabilitiesSection,
   ContactInquirySection,
   ContactPathwaysSection,
   ContactLearnSection,
@@ -572,6 +574,19 @@ export const SECTION_REGISTRY: Record<
         description={oc.description ?? undefined}
         bgImage={oc.bgImage as any}
         cards={oc.cards as any}
+      />
+    );
+  },
+
+  ComponentReferencesExploreCapabilitiesReference: (section, index) => {
+    const ecRef = section as ExploreCapabilitiesReference;
+    const ec = ecRef.exploreCapabilitiesSection;
+    return (
+      <ExploreCapabilitiesSection
+        key={'explore-capabilities-' + index}
+        title={ec?.title ?? undefined}
+        highlightTitle={ec?.highlightTitle ?? undefined}
+        cards={(ec?.cards as any) ?? undefined}
       />
     );
   },
