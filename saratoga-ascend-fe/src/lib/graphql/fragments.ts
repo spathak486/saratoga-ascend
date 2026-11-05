@@ -652,21 +652,16 @@ export const CLEAR_PATH_REFERENCE_FIELDS = `
 export const FEDERAL_GOVERNMENT_REFERENCE_FIELDS = `
   __typename
   ... on ComponentReferencesFederalGovernmentReference {
-    federalGovernmentSection {
+    cards {
       documentId
-      referenceTitle
       title
-      cards {
-        documentId
-        title
-        subheading
-        description
-        image { ${IMAGE_FIELDS} }
-        tags {
-          text
-        }
-        cta { ${GENERAL_LINK_FIELDS} }
+      subheading
+      description
+      image { ${IMAGE_FIELDS} }
+      tags {
+        text
       }
+      cta { ${GENERAL_LINK_FIELDS} }
     }
   }
 `;

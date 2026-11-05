@@ -602,13 +602,10 @@ export const SECTION_REGISTRY: Record<
 
   ComponentReferencesFederalGovernmentReference: (section, index) => {
     const fgRef = section as FederalGovernmentReference;
-    const fg = fgRef.federalGovernmentSection;
     return (
       <FederalGovernmentSection
         key={'federal-gov-' + index}
-        title={fg?.title ?? undefined}
-        referenceTitle={fg?.referenceTitle ?? undefined}
-        cards={fg?.cards as any}
+        cards={fgRef?.cards as any}
       />
     );
   },
