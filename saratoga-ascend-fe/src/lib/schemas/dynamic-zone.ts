@@ -757,7 +757,29 @@ export const FederalGovernmentReferenceSchema = z.object({
 
 export type FederalGovernmentReference = z.infer<typeof FederalGovernmentReferenceSchema>;
 
+export const ContractVehicleItemSchema = z.object({
+  documentId: z.string().optional(),
+  scope: z.enum(['federal', 'state']).default('federal'),
+  navLabel: z.string(),
+  bannerTitle: z.string(),
+  description: z.string(),
+  primaryCta: GeneralLinkSchema.nullable().optional(),
+  secondaryCta: GeneralLinkSchema.nullable().optional(),
+});
+
+export type ContractVehicleItem = z.infer<typeof ContractVehicleItemSchema>;
+
+export const ContractVehiclesReferenceSchema = z.object({
+  __typename: z.literal('ComponentReferencesContractVehiclesReference'),
+  title: z.string().nullable().optional(),
+  description: z.string().nullable().optional(),
+  vehicles: z.array(ContractVehicleItemSchema).nullable().optional(),
+});
+
+export type ContractVehiclesReference = z.infer<typeof ContractVehiclesReferenceSchema>;
+
 export const DynamicZoneSectionSchema = z.union([
+  ContractVehiclesReferenceSchema,
   FederalGovernmentReferenceSchema,
   ServiceLifecycleReferenceSchema,
   MissionsYouServeReferenceSchema,

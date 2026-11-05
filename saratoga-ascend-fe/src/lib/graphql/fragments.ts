@@ -649,6 +649,23 @@ export const CLEAR_PATH_REFERENCE_FIELDS = `
   }
 `;
 
+export const CONTRACT_VEHICLES_REFERENCE_FIELDS = `
+  __typename
+  ... on ComponentReferencesContractVehiclesReference {
+    title
+    description
+    vehicles {
+      documentId
+      scope
+      navLabel
+      bannerTitle
+      description
+      primaryCta { ${GENERAL_LINK_FIELDS} }
+      secondaryCta { ${GENERAL_LINK_FIELDS} }
+    }
+  }
+`;
+
 export const FEDERAL_GOVERNMENT_REFERENCE_FIELDS = `
   __typename
   ... on ComponentReferencesFederalGovernmentReference {
@@ -775,6 +792,7 @@ export const COMMON_SECTION_FRAGMENTS = [
   MISSIONS_YOU_SERVE_REFERENCE_FIELDS,
   SERVICE_LIFECYCLE_REFERENCE_FIELDS,
   FEDERAL_GOVERNMENT_REFERENCE_FIELDS,
+  CONTRACT_VEHICLES_REFERENCE_FIELDS,
   CONTACT_INQUIRY_REFERENCE_FIELDS,
   CONTACT_PATHWAYS_REFERENCE_FIELDS,
   CONTACT_LEARN_REFERENCE_FIELDS,

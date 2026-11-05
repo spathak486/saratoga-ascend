@@ -87,7 +87,8 @@
         "references.clear-path-reference",
         "references.missions-you-serve-reference",
         "references.service-lifecycle-reference",
-        "references.federal-government-reference"
+        "references.federal-government-reference",
+        "references.contract-vehicles-reference"
       ]
     }
   }

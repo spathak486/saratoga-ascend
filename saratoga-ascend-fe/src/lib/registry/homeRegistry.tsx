@@ -27,6 +27,7 @@ import type {
   MissionsYouServeReference,
   ServiceLifecycleReference,
   FederalGovernmentReference,
+  ContractVehiclesReference,
   ContactInquiryReference,
   ContactPathwaysReference,
   ContactLearnReference,
@@ -596,6 +597,18 @@ export const SECTION_REGISTRY: Record<
         highlightTitle={cp?.highlightTitle ?? undefined}
         description={cp?.description ?? undefined}
         cards={(cp?.cards as any) ?? undefined}
+      />
+    );
+  },
+
+  ComponentReferencesContractVehiclesReference: (section, index) => {
+    const cvRef = section as ContractVehiclesReference;
+    return (
+      <ContractVehiclesSection
+        key={'contract-vehicles-' + index}
+        title={cvRef?.title ?? undefined}
+        description={cvRef?.description ?? undefined}
+        vehicles={cvRef?.vehicles as any}
       />
     );
   },
