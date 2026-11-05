@@ -29,9 +29,9 @@
       "default": "From physicians and nurses to allied health, behavioral health, laboratory, and scientific professionals, Saratoga Ascend supports workforce needs through flexible engagement and delivery models."
     },
     "tabs": {
-      "type": "component",
-      "repeatable": true,
-      "component": "workforce.lifecycle-tab"
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::lifecycle-tab.lifecycle-tab"
     }
   }
 }
