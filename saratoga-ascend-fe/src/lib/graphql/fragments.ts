@@ -659,16 +659,20 @@ export const SERVICE_LIFECYCLE_REFERENCE_FIELDS = `
       subtitle
       description
       tabs {
+        documentId
         tabId
         label
         heading
         subheading
+        categoriesLabel
+        supportAreasLabel
         cta { ${GENERAL_LINK_FIELDS} }
         image { ${IMAGE_FIELDS} }
         supportAreas {
           text
         }
         categories {
+          documentId
           number
           title
           description

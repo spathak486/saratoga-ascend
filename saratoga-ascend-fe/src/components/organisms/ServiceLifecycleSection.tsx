@@ -2,8 +2,18 @@
 
 import React, { useState } from 'react';
 
+function normalizeImageSrc(url?: string | null): string {
+  if (!url) return '';
+  if (url.startsWith('/uploads/')) {
+    const base = process.env.NEXT_PUBLIC_STRAPI_API_URL || 'https://cms.saratogaascend.com';
+    return `${base.replace(/\/+$/, '')}${url}`;
+  }
+  return url;
+}
+
 export interface CategoryItem {
   id?: string;
+  documentId?: string;
   number?: string | null;
   title: string;
   description: string;
@@ -16,10 +26,13 @@ export interface SupportAreaItem {
 
 export interface LifecycleTab {
   id?: string;
+  documentId?: string;
   tabId?: string | null;
   label: string;
   heading: string;
   subheading: string;
+  categoriesLabel?: string | null;
+  supportAreasLabel?: string | null;
   image?: {
     url?: string | null;
     alternativeText?: string | null;
@@ -51,7 +64,7 @@ const DEFAULT_TABS: LifecycleTab[] = [
     heading: 'Physician Staffing',
     subheading:
       'Saratoga Ascend supports healthcare and public-sector organizations with qualified physicians for planned staffing needs, specialized programs, temporary coverage, and mission-critical healthcare delivery.',
-    image: '/images/modern-healthcare-team-banner.png',
+    image: '/images/physician-staffing-figma.jpg',
     supportAreas: [
       'Credentialing and readiness coordination',
       'Physician workforce planning',
@@ -461,10 +474,11 @@ export function ServiceLifecycleSection({
   const currentTab =
     activeTabs.find((t) => (t.tabId || t.id) === selectedTabId) || activeTabs[0];
 
-  const currentImageUrl: string =
+  const currentImageUrl: string = normalizeImageSrc(
     typeof currentTab.image === 'string'
       ? currentTab.image
-      : (currentTab.image?.url ?? (typeof DEFAULT_TABS[0].image === 'string' ? DEFAULT_TABS[0].image : ''));
+      : (currentTab.image?.url ?? (typeof DEFAULT_TABS[0].image === 'string' ? DEFAULT_TABS[0].image : '/images/physician-staffing-figma.jpg'))
+  );
 
   const currentSupportAreas: string[] = (currentTab.supportAreas || []).map((item) =>
     typeof item === 'string' ? item : item.text
@@ -597,7 +611,7 @@ export function ServiceLifecycleSection({
                   className="font-sans text-[18px] sm:text-[20px] xl:text-[22px] font-semibold leading-[28px] text-[#000000]"
                   style={{ fontFamily: "'Google Sans Flex', sans-serif" }}
                 >
-                  Workforce categories
+                  {currentTab.categoriesLabel || 'Workforce categories'}
                 </h4>
               </div>
 
@@ -655,7 +669,7 @@ export function ServiceLifecycleSection({
                     className="font-sans text-[18px] sm:text-[20px] xl:text-[22px] font-semibold leading-[28px] text-[#000000]"
                     style={{ fontFamily: "'Google Sans Flex', sans-serif" }}
                   >
-                    Support areas
+                    {currentTab.supportAreasLabel || 'Support areas'}
                   </h4>
                 </div>
 

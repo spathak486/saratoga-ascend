@@ -697,6 +697,7 @@ export const MissionsYouServeReferenceSchema = z.object({
 export type MissionsYouServeReference = z.infer<typeof MissionsYouServeReferenceSchema>;
 
 export const LifecycleCategorySchema = z.object({
+  documentId: z.string().optional(),
   number: z.string().nullable().optional(),
   title: z.string(),
   description: z.string(),
@@ -707,10 +708,13 @@ export const SupportAreaItemSchema = z.object({
 });
 
 export const LifecycleTabSchema = z.object({
+  documentId: z.string().optional(),
   tabId: z.string().nullable().optional(),
   label: z.string(),
   heading: z.string(),
   subheading: z.string(),
+  categoriesLabel: z.string().nullable().optional(),
+  supportAreasLabel: z.string().nullable().optional(),
   cta: GeneralLinkSchema.nullable().optional(),
   image: StrapiImageSchema.nullable().optional(),
   supportAreas: z.array(SupportAreaItemSchema).nullable().optional(),
