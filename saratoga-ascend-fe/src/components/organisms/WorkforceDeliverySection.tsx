@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { motion, useReducedMotion } from 'motion/react';
 
 export interface WorkforceDeliveryCard {
   id?: string | number | null;
@@ -79,62 +80,131 @@ const DEFAULT_STEPS: WorkforceDeliveryCard[] = [
   },
 ];
 
-// Reusable SVG Dashed Capsule Container with fluid responsive sizing for 100% and 125% scales
-function DashedCapsuleBox({
+const CONNECTOR_DASH = 12.92;
+const CONNECTOR_CYCLE = CONNECTOR_DASH * 2;
+/** This file exported no motion. The earlier prototype was 400ms delay, linear, 300ms. */
+const CONNECTOR_DELAY_S = 0.4;
+const CONNECTOR_DURATION_S = 0.3;
+const CONNECTOR_PATH =
+  'M 0 315.96 H 40.61 A 47.6 47.6 0 0 0 88.2 268.36 V 98.13 A 47.6 47.6 0 0 1 135.8 50.53 H 626.63 A 47.6 47.6 0 0 0 674.22 2.93 V 0';
+
+function useConnectorMotion() {
+  const reduceMotion = useReducedMotion();
+  return {
+    initial: { strokeDashoffset: 0 },
+    animate: { strokeDashoffset: reduceMotion ? 0 : -CONNECTOR_CYCLE },
+    transition: reduceMotion
+      ? { duration: 0 }
+      : {
+          duration: CONNECTOR_DURATION_S,
+          delay: CONNECTOR_DELAY_S,
+          ease: 'linear' as const,
+          repeat: Infinity,
+        },
+  };
+}
+
+function ConnectorLine({ fromRightPhoto }: { fromRightPhoto: boolean }) {
+  const motionProps = useConnectorMotion();
+  const shared: React.CSSProperties = {
+    top: '100%',
+    width: 'calc(100% - 1.5 * var(--delivery-photo))',
+    height: 'calc(var(--delivery-photo) / 2 + 0.75rem)',
+  };
+  const place: React.CSSProperties = fromRightPhoto
+    ? { ...shared, right: 'calc(var(--delivery-photo) / 2)' }
+    : {
+        ...shared,
+        right: 'calc(100% - var(--delivery-photo) / 2)',
+        transform: 'scaleX(-1)',
+        transformOrigin: 'top right',
+      };
+
+  return (
+    <svg
+      viewBox="0 0 674.885 316.621"
+      preserveAspectRatio="none"
+      fill="none"
+      aria-hidden="true"
+      className="pointer-events-none absolute z-0 hidden xl:block"
+      style={place}
+    >
+      <motion.path
+        d={CONNECTOR_PATH}
+        stroke="#022E4C"
+        strokeWidth="1.322"
+        strokeDasharray={`${CONNECTOR_DASH} ${CONNECTOR_DASH}`}
+        strokeLinecap="round"
+        opacity="0.8"
+        {...motionProps}
+      />
+    </svg>
+  );
+}
+
+const FALLBACK_IMAGES = [
+  '/images/supporting-missions-doctor.png',
+  '/images/healthcare-team.png',
+  '/images/happy-mature-businessman-using-digital-tablet-while-talking-healthcare-workers-hallway-clinic 1.png',
+  '/images/confident-healthcare-team.png',
+  '/images/pharmacist-portrait.png',
+  '/images/future-doctor.png',
+];
+
+function StepCopy({
+  stepNum,
   title,
   description,
-  isFlipped = false,
 }: {
+  stepNum: string;
   title: string;
   description: string;
-  isFlipped?: boolean;
 }) {
   return (
-    <div
-      className="relative flex flex-col justify-between w-full max-w-[674px] min-h-[290px] xl:min-h-[316px] p-5 xl:p-[26px]"
-    >
-      {/* Exact SVG border with strokeDasharray="13.22 13.22", opacity 0.8 */}
-      <svg
-        className="absolute inset-0 w-full h-full pointer-events-none"
-        viewBox="0 0 674.22 315.96"
-        preserveAspectRatio="none"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        style={{
-          transform: isFlipped ? 'matrix(-1, 0, 0, 1, 0, 0)' : 'none',
-        }}
-      >
-        <rect
-          x="0.66"
-          y="0.66"
-          width="672.9"
-          height="314.64"
-          rx="47.59"
-          stroke="#022E4C"
-          strokeWidth="1.32"
-          strokeDasharray="13.22 13.22"
-          opacity="0.8"
-        />
-      </svg>
-
-      {/* Top Header: t1 (Title: fluid font scale) */}
-      <div className="relative z-10 w-full pt-1">
-        <h3
-          className="font-serif text-[clamp(1.75rem,1.4rem+1vw,2.75rem)] leading-[1.2] font-normal text-[#212121]"
-          style={{ fontFamily: "'DM Serif Text', serif" }}
-        >
+    <div className="flex w-full min-w-0 flex-col items-stretch gap-3 md:flex-row md:gap-4 xl:w-auto xl:gap-[23.8px]">
+      <div className="flex w-full items-center justify-center rounded-full border border-[#212121] bg-[#2B88D9] p-[10px] md:w-16 md:shrink-0 md:self-stretch md:p-0 xl:w-[clamp(3.5rem,4.4vw,5.288rem)] xl:rounded-[42.3px] xl:border-[1.322px]">
+        <span className="font-serif text-[1.75rem] font-normal leading-none text-white xl:text-[clamp(1.75rem,2.3vw,2.75rem)]">
+          {stepNum}
+        </span>
+      </div>
+      <div className="flex min-w-0 flex-1 flex-col justify-center gap-3 xl:w-[min(42.94rem,42vw)] xl:flex-none xl:gap-[23.8px]">
+        <h3 className="font-serif text-[clamp(1.5rem,1.1rem+1vw,2.75rem)] font-normal leading-tight text-[#212121] xl:text-[clamp(1.75rem,2.3vw,2.75rem)] xl:leading-[1.36]">
           {title}
         </h3>
+        <div className="flex min-h-[7.5rem] min-w-0 items-center overflow-hidden rounded-[1.75rem] border border-[#2B88D9] bg-[#E4EBF1] px-5 py-4 xl:min-h-[clamp(7.5rem,8.7vw,10.41rem)] xl:rounded-[42.3px] xl:border-[1.058px] xl:px-[clamp(1.25rem,1.65vw,1.983rem)] xl:py-[clamp(0.75rem,0.83vw,0.99rem)]">
+          <p className="line-clamp-4 min-w-0 break-words font-sans text-base font-normal leading-snug text-black xl:text-[clamp(1.05rem,1.46vw,1.75rem)] xl:leading-[1.6]">
+            {description}
+          </p>
+        </div>
       </div>
+    </div>
+  );
+}
 
-      {/* Bottom Inner Capsule: t2 (Description Box: bg #E4EBF1, border #2B88D9, radius 42.3px) */}
-      <div
-        className="relative z-10 w-full flex items-center bg-[#E4EBF1] rounded-[36px] xl:rounded-[42.3px] border border-[#2B88D9] px-6 xl:px-8 py-4 xl:py-5 min-h-[140px] xl:min-h-[166px]"
-      >
-        <p className="font-sans text-[clamp(1rem,0.9rem+0.35vw,1.375rem)] leading-[1.45] xl:leading-[1.6] text-black font-normal">
-          {description}
-        </p>
-      </div>
+function StepPhoto({ src, alt }: { src: string; alt: string }) {
+  return (
+    <div className="size-52 shrink-0 overflow-hidden rounded-full bg-neutral-100 sm:size-64 md:size-72 xl:size-[var(--delivery-photo)]">
+      <img src={src} alt={alt} className="size-full object-cover object-center" />
+    </div>
+  );
+}
+
+function VerticalConnector() {
+  const motionProps = useConnectorMotion();
+
+  return (
+    <div className="flex h-12 w-full justify-center xl:hidden" aria-hidden="true">
+      <svg className="h-full w-4" viewBox="0 0 4 48" fill="none">
+        <motion.path
+          d="M 2 0 V 48"
+          stroke="#022E4C"
+          strokeWidth="1.322"
+          strokeDasharray={`${CONNECTOR_DASH} ${CONNECTOR_DASH}`}
+          strokeLinecap="round"
+          opacity="0.8"
+          {...motionProps}
+        />
+      </svg>
     </div>
   );
 }
@@ -187,7 +257,7 @@ export function WorkforceDeliverySection({
       className="relative mx-auto w-full max-w-[1920px] bg-white py-12 xl:py-[80px] px-page overflow-hidden"
     >
       {/* Header Container (Group 2085665728: fluid clamp matching standard design system) */}
-      <div className="w-full mb-10 xl:mb-[80px] max-w-[1354px]">
+      <div className="mb-10 w-full max-w-[1354px] xl:mb-[60px]">
         <h2
           className="font-serif text-[clamp(2.25rem,1.5rem+2.6vw,4.5rem)] leading-[1.15] font-normal tracking-tight"
           style={{ fontFamily: "'DM Serif Text', serif" }}
@@ -196,263 +266,30 @@ export function WorkforceDeliverySection({
         </h2>
       </div>
 
-      {/* --- DESKTOP ZIGZAG TIMELINE VIEW (>= 1280px) --- */}
-      <div className="relative hidden xl:flex flex-col w-full max-w-[1411px] mx-auto py-2">
+      <div
+        className="relative mx-auto flex w-full max-w-[1528px] flex-col gap-8 xl:gap-3"
+        style={{ '--delivery-photo': 'clamp(16rem, 26.3vw, 31.563rem)' } as React.CSSProperties}
+      >
         {displayCards.map((card, index) => {
           const stepNum = card.number || (index < 9 ? `0${index + 1}` : `${index + 1}`);
           const isLeftText = index % 2 === 0;
           const isNotLast = index < displayCards.length - 1;
-
-          const defaultImg =
-            index === 0
-              ? '/images/supporting-missions-doctor.png'
-              : index === 1
-              ? '/images/healthcare-team.png'
-              : index === 2
-              ? '/images/happy-mature-businessman-using-digital-tablet-while-talking-healthcare-workers-hallway-clinic 1.png'
-              : index === 3
-              ? '/images/confident-healthcare-team.png'
-              : index === 4
-              ? '/images/pharmacist-portrait.png'
-              : '/images/future-doctor.png';
-
-          const imageSrc = card.image?.url || defaultImg;
+          const imageSrc = card.image?.url || FALLBACK_IMAGES[index] || FALLBACK_IMAGES[FALLBACK_IMAGES.length - 1];
 
           return (
             <div key={card.id ?? card.documentId ?? `delivery-step-${index}`} className="relative w-full">
-              {/* MAIN STEP ROW */}
-              <div className="relative w-full flex items-center justify-between min-h-[460px] xl:min-h-[505px] py-4">
-                {isLeftText ? (
-                  <>
-                    {/* LEFT CONTENT: Vertical Blue Capsule + Dashed Box */}
-                    <div className="relative z-10 flex items-center shrink-0 gap-4 xl:gap-6 w-[62%] max-w-[780px]">
-                      {/* Vertical Blue Capsule */}
-                      <div
-                        className="relative z-20 shrink-0 bg-[#2B88D9] flex flex-col items-center justify-center shadow-sm w-[74px] xl:w-[85px] h-[220px] xl:h-[250px] rounded-[36px] xl:rounded-[42.3px] border border-[#212121]"
-                      >
-                        <span
-                          className="font-serif text-[34px] xl:text-[44px] leading-none text-white font-normal"
-                          style={{ fontFamily: "'DM Serif Text', serif" }}
-                        >
-                          {stepNum}
-                        </span>
-                      </div>
-
-                      {/* Dashed Capsule Box (Flipped for left-side) */}
-                      <DashedCapsuleBox
-                        title={card.title}
-                        description={card.description}
-                        isFlipped={true}
-                      />
-                    </div>
-
-                    {/* RIGHT: Circular Image */}
-                    <div
-                      className="relative z-10 shrink-0 rounded-full overflow-hidden shadow-xl bg-gray-100 w-[420px] xl:w-[505px] h-[420px] xl:h-[505px] border border-[#022E4C]"
-                    >
-                      <img
-                        src={imageSrc}
-                        alt={card.image?.alternativeText || card.title}
-                        className="w-full h-full object-cover object-center transition-transform duration-500 hover:scale-105"
-                      />
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    {/* LEFT: Circular Image */}
-                    <div
-                      className="relative z-10 shrink-0 rounded-full overflow-hidden shadow-xl bg-gray-100 w-[420px] xl:w-[505px] h-[420px] xl:h-[505px] border border-[#022E4C]"
-                    >
-                      <img
-                        src={imageSrc}
-                        alt={card.image?.alternativeText || card.title}
-                        className="w-full h-full object-cover object-center transition-transform duration-500 hover:scale-105"
-                      />
-                    </div>
-
-                    {/* RIGHT CONTENT: Vertical Blue Capsule + Dashed Box */}
-                    <div className="relative z-10 flex items-center shrink-0 gap-4 xl:gap-6 w-[62%] max-w-[780px]">
-                      {/* Vertical Blue Capsule */}
-                      <div
-                        className="relative z-20 shrink-0 bg-[#2B88D9] flex flex-col items-center justify-center shadow-sm w-[74px] xl:w-[85px] h-[220px] xl:h-[250px] rounded-[36px] xl:rounded-[42.3px] border border-[#212121]"
-                      >
-                        <span
-                          className="font-serif text-[34px] xl:text-[44px] leading-none text-white font-normal"
-                          style={{ fontFamily: "'DM Serif Text', serif" }}
-                        >
-                          {stepNum}
-                        </span>
-                      </div>
-
-                      {/* Dashed Capsule Box (Normal orientation) */}
-                      <DashedCapsuleBox
-                        title={card.title}
-                        description={card.description}
-                        isFlipped={false}
-                      />
-                    </div>
-                  </>
-                )}
-              </div>
-
-              {/* CONNECTING DASHED S-CURVE PIPELINE (Between Steps) */}
-              {isNotLast && (
-                <div className="relative w-full h-[120px] xl:h-[140px] pointer-events-none select-none my-[-15px]">
-                  <svg
-                    className="w-full h-full"
-                    viewBox="0 0 1411 140"
-                    preserveAspectRatio="none"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    {isLeftText ? (
-                      <path
-                        d="M 1158 0 C 1158 75, 252 65, 252 140"
-                        stroke="#022E4C"
-                        strokeWidth="1.32"
-                        strokeDasharray="13.22 13.22"
-                        strokeLinecap="round"
-                        opacity="0.8"
-                      />
-                    ) : (
-                      <path
-                        d="M 252 0 C 252 75, 1158 65, 1158 140"
-                        stroke="#022E4C"
-                        strokeWidth="1.32"
-                        strokeDasharray="13.22 13.22"
-                        strokeLinecap="round"
-                        opacity="0.8"
-                      />
-                    )}
-                  </svg>
-                </div>
-              )}
-            </div>
-          );
-        })}
-      </div>
-
-      {/* --- TABLET VIEW (768px - 1279px) --- */}
-      <div className="hidden md:flex xl:hidden flex-col gap-16 w-full max-w-[850px] mx-auto py-4">
-        {displayCards.map((card, index) => {
-          const stepNum = card.number || (index < 9 ? `0${index + 1}` : `${index + 1}`);
-          const isLeft = index % 2 === 0;
-          const defaultImg =
-            index === 0
-              ? '/images/supporting-missions-doctor.png'
-              : index === 1
-              ? '/images/healthcare-team.png'
-              : index === 2
-              ? '/images/happy-mature-businessman-using-digital-tablet-while-talking-healthcare-workers-hallway-clinic 1.png'
-              : index === 3
-              ? '/images/confident-healthcare-team.png'
-              : index === 4
-              ? '/images/pharmacist-portrait.png'
-              : '/images/future-doctor.png';
-
-          const imageSrc = card.image?.url || defaultImg;
-
-          return (
-            <div
-              key={card.id ?? card.documentId ?? `tablet-step-${index}`}
-              className={`flex items-center gap-8 w-full ${isLeft ? 'flex-row' : 'flex-row-reverse'}`}
-            >
-              {/* Circular Image */}
-              <div className="w-[300px] h-[300px] shrink-0 rounded-full border border-[#022E4C] overflow-hidden shadow-lg bg-gray-100">
-                <img
-                  src={imageSrc}
-                  alt={card.image?.alternativeText || card.title}
-                  className="w-full h-full object-cover object-center"
-                />
-              </div>
-
-              {/* Content Pill Stack */}
-              <div className="flex flex-col gap-4 flex-1">
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-full bg-[#2B88D9] border border-[#212121] flex items-center justify-center shrink-0">
-                    <span
-                      className="font-serif text-[22px] text-white font-normal"
-                      style={{ fontFamily: "'DM Serif Text', serif" }}
-                    >
-                      {stepNum}
-                    </span>
-                  </div>
-                  <h3
-                    className="font-serif text-[28px] leading-[1.2] font-normal text-[#212121]"
-                    style={{ fontFamily: "'DM Serif Text', serif" }}
-                  >
-                    {card.title}
-                  </h3>
-                </div>
-
-                <div className="w-full rounded-[28px] bg-[#E4EBF1] border border-[#2B88D9] p-6">
-                  <p className="font-sans text-[18px] leading-[28px] text-black font-normal">
-                    {card.description}
-                  </p>
+              <div className="relative z-10 flex w-full flex-col items-center gap-5 md:flex-row md:items-center md:justify-between md:gap-8">
+                <StepPhoto src={imageSrc} alt={card.image?.alternativeText || card.title} />
+                <div className={`w-full min-w-0 md:max-w-[46%] xl:max-w-none xl:w-auto ${isLeftText ? 'md:order-first' : ''}`}>
+                  <StepCopy stepNum={stepNum} title={card.title} description={card.description} />
                 </div>
               </div>
-            </div>
-          );
-        })}
-      </div>
-
-      {/* --- MOBILE VIEW (< 768px) --- */}
-      <div className="md:hidden flex flex-col gap-12 w-full max-w-[500px] mx-auto">
-        {displayCards.map((card, index) => {
-          const stepNum = card.number || (index < 9 ? `0${index + 1}` : `${index + 1}`);
-          const defaultImg =
-            index === 0
-              ? '/images/supporting-missions-doctor.png'
-              : index === 1
-              ? '/images/healthcare-team.png'
-              : index === 2
-              ? '/images/happy-mature-businessman-using-digital-tablet-while-talking-healthcare-workers-hallway-clinic 1.png'
-              : index === 3
-              ? '/images/confident-healthcare-team.png'
-              : index === 4
-              ? '/images/pharmacist-portrait.png'
-              : '/images/future-doctor.png';
-
-          const imageSrc = card.image?.url || defaultImg;
-
-          return (
-            <div
-              key={card.id ?? card.documentId ?? `mobile-step-${index}`}
-              className="flex flex-col items-center gap-6 w-full"
-            >
-              {/* Circular Image */}
-              <div className="w-[260px] h-[260px] rounded-full border border-[#022E4C] overflow-hidden shadow-lg bg-gray-100">
-                <img
-                  src={imageSrc}
-                  alt={card.image?.alternativeText || card.title}
-                  className="w-full h-full object-cover object-center"
-                />
-              </div>
-
-              {/* Step Number + Title */}
-              <div className="flex items-center gap-4 w-full">
-                <div className="w-12 h-12 rounded-full bg-[#2B88D9] border border-[#212121] flex items-center justify-center shrink-0">
-                  <span
-                    className="font-serif text-[22px] text-white font-normal"
-                    style={{ fontFamily: "'DM Serif Text', serif" }}
-                  >
-                    {stepNum}
-                  </span>
-                </div>
-                <h3
-                  className="font-serif text-[24px] leading-[1.2] font-normal text-[#212121]"
-                  style={{ fontFamily: "'DM Serif Text', serif" }}
-                >
-                  {card.title}
-                </h3>
-              </div>
-
-              {/* Description Capsule */}
-              <div className="w-full rounded-[24px] bg-[#E4EBF1] border border-[#2B88D9] p-5">
-                <p className="font-sans text-[16px] sm:text-[18px] leading-[26px] text-black font-normal">
-                  {card.description}
-                </p>
-              </div>
+              {isNotLast ? (
+                <>
+                  <VerticalConnector />
+                  <ConnectorLine fromRightPhoto={isLeftText} />
+                </>
+              ) : null}
             </div>
           );
         })}

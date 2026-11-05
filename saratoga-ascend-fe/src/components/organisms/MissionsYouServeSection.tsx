@@ -265,7 +265,7 @@ export function MissionsYouServeSection({
 
                     {/* Card Description: Google Sans Flex, 24px, light (300), line-height: 40px (167%) */}
                     <p
-                      className="font-sans text-[16px] sm:text-[19px] xl:text-[24px] leading-[1.5] xl:leading-[40px] font-light text-[#000000] min-h-[90px] xl:min-h-[120px]"
+                      className="line-clamp-4 min-w-0 break-words font-sans text-[16px] sm:text-[19px] xl:text-[24px] leading-[1.5] xl:leading-[40px] font-light text-[#000000] min-h-[90px] xl:min-h-[120px]"
                       style={{ fontFamily: "'Google Sans Flex', sans-serif" }}
                     >
                       {card.description}

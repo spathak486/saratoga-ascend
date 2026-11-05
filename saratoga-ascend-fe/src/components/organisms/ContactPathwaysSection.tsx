@@ -110,7 +110,7 @@ export const ContactPathwaysSection: React.FC<ContactPathwaysSectionProps> = ({
                 <img src={pathway.iconSrc} alt="" width={34} height={34} />
               </div>
               <h3 className="relative mt-4 font-serif text-card-copy text-ink">{pathway.title}</h3>
-              <p className="relative mt-3 font-sans text-body-lg text-ink">{pathway.description}</p>
+              <p className="relative mt-3 line-clamp-4 min-w-0 break-words font-sans text-body-lg text-ink">{pathway.description}</p>
               <div className="relative mt-auto flex items-center justify-between gap-4 border-t border-slate-line pt-4">
                 <a
                   href={pathway.href}

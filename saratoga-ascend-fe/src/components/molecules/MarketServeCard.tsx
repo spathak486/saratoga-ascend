@@ -78,7 +78,7 @@ export const MarketServeCard: React.FC<MarketServeCardProps> = ({
           className="mx-auto mt-3 block h-1 w-[130px] rounded bg-brand-sky max-[89.99rem]:mt-2 max-[89.99rem]:h-0.5 max-[89.99rem]:w-[5.5rem]"
           aria-hidden="true"
         />
-        <p className="mx-auto mt-4 max-w-[36ch] text-body-lg font-medium text-white max-[89.99rem]:mt-2 max-[89.99rem]:text-sm max-[89.99rem]:leading-5">
+        <p className="mx-auto mt-4 line-clamp-4 max-w-[36ch] min-w-0 break-words text-body-lg font-medium text-white max-[89.99rem]:mt-2 max-[89.99rem]:text-sm max-[89.99rem]:leading-5">
           {description}
         </p>
         <span className="mt-6 inline-flex items-center justify-center rounded-pill bg-brand-sky px-8 py-3.5 text-button font-medium text-white max-[89.99rem]:mt-3 max-[89.99rem]:px-5 max-[89.99rem]:py-2 max-[89.99rem]:text-sm">

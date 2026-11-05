@@ -66,7 +66,7 @@ export const StatCardsSection: React.FC<StatCardsSectionProps> = ({
             </div>
 
             {/* Description Text */}
-            <p className="font-sans font-normal text-[16px] sm:text-[18px] leading-[150%] text-[#4A4A4A]">
+            <p className="line-clamp-4 min-w-0 break-words font-sans font-normal text-[16px] sm:text-[18px] leading-[150%] text-[#4A4A4A]">
               {card.description}
             </p>
           </div>

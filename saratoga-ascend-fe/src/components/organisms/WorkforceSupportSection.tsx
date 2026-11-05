@@ -147,7 +147,7 @@ export function WorkforceSupportSection({
         </div>
 
         {/* 3 Cards Grid: Responsive across 100% & 125% zoom (1200px - 1920px) */}
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 xl:gap-8 justify-items-center w-full">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3 md:gap-6 xl:gap-8 justify-items-center w-full">
           {displayCards.map((card, index) => {
             const stepNum = card.number || (index < 9 ? `0${index + 1}` : `${index + 1}`);
             const isTextTop = index % 2 === 1;
@@ -163,7 +163,7 @@ export function WorkforceSupportSection({
             return (
               <div
                 key={card.id ?? card.documentId ?? `support-card-${index}`}
-                className="w-full max-w-[544px] min-h-[520px] xl:min-h-[568px] rounded-[20px] border border-[#F01424] bg-white p-5 sm:p-6 xl:p-[25px] flex flex-col justify-between transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
+                className="flex w-full min-w-0 max-w-[544px] flex-col justify-start overflow-hidden rounded-[20px] border border-[#F01424] bg-white p-5 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl sm:p-6 md:min-h-[520px] md:justify-between xl:min-h-[568px] xl:p-[25px]"
               >
                 {isTextTop ? (
                   <>
@@ -186,7 +186,7 @@ export function WorkforceSupportSection({
                       </div>
 
                       {/* Description Text */}
-                      <p className="font-sans text-[clamp(1rem,0.92rem+0.3vw,1.375rem)] leading-[1.5] xl:leading-[1.6] font-normal text-[#000000] mb-5">
+                      <p className="mb-5 line-clamp-4 min-w-0 break-words font-sans text-[clamp(1rem,0.92rem+0.3vw,1.375rem)] font-normal leading-[1.5] text-[#000000] xl:leading-[1.6]">
                         {card.description}
                       </p>
                     </div>
@@ -230,7 +230,7 @@ export function WorkforceSupportSection({
                       </div>
 
                       {/* Description Text */}
-                      <p className="font-sans text-[clamp(1rem,0.92rem+0.3vw,1.375rem)] leading-[1.5] xl:leading-[1.6] font-normal text-[#000000]">
+                      <p className="line-clamp-4 min-w-0 break-words font-sans text-[clamp(1rem,0.92rem+0.3vw,1.375rem)] font-normal leading-[1.5] text-[#000000] xl:leading-[1.6]">
                         {card.description}
                       </p>
                     </div>

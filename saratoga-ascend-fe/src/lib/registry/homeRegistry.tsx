@@ -663,7 +663,7 @@ export const SECTION_REGISTRY: Record<
     );
   },
 
-    ComponentReferencesWorkforcePlanningReference: (section, index) => {
+  ComponentReferencesWorkforcePlanningReference: (section, index) => {
     const wpRef = section as WorkforcePlanningReference;
     const wp = wpRef.workforcePlanningSection;
     if (!wp || !wp.cards || wp.cards.length === 0) return null;

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Container, Heading, Section, Text } from '../atoms';
+import { GeneralLink } from '../atoms/GeneralLink';
 import { CtaButton } from '../molecules/CtaButton';
 
 const HERO_BG = '/images/hero-final-bg.png';
@@ -150,6 +151,124 @@ const ctaStyle: React.CSSProperties = {
   marginTop: 'clamp(1.5rem, 2.5vw, 2.5rem)',
 };
 
+/** Figma 567:1862 while-hover → Variant2. Smart animate, ease-out, 300ms. */
+const SERVICE_HERO_MOTION =
+  'transition-[rotate,color,background-color,border-color,opacity] duration-300 ease-out motion-reduce:transition-none';
+
+/**
+ * Primary rests pointing right and rotates 45° up-right on hover.
+ * The requirements button stays up-right in both states.
+ */
+function ServiceHeroArrow({ fixedUpRight = false }: { fixedUpRight?: boolean }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      aria-hidden="true"
+      focusable="false"
+      className={
+        fixedUpRight
+          ? 'relative z-10 size-6 origin-center -rotate-45'
+          : `relative z-10 size-6 origin-center rotate-0 ${SERVICE_HERO_MOTION} group-hover:-rotate-45 group-focus-visible:-rotate-45 motion-reduce:group-hover:rotate-0 motion-reduce:group-focus-visible:rotate-0`
+      }
+    >
+      <path
+        d="M4.5 12H19.5"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        strokeLinecap="round"
+      />
+      <path
+        d="M13.5 6L19.5 12L13.5 18"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+/** Right-pointing arrow from Figma 1:721, turned up-right inside the 24px slot. */
+function BannerCtaArrow() {
+  return (
+    <span className="inline-flex size-6 shrink-0 items-center justify-center" aria-hidden="true">
+      <svg
+        width="19.1257"
+        height="16.2918"
+        viewBox="0 0 19.1257 16.2918"
+        fill="none"
+        className="-rotate-45"
+      >
+        <path
+          d="M18.0625 8.14596L1.0625 8.14596"
+          stroke="currentColor"
+          strokeWidth="2.12499"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M10.9799 15.2292C10.9799 15.2292 18.0632 10.0124 18.0632 8.14583C18.0632 6.27924 10.9799 1.06257 10.9799 1.06257"
+          stroke="currentColor"
+          strokeWidth="2.12499"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    </span>
+  );
+}
+
+/**
+ * Service-page hero actions (Figma 567:1861). Local to this section so the
+ * shared CTA used by other sections keeps its own hover.
+ * Primary: the arrow turns from right to up-right. Secondary: the outline
+ * fills with the gradient, and its arrow stays up-right in both states.
+ */
+function ServiceHeroButton({
+  href,
+  children,
+  tone,
+}: {
+  href: string;
+  children: React.ReactNode;
+  tone: 'primary' | 'secondary';
+}) {
+  const arrow = <ServiceHeroArrow fixedUpRight={tone === 'secondary'} />;
+
+  const box =
+    'group relative inline-flex h-auto min-h-12 w-full max-w-full items-center justify-center gap-3 rounded-button px-5 py-3 font-sans text-button font-medium shadow-button focus-visible:outline-brand-navy! sm:w-auto sm:px-6 xl:min-h-[3.75rem] xl:px-6';
+
+  if (tone === 'primary') {
+    return (
+      <GeneralLink
+        href={href}
+        variant="unstyled"
+        rightIcon={arrow}
+        className={`${box} bg-cta-gradient text-white xl:py-[0.9375rem]`}
+      >
+        {children}
+      </GeneralLink>
+    );
+  }
+
+  return (
+    <GeneralLink
+      href={href}
+      variant="unstyled"
+      rightIcon={arrow}
+      contentClassName="contents"
+      className={`${box} border border-brand-navy bg-white text-brand-navy xl:py-[calc(0.9375rem-1px)] ${SERVICE_HERO_MOTION} hover:border-transparent hover:text-white focus-visible:border-transparent focus-visible:text-white`}
+    >
+      <span
+        aria-hidden="true"
+        className={`pointer-events-none absolute -inset-px rounded-button bg-cta-gradient opacity-0 transition-opacity ${SERVICE_HERO_MOTION} group-hover:opacity-100 group-focus-visible:opacity-100`}
+      />
+      <span className="relative z-10">{children}</span>
+    </GeneralLink>
+  );
+}
+
 /**
  * Homepage hero (Figma 525:1346) — 1920×900, washed photo ground, two-line
  * serif title, navy lede. CMS title / description / CTA still drive copy.
@@ -271,33 +390,51 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
     // Highlight logic: if subTitle is provided, highlight that; otherwise highlight "mission requires."
     const highlightTarget = subTitle?.trim() || 'mission requires.';
     const renderCtaTitle = () => {
-      const parts = rawTitle.split(new RegExp(`(${highlightTarget.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'i'));
+      const escaped = highlightTarget.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const locked = rawTitle.match(new RegExp(`^(.*?)(${escaped})\\s*$`, 'i'));
+      if (locked && locked[1].trim()) {
+        return (
+          <>
+            <span className="block text-black">{locked[1].trim()}</span>
+            <span className="block text-brand-red">{locked[2]}</span>
+          </>
+        );
+      }
+
+      const parts = rawTitle.split(new RegExp(`(${escaped})`, 'i'));
       if (parts.length > 1) {
         return parts.map((part, idx) =>
           part.toLowerCase() === highlightTarget.toLowerCase() ? (
-            <span key={idx} className="text-[#F01424]">
+            <span key={idx} className="text-brand-red">
               {part}
             </span>
           ) : (
-            <span key={idx} className="text-[#000000]">
+            <span key={idx} className="text-black">
               {part}
             </span>
-          )
+          ),
         );
       }
-      return <span className="text-[#000000]">{rawTitle}</span>;
+      return <span className="text-black">{rawTitle}</span>;
     };
+
+    const buttonClass =
+      'box-border inline-flex h-12 w-full items-center justify-center gap-3 rounded-button px-6 py-3 text-center font-sans text-button font-medium leading-[1.5] transition-[opacity,background-color,color] duration-300 ease-out motion-reduce:transition-none focus-visible:outline-2 focus-visible:outline-offset-2 sm:w-auto xl:h-[clamp(3rem,3.125vw,3.75rem)]';
 
     return (
       <section
-        aria-label={rawTitle}
-        className="relative mx-auto w-full max-w-[1920px] overflow-hidden min-h-[520px] xl:h-[640px] flex items-center bg-[#FAFAFA]"
+        aria-labelledby="workforce-cta-heading"
+        className="relative mx-auto w-full max-w-[1920px] overflow-hidden bg-[#f4f8fc]"
       >
-        {/* Background Image Container */}
-        <div className="absolute inset-0 size-full pointer-events-none select-none overflow-hidden">
+        {/*
+          Figma 1:712 is 1920×640. From xl the band keeps that ratio so the
+          portrait and the left wash stay in frame. Below xl the photo sits
+          above the copy so the type is not painted on the faces.
+        */}
+        <div className="xl:relative xl:flex xl:min-h-[clamp(26.6875rem,33.333vw,40rem)] xl:items-center">
           {resolvedVideoSrc ? (
             <video
-              className="absolute inset-0 size-full object-cover object-center"
+              className="h-52 w-full object-cover object-right sm:h-64 md:h-80 xl:absolute xl:inset-0 xl:h-full xl:object-center"
               autoPlay
               muted
               loop
@@ -309,78 +446,42 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           ) : (
             <img
               src={bannerImgSrc}
-              alt={mediaAlt || rawTitle}
-              className="absolute inset-0 size-full object-cover object-right xl:object-center"
+              alt={mediaAlt || ''}
+              className="h-52 w-full object-cover object-right sm:h-64 md:h-80 xl:absolute xl:inset-0 xl:h-full xl:object-center"
             />
           )}
-        </div>
 
-        {/* Content Container (Group 2608667: left: 120px on 1920px screen, responsive padding) */}
-        <div className="relative z-10 mx-auto w-full max-w-[1920px] px-6 sm:px-10 lg:px-16 2xl:px-[120px] py-12 xl:py-0">
-          <div className="flex flex-col max-w-[931px]">
-            {/* Title: 72px DM Serif Text, line-height 99px (fluid clamp) */}
-            <h2
-              className="font-serif text-[clamp(2.25rem,1.4rem+2.6vw,4.5rem)] leading-[1.15] xl:leading-[99px] font-normal tracking-tight text-[#000000] max-w-[790px]"
-              style={{ fontFamily: "'DM Serif Text', serif" }}
-            >
-              {renderCtaTitle()}
-            </h2>
-
-            {/* Description: 24px Google Sans Flex, line-height 40px (fluid clamp) */}
-            <p
-              className="font-sans text-[clamp(1.125rem,0.95rem+0.45vw,1.5rem)] leading-[1.5] xl:leading-[40px] font-normal text-[#000000] mt-4 xl:mt-[12px] max-w-[931px]"
-            >
-              {rawDesc}
-            </p>
-
-            {/* Action Buttons: 30px gap */}
-            <div className="flex flex-wrap items-center gap-[20px] sm:gap-[30px] mt-6 xl:mt-[40px]">
-              {/* Primary CTA: 336px x 60px gradient button */}
-              <a
-                href={primaryHref}
-                className="inline-flex items-center justify-center gap-3 px-6 h-[60px] min-w-[280px] sm:w-[336px] rounded-[8px] text-[18px] sm:text-[20px] font-medium leading-[30px] text-white shadow-sm transition-all duration-300 hover:opacity-95 hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2A91DC]"
-                style={{
-                  background: 'linear-gradient(90.55deg, #D31E2D 0.47%, #2A91DC 102.45%)',
-                }}
+          <div className="relative z-10 px-page py-10 sm:py-12 xl:w-full xl:py-[clamp(3rem,5.46875vw,6.5625rem)]">
+            <div className="flex w-full max-w-[58.1875rem] flex-col">
+              <h2
+                id="workforce-cta-heading"
+                className="font-serif text-[clamp(2.25rem,3.75vw,4.5rem)] font-normal leading-[1.15] tracking-tight text-black xl:leading-[1.375]"
               >
-                <span>{primaryLabel}</span>
-                {/* Arrow up-right Icon */}
-                <svg
-                  className="w-6 h-6 shrink-0 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2.12"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  aria-hidden="true"
-                >
-                  <line x1="7" y1="17" x2="17" y2="7" />
-                  <polyline points="7 7 17 7 17 17" />
-                </svg>
-              </a>
+                {renderCtaTitle()}
+              </h2>
 
-              {/* Secondary CTA: 322px x 60px border outline button */}
-              <a
-                href={secondaryHref}
-                className="inline-flex items-center justify-center gap-3 px-6 h-[60px] min-w-[280px] sm:w-[322px] rounded-[8px] border border-[#022E4C] text-[18px] sm:text-[20px] font-medium leading-[30px] text-[#022E4C] bg-transparent transition-all duration-300 hover:bg-[#022E4C] hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#022E4C]"
-              >
-                <span>{secondaryLabel}</span>
-                {/* Arrow up-right Icon */}
-                <svg
-                  className="w-6 h-6 shrink-0 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2.12"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  aria-hidden="true"
+              <p className="mt-4 max-w-[58.1875rem] font-sans text-[clamp(1.125rem,1.25vw,1.5rem)] font-normal leading-[1.5] text-black xl:mt-3 xl:leading-[1.6667]">
+                {rawDesc}
+              </p>
+
+              <div className="mt-6 flex flex-col items-stretch gap-4 sm:flex-row sm:flex-wrap sm:items-center xl:mt-[clamp(1.5rem,2.083vw,2.5rem)] xl:gap-[clamp(1rem,1.5625vw,1.875rem)]">
+                <GeneralLink
+                  href={primaryHref}
+                  variant="unstyled"
+                  rightIcon={<BannerCtaArrow />}
+                  className={`${buttonClass} bg-cta-gradient text-white hover:opacity-90 focus-visible:outline-white`}
                 >
-                  <line x1="7" y1="17" x2="17" y2="7" />
-                  <polyline points="7 7 17 7 17 17" />
-                </svg>
-              </a>
+                  {primaryLabel}
+                </GeneralLink>
+                <GeneralLink
+                  href={secondaryHref}
+                  variant="unstyled"
+                  rightIcon={<BannerCtaArrow />}
+                  className={`${buttonClass} border border-brand-navy bg-white/80 text-brand-navy hover:bg-brand-navy hover:text-white focus-visible:outline-brand-navy`}
+                >
+                  {secondaryLabel}
+                </GeneralLink>
+              </div>
             </div>
           </div>
         </div>
@@ -389,45 +490,52 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   }
 
   if (variant === 'default') {
-    /* Solutions / service hero (Figma 567:1855): ~853 tall, 120px gutters, dual CTAs */
+    /* Service hero (Figma 567:1855): 1920×853, 120px gutters, copy inset 126px. */
+    const photo = helixSrc ? `url(${JSON.stringify(helixSrc)})` : 'none';
+
     return (
       <section
-        className="relative flex w-full flex-col justify-center px-page py-16 max-xl:min-h-[28rem] max-xl:pt-28 xl:min-h-[clamp(32rem,44.4vw,53.3125rem)] xl:py-[clamp(4rem,6.5vw,7.875rem)]"
-        style={{
-          background: helixSrc
-            ? `linear-gradient(89.95deg, #eaf4fb 13.3%, rgba(234, 244, 251, 0) 128%), url(${helixSrc}) center right / cover no-repeat`
-            : 'linear-gradient(89.95deg, #eaf4fb 13.3%, rgba(234, 244, 251, 0) 70%)',
-        }}
+        aria-labelledby={title ? 'service-hero-heading' : undefined}
+        aria-label={title ? undefined : 'Healthcare workforce solutions'}
+        className="relative flex w-full flex-col overflow-hidden bg-[#eaf4fb] px-page pt-28 pb-12 max-xl:min-h-[28rem] sm:pb-16 md:pt-32 lg:pb-20 xl:min-h-[clamp(36rem,44.427vw,53.3125rem)] xl:py-[clamp(4.5rem,6.5625vw,7.875rem)]"
       >
-        <div className="relative z-10 mx-auto flex w-full max-w-[1680px] flex-col items-start gap-6 sm:gap-8 xl:gap-[30px]">
+        <div
+          className="pointer-events-none absolute inset-0 bg-cover bg-right"
+          style={{
+            backgroundImage: `linear-gradient(89.95deg, #eaf4fb 13.3%, rgba(234, 244, 251, 0) 128%), ${photo}`,
+          }}
+          role={mediaAlt ? 'img' : undefined}
+          aria-label={mediaAlt || undefined}
+          aria-hidden={mediaAlt ? undefined : true}
+        />
+        <div className="relative z-10 mx-auto flex w-full min-w-0 max-w-[1680px] flex-col items-start gap-6 md:gap-8 xl:gap-10">
           {title ? (
             <Heading
+              id="service-hero-heading"
               level={1}
-              className="max-w-[min(100%,64.5rem)] font-serif text-[clamp(2.25rem,1.2rem+4vw,5.625rem)] font-normal leading-[1.15] text-ink"
+              size="hero"
+              tone="ink"
+              className="max-w-[min(100%,64.5625rem)] font-normal tracking-normal"
             >
               {titleWithAccent(title, stripHtml(subTitle))}
             </Heading>
           ) : null}
-          {(description || subTitle) && (
-            <p className="max-w-[min(100%,48.7rem)] font-sans text-[clamp(1.05rem,0.95rem+0.5vw,1.5rem)] font-medium leading-[1.6] text-brand-navy">
-              {stripHtml(description || subTitle || undefined)}
+          {lede || subTitle ? (
+            <p className="max-w-[min(100%,48.6875rem)] min-w-0 font-sans text-body-lg font-medium text-brand-navy">
+              {lede || stripHtml(subTitle)}
             </p>
-          )}
+          ) : null}
           {(ctaLabel && ctaHref) || (secondaryCtaLabel && secondaryCtaHref) ? (
-            <div className="flex flex-wrap items-center gap-3 sm:gap-5 xl:gap-[30px]">
+            <div className="flex w-full min-w-0 flex-col items-stretch gap-4 sm:flex-row sm:flex-wrap sm:items-center xl:gap-[30px]">
               {ctaLabel && ctaHref ? (
-                <CtaButton href={ctaHref} className="self-start">
+                <ServiceHeroButton href={ctaHref} tone="primary">
                   {ctaLabel}
-                </CtaButton>
+                </ServiceHeroButton>
               ) : null}
               {secondaryCtaLabel && secondaryCtaHref ? (
-                <CtaButton
-                  href={secondaryCtaHref}
-                  buttonVariant="outlineNavy"
-                  className="self-start"
-                >
+                <ServiceHeroButton href={secondaryCtaHref} tone="secondary">
                   {secondaryCtaLabel}
-                </CtaButton>
+                </ServiceHeroButton>
               ) : null}
             </div>
           ) : null}

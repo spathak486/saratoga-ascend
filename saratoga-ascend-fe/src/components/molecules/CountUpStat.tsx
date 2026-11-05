@@ -4,7 +4,8 @@ import React, { useEffect, useRef, useState } from 'react';
 
 /** Figma Numbers1: each column is a 0–9 strip, line box 135px on a 120px face. */
 const LINE_EM = 1.125;
-const SPIN_MS = 1000;
+/** Slow reel so the count reads clearly when the stats band scrolls into view. */
+const SPIN_MS = 2800;
 
 function parseStat(value: string) {
   const match = value.match(/^(\d+)(.*)$/);
@@ -16,19 +17,45 @@ function parseStat(value: string) {
 
 function DigitReel({
   digit,
-  hovered,
+  active,
   index,
   reduceMotion,
+  playId,
 }: {
   digit: number;
-  hovered: boolean;
+  active: boolean;
   index: number;
   reduceMotion: boolean;
+  /** Bumps on each enter so the reel can restart from 0. */
+  playId: number;
 }) {
-  const rest = 10 + digit;
-  const spun = index % 2 === 0 ? 20 + digit : digit;
-  const offset = reduceMotion || !hovered ? rest : spun;
+  // Start on 0; when the section is in view, roll to the target digit.
+  // Alternating columns travel the long way so the bank doesn't move in lockstep.
+  const from = 10;
+  const to = index % 2 === 0 ? 20 + digit : 10 + digit;
+  const [offset, setOffset] = useState(from);
   const strip = Array.from({ length: 30 }, (_, i) => i % 10);
+
+  useEffect(() => {
+    if (reduceMotion) {
+      setOffset(to);
+      return;
+    }
+
+    if (!active) {
+      setOffset(from);
+      return;
+    }
+
+    // Reset to 0 without a transition, then roll up on the next frame.
+    setOffset(from);
+    const id = window.requestAnimationFrame(() => {
+      window.requestAnimationFrame(() => setOffset(to));
+    });
+    return () => window.cancelAnimationFrame(id);
+  }, [active, playId, reduceMotion, from, to]);
+
+  const isRolling = active && offset === to && !reduceMotion;
 
   return (
     <span className="inline-block h-[1.125em] w-[1ch] overflow-hidden align-top text-center">
@@ -37,8 +64,9 @@ function DigitReel({
         style={{
           transform: `translate3d(0, ${-offset * LINE_EM}em, 0)`,
           transitionProperty: 'transform',
-          transitionDuration: reduceMotion ? '0ms' : `${SPIN_MS}ms`,
+          transitionDuration: isRolling ? `${SPIN_MS}ms` : '0ms',
           transitionTimingFunction: 'ease-in-out',
+          transitionDelay: isRolling ? `${index * 80}ms` : '0ms',
         }}
       >
         {strip.map((n, i) => (
@@ -54,19 +82,24 @@ function DigitReel({
 export interface CountUpStatProps {
   value: string;
   className?: string;
+  /** When true, reels roll from 0 to the CMS value (section scrolled into view). */
+  active?: boolean;
+  /** Increments each time the section is entered so the count can replay. */
+  playId?: number;
 }
 
 /**
- * Placements numeral (Figma Numbers1). The resting frame already reads the
- * CMS value. Hover smart-animates each reel one full cycle in 1s ease-in-out
- * and lands on the same digits; pointer leave plays that spin in reverse.
+ * Achievement numeral (Figma Numbers1). Digits rest on 0 until `active`
+ * (stats band in view), then each reel rolls slowly to the CMS value.
+ * Leaving and re-entering the section (up or down) replays the count.
  */
 export const CountUpStat: React.FC<CountUpStatProps> = ({
   value,
   className = '',
+  active = false,
+  playId = 0,
 }) => {
   const { digits, suffix } = parseStat(value);
-  const [hovered, setHovered] = useState(false);
   const [reduceMotion, setReduceMotion] = useState(false);
 
   useEffect(() => {
@@ -81,17 +114,16 @@ export const CountUpStat: React.FC<CountUpStatProps> = ({
     <span
       className={`inline-flex items-start leading-none ${className}`.trim()}
       aria-label={value}
-      onPointerEnter={() => setHovered(true)}
-      onPointerLeave={() => setHovered(false)}
     >
       <span aria-hidden="true" className="inline-flex items-start">
         {digits.map((digit, index) => (
           <DigitReel
             key={`${value}-${index}`}
             digit={digit}
-            hovered={hovered}
+            active={active}
             index={index}
             reduceMotion={reduceMotion}
+            playId={playId}
           />
         ))}
         {suffix}
@@ -100,11 +132,15 @@ export const CountUpStat: React.FC<CountUpStatProps> = ({
   );
 };
 
-/** True while the watched node is on screen — used to start the digit roll
- *  when the stats band scrolls into view, not on first paint of the page. */
-export function useInViewOnce<T extends HTMLElement>(threshold = 0.45) {
+/**
+ * Tracks whether the node is in view. Each entry bumps `playId` so
+ * scroll-triggered animations can restart from above or below.
+ */
+export function useInViewReplay<T extends HTMLElement>(threshold = 0.35) {
   const ref = useRef<T | null>(null);
   const [inView, setInView] = useState(false);
+  const [playId, setPlayId] = useState(0);
+  const wasInView = useRef(false);
 
   useEffect(() => {
     const node = ref.current;
@@ -112,18 +148,23 @@ export function useInViewOnce<T extends HTMLElement>(threshold = 0.45) {
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        setInView(entry.isIntersecting);
+        const visible = entry.isIntersecting;
+        setInView(visible);
+        if (visible && !wasInView.current) {
+          setPlayId((id) => id + 1);
+        }
+        wasInView.current = visible;
       },
       {
         threshold,
         root: null,
-        rootMargin: '0px 0px -12% 0px',
-      }
+        rootMargin: '0px 0px -10% 0px',
+      },
     );
 
     observer.observe(node);
     return () => observer.disconnect();
   }, [threshold]);
 
-  return { ref, inView };
+  return { ref, inView, playId };
 }

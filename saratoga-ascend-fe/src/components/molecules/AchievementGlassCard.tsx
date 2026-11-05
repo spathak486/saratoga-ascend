@@ -75,7 +75,7 @@ export const AchievementGlassCard: React.FC<AchievementGlassCardProps> = ({
             >
               {title}
             </Heading>
-            <p className="font-sans text-base font-normal leading-5 text-white">
+            <p className="line-clamp-4 min-w-0 break-words font-sans text-base font-normal leading-5 text-white">
               {cleanBody}
             </p>
           </div>
@@ -105,7 +105,7 @@ export const AchievementGlassCard: React.FC<AchievementGlassCardProps> = ({
           {title}
         </Heading>
 
-        <p className="absolute top-[59.25%] left-[7.246%] hidden w-[53.5%] font-sans text-body-lg font-medium leading-[1.6] text-white xl:block">
+        <p className="absolute top-[59.25%] left-[7.246%] hidden w-[53.5%] line-clamp-4 min-w-0 break-words font-sans text-body-lg font-medium leading-[1.6] text-white xl:block">
           {cleanBody}
         </p>
       </div>

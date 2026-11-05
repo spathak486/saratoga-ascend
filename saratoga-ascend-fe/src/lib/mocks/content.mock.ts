@@ -390,6 +390,274 @@ const aboutSections: DynamicZoneSection[] = [
   },
 ];
 
+/** Shared value cards mirroring live CMS solutions page content. */
+const solutionsValueCards = [
+  {
+    documentId: 'suy8slot3021zf7e82acrdh8',
+    title: 'UNDERSTAND',
+    description:
+      'Clarify objectives, requirements, stakeholders, operating conditions, risks, and desired outcomes.',
+    number: '1',
+    isHighlighted: false,
+    icon: null,
+    actionTone: null,
+  },
+  {
+    documentId: 'ydq8oe1zmh0ogor4e56unqaj',
+    title: 't1',
+    description: 't2',
+    number: '2',
+    isHighlighted: false,
+    icon: null,
+    actionTone: null,
+  },
+  {
+    documentId: 't8sn9vb06yixfv5cubekum4w',
+    title: 'Serve with purpose',
+    description: 'Understand who depends on the work and why the outcome matters.',
+    number: '03',
+    isHighlighted: true,
+    icon: null,
+    actionTone: null,
+  },
+  {
+    documentId: 'nnuuvo5ivbhs8kgj9bmk9drr',
+    title: 'Our Mission',
+    description:
+      'To support healthcare and government organizations with capable people, connected services, and dependable execution—helping essential programs serve their communities with care and consistency.',
+    number: '04',
+    isHighlighted: true,
+    icon: null,
+    actionTone: null,
+  },
+];
+
+/**
+ * Local fallback for /solutions when CMS GraphQL is unreachable.
+ * Section order + copy mirror https://saratoga-ascend.vercel.app/solutions (live CMS).
+ */
+const solutionsSections: DynamicZoneSection[] = [
+  {
+    __typename: 'ComponentReferencesBannerReference',
+    heroBanner: {
+      documentId: 'cm2solutionsbanner01',
+      referenceTitle: 'Solutions Banner',
+      banner: {
+        bannerTitle: 'Building Missiontest -Ready Healthcare Workforces',
+        bannerSubTitle: 'test',
+        bannerDescription:
+          'Saratoga Ascend helps government agencies, healthcare organizations, and public-sector programs access qualified healthcare professionals, flexible staffing models, and dependable workforce delivery services.',
+        bannerImage: {
+          url: '/images/DNA-v1.png',
+          width: 1200,
+          height: 800,
+          alternativeText: 'Saratoga Ascend solutions hero',
+          formats: null,
+        },
+        buttonCTA: {
+          label: 'Explore Our Capabilities',
+          href: '/solutions',
+          target: '_self',
+          isExternal: false,
+        },
+        secondaryButtonCTA: {
+          label: 'Discuss Your Requirements test',
+          href: '/contact',
+          target: '_self',
+          isExternal: false,
+        },
+        variant: 'default',
+      },
+    },
+  },
+  {
+    __typename: 'ComponentReferencesCriticalMissionsReference',
+    criticalMissionsSection: {
+      documentId: 'cm2solutionscm01',
+      referenceTitle: 'Critical Missions',
+      title: 'Supporting the people behind critical healthcare missions.',
+      highlightTitle: 'critical healthcare missions',
+      description:
+        'Healthcare organizations need more than access to candidates. They need dependable workforce planning, qualified professionals, operational readiness, and delivery models that can adapt to changing mission requirements.',
+      cards: solutionsValueCards,
+    },
+  },
+  {
+    __typename: 'ComponentReferencesWorkforcePlanningReference',
+    workforcePlanningSection: {
+      documentId: 'cm2solutionswp01',
+      referenceTitle: 'Workforce Planning',
+      title: 'From Workforce Planning to Ongoing Support',
+      highlightTitle: 'From Workforce Planning',
+      variant: 'orbital',
+      centerImage: {
+        url: 'https://cms.saratogaascend.com/uploads/Modern_Healthcare_Team_Banner_1_974c29dd05.png',
+        width: 800,
+        height: 800,
+        alternativeText: 'Healthcare Team',
+        formats: null,
+      },
+      cards: [
+        solutionsValueCards[3],
+        solutionsValueCards[2],
+        solutionsValueCards[0],
+        solutionsValueCards[1],
+      ],
+    },
+  },
+  {
+    __typename: 'ComponentReferencesWorkforceSupportReference',
+    workforceSupportSection: {
+      documentId: 'cm2solutionsws01',
+      referenceTitle: 'Workforce Support',
+      title: 'Workforce support where it matters most.',
+      highlightTitle: 'Workforce support',
+      cards: [
+        solutionsValueCards[0],
+        solutionsValueCards[2],
+        solutionsValueCards[1],
+      ],
+    },
+  },
+  {
+    __typename: 'ComponentReferencesWorkforceDeliveryReference',
+    workforceDeliverySection: {
+      documentId: 'cm2solutionswd01',
+      referenceTitle: 'Workforce Delivery',
+      title: 'Workforce delivery built on accountability.',
+      highlightTitle: 'Workforce delivery',
+      cards: [
+        solutionsValueCards[2],
+        solutionsValueCards[1],
+        solutionsValueCards[0],
+        solutionsValueCards[3],
+      ],
+    },
+  },
+  {
+    __typename: 'ComponentReferencesExploreCapabilitiesReference',
+    exploreCapabilitiesSection: {
+      documentId: 'cm2solutionsec01',
+      referenceTitle: 'Explore Capabilities',
+      title: 'Explore more Saratoga Ascend capabilities.',
+      highlightTitle: 'Explore more',
+      cards: [
+        solutionsValueCards[3],
+        solutionsValueCards[2],
+        solutionsValueCards[0],
+        solutionsValueCards[1],
+        {
+          documentId: 'zstqkipqmo6ogmu3k1zs21j1',
+          title: 'Understand the Requirement',
+          description: 'Clarify mission context, scope, and desired outcomes.',
+          number: '01',
+          isHighlighted: false,
+          icon: null,
+          actionTone: 'sky',
+        },
+      ],
+    },
+  },
+  {
+    __typename: 'ComponentReferencesBannerReference',
+    heroBanner: {
+      documentId: 'cm2solutionsbannercta01',
+      referenceTitle: 'Solutions CTA Banner',
+      banner: {
+        bannerTitle: 'test',
+        bannerSubTitle: 'test',
+        bannerDescription: 'test',
+        bannerImage: {
+          url: 'https://cms.saratogaascend.com/uploads/Modern_Healthcare_Team_Banner_1_974c29dd05.png',
+          width: 1920,
+          height: 640,
+          alternativeText: 'test',
+          formats: null,
+        },
+        buttonCTA: {
+          label: 'test1',
+          href: '/',
+          target: '_self',
+          isExternal: false,
+        },
+        secondaryButtonCTA: {
+          label: 'test2',
+          href: '/',
+          target: '_self',
+          isExternal: false,
+        },
+        variant: 'banner_cta',
+      },
+    },
+  },
+  {
+    __typename: 'ComponentReferencesFaQs',
+    content: {
+      documentId: 'cm2solutionsfaqcontent',
+      referenceTitle: 'FAQ Content Section',
+      ContentSection: {
+        title: 'Any Questions?',
+        subTitle:
+          'Proudly serving Federal, State, and Municipal government agencies with compliant, mission-critical infrastructure and transparent contracting.',
+        description: null,
+        image: {
+          url: 'https://cms.saratogaascend.com/uploads/question_1_4c3667577b.png',
+          width: 600,
+          height: 600,
+          alternativeText: 'Any Questions?',
+          formats: null,
+        },
+        link: null,
+      },
+    },
+    supportCta: {
+      documentId: 'cm2solutionsfaqsupport',
+      referenceTitle: 'FAQ Support CTA',
+      ContentSection: {
+        title: 'Still have questions? ',
+        subTitle:
+          'Need clarity before moving forward? Speak with our operations team to get clear, direct answers tailored to your business challenges.',
+        description: null,
+        image: null,
+        link: {
+          label: 'Book a Consultation ',
+          href: '/',
+          target: '_self',
+          isExternal: false,
+        },
+      },
+    },
+    faqs: [
+      {
+        documentId: 'cm2solutionsfaq1',
+        referenceTitle: 'FAQ 1',
+        faq: {
+          title: 'What are your operating hours?',
+          description: 'Monday- Friday: 9 AM – 5 PM EST | Saturday-Sunday: CLOSED',
+        },
+      },
+      {
+        documentId: 'cm2solutionsfaq2',
+        referenceTitle: 'FAQ 2',
+        faq: {
+          title: ' How do I schedule appointments?',
+          description:
+            'You can schedule an appointment with our recruiters by reaching out us at careers@saratogamed.com.',
+        },
+      },
+      {
+        documentId: 'cm2solutionsfaq3',
+        referenceTitle: 'FAQ 3',
+        faq: {
+          title: ' Do you support multi‑state licensing?',
+          description:
+            'Yes. We help with compact licensure (NLC) and state‑specific requirements for nurses and allied clinicians.',
+        },
+      },
+    ],
+  },
+];
+
 /** Local fallback when CMS `pages` is unavailable — section components supply default copy. */
 const contactSections: DynamicZoneSection[] = [
   {
@@ -568,6 +836,30 @@ export const mockPages: Page[] = [
       languageTag: 'en',
     },
     Section: contactSections,
+    createdAt: '2026-08-10T00:00:00.000Z',
+    updatedAt: '2026-08-10T00:00:00.000Z',
+  },
+  {
+    documentId: 'cm2a8h4j10006qk3fsolutions1',
+    internalName: 'Solutions',
+    pageTitle: 'Solutions',
+    slug: 'solutions',
+    pageType: 'Standard',
+    variant: 'default',
+    seo: {
+      metaTitle: 'Solutions | Saratoga Ascend',
+      metaDescription:
+        'Saratoga Ascend helps government agencies, healthcare organizations, and public-sector programs access qualified healthcare professionals, flexible staffing models, and dependable workforce delivery services.',
+      ogTitle: null,
+      ogDescription: null,
+      ogImage: null,
+      metaRobots: 'index',
+      twitterCardTitle: null,
+      canonicalURL: null,
+      structuredData: null,
+      languageTag: 'en',
+    },
+    Section: solutionsSections,
     createdAt: '2026-08-10T00:00:00.000Z',
     updatedAt: '2026-08-10T00:00:00.000Z',
   },

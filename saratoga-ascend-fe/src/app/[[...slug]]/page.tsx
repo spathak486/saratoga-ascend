@@ -48,7 +48,11 @@ export async function generateMetadata({ params }: DynamicPageProps): Promise<Me
 
   // Known pages. Skip the news and blog probes so a missing CMS
   // page does not run those queries.
-  const isReservedPage = slugPath === '' || slugPath === 'contact' || slugPath === 'about-us';
+  const isReservedPage =
+    slugPath === '' ||
+    slugPath === 'contact' ||
+    slugPath === 'about-us' ||
+    slugPath === 'solutions';
   if (!pageData && !isReservedPage) {
     const { getArticleBySlug } = await import('@/lib/services');
     const newsResult = await getArticleBySlug(slugPath);
@@ -67,7 +71,13 @@ export async function generateMetadata({ params }: DynamicPageProps): Promise<Me
     if (solutionResult.data) pageData = solutionResult.data;
   }
 
-  if (!pageData && (slugPath === '' || slugPath === 'about-us' || slugPath === 'contact')) {
+  if (
+    !pageData &&
+    (slugPath === '' ||
+      slugPath === 'about-us' ||
+      slugPath === 'contact' ||
+      slugPath === 'solutions')
+  ) {
     const { getMockPageBySlug } = await import('@/lib/mocks');
     pageData = getMockPageBySlug(slugPath);
   }
@@ -109,7 +119,11 @@ export default async function DynamicPage({ params }: DynamicPageProps) {
 
   // Known pages. Skip the news and blog probes so a missing CMS
   // page does not run those queries.
-  const isReservedPage = slugPath === '' || slugPath === 'contact' || slugPath === 'about-us';
+  const isReservedPage =
+    slugPath === '' ||
+    slugPath === 'contact' ||
+    slugPath === 'about-us' ||
+    slugPath === 'solutions';
   if (!pageData && !isReservedPage) {
     const { getArticleBySlug } = await import('@/lib/services');
     const newsResult = await getArticleBySlug(slugPath);
@@ -130,7 +144,13 @@ export default async function DynamicPage({ params }: DynamicPageProps) {
     if (solutionResult.data) pageData = solutionResult.data;
   }
 
-  if (!pageData && (slugPath === '' || slugPath === 'about-us' || slugPath === 'contact')) {
+  if (
+    !pageData &&
+    (slugPath === '' ||
+      slugPath === 'about-us' ||
+      slugPath === 'contact' ||
+      slugPath === 'solutions')
+  ) {
     const { getMockPageBySlug } = await import('@/lib/mocks');
     pageData = getMockPageBySlug(slugPath);
   }
