@@ -24,6 +24,7 @@ import type {
   WorkforceDeliveryReference,
   ExploreCapabilitiesReference,
   ClearPathReference,
+  MissionsYouServeReference,
   ContactInquiryReference,
   ContactPathwaysReference,
   ContactLearnReference,
@@ -60,6 +61,7 @@ import {
   WorkforceDeliverySection,
   ExploreCapabilitiesSection,
   ClearPathSection,
+  MissionsYouServeSection,
   ContactInquirySection,
   ContactPathwaysSection,
   ContactLearnSection,
@@ -590,6 +592,20 @@ export const SECTION_REGISTRY: Record<
         highlightTitle={cp?.highlightTitle ?? undefined}
         description={cp?.description ?? undefined}
         cards={(cp?.cards as any) ?? undefined}
+      />
+    );
+  },
+
+  ComponentReferencesMissionsYouServeReference: (section, index) => {
+    const mysRef = section as MissionsYouServeReference;
+    const mys = mysRef.missionsYouServeSection;
+    return (
+      <MissionsYouServeSection
+        key={'missions-you-serve-' + index}
+        title={mys?.title ?? undefined}
+        highlightTitle={mys?.highlightTitle ?? undefined}
+        description={mys?.description ?? undefined}
+        cards={(mys?.cards as any) ?? undefined}
       />
     );
   },

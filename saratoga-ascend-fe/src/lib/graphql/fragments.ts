@@ -649,6 +649,29 @@ export const CLEAR_PATH_REFERENCE_FIELDS = `
   }
 `;
 
+export const MISSIONS_YOU_SERVE_REFERENCE_FIELDS = `
+  __typename
+  ... on ComponentReferencesMissionsYouServeReference {
+    missionsYouServeSection {
+      documentId
+      referenceTitle
+      title
+      highlightTitle
+      description
+      cards {
+        documentId
+        title
+        description
+        number
+        isHighlighted
+        actionLabel
+        href
+        image { ${IMAGE_FIELDS} }
+      }
+    }
+  }
+`;
+
 export const CONTACT_OFFICES_REFERENCE_FIELDS = `
   __typename
   ... on ComponentReferencesContactOfficesReference {
@@ -700,6 +723,7 @@ export const COMMON_SECTION_FRAGMENTS = [
   WORKFORCE_DELIVERY_REFERENCE_FIELDS,
   EXPLORE_CAPABILITIES_REFERENCE_FIELDS,
   CLEAR_PATH_REFERENCE_FIELDS,
+  MISSIONS_YOU_SERVE_REFERENCE_FIELDS,
   CONTACT_INQUIRY_REFERENCE_FIELDS,
   CONTACT_PATHWAYS_REFERENCE_FIELDS,
   CONTACT_LEARN_REFERENCE_FIELDS,

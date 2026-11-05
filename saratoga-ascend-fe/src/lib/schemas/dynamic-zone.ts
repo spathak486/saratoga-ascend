@@ -678,7 +678,26 @@ export const ClearPathReferenceSchema = z.object({
 
 export type ClearPathReference = z.infer<typeof ClearPathReferenceSchema>;
 
+export const MissionsYouServeSectionEntitySchema = z.object({
+  documentId: z.string().optional(),
+  referenceTitle: z.string().nullable().optional(),
+  title: z.string().nullable().optional(),
+  highlightTitle: z.string().nullable().optional(),
+  description: z.string().nullable().optional(),
+  cards: z.array(ValueCardSchema).nullable().optional(),
+});
+
+export type MissionsYouServeSectionEntity = z.infer<typeof MissionsYouServeSectionEntitySchema>;
+
+export const MissionsYouServeReferenceSchema = z.object({
+  __typename: z.literal('ComponentReferencesMissionsYouServeReference'),
+  missionsYouServeSection: MissionsYouServeSectionEntitySchema.nullable().optional(),
+});
+
+export type MissionsYouServeReference = z.infer<typeof MissionsYouServeReferenceSchema>;
+
 export const DynamicZoneSectionSchema = z.union([
+  MissionsYouServeReferenceSchema,
   ClearPathReferenceSchema,
   BannerReferenceSchema,
   CtaReferenceSchema,

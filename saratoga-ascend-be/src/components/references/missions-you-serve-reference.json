@@ -1,0 +1,18 @@
+{
+  "collectionName": "components_references_missions_you_serve_references",
+  "info": {
+    "displayName": "Missions You Serve Reference",
+    "icon": "shield",
+    "description": "Built Around the Missions You Serve section reference"
+  },
+  "options": {},
+  "attributes": {
+    "missionsYouServeSection": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::missions-you-serve-section.missions-you-serve-section"
+    }
+  },
+  "config": {}
+}
+
