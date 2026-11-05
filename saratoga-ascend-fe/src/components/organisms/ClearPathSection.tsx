@@ -213,7 +213,7 @@ export function ClearPathSection({
                   <div className="w-[90px] h-[1px] bg-black my-[16px] shrink-0" aria-hidden="true" />
 
                   {/* Step Description: 20px Google Sans Flex, line-height 28px (140%), color #212121, weight 300 */}
-                  <p className="font-sans font-light text-[16px] 2xl:text-[20px] leading-[24px] 2xl:leading-[28px] text-[#212121]">
+                  <p className="line-clamp-4 min-w-0 break-words font-sans font-light text-[16px] 2xl:text-[20px] leading-[24px] 2xl:leading-[28px] text-[#212121]">
                     {step.description}
                   </p>
                 </div>
@@ -296,7 +296,7 @@ export function ClearPathSection({
                 {step.title}
               </h3>
               <div className="w-[70px] h-[1px] bg-black mb-3 shrink-0" aria-hidden="true" />
-              <p className="font-sans font-light text-[16px] leading-[24px] text-[#212121]">
+              <p className="line-clamp-4 min-w-0 break-words font-sans font-light text-[16px] leading-[24px] text-[#212121]">
                 {step.description}
               </p>
             </div>
@@ -349,7 +349,7 @@ export function ClearPathSection({
                 {step.title}
               </h3>
               <div className="w-[60px] h-[1px] bg-black mb-3 shrink-0" aria-hidden="true" />
-              <p className="font-sans font-light text-[15px] leading-[22px] text-[#212121]">
+              <p className="line-clamp-4 min-w-0 break-words font-sans font-light text-[15px] leading-[22px] text-[#212121]">
                 {step.description}
               </p>
             </div>

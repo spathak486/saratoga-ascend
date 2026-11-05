@@ -320,7 +320,7 @@ export const TakeMissionSeriouslySection: React.FC<TakeMissionSeriouslySectionPr
                   </h3>
 
                   {/* Description: Google Sans Flex, 20px, line-height: 30px, color: #212121 */}
-                  <p className="font-['Google_Sans_Flex'] text-[16px] lg:text-[20px] leading-[24px] lg:leading-[30px] text-[#212121] font-normal">
+                  <p className="line-clamp-4 min-w-0 break-words font-['Google_Sans_Flex'] text-[16px] lg:text-[20px] leading-[24px] lg:leading-[30px] text-[#212121] font-normal">
                     {card.description}
                   </p>
                 </div>

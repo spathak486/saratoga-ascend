@@ -78,7 +78,7 @@ export const PastPerformanceCard: React.FC<PastPerformanceCardProps> = ({
         className="mt-[0.9375rem] block h-1 w-[4.9375rem] rounded-full bg-brand-blue-soft max-xl:mt-1 max-xl:h-[3px] max-xl:w-16"
         aria-hidden="true"
       />
-      <p className="mt-3 font-sans text-button font-medium max-xl:mt-0 max-xl:max-w-[19.4rem] max-xl:text-base max-xl:leading-[1.5]">
+      <p className="mt-3 line-clamp-4 min-w-0 break-words font-sans text-button font-medium max-xl:mt-0 max-xl:max-w-[19.4rem] max-xl:text-base max-xl:leading-[1.5]">
         {body}
       </p>
       {href ? (

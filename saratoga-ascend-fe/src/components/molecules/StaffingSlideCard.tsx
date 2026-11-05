@@ -125,7 +125,7 @@ export const StaffingSlideCard: React.FC<StaffingSlideCardProps> = ({
           >
             {title}
           </Heading>
-          <p className="w-full text-center font-sans text-[0.8125rem] leading-[1.125rem] font-medium text-white">
+          <p className="line-clamp-4 w-full min-w-0 break-words text-center font-sans text-[0.8125rem] leading-[1.125rem] font-medium text-white">
             {body}
           </p>
         </div>

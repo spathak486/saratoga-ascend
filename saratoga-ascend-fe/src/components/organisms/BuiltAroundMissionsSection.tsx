@@ -208,7 +208,7 @@ export const BuiltAroundMissionsSection: React.FC<BuiltAroundMissionsSectionProp
 
                     {/* Description: Figma DM Sans, 300, 20px, line-height: 28px (140%) */}
                     <p
-                      className={`font-sans font-light text-[clamp(0.95rem,1.04vw,1.25rem)] leading-[clamp(1.35rem,1.45vw,1.75rem)] ${
+                      className={`line-clamp-4 min-w-0 break-words font-sans font-light text-[clamp(0.95rem,1.04vw,1.25rem)] leading-[clamp(1.35rem,1.45vw,1.75rem)] ${
                         isHighlighted ? 'text-white' : 'text-[#212121]'
                       }`}
                     >

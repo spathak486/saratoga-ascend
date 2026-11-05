@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useLayoutEffect, useRef, useState } from 'react';
 
 export interface CapabilityCard {
   id?: string | number | null;
@@ -126,11 +126,37 @@ export function ExploreCapabilitiesSection({
   cards,
 }: ExploreCapabilitiesSectionProps) {
   const displayCards: CapabilityCard[] = cards && cards.length > 0 ? cards : DEFAULT_CAPABILITIES;
-  const isCarousel = displayCards.length > 4;
   const [startIndex, setStartIndex] = useState(0);
+  const [visibleCount, setVisibleCount] = useState(1);
+  const swipeStart = useRef<number | null>(null);
 
-  // Maximum scroll index: so 4 items are always visible in view
-  const maxIndex = Math.max(0, displayCards.length - 4);
+  // One card on phones, two from sm, four from lg — same steps the card widths use.
+  useLayoutEffect(() => {
+    const lgQuery = window.matchMedia('(min-width: 1024px)');
+    const smQuery = window.matchMedia('(min-width: 640px)');
+    const update = () => {
+      const next = lgQuery.matches ? 4 : smQuery.matches ? 2 : 1;
+      setVisibleCount(next);
+      setStartIndex((index) => Math.min(index, Math.max(0, displayCards.length - next)));
+    };
+    update();
+    lgQuery.addEventListener('change', update);
+    smQuery.addEventListener('change', update);
+    return () => {
+      lgQuery.removeEventListener('change', update);
+      smQuery.removeEventListener('change', update);
+    };
+  }, [displayCards.length]);
+
+  const maxIndex = Math.max(0, displayCards.length - visibleCount);
+  const showControls =
+    displayCards.length <= 1
+      ? 'hidden'
+      : displayCards.length <= 2
+        ? 'flex sm:hidden'
+        : displayCards.length <= 4
+          ? 'flex lg:hidden'
+          : 'flex';
 
   const handlePrev = () => {
     setStartIndex((prev) => Math.max(0, prev - 1));
@@ -138,6 +164,19 @@ export function ExploreCapabilitiesSection({
 
   const handleNext = () => {
     setStartIndex((prev) => Math.min(maxIndex, prev + 1));
+  };
+
+  const handleTouchStart = (event: React.TouchEvent<HTMLDivElement>) => {
+    swipeStart.current = event.changedTouches[0]?.clientX ?? null;
+  };
+
+  const handleTouchEnd = (event: React.TouchEvent<HTMLDivElement>) => {
+    if (swipeStart.current == null) return;
+    const delta = event.changedTouches[0].clientX - swipeStart.current;
+    swipeStart.current = null;
+    if (Math.abs(delta) < 40) return;
+    if (delta < 0) handleNext();
+    else handlePrev();
   };
 
   // Title rendering logic: supports highlighted text in Brand Red (#F01424)
@@ -181,7 +220,7 @@ export function ExploreCapabilitiesSection({
       className="relative mx-auto w-full max-w-[1920px] bg-[#FAFAFA] py-14 xl:py-[80px] px-page overflow-hidden"
     >
       {/* Title & Carousel Buttons Header (Group 2085665688) */}
-      <div className="flex items-end justify-between mb-10 xl:mb-[60px] max-w-[1680px] mx-auto">
+      <div className="mx-auto mb-10 flex max-w-[1680px] flex-col gap-6 xl:mb-[60px] lg:flex-row lg:items-end lg:justify-between">
         <div className="max-w-[1371px]">
           <h2
             className="font-serif text-[clamp(2.25rem,1.5rem+2.6vw,4.5rem)] leading-[1.15] xl:leading-[86px] font-normal tracking-tight"
@@ -192,23 +231,21 @@ export function ExploreCapabilitiesSection({
         </div>
 
         {/* Carousel Navigation Buttons: Rendered only when > 4 cards (Group 2085665688: width: 152px, height: 66px) */}
-        {isCarousel && (
-          <div className="hidden lg:flex items-center gap-[20px] shrink-0 mb-2">
+        <div className={`${showControls} items-center gap-3 self-end shrink-0 lg:mb-2 lg:gap-5`}>
             {/* Prev Button: 66px x 66px, border 1.375px #022E4C, radius 1373px, gradient on hover */}
             <button
               type="button"
               onClick={handlePrev}
               disabled={startIndex === 0}
               aria-label="Previous capabilities"
-              className={`w-[66px] h-[66px] rounded-full border-[1.375px] border-[#022E4C] flex items-center justify-center transition-all duration-300 shadow-[0px_1.375px_2.75px_rgba(16,24,40,0.05)] ${
+              className={`flex size-12 items-center justify-center rounded-full border-[1.375px] border-[#022E4C] transition-all duration-300 shadow-[0px_1.375px_2.75px_rgba(16,24,40,0.05)] lg:size-[66px] ${
                 startIndex === 0
                   ? 'opacity-40 cursor-not-allowed bg-transparent text-[#022E4C]'
                   : 'bg-transparent text-[#022E4C] hover:text-white hover:border-transparent hover:bg-[linear-gradient(91.647deg,var(--color-brand-cta-from)_0.475%,var(--color-brand-cta-to)_102.45%)] cursor-pointer active:scale-95'
               }`}
             >
               <svg
-                width="33"
-                height="33"
+                className="size-6 lg:size-[33px]"
                 viewBox="0 0 33 33"
                 fill="none"
                 stroke="currentColor"
@@ -226,15 +263,14 @@ export function ExploreCapabilitiesSection({
               onClick={handleNext}
               disabled={startIndex >= maxIndex}
               aria-label="Next capabilities"
-              className={`w-[66px] h-[66px] rounded-full border-[1.375px] border-[#022E4C] flex items-center justify-center transition-all duration-300 shadow-[0px_1.375px_2.75px_rgba(16,24,40,0.05)] ${
+              className={`flex size-12 items-center justify-center rounded-full border-[1.375px] border-[#022E4C] transition-all duration-300 shadow-[0px_1.375px_2.75px_rgba(16,24,40,0.05)] lg:size-[66px] ${
                 startIndex >= maxIndex
                   ? 'opacity-40 cursor-not-allowed bg-transparent text-[#022E4C]'
                   : 'bg-transparent text-[#022E4C] hover:text-white hover:border-transparent hover:bg-[linear-gradient(91.647deg,var(--color-brand-cta-from)_0.475%,var(--color-brand-cta-to)_102.45%)] cursor-pointer active:scale-95'
               }`}
             >
               <svg
-                width="33"
-                height="33"
+                className="size-6 lg:size-[33px]"
                 viewBox="0 0 33 33"
                 fill="none"
                 stroke="currentColor"
@@ -246,16 +282,20 @@ export function ExploreCapabilitiesSection({
               </svg>
             </button>
           </div>
-        )}
       </div>
 
       {/* Frame 2085664245: Connected Blocks Carousel View (width: 1800px max, height: 516px, drop-shadow 25.6px) */}
-      <div className="w-full max-w-[1800px] mx-auto rounded-[16px] overflow-hidden shadow-[0px_0px_25.6px_rgba(0,0,0,0.25)]">
+      <div
+        className="mx-auto w-full max-w-[1800px] overflow-hidden rounded-[16px] shadow-[0px_0px_25.6px_rgba(0,0,0,0.25)]"
+        aria-roledescription="carousel"
+      >
         <div
-          className="flex transition-transform duration-500 ease-in-out w-full"
+          className="flex w-full transition-transform duration-500 ease-in-out motion-reduce:transition-none [--cap-visible:1] sm:[--cap-visible:2] lg:[--cap-visible:4]"
           style={{
-            transform: `translateX(-${startIndex * 25}%)`,
+            transform: `translateX(calc(${startIndex} * -100% / var(--cap-visible)))`,
           }}
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
         >
           {displayCards.map((card, index) => {
             // Alternating block colors:
@@ -266,12 +306,12 @@ export function ExploreCapabilitiesSection({
             return (
               <div
                 key={card.id ?? card.documentId ?? `capability-${index}`}
-                className={`flex flex-col items-center justify-between text-center p-6 sm:p-7 2xl:p-[30px] h-[516px] shrink-0 w-full sm:w-1/2 lg:w-1/4 transition-colors duration-300 ${
+                className={`flex h-auto w-full shrink-0 flex-col items-center justify-center gap-4 p-5 text-center transition-colors duration-300 sm:h-[516px] sm:w-1/2 sm:justify-between sm:gap-0 sm:p-7 lg:w-1/4 2xl:p-[30px] ${
                   isDark ? 'bg-[#2B88D9] text-white' : 'bg-[#EBF6FF] text-[#000000]'
                 }`}
               >
                 {/* Icon Container: 120px x 120px */}
-                <div className="flex items-center justify-center w-[120px] h-[120px] shrink-0 mt-2 mb-auto">
+                <div className="flex size-[120px] shrink-0 items-center justify-center sm:mt-2 sm:mb-auto">
                   {card.icon?.url ? (
                     <img
                       src={card.icon.url}
@@ -284,7 +324,7 @@ export function ExploreCapabilitiesSection({
                 </div>
 
                 {/* Content Container (Title + Line + Description) */}
-                <div className="flex flex-col items-center gap-[40.98px] w-full mb-2">
+                <div className="flex w-full flex-col items-center gap-3 sm:mb-2 sm:gap-[40.98px]">
                   {/* Title: 28px DM Serif Text, line-height 38px */}
                   <h3
                     className="font-serif text-[28px] leading-[38px] font-normal min-h-[38px] flex items-center justify-center max-w-[358px] px-2"
@@ -302,7 +342,7 @@ export function ExploreCapabilitiesSection({
 
                   {/* Description: Google Sans Flex, 24px, line-height 40px (167%) */}
                   <p
-                    className="font-sans text-[20px] 2xl:text-[24px] leading-[32px] 2xl:leading-[40px] font-normal max-w-[300px] min-h-[80px] 2xl:min-h-[120px] flex items-center justify-center"
+                    className="line-clamp-4 min-h-0 min-w-0 max-w-[300px] break-words text-center font-sans text-[20px] font-normal leading-[32px] sm:min-h-[80px] 2xl:min-h-[120px] 2xl:text-[24px] 2xl:leading-[40px]"
                     style={{ fontFamily: "'Google Sans Flex', sans-serif" }}
                   >
                     {card.description}

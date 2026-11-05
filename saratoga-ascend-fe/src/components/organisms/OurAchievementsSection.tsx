@@ -13,7 +13,7 @@ import {
   useDragToScroll,
   useWheelToScroll,
 } from '../molecules/CardCarousel';
-import { CountUpStat } from '../molecules/CountUpStat';
+import { CountUpStat, useInViewReplay } from '../molecules/CountUpStat';
 import type { StrapiImage } from '@/lib/schemas';
 
 /** Exactly two plates fill the desktop viewport (one gutter between them).
@@ -30,10 +30,6 @@ const DESKTOP_OVERLAY =
   'linear-gradient(237.8deg, rgba(15, 61, 96, 0.8) 29.327%, rgba(240, 20, 36, 0.8) 100%)';
 const MOBILE_OVERLAY =
   'linear-gradient(264.65deg, rgba(15, 61, 96, 0.8) 29.327%, rgba(240, 20, 36, 0.8) 100%)';
-
-function isPlacementStat(label: string) {
-  return /placement/i.test(label);
-}
 
 /** Same white 60×60 circular control as the Healthcare feature carousel
  *  (`phase5-feature-prev.svg`) — both directions load the one asset, and
@@ -196,8 +192,8 @@ export interface OurAchievementsSectionProps {
  * Achievements band — desktop Homepage 2243:3478 (1920×973), mobile
  * 2105:725 (430×710). Older artboard 2002:1028 was 1920×1334. CMS title,
  * counters, and cards stay as delivered. Backdrop is the local GIF; `bgImage`
- * stays on the props so the registry query is unchanged. Placements uses the
- * Numbers1 hover reel (1s ease-in-out).
+ * stays on the props so the registry query is unchanged. All four counters
+ * roll from 0 whenever the stats band scrolls into view from above or below.
  */
 export const OurAchievementsSection: React.FC<OurAchievementsSectionProps> = ({
   title,
@@ -208,6 +204,11 @@ export const OurAchievementsSection: React.FC<OurAchievementsSectionProps> = ({
   const mobile = useCardCarousel({ loop: true });
   const { isDragging, dragHandlers } = useDragToScroll(mobile.viewportRef);
   useWheelToScroll(mobile.viewportRef);
+  const {
+    ref: statsRef,
+    inView: statsInView,
+    playId: statsPlayId,
+  } = useInViewReplay<HTMLDListElement>();
 
   const headingText = title?.trim() ? title : 'Our Achievements';
 
@@ -299,16 +300,19 @@ export const OurAchievementsSection: React.FC<OurAchievementsSectionProps> = ({
         </div>
 
         <div className="absolute top-[73.69%] left-[6.25%] w-[87.5%]">
-          <dl className="flex h-[183px] items-center justify-between">
+          <dl
+            ref={statsRef}
+            className="flex h-[183px] items-center justify-between"
+          >
             {resolvedStats.map((stat, idx) => (
               <React.Fragment key={`${stat.label}-${idx}`}>
                 <div className="flex flex-col items-center text-center">
                   <dd className="font-serif text-[clamp(4rem,6.25vw,120px)] leading-[1.12] tracking-normal text-white">
-                    {isPlacementStat(stat.label) ? (
-                      <CountUpStat value={stat.value} />
-                    ) : (
-                      stat.value
-                    )}
+                    <CountUpStat
+                      value={stat.value}
+                      active={statsInView}
+                      playId={statsPlayId}
+                    />
                   </dd>
                   <dt className="mt-4 font-sans text-[clamp(1.5rem,1.66vw,32px)] leading-tight font-medium whitespace-nowrap text-white">
                     {stat.label}

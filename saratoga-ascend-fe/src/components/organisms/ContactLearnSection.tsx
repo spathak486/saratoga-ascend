@@ -137,7 +137,7 @@ export const ContactLearnSection: React.FC<ContactLearnSectionProps> = ({
                 >
                   {card.title}
                 </h3>
-                <p className={`font-sans text-ink ${card.featured ? 'text-card-copy' : 'text-body'}`}>
+                <p className={`line-clamp-4 min-w-0 break-words font-sans text-ink ${card.featured ? 'text-card-copy' : 'text-body'}`}>
                   {card.description}
                 </p>
                 <a
