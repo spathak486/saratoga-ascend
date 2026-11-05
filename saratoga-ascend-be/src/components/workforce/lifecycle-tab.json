@@ -1,0 +1,48 @@
+{
+  "collectionName": "components_workforce_lifecycle_tabs",
+  "info": {
+    "displayName": "Lifecycle Tab",
+    "icon": "apps",
+    "description": "Interactive lifecycle tab with chip label, content, image, support checklist, role categories, and general-link CTA"
+  },
+  "options": {},
+  "attributes": {
+    "tabId": {
+      "type": "string"
+    },
+    "label": {
+      "type": "string",
+      "required": true
+    },
+    "heading": {
+      "type": "string",
+      "required": true
+    },
+    "subheading": {
+      "type": "text",
+      "required": true
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "cta": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.general-link"
+    },
+    "supportAreas": {
+      "type": "component",
+      "repeatable": true,
+      "component": "workforce.support-area-item"
+    },
+    "categories": {
+      "type": "component",
+      "repeatable": true,
+      "component": "workforce.lifecycle-category"
+    }
+  }
+}

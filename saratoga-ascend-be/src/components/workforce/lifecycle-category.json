@@ -1,0 +1,23 @@
+{
+  "collectionName": "components_workforce_lifecycle_categories",
+  "info": {
+    "displayName": "Lifecycle Category",
+    "icon": "bulletList",
+    "description": "Category card inside lifecycle tab"
+  },
+  "options": {},
+  "attributes": {
+    "number": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text",
+      "required": true
+    }
+  }
+}
+

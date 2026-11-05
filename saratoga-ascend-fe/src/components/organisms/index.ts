@@ -47,3 +47,5 @@ export * from './ExploreCapabilitiesSection';
 
 export * from './ClearPathSection';
 export * from './MissionsYouServeSection';
+
+export * from './ServiceLifecycleSection';

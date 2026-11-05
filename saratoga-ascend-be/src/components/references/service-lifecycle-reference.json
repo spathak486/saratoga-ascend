@@ -1,0 +1,18 @@
+{
+  "collectionName": "components_references_service_lifecycle_references",
+  "info": {
+    "displayName": "Service Lifecycle Reference",
+    "icon": "layer",
+    "description": "Healthcare Workforce Solutions Across the Service Lifecycle section reference"
+  },
+  "options": {},
+  "attributes": {
+    "serviceLifecycleSection": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::service-lifecycle-section.service-lifecycle-section"
+    }
+  },
+  "config": {}
+}
+
