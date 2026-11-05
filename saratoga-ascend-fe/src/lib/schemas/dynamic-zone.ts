@@ -738,7 +738,36 @@ export const ServiceLifecycleReferenceSchema = z.object({
 });
 
 export type ServiceLifecycleReference = z.infer<typeof ServiceLifecycleReferenceSchema>;
+
+export const FederalMissionCardSchema = z.object({
+  documentId: z.string().optional(),
+  stepNumber: z.string().nullable().optional(),
+  title: z.string(),
+  subheading: z.string(),
+  description: z.string(),
+  image: StrapiImageSchema.nullable().optional(),
+  tags: z.array(SupportAreaItemSchema).nullable().optional(),
+  cta: GeneralLinkSchema.nullable().optional(),
+});
+
+export const FederalGovernmentSectionEntitySchema = z.object({
+  documentId: z.string().optional(),
+  referenceTitle: z.string().nullable().optional(),
+  title: z.string().nullable().optional(),
+  cards: z.array(FederalMissionCardSchema).nullable().optional(),
+});
+
+export type FederalGovernmentSectionEntity = z.infer<typeof FederalGovernmentSectionEntitySchema>;
+
+export const FederalGovernmentReferenceSchema = z.object({
+  __typename: z.literal('ComponentReferencesFederalGovernmentReference'),
+  federalGovernmentSection: FederalGovernmentSectionEntitySchema.nullable().optional(),
+});
+
+export type FederalGovernmentReference = z.infer<typeof FederalGovernmentReferenceSchema>;
+
 export const DynamicZoneSectionSchema = z.union([
+  FederalGovernmentReferenceSchema,
   ServiceLifecycleReferenceSchema,
   MissionsYouServeReferenceSchema,
   ClearPathReferenceSchema,
