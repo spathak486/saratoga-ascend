@@ -1,0 +1,17 @@
+{
+  "collectionName": "components_references_federal_government_references",
+  "info": {
+    "displayName": "Federal Government Reference",
+    "icon": "layer",
+    "description": "Reference to Federal Government Overview Section (Frame 2085663703 / Why Depoter)"
+  },
+  "options": {},
+  "attributes": {
+    "federalGovernmentSection": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::federal-government-section.federal-government-section"
+    }
+  }
+}
+

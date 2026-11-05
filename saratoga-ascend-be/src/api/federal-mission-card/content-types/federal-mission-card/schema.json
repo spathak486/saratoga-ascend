@@ -1,0 +1,45 @@
+{
+  "kind": "collectionType",
+  "collectionName": "federal_mission_cards",
+  "info": {
+    "singularName": "federal-mission-card",
+    "pluralName": "federal-mission-cards",
+    "displayName": "Federal Mission Card",
+    "description": "Stacked federal government mission overview card with tags, media, CTA and subheadings (stepNumber calculated dynamically in FE)"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "subheading": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text",
+      "required": true
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "tags": {
+      "type": "component",
+      "repeatable": true,
+      "component": "workforce.support-area-item"
+    },
+    "cta": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.general-link"
+    }
+  }
+}

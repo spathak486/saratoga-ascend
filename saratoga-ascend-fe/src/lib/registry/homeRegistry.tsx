@@ -26,6 +26,7 @@ import type {
   ClearPathReference,
   MissionsYouServeReference,
   ServiceLifecycleReference,
+  FederalGovernmentReference,
   ContactInquiryReference,
   ContactPathwaysReference,
   ContactLearnReference,
@@ -64,6 +65,7 @@ import {
   ClearPathSection,
   MissionsYouServeSection,
   ServiceLifecycleSection,
+  FederalGovernmentSection,
   ContactInquirySection,
   ContactPathwaysSection,
   ContactLearnSection,
@@ -594,6 +596,19 @@ export const SECTION_REGISTRY: Record<
         highlightTitle={cp?.highlightTitle ?? undefined}
         description={cp?.description ?? undefined}
         cards={(cp?.cards as any) ?? undefined}
+      />
+    );
+  },
+
+  ComponentReferencesFederalGovernmentReference: (section, index) => {
+    const fgRef = section as FederalGovernmentReference;
+    const fg = fgRef.federalGovernmentSection;
+    return (
+      <FederalGovernmentSection
+        key={'federal-gov-' + index}
+        title={fg?.title ?? undefined}
+        referenceTitle={fg?.referenceTitle ?? undefined}
+        cards={fg?.cards as any}
       />
     );
   },
