@@ -20,19 +20,21 @@ export async function generateStaticParams() {
   const result = await getAllPageSlugs();
   const pageSlugs = result.error ? [] : result.data;
 
-  // Include solution slugs for static generation
-  const { getAllSolutionSlugs, getAllBlogSlugs, getAllArticleSlugs } = await import('@/lib/services');
-  const [solutionResult, blogResult, articleResult] = await Promise.all([
+  // Include solution & service (who-we-serve) slugs for static generation
+  const { getAllSolutionSlugs, getAllServiceSlugs, getAllBlogSlugs, getAllArticleSlugs } = await import('@/lib/services');
+  const [solutionResult, serviceResult, blogResult, articleResult] = await Promise.all([
     getAllSolutionSlugs(),
+    getAllServiceSlugs(),
     getAllBlogSlugs(),
     getAllArticleSlugs(),
   ]);
 
   const solutionSlugs = solutionResult.error ? [] : solutionResult.data;
+  const serviceSlugs = serviceResult.error ? [] : serviceResult.data;
   const blogSlugs = blogResult.error ? [] : blogResult.data;
   const articleSlugs = articleResult.error ? [] : articleResult.data;
 
-  const allSlugs = Array.from(new Set([...pageSlugs, ...solutionSlugs, ...blogSlugs, ...articleSlugs]));
+  const allSlugs = Array.from(new Set([...pageSlugs, ...solutionSlugs, ...serviceSlugs, ...blogSlugs, ...articleSlugs]));
   return allSlugs.map((slug) => ({ slug: slug.split('/') }));
 }
 
@@ -69,6 +71,12 @@ export async function generateMetadata({ params }: DynamicPageProps): Promise<Me
     const { getSolutionBySlug } = await import('@/lib/services');
     const solutionResult = await getSolutionBySlug(slugPath);
     if (solutionResult.data) pageData = solutionResult.data;
+  }
+
+  if (!pageData && !isReservedPage) {
+    const { getServiceBySlug } = await import('@/lib/services');
+    const serviceResult = await getServiceBySlug(slugPath);
+    if (serviceResult.data) pageData = serviceResult.data;
   }
 
   if (
@@ -142,6 +150,12 @@ export default async function DynamicPage({ params }: DynamicPageProps) {
     const { getSolutionBySlug } = await import('@/lib/services');
     const solutionResult = await getSolutionBySlug(slugPath);
     if (solutionResult.data) pageData = solutionResult.data;
+  }
+
+  if (!pageData && !isReservedPage) {
+    const { getServiceBySlug } = await import('@/lib/services');
+    const serviceResult = await getServiceBySlug(slugPath);
+    if (serviceResult.data) pageData = serviceResult.data;
   }
 
   if (
