@@ -5,8 +5,8 @@ import { MediaFrame } from '../atoms/MediaFrame';
 export interface VehicleDetail {
   title: string;
   body: string;
-  primary: { href: string; label: string };
-  secondary: { href: string; label: string };
+  primary?: { href?: string | null; label?: string | null; target?: string | null; isExternal?: boolean | null } | null;
+  secondary?: { href?: string | null; label?: string | null; target?: string | null; isExternal?: boolean | null } | null;
 }
 
 export interface VehicleDetailPanelProps {
@@ -66,25 +66,35 @@ export const VehicleDetailPanel: React.FC<VehicleDetailPanelProps> = ({
       {detail.body}
     </p>
 
-    <div className="mt-10 flex flex-wrap gap-4 max-xl:mt-5 max-xl:flex-nowrap max-xl:gap-5">
-      <GeneralLink
-        href={detail.primary.href}
-        variant="button"
-        buttonVariant="solidNavy"
-        size="ctaPill"
-        className="bg-brand-navy-panel px-[2.125rem] font-bold max-xl:h-auto max-xl:min-h-0 max-xl:min-w-0 max-xl:flex-1 max-xl:px-[0.75rem] max-xl:py-3 max-xl:text-sm max-xl:leading-[1.125rem]"
-      >
-        {detail.primary.label}
-      </GeneralLink>
-      <GeneralLink
-        href={detail.secondary.href}
-        variant="button"
-        buttonVariant="outlineNavy"
-        size="ctaPill"
-        className="border-brand-navy-panel px-[2.125rem] font-bold text-brand-navy-band max-xl:h-auto max-xl:min-h-0 max-xl:min-w-0 max-xl:flex-1 max-xl:px-[0.75rem] max-xl:py-3 max-xl:text-sm max-xl:leading-[1.125rem]"
-      >
-        {detail.secondary.label}
-      </GeneralLink>
-    </div>
+    {(detail.primary?.label || detail.secondary?.label) && (
+      <div className="mt-10 flex flex-wrap gap-4 max-xl:mt-5 max-xl:flex-nowrap max-xl:gap-5">
+        {detail.primary?.label && (
+          <GeneralLink
+            href={detail.primary.href || '/contract-vehicles'}
+            target={detail.primary.target || undefined}
+            isExternal={detail.primary.isExternal ?? undefined}
+            variant="button"
+            buttonVariant="solidNavy"
+            size="ctaPill"
+            className="bg-brand-navy-panel px-[2.125rem] font-bold max-xl:h-auto max-xl:min-h-0 max-xl:min-w-0 max-xl:flex-1 max-xl:px-[0.75rem] max-xl:py-3 max-xl:text-sm max-xl:leading-[1.125rem]"
+          >
+            {detail.primary.label}
+          </GeneralLink>
+        )}
+        {detail.secondary?.label && (
+          <GeneralLink
+            href={detail.secondary.href || '/contact'}
+            target={detail.secondary.target || undefined}
+            isExternal={detail.secondary.isExternal ?? undefined}
+            variant="button"
+            buttonVariant="outlineNavy"
+            size="ctaPill"
+            className="border-brand-navy-panel px-[2.125rem] font-bold text-brand-navy-band max-xl:h-auto max-xl:min-h-0 max-xl:min-w-0 max-xl:flex-1 max-xl:px-[0.75rem] max-xl:py-3 max-xl:text-sm max-xl:leading-[1.125rem]"
+          >
+            {detail.secondary.label}
+          </GeneralLink>
+        )}
+      </div>
+    )}
   </div>
 );
