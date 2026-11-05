@@ -1,0 +1,24 @@
+{
+  "collectionName": "components_references_explore_environments_references",
+  "info": {
+    "displayName": "Explore Other Environments Reference",
+    "icon": "earth",
+    "description": "Explore Other Government Environments 2-Card Pathway Section (Frame 2147226557)"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "customField",
+      "customField": "plugin::ckeditor5.CKEditor"
+    },
+    "description": {
+      "type": "text",
+      "default": "If your requirement sits outside a Federal agency context, explore our State & Local Government pathway or review our solution areas directly."
+    },
+    "cards": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::card.card"
+    }
+  }
+}

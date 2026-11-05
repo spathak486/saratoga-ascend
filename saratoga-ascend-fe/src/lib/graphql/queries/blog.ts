@@ -3,6 +3,7 @@ import type { RawContentNode } from '../types';
 
 export interface BlogBySlugQueryVariables {
   slug: string;
+  altSlug?: string | null;
 }
 
 export interface BlogBySlugQueryResult {
@@ -10,8 +11,8 @@ export interface BlogBySlugQueryResult {
 }
 
 export const BLOG_BY_SLUG_QUERY = `
-  query GetBlogBySlug($slug: String!) {
-    blogs(filters: { slug: { eq: $slug } }) { ${BLOG_FIELDS} }
+  query GetBlogBySlug($slug: String!, $altSlug: String) {
+    blogs(filters: { or: [{ slug: { eq: $slug } }, { slug: { eq: $altSlug } }] }) { ${BLOG_FIELDS} }
   }
 `;
 

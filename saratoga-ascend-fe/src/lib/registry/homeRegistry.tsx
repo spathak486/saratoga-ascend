@@ -28,6 +28,7 @@ import type {
   ServiceLifecycleReference,
   FederalGovernmentReference,
   ContractVehiclesReference,
+  ExploreEnvironmentsReference,
   ContactInquiryReference,
   ContactPathwaysReference,
   ContactLearnReference,
@@ -67,6 +68,7 @@ import {
   MissionsYouServeSection,
   ServiceLifecycleSection,
   FederalGovernmentSection,
+  ExploreEnvironmentsSection,
   ContactInquirySection,
   ContactPathwaysSection,
   ContactLearnSection,
@@ -597,6 +599,18 @@ export const SECTION_REGISTRY: Record<
         highlightTitle={cp?.highlightTitle ?? undefined}
         description={cp?.description ?? undefined}
         cards={(cp?.cards as any) ?? undefined}
+      />
+    );
+  },
+
+  ComponentReferencesExploreEnvironmentsReference: (section, index) => {
+    const eeRef = section as ExploreEnvironmentsReference;
+    return (
+      <ExploreEnvironmentsSection
+        key={'explore-environments-' + index}
+        title={eeRef?.title ?? undefined}
+        description={eeRef?.description ?? undefined}
+        cards={eeRef?.cards as any}
       />
     );
   },
