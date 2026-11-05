@@ -60,7 +60,7 @@ export const AchievementCard: React.FC<AchievementCardProps> = ({
       <Heading level={3} size="award" font="serif" tone="onDark">
         {title}
       </Heading>
-      <p className="mt-[clamp(0.625rem,0.5188rem+0.4531vw,1.0625rem)] text-body leading-[1.18] tracking-[0.2px] text-brand-on-dark">
+      <p className="mt-[clamp(0.625rem,0.5188rem+0.4531vw,1.0625rem)] line-clamp-4 min-w-0 break-words text-body leading-[1.18] tracking-[0.2px] text-brand-on-dark">
         {body}
       </p>
     </div>

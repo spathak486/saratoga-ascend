@@ -1,7 +1,5 @@
 'use client';
 
-import React from 'react';
-
 export interface CriticalMissionCard {
   id?: string | number | null;
   documentId?: string | null;
@@ -158,65 +156,55 @@ export function CriticalMissionsSection({
   return (
     <section
       aria-label={title || 'Critical Healthcare Missions'}
-      className="relative mx-auto w-full max-w-[1920px] bg-white px-4 sm:px-6 lg:px-10 2xl:px-[120px] py-10 sm:py-12 xl:py-[80px]"
+      className="isolate relative mx-auto w-full max-w-[1920px] bg-white"
     >
-      <div className="mx-auto flex w-full max-w-[1680px] flex-col items-start justify-between gap-8 sm:gap-10 xl:flex-row xl:gap-8 2xl:gap-[60px]">
-        {/* LEFT COLUMN: Sticky copy — fluid width so right side never cuts on 125% zoom */}
-        <div className="w-full xl:flex-1 xl:max-w-[850px] 2xl:max-w-[904px] xl:sticky xl:top-[calc(var(--spacing-utility-h)+var(--spacing-nav-h)+1.5rem)]">
-          <h2 className="font-serif text-[clamp(2rem,1.4rem+2.5vw,4.5rem)] font-normal leading-[1.15] tracking-tight text-[#000000]">
-            {renderTitle()}
-          </h2>
-          {description && (
-            <p className="mt-5 max-w-[820px] font-sans text-[clamp(1.05rem,0.95rem+0.45vw,1.5rem)] font-normal leading-[1.6] text-[#000000] sm:mt-6 xl:mt-8 xl:leading-10">
-              {description}
-            </p>
-          )}
-        </div>
+      <div className="px-4 pt-10 pb-0 sm:px-6 sm:pt-12 lg:px-10 xl:pt-[80px] 2xl:px-[120px]">
+        <div className="mx-auto flex w-full max-w-[1680px] flex-col items-start justify-between gap-8 sm:gap-10 xl:flex-row xl:gap-8 2xl:gap-[60px]">
+          <div className="w-full min-w-0 xl:sticky xl:top-[calc(var(--spacing-nav-h)+1.5rem)] xl:max-w-[850px] xl:flex-1 xl:self-start 2xl:max-w-[904px]">
+            <h2 className="font-serif text-[clamp(2rem,1.4rem+2.5vw,4.5rem)] font-normal leading-[1.15] tracking-tight text-[#000000]">
+              {renderTitle()}
+            </h2>
+            {description && (
+              <p className="mt-5 max-w-[820px] font-sans text-[clamp(1.05rem,0.95rem+0.45vw,1.5rem)] font-normal leading-[1.6] text-[#000000] sm:mt-6 xl:mt-8 xl:leading-10">
+                {description}
+              </p>
+            )}
+          </div>
 
-        {/* RIGHT COLUMN: Frame 2147226326 — fluid responsive container so it fits 100% & 125% without clipping */}
-        <div className="w-full xl:w-[480px] 2xl:w-[582px] shrink-0">
-          <div
-            tabIndex={0}
-            role="region"
-            aria-label="Critical Healthcare Mission Cards"
-            className="flex h-auto w-full flex-col gap-5 focus:outline-none xl:h-[min(45.625rem,75vh)] xl:overflow-y-auto xl:pr-3 xl:scroll-smooth"
-            style={{
-              scrollbarWidth: 'thin',
-              scrollbarColor: '#95C3EC #F4F9FD',
-            }}
-          >
-            {displayCards.map((card, idx) => {
-              const stepNum = card.number || (idx < 9 ? `0${idx + 1}` : `${idx + 1}`);
+          <div className="flex w-full min-w-0 shrink-0 flex-col gap-5 xl:w-[480px] 2xl:w-[582px]">
+              {displayCards.map((card, idx) => {
+                const stepNum = card.number || (idx < 9 ? `0${idx + 1}` : `${idx + 1}`);
 
-              return (
-                <div
-                  key={card.id ?? card.documentId ?? `mission-${idx}`}
-                  className="relative flex h-auto min-h-[16rem] w-full shrink-0 flex-col justify-between overflow-hidden rounded-[20px] border border-[#95C3EC] bg-[#F4F9FD] p-6 transition-all duration-300 hover:border-[#2B88D9] hover:shadow-md sm:p-7 2xl:p-9 xl:h-[350px] xl:min-h-[350px]"
-                >
-                  <div className="relative z-10 flex w-full items-start justify-between gap-3">
-                    <div className="flex size-14 sm:size-20 2xl:size-[104px] shrink-0 items-center justify-center rounded-[13px] border border-[#000000] bg-[#95C3EC]">
-                      <MissionCardIcon index={idx} iconUrl={card.icon?.url} title={card.title} />
+                return (
+                  <div
+                    key={card.id ?? card.documentId ?? `mission-${idx}`}
+                    style={{ zIndex: idx + 1 }}
+                    className="relative flex h-auto min-h-[16rem] w-full shrink-0 flex-col justify-between overflow-hidden rounded-[20px] border border-[#95C3EC] bg-[#F4F9FD] p-6 shadow-[0_8px_20px_rgba(33,33,33,0.06)] transition-[border-color,box-shadow] duration-300 hover:border-[#2B88D9] hover:shadow-md motion-reduce:transition-none sm:p-7 xl:sticky xl:top-[calc(var(--spacing-nav-h)+1.5rem)] xl:h-[350px] xl:min-h-[350px] 2xl:p-9"
+                  >
+                    <div className="relative z-10 flex w-full items-start justify-between gap-3">
+                      <div className="flex size-14 shrink-0 items-center justify-center rounded-[13px] border border-[#000000] bg-[#95C3EC] sm:size-20 2xl:size-[104px]">
+                        <MissionCardIcon index={idx} iconUrl={card.icon?.url} title={card.title} />
+                      </div>
+
+                      <span
+                        className="pointer-events-none select-none font-sans text-[clamp(4.5rem,10vw,9.5rem)] font-bold leading-none tracking-tight text-[#212121]/30"
+                        aria-hidden="true"
+                      >
+                        {stepNum}
+                      </span>
                     </div>
 
-                    <span
-                      className="pointer-events-none select-none font-sans text-[clamp(4.5rem,10vw,9.5rem)] font-bold leading-none tracking-tight text-[#212121]/30"
-                      aria-hidden="true"
-                    >
-                      {stepNum}
-                    </span>
+                    <div className="relative z-10 mt-5 xl:mt-auto">
+                      <h3 className="mb-2 font-serif text-[clamp(1.35rem,1.15rem+0.7vw,1.75rem)] font-normal leading-tight text-[#2F2F2F]">
+                        {card.title}
+                      </h3>
+                      <p className="line-clamp-4 max-w-[500px] min-w-0 break-words font-sans text-[clamp(0.95rem,0.88rem+0.3vw,1.1875rem)] font-light leading-[1.45] text-[#212121]">
+                        {card.description}
+                      </p>
+                    </div>
                   </div>
-
-                  <div className="relative z-10 mt-5 xl:mt-auto">
-                    <h3 className="mb-2 font-serif text-[clamp(1.35rem,1.15rem+0.7vw,1.75rem)] font-normal leading-tight text-[#2F2F2F]">
-                      {card.title}
-                    </h3>
-                    <p className="max-w-[500px] font-sans text-[clamp(0.95rem,0.88rem+0.3vw,1.1875rem)] font-light leading-[1.45] text-[#212121]">
-                      {card.description}
-                    </p>
-                  </div>
-                </div>
-              );
-            })}
+                );
+              })}
           </div>
         </div>
       </div>

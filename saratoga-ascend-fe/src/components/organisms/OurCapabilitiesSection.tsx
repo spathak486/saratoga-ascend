@@ -344,7 +344,7 @@ export function OurCapabilitiesSection({
                     </h3>
 
                     {/* Card Description: Google Sans Flex / DM Sans, 20px, line-height: 28px, color: #212121 */}
-                    <p className="font-['Google_Sans_Flex'] text-[15px] sm:text-[17px] md:text-[20px] leading-[22px] sm:leading-[25px] md:leading-[28px] text-[#212121] font-normal transition-colors duration-300">
+                    <p className="line-clamp-4 min-w-0 break-words font-['Google_Sans_Flex'] text-[15px] sm:text-[17px] md:text-[20px] leading-[22px] sm:leading-[25px] md:leading-[28px] text-[#212121] font-normal transition-colors duration-300">
                       {card.description}
                     </p>
                   </div>

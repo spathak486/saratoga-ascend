@@ -292,7 +292,7 @@ export const MissionVisionPromiseSection: React.FC<MissionVisionPromiseSectionPr
                   backdropFilter: isCardHighlighted ? 'none' : 'blur(15.5px)',
                   WebkitBackdropFilter: isCardHighlighted ? 'none' : 'blur(15.5px)',
                 }}
-                className={`group relative flex flex-col items-center justify-between text-center w-full lg:w-[clamp(440px,28.33vw,544px)] lg:h-[clamp(520px,30.83vw,592px)] py-[clamp(2rem,3.2vw,3.75rem)] px-[clamp(1.25rem,2.5vw,3.06rem)] border-2 border-[#2B88D9] rounded-[35px] cursor-pointer transition-all duration-300 ease-out select-none ${
+                className={`group relative flex min-w-0 flex-col items-center justify-between overflow-hidden text-center w-full lg:w-[clamp(440px,28.33vw,544px)] lg:h-[clamp(520px,30.83vw,592px)] py-[clamp(2rem,3.2vw,3.75rem)] px-[clamp(1.25rem,2.5vw,3.06rem)] border-2 border-[#2B88D9] rounded-[35px] cursor-pointer transition-all duration-300 ease-out select-none ${
                   isCardHighlighted
                     ? 'bg-[#2B88D9] text-white shadow-[0_22px_55px_rgba(43,136,217,0.38)] -translate-y-2'
                     : 'bg-[rgba(249,251,254,0.7)] text-black shadow-[0_10px_35px_rgba(43,136,217,0.08)] translate-y-0'
@@ -337,7 +337,7 @@ export const MissionVisionPromiseSection: React.FC<MissionVisionPromiseSectionPr
 
                 {/* Card Body: Figma Google Sans Flex, 24px, line-height: 160% (38px), text-align: center */}
                 <p
-                  className={`font-sans font-normal text-[clamp(0.95rem,1.25vw,1.5rem)] leading-[160%] text-center mt-2 lg:mt-4 transition-colors duration-300 ${
+                  className={`line-clamp-4 w-full min-w-0 break-words font-sans font-normal text-[clamp(0.95rem,1.25vw,1.5rem)] leading-[160%] text-center mt-2 lg:mt-4 transition-colors duration-300 ${
                     isCardHighlighted ? 'text-white' : 'text-black'
                   }`}
                 >

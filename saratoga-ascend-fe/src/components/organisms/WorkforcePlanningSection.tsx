@@ -55,15 +55,30 @@ const DEFAULT_STEPS: WorkflowCardItem[] = [
   },
 ];
 
-// Helper to determine theme for any index
-function getStepTone(card: WorkflowCardItem, index: number, isRightSide: boolean): 'sky' | 'red' {
+/** 01 and 03 are blue, 02 and 04 are red, unless the card sets a tone. */
+function toneFor(card: WorkflowCardItem, index: number): 'sky' | 'red' {
   if (card.actionTone === 'red' || card.actionTone === 'sky') {
     return card.actionTone;
   }
-  if (isRightSide) {
-    return index % 2 === 0 ? 'red' : 'sky';
-  }
   return index % 2 === 0 ? 'sky' : 'red';
+}
+
+/**
+ * Four steps read clockwise: top-left, top-right, bottom-right, bottom-left.
+ * Other counts keep the first half on the left and the rest on the right.
+ */
+function orbitalColumns(cards: WorkflowCardItem[]) {
+  if (cards.length === 4) {
+    return {
+      left: [cards[0], cards[3]],
+      right: [cards[1], cards[2]],
+    };
+  }
+  const leftCount = Math.ceil(cards.length / 2);
+  return {
+    left: cards.slice(0, leftCount),
+    right: cards.slice(leftCount),
+  };
 }
 
 function StepIcon({ number, tone, iconUrl, title }: { number: string; tone: 'sky' | 'red'; iconUrl?: string | null; title?: string }) {
@@ -73,42 +88,147 @@ function StepIcon({ number, tone, iconUrl, title }: { number: string; tone: 'sky
 
   const color = tone === 'red' ? '#F01424' : '#2B88D9';
   const numInt = parseInt(number.replace(/\D/g, '') || '1', 10);
+  const iconClass = 'size-8 sm:size-10 xl:size-11';
+  const stroke = {
+    fill: 'none' as const,
+    stroke: color,
+    strokeWidth: 1.6,
+    strokeLinecap: 'round' as const,
+    strokeLinejoin: 'round' as const,
+  };
 
   if (numInt % 4 === 1) {
     return (
-      <svg className="w-8 h-8 sm:w-10 sm:h-10 2xl:w-12 2xl:h-12" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M4.8 2.4A2.4 2.4 0 0 0 2.4 4.8v4.8a7.2 7.2 0 0 0 14.4 0V4.8a2.4 2.4 0 0 0-2.4-2.4" />
-        <path d="M9.6 16.8v1.2a4.8 4.8 0 0 0 9.6 0v-2.4" />
-        <circle cx="19.2" cy="13.2" r="2.4" />
+      <svg className={iconClass} viewBox="0 0 48 48" aria-hidden="true">
+        <rect x="13" y="10" width="22" height="28" rx="3" {...stroke} />
+        <path d="M19 10.5h10a2 2 0 0 1 2 2V16H17v-3.5a2 2 0 0 1 2-2z" {...stroke} />
+        <path d="M19 23h10M19 28h10M19 33h7" {...stroke} />
       </svg>
     );
   }
 
   if (numInt % 4 === 2) {
     return (
-      <svg className="w-8 h-8 sm:w-10 sm:h-10 2xl:w-12 2xl:h-12" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
-        <ellipse cx="12" cy="5" rx="9" ry="3" />
-        <path d="M3 5V19A9 3 0 0 0 21 19V5" />
-        <path d="M3 12A9 3 0 0 0 21 12" />
+      <svg className={iconClass} viewBox="0 0 48 48" aria-hidden="true">
+        <circle cx="24" cy="11" r="3.2" {...stroke} />
+        <circle cx="12" cy="31" r="3.2" {...stroke} />
+        <circle cx="36" cy="31" r="3.2" {...stroke} />
+        <path d="M24 14.2v5.2M15.2 29.2 21.2 20.4M32.8 29.2 26.8 20.4M15.2 31h17.6" {...stroke} />
       </svg>
     );
   }
 
   if (numInt % 4 === 3) {
     return (
-      <svg className="w-8 h-8 sm:w-10 sm:h-10 2xl:w-12 2xl:h-12" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
-        <circle cx="9" cy="7" r="4" />
-        <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
-        <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+      <svg className={iconClass} viewBox="0 0 48 48" aria-hidden="true">
+        <circle cx="17" cy="16" r="3" {...stroke} />
+        <circle cx="31" cy="16" r="3" {...stroke} />
+        <circle cx="24" cy="13" r="3.4" {...stroke} />
+        <path d="M8 34c.6-4 4-6.5 9-6.5 2.2 0 4 .6 5.4 1.6" {...stroke} />
+        <path d="M40 34c-.6-4-4-6.5-9-6.5-2.2 0-4 .6-5.4 1.6" {...stroke} />
+        <path d="M14.5 34.5c.8-4.2 4-7 9.5-7s8.7 2.8 9.5 7" {...stroke} />
       </svg>
     );
   }
 
   return (
-    <svg className="w-8 h-8 sm:w-10 sm:h-10 2xl:w-12 2xl:h-12" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+    <svg className={iconClass} viewBox="0 0 48 48" aria-hidden="true">
+      <path d="M14 28c1.2 5 6 8 10 8s8.8-3 10-8" {...stroke} />
+      <path d="M12 26c-3 2-4 6-2.2 8.2M36 26c3 2 4 6 2.2 8.2" {...stroke} />
+      <rect x="16" y="10" width="16" height="12" rx="3" {...stroke} />
+      <path d="M20 16h8M20 19h5" {...stroke} />
     </svg>
+  );
+}
+
+function OrbitRing() {
+  const cx = 200;
+  const cy = 200;
+  const radius = 176;
+  const point = (deg: number) => {
+    const rad = (deg * Math.PI) / 180;
+    return {
+      x: cx + radius * Math.sin(rad),
+      y: cy - radius * Math.cos(rad),
+    };
+  };
+  const arcPath = (from: number, to: number) => {
+    const start = point(from);
+    const end = point(to);
+    const large = ((to - from + 360) % 360) > 180 ? 1 : 0;
+    return `M ${start.x} ${start.y} A ${radius} ${radius} 0 ${large} 1 ${end.x} ${end.y}`;
+  };
+  /*
+   * Strokes are 5px. Dots do not join the open top and bottom arcs.
+   * Top: left blue ends in a dot, open blue arc, right red starts at a dot.
+   * Bottom: lower-right blue ends in a dot, open red arc, lower-left red ends in a dot.
+   */
+  const arcs: { from: number; to: number; color: string; dot?: number }[] = [
+    { from: 252, to: 312, color: '#2B88D9', dot: 312 },
+    { from: 336, to: 24, color: '#2B88D9' },
+    { from: 48, to: 108, color: '#F01424', dot: 48 },
+    { from: 128, to: 164, color: '#2B88D9', dot: 164 },
+    { from: 172, to: 210, color: '#F01424' },
+    { from: 224, to: 248, color: '#F01424', dot: 224 },
+  ];
+
+  return (
+    <svg viewBox="0 0 400 400" className="absolute inset-0 size-full" aria-hidden="true">
+      {arcs.map((arc) => {
+        const dot = arc.dot === undefined ? null : point(arc.dot);
+        return (
+          <g key={`${arc.color}-${arc.from}`}>
+            <path d={arcPath(arc.from, arc.to)} stroke={arc.color} strokeWidth="5" strokeLinecap="round" fill="none" />
+            {dot ? <circle cx={dot.x} cy={dot.y} r="10" fill={arc.color} /> : null}
+          </g>
+        );
+      })}
+    </svg>
+  );
+}
+
+function OrbitPill({
+  card,
+  index,
+  iconSide,
+}: {
+  card: WorkflowCardItem;
+  index: number;
+  iconSide: 'left' | 'right';
+}) {
+  const stepNum = card.number || (index < 9 ? `0${index + 1}` : `${index + 1}`);
+  const tone = toneFor(card, index);
+  const isRed = tone === 'red';
+  const icon = (
+    <div
+      className={`flex size-16 shrink-0 items-center justify-center rounded-full sm:size-20 xl:size-[5.5rem] 2xl:size-28 ${
+        isRed ? 'bg-[#FFD8DB]' : 'bg-[#C8E7FB]'
+      }`}
+    >
+      <StepIcon number={stepNum} tone={tone} iconUrl={card.icon?.url} title={card.title} />
+    </div>
+  );
+
+  return (
+    <div
+      className={`flex w-full min-w-0 items-center gap-3 rounded-pill border px-3 py-3 shadow-sm transition-shadow duration-300 ease-out hover:shadow-md motion-reduce:transition-none sm:gap-4 sm:px-4 xl:min-h-[9.25rem] xl:py-4 2xl:min-h-[11.5rem] ${
+        isRed ? 'border-[#F01424] bg-[#FFF5F6]' : 'border-[#2B88D9] bg-[#EEF7FE]'
+      }`}
+    >
+      {iconSide === 'left' ? icon : null}
+      <div className={`min-w-0 flex-1 ${iconSide === 'left' ? 'pr-2 sm:pr-4' : 'pl-2 sm:pl-4'}`}>
+        <span className={`block font-sans text-[15px] font-bold leading-tight sm:text-lg xl:text-xl ${isRed ? 'text-[#F01424]' : 'text-[#2B88D9]'}`}>
+          {stepNum}
+        </span>
+        <h3 className={`my-0.5 font-sans text-[clamp(1.15rem,1rem+0.45vw,1.75rem)] font-bold leading-tight ${isRed ? 'text-[#F01424]' : 'text-[#2B88D9]'}`}>
+          {card.title}
+        </h3>
+        <p className="line-clamp-4 min-w-0 break-words font-sans text-[14px] leading-snug text-[#212121] sm:text-[15px] xl:text-[16px] xl:leading-6">
+          {card.description}
+        </p>
+      </div>
+      {iconSide === 'right' ? icon : null}
+    </div>
   );
 }
 
@@ -209,7 +329,7 @@ export function WorkforcePlanningSection({
                         <h3 className="mb-2 font-serif text-[28px] leading-[36px] font-normal text-[#000000]">
                           {card.title}
                         </h3>
-                        <p className="font-sans text-[20px] leading-[28px] text-[#212121]">
+                        <p className="line-clamp-4 min-w-0 break-words font-sans text-[20px] leading-[28px] text-[#212121]">
                           {card.description}
                         </p>
                       </div>
@@ -224,16 +344,17 @@ export function WorkforcePlanningSection({
     );
   }
 
-  // --- 2. DYNAMIC ORBITAL VARIANT (Frame 2147226331) ---
-  const total = displayCards.length;
-  const leftCount = Math.ceil(total / 2);
-  const leftCards = displayCards.slice(0, leftCount);
-  const rightCards = displayCards.slice(leftCount);
+  // Clockwise around the portrait: 01 top-left, 02 top-right, 03 bottom-right, 04 bottom-left.
+  const { left: leftCards, right: rightCards } = orbitalColumns(displayCards);
+  const cardIndex = (card: WorkflowCardItem) => {
+    const index = displayCards.indexOf(card);
+    return index < 0 ? 0 : index;
+  };
 
   return (
     <section
       aria-label={title || highlightTitle || 'From Workforce Planning to Ongoing Support'}
-      className="relative mx-auto w-full max-w-[1920px] overflow-hidden bg-white px-4 sm:px-6 lg:px-10 2xl:px-[120px] py-10 sm:py-12 xl:py-[80px]"
+      className="relative mx-auto w-full max-w-[1920px] overflow-x-clip bg-white px-4 py-10 sm:px-6 sm:py-12 lg:px-10 xl:py-[80px] 2xl:px-[120px]"
     >
       {/* Title */}
       <div className="mb-8 w-full text-center sm:mb-10 xl:mb-[60px]">
@@ -242,240 +363,65 @@ export function WorkforcePlanningSection({
         </h2>
       </div>
 
-      {/* --- DESKTOP ORBITAL VIEW (>= 1280px) --- */}
-      {/* Scaled safely so cards never clip on 125% zoom or standard laptop viewports */}
-      <div className="relative mx-auto hidden xl:flex items-center justify-between w-full max-w-[1680px] min-h-[520px] 2xl:min-h-[580px] py-4 gap-4 2xl:gap-8">
+      {/* Negative column gap equals the ring inset, so each oval meets the circle. */}
+      <div
+        className="relative mx-auto hidden w-full min-w-0 max-w-[1680px] items-center xl:grid xl:grid-cols-[minmax(0,1fr)_clamp(16rem,22vw,26.5rem)_minmax(0,1fr)] xl:[column-gap:calc(var(--orbit-ring-inset)*-1)]"
+        style={{ '--orbit-ring-inset': 'clamp(0.96rem, 1.32vw, 1.59rem)' } as React.CSSProperties}
+      >
         
-        {/* LEFT COLUMN PILLS: Icon on Left, Text on Right */}
-        <div className="flex flex-col justify-between gap-6 2xl:gap-12 z-20 flex-1 max-w-[480px] 2xl:max-w-[608px] shrink-0">
-          {leftCards.map((card, i) => {
-            const stepNum = card.number || (i < 9 ? `0${i + 1}` : `${i + 1}`);
-            const tone = getStepTone(card, i, false);
-            const isRed = tone === 'red';
-
-            return (
-              <div
-                key={card.id ?? card.documentId ?? `left-card-${i}`}
-                className={`w-full min-h-[190px] 2xl:min-h-[241px] rounded-[100px] 2xl:rounded-[120.5px] border flex items-center px-5 2xl:px-8 gap-4 2xl:gap-6 shadow-sm transition-transform duration-300 hover:scale-[1.02] ${
-                  isRed
-                    ? 'border-[#F01424] bg-[#FFF5F6]'
-                    : 'border-[#2B88D9] bg-[#EEF7FE]'
-                }`}
-              >
-                {/* Left Icon Circle */}
-                <div
-                  className={`w-[96px] h-[96px] 2xl:w-[130px] 2xl:h-[130px] rounded-full shrink-0 flex items-center justify-center ${
-                    isRed ? 'bg-[#FFD8DB]' : 'bg-[#C8E7FB]'
-                  }`}
-                >
-                  <StepIcon number={stepNum} tone={tone} iconUrl={card.icon?.url} title={card.title} />
-                </div>
-
-                {/* Text Content */}
-                <div className="flex flex-col justify-center flex-1 pr-2 min-w-0">
-                  <span
-                    className={`font-sans font-bold text-[18px] 2xl:text-[24px] leading-tight ${
-                      isRed ? 'text-[#F01424]' : 'text-[#2B88D9]'
-                    }`}
-                  >
-                    {stepNum}
-                  </span>
-                  <h3
-                    className={`font-sans font-bold text-[20px] 2xl:text-[28px] leading-tight my-1 line-clamp-1 ${
-                      isRed ? 'text-[#F01424]' : 'text-[#2B88D9]'
-                    }`}
-                  >
-                    {card.title}
-                  </h3>
-                  <p className="font-sans text-[14px] 2xl:text-[17px] leading-[20px] 2xl:leading-[25px] text-[#212121] line-clamp-3">
-                    {card.description}
-                  </p>
-                </div>
-              </div>
-            );
-          })}
+        <div className="relative z-10 flex min-w-0 flex-col justify-center gap-8">
+          {leftCards.map((card) => (
+            <OrbitPill
+              key={card.id ?? card.documentId ?? card.title}
+              card={card}
+              index={cardIndex(card)}
+              iconSide="left"
+            />
+          ))}
         </div>
 
-        {/* CENTER ELEMENT: Portrait + Exact Figma Orbital Arcs & Accent Dots */}
-        <div className="relative w-[340px] h-[440px] 2xl:w-[460px] 2xl:h-[570px] flex items-center justify-center shrink-0">
-          
-          {/* EXACT FIGMA ORBITAL SVG LAYER */}
-          <svg
-            className="absolute inset-0 w-full h-full pointer-events-none z-10"
-            viewBox="0 0 460 570"
-            fill="none"
-          >
-            {/* Ellipse 12747: Top-center arc (#2B88D9, 5px border) */}
-            <path
-              d="M 68 85 Q 230 18 392 85"
-              stroke="#2B88D9"
-              strokeWidth="5"
-              strokeLinecap="round"
-            />
-
-            {/* Ellipse 12744: Bottom-center arc (#F01424, 5px border) */}
-            <path
-              d="M 85 485 Q 230 550 375 485"
-              stroke="#F01424"
-              strokeWidth="5"
-              strokeLinecap="round"
-            />
-
-            {/* Ellipse 12746: Top-left arc (#2B88D9, 5px border) */}
-            <path
-              d="M 35 155 Q 12 215 15 275"
-              stroke="#2B88D9"
-              strokeWidth="5"
-              strokeLinecap="round"
-            />
-
-            {/* Ellipse 12745: Bottom-left arc (#F01424, 5px border) */}
-            <path
-              d="M 15 295 Q 15 355 45 415"
-              stroke="#F01424"
-              strokeWidth="5"
-              strokeLinecap="round"
-            />
-
-            {/* Ellipse 12742: Top-right arc (#F01424, 5px border) */}
-            <path
-              d="M 425 150 Q 448 215 445 275"
-              stroke="#F01424"
-              strokeWidth="5"
-              strokeLinecap="round"
-            />
-
-            {/* Ellipse 12743: Bottom-right arc (#2B88D9, 5px border) */}
-            <path
-              d="M 445 295 Q 445 355 415 415"
-              stroke="#2B88D9"
-              strokeWidth="5"
-              strokeLinecap="round"
-            />
-
-            {/* SATELLITE DOTS (24px x 24px) */}
-            <circle cx="50" cy="140" r="12" fill="#2B88D9" />
-            <circle cx="65" cy="462" r="12" fill="#F01424" />
-            <circle cx="410" cy="140" r="12" fill="#F01424" />
-            <circle cx="395" cy="462" r="12" fill="#2B88D9" />
-          </svg>
-
-          {/* Ellipse 12741: Confident Healthcare Team Portrait */}
-          <div className="w-[300px] h-[300px] 2xl:w-[422px] 2xl:h-[422px] rounded-full overflow-hidden shadow-lg z-20 border-[5px] 2xl:border-[6px] border-white">
+        <div className="relative mx-auto aspect-square w-full max-w-[clamp(16rem,22vw,26.5rem)]">
+          <OrbitRing />
+          <div className="absolute left-1/2 top-1/2 aspect-square w-[78%] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-full border-[6px] border-white shadow-md">
             <img
               src={resolvedCenterImage}
               alt={centerImage?.alternativeText || 'Healthcare Team'}
-              className="w-full h-full object-cover object-center"
+              className="size-full object-cover object-center"
             />
           </div>
         </div>
 
-        {/* RIGHT COLUMN PILLS: Text on Left, Icon on Right */}
-        <div className="flex flex-col justify-between gap-6 2xl:gap-12 z-20 flex-1 max-w-[480px] 2xl:max-w-[608px] shrink-0">
-          {rightCards.map((card, i) => {
-            const actualIndex = leftCount + i;
-            const stepNum = card.number || (actualIndex < 9 ? `0${actualIndex + 1}` : `${actualIndex + 1}`);
-            const tone = getStepTone(card, i, true);
-            const isRed = tone === 'red';
-
-            return (
-              <div
-                key={card.id ?? card.documentId ?? `right-card-${i}`}
-                className={`w-full min-h-[190px] 2xl:min-h-[241px] rounded-[100px] 2xl:rounded-[120.5px] border flex items-center px-5 2xl:px-8 gap-4 2xl:gap-6 shadow-sm transition-transform duration-300 hover:scale-[1.02] ${
-                  isRed
-                    ? 'border-[#F01424] bg-[#FFF5F6]'
-                    : 'border-[#2B88D9] bg-[#EEF7FE]'
-                }`}
-              >
-                {/* Text Content */}
-                <div className="flex flex-col justify-center flex-1 pl-2 min-w-0">
-                  <span
-                    className={`font-sans font-bold text-[18px] 2xl:text-[24px] leading-tight ${
-                      isRed ? 'text-[#F01424]' : 'text-[#2B88D9]'
-                    }`}
-                  >
-                    {stepNum}
-                  </span>
-                  <h3
-                    className={`font-sans font-bold text-[20px] 2xl:text-[28px] leading-tight my-1 line-clamp-1 ${
-                      isRed ? 'text-[#F01424]' : 'text-[#2B88D9]'
-                    }`}
-                  >
-                    {card.title}
-                  </h3>
-                  <p className="font-sans text-[14px] 2xl:text-[17px] leading-[20px] 2xl:leading-[25px] text-[#212121] line-clamp-3">
-                    {card.description}
-                  </p>
-                </div>
-
-                {/* Right Icon Circle */}
-                <div
-                  className={`w-[96px] h-[96px] 2xl:w-[130px] 2xl:h-[130px] rounded-full shrink-0 flex items-center justify-center ${
-                    isRed ? 'bg-[#FFD8DB]' : 'bg-[#C8E7FB]'
-                  }`}
-                >
-                  <StepIcon number={stepNum} tone={tone} iconUrl={card.icon?.url} title={card.title} />
-                </div>
-              </div>
-            );
-          })}
+        <div className="relative z-10 flex min-w-0 flex-col justify-center gap-8">
+          {rightCards.map((card) => (
+            <OrbitPill
+              key={card.id ?? card.documentId ?? card.title}
+              card={card}
+              index={cardIndex(card)}
+              iconSide="right"
+            />
+          ))}
         </div>
 
       </div>
 
-      {/* --- RESPONSIVE TABLET / MOBILE VIEW (< 1280px) --- */}
-      <div className="mx-auto flex w-full max-w-[650px] flex-col items-stretch gap-4 sm:gap-5 xl:hidden">
-        <div className="mx-auto my-2 size-44 overflow-hidden rounded-full border-4 border-white shadow-md sm:my-3 sm:size-64">
+      <div className="mx-auto flex w-full min-w-0 max-w-[720px] flex-col gap-4 sm:gap-5 xl:hidden">
+        <div className="mx-auto my-2 size-40 overflow-hidden rounded-full border-4 border-white shadow-md sm:my-3 sm:size-56 md:size-64">
           <img
             src={resolvedCenterImage}
             alt={centerImage?.alternativeText || 'Healthcare Team'}
             className="size-full object-cover object-center"
           />
         </div>
-
-        {displayCards.map((card, i) => {
-          const stepNum = card.number || (i < 9 ? `0${i + 1}` : `${i + 1}`);
-          const tone = i % 2 === 0 ? 'sky' : 'red';
-          const isRed = tone === 'red';
-
-          return (
-            <div
-              key={card.id ?? card.documentId ?? `mobile-card-${i}`}
-              className={`flex w-full items-center gap-4 rounded-[28px] border p-5 shadow-sm sm:gap-5 sm:rounded-[40px] sm:p-7 ${
-                isRed
-                  ? 'border-[#F01424] bg-[#FFF5F6]'
-                  : 'border-[#2B88D9] bg-[#EEF7FE]'
-              }`}
-            >
-              <div
-                className={`flex size-16 shrink-0 items-center justify-center rounded-full sm:size-24 ${
-                  isRed ? 'bg-[#FFD8DB]' : 'bg-[#C8E7FB]'
-                }`}
-              >
-                <StepIcon number={stepNum} tone={tone} iconUrl={card.icon?.url} title={card.title} />
-              </div>
-              <div className="min-w-0 flex-1">
-                <span
-                  className={`block font-sans text-[16px] font-bold sm:text-[18px] ${
-                    isRed ? 'text-[#F01424]' : 'text-[#2B88D9]'
-                  }`}
-                >
-                  {stepNum}
-                </span>
-                <h3
-                  className={`my-0.5 font-sans text-[clamp(1.15rem,1rem+0.6vw,1.625rem)] font-bold ${
-                    isRed ? 'text-[#F01424]' : 'text-[#2B88D9]'
-                  }`}
-                >
-                  {card.title}
-                </h3>
-                <p className="font-sans text-[14px] leading-relaxed text-[#212121] sm:text-[16px]">
-                  {card.description}
-                </p>
-              </div>
-            </div>
-          );
-        })}
+        <div className="grid min-w-0 grid-cols-1 gap-4 sm:gap-5 md:grid-cols-2">
+          {displayCards.map((card, index) => (
+            <OrbitPill
+              key={card.id ?? card.documentId ?? `step-${index}`}
+              card={card}
+              index={index}
+              iconSide="left"
+            />
+          ))}
+        </div>
       </div>
     </section>
   );
