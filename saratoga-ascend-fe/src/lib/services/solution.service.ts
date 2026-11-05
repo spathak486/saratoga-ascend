@@ -18,15 +18,24 @@ function normalizeSlug(slug: string): string {
 /**
  * Handles solution detail slugs:
  * e.g. "solutions/healthcare" -> slug "healthcare" or "solutions/healthcare"
+ * or any custom relative path entered in CMS (e.g. "capabilities/healthcare")
  */
 function solutionSlugCandidates(slug: string): string[] {
   const normalized = normalizeSlug(slug);
   const withoutPrefix = normalized.startsWith('solutions/')
     ? normalized.replace(/^solutions\//, '')
-    : normalized;
-  const withPrefix = `solutions/${withoutPrefix}`;
+    : normalized.startsWith('solution/')
+      ? normalized.replace(/^solution\//, '')
+      : normalized;
 
-  return Array.from(new Set([withoutPrefix, withPrefix, normalized]));
+  return Array.from(
+    new Set([
+      normalized,
+      withoutPrefix,
+      `solutions/${withoutPrefix}`,
+      `solution/${withoutPrefix}`,
+    ])
+  );
 }
 
 function slugQueryVariables(slug: string): Pick<SolutionBySlugQueryVariables, 'slug' | 'altSlug'> {

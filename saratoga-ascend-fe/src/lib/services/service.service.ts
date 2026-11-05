@@ -17,26 +17,27 @@ function normalizeSlug(slug: string): string {
 
 /**
  * Handles service / who-we-serve detail slugs:
- * e.g. "who-we-serve/federal-government" -> slug "federal-government" or "who-we-serve/federal-government"
- * or "services/federal-government"
+ * Supports exact relative paths entered in CMS (e.g. "who-we-serve/federal-government",
+ * "markets/federal-government", "services/federal-government", or just "federal-government").
  */
 function serviceSlugCandidates(slug: string): string[] {
   const normalized = normalizeSlug(slug);
-  const withoutWhoWeServe = normalized.startsWith('who-we-serve/')
-    ? normalized.replace(/^who-we-serve\//, '')
-    : normalized;
-  const withoutServices = withoutWhoWeServe.startsWith('services/')
-    ? withoutWhoWeServe.replace(/^services\//, '')
-    : withoutWhoWeServe;
-
-  const base = withoutServices;
+  const withoutPrefix = normalized
+    .replace(/^who-we-serve\//, '')
+    .replace(/^who_we_serve\//, '')
+    .replace(/^services\//, '')
+    .replace(/^service\//, '')
+    .replace(/^markets\//, '')
+    .replace(/^capabilities\//, '');
 
   return Array.from(
     new Set([
-      base,
-      `who-we-serve/${base}`,
-      `services/${base}`,
       normalized,
+      withoutPrefix,
+      `who-we-serve/${withoutPrefix}`,
+      `services/${withoutPrefix}`,
+      `service/${withoutPrefix}`,
+      `markets/${withoutPrefix}`,
     ])
   );
 }

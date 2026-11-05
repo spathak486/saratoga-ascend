@@ -6,6 +6,28 @@ import { resolveImages } from '@/lib/content/transformers';
 import { type ApiResult, ok, fail } from '@/lib/schemas';
 import { getMockBlogBySlug, getMockBlogs } from '@/lib/mocks';
 
+function normalizeSlug(slug: string): string {
+  return slug.replace(/^\/+|\/+$/g, '');
+}
+
+function blogSlugCandidates(slug: string): string[] {
+  const normalized = normalizeSlug(slug);
+  const withoutBlogs = normalized.startsWith('blogs/')
+    ? normalized.replace(/^blogs\//, '')
+    : normalized.startsWith('blog/')
+      ? normalized.replace(/^blog\//, '')
+      : normalized;
+
+  return Array.from(
+    new Set([
+      normalized,
+      withoutBlogs,
+      `blogs/${withoutBlogs}`,
+      `blog/${withoutBlogs}`,
+    ])
+  );
+}
+
 export async function getBlogBySlug(slug: string): Promise<ApiResult<any>> {
   if (isMockMode) {
     const blog = getMockBlogBySlug(slug);
@@ -13,10 +35,21 @@ export async function getBlogBySlug(slug: string): Promise<ApiResult<any>> {
     return ok(blog);
   }
 
-  const result = await gql.query<BlogBySlugQueryResult>(BLOG_BY_SLUG_QUERY, { slug });
-  if (result.error) return result;
+  const candidates = blogSlugCandidates(slug);
+  let entry: any = null;
 
-  const [entry] = result.data.blogs;
+  for (const candidate of candidates) {
+    const result = await gql.query<BlogBySlugQueryResult>(BLOG_BY_SLUG_QUERY, {
+      slug: candidate,
+      altSlug: candidate === '' ? '/' : `/${candidate}`,
+    });
+    if (result.error) continue;
+    if (result.data?.blogs?.[0]) {
+      entry = result.data.blogs[0];
+      break;
+    }
+  }
+
   if (!entry) return fail('NOT_FOUND', 404, `Blog not found: ${slug}`);
 
   // Resolve images and seo for content node
