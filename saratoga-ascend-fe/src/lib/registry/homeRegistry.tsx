@@ -25,6 +25,7 @@ import type {
   ExploreCapabilitiesReference,
   ClearPathReference,
   MissionsYouServeReference,
+  ServiceLifecycleReference,
   ContactInquiryReference,
   ContactPathwaysReference,
   ContactLearnReference,
@@ -62,6 +63,7 @@ import {
   ExploreCapabilitiesSection,
   ClearPathSection,
   MissionsYouServeSection,
+  ServiceLifecycleSection,
   ContactInquirySection,
   ContactPathwaysSection,
   ContactLearnSection,
@@ -596,6 +598,19 @@ export const SECTION_REGISTRY: Record<
     );
   },
 
+  ComponentReferencesServiceLifecycleReference: (section, index) => {
+    const slRef = section as ServiceLifecycleReference;
+    const sl = slRef.serviceLifecycleSection;
+    return (
+      <ServiceLifecycleSection
+        key={'service-lifecycle-' + index}
+        title={sl?.title ?? undefined}
+        subtitle={sl?.subtitle ?? undefined}
+        description={sl?.description ?? undefined}
+        tabs={sl?.tabs as any}
+      />
+    );
+  },
   ComponentReferencesMissionsYouServeReference: (section, index) => {
     const mysRef = section as MissionsYouServeReference;
     const mys = mysRef.missionsYouServeSection;

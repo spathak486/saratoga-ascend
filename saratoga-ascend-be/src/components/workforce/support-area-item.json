@@ -1,0 +1,16 @@
+{
+  "collectionName": "components_workforce_support_area_items",
+  "info": {
+    "displayName": "Support Area Item",
+    "icon": "check",
+    "description": "Checklist item inside glass support areas card"
+  },
+  "options": {},
+  "attributes": {
+    "text": {
+      "type": "string",
+      "required": true
+    }
+  }
+}
+

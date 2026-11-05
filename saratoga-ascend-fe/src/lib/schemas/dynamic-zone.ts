@@ -696,7 +696,46 @@ export const MissionsYouServeReferenceSchema = z.object({
 
 export type MissionsYouServeReference = z.infer<typeof MissionsYouServeReferenceSchema>;
 
+export const LifecycleCategorySchema = z.object({
+  number: z.string().nullable().optional(),
+  title: z.string(),
+  description: z.string(),
+});
+
+export const SupportAreaItemSchema = z.object({
+  text: z.string(),
+});
+
+export const LifecycleTabSchema = z.object({
+  tabId: z.string().nullable().optional(),
+  label: z.string(),
+  heading: z.string(),
+  subheading: z.string(),
+  cta: GeneralLinkSchema.nullable().optional(),
+  image: StrapiImageSchema.nullable().optional(),
+  supportAreas: z.array(SupportAreaItemSchema).nullable().optional(),
+  categories: z.array(LifecycleCategorySchema).nullable().optional(),
+});
+
+export const ServiceLifecycleSectionEntitySchema = z.object({
+  documentId: z.string().optional(),
+  referenceTitle: z.string().nullable().optional(),
+  title: z.string().nullable().optional(),
+  subtitle: z.string().nullable().optional(),
+  description: z.string().nullable().optional(),
+  tabs: z.array(LifecycleTabSchema).nullable().optional(),
+});
+
+export type ServiceLifecycleSectionEntity = z.infer<typeof ServiceLifecycleSectionEntitySchema>;
+
+export const ServiceLifecycleReferenceSchema = z.object({
+  __typename: z.literal('ComponentReferencesServiceLifecycleReference'),
+  serviceLifecycleSection: ServiceLifecycleSectionEntitySchema.nullable().optional(),
+});
+
+export type ServiceLifecycleReference = z.infer<typeof ServiceLifecycleReferenceSchema>;
 export const DynamicZoneSectionSchema = z.union([
+  ServiceLifecycleReferenceSchema,
   MissionsYouServeReferenceSchema,
   ClearPathReferenceSchema,
   BannerReferenceSchema,

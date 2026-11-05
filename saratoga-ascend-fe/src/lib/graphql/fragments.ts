@@ -649,6 +649,34 @@ export const CLEAR_PATH_REFERENCE_FIELDS = `
   }
 `;
 
+export const SERVICE_LIFECYCLE_REFERENCE_FIELDS = `
+  __typename
+  ... on ComponentReferencesServiceLifecycleReference {
+    serviceLifecycleSection {
+      documentId
+      referenceTitle
+      title
+      subtitle
+      description
+      tabs {
+        tabId
+        label
+        heading
+        subheading
+        cta { ${GENERAL_LINK_FIELDS} }
+        image { ${IMAGE_FIELDS} }
+        supportAreas {
+          text
+        }
+        categories {
+          number
+          title
+          description
+        }
+      }
+    }
+  }
+`;
 export const MISSIONS_YOU_SERVE_REFERENCE_FIELDS = `
   __typename
   ... on ComponentReferencesMissionsYouServeReference {
@@ -724,6 +752,7 @@ export const COMMON_SECTION_FRAGMENTS = [
   EXPLORE_CAPABILITIES_REFERENCE_FIELDS,
   CLEAR_PATH_REFERENCE_FIELDS,
   MISSIONS_YOU_SERVE_REFERENCE_FIELDS,
+  SERVICE_LIFECYCLE_REFERENCE_FIELDS,
   CONTACT_INQUIRY_REFERENCE_FIELDS,
   CONTACT_PATHWAYS_REFERENCE_FIELDS,
   CONTACT_LEARN_REFERENCE_FIELDS,
