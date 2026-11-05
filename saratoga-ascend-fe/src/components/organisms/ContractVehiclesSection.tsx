@@ -137,14 +137,22 @@ export const ContractVehiclesSection: React.FC<ContractVehiclesSectionProps> = (
   const currentDetail: VehicleDetail = {
     title: activeVehicle?.bannerTitle || DEFAULT_VEHICLES[0].bannerTitle,
     body: activeVehicle?.description || DEFAULT_VEHICLES[0].description,
-    primary: {
-      href: activeVehicle?.primaryCta?.href || '/contract-vehicles',
-      label: activeVehicle?.primaryCta?.label || 'View GSA Details',
-    },
-    secondary: {
-      href: activeVehicle?.secondaryCta?.href || '/contact',
-      label: activeVehicle?.secondaryCta?.label || 'Contact Contracts',
-    },
+    primary: activeVehicle?.primaryCta?.label
+      ? {
+          href: activeVehicle.primaryCta.href || '/contract-vehicles',
+          label: activeVehicle.primaryCta.label,
+          target: activeVehicle.primaryCta.target || undefined,
+          isExternal: activeVehicle.primaryCta.isExternal ?? undefined,
+        }
+      : null,
+    secondary: activeVehicle?.secondaryCta?.label
+      ? {
+          href: activeVehicle.secondaryCta.href || '/contact',
+          label: activeVehicle.secondaryCta.label,
+          target: activeVehicle.secondaryCta.target || undefined,
+          isExternal: activeVehicle.secondaryCta.isExternal ?? undefined,
+        }
+      : null,
   };
 
   return (
