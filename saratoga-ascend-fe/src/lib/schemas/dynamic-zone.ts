@@ -778,7 +778,28 @@ export const ContractVehiclesReferenceSchema = z.object({
 
 export type ContractVehiclesReference = z.infer<typeof ContractVehiclesReferenceSchema>;
 
+export const EnvironmentCardSchema = z.object({
+  documentId: z.string().optional(),
+  title: z.string(),
+  description: z.string(),
+  number: z.string().nullable().optional(),
+  actionLabel: z.string().nullable().optional(),
+  href: z.string().nullable().optional(),
+});
+
+export type EnvironmentCard = z.infer<typeof EnvironmentCardSchema>;
+
+export const ExploreEnvironmentsReferenceSchema = z.object({
+  __typename: z.literal('ComponentReferencesExploreEnvironmentsReference'),
+  title: z.string().nullable().optional(),
+  description: z.string().nullable().optional(),
+  cards: z.array(EnvironmentCardSchema).nullable().optional(),
+});
+
+export type ExploreEnvironmentsReference = z.infer<typeof ExploreEnvironmentsReferenceSchema>;
+
 export const DynamicZoneSectionSchema = z.union([
+  ExploreEnvironmentsReferenceSchema,
   ContractVehiclesReferenceSchema,
   FederalGovernmentReferenceSchema,
   ServiceLifecycleReferenceSchema,

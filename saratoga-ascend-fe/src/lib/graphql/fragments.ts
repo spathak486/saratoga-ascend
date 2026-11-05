@@ -649,6 +649,22 @@ export const CLEAR_PATH_REFERENCE_FIELDS = `
   }
 `;
 
+export const EXPLORE_ENVIRONMENTS_REFERENCE_FIELDS = `
+  __typename
+  ... on ComponentReferencesExploreEnvironmentsReference {
+    title
+    description
+    cards {
+      documentId
+      title
+      description
+      number
+      actionLabel
+      href
+    }
+  }
+`;
+
 export const CONTRACT_VEHICLES_REFERENCE_FIELDS = `
   __typename
   ... on ComponentReferencesContractVehiclesReference {
@@ -793,6 +809,7 @@ export const COMMON_SECTION_FRAGMENTS = [
   SERVICE_LIFECYCLE_REFERENCE_FIELDS,
   FEDERAL_GOVERNMENT_REFERENCE_FIELDS,
   CONTRACT_VEHICLES_REFERENCE_FIELDS,
+  EXPLORE_ENVIRONMENTS_REFERENCE_FIELDS,
   CONTACT_INQUIRY_REFERENCE_FIELDS,
   CONTACT_PATHWAYS_REFERENCE_FIELDS,
   CONTACT_LEARN_REFERENCE_FIELDS,
