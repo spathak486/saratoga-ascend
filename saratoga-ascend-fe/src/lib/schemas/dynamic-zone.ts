@@ -750,18 +750,9 @@ export const FederalMissionCardSchema = z.object({
   cta: GeneralLinkSchema.nullable().optional(),
 });
 
-export const FederalGovernmentSectionEntitySchema = z.object({
-  documentId: z.string().optional(),
-  referenceTitle: z.string().nullable().optional(),
-  title: z.string().nullable().optional(),
-  cards: z.array(FederalMissionCardSchema).nullable().optional(),
-});
-
-export type FederalGovernmentSectionEntity = z.infer<typeof FederalGovernmentSectionEntitySchema>;
-
 export const FederalGovernmentReferenceSchema = z.object({
   __typename: z.literal('ComponentReferencesFederalGovernmentReference'),
-  federalGovernmentSection: FederalGovernmentSectionEntitySchema.nullable().optional(),
+  cards: z.array(FederalMissionCardSchema).nullable().optional(),
 });
 
 export type FederalGovernmentReference = z.infer<typeof FederalGovernmentReferenceSchema>;

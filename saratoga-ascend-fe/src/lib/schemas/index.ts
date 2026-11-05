@@ -144,8 +144,6 @@ export {
   type ServiceLifecycleSectionEntity,
   ServiceLifecycleReferenceSchema,
   type ServiceLifecycleReference,
-  FederalGovernmentSectionEntitySchema,
-  type FederalGovernmentSectionEntity,
   FederalGovernmentReferenceSchema,
   type FederalGovernmentReference,
   type MissionsYouServeReference,
