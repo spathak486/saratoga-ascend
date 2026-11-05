@@ -2,6 +2,15 @@
 
 import React, { useRef, useState, useEffect, useCallback } from 'react';
 
+function normalizeImageSrc(url?: string | null): string {
+  if (!url) return '';
+  if (url.startsWith('/uploads/')) {
+    const base = process.env.NEXT_PUBLIC_STRAPI_API_URL || 'https://cms.saratogaascend.com';
+    return `${base.replace(/\/+$/, '')}${url}`;
+  }
+  return url;
+}
+
 export interface MissionsYouServeCard {
   id?: string | number | null;
   documentId?: string | null;
@@ -241,10 +250,11 @@ export function MissionsYouServeSection({
             style={{ scrollSnapType: 'x mandatory' }}
           >
             {displayCards.map((card, idx) => {
-              const imgUrl =
+              const rawImgUrl =
                 typeof card.image === 'string'
                   ? card.image
                   : card.image?.url || DEFAULT_CARDS[idx % DEFAULT_CARDS.length].image;
+              const imgUrl = normalizeImageSrc(typeof rawImgUrl === 'string' ? rawImgUrl : rawImgUrl?.url);
 
               return (
                 /* Card: Frame 2147226543 / 2147226544 / 2147226545 / 2147226546 (width: 575px, height: 687px, bg: #F1F8FF, border: 1.5px solid #2B88D9, radius: 32px, padding: 54px) */
