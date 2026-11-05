@@ -1,0 +1,48 @@
+{
+  "kind": "collectionType",
+  "collectionName": "contract_vehicle_items",
+  "info": {
+    "singularName": "contract-vehicle-item",
+    "pluralName": "contract-vehicle-items",
+    "displayName": "Contract Vehicle Item",
+    "description": "Interactive contract vehicle item (GSA Awards, CIO-SP3, Agency Vehicles, OTA Agreements)"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "scope": {
+      "type": "enumeration",
+      "enum": [
+        "federal",
+        "state"
+      ],
+      "default": "federal",
+      "required": true
+    },
+    "navLabel": {
+      "type": "string",
+      "required": true
+    },
+    "bannerTitle": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text",
+      "required": true
+    },
+    "primaryCta": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.general-link"
+    },
+    "secondaryCta": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.general-link"
+    }
+  }
+}
+

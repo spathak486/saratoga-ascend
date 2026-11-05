@@ -1,0 +1,24 @@
+{
+  "collectionName": "components_references_contract_vehicles_references",
+  "info": {
+    "displayName": "Contract Vehicles Reference",
+    "icon": "layer",
+    "description": "Direct dynamic zone reference for Contract Vehicles Section with title, description and vehicles relation (Frame 622)"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "default": "Contract Vehicles"
+    },
+    "description": {
+      "type": "text",
+      "default": "Connecting cleared, credentialed healthcare professionals with government, military, and local facilities nationwide."
+    },
+    "vehicles": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::contract-vehicle-item.contract-vehicle-item"
+    }
+  }
+}
