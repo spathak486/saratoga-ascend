@@ -46,3 +46,4 @@ export * from './WorkforceDeliverySection';
 export * from './ExploreCapabilitiesSection';
 
 export * from './ClearPathSection';
+export * from './MissionsYouServeSection';
