@@ -13,6 +13,7 @@ export interface DefenseCardItem {
   actionLabel?: string | null;
   href?: string | null;
   cta?: {
+    label?: string | null;
     title?: string | null;
     href?: string | null;
     isExternal?: boolean | null;
@@ -72,143 +73,178 @@ function cleanHeadingHtml(html: string): string {
     .trim();
 }
 
-// Fallback tags matching Figma Frames 2147226549-2147226553
-const DEFAULT_TAGS = [
-  'Healthcare',
-  'Workforce',
-  'IT & Digital',
-  'Contact Center',
-  'Program Support',
-];
-
-const DEFAULT_LEFT_TITLE = 'Support for Defense and Military Mission Environments';
-const DEFAULT_LEFT_DESC =
-  'Defense and military programs can require coordinated healthcare services, workforce readiness, technology enablement, contact center operations, and program support. Saratoga Ascend can align relevant capabilities to the defined scope and operating requirements of an opportunity.';
-
-const DEFAULT_RIGHT_TITLE = 'Support for Programs Serving Veterans';
-const DEFAULT_RIGHT_DESC =
-  'Programs serving veterans depend on respectful service experiences, capable teams, coordinated operations, and dependable support. Saratoga Ascend’s healthcare, workforce, IT, contact center, and administrative capabilities may align to requirements supporting veteran communities and the teams that serve them.';
-
 export function DefenseSection({
   variant = 'left',
   card,
 }: DefenseSectionProps) {
+  // STRICT RULE: If card data is missing from CMS, render nothing
+  if (!card) {
+    return null;
+  }
+
   const isRight = variant === 'right';
 
-  const rawTitle = card?.title?.trim() || (isRight ? DEFAULT_RIGHT_TITLE : DEFAULT_LEFT_TITLE);
-  const cleanTitle = cleanHeadingHtml(rawTitle);
+  const rawTitle = card.title?.trim() || '';
+  const cleanTitle = rawTitle ? cleanHeadingHtml(rawTitle) : '';
 
-  const description =
-    card?.description?.trim() || (isRight ? DEFAULT_RIGHT_DESC : DEFAULT_LEFT_DESC);
+  const description = card.description?.trim() || '';
 
-  // Tags resolution
+  // Tags resolution: ONLY render tags if entered in CMS
   const tagList: string[] =
-    card?.tags && card.tags.length > 0
-      ? card.tags.map((t) => (t.title || t.text || '').trim()).filter(Boolean)
-      : DEFAULT_TAGS;
+    card.tags && card.tags.length > 0
+      ? card.tags.map((t) => (t.text || t.title || '').trim()).filter(Boolean)
+      : [];
 
-  const actionText = card?.cta?.title?.trim() || card?.actionLabel?.trim() || 'Explore Capabilities';
-  const targetHref = card?.cta?.href?.trim() || card?.href?.trim() || '/solutions';
+  const actionText = card.cta?.title?.trim() || card.cta?.label?.trim() || card.actionLabel?.trim() || '';
+  const targetHref = card.cta?.href?.trim() || card.href?.trim() || '';
 
   // Images & Media
-  const imageUrl = typeof card?.image === 'string' ? card?.image : card?.image?.url;
+  const imageUrl = typeof card.image === 'string' ? card.image : card.image?.url;
   const imageAlt =
-    (typeof card?.image === 'object' && card?.image?.alternativeText) ||
+    (typeof card.image === 'object' && card.image?.alternativeText) ||
     cleanTitle.replace(/<[^>]*>/g, '') ||
     'Mission Environment';
 
-  const bgUrl = typeof card?.bgImage === 'string' ? card?.bgImage : card?.bgImage?.url;
-  const bgMime = typeof card?.bgImage === 'object' ? card?.bgImage?.mime : null;
-  const bgExt = typeof card?.bgImage === 'object' ? card?.bgImage?.ext : null;
+  const bgUrl = typeof card.bgImage === 'string' ? card.bgImage : card.bgImage?.url;
+  const bgMime = typeof card.bgImage === 'object' ? card.bgImage?.mime : null;
+  const bgExt = typeof card.bgImage === 'object' ? card.bgImage?.ext : null;
   const hasBgVideo = isVideoUrl(bgUrl, bgMime, bgExt);
+
+  // If there's no title, description, or image at all, do not render empty card
+  if (!cleanTitle && !description && !imageUrl) {
+    return null;
+  }
 
   return (
     <section
-      aria-label={cleanTitle.replace(/<[^>]*>/g, '')}
+      aria-label={cleanTitle ? cleanTitle.replace(/<[^>]*>/g, '') : 'Defense Section'}
       className="relative w-full max-w-[1920px] mx-auto py-8 sm:py-12 xl:py-[60px] px-4 sm:px-8 xl:px-[120px] overflow-hidden"
     >
       {/* Inner Card Container: Figma "Calculator" width: 1680px, height: 892.5px, background: #EEEEEE, border-radius: 30px */}
-      <div
-        className={`box-border relative w-full max-w-[1680px] mx-auto min-h-[640px] xl:min-h-[893px] bg-[#EEEEEE] rounded-[24px] sm:rounded-[30px] overflow-hidden flex flex-col justify-between ${
-          isRight ? 'xl:flex-row-reverse' : 'xl:flex-row'
-        } items-stretch`}
-      >
-        {/* Background Media / Video or Image */}
-        {bgUrl ? (
-          hasBgVideo ? (
-            <video
-              src={normalizeImageSrc(bgUrl)}
-              autoPlay
-              loop
-              muted
-              playsInline
-              className="absolute inset-0 w-full h-full object-cover opacity-20 pointer-events-none z-0"
-            />
+      <div className="box-border relative w-full max-w-[1680px] mx-auto min-h-[560px] xl:h-[892.5px] bg-[#EEEEEE] rounded-[24px] sm:rounded-[30px] overflow-hidden">
+        
+        {/* Background Graphic Blueprint / Media (Figma copy_of_untitled_project (1) 1) */}
+        {/* Left Variant: left: 414.88px, top: 81.95px, width: 1192.9px, height: 745.56px, angle: 0deg, opacity: 1 */}
+        {/* Right Variant: left: 60px, top: 81.95px, width: 1192.9px, height: 745.56px, angle: -180deg (scale-x-[-1]), opacity: 1 */}
+        <div
+          className={`pointer-events-none select-none absolute z-0 overflow-hidden opacity-100 ${
+            isRight
+              ? 'xl:left-[60px] xl:top-[81.95px] xl:w-[1192.9px] xl:h-[745.56px] scale-x-[-1]'
+              : 'xl:left-[414.88px] xl:top-[81.95px] xl:w-[1192.9px] xl:h-[745.56px]'
+          } max-xl:inset-0 max-xl:w-full max-xl:h-full`}
+        >
+          {bgUrl ? (
+            hasBgVideo ? (
+              <video
+                src={normalizeImageSrc(bgUrl)}
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <Image
+                src={normalizeImageSrc(bgUrl)}
+                alt=""
+                fill
+                unoptimized
+                className="object-cover"
+              />
+            )
           ) : (
-            <Image
-              src={normalizeImageSrc(bgUrl)}
-              alt=""
-              fill
-              unoptimized
-              className="object-cover opacity-20 pointer-events-none z-0"
+            /* Figma Blueprint / Circuit Grid Accent Pattern */
+            <div
+              className="w-full h-full opacity-25"
+              style={{
+                backgroundImage:
+                  'radial-gradient(circle, #2A91DC 1.5px, transparent 1.5px), linear-gradient(to right, rgba(0,0,0,0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(0,0,0,0.06) 1px, transparent 1px)',
+                backgroundSize: '32px 32px, 64px 64px, 64px 64px',
+              }}
+              aria-hidden="true"
             />
-          )
-        ) : (
-          /* Subtle Figma Decorative Blueprint / Grid Background Overlay */
+          )}
+        </div>
+
+        {/* Foreground Cutout Portrait Image: ONLY if uploaded in CMS */}
+        {/* Left Variant (Soldier): left: 936px, top: 53px, width: 571px, height: 840px, angle: -180deg (scale-x-[-1]) */}
+        {/* Right Variant (Doctor): left: 261px, top: 53px, bottom: 0px, width: 560px, height: 840px, angle: -180deg (scale-x-[-1]) */}
+        {imageUrl && (
           <div
-            className={`pointer-events-none select-none absolute inset-0 z-0 opacity-15 ${
-              isRight ? 'scale-x-[-1]' : ''
-            }`}
-            style={{
-              backgroundImage:
-                'radial-gradient(circle, #2A91DC 1px, transparent 1px), linear-gradient(to right, rgba(0,0,0,0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(0,0,0,0.06) 1px, transparent 1px)',
-              backgroundSize: '32px 32px, 64px 64px, 64px 64px',
-            }}
-            aria-hidden="true"
-          />
-        )}
-
-        {/* Text Content Column: Figma Group 2085665791 (width: 726px, height: 700px) */}
-        <div className="relative z-10 w-full xl:w-[726px] p-6 sm:p-10 xl:p-[74px] flex flex-col justify-between flex-shrink-0">
-          <div>
-            {/* Title: DM Serif Text, 53.33px, line-height 73px, color #212121 */}
-            <h2
-              className="font-serif text-[28px] sm:text-[38px] xl:text-[53.33px] leading-[1.2] xl:leading-[73px] font-normal text-[#212121] tracking-[-0.01em] [&_span[style*='color']]:font-semibold"
-              style={{ fontFamily: "'DM Serif Text', serif" }}
-              dangerouslySetInnerHTML={{ __html: cleanTitle }}
-            />
-
-            {/* Description: Google Sans Flex, 24px, line-height 40px (167%), color #000000 */}
-            <p
-              className="mt-5 sm:mt-6 xl:mt-8 font-sans text-[16px] sm:text-[20px] xl:text-[24px] leading-[1.5] xl:leading-[40px] font-normal text-[#000000] max-w-[644px]"
-              style={{ fontFamily: "'Google Sans Flex', sans-serif" }}
-            >
-              {description}
-            </p>
-
-            {/* Tags / Pills: Figma Group 2085665790 */}
-            <div className="mt-8 xl:mt-[48px] flex flex-wrap gap-2.5 sm:gap-3.5 xl:gap-[15px] max-w-[660px]">
-              {tagList.map((tag, idx) => (
-                <div
-                  key={`defense-tag-${idx}`}
-                  className="box-border inline-flex items-center justify-center px-6 sm:px-8 xl:px-[40px] py-2 sm:py-2.5 xl:py-[10px] bg-[rgba(240,20,36,0.02)] border border-[#F01424] rounded-[60px] text-center transition-transform duration-200 hover:scale-105"
-                >
-                  <span
-                    className="font-sans font-medium text-[16px] sm:text-[20px] xl:text-[24px] leading-[32px] sm:leading-[36px] xl:leading-[40px] text-[#000000]"
-                    style={{ fontFamily: "'Google Sans Flex', sans-serif" }}
-                  >
-                    {tag}
-                  </span>
-                </div>
-              ))}
+            className={`pointer-events-none select-none z-10 ${
+              isRight
+                ? 'xl:absolute xl:left-[261px] xl:top-[53px] xl:w-[560px] xl:h-[840px]'
+                : 'xl:absolute xl:left-[936px] xl:top-[53px] xl:w-[571px] xl:h-[840px]'
+            } max-xl:relative max-xl:w-full max-xl:h-[360px] sm:max-xl:h-[480px] max-xl:mt-6 max-xl:flex max-xl:items-end max-xl:justify-center`}
+          >
+            <div className="relative w-full h-full">
+              <Image
+                src={normalizeImageSrc(imageUrl)}
+                alt={imageAlt}
+                fill
+                unoptimized
+                priority
+                className="object-contain object-bottom scale-x-[-1]"
+              />
             </div>
           </div>
+        )}
 
-          {/* CTA Button: Figma _Button base width: 352px, height: 60px, gradient */}
+        {/* Text Content Column: Figma Group 2085665791 (width: 726px, height: 700px, top: 96px, angle: 0deg, opacity: 1) */}
+        {/* Left Variant: left: 74px, top: 96px */}
+        {/* Right Variant: left: 983px, top: 96px */}
+        <div
+          className={`z-20 flex flex-col justify-between opacity-100 ${
+            isRight
+              ? 'xl:absolute xl:left-[983px] xl:top-[96px] xl:w-[726px] xl:h-[700px]'
+              : 'xl:absolute xl:left-[74px] xl:top-[96px] xl:w-[726px] xl:h-[700px]'
+          } max-xl:relative max-xl:w-full max-xl:p-6 sm:max-xl:p-10`}
+        >
+          <div>
+            {/* Title: DM Serif Text, 53.33px, line-height 73px, color #212121, height 146px */}
+            {cleanTitle && (
+              <h2
+                className="font-serif text-[28px] sm:text-[38px] xl:text-[53.33px] leading-[1.2] xl:leading-[73px] font-normal text-[#212121] tracking-[-0.01em] [&_span[style*='color']]:font-semibold"
+                style={{ fontFamily: "'DM Serif Text', serif" }}
+                dangerouslySetInnerHTML={{ __html: cleanTitle }}
+              />
+            )}
+
+            {/* Description: Google Sans Flex, 24px, line-height 40px (167%), color #000000, height 240px */}
+            {description && (
+              <p
+                className="mt-6 xl:mt-[40px] font-sans text-[16px] sm:text-[20px] xl:text-[24px] leading-[1.5] xl:leading-[40px] font-normal text-[#000000] max-w-[644px] xl:max-w-[712px]"
+                style={{ fontFamily: "'Google Sans Flex', sans-serif" }}
+              >
+                {description}
+              </p>
+            )}
+
+            {/* Tags / Pills: Figma Group 2085665790 (width: 644px, height: 144px, gap: 20px) */}
+            {tagList.length > 0 && (
+              <div className="mt-6 xl:mt-[30px] flex flex-wrap gap-2.5 sm:gap-3.5 xl:gap-[20px] max-w-[644px]">
+                {tagList.map((tag, idx) => (
+                  <div
+                    key={`defense-tag-${idx}`}
+                    className="box-border inline-flex items-center justify-center px-6 sm:px-8 xl:px-[40px] py-2 sm:py-2.5 xl:h-[62px] bg-[rgba(240,20,36,0.02)] border border-[#F01424] rounded-[60px] text-center transition-transform duration-200 hover:scale-105"
+                  >
+                    <span
+                      className="font-sans font-medium text-[16px] sm:text-[20px] xl:text-[24px] leading-[32px] sm:leading-[36px] xl:leading-[40px] text-[#000000]"
+                      style={{ fontFamily: "'Google Sans Flex', sans-serif" }}
+                    >
+                      {tag}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* CTA Button: Figma _Button base width: 352px, height: 60px, top: 736px, gradient */}
           {actionText && (
-            <div className="mt-8 xl:mt-[40px] pt-2">
+            <div className="mt-8 xl:mt-[40px]">
               <Link
-                href={targetHref}
+                href={targetHref || '#'}
                 className="group inline-flex items-center justify-center gap-3 w-full sm:w-[352px] h-[54px] sm:h-[60px] px-6 py-4 rounded-[8px] text-white shadow-md transition-all duration-300 hover:shadow-lg hover:brightness-105 active:scale-98"
                 style={{
                   background: 'linear-gradient(90.55deg, #D31E2D 0.47%, #2A91DC 102.45%)',
@@ -242,50 +278,9 @@ export function DefenseSection({
           )}
         </div>
 
-        {/* Foreground Cutout Image Column: Figma Soldier (571x840) or Doctor (560x840) */}
-        <div className="relative z-10 w-full xl:flex-1 min-h-[360px] sm:min-h-[480px] xl:min-h-full flex items-end justify-center xl:justify-end overflow-hidden">
-          {imageUrl ? (
-            <div className="relative w-full max-w-[571px] h-[360px] sm:h-[520px] xl:h-[840px] mt-auto">
-              <Image
-                src={normalizeImageSrc(imageUrl)}
-                alt={imageAlt}
-                fill
-                unoptimized
-                priority
-                className={`object-contain object-bottom select-none pointer-events-none ${
-                  isRight ? 'scale-x-[-1]' : ''
-                }`}
-              />
-            </div>
-          ) : (
-            /* Elegant SVG Silhouette Placeholder matching theme when no image uploaded yet */
-            <div className="relative w-full max-w-[560px] h-[360px] sm:h-[500px] xl:h-[780px] flex items-end justify-center opacity-85 px-6">
-              <div className="w-full h-full bg-gradient-to-t from-[#B0CEDB]/50 via-[#CBD5E1]/30 to-transparent rounded-t-[40px] flex flex-col items-center justify-center p-8 text-center border-t border-x border-[#CBD5E1]">
-                <svg
-                  width="80"
-                  height="80"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="#2A91DC"
-                  strokeWidth="1.5"
-                  className="mb-4"
-                >
-                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-                </svg>
-                <span className="font-serif text-[24px] text-[#212121] font-normal mb-2">
-                  {isRight ? 'Programs Serving Veterans' : 'Defense & Military Missions'}
-                </span>
-                <span className="font-sans text-[14px] text-[#64748B]">
-                  Upload Card Cutout Portrait in Strapi Admin
-                </span>
-              </div>
-            </div>
-          )}
-        </div>
       </div>
     </section>
   );
 }
 
 export default DefenseSection;
-
