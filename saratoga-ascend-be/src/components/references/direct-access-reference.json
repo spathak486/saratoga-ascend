@@ -3,39 +3,14 @@
   "info": {
     "displayName": "Direct Access Reference",
     "icon": "shield-check",
-    "description": "Direct Access to Compliant, Mission-Ready Services (Frame 2147226560)"
+    "description": "Reusable Direct Access to Compliant, Mission-Ready Services reference"
   },
   "options": {},
   "attributes": {
-    "referenceTitle": {
-      "type": "string"
-    },
-    "title": {
-      "type": "customField",
-      "customField": "plugin::ckeditor5.CKEditor",
-      "options": {
-        "preset": "defaultHtml"
-      }
-    },
-    "description": {
-      "type": "customField",
-      "customField": "plugin::ckeditor5.CKEditor",
-      "options": {
-        "preset": "defaultHtml"
-      }
-    },
-    "cards": {
-      "type": "component",
-      "repeatable": true,
-      "component": "shared.benefit-card"
-    },
-    "callout": {
-      "type": "customField",
-      "customField": "plugin::ckeditor5.CKEditor",
-      "options": {
-        "preset": "defaultHtml"
-      }
+    "directAccessSection": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::direct-access-section.direct-access-section"
     }
   }
 }
-
