@@ -1,0 +1,23 @@
+{
+  "collectionName": "components_shared_benefit_cards",
+  "info": {
+    "displayName": "Benefit Card",
+    "icon": "apps",
+    "description": "Card with circular floating icon and text title"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "icon": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images"
+      ]
+    }
+  }
+}
+

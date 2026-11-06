@@ -115,7 +115,8 @@
         "references.explore-environments-reference",
         "references.defense-reference",
         "references.integrated-capabilities-reference",
-        "references.procurement-access-reference"
+        "references.procurement-access-reference",
+        "references.direct-access-reference"
       ]
     }
   }

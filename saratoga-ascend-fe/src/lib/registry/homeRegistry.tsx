@@ -33,6 +33,7 @@ import type {
   DefenseReference,
   IntegratedCapabilitiesReference,
   ProcurementAccessReference,
+  DirectAccessReference,
   ContactInquiryReference,
   ContactPathwaysReference,
   ContactLearnReference,
@@ -76,6 +77,7 @@ import {
   DefenseSection,
   IntegratedCapabilitiesSection,
   ProcurementAccessSection,
+  DirectAccessSection,
   ContactInquirySection,
   ContactPathwaysSection,
   ContactLearnSection,
@@ -634,6 +636,20 @@ export const SECTION_REGISTRY: Record<
         referenceTitle={dRef?.referenceTitle ?? undefined}
         variant={dRef?.variant ?? 'left'}
         card={dRef?.card as any}
+      />
+    );
+  },
+
+  ComponentReferencesDirectAccessReference: (section, index) => {
+    const daRef = section as DirectAccessReference;
+    return (
+      <DirectAccessSection
+        key={'direct-access-' + index}
+        referenceTitle={daRef?.referenceTitle ?? undefined}
+        title={daRef?.title ?? undefined}
+        description={daRef?.description ?? undefined}
+        callout={daRef?.callout ?? undefined}
+        cards={daRef?.cards as any}
       />
     );
   },

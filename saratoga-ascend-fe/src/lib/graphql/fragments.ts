@@ -706,6 +706,20 @@ export const INTEGRATED_CAPABILITIES_REFERENCE_FIELDS = `
   }
 `;
 
+export const DIRECT_ACCESS_REFERENCE_FIELDS = `
+  __typename
+  ... on ComponentReferencesDirectAccessReference {
+    referenceTitle
+    title
+    description
+    callout
+    cards {
+      title
+      icon { ${IMAGE_FIELDS} }
+    }
+  }
+`;
+
 export const PROCUREMENT_ACCESS_REFERENCE_FIELDS = `
   __typename
   ... on ComponentReferencesProcurementAccessReference {
@@ -867,6 +881,7 @@ export const COMMON_SECTION_FRAGMENTS = [
   DEFENSE_REFERENCE_FIELDS,
   INTEGRATED_CAPABILITIES_REFERENCE_FIELDS,
   PROCUREMENT_ACCESS_REFERENCE_FIELDS,
+  DIRECT_ACCESS_REFERENCE_FIELDS,
   CONTACT_INQUIRY_REFERENCE_FIELDS,
   CONTACT_PATHWAYS_REFERENCE_FIELDS,
   CONTACT_LEARN_REFERENCE_FIELDS,
