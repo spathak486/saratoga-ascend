@@ -11,12 +11,11 @@
       "type": "string"
     },
     "description": {
-      "type": "text",
-      "required": false
-    },
-    "subdescription": {
-      "type": "text",
-      "required": false
+      "type": "customField",
+      "customField": "plugin::ckeditor5.CKEditor",
+      "options": {
+        "preset": "defaultHtml"
+      }
     },
     "pills": {
       "type": "component",

@@ -7,7 +7,6 @@ import Link from 'next/link';
 export interface ProcurementAccessSectionProps {
   referenceTitle?: string | null;
   description?: string | null;
-  subdescription?: string | null;
   pills?: Array<{ text?: string | null } | string> | null;
   cta?: {
     label?: string | null;
@@ -42,14 +41,12 @@ function isVideoUrl(url?: string | null, mime?: string | null, ext?: string | nu
 
 export function ProcurementAccessSection({
   description,
-  subdescription,
   pills,
   cta,
   bgMedia,
 }: ProcurementAccessSectionProps) {
   // STRICT RULE: If no content provided from CMS, render nothing
   const cleanDesc = description?.trim() || '';
-  const cleanSubdesc = subdescription?.trim() || '';
 
   const pillList: string[] = Array.isArray(pills)
     ? pills
@@ -66,7 +63,7 @@ export function ProcurementAccessSection({
   const bgExt = typeof bgMedia === 'object' ? bgMedia?.ext : null;
   const isVideo = isVideoUrl(rawBgUrl, bgMime, bgExt);
 
-  if (!cleanDesc && !cleanSubdesc && pillList.length === 0 && !ctaLabel) {
+  if (!cleanDesc && pillList.length === 0 && !ctaLabel) {
     return null;
   }
 
@@ -113,24 +110,13 @@ export function ProcurementAccessSection({
         {/* Content Container: Figma Frame 2147226559 (width 1533px, max-w-full) */}
         <div className="relative z-10 w-full max-w-[1533px] flex flex-col items-center text-center">
           
-          {/* Paragraph 1 */}
+          {/* CKEditor Description HTML: supports multiple paragraphs with Figma spacing */}
           {cleanDesc ? (
-            <p
-              className="font-sans font-normal text-[16px] sm:text-[19px] md:text-[21px] xl:text-[22px] 2xl:text-[24px] leading-[1.5] sm:leading-[1.6] 2xl:leading-[40px] text-[#000000] max-w-[1500px]"
+            <div
+              className="font-sans font-normal text-[16px] sm:text-[19px] md:text-[21px] xl:text-[22px] 2xl:text-[24px] leading-[1.5] sm:leading-[1.6] 2xl:leading-[40px] text-[#000000] max-w-[1528px] [&_p]:mb-6 sm:[&_p]:mb-8 2xl:[&_p]:mb-[40px] last:[&_p]:mb-0 [&_span[style*='color']]:font-semibold"
               style={{ fontFamily: "'Google Sans Flex', sans-serif" }}
-            >
-              {cleanDesc}
-            </p>
-          ) : null}
-
-          {/* Paragraph 2 */}
-          {cleanSubdesc ? (
-            <p
-              className="mt-6 sm:mt-8 2xl:mt-[40px] font-sans font-normal text-[16px] sm:text-[19px] md:text-[21px] xl:text-[22px] 2xl:text-[24px] leading-[1.5] sm:leading-[1.6] 2xl:leading-[40px] text-[#000000] max-w-[1528px]"
-              style={{ fontFamily: "'Google Sans Flex', sans-serif" }}
-            >
-              {cleanSubdesc}
-            </p>
+              dangerouslySetInnerHTML={{ __html: cleanDesc }}
+            />
           ) : null}
 
           {/* Feature Badges / Pills: Frame 2147226558 */}
