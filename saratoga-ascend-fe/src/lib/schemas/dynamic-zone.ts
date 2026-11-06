@@ -807,7 +807,6 @@ export const DefenseCardSchema = z.object({
   title: z.string().nullable().optional(),
   subheading: z.string().nullable().optional(),
   description: z.string().nullable().optional(),
-  subdescription: z.string().nullable().optional(),
   actionLabel: z.string().nullable().optional(),
   href: z.string().nullable().optional(),
   cta: GeneralLinkSchema.nullable().optional(),

@@ -711,7 +711,6 @@ export const PROCUREMENT_ACCESS_REFERENCE_FIELDS = `
   ... on ComponentReferencesProcurementAccessReference {
     referenceTitle
     description
-    subdescription
     pills {
       text
     }

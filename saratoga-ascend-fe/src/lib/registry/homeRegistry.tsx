@@ -645,7 +645,6 @@ export const SECTION_REGISTRY: Record<
         key={'procurement-access-' + index}
         referenceTitle={paRef?.referenceTitle ?? undefined}
         description={paRef?.description ?? undefined}
-        subdescription={paRef?.subdescription ?? undefined}
         pills={paRef?.pills as any}
         cta={paRef?.cta as any}
         bgMedia={paRef?.bgMedia as any}
