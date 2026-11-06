@@ -25,7 +25,11 @@
     },
     "description": {
       "type": "text",
-      "required": true
+      "required": false
+    },
+    "subdescription": {
+      "type": "text",
+      "required": false
     },
     "image": {
       "type": "media",
