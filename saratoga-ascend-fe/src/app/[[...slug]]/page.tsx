@@ -21,20 +21,22 @@ export async function generateStaticParams() {
   const pageSlugs = result.error ? [] : result.data;
 
   // Include solution & service (who-we-serve) slugs for static generation
-  const { getAllSolutionSlugs, getAllServiceSlugs, getAllBlogSlugs, getAllArticleSlugs } = await import('@/lib/services');
-  const [solutionResult, serviceResult, blogResult, articleResult] = await Promise.all([
+  const { getAllSolutionSlugs, getAllServiceSlugs, getAllContractSlugs, getAllBlogSlugs, getAllArticleSlugs } = await import('@/lib/services');
+  const [solutionResult, serviceResult, contractResult, blogResult, articleResult] = await Promise.all([
     getAllSolutionSlugs(),
     getAllServiceSlugs(),
+    getAllContractSlugs(),
     getAllBlogSlugs(),
     getAllArticleSlugs(),
   ]);
 
   const solutionSlugs = solutionResult.error ? [] : solutionResult.data;
   const serviceSlugs = serviceResult.error ? [] : serviceResult.data;
+  const contractSlugs = contractResult.error ? [] : contractResult.data;
   const blogSlugs = blogResult.error ? [] : blogResult.data;
   const articleSlugs = articleResult.error ? [] : articleResult.data;
 
-  const allSlugs = Array.from(new Set([...pageSlugs, ...solutionSlugs, ...serviceSlugs, ...blogSlugs, ...articleSlugs]));
+  const allSlugs = Array.from(new Set([...pageSlugs, ...solutionSlugs, ...serviceSlugs, ...contractSlugs, ...blogSlugs, ...articleSlugs]));
   return allSlugs.map((slug) => ({ slug: slug.split('/') }));
 }
 
@@ -77,6 +79,12 @@ export async function generateMetadata({ params }: DynamicPageProps): Promise<Me
     const { getServiceBySlug } = await import('@/lib/services');
     const serviceResult = await getServiceBySlug(slugPath);
     if (serviceResult.data) pageData = serviceResult.data;
+  }
+
+  if (!pageData && !isReservedPage) {
+    const { getContractBySlug } = await import('@/lib/services');
+    const cvResult = await getContractBySlug(slugPath);
+    if (cvResult.data) pageData = cvResult.data;
   }
 
   if (
@@ -161,6 +169,12 @@ export default async function DynamicPage({ params }: DynamicPageProps) {
     const { getServiceBySlug } = await import('@/lib/services');
     const serviceResult = await getServiceBySlug(slugPath);
     if (serviceResult.data) pageData = serviceResult.data;
+  }
+
+  if (!pageData && !isReservedPage) {
+    const { getContractBySlug } = await import('@/lib/services');
+    const cvResult = await getContractBySlug(slugPath);
+    if (cvResult.data) pageData = cvResult.data;
   }
 
   if (

@@ -10,44 +10,10 @@ import {
 } from '@/lib/graphql';
 import { resolvePageNode } from '@/lib/content/transformers';
 import { PageSchema, type Page, type ApiResult, ok, fail } from '@/lib/schemas';
-
-function normalizeSlug(slug: string): string {
-  return slug.replace(/^\/+|\/+$/g, '');
-}
-
-/**
- * Handles solution detail slugs:
- * e.g. "solutions/healthcare" -> slug "healthcare" or "solutions/healthcare"
- * or any custom relative path entered in CMS (e.g. "capabilities/healthcare")
- */
-function solutionSlugCandidates(slug: string): string[] {
-  const normalized = normalizeSlug(slug);
-  const withoutPrefix = normalized.startsWith('solutions/')
-    ? normalized.replace(/^solutions\//, '')
-    : normalized.startsWith('solution/')
-      ? normalized.replace(/^solution\//, '')
-      : normalized;
-
-  return Array.from(
-    new Set([
-      normalized,
-      withoutPrefix,
-      `solutions/${withoutPrefix}`,
-      `solution/${withoutPrefix}`,
-    ])
-  );
-}
-
-function slugQueryVariables(slug: string): Pick<SolutionBySlugQueryVariables, 'slug' | 'altSlug'> {
-  const normalized = normalizeSlug(slug);
-  return {
-    slug: normalized,
-    altSlug: normalized === '' ? '/' : `/${normalized}`,
-  };
-}
+import { getDynamicSlugCandidates, buildSlugQueryVariables, normalizeSlug } from './slug-utils';
 
 async function querySolutionBySlug(slug: string): Promise<ApiResult<SolutionBySlugQueryResult>> {
-  const { slug: primary, altSlug } = slugQueryVariables(slug);
+  const { slug: primary, altSlug } = buildSlugQueryVariables(slug);
 
   const probingDraft = defaultPublicationStatus === 'DRAFT';
   let result = await gql.query<SolutionBySlugQueryResult>(
@@ -73,7 +39,7 @@ async function querySolutionBySlug(slug: string): Promise<ApiResult<SolutionBySl
 }
 
 /**
- * Fetch a solution page from the `solutions` collection by slug.
+ * Fetch a solution page from the `solutions` collection by slug dynamically.
  */
 export async function getSolutionBySlug(slug: string): Promise<ApiResult<Page>> {
   if (isMockMode) {
@@ -81,7 +47,7 @@ export async function getSolutionBySlug(slug: string): Promise<ApiResult<Page>> 
   }
 
   let entry: SolutionBySlugQueryResult['solutions'][number] | undefined;
-  for (const candidate of solutionSlugCandidates(slug)) {
+  for (const candidate of getDynamicSlugCandidates(slug, 'solution')) {
     const result = await querySolutionBySlug(candidate);
     if (result.error) continue;
     if (result.data?.solutions?.[0]) {
@@ -114,12 +80,10 @@ export async function getAllSolutionSlugs(): Promise<ApiResult<string[]>> {
   const result = await gql.query<AllSolutionSlugsQueryResult>(ALL_SOLUTION_SLUGS_QUERY);
   if (result.error) return result;
 
-  const slugs = (result.data?.solutions || [])
-    .map((s) => s.slug)
-    .map((slug) => slug.replace(/^\/+|\/+$/g, ''))
+  const slugs = (result.data?.solutions ?? [])
+    .map((item) => item.slug)
     .filter(Boolean)
-    .map((slug) => (slug.startsWith('solutions/') ? slug : `solutions/${slug}`));
+    .map(normalizeSlug);
 
   return ok(slugs);
 }
-

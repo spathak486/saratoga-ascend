@@ -10,48 +10,10 @@ import {
 } from '@/lib/graphql';
 import { resolvePageNode } from '@/lib/content/transformers';
 import { PageSchema, type Page, type ApiResult, ok, fail } from '@/lib/schemas';
-
-function normalizeSlug(slug: string): string {
-  return slug.replace(/^\/+|\/+$/g, '');
-}
-
-/**
- * Handles service / who-we-serve detail slugs:
- * Supports exact relative paths entered in CMS (e.g. "who-we-serve/federal-government",
- * "markets/federal-government", "services/federal-government", or just "federal-government").
- */
-function serviceSlugCandidates(slug: string): string[] {
-  const normalized = normalizeSlug(slug);
-  const withoutPrefix = normalized
-    .replace(/^who-we-serve\//, '')
-    .replace(/^who_we_serve\//, '')
-    .replace(/^services\//, '')
-    .replace(/^service\//, '')
-    .replace(/^markets\//, '')
-    .replace(/^capabilities\//, '');
-
-  return Array.from(
-    new Set([
-      normalized,
-      withoutPrefix,
-      `who-we-serve/${withoutPrefix}`,
-      `services/${withoutPrefix}`,
-      `service/${withoutPrefix}`,
-      `markets/${withoutPrefix}`,
-    ])
-  );
-}
-
-function slugQueryVariables(slug: string): Pick<ServiceBySlugQueryVariables, 'slug' | 'altSlug'> {
-  const normalized = normalizeSlug(slug);
-  return {
-    slug: normalized,
-    altSlug: normalized === '' ? '/' : `/${normalized}`,
-  };
-}
+import { getDynamicSlugCandidates, buildSlugQueryVariables, normalizeSlug } from './slug-utils';
 
 async function queryServiceBySlug(slug: string): Promise<ApiResult<ServiceBySlugQueryResult>> {
-  const { slug: primary, altSlug } = slugQueryVariables(slug);
+  const { slug: primary, altSlug } = buildSlugQueryVariables(slug);
 
   const probingDraft = defaultPublicationStatus === 'DRAFT';
   let result = await gql.query<ServiceBySlugQueryResult>(
@@ -65,7 +27,7 @@ async function queryServiceBySlug(slug: string): Promise<ApiResult<ServiceBySlug
   );
 
   const draftBlocked =
-    probingDraft && (Boolean(result.error) || result.data?.services?.length === 0);
+    probingDraft && (Boolean(result.error) || result.data?.services.length === 0);
   if (draftBlocked) {
     result = await gql.query<ServiceBySlugQueryResult>(SERVICE_BY_SLUG_QUERY, {
       slug: primary,
@@ -77,7 +39,7 @@ async function queryServiceBySlug(slug: string): Promise<ApiResult<ServiceBySlug
 }
 
 /**
- * Fetch a service / who-we-serve page from the `services` collection by slug.
+ * Fetch a service (who-we-serve) page dynamically by slug.
  */
 export async function getServiceBySlug(slug: string): Promise<ApiResult<Page>> {
   if (isMockMode) {
@@ -85,7 +47,7 @@ export async function getServiceBySlug(slug: string): Promise<ApiResult<Page>> {
   }
 
   let entry: ServiceBySlugQueryResult['services'][number] | undefined;
-  for (const candidate of serviceSlugCandidates(slug)) {
+  for (const candidate of getDynamicSlugCandidates(slug, 'service')) {
     const result = await queryServiceBySlug(candidate);
     if (result.error) continue;
     if (result.data?.services?.[0]) {
@@ -110,25 +72,18 @@ export async function getServiceBySlug(slug: string): Promise<ApiResult<Page>> {
 }
 
 /**
- * Slugs for SSG generation of service / who-we-serve detail pages.
+ * Slugs for SSG generation of service detail pages.
  */
 export async function getAllServiceSlugs(): Promise<ApiResult<string[]>> {
-  if (isMockMode) {
-    return ok([]);
-  }
+  if (isMockMode) return ok([]);
 
-  const result = await gql.query<AllServiceSlugsQueryResult>(ALL_SERVICE_SLUGS_QUERY, {
-    status: defaultPublicationStatus,
-  });
+  const result = await gql.query<AllServiceSlugsQueryResult>(ALL_SERVICE_SLUGS_QUERY);
+  if (result.error) return result;
 
-  if (result.error || !result.data?.services) {
-    return ok([]);
-  }
-
-  const slugs = result.data.services
-    .map((item) => normalizeSlug(item.slug))
-    .filter((slug) => slug.length > 0);
+  const slugs = (result.data?.services ?? [])
+    .map((item) => item.slug)
+    .filter(Boolean)
+    .map(normalizeSlug);
 
   return ok(slugs);
 }
-
