@@ -116,9 +116,13 @@ export async function getPageBySlug(slug: string): Promise<ApiResult<Page>> {
   }
 
   let entry: PageBySlugQueryResult['pages'][number] | undefined;
+  let lastError: ApiResult<Page>['error'] = null;
   for (const candidate of slugCandidates(slug)) {
     const result = await queryPageBySlug(candidate);
-    if (result.error) continue;
+    if (result.error) {
+      lastError = result.error;
+      continue;
+    }
     if (result.data.pages[0]) {
       entry = result.data.pages[0];
       break;
@@ -127,6 +131,9 @@ export async function getPageBySlug(slug: string): Promise<ApiResult<Page>> {
 
   if (!entry) {
     if (isBlogListingSlug(slug)) return ok(BLOG_LISTING_FALLBACK);
+    // A CMS failure is not proof the slug is missing. Callers must not
+    // cache that as a 404.
+    if (lastError) return { data: null, error: lastError };
     return fail('NOT_FOUND', 404, `Page not found: ${slug}`);
   }
 

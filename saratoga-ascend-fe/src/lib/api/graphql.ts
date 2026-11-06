@@ -28,7 +28,11 @@ async function queryOnce<T>(
         ...(strapiToken ? { Authorization: `Bearer ${strapiToken}` } : {}),
       },
       body: JSON.stringify({ query, variables }),
-      next: { revalidate: 60 },
+      // Dev must not keep a Forbidden GraphQL body. Strapi returns HTTP 200
+      // for that error, and Next would reuse it for the revalidate window.
+      ...(process.env.NODE_ENV === 'development'
+        ? { cache: 'no-store' as const }
+        : { next: { revalidate: 60 } }),
     });
 
     const raw = await res.text();

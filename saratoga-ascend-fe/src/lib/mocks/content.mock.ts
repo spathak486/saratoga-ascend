@@ -96,6 +96,29 @@ const homeSections: DynamicZoneSection[] = [
   },
   { __typename: 'MockHealthcare' },
   {
+    __typename: 'ComponentReferencesBannerReference',
+    heroBanner: {
+      documentId: 'cm2experiencebanner01',
+      referenceTitle: 'Experience That Supports the Mission',
+      banner: {
+        bannerTitle: 'Experience That Supports the Mission',
+        bannerSubTitle: null,
+        bannerDescription:
+          'Government missions depend on people, processes, and partnerships that work together. Saratoga Ascend brings these elements into focus through responsive service delivery, qualified talent, and a commitment to dependable execution. Whether supporting healthcare facilities, public programs, or technology initiatives, we work to help our partners meet critical needs and move their missions forward.',
+        bannerImage: {
+          url: 'https://cms.saratogaascend.com/uploads/Create_some_animation_for_this_1_1_c7118e5705.png',
+          width: 1920,
+          height: 1080,
+          alternativeText: 'Healthcare professionals supporting the mission',
+          formats: null,
+        },
+        buttonCTA: null,
+        secondaryButtonCTA: null,
+        variant: 'gradient',
+      },
+    },
+  },
+  {
     __typename: 'ComponentReferencesMissionReference',
     missionSection: {
       documentId: 'cm2mission01',
@@ -132,7 +155,8 @@ const homeSections: DynamicZoneSection[] = [
       },
     },
   },
-  { __typename: 'MockContractVehicles' },
+  // Non-Mock typename so local home fallback still renders when USE_MOCKS=false.
+  { __typename: 'FrontendContractVehicles' },
   { __typename: 'MockCeoMessage' },
   {
     __typename: 'ComponentReferencesAchievements',
@@ -242,7 +266,137 @@ const homeSections: DynamicZoneSection[] = [
       },
     ],
   },
-  { __typename: 'MockHappyClients' },
+  {
+    __typename: 'ComponentReferencesHappyClientsReference',
+    title: 'TESTIMONIALS',
+    description: 'Hear From Our Placements',
+    reviews: [
+      {
+        documentId: 'hc-cna-izabella',
+        role: 'Certified Nursing Assistant (CNA)',
+        name: 'Izabella',
+        place: 'Naval Hospital, Lejeune – Family Medicine',
+        quote:
+          'After nearly 10 years in an ER, Saratoga gave me the chance to join an incredible company that truly values its team. I love my job, my work family, and caring for our patients.',
+        photos: [
+          {
+            url: '/images/healthcare-team.png',
+            width: 800,
+            height: 1000,
+            alternativeText: 'Certified Nursing Assistant',
+            formats: null,
+          },
+          {
+            url: '/images/pharmacist-portrait.png',
+            width: 800,
+            height: 1000,
+            alternativeText: 'Healthcare professional',
+            formats: null,
+          },
+          {
+            url: '/images/future-doctor.png',
+            width: 800,
+            height: 1000,
+            alternativeText: 'Healthcare professional',
+            formats: null,
+          },
+        ],
+      },
+      {
+        documentId: 'hc-mlt',
+        role: 'Medical Laboratory Technician',
+        name: 'MLT',
+        place: 'Camp Lejeune',
+        quote:
+          'I’ve been with Saratoga for over a year, and they’ve always treated me as a priority. When I faced a lifelong illness, they supported me with options so I could keep working and providing for my family.',
+        photos: [
+          {
+            url: '/images/pharmacist-portrait.png',
+            width: 800,
+            height: 1000,
+            alternativeText: 'Medical Laboratory Technician',
+            formats: null,
+          },
+          {
+            url: '/images/healthcare-team.png',
+            width: 800,
+            height: 1000,
+            alternativeText: 'Healthcare professional',
+            formats: null,
+          },
+          {
+            url: '/images/future-doctor.png',
+            width: 800,
+            height: 1000,
+            alternativeText: 'Healthcare professional',
+            formats: null,
+          },
+        ],
+      },
+      {
+        documentId: 'hc-cna-karen',
+        role: 'CNA',
+        name: 'Karen Flowers',
+        place: 'NMCCL Mental Health',
+        quote:
+          'From HR to payroll, every interaction has been positive. 2024 was amazing, and I can’t wait for 2025 with Saratoga!',
+        photos: [
+          {
+            url: '/images/future-doctor.png',
+            width: 800,
+            height: 1000,
+            alternativeText: 'CNA',
+            formats: null,
+          },
+          {
+            url: '/images/healthcare-team.png',
+            width: 800,
+            height: 1000,
+            alternativeText: 'Healthcare professional',
+            formats: null,
+          },
+          {
+            url: '/images/pharmacist-portrait.png',
+            width: 800,
+            height: 1000,
+            alternativeText: 'Healthcare professional',
+            formats: null,
+          },
+        ],
+      },
+      {
+        documentId: 'hc-msw',
+        role: 'MSW, LCSW',
+        name: '—',
+        place: '—',
+        quote:
+          'Saratoga is a wonderful place to work! I’m so grateful to be in my favorite social work position of my career.',
+        photos: [
+          {
+            url: '/images/healthcare-team.png',
+            width: 800,
+            height: 1000,
+            alternativeText: 'Social worker',
+            formats: null,
+          },
+          {
+            url: '/images/future-doctor.png',
+            width: 800,
+            height: 1000,
+            alternativeText: 'Healthcare professional',
+            formats: null,
+          },
+          {
+            url: '/images/pharmacist-portrait.png',
+            width: 800,
+            height: 1000,
+            alternativeText: 'Healthcare professional',
+            formats: null,
+          },
+        ],
+      },
+    ],
+  },
   {
     __typename: 'ComponentReferencesClientLogosReference',
     clientLogosSection: {
@@ -481,6 +635,61 @@ const solutionsSections: DynamicZoneSection[] = [
         'Healthcare organizations need more than access to candidates. They need dependable workforce planning, qualified professionals, operational readiness, and delivery models that can adapt to changing mission requirements.',
       cards: solutionsValueCards,
     },
+  },
+  {
+    __typename: 'ComponentReferencesServiceLifecycleReference',
+    title: 'Healthcare Workforce Solutions',
+    subtitle: 'Across the Service Lifecycle',
+    description:
+      'From physicians and nurses to allied health, behavioral health, laboratory, and scientific professionals, Saratoga Ascend supports workforce needs through flexible engagement and delivery models.',
+    tabs: [
+      {
+        documentId: 'yhcgje43ooarfqwdiy5684qg',
+        tabId: 'Physician-Staffing',
+        label: 'Physician Staffing',
+        heading: 'Physician Staffing',
+        subheading:
+          'Saratoga Ascend supports healthcare and public-sector organizations with qualified physicians for planned staffing needs, specialized programs, temporary coverage, and mission-critical healthcare delivery.',
+        categoriesLabel: 'Workforce categories test',
+        supportAreasLabel: ' Support areas test',
+        cta: { label: 'Discuss this workforce requirement', href: '/', target: '_self', isExternal: false },
+        image: { url: '/uploads/Frame_2147226432_424e20f10b.png' },
+        supportAreas: Array.from({ length: 7 }, () => ({ text: 'Support areas' })),
+        categories: [
+          { documentId: 'ydq8oe1zmh0ogor4e56unqaj', number: '2', title: 't1', description: 't2' },
+          solutionsValueCards[0],
+          {
+            documentId: 'zstqkipqmo6ogmu3k1zs21j1',
+            number: '01',
+            title: 'Understand the Requirement',
+            description: 'Clarify mission context, scope, and desired outcomes.',
+          },
+        ],
+      },
+      {
+        documentId: 'pn5xeaw5ijl8wvx8ge67wte8',
+        tabId: 'Physician-Staffing-test',
+        label: 'Physician Staffing Test',
+        heading: 'Physician Staffing Test',
+        subheading:
+          'Test Saratoga Ascend supports healthcare and public-sector organizations with qualified physicians for planned staffing needs, specialized programs, temporary coverage, and mission-critical healthcare delivery.',
+        categoriesLabel: 'Workforce categories test',
+        supportAreasLabel: ' Support areas test',
+        cta: { label: 'Discuss this workforce requirement', href: '/', target: '_self', isExternal: false },
+        image: { url: '/uploads/Create_some_animation_for_this_1_1_c7118e5705.png' },
+        supportAreas: Array.from({ length: 7 }, () => ({ text: 'Support areas' })),
+        categories: [
+          { documentId: 'ydq8oe1zmh0ogor4e56unqaj', number: '2', title: 't1', description: 't2' },
+          solutionsValueCards[0],
+          {
+            documentId: 'zstqkipqmo6ogmu3k1zs21j1',
+            number: '01',
+            title: 'Understand the Requirement',
+            description: 'Clarify mission context, scope, and desired outcomes.',
+          },
+        ],
+      },
+    ],
   },
   {
     __typename: 'ComponentReferencesWorkforcePlanningReference',
