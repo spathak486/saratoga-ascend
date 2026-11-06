@@ -1,4 +1,5 @@
 import React from 'react';
+import { strapiUrl } from '@/lib/api/config';
 import type {
   DynamicZoneSection,
   BannerReference,
@@ -66,9 +67,9 @@ import {
   WorkforceSupportSection,
   WorkforceDeliverySection,
   ExploreCapabilitiesSection,
+  ServiceLifecycleSection,
   ClearPathSection,
   MissionsYouServeSection,
-  ServiceLifecycleSection,
   FederalGovernmentSection,
   ExploreEnvironmentsSection,
   DefenseSection,
@@ -182,10 +183,11 @@ function renderFaqSection(faqsRef: FaqsReference, index: number) {
  * Scalable architecture — adding a new Strapi component requires registering only 1 handler here.
  */
 export type SectionRenderOptions = {
-  /** Contact page uses the contact hero composition of the shared banner. */
-  heroLayout?: 'contact';
+  /** Page-specific hero composition of the shared banner. */
+  heroLayout?: 'contact' | 'who-we-serve';
   /** Page or Blog level data to fallback/bind if missing in banner */
   contextData?: {
+    pageTitle?: string;
     title?: string;
     description?: string;
     authorName?: string;
@@ -236,6 +238,9 @@ export const SECTION_REGISTRY: Record<
         date={ctx?.date || ctx?.articleDate}
         readTime={ctx?.readTime}
         socialLinks={ctx?.socialLinks ?? undefined}
+        breadcrumbLabel={
+          options?.heroLayout === 'who-we-serve' ? ctx?.pageTitle ?? undefined : undefined
+        }
         layout={options?.heroLayout}
       />
     );
@@ -656,37 +661,43 @@ export const SECTION_REGISTRY: Record<
 
   ComponentReferencesFederalGovernmentReference: (section, index) => {
     const fgRef = section as FederalGovernmentReference;
+    const cards = fgRef.cards?.map((card) => {
+      const description = card?.description || card?.missionDescription || '';
+      const url = card?.image?.url;
+      const next = { ...card, description };
+      if (!url || !url.startsWith('/uploads/')) return next;
+      return {
+        ...next,
+        image: { ...card.image, url: `${strapiUrl.replace(/\/+$/, '')}${url}` },
+      };
+    });
+    if (!cards || cards.length === 0) return null;
     return (
       <FederalGovernmentSection
         key={'federal-gov-' + index}
-        cards={fgRef?.cards as any}
+        cards={cards as any}
       />
     );
   },
 
-  ComponentReferencesServiceLifecycleReference: (section, index) => {
-    const slRef = section as ServiceLifecycleReference;
-    const sl = slRef.serviceLifecycleSection;
-    return (
-      <ServiceLifecycleSection
-        key={'service-lifecycle-' + index}
-        title={sl?.title ?? undefined}
-        subtitle={sl?.subtitle ?? undefined}
-        description={sl?.description ?? undefined}
-        tabs={sl?.tabs as any}
-      />
-    );
-  },
   ComponentReferencesMissionsYouServeReference: (section, index) => {
     const mysRef = section as MissionsYouServeReference;
     const mys = mysRef.missionsYouServeSection;
+    const cards = mys?.cards?.map((card) => {
+      const url = card?.image?.url;
+      if (!url || !url.startsWith('/uploads/')) return card;
+      return {
+        ...card,
+        image: { ...card.image, url: `${strapiUrl.replace(/\/+$/, '')}${url}` },
+      };
+    });
     return (
       <MissionsYouServeSection
         key={'missions-you-serve-' + index}
         title={mys?.title ?? undefined}
         highlightTitle={mys?.highlightTitle ?? undefined}
         description={mys?.description ?? undefined}
-        cards={(mys?.cards as any) ?? undefined}
+        cards={(cards as any) ?? undefined}
       />
     );
   },
@@ -740,6 +751,33 @@ export const SECTION_REGISTRY: Record<
         highlightTitle={cm?.highlightTitle ?? undefined}
         description={cm?.description ?? undefined}
         cards={(cm?.cards as any) ?? undefined}
+      />
+    );
+  },
+
+  ComponentReferencesServiceLifecycleReference: (section, index) => {
+    const source = section as {
+      title?: string | null;
+      subtitle?: string | null;
+      highlightTitle?: string | null;
+      description?: string | null;
+      tabs?: React.ComponentProps<typeof ServiceLifecycleSection>['tabs'];
+      serviceLifecycleSection?: {
+        title?: string | null;
+        subtitle?: string | null;
+        highlightTitle?: string | null;
+        description?: string | null;
+        tabs?: React.ComponentProps<typeof ServiceLifecycleSection>['tabs'];
+      } | null;
+    };
+    const data = source.serviceLifecycleSection ?? source;
+    return (
+      <ServiceLifecycleSection
+        key={`service-lifecycle-${index}`}
+        title={data.title}
+        subtitle={data.subtitle ?? data.highlightTitle}
+        description={data.description}
+        tabs={data.tabs}
       />
     );
   },
@@ -943,6 +981,10 @@ export const SECTION_REGISTRY: Record<
     />
   ),
   MockContractVehicles: (_section, index) => (
+    <ContractVehiclesSection key={`contract-vehicles-${index}`} />
+  ),
+  // Local home mock fallback (USE_MOCKS=false strips Mock* typenames).
+  FrontendContractVehicles: (_section, index) => (
     <ContractVehiclesSection key={`contract-vehicles-${index}`} />
   ),
   MockPastPerformance: (_section, index) => (

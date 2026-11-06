@@ -47,7 +47,14 @@ export const AchievementGlassCard: React.FC<AchievementGlassCardProps> = ({
   badgeAlt,
   badgeShape = 'round',
 }) => {
-  const cleanBody = typeof body === 'string' ? body.replace(/<[^>]*>/g, '').trim() : body;
+  const cleanBody =
+    typeof body === 'string'
+      ? body
+          .replace(/<[^>]*>/g, '')
+          .replace(/&nbsp;/gi, ' ')
+          .replace(/\s+/g, ' ')
+          .trim()
+      : body;
 
   return (
     <article className="relative w-full rounded-panel border-[2px] border-white bg-[rgba(10,10,10,0.1)] backdrop-blur-[12px] xl:aspect-[828/427] max-xl:bg-white/16">
@@ -63,7 +70,7 @@ export const AchievementGlassCard: React.FC<AchievementGlassCardProps> = ({
                 : 'h-[11.25rem] w-[8.96rem] shrink-0 shadow-[0_2.89px_2.89px_rgb(0_0_0/0.25)]'
             }
           />
-          <div className="flex w-full flex-col gap-3">
+          <div className="flex w-full min-w-0 flex-col gap-3">
             <p className="font-sans text-[1.5rem] font-bold leading-[1.2] text-white">
               {year}
             </p>
@@ -71,11 +78,11 @@ export const AchievementGlassCard: React.FC<AchievementGlassCardProps> = ({
               level={3}
               size="section"
               tone="onDark"
-              className="text-[1.75rem]! leading-8! text-white"
+              className="line-clamp-2 min-w-0 text-[1.75rem]! leading-[1.25]! text-white"
             >
               {title}
             </Heading>
-            <p className="line-clamp-4 min-w-0 break-words font-sans text-base font-normal leading-5 text-white">
+            <p className="line-clamp-3 min-w-0 break-words font-sans text-base font-normal leading-5 text-white">
               {cleanBody}
             </p>
           </div>
@@ -96,16 +103,18 @@ export const AchievementGlassCard: React.FC<AchievementGlassCardProps> = ({
           }
         />
 
+        {/* Avoid max-h + overflow-hidden — they clip serif descenders (g, y, f). */}
         <Heading
           level={3}
           size="feature"
           tone="onDark"
-          className="absolute top-[20.84%] left-[7.246%] hidden h-[33.72%] w-[53.5%] text-white xl:block"
+          className="absolute top-[20.84%] left-[7.246%] hidden w-[53.5%] min-w-0 text-white xl:block! xl:line-clamp-2 xl:leading-[1.25] xl:pb-[0.15em]"
         >
           {title}
         </Heading>
 
-        <p className="absolute top-[59.25%] left-[7.246%] hidden w-[53.5%] line-clamp-4 min-w-0 break-words font-sans text-body-lg font-medium leading-[1.6] text-white xl:block">
+        {/* Cap at 3 lines + bottom inset so body never spills the plate at 100%. */}
+        <p className="absolute top-[59.25%] bottom-[6.5%] left-[7.246%] hidden w-[53.5%] min-w-0 break-words font-sans text-body-lg font-medium leading-[1.45] text-white xl:line-clamp-3 xl:block">
           {cleanBody}
         </p>
       </div>

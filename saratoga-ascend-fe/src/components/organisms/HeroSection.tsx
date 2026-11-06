@@ -126,11 +126,14 @@ export interface HeroSectionProps {
     icon?: { url?: string | null } | null;
   }>;
   /**
-   * Contact page composition (Figma 2219:1455). CMS still supplies the banner
-   * title, description, image, and subtitle. The subtitle, when it appears
-   * inside the title, is the red phrase. Homepage variants ignore this.
+   * Page-specific composition. CMS still supplies the banner title, description,
+   * image, and subtitle. The subtitle, when it appears inside the title, is the
+   * red phrase. Homepage variants ignore this.
+   * `contact` is Figma 2219:1455. `who-we-serve` is Figma 2:1015.
    */
-  layout?: 'contact';
+  layout?: 'contact' | 'who-we-serve';
+  /** CMS page title for the Who We Serve breadcrumb. */
+  breadcrumbLabel?: string;
 }
 
 const copyStyle: React.CSSProperties = {
@@ -169,7 +172,7 @@ function ServiceHeroArrow({ fixedUpRight = false }: { fixedUpRight?: boolean }) 
       className={
         fixedUpRight
           ? 'relative z-10 size-6 origin-center -rotate-45'
-          : `relative z-10 size-6 origin-center rotate-0 ${SERVICE_HERO_MOTION} group-hover:-rotate-45 group-focus-visible:-rotate-45 motion-reduce:group-hover:rotate-0 motion-reduce:group-focus-visible:rotate-0`
+          : `relative z-10 size-6 origin-center rotate-0 ${SERVICE_HERO_MOTION} group-hover/hero:-rotate-45 group-focus-visible/hero:-rotate-45 motion-reduce:group-hover/hero:rotate-0 motion-reduce:group-focus-visible/hero:rotate-0`
       }
     >
       <path
@@ -237,7 +240,7 @@ function ServiceHeroButton({
   const arrow = <ServiceHeroArrow fixedUpRight={tone === 'secondary'} />;
 
   const box =
-    'group relative inline-flex h-auto min-h-12 w-full max-w-full items-center justify-center gap-3 rounded-button px-5 py-3 font-sans text-button font-medium shadow-button focus-visible:outline-brand-navy! sm:w-auto sm:px-6 xl:min-h-[3.75rem] xl:px-6';
+    'group/hero relative inline-flex h-auto min-h-12 w-full max-w-full items-center justify-center gap-3 rounded-button px-5 py-3 font-sans text-button font-medium shadow-button focus-visible:outline-brand-navy! sm:w-auto sm:px-6 xl:min-h-[3.75rem] xl:px-6';
 
   if (tone === 'primary') {
     return (
@@ -262,7 +265,7 @@ function ServiceHeroButton({
     >
       <span
         aria-hidden="true"
-        className={`pointer-events-none absolute -inset-px rounded-button bg-cta-gradient opacity-0 transition-opacity ${SERVICE_HERO_MOTION} group-hover:opacity-100 group-focus-visible:opacity-100`}
+        className={`pointer-events-none absolute -inset-px rounded-button bg-cta-gradient opacity-0 ${SERVICE_HERO_MOTION} group-hover/hero:opacity-100 group-focus-visible/hero:opacity-100`}
       />
       <span className="relative z-10">{children}</span>
     </GeneralLink>
@@ -294,6 +297,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   readTime,
   socialLinks,
   layout,
+  breadcrumbLabel,
 }) => {
   const heading = splitHeroTitle(title);
   const lede = stripHtml(description);
@@ -367,6 +371,103 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                 size="lead"
                 tone="navy"
                 className="max-w-[min(100%,48.6875rem)] font-medium tracking-normal"
+              >
+                {lede}
+              </Text>
+            ) : null}
+          </Container>
+        </div>
+      </Section>
+    );
+  }
+
+  if (layout === 'who-we-serve') {
+    /*
+      Figma JzRl5kAw1Yx0qUj9MTvjkm 2:1014–2:1020. Desktop photo band is 1920×699.
+      Copy stays in flow so a longer CMS title can grow the band. Below xl the
+      photo sits above the copy: the floating nav would otherwise cover the
+      title, and the left wash does not cover a full-width line.
+      get_motion_context returned no tracks for this node.
+      The frame has no button, so CMS CTAs are not shown here.
+    */
+    const photoAlt = mediaAlt || '';
+    const serveTitle = title ? normalizeBreaks(title).trim() : '';
+    const accent = stripHtml(subTitle);
+
+    return (
+      <Section
+        aria-labelledby={serveTitle ? 'who-we-serve-hero-heading' : undefined}
+        aria-label={!serveTitle && breadcrumbLabel ? breadcrumbLabel : undefined}
+        tone="surface"
+        spacing="none"
+        bleed
+        className="bg-white"
+      >
+        {breadcrumbLabel ? (
+          <Container className="pt-[calc(6rem+env(safe-area-inset-top,0px))] pb-4 xl:pt-4 xl:pb-6">
+            <nav aria-label="Breadcrumb">
+              <p className="font-sans text-sm font-medium leading-normal text-black">
+                <GeneralLink
+                  href="/"
+                  variant="unstyled"
+                  className="rounded-sm hover:text-brand-red focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-navy"
+                >
+                  Home
+                </GeneralLink>
+                <span aria-hidden="true"> / </span>
+                <span aria-current="page">{breadcrumbLabel}</span>
+              </p>
+            </nav>
+          </Container>
+        ) : (
+          <div className="pt-[calc(6rem+env(safe-area-inset-top,0px))] xl:hidden" aria-hidden="true" />
+        )}
+
+        <div className="relative mx-auto w-full max-w-home bg-[#eaf4fb] xl:flex xl:min-h-[clamp(28rem,36.40625vw,43.6875rem)] xl:items-start">
+          <div className="relative h-[clamp(14rem,52vw,22rem)] overflow-hidden xl:absolute xl:inset-0 xl:h-auto">
+            {resolvedVideoSrc ? (
+              <video
+                className="absolute inset-0 size-full object-cover object-right"
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="metadata"
+              >
+                <source src={resolvedVideoSrc} type={mediaMime || 'video/mp4'} />
+              </video>
+            ) : helixSrc ? (
+              <img
+                src={helixSrc}
+                alt={photoAlt}
+                className="absolute inset-0 size-full object-cover object-right"
+                decoding="async"
+                fetchPriority="high"
+              />
+            ) : null}
+            <div
+              className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(234,244,251,0)_88%,#eaf4fb_100%)] xl:bg-[linear-gradient(90.01deg,#eaf4fb_29.688%,rgba(234,244,251,0)_128.33%)]"
+              aria-hidden="true"
+            />
+          </div>
+
+          <Container className="relative z-10 flex min-w-0 flex-col items-start py-8 sm:py-10 xl:py-[clamp(2.5rem,4.167vw,5rem)]">
+            {serveTitle ? (
+              <Heading
+                id="who-we-serve-hero-heading"
+                level={1}
+                size="hero"
+                tone="ink"
+                className="max-w-[min(100%,64.5625rem)] min-w-0 font-normal tracking-normal break-words"
+              >
+                {titleWithAccent(title ?? '', accent)}
+              </Heading>
+            ) : null}
+            {lede ? (
+              <Text
+                size="lead"
+                tone="navy"
+                className="mt-[clamp(1.25rem,2.005vw,2.40625rem)] max-w-[min(100%,48.6875rem)] min-w-0 font-medium tracking-normal break-words"
               >
                 {lede}
               </Text>
@@ -545,43 +646,53 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   }
 
   if (variant === 'gradient') {
+    /*
+      Zoom 100–200%: fixed rem min-heights + overflow-hidden clipped stacked
+      copy; fixed title width + missing min-w-0 caused horizontal overflow in
+      the xl row at 125–150%. Media stays clipped to the radius; copy can grow.
+    */
     return (
       <section className="w-full">
-        <div className="mx-auto w-full max-w-home px-page py-4">
-          <div className="relative flex min-h-[26rem] w-full items-end overflow-hidden rounded-[1.625rem] bg-neutral-900 shadow-lg md:min-h-[32rem] xl:min-h-[54.25rem]">
-            {resolvedVideoSrc ? (
-              <video
-                src={resolvedVideoSrc}
-                autoPlay
-                muted
-                loop
-                playsInline
-                aria-hidden="true"
-                className="absolute inset-0 size-full object-cover object-center"
-              />
-            ) : helixSrc ? (
-              <img
-                src={helixSrc}
-                alt={mediaAlt ?? ''}
-                className="absolute inset-0 size-full object-cover object-center"
-              />
-            ) : null}
+        <div className="mx-auto w-full max-w-home px-page pt-4 pb-6 sm:pb-8 xl:pb-10">
+          <div className="relative isolate flex w-full flex-col justify-end rounded-[1.25rem] bg-neutral-900 shadow-lg sm:rounded-[1.625rem] min-h-[min(22rem,70dvh)] md:min-h-[min(28rem,72dvh)] xl:min-h-[min(54.25rem,78dvh)]">
+            <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-[inherit]" aria-hidden="true">
+              {resolvedVideoSrc ? (
+                <video
+                  src={resolvedVideoSrc}
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  className="absolute inset-0 size-full object-cover object-center"
+                />
+              ) : helixSrc ? (
+                <img
+                  src={helixSrc}
+                  alt=""
+                  className="absolute inset-0 size-full object-cover object-center"
+                />
+              ) : null}
+              <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0)_46.5%,#000000_106.95%)]" />
+            </div>
 
-            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0)_46.5%,#000000_106.95%)]" />
-
-            <div className="relative z-10 mx-auto mb-6 flex w-full max-w-[83.625rem] flex-col gap-4 px-6 text-white xl:mb-[1.875rem] xl:min-h-[7.65625rem] xl:flex-row xl:items-center xl:gap-[3.375rem] xl:px-0">
+            {/* Keep side + bottom inset at xl/100% — xl:px-0/pb-0 sat copy on the radius. */}
+            <div className="relative z-10 mx-auto flex w-full min-w-0 max-w-[83.625rem] flex-col gap-3 px-6 py-6 text-white sm:gap-4 sm:px-8 sm:py-8 md:px-10 md:py-10 xl:flex-row xl:items-stretch xl:gap-[clamp(1.25rem,3.375vw,3.375rem)] xl:px-[clamp(2.5rem,5.2vw,5.625rem)] xl:pt-[clamp(2rem,6vw,4rem)] xl:pb-[clamp(2rem,3.5vw,3.75rem)]">
               {title ? (
-                <h2 className="font-serif text-feature text-white xl:w-[21.75rem] xl:shrink-0">
+                <h2 className="min-w-0 break-words font-serif text-feature text-white xl:max-w-[21.75rem] xl:basis-[min(100%,21.75rem)] xl:shrink-0">
                   {title}
                 </h2>
               ) : null}
               {title && lede ? (
                 <div
-                  className="hidden h-[7.65625rem] w-0 shrink-0 border-l-[3px] border-white xl:block"
+                  className="hidden w-0 shrink-0 self-stretch border-l-[3px] border-white xl:block"
                   aria-hidden="true"
                 />
               ) : null}
-              {lede ? <p className="text-card-copy text-white xl:max-w-[55.125rem]">{lede}</p> : null}
+              {lede ? (
+                <p className="min-w-0 break-words text-card-copy text-white xl:max-w-[55.125rem] xl:flex-1">
+                  {lede}
+                </p>
+              ) : null}
             </div>
           </div>
         </div>

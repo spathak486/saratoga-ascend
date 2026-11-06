@@ -84,7 +84,7 @@ export function IntegratedCapabilitiesSection({
   const actionText = card.cta?.title?.trim() || card.cta?.label?.trim() || card.actionLabel?.trim() || '';
   const targetHref = card.cta?.href?.trim() || card.href?.trim() || '';
 
-  // Image - Right Photo Box (Rectangle 39989: 723.38px x 993.38px)
+  // Image - Right Photo Box (Rectangle 39989)
   const imageUrl = typeof card.image === 'string' ? card.image : card.image?.url;
   const imageAlt =
     (typeof card.image === 'object' && card.image?.alternativeText) ||
@@ -94,52 +94,52 @@ export function IntegratedCapabilitiesSection({
   const fullImageUrl = normalizeImageSrc(imageUrl);
 
   return (
-    <section className="relative w-full bg-[#FFFFFF] py-12 md:py-16 xl:py-20 overflow-hidden">
-      <div className="mx-auto w-full max-w-[1920px] px-6 sm:px-10 md:px-14 lg:px-16 xl:px-[120px]">
+    <section className="relative w-full bg-[#FFFFFF] py-10 sm:py-14 xl:py-16 2xl:py-20 overflow-hidden">
+      <div className="mx-auto w-full max-w-[1920px] px-4 sm:px-6 md:px-10 xl:px-12 2xl:px-[120px]">
         
-        {/* Desktop Absolute Canvas (>=1440px / 1920px container matching Figma layout) */}
-        <div className="hidden xl:block relative w-full h-[1153px]">
+        {/* Two-column layout that naturally scales between 100% and 125% zoom */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 xl:gap-10 2xl:gap-14 items-start">
           
           {/* Left Column Content */}
-          <div className="absolute left-0 top-0 w-[933px] flex flex-col z-10">
-            {/* Title (DM Serif Text, 72px, line-height 99px, color: #000000) */}
+          <div className="lg:col-span-7 2xl:col-span-7 flex flex-col justify-between">
+            {/* Title (DM Serif Text, responsive font sizing) */}
             {cleanTitle ? (
               <h2
-                className="w-[906px] font-['DM_Serif_Text'] text-[72px] font-normal leading-[99px] text-[#000000] tracking-[-0.01em] [&_p]:m-0 [&_p]:font-inherit [&_p]:text-inherit [&_p]:leading-inherit [&_span[style*='color']]:font-semibold"
+                className="font-['DM_Serif_Text'] text-[34px] sm:text-[44px] md:text-[52px] xl:text-[58px] 2xl:text-[72px] font-normal leading-[1.15] 2xl:leading-[99px] text-[#000000] tracking-[-0.01em] [&_p]:m-0 [&_p]:font-inherit [&_p]:text-inherit [&_p]:leading-inherit [&_span[style*='color']]:font-semibold max-w-[906px]"
                 dangerouslySetInnerHTML={{ __html: cleanTitle }}
               />
             ) : null}
 
-            {/* Description (Google Sans Flex, 24px, line-height 40px, top: 389px) */}
+            {/* Description */}
             {description ? (
-              <p className="mt-[12px] w-[872px] font-sans text-[24px] font-normal leading-[40px] text-[#000000]">
+              <p className="mt-4 sm:mt-5 xl:mt-6 2xl:mt-[24px] font-sans text-[16px] sm:text-[18px] xl:text-[20px] 2xl:text-[24px] font-normal leading-[1.5] 2xl:leading-[40px] text-[#000000] max-w-[872px]">
                 {description}
               </p>
             ) : null}
 
-            {/* Subheading (Capabilities aligned to the work - Google Sans Flex, 38px, font-weight 600, line-height 48px, #212121) */}
+            {/* Subheading (Capabilities aligned to the work) */}
             {subheading ? (
-              <h3 className="mt-[60px] w-[679px] font-sans text-[38px] font-semibold leading-[48px] text-[#212121]">
+              <h3 className="mt-8 sm:mt-10 xl:mt-11 2xl:mt-[56px] font-sans text-[26px] sm:text-[30px] xl:text-[32px] 2xl:text-[38px] font-semibold leading-[1.25] 2xl:leading-[48px] text-[#212121] max-w-[679px]">
                 {subheading}
               </h3>
             ) : null}
 
-            {/* Subdescription (Start with the mission... - Google Sans Flex, 24px, line-height 40px, top: 717px) */}
+            {/* Subdescription */}
             {subdescription ? (
-              <p className="mt-[20px] w-[933px] font-sans text-[24px] font-normal leading-[40px] text-[#000000]">
+              <p className="mt-3 sm:mt-4 xl:mt-4 2xl:mt-[18px] font-sans text-[16px] sm:text-[18px] xl:text-[20px] 2xl:text-[24px] font-normal leading-[1.5] 2xl:leading-[40px] text-[#000000] max-w-[933px]">
                 {subdescription}
               </p>
             ) : null}
 
-            {/* Tags Pills (Figma Frame 2147226549 & 2147226550) */}
+            {/* Tags Pills */}
             {tagList.length > 0 ? (
-              <div className="mt-[28px] w-[895px] flex flex-wrap gap-x-[16px] gap-y-[16px]">
+              <div className="mt-6 sm:mt-7 xl:mt-8 2xl:mt-[28px] flex flex-wrap gap-2.5 sm:gap-3 xl:gap-3.5 2xl:gap-[16px] max-w-[895px]">
                 {tagList.map((tag, idx) => (
                   <div
                     key={`tag-${idx}`}
-                    className="inline-flex items-center justify-center h-[62px] px-[24px] py-[16px] rounded-[100px] border border-[#F01424] bg-[rgba(240,20,36,0.03)]"
+                    className="inline-flex items-center justify-center min-h-[46px] xl:min-h-[52px] 2xl:h-[62px] px-4 sm:px-5 xl:px-6 2xl:px-[24px] py-2 rounded-[100px] border border-[#F01424] bg-[rgba(240,20,36,0.03)]"
                   >
-                    <span className="font-sans text-[20px] font-semibold leading-[30px] text-[#212121] tracking-[-0.01em] whitespace-nowrap">
+                    <span className="font-sans text-[15px] sm:text-[17px] xl:text-[18px] 2xl:text-[20px] font-semibold leading-normal text-[#212121] tracking-[-0.01em] whitespace-nowrap">
                       {tag}
                     </span>
                   </div>
@@ -149,10 +149,10 @@ export function IntegratedCapabilitiesSection({
 
             {/* CTA Button (if present) */}
             {actionText ? (
-              <div className="mt-[32px]">
+              <div className="mt-6 sm:mt-8 xl:mt-8 2xl:mt-[32px]">
                 <Link
                   href={targetHref || '#'}
-                  className="inline-flex items-center gap-[12px] h-[56px] px-[28px] rounded-[8px] bg-gradient-to-r from-[#D31E2D] to-[#2A91DC] text-white font-sans text-[18px] font-medium leading-[150%] shadow-sm hover:opacity-95 transition-opacity"
+                  className="inline-flex items-center gap-[12px] h-[50px] sm:h-[54px] 2xl:h-[56px] px-6 sm:px-7 2xl:px-[28px] rounded-[8px] bg-gradient-to-r from-[#D31E2D] to-[#2A91DC] text-white font-sans text-[16px] sm:text-[17px] 2xl:text-[18px] font-medium leading-[150%] shadow-sm hover:opacity-95 transition-opacity"
                 >
                   <span>{actionText}</span>
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
@@ -162,114 +162,34 @@ export function IntegratedCapabilitiesSection({
                 </Link>
               </div>
             ) : null}
-          </div>
 
-          {/* Line 232 (border: 1.33241px solid #000000, width: 371.74px, top: 1073px - 80px = 993px from container top) */}
-          <div
-            className="absolute left-0 bottom-0 w-[371.74px] h-0 border-b-[1.33px] border-[#000000]"
-            aria-hidden="true"
-          />
-
-          {/* Right Column Photo (Rectangle 39989: 723.38px x 993.38px, border: 1.5px solid #F01424, border-radius: 31.9778px) */}
-          {fullImageUrl ? (
+            {/* Decorative Line (Line 232) */}
             <div
-              className="absolute left-[957px] 2xl:left-[1077px] top-0 w-[723.38px] h-[993.38px] rounded-[31.98px] border-[1.5px] border-[#F01424] overflow-hidden shadow-sm"
-              style={{
-                boxSizing: 'border-box',
-              }}
-            >
-              <Image
-                src={fullImageUrl}
-                alt={imageAlt}
-                fill
-                sizes="(max-width: 1920px) 724px, 724px"
-                className="object-cover object-center"
-              />
-            </div>
-          ) : null}
-        </div>
-
-        {/* Responsive Mobile / Tablet / Laptop View (<1280px) */}
-        <div className="xl:hidden flex flex-col gap-10">
-          {/* Text Content */}
-          <div className="flex flex-col">
-            {cleanTitle ? (
-              <h2
-                className="font-['DM_Serif_Text'] text-[36px] sm:text-[48px] md:text-[56px] font-normal leading-[1.15] text-[#000000] tracking-[-0.01em] [&_p]:m-0 [&_p]:font-inherit [&_p]:text-inherit [&_p]:leading-inherit [&_span[style*='color']]:font-semibold"
-                dangerouslySetInnerHTML={{ __html: cleanTitle }}
-              />
-            ) : null}
-
-            {description ? (
-              <p className="mt-4 font-sans text-[16px] sm:text-[18px] md:text-[20px] font-normal leading-[1.6] text-[#000000]">
-                {description}
-              </p>
-            ) : null}
-
-            {subheading ? (
-              <h3 className="mt-8 font-sans text-[24px] sm:text-[28px] md:text-[32px] font-semibold leading-[1.3] text-[#212121]">
-                {subheading}
-              </h3>
-            ) : null}
-
-            {subdescription ? (
-              <p className="mt-3 font-sans text-[16px] sm:text-[18px] md:text-[20px] font-normal leading-[1.6] text-[#000000]">
-                {subdescription}
-              </p>
-            ) : null}
-
-            {/* Tags */}
-            {tagList.length > 0 ? (
-              <div className="mt-6 flex flex-wrap gap-2 sm:gap-3">
-                {tagList.map((tag, idx) => (
-                  <div
-                    key={`mob-tag-${idx}`}
-                    className="inline-flex items-center justify-center min-h-[44px] px-4 py-2 rounded-full border border-[#F01424] bg-[rgba(240,20,36,0.03)]"
-                  >
-                    <span className="font-sans text-[14px] sm:text-[16px] font-semibold leading-normal text-[#212121]">
-                      {tag}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            ) : null}
-
-            {/* CTA */}
-            {actionText ? (
-              <div className="mt-6">
-                <Link
-                  href={targetHref || '#'}
-                  className="inline-flex items-center gap-2 h-[48px] px-6 rounded-[8px] bg-gradient-to-r from-[#D31E2D] to-[#2A91DC] text-white font-sans text-[16px] font-medium leading-normal shadow-sm hover:opacity-95 transition-opacity"
-                >
-                  <span>{actionText}</span>
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                    <line x1="5" y1="12" x2="19" y2="12" />
-                    <polyline points="12 5 19 12 12 19" />
-                  </svg>
-                </Link>
-              </div>
-            ) : null}
+              className="mt-10 sm:mt-12 xl:mt-14 2xl:mt-16 w-[240px] sm:w-[320px] 2xl:w-[371.74px] h-0 border-b-[1.33px] border-[#000000]"
+              aria-hidden="true"
+            />
           </div>
 
-          {/* Photo on Mobile */}
+          {/* Right Column Photo (Rectangle 39989) */}
           {fullImageUrl ? (
-            <div className="relative w-full aspect-[4/5] sm:aspect-[3/4] max-h-[700px] rounded-[24px] sm:rounded-[32px] border-[1.5px] border-[#F01424] overflow-hidden shadow-sm">
-              <Image
-                src={fullImageUrl}
-                alt={imageAlt}
-                fill
-                sizes="(max-width: 1280px) 100vw, 724px"
-                className="object-cover object-center"
-              />
+            <div className="lg:col-span-5 2xl:col-span-5 flex lg:justify-end">
+              <div
+                className="relative w-full aspect-[4/5] sm:aspect-[3/4] lg:aspect-auto lg:w-full lg:max-w-[560px] 2xl:max-w-[723.38px] lg:h-[680px] xl:h-[780px] 2xl:h-[993.38px] rounded-[24px] sm:rounded-[31.98px] border-[1.5px] border-[#F01424] overflow-hidden shadow-sm"
+              >
+                <Image
+                  src={fullImageUrl}
+                  alt={imageAlt}
+                  fill
+                  sizes="(max-width: 1024px) 100vw, (max-width: 1536px) 560px, 724px"
+                  className="object-cover object-center"
+                />
+              </div>
             </div>
           ) : null}
 
-          {/* Decorative line */}
-          <div className="w-[200px] sm:w-[300px] h-0 border-b-[1.33px] border-[#000000]" aria-hidden="true" />
         </div>
 
       </div>
     </section>
   );
 }
-

@@ -36,7 +36,7 @@ export const MarketWeServeSection: React.FC<MarketWeServeSectionProps> = ({
       aria-labelledby="market-we-serve-heading"
       tone="surface"
       spacing="none"
-      className="mt-10 py-10 max-[89.99rem]:mt-0 max-[89.99rem]:py-[1.875rem]"
+      className="mt-0 py-10 max-[89.99rem]:py-[1.875rem]"
     >
       <div className="flex flex-col gap-10">
         {(title || description) ? (

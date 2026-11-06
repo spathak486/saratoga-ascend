@@ -26,31 +26,40 @@ function DigitReel({
   active: boolean;
   index: number;
   reduceMotion: boolean;
-  /** Bumps on each enter so the reel can restart from 0. */
+  /** Bumps on each fresh section enter so the reel can restart from 0. */
   playId: number;
 }) {
-  // Start on 0; when the section is in view, roll to the target digit.
   // Alternating columns travel the long way so the bank doesn't move in lockstep.
   const from = 10;
   const to = index % 2 === 0 ? 20 + digit : 10 + digit;
   const [offset, setOffset] = useState(from);
+  const settled = useRef(false);
   const strip = Array.from({ length: 30 }, (_, i) => i % 10);
 
   useEffect(() => {
     if (reduceMotion) {
       setOffset(to);
+      settled.current = true;
       return;
     }
 
     if (!active) {
-      setOffset(from);
+      // Hold the final number while scrolling inside/away — never flash 000.
+      if (playId > 0) {
+        setOffset(to);
+        settled.current = true;
+      }
       return;
     }
 
-    // Reset to 0 without a transition, then roll up on the next frame.
+    // Fresh enter (or replay): start at 0, then roll up.
+    settled.current = false;
     setOffset(from);
     const id = window.requestAnimationFrame(() => {
-      window.requestAnimationFrame(() => setOffset(to));
+      window.requestAnimationFrame(() => {
+        setOffset(to);
+        settled.current = true;
+      });
     });
     return () => window.cancelAnimationFrame(id);
   }, [active, playId, reduceMotion, from, to]);
@@ -89,9 +98,9 @@ export interface CountUpStatProps {
 }
 
 /**
- * Achievement numeral (Figma Numbers1). Digits rest on 0 until `active`
- * (stats band in view), then each reel rolls slowly to the CMS value.
- * Leaving and re-entering the section (up or down) replays the count.
+ * Achievement numeral (Figma Numbers1). Digits count up when the section
+ * enters view. Leaving the section keeps the final value (no 000 flash);
+ * re-entering from above or below replays the count.
  */
 export const CountUpStat: React.FC<CountUpStatProps> = ({
   value,
@@ -133,10 +142,10 @@ export const CountUpStat: React.FC<CountUpStatProps> = ({
 };
 
 /**
- * Tracks whether the node is in view. Each entry bumps `playId` so
- * scroll-triggered animations can restart from above or below.
+ * Tracks section visibility. `playId` bumps only on a true leave→enter so
+ * small scrolls inside the section do not restart the counters.
  */
-export function useInViewReplay<T extends HTMLElement>(threshold = 0.35) {
+export function useInViewReplay<T extends HTMLElement>(threshold = 0.15) {
   const ref = useRef<T | null>(null);
   const [inView, setInView] = useState(false);
   const [playId, setPlayId] = useState(0);
@@ -158,7 +167,9 @@ export function useInViewReplay<T extends HTMLElement>(threshold = 0.35) {
       {
         threshold,
         root: null,
-        rootMargin: '0px 0px -10% 0px',
+        // Generous margins so peeking the cards while stats are near the
+        // fold does not count as leaving the achievements band.
+        rootMargin: '20% 0px 20% 0px',
       },
     );
 
