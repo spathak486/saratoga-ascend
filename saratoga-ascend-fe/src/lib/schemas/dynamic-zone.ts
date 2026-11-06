@@ -835,7 +835,20 @@ export const IntegratedCapabilitiesReferenceSchema = z.object({
 
 export type IntegratedCapabilitiesReference = z.infer<typeof IntegratedCapabilitiesReferenceSchema>;
 
+export const ProcurementAccessReferenceSchema = z.object({
+  __typename: z.literal('ComponentReferencesProcurementAccessReference'),
+  referenceTitle: z.string().nullable().optional(),
+  description: z.string().nullable().optional(),
+  subdescription: z.string().nullable().optional(),
+  pills: z.array(z.object({ text: z.string().nullable().optional() })).nullable().optional(),
+  cta: GeneralLinkSchema.nullable().optional(),
+  bgMedia: StrapiImageSchema.nullable().optional(),
+});
+
+export type ProcurementAccessReference = z.infer<typeof ProcurementAccessReferenceSchema>;
+
 export const DynamicZoneSectionSchema = z.union([
+  ProcurementAccessReferenceSchema,
   IntegratedCapabilitiesReferenceSchema,
   DefenseReferenceSchema,
   ExploreEnvironmentsReferenceSchema,

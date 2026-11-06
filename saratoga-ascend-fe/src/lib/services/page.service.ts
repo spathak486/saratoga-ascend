@@ -11,6 +11,7 @@ import {
 import { resolvePageNode } from '@/lib/content/transformers';
 import { PageSchema, type Page, type ApiResult, ok, fail } from '@/lib/schemas';
 import { getMockPageBySlug, getMockAllPageSlugs } from '@/lib/mocks';
+import { getDynamicSlugCandidates } from './slug-utils';
 
 /** Alternate CMS slugs that should resolve to the same page. */
 const PAGE_SLUG_ALIASES: Record<string, string[]> = {
@@ -64,7 +65,8 @@ function normalizeSlug(slug: string): string {
 function slugCandidates(slug: string): string[] {
   const normalized = normalizeSlug(slug);
   const aliases = PAGE_SLUG_ALIASES[normalized] ?? [];
-  return [normalized, ...aliases];
+  const dynamicCandidates = getDynamicSlugCandidates(slug);
+  return Array.from(new Set([normalized, ...aliases, ...dynamicCandidates]));
 }
 
 /** Normalized from the route segment so admin slugs may start with a `/`. */
