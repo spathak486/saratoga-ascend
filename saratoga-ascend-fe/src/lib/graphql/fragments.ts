@@ -654,7 +654,7 @@ export const EXPLORE_ENVIRONMENTS_REFERENCE_FIELDS = `
   ... on ComponentReferencesExploreEnvironmentsReference {
     title
     description
-    cards {
+    exploreCards: cards {
       documentId
       title
       description
