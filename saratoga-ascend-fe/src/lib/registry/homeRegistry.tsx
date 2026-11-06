@@ -29,6 +29,7 @@ import type {
   FederalGovernmentReference,
   ContractVehiclesReference,
   ExploreEnvironmentsReference,
+  DefenseReference,
   ContactInquiryReference,
   ContactPathwaysReference,
   ContactLearnReference,
@@ -69,6 +70,7 @@ import {
   ServiceLifecycleSection,
   FederalGovernmentSection,
   ExploreEnvironmentsSection,
+  DefenseSection,
   ContactInquirySection,
   ContactPathwaysSection,
   ContactLearnSection,
@@ -611,6 +613,18 @@ export const SECTION_REGISTRY: Record<
         title={eeRef?.title ?? undefined}
         description={eeRef?.description ?? undefined}
         cards={eeRef?.cards as any}
+      />
+    );
+  },
+
+  ComponentReferencesDefenseReference: (section, index) => {
+    const dRef = section as DefenseReference;
+    return (
+      <DefenseSection
+        key={'defense-' + index}
+        referenceTitle={dRef?.referenceTitle ?? undefined}
+        variant={dRef?.variant ?? 'left'}
+        card={dRef?.card as any}
       />
     );
   },

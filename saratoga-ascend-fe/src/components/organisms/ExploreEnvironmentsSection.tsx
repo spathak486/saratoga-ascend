@@ -16,6 +16,7 @@ export interface ExploreEnvironmentsSectionProps {
   title?: string | null;
   description?: string | null;
   cards?: EnvironmentCardItem[] | null;
+  as?: 'h1' | 'h2' | 'h3' | 'h4' | 'div';
 }
 
 // Default 2 cards matching exact Figma Frame 2147226557 specifications
@@ -40,15 +41,34 @@ const DEFAULT_TITLE_HTML = 'Explore Other <span style="color: #F01424;">Governme
 const DEFAULT_DESCRIPTION =
   'If your requirement sits outside a Federal agency context, explore our State & Local Government pathway or review our solution areas directly.';
 
+/**
+ * Cleanly unwrap block wrapper tags (<p>, <h2>, <div>) output by CKEditor so they can
+ * be placed inside an actual native heading tag (<h2>) without invalid HTML nesting or hydration mismatch.
+ */
+function cleanHeadingHtml(html: string): string {
+  if (!html) return '';
+  return html
+    .trim()
+    // Replace multiple paragraphs with <br/>
+    .replace(/<\/\s*p\s*>\s*<\s*p(\s+[^>]*)?>/gi, '<br/>')
+    // Strip leading block wrappers (<p>, <div>, <h1>-<h6>)
+    .replace(/^<\s*(p|div|h[1-6])(\s+[^>]*)?>/i, '')
+    // Strip trailing block wrappers (</p>, </div>, </h1>-</h6>)
+    .replace(/<\/\s*(p|div|h[1-6])\s*>$/i, '')
+    .trim();
+}
+
 export function ExploreEnvironmentsSection({
   title,
   description = DEFAULT_DESCRIPTION,
   cards,
+  as: HeadingTag = 'h2',
 }: ExploreEnvironmentsSectionProps) {
   const displayCards: EnvironmentCardItem[] =
     cards && cards.length > 0 ? cards : DEFAULT_CARDS;
 
   const rawTitle = title?.trim() || DEFAULT_TITLE_HTML;
+  const cleanTitle = cleanHeadingHtml(rawTitle);
 
   return (
     <section
@@ -57,11 +77,11 @@ export function ExploreEnvironmentsSection({
     >
       {/* Top Header Block: Group 2608667 (1290px x 272px) */}
       <div className="w-full max-w-[1290px] mb-10 xl:mb-[60px]">
-        {/* Title: DM Serif Text / Google Sans Flex 72px, line-height 90px (RichText / CKEditor) */}
-        <h2
-          className="font-sans text-[clamp(2.5rem,1.8rem+2.8vw,4.5rem)] font-semibold leading-[1.15] xl:leading-[90px] text-[#000000] tracking-[-0.01em] mb-4 xl:mb-6 [&_p]:m-0 [&_span[style*='color']]:font-semibold"
+        {/* Native Heading Element (h2 by default, fully dynamic, with CKEditor color/styling preserved) */}
+        <HeadingTag
+          className="font-sans text-[clamp(2.5rem,1.8rem+2.8vw,4.5rem)] font-semibold leading-[1.15] xl:leading-[90px] text-[#000000] tracking-[-0.01em] mb-4 xl:mb-6 [&_span[style*='color']]:font-semibold"
           style={{ fontFamily: "'Google Sans Flex', sans-serif" }}
-          dangerouslySetInnerHTML={{ __html: rawTitle }}
+          dangerouslySetInnerHTML={{ __html: cleanTitle }}
         />
 
         {/* Description: Google Sans Flex 24px, line-height 40px (167%) */}
