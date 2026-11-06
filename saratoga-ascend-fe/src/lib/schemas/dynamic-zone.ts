@@ -797,6 +797,7 @@ export const ExploreEnvironmentsReferenceSchema = z.object({
   title: z.string().nullable().optional(),
   description: z.string().nullable().optional(),
   cards: z.array(EnvironmentCardSchema).nullable().optional(),
+  exploreCards: z.array(EnvironmentCardSchema).nullable().optional(),
 });
 
 export type ExploreEnvironmentsReference = z.infer<typeof ExploreEnvironmentsReferenceSchema>;
