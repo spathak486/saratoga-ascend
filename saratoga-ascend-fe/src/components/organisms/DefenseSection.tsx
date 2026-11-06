@@ -8,9 +8,15 @@ export interface DefenseCardItem {
   id?: string | number | null;
   documentId?: string | null;
   title?: string | null;
+  subheading?: string | null;
   description?: string | null;
   actionLabel?: string | null;
   href?: string | null;
+  cta?: {
+    title?: string | null;
+    href?: string | null;
+    isExternal?: boolean | null;
+  } | null;
   image?: {
     url: string;
     alternativeText?: string | null;
@@ -101,8 +107,8 @@ export function DefenseSection({
       ? card.tags.map((t) => (t.title || t.text || '').trim()).filter(Boolean)
       : DEFAULT_TAGS;
 
-  const actionText = card?.actionLabel?.trim() || 'Explore Capabilities';
-  const targetHref = card?.href?.trim() || '/solutions';
+  const actionText = card?.cta?.title?.trim() || card?.actionLabel?.trim() || 'Explore Capabilities';
+  const targetHref = card?.cta?.href?.trim() || card?.href?.trim() || '/solutions';
 
   // Images & Media
   const imageUrl = typeof card?.image === 'string' ? card?.image : card?.image?.url;

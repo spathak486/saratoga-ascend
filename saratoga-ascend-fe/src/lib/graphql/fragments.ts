@@ -673,14 +673,14 @@ export const DEFENSE_REFERENCE_FIELDS = `
     card {
       documentId
       title
+      subheading
       description
-      actionLabel
-      href
       image { ${IMAGE_FIELDS} }
       bgImage { ${IMAGE_FIELDS} }
       tags {
         title
       }
+      cta { ${GENERAL_LINK_FIELDS} }
     }
   }
 `;
