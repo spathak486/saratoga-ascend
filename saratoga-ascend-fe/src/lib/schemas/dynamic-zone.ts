@@ -744,9 +744,10 @@ export type ServiceLifecycleReference = z.infer<typeof ServiceLifecycleReference
 export const FederalMissionCardSchema = z.object({
   documentId: z.string().optional(),
   stepNumber: z.string().nullable().optional(),
-  title: z.string(),
-  subheading: z.string(),
-  description: z.string(),
+  title: z.string().nullable().optional(),
+  subheading: z.string().nullable().optional(),
+  description: z.string().nullable().optional(),
+  missionDescription: z.string().nullable().optional(),
   image: StrapiImageSchema.nullable().optional(),
   tags: z.array(SupportAreaItemSchema).nullable().optional(),
   cta: GeneralLinkSchema.nullable().optional(),

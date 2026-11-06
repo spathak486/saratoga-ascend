@@ -662,10 +662,12 @@ export const SECTION_REGISTRY: Record<
   ComponentReferencesFederalGovernmentReference: (section, index) => {
     const fgRef = section as FederalGovernmentReference;
     const cards = fgRef.cards?.map((card) => {
+      const description = card?.description || card?.missionDescription || '';
       const url = card?.image?.url;
-      if (!url || !url.startsWith('/uploads/')) return card;
+      const next = { ...card, description };
+      if (!url || !url.startsWith('/uploads/')) return next;
       return {
-        ...card,
+        ...next,
         image: { ...card.image, url: `${strapiUrl.replace(/\/+$/, '')}${url}` },
       };
     });

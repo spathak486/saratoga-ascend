@@ -730,7 +730,7 @@ export const FEDERAL_GOVERNMENT_REFERENCE_FIELDS = `
       documentId
       title
       subheading
-      description
+      missionDescription: description
       image { ${IMAGE_FIELDS} }
       tags {
         text
