@@ -113,6 +113,11 @@ export default async function DynamicPage({ params }: DynamicPageProps) {
 
   // 1. First, try to fetch as a Page
   const pageResult = await getPageBySlug(slugPath);
+  if (pageResult.error && pageResult.error.code !== 'NOT_FOUND') {
+    throw new Error(
+      `CMS page query failed for "/${slugPath}": ${pageResult.error.message}`,
+    );
+  }
   if (pageResult.data) {
     pageData = pageResult.data;
   }
@@ -165,6 +170,7 @@ export default async function DynamicPage({ params }: DynamicPageProps) {
     return !String(sec.__typename ?? '').startsWith('Mock');
   });
   const isContactPage = slugPath === 'contact';
+  const isWhoWeServePage = slugPath === 'who-we-serve';
 
   const hasBlogListing = sections.some(
     (sec: any) => sec.__typename === 'ComponentReferencesBlogListing'
@@ -299,12 +305,20 @@ export default async function DynamicPage({ params }: DynamicPageProps) {
     );
   }
 
+  const firstBannerIndex = sections.findIndex(
+    (sec: { __typename?: string }) => sec.__typename === 'ComponentReferencesBannerReference',
+  );
   const rendered = sections.map((sec: any, idx: number) =>
     renderRegisteredSection(
       sec,
       idx,
       {
-        heroLayout: isContactPage ? 'contact' : undefined,
+        heroLayout:
+          isWhoWeServePage && idx === firstBannerIndex
+            ? 'who-we-serve'
+            : isContactPage
+              ? 'contact'
+              : undefined,
         contextData: pageData,
       },
     ),

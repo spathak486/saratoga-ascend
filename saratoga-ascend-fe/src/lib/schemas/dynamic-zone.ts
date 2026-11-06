@@ -373,6 +373,8 @@ export const CardSchema = z.object({
   address: z.string().nullable().optional(),
   phone: z.string().nullable().optional(),
   fax: z.string().nullable().optional(),
+  /** Kept so CMS card photos survive page validation. */
+  image: StrapiImageSchema.partial().nullable().optional(),
 });
 
 export type CardEntity = z.infer<typeof CardSchema>;

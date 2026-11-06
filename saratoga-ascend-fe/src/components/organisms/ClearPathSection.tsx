@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { Heading, Text } from '../atoms';
 
 export interface ClearPathStepItem {
   id?: string | number | null;
@@ -25,7 +26,6 @@ export interface ClearPathSectionProps {
   cards?: ClearPathStepItem[] | null;
 }
 
-// 4 Default Steps matching exact Figma Frame 2147226555
 const DEFAULT_STEPS: ClearPathStepItem[] = [
   {
     number: '01',
@@ -65,297 +65,215 @@ const DEFAULT_STEPS: ClearPathStepItem[] = [
   },
 ];
 
+const ARC_RADIUS = 113.75;
+const ARC_PITCH = 440;
+const PHOTO = 206;
+const GAP = 234;
+const SIDE = 10.75;
+
+function mediaUrl(url?: string | null): string {
+  if (!url) return '';
+  if (url.startsWith('/uploads/')) {
+    const base = process.env.NEXT_PUBLIC_STRAPI_API_URL || 'https://cms.saratogaascend.com';
+    return `${base.replace(/\/+$/, '')}${url}`;
+  }
+  return url;
+}
+
+function stepNumber(step: ClearPathStepItem, index: number): string {
+  return step.number || String(index + 1).padStart(2, '0');
+}
+
+function timelineUnits(count: number): number {
+  return SIDE * 2 + count * PHOTO + Math.max(0, count - 1) * GAP;
+}
+
+function arcPath(count: number): string {
+  const parts: string[] = [];
+  for (let index = 0; index < count; index += 1) {
+    const center = ARC_RADIUS + index * ARC_PITCH;
+    parts.push(index === 0 ? `M ${center - ARC_RADIUS} ${ARC_RADIUS}` : `L ${center - ARC_RADIUS} ${ARC_RADIUS}`);
+    parts.push(`A ${ARC_RADIUS} ${ARC_RADIUS} 0 0 1 ${center + ARC_RADIUS} ${ARC_RADIUS}`);
+  }
+  return parts.join(' ');
+}
+
+function renderTitle(title: string, highlightTitle?: string | null) {
+  const highlight = highlightTitle?.trim() || '';
+  if (!highlight) return title;
+  const escaped = highlight.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const parts = title.split(new RegExp(`(${escaped})`, 'i'));
+  if (parts.length === 1) {
+    return (
+      <>
+        <span>{title}</span>{' '}
+        <span className="text-brand-red whitespace-nowrap">{highlight}</span>
+      </>
+    );
+  }
+  return parts.map((part, index) =>
+    part.toLowerCase() === highlight.toLowerCase() ? (
+      <span key={`${part}-${index}`} className="text-brand-red whitespace-nowrap">
+        {part}
+      </span>
+    ) : (
+      <span key={`${part}-${index}`}>{part}</span>
+    ),
+  );
+}
+
+function StepCopy({ step }: { step: ClearPathStepItem }) {
+  return (
+    <div className="min-w-0">
+      <h3 className="font-serif text-[clamp(1.125rem,1rem+0.6vw,1.75rem)] leading-none font-normal text-[#2f2f2f]">
+        {step.title}
+      </h3>
+      <div className="mt-5 h-px w-[4.5rem] bg-black" aria-hidden="true" />
+      <p className="mt-5 font-sans text-[clamp(0.9375rem,0.85rem+0.3vw,1.25rem)] leading-[1.4] font-light text-[#212121]">
+        {step.description}
+      </p>
+    </div>
+  );
+}
+
+function portraitSrc(step: ClearPathStepItem, index: number): string {
+  return mediaUrl(step.image?.url) || mediaUrl(DEFAULT_STEPS[index % DEFAULT_STEPS.length]?.image?.url);
+}
+
+function StepPortrait({
+  step,
+  index,
+  className,
+}: {
+  step: ClearPathStepItem;
+  index: number;
+  className?: string;
+}) {
+  const src = portraitSrc(step, index);
+  return (
+    <div className={`relative aspect-square ${className ?? ''}`}>
+      <div className="size-full overflow-hidden rounded-full bg-[#E4EBF1]">
+        {src ? (
+          <img
+            src={src}
+            alt={step.image?.alternativeText || step.title}
+            className="size-full object-cover transition-transform duration-500 hover:scale-105 motion-reduce:transition-none motion-reduce:hover:scale-100"
+          />
+        ) : null}
+      </div>
+      <div
+        className={`absolute -top-[14.56%] z-20 flex size-[37.38%] items-center justify-center rounded-full border-white bg-[#E4EBF1] ${
+          index === 0 ? '-left-[4.85%]' : 'left-0'
+        }`}
+        style={{ borderWidth: 'clamp(2px, 0.26cqw, 4px)' }}
+      >
+        <span className="font-serif text-[clamp(1.25rem,2.45cqw,2.375rem)] leading-none text-black">
+          {stepNumber(step, index)}
+        </span>
+      </div>
+    </div>
+  );
+}
+
 export function ClearPathSection({
   title = 'A Clear Path from Need to Delivery',
   highlightTitle = 'Need to Delivery',
   description = 'We begin by understanding the mission, operating context, scope, and desired outcomes—then identify the capabilities and delivery approach that best fit the requirement.',
   cards,
 }: ClearPathSectionProps) {
-  const steps = cards && cards.length > 0 ? cards : DEFAULT_STEPS;
-  const activeSteps = steps.slice(0, 4);
-
-  // Title highlighter helper: Highlights designated text (default "Need to Delivery") in Brand Red (#F01424)
-  const renderTitle = () => {
-    const rawTitle = title || 'A Clear Path from Need to Delivery';
-    const highlight = highlightTitle?.trim() || 'Need to Delivery';
-
-    if (!highlight) {
-      return <span className="text-[#000000]">{rawTitle}</span>;
-    }
-
-    const escaped = highlight.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    const regex = new RegExp(`(${escaped})`, 'i');
-
-    if (regex.test(rawTitle)) {
-      const parts = rawTitle.split(regex);
-      return parts.map((part, i) =>
-        part.toLowerCase() === highlight.toLowerCase() ? (
-          <span key={i} className="text-[#F01424]">
-            {part}
-          </span>
-        ) : (
-          <span key={i} className="text-[#000000]">
-            {part}
-          </span>
-        )
-      );
-    }
-
-    return (
-      <>
-        <span className="text-[#000000]">{rawTitle} </span>
-        <span className="text-[#F01424]">{highlight}</span>
-      </>
-    );
-  };
+  const steps = (cards && cards.length > 0 ? cards : DEFAULT_STEPS).slice(0, 4);
+  const count = steps.length;
+  const units = timelineUnits(count);
+  const arcWidth = Math.max(0, count - 1) * ARC_PITCH + ARC_RADIUS * 2;
+  const photoFraction = PHOTO / units;
+  const arcTop = `${(photoFraction / 2 - ARC_RADIUS / units) * 100}cqw`;
+  const columns = [
+    `${SIDE}fr`,
+    ...steps.flatMap((_, index) => (index < count - 1 ? [`${PHOTO}fr`, `${GAP}fr`] : [`${PHOTO}fr`])),
+    `${SIDE}fr`,
+  ].join(' ');
 
   return (
     <section
       aria-label={title || 'A Clear Path from Need to Delivery'}
-      className="relative mx-auto w-full max-w-[1920px] bg-white py-12 xl:py-[80px] px-6 sm:px-10 lg:px-16 2xl:px-[120px] overflow-hidden"
+      className="relative mx-auto w-full max-w-home overflow-visible bg-white px-[var(--spacing-gutter)] py-12 xl:pt-20 xl:pb-20"
     >
-      {/* HEADER SECTION (Group 2608667: max-w 1290px) */}
-      <div className="flex flex-col max-w-[1290px] mb-12 xl:mb-[72px]">
-        {/* Title: 72px Google Sans Flex, weight 600, line-height 90px */}
-        <h2 className="font-sans font-semibold text-[clamp(2.25rem,1.4rem+2.6vw,4.5rem)] leading-[1.15] xl:leading-[90px] tracking-tight text-[#000000]">
-          {renderTitle()}
-        </h2>
-
-        {/* Description: 24px Google Sans Flex, line-height 40px (167%) */}
+      <div>
+        <Heading level={2} size="section" font="sans" tone="inherit" className="font-semibold text-black">
+          {renderTitle(title || 'A Clear Path from Need to Delivery', highlightTitle)}
+        </Heading>
         {description ? (
-          <p className="font-sans font-normal text-[clamp(1.125rem,0.95rem+0.4vw,1.5rem)] leading-[1.5] xl:leading-[40px] text-[#000000] mt-4 xl:mt-[12px] max-w-[1290px]">
+          <Text size="lead" tone="inherit" className="mt-4 max-w-[80.625rem] text-black" style={{ lineHeight: 1.6667 }}>
             {description}
-          </p>
+          </Text>
         ) : null}
       </div>
 
-      {/* --- DESKTOP FLUID TIMELINE (>= 1280px) --- */}
-      {/* 
-        NO fixed horizontal scroll! Uses fluid flex layout with flex-1 cards
-        and flexible connecting bridges so it fits 100%, 125%, and 150% scales 
-        without scrollbars or clipping.
-      */}
-      <div className="hidden xl:flex items-start justify-between w-full max-w-[1680px] mx-auto min-h-[430px]">
-        {activeSteps.map((step, idx) => {
-          const stepNum = step.number || (idx < 9 ? `0${idx + 1}` : `${idx + 1}`);
-          const isFirst = idx === 0;
-          const isLast = idx === activeSteps.length - 1;
-          const defaultImg =
-            idx === 0
-              ? '/images/supporting-missions-doctor.png'
-              : idx === 1
-              ? '/images/healthcare-team.png'
-              : idx === 2
-              ? '/images/confident-healthcare-team.png'
-              : '/images/happy-mature-businessman-using-digital-tablet-while-talking-healthcare-workers-hallway-clinic 1.png';
+      <div className="@container relative mt-10 hidden w-full max-w-[96.71875rem] xl:mt-[5.625rem] xl:ml-[2.25rem] xl:w-[calc(100%-2.25rem)] xl:block">
+        <svg
+          className="pointer-events-none absolute left-0 z-0 w-full"
+          style={{ top: arcTop }}
+          viewBox={`0 0 ${arcWidth} ${ARC_RADIUS}`}
+          fill="none"
+          aria-hidden="true"
+        >
+          <path d={arcPath(count)} stroke="url(#clear-path-arc)" strokeWidth="1.5" />
+          <defs>
+            <linearGradient id="clear-path-arc" x1="0" y1={ARC_RADIUS / 2} x2={arcWidth} y2={ARC_RADIUS} gradientUnits="userSpaceOnUse">
+              <stop stopColor="#D31E2D" />
+              <stop offset="1" stopColor="#2A91DC" />
+            </linearGradient>
+          </defs>
+        </svg>
 
-          const imageSrc = step.image?.url || defaultImg;
-
-          return (
-            <React.Fragment key={step.id ?? step.documentId ?? `step-${idx}`}>
-              {/* STEP CARD COLUMN: Width scales gracefully between xl and 2xl */}
-              <div className="flex flex-col w-[226px] 2xl:w-[240px] shrink-0">
-                {/* TOP ROW: Badge (77px) + Photo (206px x 206px) + Arc (226px x 113px) */}
-                <div className="relative w-[226px] h-[236px]">
-                  {/* Semicircle Arc: 226px x 113px, border: 1.5px solid #000000 (Figma Ellipse 12761) */}
-                  <svg
-                    className="absolute left-0 top-[20px] w-[226px] h-[113px] pointer-events-none z-10 overflow-visible"
-                    viewBox="0 0 226 113"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    {/* First Step Left Red Dot (Ellipse 12772: #D21F2E) */}
-                    {isFirst && <circle cx="0" cy="113" r="4" fill="#D21F2E" />}
-
-                    {/* Semicircle Arc with 1.5px solid #000000 border */}
-                    <path
-                      d="M 0.75 113 A 112.25 112.25 0 0 1 225.25 113"
-                      stroke="#000000"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                    />
-
-                    {/* Last Step Right Blue Dot (Ellipse 12773: #2F8ED7) */}
-                    {isLast && <circle cx="226" cy="113" r="4" fill="#2F8ED7" />}
-                  </svg>
-
-                  {/* Floating Number Badge: Ellipse 12768/12769 (77px x 77px, border: 4.05px #FFFFFF, bg #E4EBF1) */}
-                  <div className="absolute left-0 top-0 w-[77px] h-[77px] rounded-full bg-[#E4EBF1] border-[4px] border-white shadow-sm flex items-center justify-center z-30">
-                    <span
-                      className="font-serif text-[34px] 2xl:text-[38px] leading-[52px] text-[#000000] font-normal"
-                      style={{ fontFamily: "'DM Serif Text', serif" }}
-                    >
-                      {stepNum}
-                    </span>
-                  </div>
-
-                  {/* Circular Photo: Ellipse 12757 (206px x 206px, centered under arc) */}
-                  <div className="absolute left-[10px] top-[30px] w-[206px] h-[206px] rounded-full overflow-hidden shadow-md bg-gray-100 z-20 border-[1.5px] border-white">
-                    <img
-                      src={imageSrc}
-                      alt={step.image?.alternativeText || step.title}
-                      className="w-full h-full object-cover object-center transition-transform duration-500 hover:scale-105"
-                    />
-                  </div>
+        <div className="relative z-10 grid items-start" style={{ gridTemplateColumns: columns }}>
+          <div className="relative row-start-1 self-stretch" style={{ gridColumn: 1 }}>
+            <span className="absolute top-1/2 left-0 size-[0.517cqw] -translate-x-1/2 -translate-y-1/2 rounded-full bg-brand-cta-from" />
+          </div>
+          {steps.map((step, index) => {
+            const photoColumn = 2 + index * 2;
+            return (
+              <React.Fragment key={step.id ?? step.documentId ?? `clear-path-${index}`}>
+                <div className="row-start-1" style={{ gridColumn: photoColumn }}>
+                  <StepPortrait step={step} index={index} className="w-full" />
                 </div>
-
-                {/* BOTTOM CONTENT: Title + 90px Divider Bar + Description */}
-                <div className="flex flex-col mt-[16px] pl-[10px] w-full">
-                  {/* Step Title: 28px DM Serif Text, line-height 28px, color #2F2F2F */}
-                  <h3
-                    className="font-serif text-[22px] 2xl:text-[28px] leading-[1.15] font-normal text-[#2F2F2F] min-h-[56px] flex items-center"
-                    style={{ fontFamily: "'DM Serif Text', serif" }}
-                  >
-                    {step.title}
-                  </h3>
-
-                  {/* Vector 7218-7221: 90px width black hairline divider (border: 1px solid #000000) */}
-                  <div className="w-[90px] h-[1px] bg-black my-[16px] shrink-0" aria-hidden="true" />
-
-                  {/* Step Description: 20px Google Sans Flex, line-height 28px (140%), color #212121, weight 300 */}
-                  <p className="line-clamp-4 min-w-0 break-words font-sans font-light text-[16px] 2xl:text-[20px] leading-[24px] 2xl:leading-[28px] text-[#212121]">
-                    {step.description}
-                  </p>
-                </div>
-              </div>
-
-              {/* INTERMEDIATE FLUID CONNECTOR + ARROW (Only between active cards) */}
-              {!isLast && (
-                <div className="flex items-center justify-center h-[236px] flex-1 min-w-[60px] max-w-[215px] px-1 shrink">
-                  <div className="relative flex items-center justify-center w-full">
-                    {/* Connecting line: border: 1.5px solid #000000 (Vector 7215/7216/7217) */}
-                    <div
-                      className="absolute left-0 right-0 h-[1.5px] bg-[#000000] top-1/2 -translate-y-1/2"
-                      aria-hidden="true"
-                    />
-
-                    {/* Circular White Arrow Button (Ellipse 12769/12770/12771: 54px x 54px, shadow 15px) */}
-                    <div className="relative z-20 w-[48px] 2xl:w-[54px] h-[48px] 2xl:h-[54px] rounded-full bg-white shadow-[0_0_15px_rgba(0,0,0,0.25)] flex items-center justify-center border border-slate-100 shrink-0">
-                      <svg
-                        className="w-5 h-5 text-[#141B34]"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <path d="M9 18l6-6-6-6" />
+                {index < count - 1 ? (
+                  <div className="relative row-start-1 self-stretch" style={{ gridColumn: photoColumn + 1 }}>
+                    <div className="absolute top-1/2 left-1/2 z-10 flex aspect-square w-[23.08%] -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white shadow-[0_0_15px_rgba(0,0,0,0.25)]">
+                      <svg viewBox="0 0 24 24" className="w-[44%] text-[#141B34]" fill="none" aria-hidden="true">
+                        <path d="M9 5.5l6.5 6.5L9 18.5" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </div>
                   </div>
+                ) : null}
+                <div className="row-start-2 mt-3.5 w-[127%]" style={{ gridColumn: photoColumn }}>
+                  <h3 className="font-serif text-[clamp(1rem,1.81cqw,1.75rem)] leading-none font-normal text-[#2f2f2f]">
+                    {step.title}
+                  </h3>
+                  <div className="mt-5 h-px w-[5.625rem] bg-black" aria-hidden="true" />
+                  <p className="mt-5 font-sans text-[clamp(0.875rem,1.29cqw,1.25rem)] leading-[1.4] font-light text-[#212121]">
+                    {step.description}
+                  </p>
                 </div>
-              )}
-            </React.Fragment>
-          );
-        })}
+              </React.Fragment>
+            );
+          })}
+          <div className="relative row-start-1 self-stretch" style={{ gridColumn: count * 2 + 1 }}>
+            <span className="absolute top-1/2 right-0 size-[0.517cqw] translate-x-1/2 -translate-y-1/2 rounded-full bg-brand-cta-to" />
+          </div>
+        </div>
       </div>
 
-      {/* --- TABLET VIEW (768px - 1279px) --- */}
-      <div className="hidden md:grid xl:hidden grid-cols-2 gap-10 w-full max-w-[900px] mx-auto">
-        {activeSteps.map((step, idx) => {
-          const stepNum = step.number || (idx < 9 ? `0${idx + 1}` : `${idx + 1}`);
-          const defaultImg =
-            idx === 0
-              ? '/images/supporting-missions-doctor.png'
-              : idx === 1
-              ? '/images/healthcare-team.png'
-              : idx === 2
-              ? '/images/confident-healthcare-team.png'
-              : '/images/happy-mature-businessman-using-digital-tablet-while-talking-healthcare-workers-hallway-clinic 1.png';
-
-          const imageSrc = step.image?.url || defaultImg;
-
-          return (
-            <div
-              key={step.id ?? step.documentId ?? `tablet-step-${idx}`}
-              className="flex flex-col bg-slate-50/70 p-6 rounded-[24px] border border-slate-200/80 shadow-sm"
-            >
-              <div className="relative w-full flex items-center justify-between mb-4">
-                <div className="w-[64px] h-[64px] rounded-full bg-[#E4EBF1] border-2 border-white shadow-sm flex items-center justify-center">
-                  <span
-                    className="font-serif text-[28px] text-[#000000] font-normal"
-                    style={{ fontFamily: "'DM Serif Text', serif" }}
-                  >
-                    {stepNum}
-                  </span>
-                </div>
-                <div className="w-[120px] h-[120px] rounded-full overflow-hidden shadow-md">
-                  <img
-                    src={imageSrc}
-                    alt={step.image?.alternativeText || step.title}
-                    className="w-full h-full object-cover object-center"
-                  />
-                </div>
-              </div>
-
-              <h3
-                className="font-serif text-[22px] leading-[1.2] font-normal text-[#2F2F2F] mt-2 mb-3"
-                style={{ fontFamily: "'DM Serif Text', serif" }}
-              >
-                {step.title}
-              </h3>
-              <div className="w-[70px] h-[1px] bg-black mb-3 shrink-0" aria-hidden="true" />
-              <p className="line-clamp-4 min-w-0 break-words font-sans font-light text-[16px] leading-[24px] text-[#212121]">
-                {step.description}
-              </p>
+      <ol className="mt-10 grid grid-cols-1 gap-10 md:grid-cols-2 xl:hidden">
+        {steps.map((step, index) => (
+          <li key={step.id ?? step.documentId ?? `clear-path-stack-${index}`} className="min-w-0">
+            <StepPortrait step={step} index={index} className="w-[min(100%,12.875rem)]" />
+            <div className="mt-4 max-w-[20rem]">
+              <StepCopy step={step} />
             </div>
-          );
-        })}
-      </div>
-
-      {/* --- MOBILE VIEW (< 768px) --- */}
-      <div className="md:hidden flex flex-col gap-8 w-full max-w-[480px] mx-auto">
-        {activeSteps.map((step, idx) => {
-          const stepNum = step.number || (idx < 9 ? `0${idx + 1}` : `${idx + 1}`);
-          const defaultImg =
-            idx === 0
-              ? '/images/supporting-missions-doctor.png'
-              : idx === 1
-              ? '/images/healthcare-team.png'
-              : idx === 2
-              ? '/images/confident-healthcare-team.png'
-              : '/images/happy-mature-businessman-using-digital-tablet-while-talking-healthcare-workers-hallway-clinic 1.png';
-
-          const imageSrc = step.image?.url || defaultImg;
-
-          return (
-            <div
-              key={step.id ?? step.documentId ?? `mobile-step-${idx}`}
-              className="flex flex-col bg-white p-5 rounded-[20px] border border-slate-200 shadow-sm"
-            >
-              <div className="flex items-center gap-4 mb-4">
-                <div className="w-[56px] h-[56px] rounded-full bg-[#E4EBF1] border-2 border-white shadow-sm flex items-center justify-center shrink-0">
-                  <span
-                    className="font-serif text-[24px] text-[#000000] font-normal"
-                    style={{ fontFamily: "'DM Serif Text', serif" }}
-                  >
-                    {stepNum}
-                  </span>
-                </div>
-                <div className="w-[84px] h-[84px] rounded-full overflow-hidden shadow-md shrink-0">
-                  <img
-                    src={imageSrc}
-                    alt={step.image?.alternativeText || step.title}
-                    className="w-full h-full object-cover object-center"
-                  />
-                </div>
-              </div>
-
-              <h3
-                className="font-serif text-[20px] leading-[1.2] font-normal text-[#2F2F2F] mb-2"
-                style={{ fontFamily: "'DM Serif Text', serif" }}
-              >
-                {step.title}
-              </h3>
-              <div className="w-[60px] h-[1px] bg-black mb-3 shrink-0" aria-hidden="true" />
-              <p className="line-clamp-4 min-w-0 break-words font-sans font-light text-[15px] leading-[22px] text-[#212121]">
-                {step.description}
-              </p>
-            </div>
-          );
-        })}
-      </div>
+          </li>
+        ))}
+      </ol>
     </section>
   );
 }

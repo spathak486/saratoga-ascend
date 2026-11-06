@@ -192,8 +192,9 @@ export interface OurAchievementsSectionProps {
  * Achievements band — desktop Homepage 2243:3478 (1920×973), mobile
  * 2105:725 (430×710). Older artboard 2002:1028 was 1920×1334. CMS title,
  * counters, and cards stay as delivered. Backdrop is the local GIF; `bgImage`
- * stays on the props so the registry query is unchanged. All four counters
- * roll from 0 whenever the stats band scrolls into view from above or below.
+ * stays on the props so the registry query is unchanged. Counters roll when
+ * the achievements band enters view; they keep the final value while you
+ * scroll inside the section (no 000 flash).
  */
 export const OurAchievementsSection: React.FC<OurAchievementsSectionProps> = ({
   title,
@@ -205,10 +206,10 @@ export const OurAchievementsSection: React.FC<OurAchievementsSectionProps> = ({
   const { isDragging, dragHandlers } = useDragToScroll(mobile.viewportRef);
   useWheelToScroll(mobile.viewportRef);
   const {
-    ref: statsRef,
+    ref: bandRef,
     inView: statsInView,
     playId: statsPlayId,
-  } = useInViewReplay<HTMLDListElement>();
+  } = useInViewReplay<HTMLDivElement>();
 
   const headingText = title?.trim() ? title : 'Our Achievements';
 
@@ -281,7 +282,10 @@ export const OurAchievementsSection: React.FC<OurAchievementsSectionProps> = ({
           <Backdrop overlay={DESKTOP_OVERLAY} />
         </div>
 
-        <div className="relative aspect-[1920/973] w-full max-w-[1920px]">
+        <div
+          ref={bandRef}
+          className="relative aspect-[1920/973] w-full max-w-[1920px]"
+        >
           <p
             aria-hidden="true"
             className="absolute top-[8.22%] left-1/2 -translate-x-1/2 font-serif text-section leading-[1.2] whitespace-nowrap text-white"
@@ -300,10 +304,7 @@ export const OurAchievementsSection: React.FC<OurAchievementsSectionProps> = ({
         </div>
 
         <div className="absolute top-[73.69%] left-[6.25%] w-[87.5%]">
-          <dl
-            ref={statsRef}
-            className="flex h-[183px] items-center justify-between"
-          >
+          <dl className="flex h-[183px] items-center justify-between">
             {resolvedStats.map((stat, idx) => (
               <React.Fragment key={`${stat.label}-${idx}`}>
                 <div className="flex flex-col items-center text-center">

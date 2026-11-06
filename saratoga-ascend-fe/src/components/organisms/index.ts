@@ -36,6 +36,7 @@ export * from './AccountableOperatingEnvironmentsSection';
 export * from './OurCapabilitiesSection';
 export * from './WorkforcePlanningSection';
 export * from './CriticalMissionsSection';
+export * from './ServiceLifecycleSection';
 export * from './KeyTakeawaysSection';
 export * from './StatCardsSection';
 
@@ -47,3 +48,4 @@ export * from './ExploreCapabilitiesSection';
 
 export * from './ClearPathSection';
 export * from './MissionsYouServeSection';
+export * from './FederalGovernmentSection';

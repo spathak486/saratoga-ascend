@@ -107,32 +107,12 @@ export function WorkforceSupportSection({
       aria-label={title || 'Workforce support where it matters most.'}
       className="relative mx-auto w-full max-w-[1920px] bg-[#FAFAFA] overflow-hidden py-12 xl:py-[80px] px-page"
     >
-      {/* Background Graphic Pattern: Isolation_Mode Vector Geometry (opacity: 0.05) */}
-      <div
-        className="pointer-events-none absolute inset-0 w-full h-full opacity-5 select-none overflow-hidden"
-        aria-hidden="true"
-      >
-        <svg
-          className="w-full h-full object-cover"
-          viewBox="0 0 1920 853"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M -100 200 C 300 100, 700 600, 1100 300 C 1500 50, 1800 500, 2100 350"
-            stroke="#999999"
-            strokeWidth="3"
-            strokeDasharray="6 6"
-          />
-          <path
-            d="M -50 450 C 400 300, 800 800, 1300 450 C 1700 200, 1950 650, 2150 500"
-            stroke="#999999"
-            strokeWidth="2"
-          />
-          <circle cx="250" cy="180" r="160" stroke="#999999" strokeWidth="1.5" />
-          <circle cx="1650" cy="650" r="220" stroke="#999999" strokeWidth="1.5" />
-          <circle cx="960" cy="426" r="340" stroke="#999999" strokeWidth="1" strokeDasharray="8 8" />
-        </svg>
+      <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
+        <img
+          src="/images/isolation-bg.png"
+          alt=""
+          className="h-full w-full object-cover"
+        />
       </div>
 
       <div className="relative z-10 w-full max-w-[1680px] mx-auto">

@@ -205,7 +205,7 @@ function QuoteCopy({
             </>
           ) : null}
         </p>
-        <p className="mt-3 break-words font-sans text-[1.25rem] leading-[1.5] font-medium text-white md:mt-5 md:text-[1.375rem] md:leading-[1.55]">
+        <p className="mt-3 line-clamp-4 min-w-0 break-words font-sans text-[1.25rem] leading-[1.5] font-medium text-white md:mt-5 md:line-clamp-5 md:text-[1.375rem] md:leading-[1.55]">
           {review.quote}
         </p>
       </>
@@ -215,16 +215,21 @@ function QuoteCopy({
   return (
     <>
       {review.role ? (
-        <Heading level={3} size="subtitle" tone="onDark" className="text-white">
+        <Heading
+          level={3}
+          size="subtitle"
+          tone="onDark"
+          className="min-w-0 shrink-0 text-white xl:line-clamp-2"
+        >
           {review.role}
         </Heading>
       ) : null}
       <p
-        className={`font-sans text-white ${
-          review.role ? 'mt-[1.875rem]' : ''
+        className={`min-w-0 shrink-0 font-sans text-white ${
+          review.role ? 'mt-5 xl:mt-6' : ''
         } ${
           active
-            ? 'text-body-lg font-bold leading-[1.6]'
+            ? 'text-body-lg font-bold leading-[1.5]'
             : 'text-body font-normal leading-[1.5]'
         }`}
       >
@@ -232,7 +237,8 @@ function QuoteCopy({
         <br />
         {review.place}
       </p>
-      <p className="mt-[1.875rem] max-w-[37.625rem] font-sans text-button font-medium leading-[1.5] text-white">
+      {/* Cap quote + keep air above the red plate edge at 100% desktop. */}
+      <p className="mt-5 line-clamp-5 min-w-0 max-w-[37.625rem] flex-1 break-words font-sans text-button font-medium leading-[1.45] text-white xl:mt-6">
         {review.quote}
       </p>
     </>
@@ -404,7 +410,7 @@ export const HappyClientsCarousel: React.FC<HappyClientsCarouselProps> = ({
           {reviews.map((item, slideIndex) => (
             <div
               key={`${item.role}-${item.name}-${slideIndex}`}
-              className="absolute inset-x-0 flex flex-col motion-reduce:!transition-none"
+              className="absolute inset-x-0 bottom-[clamp(1.25rem,7.5%,2.75rem)] flex min-h-0 flex-col overflow-hidden pr-1 motion-reduce:!transition-none"
               style={copyStyle(slideIndex, index, from, dir)}
               aria-hidden={slideIndex !== index}
             >

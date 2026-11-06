@@ -672,6 +672,21 @@ export const MISSIONS_YOU_SERVE_REFERENCE_FIELDS = `
   }
 `;
 
+export const FEDERAL_GOVERNMENT_REFERENCE_FIELDS = `
+  __typename
+  ... on ComponentReferencesFederalGovernmentReference {
+    cards {
+      documentId
+      title
+      subheading
+      description
+      image { url alternativeText }
+      tags { text }
+      cta { label href target isExternal description }
+    }
+  }
+`;
+
 export const CONTACT_OFFICES_REFERENCE_FIELDS = `
   __typename
   ... on ComponentReferencesContactOfficesReference {
@@ -724,6 +739,7 @@ export const COMMON_SECTION_FRAGMENTS = [
   EXPLORE_CAPABILITIES_REFERENCE_FIELDS,
   CLEAR_PATH_REFERENCE_FIELDS,
   MISSIONS_YOU_SERVE_REFERENCE_FIELDS,
+  FEDERAL_GOVERNMENT_REFERENCE_FIELDS,
   CONTACT_INQUIRY_REFERENCE_FIELDS,
   CONTACT_PATHWAYS_REFERENCE_FIELDS,
   CONTACT_LEARN_REFERENCE_FIELDS,
