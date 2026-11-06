@@ -5,7 +5,7 @@
     "singularName": "federal-mission-card",
     "pluralName": "federal-mission-cards",
     "displayName": "Federal Mission Card",
-    "description": "Stacked federal government mission overview card with tags, media, CTA and subheadings (stepNumber calculated dynamically in FE)"
+    "description": "Federal and Defense mission card with tags, media, video/GIF background, CTA, and CKEditor title"
   },
   "options": {
     "draftAndPublish": true
@@ -13,12 +13,15 @@
   "pluginOptions": {},
   "attributes": {
     "title": {
-      "type": "string",
-      "required": true
+      "type": "customField",
+      "customField": "plugin::ckeditor5.CKEditor",
+      "options": {
+        "preset": "defaultHtml"
+      }
     },
     "subheading": {
       "type": "string",
-      "required": true
+      "required": false
     },
     "description": {
       "type": "text",
@@ -28,7 +31,17 @@
       "type": "media",
       "multiple": false,
       "allowedTypes": [
-        "images"
+        "images",
+        "files"
+      ]
+    },
+    "bgImage": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images",
+        "videos",
+        "files"
       ]
     },
     "tags": {
