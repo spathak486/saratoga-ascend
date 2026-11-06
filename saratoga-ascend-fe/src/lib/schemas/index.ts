@@ -160,6 +160,8 @@ export {
   type DefenseReference,
   IntegratedCapabilitiesReferenceSchema,
   type IntegratedCapabilitiesReference,
+  ProcurementAccessReferenceSchema,
+  type ProcurementAccessReference,
   type MissionsYouServeReference,
   ContactInquirySectionEntitySchema,
   type ContactInquirySectionEntity,
