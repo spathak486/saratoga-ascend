@@ -665,6 +665,26 @@ export const EXPLORE_ENVIRONMENTS_REFERENCE_FIELDS = `
   }
 `;
 
+export const DEFENSE_REFERENCE_FIELDS = `
+  __typename
+  ... on ComponentReferencesDefenseReference {
+    referenceTitle
+    variant
+    card {
+      documentId
+      title
+      description
+      actionLabel
+      href
+      image { ${IMAGE_FIELDS} }
+      bgImage { ${IMAGE_FIELDS} }
+      tags {
+        title
+      }
+    }
+  }
+`;
+
 export const CONTRACT_VEHICLES_REFERENCE_FIELDS = `
   __typename
   ... on ComponentReferencesContractVehiclesReference {
@@ -810,6 +830,7 @@ export const COMMON_SECTION_FRAGMENTS = [
   FEDERAL_GOVERNMENT_REFERENCE_FIELDS,
   CONTRACT_VEHICLES_REFERENCE_FIELDS,
   EXPLORE_ENVIRONMENTS_REFERENCE_FIELDS,
+  DEFENSE_REFERENCE_FIELDS,
   CONTACT_INQUIRY_REFERENCE_FIELDS,
   CONTACT_PATHWAYS_REFERENCE_FIELDS,
   CONTACT_LEARN_REFERENCE_FIELDS,

@@ -112,7 +112,8 @@
         "references.service-lifecycle-reference",
         "references.federal-government-reference",
         "references.contract-vehicles-reference",
-        "references.explore-environments-reference"
+        "references.explore-environments-reference",
+        "references.defense-reference"
       ]
     }
   }
