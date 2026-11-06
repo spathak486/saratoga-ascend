@@ -6,4 +6,5 @@ export * from './not-found';
 export * from './blog';
 export * from './solution';
 export * from './service';
+export * from './contract';
 

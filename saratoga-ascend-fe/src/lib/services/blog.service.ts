@@ -5,28 +5,7 @@ import { BLOG_BY_SLUG_QUERY, ALL_BLOGS_QUERY, type BlogBySlugQueryResult } from 
 import { resolveImages } from '@/lib/content/transformers';
 import { type ApiResult, ok, fail } from '@/lib/schemas';
 import { getMockBlogBySlug, getMockBlogs } from '@/lib/mocks';
-
-function normalizeSlug(slug: string): string {
-  return slug.replace(/^\/+|\/+$/g, '');
-}
-
-function blogSlugCandidates(slug: string): string[] {
-  const normalized = normalizeSlug(slug);
-  const withoutBlogs = normalized.startsWith('blogs/')
-    ? normalized.replace(/^blogs\//, '')
-    : normalized.startsWith('blog/')
-      ? normalized.replace(/^blog\//, '')
-      : normalized;
-
-  return Array.from(
-    new Set([
-      normalized,
-      withoutBlogs,
-      `blogs/${withoutBlogs}`,
-      `blog/${withoutBlogs}`,
-    ])
-  );
-}
+import { getDynamicSlugCandidates, buildSlugQueryVariables, normalizeSlug } from './slug-utils';
 
 export async function getBlogBySlug(slug: string): Promise<ApiResult<any>> {
   if (isMockMode) {
@@ -35,13 +14,14 @@ export async function getBlogBySlug(slug: string): Promise<ApiResult<any>> {
     return ok(blog);
   }
 
-  const candidates = blogSlugCandidates(slug);
+  const candidates = getDynamicSlugCandidates(slug, 'blog');
   let entry: any = null;
 
   for (const candidate of candidates) {
+    const { slug: primary, altSlug } = buildSlugQueryVariables(candidate);
     const result = await gql.query<BlogBySlugQueryResult>(BLOG_BY_SLUG_QUERY, {
-      slug: candidate,
-      altSlug: candidate === '' ? '/' : `/${candidate}`,
+      slug: primary,
+      altSlug,
     });
     if (result.error) continue;
     if (result.data?.blogs?.[0]) {
@@ -50,36 +30,38 @@ export async function getBlogBySlug(slug: string): Promise<ApiResult<any>> {
     }
   }
 
-  if (!entry) return fail('NOT_FOUND', 404, `Blog not found: ${slug}`);
+  if (!entry) {
+    return fail('NOT_FOUND', 404, `Blog not found: ${slug}`);
+  }
 
-  // Resolve images and seo for content node
-  const resolved = resolveImages(entry);
-
-  return ok(resolved);
+  return ok(resolveImages(entry));
 }
 
 export async function getAllBlogs(): Promise<ApiResult<any[]>> {
-  if (isMockMode) return ok(getMockBlogs());
+  if (isMockMode) {
+    return ok(getMockBlogs());
+  }
 
-  const result = await gql.query<any>(ALL_BLOGS_QUERY);
+  const result = await gql.query<{ blogs: any[] }>(ALL_BLOGS_QUERY);
   if (result.error) return result;
 
-  const blogs = result.data.blogs || [];
-  const resolved = blogs.map((b: any) => resolveImages(b));
-  
-  return ok(resolved);
+  const blogs = (result.data?.blogs ?? []).map((blog) => resolveImages(blog));
+  return ok(blogs);
 }
 
 export async function getAllBlogSlugs(): Promise<ApiResult<string[]>> {
   if (isMockMode) {
-    const slugs = getMockBlogs().map((b) => b.slug).filter(Boolean);
-    return ok(slugs);
+    const mockBlogs = getMockBlogs();
+    return ok(mockBlogs.map((b) => b.slug));
   }
 
-  const result = await gql.query<any>(ALL_BLOGS_QUERY);
+  const result = await gql.query<{ blogs: Array<{ slug: string }> }>(ALL_BLOGS_QUERY);
   if (result.error) return result;
 
-  const blogs = result.data.blogs || [];
-  const slugs = blogs.map((b: any) => b.slug).filter(Boolean);
+  const slugs = (result.data?.blogs ?? [])
+    .map((b) => b.slug)
+    .filter(Boolean)
+    .map(normalizeSlug);
+
   return ok(slugs);
 }
