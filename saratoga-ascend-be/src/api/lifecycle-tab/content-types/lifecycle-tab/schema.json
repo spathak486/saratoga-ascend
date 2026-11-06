@@ -1,0 +1,61 @@
+{
+  "kind": "collectionType",
+  "collectionName": "lifecycle_tabs",
+  "info": {
+    "singularName": "lifecycle-tab",
+    "pluralName": "lifecycle-tabs",
+    "displayName": "Lifecycle Tab",
+    "description": "Reusable interactive lifecycle tab with chip label, details, media, categories (relation to Card), support checklist, dynamic labels, and CTA link"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "tabId": {
+      "type": "string"
+    },
+    "label": {
+      "type": "string",
+      "required": true
+    },
+    "heading": {
+      "type": "string",
+      "required": true
+    },
+    "subheading": {
+      "type": "text",
+      "required": true
+    },
+    "categoriesLabel": {
+      "type": "string",
+      "default": "Workforce categories"
+    },
+    "supportAreasLabel": {
+      "type": "string",
+      "default": "Support areas"
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "cta": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.general-link"
+    },
+    "supportAreas": {
+      "type": "component",
+      "repeatable": true,
+      "component": "workforce.support-area-item"
+    },
+    "categories": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::card.card"
+    }
+  }
+}

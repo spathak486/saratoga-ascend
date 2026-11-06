@@ -26,6 +26,11 @@ import type {
   ExploreCapabilitiesReference,
   ClearPathReference,
   MissionsYouServeReference,
+  ServiceLifecycleReference,
+  FederalGovernmentReference,
+  ContractVehiclesReference,
+  ExploreEnvironmentsReference,
+  DefenseReference,
   ContactInquiryReference,
   ContactPathwaysReference,
   ContactLearnReference,
@@ -65,6 +70,8 @@ import {
   ClearPathSection,
   MissionsYouServeSection,
   FederalGovernmentSection,
+  ExploreEnvironmentsSection,
+  DefenseSection,
   ContactInquirySection,
   ContactPathwaysSection,
   ContactLearnSection,
@@ -603,13 +610,45 @@ export const SECTION_REGISTRY: Record<
     );
   },
 
+  ComponentReferencesExploreEnvironmentsReference: (section, index) => {
+    const eeRef = section as ExploreEnvironmentsReference;
+    return (
+      <ExploreEnvironmentsSection
+        key={'explore-environments-' + index}
+        title={eeRef?.title ?? undefined}
+        description={eeRef?.description ?? undefined}
+        cards={eeRef?.cards as any}
+      />
+    );
+  },
+
+  ComponentReferencesDefenseReference: (section, index) => {
+    const dRef = section as DefenseReference;
+    return (
+      <DefenseSection
+        key={'defense-' + index}
+        referenceTitle={dRef?.referenceTitle ?? undefined}
+        variant={dRef?.variant ?? 'left'}
+        card={dRef?.card as any}
+      />
+    );
+  },
+
+  ComponentReferencesContractVehiclesReference: (section, index) => {
+    const cvRef = section as ContractVehiclesReference;
+    return (
+      <ContractVehiclesSection
+        key={'contract-vehicles-' + index}
+        title={cvRef?.title ?? undefined}
+        description={cvRef?.description ?? undefined}
+        vehicles={cvRef?.vehicles as any}
+      />
+    );
+  },
+
   ComponentReferencesFederalGovernmentReference: (section, index) => {
-    const ref = section as {
-      cards?: Array<{
-        image?: { url?: string | null } | null;
-      }> | null;
-    };
-    const cards = ref.cards?.map((card) => {
+    const fgRef = section as FederalGovernmentReference;
+    const cards = fgRef.cards?.map((card) => {
       const url = card?.image?.url;
       if (!url || !url.startsWith('/uploads/')) return card;
       return {
@@ -621,7 +660,7 @@ export const SECTION_REGISTRY: Record<
     return (
       <FederalGovernmentSection
         key={'federal-gov-' + index}
-        cards={cards}
+        cards={cards as any}
       />
     );
   },

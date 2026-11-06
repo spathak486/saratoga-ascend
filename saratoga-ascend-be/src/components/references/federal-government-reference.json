@@ -1,0 +1,16 @@
+{
+  "collectionName": "components_references_federal_government_references",
+  "info": {
+    "displayName": "Federal Government Reference",
+    "icon": "layer",
+    "description": "Direct dynamic zone reference containing cards for Federal Government Overview (Frame 2085663703 / Why Depoter)"
+  },
+  "options": {},
+  "attributes": {
+    "cards": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::federal-mission-card.federal-mission-card"
+    }
+  }
+}

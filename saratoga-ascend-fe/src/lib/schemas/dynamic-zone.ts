@@ -698,7 +698,138 @@ export const MissionsYouServeReferenceSchema = z.object({
 
 export type MissionsYouServeReference = z.infer<typeof MissionsYouServeReferenceSchema>;
 
+export const LifecycleCategorySchema = z.object({
+  documentId: z.string().optional(),
+  number: z.string().nullable().optional(),
+  title: z.string(),
+  description: z.string(),
+});
+
+export const SupportAreaItemSchema = z.object({
+  text: z.string(),
+});
+
+export const LifecycleTabSchema = z.object({
+  documentId: z.string().optional(),
+  tabId: z.string().nullable().optional(),
+  label: z.string(),
+  heading: z.string(),
+  subheading: z.string(),
+  categoriesLabel: z.string().nullable().optional(),
+  supportAreasLabel: z.string().nullable().optional(),
+  cta: GeneralLinkSchema.nullable().optional(),
+  image: StrapiImageSchema.nullable().optional(),
+  supportAreas: z.array(SupportAreaItemSchema).nullable().optional(),
+  categories: z.array(LifecycleCategorySchema).nullable().optional(),
+});
+
+export const ServiceLifecycleSectionEntitySchema = z.object({
+  documentId: z.string().optional(),
+  referenceTitle: z.string().nullable().optional(),
+  title: z.string().nullable().optional(),
+  subtitle: z.string().nullable().optional(),
+  description: z.string().nullable().optional(),
+  tabs: z.array(LifecycleTabSchema).nullable().optional(),
+});
+
+export type ServiceLifecycleSectionEntity = z.infer<typeof ServiceLifecycleSectionEntitySchema>;
+
+export const ServiceLifecycleReferenceSchema = z.object({
+  __typename: z.literal('ComponentReferencesServiceLifecycleReference'),
+  serviceLifecycleSection: ServiceLifecycleSectionEntitySchema.nullable().optional(),
+});
+
+export type ServiceLifecycleReference = z.infer<typeof ServiceLifecycleReferenceSchema>;
+
+export const FederalMissionCardSchema = z.object({
+  documentId: z.string().optional(),
+  stepNumber: z.string().nullable().optional(),
+  title: z.string(),
+  subheading: z.string(),
+  description: z.string(),
+  image: StrapiImageSchema.nullable().optional(),
+  tags: z.array(SupportAreaItemSchema).nullable().optional(),
+  cta: GeneralLinkSchema.nullable().optional(),
+});
+
+export const FederalGovernmentReferenceSchema = z.object({
+  __typename: z.literal('ComponentReferencesFederalGovernmentReference'),
+  cards: z.array(FederalMissionCardSchema).nullable().optional(),
+});
+
+export type FederalGovernmentReference = z.infer<typeof FederalGovernmentReferenceSchema>;
+
+export const ContractVehicleItemSchema = z.object({
+  documentId: z.string().optional(),
+  scope: z.enum(['federal', 'state']).default('federal'),
+  navLabel: z.string(),
+  bannerTitle: z.string(),
+  description: z.string(),
+  primaryCta: GeneralLinkSchema.nullable().optional(),
+  secondaryCta: GeneralLinkSchema.nullable().optional(),
+});
+
+export type ContractVehicleItem = z.infer<typeof ContractVehicleItemSchema>;
+
+export const ContractVehiclesReferenceSchema = z.object({
+  __typename: z.literal('ComponentReferencesContractVehiclesReference'),
+  title: z.string().nullable().optional(),
+  description: z.string().nullable().optional(),
+  vehicles: z.array(ContractVehicleItemSchema).nullable().optional(),
+});
+
+export type ContractVehiclesReference = z.infer<typeof ContractVehiclesReferenceSchema>;
+
+export const EnvironmentCardSchema = z.object({
+  documentId: z.string().optional(),
+  title: z.string(),
+  description: z.string(),
+  number: z.string().nullable().optional(),
+  actionLabel: z.string().nullable().optional(),
+  href: z.string().nullable().optional(),
+});
+
+export type EnvironmentCard = z.infer<typeof EnvironmentCardSchema>;
+
+export const ExploreEnvironmentsReferenceSchema = z.object({
+  __typename: z.literal('ComponentReferencesExploreEnvironmentsReference'),
+  title: z.string().nullable().optional(),
+  description: z.string().nullable().optional(),
+  cards: z.array(EnvironmentCardSchema).nullable().optional(),
+});
+
+export type ExploreEnvironmentsReference = z.infer<typeof ExploreEnvironmentsReferenceSchema>;
+
+export const DefenseCardSchema = z.object({
+  documentId: z.string().nullable().optional(),
+  title: z.string().nullable().optional(),
+  subheading: z.string().nullable().optional(),
+  description: z.string().nullable().optional(),
+  actionLabel: z.string().nullable().optional(),
+  href: z.string().nullable().optional(),
+  cta: GeneralLinkSchema.nullable().optional(),
+  image: StrapiImageSchema.nullable().optional(),
+  bgImage: StrapiImageSchema.nullable().optional(),
+  tags: z.array(z.object({ title: z.string().nullable().optional(), text: z.string().nullable().optional() })).nullable().optional(),
+});
+
+export type DefenseCard = z.infer<typeof DefenseCardSchema>;
+
+export const DefenseReferenceSchema = z.object({
+  __typename: z.literal('ComponentReferencesDefenseReference'),
+  referenceTitle: z.string().nullable().optional(),
+  variant: z.enum(['left', 'right']).default('left').nullable().optional(),
+  card: DefenseCardSchema.nullable().optional(),
+});
+
+export type DefenseReference = z.infer<typeof DefenseReferenceSchema>;
+
 export const DynamicZoneSectionSchema = z.union([
+  DefenseReferenceSchema,
+  ExploreEnvironmentsReferenceSchema,
+  ContractVehiclesReferenceSchema,
+  FederalGovernmentReferenceSchema,
+  ServiceLifecycleReferenceSchema,
   MissionsYouServeReferenceSchema,
   ClearPathReferenceSchema,
   BannerReferenceSchema,

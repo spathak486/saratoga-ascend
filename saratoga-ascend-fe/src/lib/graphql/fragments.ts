@@ -649,6 +649,108 @@ export const CLEAR_PATH_REFERENCE_FIELDS = `
   }
 `;
 
+export const EXPLORE_ENVIRONMENTS_REFERENCE_FIELDS = `
+  __typename
+  ... on ComponentReferencesExploreEnvironmentsReference {
+    title
+    description
+    cards {
+      documentId
+      title
+      description
+      number
+      actionLabel
+      href
+    }
+  }
+`;
+
+export const DEFENSE_REFERENCE_FIELDS = `
+  __typename
+  ... on ComponentReferencesDefenseReference {
+    referenceTitle
+    variant
+    card {
+      documentId
+      title
+      subheading
+      description
+      image { ${IMAGE_FIELDS} }
+      bgImage { ${IMAGE_FIELDS} }
+      tags {
+        text
+      }
+      cta { ${GENERAL_LINK_FIELDS} }
+    }
+  }
+`;
+
+export const CONTRACT_VEHICLES_REFERENCE_FIELDS = `
+  __typename
+  ... on ComponentReferencesContractVehiclesReference {
+    title
+    description
+    vehicles {
+      documentId
+      scope
+      navLabel
+      bannerTitle
+      description
+      primaryCta { ${GENERAL_LINK_FIELDS} }
+      secondaryCta { ${GENERAL_LINK_FIELDS} }
+    }
+  }
+`;
+
+export const FEDERAL_GOVERNMENT_REFERENCE_FIELDS = `
+  __typename
+  ... on ComponentReferencesFederalGovernmentReference {
+    cards {
+      documentId
+      title
+      subheading
+      description
+      image { ${IMAGE_FIELDS} }
+      tags {
+        text
+      }
+      cta { ${GENERAL_LINK_FIELDS} }
+    }
+  }
+`;
+
+export const SERVICE_LIFECYCLE_REFERENCE_FIELDS = `
+  __typename
+  ... on ComponentReferencesServiceLifecycleReference {
+    serviceLifecycleSection {
+      documentId
+      referenceTitle
+      title
+      subtitle
+      description
+      tabs {
+        documentId
+        tabId
+        label
+        heading
+        subheading
+        categoriesLabel
+        supportAreasLabel
+        cta { ${GENERAL_LINK_FIELDS} }
+        image { ${IMAGE_FIELDS} }
+        supportAreas {
+          text
+        }
+        categories {
+          documentId
+          number
+          title
+          description
+        }
+      }
+    }
+  }
+`;
 export const MISSIONS_YOU_SERVE_REFERENCE_FIELDS = `
   __typename
   ... on ComponentReferencesMissionsYouServeReference {
@@ -668,21 +770,6 @@ export const MISSIONS_YOU_SERVE_REFERENCE_FIELDS = `
         href
         image { ${IMAGE_FIELDS} }
       }
-    }
-  }
-`;
-
-export const FEDERAL_GOVERNMENT_REFERENCE_FIELDS = `
-  __typename
-  ... on ComponentReferencesFederalGovernmentReference {
-    cards {
-      documentId
-      title
-      subheading
-      description
-      image { url alternativeText }
-      tags { text }
-      cta { label href target isExternal description }
     }
   }
 `;
@@ -739,7 +826,11 @@ export const COMMON_SECTION_FRAGMENTS = [
   EXPLORE_CAPABILITIES_REFERENCE_FIELDS,
   CLEAR_PATH_REFERENCE_FIELDS,
   MISSIONS_YOU_SERVE_REFERENCE_FIELDS,
+  SERVICE_LIFECYCLE_REFERENCE_FIELDS,
   FEDERAL_GOVERNMENT_REFERENCE_FIELDS,
+  CONTRACT_VEHICLES_REFERENCE_FIELDS,
+  EXPLORE_ENVIRONMENTS_REFERENCE_FIELDS,
+  DEFENSE_REFERENCE_FIELDS,
   CONTACT_INQUIRY_REFERENCE_FIELDS,
   CONTACT_PATHWAYS_REFERENCE_FIELDS,
   CONTACT_LEARN_REFERENCE_FIELDS,

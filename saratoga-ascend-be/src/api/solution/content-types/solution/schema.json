@@ -85,7 +85,12 @@
         "references.workforce-delivery-reference",
         "references.explore-capabilities-reference",
         "references.clear-path-reference",
-        "references.missions-you-serve-reference"
+        "references.missions-you-serve-reference",
+        "references.service-lifecycle-reference",
+        "references.federal-government-reference",
+        "references.contract-vehicles-reference",
+        "references.explore-environments-reference",
+        "references.defense-reference"
       ]
     }
   }

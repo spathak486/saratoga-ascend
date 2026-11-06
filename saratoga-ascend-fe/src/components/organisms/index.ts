@@ -49,3 +49,5 @@ export * from './ExploreCapabilitiesSection';
 export * from './ClearPathSection';
 export * from './MissionsYouServeSection';
 export * from './FederalGovernmentSection';
+export * from './ExploreEnvironmentsSection';
+export * from './DefenseSection';

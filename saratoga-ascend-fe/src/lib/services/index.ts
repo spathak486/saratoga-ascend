@@ -5,6 +5,8 @@ export { getNavigationData } from './navigation.service';
 export { getNotFoundData } from './not-found.service';
 export { getBlogBySlug, getAllBlogs, getAllBlogSlugs } from './blog.service';
 export { getSolutionBySlug, getAllSolutionSlugs } from './solution.service';
+export { getServiceBySlug, getAllServiceSlugs } from './service.service';
+
 
 
 // Phase 3 → export * from './scheduling.service'

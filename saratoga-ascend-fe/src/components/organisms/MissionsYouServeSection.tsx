@@ -49,6 +49,15 @@ const DEFAULT_CARDS: MissionsYouServeCard[] = [
   },
 ];
 
+function normalizeImageSrc(url?: string | null): string {
+  if (!url) return '';
+  if (url.startsWith('/uploads/')) {
+    const base = process.env.NEXT_PUBLIC_STRAPI_API_URL || 'https://cms.saratogaascend.com';
+    return `${base.replace(/\/+$/, '')}${url}`;
+  }
+  return url;
+}
+
 function cardImage(card: MissionsYouServeCard, index: number): { src: string; alt: string } | null {
   const fromCard =
     typeof card.image === 'string'
@@ -59,7 +68,7 @@ function cardImage(card: MissionsYouServeCard, index: number): { src: string; al
   const fallback = DEFAULT_CARDS[index % DEFAULT_CARDS.length]?.image;
   const fromFallback = typeof fallback === 'string' ? fallback : fallback?.url;
   // Live site pairs each CMS card with these photos. Use a CMS file when that card has no paired photo.
-  const src = fromFallback || fromCard || '';
+  const src = normalizeImageSrc(fromFallback || fromCard || '');
   if (!src) return null;
   const alt =
     typeof card.image === 'object' && card.image?.alternativeText

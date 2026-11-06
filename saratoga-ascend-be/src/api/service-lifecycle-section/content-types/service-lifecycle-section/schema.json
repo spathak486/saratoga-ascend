@@ -1,0 +1,37 @@
+{
+  "kind": "collectionType",
+  "collectionName": "service_lifecycle_sections",
+  "info": {
+    "singularName": "service-lifecycle-section",
+    "pluralName": "service-lifecycle-sections",
+    "displayName": "Healthcare Workforce Service Lifecycle Section",
+    "description": "Healthcare Workforce Solutions Across the Service Lifecycle interactive tabs section (Frame 2147226325)"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "referenceTitle": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string",
+      "required": true,
+      "default": "Healthcare Workforce Solutions"
+    },
+    "subtitle": {
+      "type": "string",
+      "default": "Across the Service Lifecycle"
+    },
+    "description": {
+      "type": "text",
+      "default": "From physicians and nurses to allied health, behavioral health, laboratory, and scientific professionals, Saratoga Ascend supports workforce needs through flexible engagement and delivery models."
+    },
+    "tabs": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::lifecycle-tab.lifecycle-tab"
+    }
+  }
+}
