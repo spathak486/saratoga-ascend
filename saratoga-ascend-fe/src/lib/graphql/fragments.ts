@@ -706,6 +706,20 @@ export const INTEGRATED_CAPABILITIES_REFERENCE_FIELDS = `
   }
 `;
 
+export const PROCUREMENT_ACCESS_REFERENCE_FIELDS = `
+  __typename
+  ... on ComponentReferencesProcurementAccessReference {
+    referenceTitle
+    description
+    subdescription
+    pills {
+      text
+    }
+    cta { ${GENERAL_LINK_FIELDS} }
+    bgMedia { ${IMAGE_FIELDS} }
+  }
+`;
+
 export const CONTRACT_VEHICLES_REFERENCE_FIELDS = `
   __typename
   ... on ComponentReferencesContractVehiclesReference {
@@ -853,6 +867,7 @@ export const COMMON_SECTION_FRAGMENTS = [
   EXPLORE_ENVIRONMENTS_REFERENCE_FIELDS,
   DEFENSE_REFERENCE_FIELDS,
   INTEGRATED_CAPABILITIES_REFERENCE_FIELDS,
+  PROCUREMENT_ACCESS_REFERENCE_FIELDS,
   CONTACT_INQUIRY_REFERENCE_FIELDS,
   CONTACT_PATHWAYS_REFERENCE_FIELDS,
   CONTACT_LEARN_REFERENCE_FIELDS,

@@ -1,0 +1,41 @@
+{
+  "collectionName": "components_references_procurement_access_references",
+  "info": {
+    "displayName": "Procurement Access Reference",
+    "icon": "shield-check",
+    "description": "Procurement Access / Contract Pathways banner section (Group 2085665798)"
+  },
+  "options": {},
+  "attributes": {
+    "referenceTitle": {
+      "type": "string"
+    },
+    "description": {
+      "type": "text",
+      "required": false
+    },
+    "subdescription": {
+      "type": "text",
+      "required": false
+    },
+    "pills": {
+      "type": "component",
+      "repeatable": true,
+      "component": "workforce.support-area-item"
+    },
+    "cta": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.general-link"
+    },
+    "bgMedia": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images",
+        "videos",
+        "files"
+      ]
+    }
+  }
+}

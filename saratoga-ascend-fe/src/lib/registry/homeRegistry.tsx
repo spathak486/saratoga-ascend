@@ -32,6 +32,7 @@ import type {
   ExploreEnvironmentsReference,
   DefenseReference,
   IntegratedCapabilitiesReference,
+  ProcurementAccessReference,
   ContactInquiryReference,
   ContactPathwaysReference,
   ContactLearnReference,
@@ -74,6 +75,7 @@ import {
   ExploreEnvironmentsSection,
   DefenseSection,
   IntegratedCapabilitiesSection,
+  ProcurementAccessSection,
   ContactInquirySection,
   ContactPathwaysSection,
   ContactLearnSection,
@@ -632,6 +634,21 @@ export const SECTION_REGISTRY: Record<
         referenceTitle={dRef?.referenceTitle ?? undefined}
         variant={dRef?.variant ?? 'left'}
         card={dRef?.card as any}
+      />
+    );
+  },
+
+  ComponentReferencesProcurementAccessReference: (section, index) => {
+    const paRef = section as ProcurementAccessReference;
+    return (
+      <ProcurementAccessSection
+        key={'procurement-access-' + index}
+        referenceTitle={paRef?.referenceTitle ?? undefined}
+        description={paRef?.description ?? undefined}
+        subdescription={paRef?.subdescription ?? undefined}
+        pills={paRef?.pills as any}
+        cta={paRef?.cta as any}
+        bgMedia={paRef?.bgMedia as any}
       />
     );
   },
