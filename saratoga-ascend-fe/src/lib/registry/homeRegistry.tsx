@@ -614,7 +614,7 @@ export const SECTION_REGISTRY: Record<
         key={'explore-environments-' + index}
         title={eeRef?.title ?? undefined}
         description={eeRef?.description ?? undefined}
-        cards={eeRef?.cards as any}
+        cards={(eeRef?.exploreCards || eeRef?.cards) as any}
       />
     );
   },
