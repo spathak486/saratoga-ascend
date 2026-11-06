@@ -3,7 +3,7 @@
   "info": {
     "displayName": "Defense / Mission Environment Reference",
     "icon": "shield",
-    "description": "Defense and Programs Serving Veterans Section with Left/Right variants and 1-to-1 Card relation"
+    "description": "Defense and Programs Serving Veterans Section with Left/Right variants and 1-to-1 Federal Mission Card relation"
   },
   "options": {},
   "attributes": {
@@ -21,8 +21,7 @@
     "card": {
       "type": "relation",
       "relation": "oneToOne",
-      "target": "api::card.card"
+      "target": "api::federal-mission-card.federal-mission-card"
     }
   }
 }
-

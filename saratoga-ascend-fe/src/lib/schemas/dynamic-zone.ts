@@ -801,9 +801,11 @@ export type ExploreEnvironmentsReference = z.infer<typeof ExploreEnvironmentsRef
 export const DefenseCardSchema = z.object({
   documentId: z.string().nullable().optional(),
   title: z.string().nullable().optional(),
+  subheading: z.string().nullable().optional(),
   description: z.string().nullable().optional(),
   actionLabel: z.string().nullable().optional(),
   href: z.string().nullable().optional(),
+  cta: GeneralLinkSchema.nullable().optional(),
   image: StrapiImageSchema.nullable().optional(),
   bgImage: StrapiImageSchema.nullable().optional(),
   tags: z.array(z.object({ title: z.string().nullable().optional(), text: z.string().nullable().optional() })).nullable().optional(),
