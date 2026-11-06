@@ -846,7 +846,26 @@ export const ProcurementAccessReferenceSchema = z.object({
 
 export type ProcurementAccessReference = z.infer<typeof ProcurementAccessReferenceSchema>;
 
+export const BenefitCardSchema = z.object({
+  title: z.string().nullable().optional(),
+  icon: StrapiImageSchema.nullable().optional(),
+});
+
+export type BenefitCard = z.infer<typeof BenefitCardSchema>;
+
+export const DirectAccessReferenceSchema = z.object({
+  __typename: z.literal('ComponentReferencesDirectAccessReference'),
+  referenceTitle: z.string().nullable().optional(),
+  title: z.string().nullable().optional(),
+  description: z.string().nullable().optional(),
+  callout: z.string().nullable().optional(),
+  cards: z.array(BenefitCardSchema).nullable().optional(),
+});
+
+export type DirectAccessReference = z.infer<typeof DirectAccessReferenceSchema>;
+
 export const DynamicZoneSectionSchema = z.union([
+  DirectAccessReferenceSchema,
   ProcurementAccessReferenceSchema,
   IntegratedCapabilitiesReferenceSchema,
   DefenseReferenceSchema,
