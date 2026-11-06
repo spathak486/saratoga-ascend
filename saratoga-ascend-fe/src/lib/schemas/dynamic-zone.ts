@@ -798,7 +798,30 @@ export const ExploreEnvironmentsReferenceSchema = z.object({
 
 export type ExploreEnvironmentsReference = z.infer<typeof ExploreEnvironmentsReferenceSchema>;
 
+export const DefenseCardSchema = z.object({
+  documentId: z.string().nullable().optional(),
+  title: z.string().nullable().optional(),
+  description: z.string().nullable().optional(),
+  actionLabel: z.string().nullable().optional(),
+  href: z.string().nullable().optional(),
+  image: StrapiImageSchema.nullable().optional(),
+  bgImage: StrapiImageSchema.nullable().optional(),
+  tags: z.array(z.object({ title: z.string().nullable().optional(), text: z.string().nullable().optional() })).nullable().optional(),
+});
+
+export type DefenseCard = z.infer<typeof DefenseCardSchema>;
+
+export const DefenseReferenceSchema = z.object({
+  __typename: z.literal('ComponentReferencesDefenseReference'),
+  referenceTitle: z.string().nullable().optional(),
+  variant: z.enum(['left', 'right']).default('left').nullable().optional(),
+  card: DefenseCardSchema.nullable().optional(),
+});
+
+export type DefenseReference = z.infer<typeof DefenseReferenceSchema>;
+
 export const DynamicZoneSectionSchema = z.union([
+  DefenseReferenceSchema,
   ExploreEnvironmentsReferenceSchema,
   ContractVehiclesReferenceSchema,
   FederalGovernmentReferenceSchema,

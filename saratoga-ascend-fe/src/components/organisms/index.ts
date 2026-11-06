@@ -51,4 +51,5 @@ export * from './MissionsYouServeSection';
 export * from './ServiceLifecycleSection';
 export * from './FederalGovernmentSection';
 export * from './ExploreEnvironmentsSection';
+export * from './DefenseSection';
 

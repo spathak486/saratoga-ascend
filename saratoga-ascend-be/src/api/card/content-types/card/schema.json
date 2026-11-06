@@ -16,8 +16,11 @@
       "type": "string"
     },
     "title": {
-      "type": "string",
-      "required": true
+      "type": "customField",
+      "customField": "plugin::ckeditor5.CKEditor",
+      "options": {
+        "preset": "defaultHtml"
+      }
     },
     "description": {
       "type": "text",
@@ -74,8 +77,23 @@
       "type": "media",
       "multiple": false,
       "allowedTypes": [
-        "images"
+        "images",
+        "files"
       ]
+    },
+    "bgImage": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images",
+        "videos",
+        "files"
+      ]
+    },
+    "tags": {
+      "type": "component",
+      "repeatable": true,
+      "component": "workforce.support-area-item"
     }
   }
 }
