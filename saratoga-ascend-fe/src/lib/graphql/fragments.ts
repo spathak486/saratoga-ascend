@@ -716,7 +716,7 @@ export const DIRECT_ACCESS_REFERENCE_FIELDS = `
       callout
       cards {
         title
-        icon {  }
+        icon { ${IMAGE_FIELDS} }
       }
     }
   }
