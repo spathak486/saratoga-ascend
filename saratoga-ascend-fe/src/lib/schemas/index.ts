@@ -158,6 +158,8 @@ export {
   type DefenseCard,
   DefenseReferenceSchema,
   type DefenseReference,
+  IntegratedCapabilitiesReferenceSchema,
+  type IntegratedCapabilitiesReference,
   type MissionsYouServeReference,
   ContactInquirySectionEntitySchema,
   type ContactInquirySectionEntity,

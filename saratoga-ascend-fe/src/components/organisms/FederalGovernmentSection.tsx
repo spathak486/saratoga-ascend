@@ -6,6 +6,7 @@ import { Heading, Text } from '../atoms';
 
 export interface FederalGovernmentTag {
   text?: string | null;
+  title?: string | null;
 }
 
 export interface FederalGovernmentCta {
@@ -16,8 +17,9 @@ export interface FederalGovernmentCta {
 }
 
 export interface FederalGovernmentCard {
-  id?: string | null;
+  id?: string | number | null;
   documentId?: string | null;
+  stepNumber?: string | null;
   title?: string | null;
   subheading?: string | null;
   description?: string | null;
@@ -43,7 +45,18 @@ function mediaUrl(image: FederalGovernmentCard['image']): string {
 }
 
 function tagLabel(tag: FederalGovernmentTag | string): string {
-  return typeof tag === 'string' ? tag : tag.text || '';
+  return typeof tag === 'string' ? tag : tag.text || tag.title || '';
+}
+
+/** Incoming CMS titles may wrap content in p/div tags. */
+function cleanHeadingHtml(html: string): string {
+  if (!html) return '';
+  return html
+    .trim()
+    .replace(/<\/\s*p\s*>\s*<\s*p(\s+[^>]*)?>/gi, '<br/>')
+    .replace(/^<\s*(p|div|h[1-6])(\s+[^>]*)?>/i, '')
+    .replace(/<\/\s*(p|div|h[1-6])\s*>$/i, '')
+    .trim();
 }
 
 function OverviewCard({
@@ -62,6 +75,12 @@ function OverviewCard({
 
   const stepCurrent = String(index + 1).padStart(2, '0');
   const stepTotal = String(total).padStart(2, '0');
+  const stepParts = card.stepNumber?.includes('/')
+    ? card.stepNumber.split('/')
+    : null;
+  const displayCurrent = stepParts?.[0]?.trim() || stepCurrent;
+  const displayTotal = stepParts?.[1]?.trim() || stepTotal;
+  const cleanTitle = card.title ? cleanHeadingHtml(card.title) : '';
 
   return (
     <div
@@ -81,25 +100,25 @@ function OverviewCard({
       >
         <div className="inline-flex w-fit items-center justify-center rounded-[4.1667rem] border-[1.333px] border-[#fff7e4] bg-[#212121] px-[1.333rem] py-2">
           <span className="font-sans text-[clamp(1.375rem,1.15rem+0.5vw,1.75rem)] leading-[1.2] font-medium text-white">
-            {stepCurrent}
+            {displayCurrent}
           </span>
           <span className="font-sans text-[clamp(1.375rem,1.15rem+0.5vw,1.75rem)] leading-[1.2] text-white">
             /
           </span>
           <span className="font-sans text-[clamp(1.375rem,1.15rem+0.5vw,1.75rem)] leading-[1.2] text-[#767676]">
-            {stepTotal}
+            {displayTotal}
           </span>
         </div>
 
         <div className="mt-6 grid grid-cols-1 gap-8 xl:mt-[1.625rem] xl:grid-cols-[minmax(26rem,1fr)_minmax(0,40.8125rem)] xl:grid-rows-[auto_auto] xl:gap-x-6 xl:gap-y-[4.1875rem]">
-          {card.title ? (
+          {cleanTitle ? (
             <Heading
               level={2}
               size="subtitle"
               tone="inherit"
-              className="min-w-0 text-[#212121] xl:col-start-1 xl:row-start-1 xl:self-center"
+              className="min-w-0 text-[#212121] xl:col-start-1 xl:row-start-1 xl:self-center [&_span[style*='color']]:font-semibold"
             >
-              {card.title}
+              <span dangerouslySetInnerHTML={{ __html: cleanTitle }} />
             </Heading>
           ) : (
             <div className="xl:col-start-1 xl:row-start-1" />

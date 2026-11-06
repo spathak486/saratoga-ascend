@@ -805,6 +805,7 @@ export const DefenseCardSchema = z.object({
   title: z.string().nullable().optional(),
   subheading: z.string().nullable().optional(),
   description: z.string().nullable().optional(),
+  subdescription: z.string().nullable().optional(),
   actionLabel: z.string().nullable().optional(),
   href: z.string().nullable().optional(),
   cta: GeneralLinkSchema.nullable().optional(),
@@ -824,7 +825,16 @@ export const DefenseReferenceSchema = z.object({
 
 export type DefenseReference = z.infer<typeof DefenseReferenceSchema>;
 
+export const IntegratedCapabilitiesReferenceSchema = z.object({
+  __typename: z.literal('ComponentReferencesIntegratedCapabilitiesReference'),
+  referenceTitle: z.string().nullable().optional(),
+  card: DefenseCardSchema.nullable().optional(),
+});
+
+export type IntegratedCapabilitiesReference = z.infer<typeof IntegratedCapabilitiesReferenceSchema>;
+
 export const DynamicZoneSectionSchema = z.union([
+  IntegratedCapabilitiesReferenceSchema,
   DefenseReferenceSchema,
   ExploreEnvironmentsReferenceSchema,
   ContractVehiclesReferenceSchema,

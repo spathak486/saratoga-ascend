@@ -90,7 +90,8 @@
         "references.federal-government-reference",
         "references.contract-vehicles-reference",
         "references.explore-environments-reference",
-        "references.defense-reference"
+        "references.defense-reference",
+        "references.integrated-capabilities-reference"
       ]
     }
   }

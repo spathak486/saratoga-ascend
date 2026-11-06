@@ -675,6 +675,27 @@ export const DEFENSE_REFERENCE_FIELDS = `
       title
       subheading
       description
+      subdescription
+      image { ${IMAGE_FIELDS} }
+      bgImage { ${IMAGE_FIELDS} }
+      tags {
+        text
+      }
+      cta { ${GENERAL_LINK_FIELDS} }
+    }
+  }
+`;
+
+export const INTEGRATED_CAPABILITIES_REFERENCE_FIELDS = `
+  __typename
+  ... on ComponentReferencesIntegratedCapabilitiesReference {
+    referenceTitle
+    card {
+      documentId
+      title
+      subheading
+      description
+      subdescription
       image { ${IMAGE_FIELDS} }
       bgImage { ${IMAGE_FIELDS} }
       tags {
@@ -831,6 +852,7 @@ export const COMMON_SECTION_FRAGMENTS = [
   CONTRACT_VEHICLES_REFERENCE_FIELDS,
   EXPLORE_ENVIRONMENTS_REFERENCE_FIELDS,
   DEFENSE_REFERENCE_FIELDS,
+  INTEGRATED_CAPABILITIES_REFERENCE_FIELDS,
   CONTACT_INQUIRY_REFERENCE_FIELDS,
   CONTACT_PATHWAYS_REFERENCE_FIELDS,
   CONTACT_LEARN_REFERENCE_FIELDS,
