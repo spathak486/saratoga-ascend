@@ -1,0 +1,20 @@
+{
+  "collectionName": "components_references_integrated_capabilities_references",
+  "info": {
+    "displayName": "Integrated Capabilities Reference",
+    "icon": "layer-group",
+    "description": "Crossdocking / Supporting Complex Missions with Integrated Capabilities section referencing Federal Mission Card"
+  },
+  "options": {},
+  "attributes": {
+    "referenceTitle": {
+      "type": "string"
+    },
+    "card": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::federal-mission-card.federal-mission-card"
+    }
+  }
+}
+

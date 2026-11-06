@@ -30,6 +30,7 @@ import type {
   ContractVehiclesReference,
   ExploreEnvironmentsReference,
   DefenseReference,
+  IntegratedCapabilitiesReference,
   ContactInquiryReference,
   ContactPathwaysReference,
   ContactLearnReference,
@@ -71,6 +72,7 @@ import {
   FederalGovernmentSection,
   ExploreEnvironmentsSection,
   DefenseSection,
+  IntegratedCapabilitiesSection,
   ContactInquirySection,
   ContactPathwaysSection,
   ContactLearnSection,
@@ -625,6 +627,17 @@ export const SECTION_REGISTRY: Record<
         referenceTitle={dRef?.referenceTitle ?? undefined}
         variant={dRef?.variant ?? 'left'}
         card={dRef?.card as any}
+      />
+    );
+  },
+
+  ComponentReferencesIntegratedCapabilitiesReference: (section, index) => {
+    const icRef = section as IntegratedCapabilitiesReference;
+    return (
+      <IntegratedCapabilitiesSection
+        key={'integrated-capabilities-' + index}
+        referenceTitle={icRef?.referenceTitle ?? undefined}
+        card={icRef?.card as any}
       />
     );
   },
