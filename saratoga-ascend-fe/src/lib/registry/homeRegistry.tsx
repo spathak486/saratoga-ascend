@@ -642,14 +642,16 @@ export const SECTION_REGISTRY: Record<
 
   ComponentReferencesDirectAccessReference: (section, index) => {
     const daRef = section as DirectAccessReference;
+    const da = daRef.directAccessSection;
+    if (!da) return null;
     return (
       <DirectAccessSection
         key={'direct-access-' + index}
-        referenceTitle={daRef?.referenceTitle ?? undefined}
-        title={daRef?.title ?? undefined}
-        description={daRef?.description ?? undefined}
-        callout={daRef?.callout ?? undefined}
-        cards={daRef?.cards as any}
+        referenceTitle={da?.referenceTitle ?? undefined}
+        title={da?.title ?? undefined}
+        description={da?.description ?? undefined}
+        callout={da?.callout ?? undefined}
+        cards={da?.cards as any}
       />
     );
   },

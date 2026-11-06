@@ -709,13 +709,15 @@ export const INTEGRATED_CAPABILITIES_REFERENCE_FIELDS = `
 export const DIRECT_ACCESS_REFERENCE_FIELDS = `
   __typename
   ... on ComponentReferencesDirectAccessReference {
-    referenceTitle
-    title
-    description
-    callout
-    cards {
+    directAccessSection {
+      referenceTitle
       title
-      icon { ${IMAGE_FIELDS} }
+      description
+      callout
+      cards {
+        title
+        icon {  }
+      }
     }
   }
 `;

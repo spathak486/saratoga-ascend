@@ -164,6 +164,8 @@ export {
   type ProcurementAccessReference,
   BenefitCardSchema,
   type BenefitCard,
+  DirectAccessSectionEntitySchema,
+  type DirectAccessSectionEntity,
   DirectAccessReferenceSchema,
   type DirectAccessReference,
   type MissionsYouServeReference,

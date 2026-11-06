@@ -853,13 +853,19 @@ export const BenefitCardSchema = z.object({
 
 export type BenefitCard = z.infer<typeof BenefitCardSchema>;
 
-export const DirectAccessReferenceSchema = z.object({
-  __typename: z.literal('ComponentReferencesDirectAccessReference'),
+export const DirectAccessSectionEntitySchema = z.object({
   referenceTitle: z.string().nullable().optional(),
   title: z.string().nullable().optional(),
   description: z.string().nullable().optional(),
   callout: z.string().nullable().optional(),
   cards: z.array(BenefitCardSchema).nullable().optional(),
+});
+
+export type DirectAccessSectionEntity = z.infer<typeof DirectAccessSectionEntitySchema>;
+
+export const DirectAccessReferenceSchema = z.object({
+  __typename: z.literal('ComponentReferencesDirectAccessReference'),
+  directAccessSection: DirectAccessSectionEntitySchema.nullable().optional(),
 });
 
 export type DirectAccessReference = z.infer<typeof DirectAccessReferenceSchema>;

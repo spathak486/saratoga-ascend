@@ -1,0 +1,46 @@
+{
+  "kind": "collectionType",
+  "collectionName": "direct_access_sections",
+  "info": {
+    "singularName": "direct-access-section",
+    "pluralName": "direct-access-sections",
+    "displayName": "Direct Access Section",
+    "description": "Central reusable Direct Access to Compliant, Mission-Ready Services section"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "referenceTitle": {
+      "type": "string"
+    },
+    "title": {
+      "type": "customField",
+      "customField": "plugin::ckeditor5.CKEditor",
+      "options": {
+        "preset": "defaultHtml"
+      }
+    },
+    "description": {
+      "type": "customField",
+      "customField": "plugin::ckeditor5.CKEditor",
+      "options": {
+        "preset": "defaultHtml"
+      }
+    },
+    "cards": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.benefit-card"
+    },
+    "callout": {
+      "type": "customField",
+      "customField": "plugin::ckeditor5.CKEditor",
+      "options": {
+        "preset": "defaultHtml"
+      }
+    }
+  }
+}
+
