@@ -678,7 +678,7 @@ export const DEFENSE_REFERENCE_FIELDS = `
       image { ${IMAGE_FIELDS} }
       bgImage { ${IMAGE_FIELDS} }
       tags {
-        title
+        text
       }
       cta { ${GENERAL_LINK_FIELDS} }
     }
