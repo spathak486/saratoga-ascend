@@ -11,6 +11,10 @@ export const CASE_STUDY_ITEM_FIELDS = `
   articleDate
   readTime
   categoryType
+  category {
+    name
+    slug
+  }
   image { ${IMAGE_FIELDS} }
 `;
 
@@ -23,4 +27,3 @@ export const ALL_CASE_STUDIES_QUERY = `
     caseStudies(sort: "articleDate:desc") { ${CASE_STUDY_ITEM_FIELDS} }
   }
 `;
-
