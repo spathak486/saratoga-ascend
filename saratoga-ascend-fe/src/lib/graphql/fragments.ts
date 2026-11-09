@@ -280,7 +280,6 @@ export const BLOG_LISTING_REFERENCE_FIELDS = `
   ... on ComponentReferencesBlogListing {
     blogHeading: heading
     subheading
-    contentType
   }
 `;
 
