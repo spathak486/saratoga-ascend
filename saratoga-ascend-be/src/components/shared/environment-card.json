@@ -1,0 +1,25 @@
+{
+  "collectionName": "components_shared_environment_cards",
+  "info": {
+    "displayName": "Environment Card",
+    "icon": "picture",
+    "description": "Environment card with background image and multiple accordions"
+  },
+  "options": {},
+  "attributes": {
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "accordions": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.accordion-item"
+    }
+  }
+}
+

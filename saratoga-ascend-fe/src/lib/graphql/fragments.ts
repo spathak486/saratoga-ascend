@@ -561,12 +561,15 @@ export const FEDERAL_ENVIRONMENTS_REFERENCE_FIELDS = `
     sectionTitle
     description
     cards {
-      documentId
-      title
-      description
-      actionLabel
-      href
+      id
       image { ${IMAGE_FIELDS} }
+      accordions {
+        id
+        title
+        description
+        actionLabel
+        href
+      }
     }
   }
 `;
