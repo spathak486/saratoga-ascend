@@ -44,7 +44,7 @@ import type {
   KeyTakeawaysReference,
   StatCardsReference,
 } from '@/lib/schemas';
-import { BlogCtaCard } from '@/components/molecules';
+import { BlogCtaCard, AuthorCard } from '@/components/molecules';
 import {
   HeroSection,
   NeedHelpSection,
@@ -458,16 +458,39 @@ export const SECTION_REGISTRY: Record<
     );
   },
 
+  ComponentReferencesAuthorCard: (section, index) => {
+    const cardRef = section as any;
+    const authorData = cardRef.author || cardRef;
+    const author = contextData?.authorRelation || authorData;
+
+    return (
+      <AuthorCard
+        key={`author-card-${index}`}
+        name={author?.name || authorData?.name}
+        role={author?.role || authorData?.role}
+        bio={author?.bio || authorData?.bio}
+        avatarUrl={author?.avatar?.url || authorData?.avatar?.url}
+        avatarAlt={author?.avatar?.alternativeText}
+        facebookUrl={author?.facebookUrl || authorData?.facebookUrl}
+        instagramUrl={author?.instagramUrl || authorData?.instagramUrl}
+        linkedinUrl={author?.linkedinUrl || authorData?.linkedinUrl}
+        twitterUrl={author?.twitterUrl || authorData?.twitterUrl}
+      />
+    );
+  },
+
   ComponentReferencesBlogCtaCard: (section, index) => {
     const cardRef = section as any;
+    // Support both direct fields and relation-based blogCta
+    const data = cardRef.blogCta || cardRef;
     return (
       <BlogCtaCard
         key={`blog-cta-card-${index}`}
-        title={cardRef.title}
-        description={cardRef.description}
-        link={cardRef.link}
-        buttonText={cardRef.buttonText}
-        buttonUrl={cardRef.buttonUrl}
+        title={data.title}
+        description={data.description}
+        link={data.link}
+        buttonText={data.buttonText}
+        buttonUrl={data.buttonUrl}
       />
     );
   },

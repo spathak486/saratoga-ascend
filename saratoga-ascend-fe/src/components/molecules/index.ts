@@ -37,3 +37,4 @@ export * from './VehicleNavList';
 export * from './VehicleDetailPanel';
 export * from './PastPerformanceCard';
 export * from './BlogCtaCard';
+export * from './AuthorCard';

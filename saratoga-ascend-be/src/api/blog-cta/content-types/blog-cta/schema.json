@@ -1,0 +1,33 @@
+{
+  "kind": "collectionType",
+  "collectionName": "blog_ctas",
+  "info": {
+    "singularName": "blog-cta",
+    "pluralName": "blog-ctas",
+    "displayName": "Blog CTA",
+    "description": "Reusable CTA cards for Blog and article detail pages"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "referenceTitle": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string",
+      "default": "Learn more"
+    },
+    "description": {
+      "type": "text",
+      "default": "Explore how maximum can support healthcare modernisation enhance patient experiances."
+    },
+    "link": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.general-link"
+    }
+  }
+}
+

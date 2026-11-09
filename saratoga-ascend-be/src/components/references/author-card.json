@@ -1,0 +1,17 @@
+{
+  "collectionName": "components_references_author_cards",
+  "info": {
+    "displayName": "Author Card",
+    "icon": "user",
+    "description": "Author biography card used in article and blog details"
+  },
+  "options": {},
+  "attributes": {
+    "author": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::author.author"
+    }
+  }
+}
+

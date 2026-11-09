@@ -93,8 +93,15 @@
         "references.team-section-reference",
         "references.federal-environments-reference",
         "references.insights-listing",
-        "references.blog-cta-card"
+        "references.blog-cta-card",
+        "references.author-card"
       ]
+    },
+    "authorRelation": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::author.author",
+      "inversedBy": "blogs"
     }
   }
 }
