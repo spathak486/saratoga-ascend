@@ -560,7 +560,7 @@ export const FEDERAL_ENVIRONMENTS_REFERENCE_FIELDS = `
   ... on ComponentReferencesFederalEnvironmentsReference {
     sectionTitle
     description
-    cards {
+    federalCards: cards {
       id
       image { ${IMAGE_FIELDS} }
       accordions {

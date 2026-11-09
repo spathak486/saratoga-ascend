@@ -648,14 +648,15 @@ export const SECTION_REGISTRY: Record<
   },
 
 ComponentReferencesFederalEnvironmentsReference: (section, index) => {
-    const feRef = section as FederalEnvironmentsReference;
-    if (!feRef.cards || feRef.cards.length === 0) return null;
+    const feRef = section as any;
+    const cards = feRef.cards || feRef.federalCards;
+    if (!cards || cards.length === 0) return null;
     return (
       <FederalEnvironmentsSection
         key={`federal-environments-${index}`}
         sectionTitle={feRef.sectionTitle ?? undefined}
         description={feRef.description ?? undefined}
-        cards={feRef.cards as any}
+        cards={cards as any}
       />
     );
   },

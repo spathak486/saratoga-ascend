@@ -438,13 +438,16 @@ export function resolveSectionImages(
 
 case 'ComponentReferencesFederalEnvironmentsReference': {
       const feRef = section as any;
-      if (!feRef.cards) return section;
+      const rawCards = feRef.federalCards || feRef.cards;
+      if (!rawCards) return section;
+      const transformedCards = rawCards.map((c: any) => ({
+        ...c,
+        image: unwrapImage(c.image),
+      }));
       return {
         ...section,
-        cards: feRef.cards.map((c: any) => ({
-          ...c,
-          image: unwrapImage(c.image),
-        })),
+        cards: transformedCards,
+        federalCards: transformedCards,
       };
     }
 

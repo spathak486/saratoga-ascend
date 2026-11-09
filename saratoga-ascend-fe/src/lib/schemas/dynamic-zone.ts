@@ -928,6 +928,7 @@ export const FederalEnvironmentsReferenceSchema = z.object({
   sectionTitle: z.string().nullable().optional(),
   description: z.string().nullable().optional(),
   cards: z.array(FederalEnvironmentCardSchema).nullable().optional(),
+  federalCards: z.array(FederalEnvironmentCardSchema).nullable().optional(),
 });
 export type FederalEnvironmentsReference = z.infer<typeof FederalEnvironmentsReferenceSchema>;
 
