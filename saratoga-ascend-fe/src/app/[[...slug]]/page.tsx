@@ -212,15 +212,40 @@ export default async function DynamicPage({ params }: DynamicPageProps) {
       getAllCaseStudies(),
     ]);
 
+    // Detect content type from:
+    // 1. Explicit contentType field if present
+    // 2. Or the current URL slug (e.g. /news -> 'news', /case-studies or /past-performance -> 'case-studies')
+    // 3. Or the section heading
+    const isNewsSlug = slugPath === 'news' || slugPath.startsWith('news/');
+    const isCaseStudySlug =
+      slugPath === 'case-studies' ||
+      slugPath.startsWith('case-studies/') ||
+      slugPath === 'past-performance' ||
+      slugPath.startsWith('past-performance/');
+
     sections = sections.map((sec: any) => {
       if (sec.__typename === 'ComponentReferencesBlogListing') {
-        const type = sec.contentType || 'blogs';
+        const headingLower = (sec.blogHeading || sec.heading || '').toLowerCase();
+        let type: 'blogs' | 'news' | 'case-studies' = sec.contentType || 'blogs';
+
+        if (!sec.contentType) {
+          if (isNewsSlug || headingLower.includes('news')) {
+            type = 'news';
+          } else if (
+            isCaseStudySlug ||
+            headingLower.includes('case stud') ||
+            headingLower.includes('past performance')
+          ) {
+            type = 'case-studies';
+          }
+        }
+
         let items: any[] = [];
         if (type === 'news') items = articlesResult.data ?? [];
         else if (type === 'case-studies') items = caseStudiesResult.data ?? [];
         else items = blogsResult.data ?? [];
 
-        return { ...sec, items, blogs: items };
+        return { ...sec, contentType: type, items, blogs: items };
       }
       return sec;
     });
