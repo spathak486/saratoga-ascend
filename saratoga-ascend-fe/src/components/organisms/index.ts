@@ -56,3 +56,4 @@ export * from './IntegratedCapabilitiesSection';
 export * from './ProcurementAccessSection';
 
 export * from './DirectAccessSection';
+export * from './TimelineSection';
