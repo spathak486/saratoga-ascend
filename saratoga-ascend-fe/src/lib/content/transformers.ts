@@ -436,6 +436,18 @@ export function resolveSectionImages(
       };
     }
 
+    case 'ComponentReferencesTeamSectionReference': {
+      const teamRef = section as any;
+      if (!teamRef.members) return section;
+      return {
+        ...section,
+        members: teamRef.members.map((m: any) => ({
+          ...m,
+          image: unwrapImage(m.image),
+        })),
+      };
+    }
+
     default:
       return section;
   }
