@@ -1,5 +1,7 @@
 'use client';
 
+import { cleanHeadingHtml, stripHtml } from '@/lib/utils/text';
+
 import React, { useRef, useState, useEffect } from 'react';
 import Image from 'next/image';
 
@@ -375,7 +377,7 @@ export function AccountableOperatingEnvironmentsSection({
                     <div className="relative w-[80px] h-[80px] md:w-[100px] md:h-[100px]">
                       <Image
                         src={normalizeImageSrc(iconUrl)}
-                        alt={card.title}
+                        alt={stripHtml(card.title)}
                         fill
                         unoptimized
                         className="object-contain"
@@ -402,7 +404,7 @@ export function AccountableOperatingEnvironmentsSection({
                 >
                   {/* Title: DM Serif Text, 32px, line-height: 44px, Primary-Blue #022E4C */}
                   <h3 className="font-['DM_Serif_Text'] text-[24px] sm:text-[28px] md:text-[32px] leading-[36px] md:leading-[44px] text-[#022E4C] font-normal mb-[12px] md:mb-[16px]">
-                    {card.title}
+                    <span dangerouslySetInnerHTML={{ __html: cleanHeadingHtml(card.title) }} />
                   </h3>
 
                   {/* Description: Google Sans Flex, 20px, line-height: 35px (175%), color: #000000 */}

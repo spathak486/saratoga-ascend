@@ -1,0 +1,22 @@
+{
+  "collectionName": "components_references_timeline_references",
+  "info": {
+    "displayName": "Timeline Reference",
+    "icon": "clock",
+    "description": "Vertical milestone timeline roadmap component for blogs and pages"
+  },
+  "options": {},
+  "attributes": {
+    "sectionTitle": {
+      "type": "string"
+    },
+    "steps": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.timeline-step",
+      "required": true
+    }
+  },
+  "config": {}
+}
+

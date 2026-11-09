@@ -12,6 +12,14 @@
   },
   "pluginOptions": {},
   "attributes": {
+    "layout": {
+      "type": "enumeration",
+      "enum": [
+        "side-by-side",
+        "grid"
+      ],
+      "default": "side-by-side"
+    },
     "referenceTitle": {
       "type": "string"
     },

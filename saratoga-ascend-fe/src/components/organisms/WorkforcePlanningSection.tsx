@@ -1,5 +1,7 @@
 'use client';
 
+import { cleanHeadingHtml, stripHtml } from '@/lib/utils/text';
+
 import React, { useState } from 'react';
 
 export interface WorkflowCardItem {
@@ -205,7 +207,7 @@ function OrbitPill({
         isRed ? 'bg-[#FFD8DB]' : 'bg-[#C8E7FB]'
       }`}
     >
-      <StepIcon number={stepNum} tone={tone} iconUrl={card.icon?.url} title={card.title} />
+      <StepIcon number={stepNum} tone={tone} iconUrl={card.icon?.url} title={stripHtml(card.title)} />
     </div>
   );
 
@@ -221,7 +223,7 @@ function OrbitPill({
           {stepNum}
         </span>
         <h3 className={`my-0.5 font-sans text-[clamp(1.15rem,1rem+0.45vw,1.75rem)] font-bold leading-tight ${isRed ? 'text-[#F01424]' : 'text-[#2B88D9]'}`}>
-          {card.title}
+          <span dangerouslySetInnerHTML={{ __html: cleanHeadingHtml(card.title) }} />
         </h3>
         <p className="line-clamp-4 min-w-0 break-words font-sans text-[14px] leading-snug text-[#212121] sm:text-[15px] xl:text-[16px] xl:leading-6">
           {card.description}
@@ -327,7 +329,7 @@ export function WorkforcePlanningSection({
                     {isActive && (
                       <div className="flex flex-col justify-center max-w-[398px]">
                         <h3 className="mb-2 font-serif text-[28px] leading-[36px] font-normal text-[#000000]">
-                          {card.title}
+                          <span dangerouslySetInnerHTML={{ __html: cleanHeadingHtml(card.title) }} />
                         </h3>
                         <p className="line-clamp-4 min-w-0 break-words font-sans text-[20px] leading-[28px] text-[#212121]">
                           {card.description}

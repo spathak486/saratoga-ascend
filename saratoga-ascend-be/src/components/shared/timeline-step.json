@@ -1,0 +1,28 @@
+{
+  "collectionName": "components_shared_timeline_steps",
+  "info": {
+    "displayName": "Timeline Step",
+    "icon": "bulletList",
+    "description": "Individual milestone step for timeline roadmap"
+  },
+  "options": {},
+  "attributes": {
+    "stepNumber": {
+      "type": "string"
+    },
+    "timeframe": {
+      "type": "string",
+      "required": true
+    },
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text",
+      "required": true
+    }
+  },
+  "config": {}
+}
+

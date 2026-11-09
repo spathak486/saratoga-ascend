@@ -1,5 +1,7 @@
 'use client';
 
+import { cleanHeadingHtml, stripHtml } from '@/lib/utils/text';
+
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 
@@ -310,8 +312,8 @@ export const MissionVisionPromiseSection: React.FC<MissionVisionPromiseSectionPr
                   >
                     <CardIconRenderer
                       iconUrl={iconUrl}
-                      altText={typeof card.icon !== 'string' ? card.icon?.alternativeText : card.title}
-                      title={card.title}
+                      altText={typeof card.icon !== 'string' ? card.icon?.alternativeText : stripHtml(card.title)}
+                      title={stripHtml(card.title)}
                       index={index}
                     />
                   </div>
@@ -322,7 +324,7 @@ export const MissionVisionPromiseSection: React.FC<MissionVisionPromiseSectionPr
                       isCardHighlighted ? 'text-white' : 'text-[#2B88D9]'
                     }`}
                   >
-                    {card.title}
+                    <span dangerouslySetInnerHTML={{ __html: cleanHeadingHtml(card.title) }} />
                   </h3>
 
                   {/* Rectangle 40131: Accent Underline Bar (~146px width, border-radius: 10px) */}

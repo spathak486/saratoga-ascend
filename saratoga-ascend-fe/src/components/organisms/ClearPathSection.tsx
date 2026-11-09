@@ -1,5 +1,7 @@
 'use client';
 
+import { cleanHeadingHtml, stripHtml } from '@/lib/utils/text';
+
 import React from 'react';
 import { Heading, Text } from '../atoms';
 
