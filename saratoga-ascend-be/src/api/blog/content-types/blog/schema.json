@@ -88,7 +88,8 @@
         "references.supporting-mission-reference",
         "references.past-performance-reference",
         "references.key-takeaways-reference",
-        "references.stat-cards-reference"
+        "references.stat-cards-reference",
+        "references.timeline-reference"
       ]
     }
   }

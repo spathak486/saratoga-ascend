@@ -872,7 +872,24 @@ export const DirectAccessReferenceSchema = z.object({
 export type DirectAccessReference = z.infer<typeof DirectAccessReferenceSchema>;
 
 
+export const TimelineStepSchema = z.object({
+  id: z.string().optional(),
+  stepNumber: z.string().nullable().optional(),
+  timeframe: z.string(),
+  title: z.string(),
+  description: z.string(),
+});
+export type TimelineStep = z.infer<typeof TimelineStepSchema>;
+
+export const TimelineReferenceSchema = z.object({
+  __typename: z.literal("ComponentReferencesTimelineReference"),
+  sectionTitle: z.string().nullable().optional(),
+  steps: z.array(TimelineStepSchema).nullable().optional(),
+});
+export type TimelineReference = z.infer<typeof TimelineReferenceSchema>;
+
 export const DynamicZoneSectionSchema = z.union([
+  TimelineReferenceSchema,
   DirectAccessReferenceSchema,
   ProcurementAccessReferenceSchema,
   IntegratedCapabilitiesReferenceSchema,

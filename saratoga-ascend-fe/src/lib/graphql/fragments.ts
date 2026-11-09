@@ -541,6 +541,20 @@ export const WORKFORCE_PLANNING_REFERENCE_FIELDS = `
 `;
 
 // Common dynamic-zone inline fragments supported by Blog.Section in Strapi
+export const TIMELINE_REFERENCE_FIELDS = `
+  __typename
+  ... on ComponentReferencesTimelineReference {
+    sectionTitle
+    steps {
+      id
+      stepNumber
+      timeframe
+      title
+      description
+    }
+  }
+`;
+
 export const BLOG_SECTION_FRAGMENTS = [
   BANNER_REFERENCE_FIELDS,
   CTA_REFERENCE_FIELDS,
@@ -557,6 +571,7 @@ export const BLOG_SECTION_FRAGMENTS = [
   PAST_PERFORMANCE_REFERENCE_FIELDS,
   KEY_TAKEAWAYS_REFERENCE_FIELDS,
   STAT_CARDS_REFERENCE_FIELDS,
+  TIMELINE_REFERENCE_FIELDS,
 ].join('\n');
 
 export const CONTACT_INQUIRY_REFERENCE_FIELDS = `
@@ -864,6 +879,7 @@ export const PAGE_BASE_SECTION_FRAGMENTS = [
 
 // Dynamic-zone inline fragments supported by Page.Section
 
+
 export const COMMON_SECTION_FRAGMENTS = [
   PAGE_BASE_SECTION_FRAGMENTS,
   MISSION_VISION_PROMISE_REFERENCE_FIELDS,
@@ -890,6 +906,7 @@ export const COMMON_SECTION_FRAGMENTS = [
   CONTACT_PATHWAYS_REFERENCE_FIELDS,
   CONTACT_LEARN_REFERENCE_FIELDS,
   CONTACT_OFFICES_REFERENCE_FIELDS,
+  TIMELINE_REFERENCE_FIELDS,
 ].join('\n');
 
 // Page dynamic zone includes blog listing and any page-specific fragments.
