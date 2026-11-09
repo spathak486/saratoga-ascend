@@ -555,6 +555,22 @@ export const TIMELINE_REFERENCE_FIELDS = `
   }
 `;
 
+export const FEDERAL_ENVIRONMENTS_REFERENCE_FIELDS = `
+  __typename
+  ... on ComponentReferencesFederalEnvironmentsReference {
+    sectionTitle
+    description
+    cards {
+      documentId
+      title
+      description
+      actionLabel
+      href
+      image { ${IMAGE_FIELDS} }
+    }
+  }
+`;
+
 export const TEAM_SECTION_REFERENCE_FIELDS = `
   __typename
   ... on ComponentReferencesTeamSectionReference {
@@ -592,7 +608,9 @@ export const BLOG_SECTION_FRAGMENTS = [
   STAT_CARDS_REFERENCE_FIELDS,
   TEAM_SECTION_REFERENCE_FIELDS,
   TIMELINE_REFERENCE_FIELDS,
+  FEDERAL_ENVIRONMENTS_REFERENCE_FIELDS,
   TEAM_SECTION_REFERENCE_FIELDS,
+  FEDERAL_ENVIRONMENTS_REFERENCE_FIELDS,
   TEAM_SECTION_REFERENCE_FIELDS,
 ].join('\n');
 

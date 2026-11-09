@@ -436,6 +436,18 @@ export function resolveSectionImages(
       };
     }
 
+case 'ComponentReferencesFederalEnvironmentsReference': {
+      const feRef = section as any;
+      if (!feRef.cards) return section;
+      return {
+        ...section,
+        cards: feRef.cards.map((c: any) => ({
+          ...c,
+          image: unwrapImage(c.image),
+        })),
+      };
+    }
+
     case 'ComponentReferencesTeamSectionReference': {
       const teamRef = section as any;
       if (!teamRef.members) return section;

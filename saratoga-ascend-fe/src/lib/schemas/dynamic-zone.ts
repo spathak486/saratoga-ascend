@@ -907,7 +907,27 @@ export const TeamSectionReferenceSchema = z.object({
 });
 export type TeamSectionReference = z.infer<typeof TeamSectionReferenceSchema>;
 
+export const FederalEnvironmentCardSchema = z.object({
+  id: z.union([z.string(), z.number()]).optional(),
+  documentId: z.string().optional(),
+  title: z.string().nullable().optional(),
+  description: z.string().nullable().optional(),
+  actionLabel: z.string().nullable().optional(),
+  href: z.string().nullable().optional(),
+  image: StrapiImageSchema.nullable().optional(),
+});
+export type FederalEnvironmentCardType = z.infer<typeof FederalEnvironmentCardSchema>;
+
+export const FederalEnvironmentsReferenceSchema = z.object({
+  __typename: z.literal('ComponentReferencesFederalEnvironmentsReference'),
+  sectionTitle: z.string().nullable().optional(),
+  description: z.string().nullable().optional(),
+  cards: z.array(FederalEnvironmentCardSchema).nullable().optional(),
+});
+export type FederalEnvironmentsReference = z.infer<typeof FederalEnvironmentsReferenceSchema>;
+
 export const DynamicZoneSectionSchema = z.union([
+  FederalEnvironmentsReferenceSchema,
   TeamSectionReferenceSchema,
   TimelineReferenceSchema,
   DirectAccessReferenceSchema,
