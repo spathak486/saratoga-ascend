@@ -1,8 +1,7 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { BlogCard } from '../molecules/BlogCard';
-import { PastPerformanceCard } from '../molecules/PastPerformanceCard';
 import Link from 'next/link';
 
 export interface InsightsListingSectionProps {
@@ -40,6 +39,9 @@ function normalizeImageSrc(url?: string | null): string {
   return url;
 }
 
+const CTA_BUTTON_CLASSES =
+  'inline-flex items-center justify-center border font-sans font-medium transition-opacity duration-200 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 disabled:opacity-50 disabled:cursor-not-allowed min-h-cta min-w-cta-wide gap-3 px-cta-x py-cta-y text-button shadow-button rounded-button bg-cta-gradient border-transparent text-brand-on-dark hover:opacity-90 focus-visible:outline-brand-navy w-auto whitespace-nowrap h-cta';
+
 export const InsightsListingSection: React.FC<InsightsListingSectionProps> = ({
   mainHeading = 'Insights',
   mainSubheading = 'Explore insights, news, and proven past performance shaping federal healthcare and defense.',
@@ -47,47 +49,27 @@ export const InsightsListingSection: React.FC<InsightsListingSectionProps> = ({
   blogTitle = 'Latest Blogs',
   blogDescription = 'Explore insights and thought leadership shaping the future of federal healthcare.',
   blogButtonText = 'View More',
-  blogButtonUrl,
+  blogButtonUrl = '/blogs',
 
   showNews = true,
   newsTitle = 'Latest News',
   newsDescription = 'Stay updated with recent press releases, industry announcements, and agency developments.',
   newsButtonText = 'View More',
-  newsButtonUrl,
+  newsButtonUrl = '/news',
 
   showPastPerformance = true,
   pastPerformanceTitle = 'Past Performance',
   pastPerformanceDescription = 'Discover how we deliver rapid, compliant, and critical staffing and healthcare solutions.',
   pastPerformanceButtonText = 'View More',
-  pastPerformanceButtonUrl,
+  pastPerformanceButtonUrl = '/case-studies',
 
   blogs = [],
   news = [],
   pastPerformance = [],
 }) => {
-  // Determine available tabs based on Strapi toggles
-  const availableTabs = useMemo(() => {
-    const tabs: Array<{ id: 'blog' | 'news' | 'pastPerformance'; label: string }> = [];
-    if (showBlog) tabs.push({ id: 'blog', label: 'Blog' });
-    if (showNews) tabs.push({ id: 'news', label: 'News' });
-    if (showPastPerformance) tabs.push({ id: 'pastPerformance', label: 'Past Performance' });
-    return tabs;
-  }, [showBlog, showNews, showPastPerformance]);
-
-  const defaultTab = availableTabs[0]?.id || 'blog';
-  const [activeTab, setActiveTab] = useState<'blog' | 'news' | 'pastPerformance'>(defaultTab);
-
-  // Number of visible cards (initial 3, increases by 3 on "View More" if no URL provided)
-  const [visibleCount, setVisibleCount] = useState<number>(3);
-
-  const handleTabChange = (tabId: 'blog' | 'news' | 'pastPerformance') => {
-    setActiveTab(tabId);
-    setVisibleCount(3);
-  };
-
-  // Format Items
+  // Format Items (Top 3 for each)
   const formattedBlogs = useMemo(() => {
-    return blogs.map((b: any, idx: number) => ({
+    return blogs.slice(0, 3).map((b: any, idx: number) => ({
       id: b.documentId || b.id || `blog-${idx}`,
       title: b.title || 'Untitled',
       readTime: b.readTime ? `${b.readTime}` : undefined,
@@ -97,12 +79,11 @@ export const InsightsListingSection: React.FC<InsightsListingSectionProps> = ({
       author: b.author || 'Saratoga Team',
       imageSrc: normalizeImageSrc(b.image?.url || (typeof b.image === 'string' ? b.image : undefined)),
       href: b.slug ? (b.slug.startsWith('/') ? b.slug : `/${b.slug}`) : '#',
-      category: b.category?.name || b.category || 'Blog',
     }));
   }, [blogs]);
 
   const formattedNews = useMemo(() => {
-    return news.map((n: any, idx: number) => ({
+    return news.slice(0, 3).map((n: any, idx: number) => ({
       id: n.documentId || n.id || `news-${idx}`,
       title: n.title || 'Untitled',
       readTime: n.readTime ? `${n.readTime}` : undefined,
@@ -114,77 +95,29 @@ export const InsightsListingSection: React.FC<InsightsListingSectionProps> = ({
       author: n.author || 'Saratoga Team',
       imageSrc: normalizeImageSrc(n.image?.url || (typeof n.image === 'string' ? n.image : undefined)),
       href: n.slug ? (n.slug.startsWith('/') ? n.slug : `/${n.slug}`) : '#',
-      category: n.topic || n.categoryType || 'News',
     }));
   }, [news]);
 
   const formattedPastPerformance = useMemo(() => {
-    return pastPerformance.map((cs: any, idx: number) => ({
+    return pastPerformance.slice(0, 3).map((cs: any, idx: number) => ({
       id: cs.documentId || cs.id || `cs-${idx}`,
       title: cs.title || 'Untitled',
-      body: cs.summary || cs.body || '',
+      readTime: cs.readTime ? `${cs.readTime}` : undefined,
+      date: cs.articleDate
+        ? new Date(cs.articleDate).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
+        : undefined,
+      author: cs.client || cs.author || 'Saratoga Team',
       imageSrc: normalizeImageSrc(cs.image?.url || (typeof cs.image === 'string' ? cs.image : undefined)),
-      href: cs.slug ? (cs.slug.startsWith('/') ? cs.slug : `/${cs.slug}`) : undefined,
+      href: cs.slug ? (cs.slug.startsWith('/') ? cs.slug : `/${cs.slug}`) : '#',
     }));
   }, [pastPerformance]);
-
-  // Current tab info (Title, Description, Button Text, Button URL)
-  const currentTabMeta = useMemo(() => {
-    if (activeTab === 'blog') {
-      return {
-        title: blogTitle,
-        description: blogDescription,
-        buttonText: blogButtonText || 'View More',
-        buttonUrl: blogButtonUrl,
-      };
-    }
-    if (activeTab === 'news') {
-      return {
-        title: newsTitle,
-        description: newsDescription,
-        buttonText: newsButtonText || 'View More',
-        buttonUrl: newsButtonUrl,
-      };
-    }
-    return {
-      title: pastPerformanceTitle,
-      description: pastPerformanceDescription,
-      buttonText: pastPerformanceButtonText || 'View More',
-      buttonUrl: pastPerformanceButtonUrl,
-    };
-  }, [
-    activeTab,
-    blogTitle,
-    blogDescription,
-    blogButtonText,
-    blogButtonUrl,
-    newsTitle,
-    newsDescription,
-    newsButtonText,
-    newsButtonUrl,
-    pastPerformanceTitle,
-    pastPerformanceDescription,
-    pastPerformanceButtonText,
-    pastPerformanceButtonUrl,
-  ]);
-
-  // Current active list
-  const currentItems = useMemo(() => {
-    if (activeTab === 'blog') return formattedBlogs;
-    if (activeTab === 'news') return formattedNews;
-    if (activeTab === 'pastPerformance') return formattedPastPerformance;
-    return [];
-  }, [activeTab, formattedBlogs, formattedNews, formattedPastPerformance]);
-
-  const displayedItems = currentItems.slice(0, visibleCount);
-  const hasMore = visibleCount < currentItems.length || Boolean(currentTabMeta.buttonUrl);
 
   return (
     <section className="w-full bg-white py-16 md:py-24">
       <div className="container mx-auto px-4 md:px-8 max-w-[1680px]">
         {/* Main Section Header */}
         {(mainHeading || mainSubheading) && (
-          <div className="flex flex-col items-start gap-4 mb-10 max-w-4xl">
+          <div className="flex flex-col items-start gap-4 mb-16 md:mb-20 max-w-4xl">
             {mainHeading && (
               <h1 className="text-[clamp(36px,4vw,64px)] leading-[1.2] font-serif font-normal text-[#D31E2D]">
                 {mainHeading}
@@ -198,112 +131,190 @@ export const InsightsListingSection: React.FC<InsightsListingSectionProps> = ({
           </div>
         )}
 
-        {/* Toggle Buttons (Tabs) */}
-        {availableTabs.length > 1 && (
-          <div className="flex flex-wrap items-center gap-4 mb-10">
-            {availableTabs.map((tab) => {
-              const isActive = activeTab === tab.id;
-              return (
-                <button
-                  key={tab.id}
-                  onClick={() => handleTabChange(tab.id)}
-                  className={`px-7 py-3 rounded-full text-[18px] md:text-[20px] font-sans font-medium transition-all duration-300 border ${
-                    isActive
-                      ? 'bg-[#B81C31] text-white border-transparent shadow-md'
-                      : 'bg-white text-[#717171] border-[#E3E3E3] hover:border-[#B81C31] hover:text-[#B81C31]'
-                  }`}
-                >
-                  {tab.label}
-                </button>
-              );
-            })}
-          </div>
-        )}
+        <div className="flex flex-col gap-24 md:gap-32 w-full">
+          {/* 1. BLOGS SECTION */}
+          {showBlog && (
+            <div className="flex flex-col w-full">
+              {/* Blog Header with Right-Aligned View More Button */}
+              <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 w-full">
+                <div className="flex flex-col items-start gap-3 max-w-3xl">
+                  {blogTitle && (
+                    <h2 className="text-[clamp(28px,2.5vw,44px)] leading-[1.25] font-serif font-normal text-[#0A0A0A]">
+                      {blogTitle}
+                    </h2>
+                  )}
+                  {blogDescription && (
+                    <p className="text-[clamp(16px,1.2vw,20px)] leading-[1.5] text-[#555555] font-sans font-normal">
+                      {blogDescription}
+                    </p>
+                  )}
+                </div>
 
-        {/* Active Tab Heading & Description (Dynamic from CMS) */}
-        {(currentTabMeta.title || currentTabMeta.description) && (
-          <div className="flex flex-col items-start gap-3 mb-10 max-w-4xl">
-            {currentTabMeta.title && (
-              <h2 className="text-[clamp(28px,2.5vw,44px)] leading-[1.25] font-serif font-normal text-[#0A0A0A]">
-                {currentTabMeta.title}
-              </h2>
-            )}
-            {currentTabMeta.description && (
-              <p className="text-[clamp(16px,1.2vw,20px)] leading-[1.5] text-[#555555] font-sans font-normal">
-                {currentTabMeta.description}
-              </p>
-            )}
-          </div>
-        )}
+                {blogButtonText && (
+                  <div className="shrink-0">
+                    <Link
+                      href={blogButtonUrl || '/blogs'}
+                      className={CTA_BUTTON_CLASSES}
+                    >
+                      <span>{blogButtonText}</span>
+                      <svg
+                        className="w-4 h-4"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                      </svg>
+                    </Link>
+                  </div>
+                )}
+              </div>
 
-        {/* 3 Card Grid */}
-        {displayedItems.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-[40px] w-full">
-            {activeTab === 'pastPerformance'
-              ? displayedItems.map((item: any) => (
-                  <div key={item.id} className="w-full h-full min-h-[450px]">
-                    <PastPerformanceCard
+              {/* Blog 3 Cards */}
+              {formattedBlogs.length > 0 ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-[40px] w-full">
+                  {formattedBlogs.map((item) => (
+                    <BlogCard
+                      key={item.id}
                       title={item.title}
-                      body={item.body}
+                      readTime={item.readTime}
+                      date={item.date}
+                      author={item.author}
                       imageSrc={item.imageSrc}
                       href={item.href}
                     />
-                  </div>
-                ))
-              : displayedItems.map((item: any) => (
-                  <BlogCard
-                    key={item.id}
-                    title={item.title}
-                    readTime={item.readTime}
-                    date={item.date}
-                    author={item.author}
-                    imageSrc={item.imageSrc}
-                    href={item.href}
-                  />
-                ))}
-          </div>
-        ) : (
-          <div className="text-center py-16 text-[#717171] text-lg font-sans">
-            No entries found for {availableTabs.find((t) => t.id === activeTab)?.label || 'this section'}.
-          </div>
-        )}
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center py-10 text-[#717171] text-base font-sans">
+                  No blogs available at the moment.
+                </div>
+              )}
+            </div>
+          )}
 
-        {/* View More Button */}
-        {hasMore && (
-          <div className="mt-14 flex justify-center">
-            {currentTabMeta.buttonUrl ? (
-              <Link
-                href={currentTabMeta.buttonUrl}
-                className="inline-flex items-center justify-center px-8 py-3.5 rounded-full border border-[#B81C31] text-[#B81C31] font-sans text-base font-semibold transition-all duration-300 hover:bg-[#B81C31] hover:text-white group"
-              >
-                <span>{currentTabMeta.buttonText}</span>
-                <svg
-                  className="ml-2 w-4 h-4 transition-transform duration-300 group-hover:translate-x-1"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                </svg>
-              </Link>
-            ) : (
-              <button
-                onClick={() => setVisibleCount((prev) => prev + 3)}
-                className="inline-flex items-center justify-center px-8 py-3.5 rounded-full border border-[#B81C31] text-[#B81C31] font-sans text-base font-semibold transition-all duration-300 hover:bg-[#B81C31] hover:text-white group"
-              >
-                <span>{currentTabMeta.buttonText}</span>
-                <svg
-                  className="ml-2 w-4 h-4 transition-transform duration-300 group-hover:translate-y-0.5"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
-              </button>
-            )}
-          </div>
-        )}
+          {/* 2. NEWS SECTION */}
+          {showNews && (
+            <div className="flex flex-col w-full">
+              {/* News Header with Right-Aligned View More Button */}
+              <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 w-full">
+                <div className="flex flex-col items-start gap-3 max-w-3xl">
+                  {newsTitle && (
+                    <h2 className="text-[clamp(28px,2.5vw,44px)] leading-[1.25] font-serif font-normal text-[#0A0A0A]">
+                      {newsTitle}
+                    </h2>
+                  )}
+                  {newsDescription && (
+                    <p className="text-[clamp(16px,1.2vw,20px)] leading-[1.5] text-[#555555] font-sans font-normal">
+                      {newsDescription}
+                    </p>
+                  )}
+                </div>
+
+                {newsButtonText && (
+                  <div className="shrink-0">
+                    <Link
+                      href={newsButtonUrl || '/news'}
+                      className={CTA_BUTTON_CLASSES}
+                    >
+                      <span>{newsButtonText}</span>
+                      <svg
+                        className="w-4 h-4"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                      </svg>
+                    </Link>
+                  </div>
+                )}
+              </div>
+
+              {/* News 3 Cards */}
+              {formattedNews.length > 0 ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-[40px] w-full">
+                  {formattedNews.map((item) => (
+                    <BlogCard
+                      key={item.id}
+                      title={item.title}
+                      readTime={item.readTime}
+                      date={item.date}
+                      author={item.author}
+                      imageSrc={item.imageSrc}
+                      href={item.href}
+                    />
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center py-10 text-[#717171] text-base font-sans">
+                  No news articles available at the moment.
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* 3. PAST PERFORMANCE SECTION */}
+          {showPastPerformance && (
+            <div className="flex flex-col w-full">
+              {/* Past Performance Header with Right-Aligned View More Button */}
+              <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 w-full">
+                <div className="flex flex-col items-start gap-3 max-w-3xl">
+                  {pastPerformanceTitle && (
+                    <h2 className="text-[clamp(28px,2.5vw,44px)] leading-[1.25] font-serif font-normal text-[#0A0A0A]">
+                      {pastPerformanceTitle}
+                    </h2>
+                  )}
+                  {pastPerformanceDescription && (
+                    <p className="text-[clamp(16px,1.2vw,20px)] leading-[1.5] text-[#555555] font-sans font-normal">
+                      {pastPerformanceDescription}
+                    </p>
+                  )}
+                </div>
+
+                {pastPerformanceButtonText && (
+                  <div className="shrink-0">
+                    <Link
+                      href={pastPerformanceButtonUrl || '/case-studies'}
+                      className={CTA_BUTTON_CLASSES}
+                    >
+                      <span>{pastPerformanceButtonText}</span>
+                      <svg
+                        className="w-4 h-4"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                      </svg>
+                    </Link>
+                  </div>
+                )}
+              </div>
+
+              {/* Past Performance 3 Cards (Same BlogCard Style) */}
+              {formattedPastPerformance.length > 0 ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-[40px] w-full">
+                  {formattedPastPerformance.map((item) => (
+                    <BlogCard
+                      key={item.id}
+                      title={item.title}
+                      readTime={item.readTime}
+                      date={item.date}
+                      author={item.author}
+                      imageSrc={item.imageSrc}
+                      href={item.href}
+                    />
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center py-10 text-[#717171] text-base font-sans">
+                  No past performance case studies available at the moment.
+                </div>
+              )}
+            </div>
+          )}
+        </div>
       </div>
     </section>
   );
