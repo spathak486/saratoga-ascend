@@ -178,9 +178,8 @@ export const FederalEnvironmentsSection: React.FC<FederalEnvironmentsSectionProp
                   <h3
                     className="font-sans font-semibold text-lg sm:text-xl lg:text-[24px] leading-snug lg:leading-[40px] text-[#000000]"
                     style={{ fontFamily: "'Google Sans Flex', sans-serif" }}
-                  >
-                    {card.title}
-                  </h3>
+                    dangerouslySetInnerHTML={{ __html: cleanHeadingHtml(card.title || '') }}
+                  />
 
                   {/* Plus / Minus Action Button */}
                   <div
