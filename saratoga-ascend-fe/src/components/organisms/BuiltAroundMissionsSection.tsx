@@ -112,30 +112,29 @@ export const BuiltAroundMissionsSection: React.FC<BuiltAroundMissionsSectionProp
           </div>
 
           {/* 2x2 Grid Layout */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-7 lg:gap-8 xl:gap-[30px] w-full">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-7 lg:gap-8 xl:gap-[30px] w-full max-w-[1618px]">
             {cards.map((card, idx) => {
               const cardNumber = card.number || `0${idx + 1}`;
-              // In the 2x2 Figma design, cards alternate in a checkerboard:
-              // Index 0: Light, Index 1: Blue, Index 2: Blue, Index 3: Light
-              // Or explicit isHighlighted if set in CMS
               const isBlue =
                 typeof card.isHighlighted === 'boolean'
                   ? card.isHighlighted
                   : idx === 1 || idx === 2;
 
               return (
+                /* Frame 2147226435 / Frame 2147226437 / Frame 2147226438 / Frame 2147226439:
+                   width: 794px, height: 232px, padding: 34px 30px 34px 20px, border-radius: 20px, border: 1px solid #2B88D9 */
                 <div
                   key={card.id || `card-${idx}`}
-                  className={`box-border relative flex items-center gap-5 sm:gap-6 lg:gap-8 p-6 sm:p-8 lg:p-9 xl:py-[34px] xl:px-[30px] w-full min-h-[180px] sm:min-h-[210px] xl:min-h-[232px] rounded-[20px] border border-[#2B88D9] transition-all duration-300 hover:shadow-xl ${
+                  className={`box-border relative flex items-center gap-[19px] p-5 sm:p-6 lg:py-[34px] lg:pl-[20px] lg:pr-[30px] w-full max-w-[794px] min-h-[190px] lg:h-[232px] rounded-[20px] border border-[#2B88D9] transition-all duration-300 hover:shadow-xl ${
                     isBlue
                       ? 'bg-[#2B88D9] text-white shadow-[0_8px_30px_rgba(43,136,217,0.25)]'
                       : 'bg-[#F3F9FF] text-[#212121] shadow-[0_4px_20px_rgba(43,136,217,0.06)]'
                   }`}
                 >
-                  {/* Left Number: Outfit 700 36px */}
-                  <div className="shrink-0 flex items-center justify-center min-w-[42px] sm:min-w-[50px]">
+                  {/* Left Number: Outfit, 700, 36px, line-height: 45px (width: 58px) */}
+                  <div className="shrink-0 flex items-center justify-center w-[58px]">
                     <span
-                      className={`font-['Outfit',sans-serif] font-bold text-2xl sm:text-3xl lg:text-4xl leading-none ${
+                      className={`font-['Outfit',sans-serif] font-bold text-3xl lg:text-[36px] leading-[45px] ${
                         isBlue ? 'text-white' : 'text-[#212121]'
                       }`}
                     >
@@ -143,26 +142,29 @@ export const BuiltAroundMissionsSection: React.FC<BuiltAroundMissionsSectionProp
                     </span>
                   </div>
 
-                  {/* Vertical Divider: Vector 7171 */}
+                  {/* Vertical Divider: Vector 7171, height: 148px, border: 2px solid */}
                   <div
-                    className={`h-[90px] sm:h-[120px] lg:h-[148px] w-0 border-l-2 shrink-0 ${
+                    className={`h-[110px] lg:h-[148px] w-0 border-l-2 shrink-0 ${
                       isBlue ? 'border-white' : 'border-[#000000]'
                     }`}
                     aria-hidden="true"
                   />
 
-                  {/* Content Area */}
-                  <div className="flex-1 flex flex-col justify-center min-w-0">
+                  {/* Group 2085664883: Title & Description */}
+                  <div className="flex-1 flex flex-col justify-center min-w-0 pl-[1px]">
+                    {/* Title: Google Sans Flex, 700, 28px, line-height: 28px */}
                     <h3
-                      className={`font-sans font-bold text-lg sm:text-xl lg:text-2xl xl:text-[28px] leading-tight mb-2 sm:mb-2.5 ${
+                      className={`font-sans font-bold text-xl lg:text-[28px] leading-[1.15] lg:leading-[28px] mb-2 sm:mb-2.5 ${
                         isBlue ? 'text-white' : 'text-[#212121]'
                       }`}
                     >
                       {card.title}
                     </h3>
+
+                    {/* Description: DM Sans 18pt, 300, 24px, line-height: 40px (167%) */}
                     <p
-                      className={`font-sans font-normal text-sm sm:text-base lg:text-lg xl:text-[20px] leading-snug sm:leading-relaxed ${
-                        isBlue ? 'text-white/95' : 'text-[#212121]'
+                      className={`font-sans font-light text-base lg:text-[24px] leading-snug lg:leading-[40px] ${
+                        isBlue ? 'text-white' : 'text-[#212121]'
                       }`}
                     >
                       {card.description}

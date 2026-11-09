@@ -548,6 +548,7 @@ export const SECTION_REGISTRY: Record<
     return (
       <BuiltAroundMissionsSection
         key={`built-around-missions-${index}`}
+        layout={bam.layout ?? undefined}
         title={bam.title ?? undefined}
         highlightTitle={bam.highlightTitle ?? undefined}
         description={bam.description ?? undefined}
