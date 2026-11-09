@@ -1,5 +1,7 @@
 'use client';
 
+import { cleanHeadingHtml, stripHtml } from '@/lib/utils/text';
+
 import React, { useRef, useState, useEffect, useCallback } from 'react';
 import Image from 'next/image';
 
@@ -325,7 +327,7 @@ export function OurCapabilitiesSection({
                       <div className="relative w-9 h-9 md:w-10 md:h-10">
                         <Image
                           src={normalizeImageSrc(iconUrl)}
-                          alt={card.title}
+                          alt={stripHtml(card.title)}
                           fill
                           unoptimized
                           className="object-contain"
@@ -340,7 +342,7 @@ export function OurCapabilitiesSection({
                   <div className="flex-1 flex flex-col justify-center">
                     {/* Card Title: DM Serif Text, 28px, line-height: 38px, color: #2B2B2B */}
                     <h3 className="font-['DM_Serif_Text'] text-[22px] sm:text-[25px] md:text-[28px] leading-[30px] md:leading-[38px] text-[#2B2B2B] font-normal mb-3 md:mb-4 transition-colors duration-300">
-                      {card.title}
+                      <span dangerouslySetInnerHTML={{ __html: cleanHeadingHtml(card.title) }} />
                     </h3>
 
                     {/* Card Description: Google Sans Flex / DM Sans, 20px, line-height: 28px, color: #212121 */}

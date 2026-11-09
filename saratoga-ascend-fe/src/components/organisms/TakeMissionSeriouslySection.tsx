@@ -1,5 +1,7 @@
 'use client';
 
+import { cleanHeadingHtml, stripHtml } from '@/lib/utils/text';
+
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 
@@ -306,8 +308,8 @@ export const TakeMissionSeriouslySection: React.FC<TakeMissionSeriouslySectionPr
                 <div className="w-[104px] h-[104px] rounded-[13px] bg-[#95C3EC] border border-black flex items-center justify-center shrink-0 transition-transform duration-300 hover:scale-105">
                   <CardIconRenderer
                     iconUrl={iconUrl}
-                    altText={typeof card.icon !== 'string' ? card.icon?.alternativeText : card.title}
-                    title={card.title}
+                    altText={typeof card.icon !== 'string' ? card.icon?.alternativeText : stripHtml(card.title)}
+                    title={stripHtml(card.title)}
                     index={index}
                   />
                 </div>
@@ -316,7 +318,7 @@ export const TakeMissionSeriouslySection: React.FC<TakeMissionSeriouslySectionPr
                 <div className="flex-1 flex flex-col justify-center max-w-[357px]">
                   {/* Title: DM Serif Text, 28px, line-height: 46px, color: #000000 */}
                   <h3 className="font-['DM_Serif_Text'] text-[24px] lg:text-[28px] leading-[36px] lg:leading-[46px] text-black font-normal mb-[10px]">
-                    {card.title}
+                    <span dangerouslySetInnerHTML={{ __html: cleanHeadingHtml(card.title) }} />
                   </h3>
 
                   {/* Description: Google Sans Flex, 20px, line-height: 30px, color: #212121 */}

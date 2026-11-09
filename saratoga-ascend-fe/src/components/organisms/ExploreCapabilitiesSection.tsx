@@ -1,5 +1,7 @@
 'use client';
 
+import { cleanHeadingHtml, stripHtml } from '@/lib/utils/text';
+
 import React, { useLayoutEffect, useRef, useState } from 'react';
 
 export interface CapabilityCard {
@@ -315,7 +317,7 @@ export function ExploreCapabilitiesSection({
                   {card.icon?.url ? (
                     <img
                       src={card.icon.url}
-                      alt={card.icon.alternativeText || card.title}
+                      alt={card.icon.alternativeText || stripHtml(card.title)}
                       className="w-16 h-16 2xl:w-24 2xl:h-24 object-contain"
                     />
                   ) : (
@@ -330,7 +332,7 @@ export function ExploreCapabilitiesSection({
                     className="font-serif text-[28px] leading-[38px] font-normal min-h-[38px] flex items-center justify-center max-w-[358px] px-2"
                     style={{ fontFamily: "'DM Serif Text', serif" }}
                   >
-                    {card.title}
+                    <span dangerouslySetInnerHTML={{ __html: cleanHeadingHtml(card.title) }} />
                   </h3>
 
                   {/* Horizontal Divider Line: Rectangle 39856 - 169.02px width, 2.56px height */}

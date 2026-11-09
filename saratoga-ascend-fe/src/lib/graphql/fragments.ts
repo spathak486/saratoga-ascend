@@ -355,8 +355,7 @@ export const MISSION_VISION_PROMISE_REFERENCE_FIELDS = `
 export const BUILT_AROUND_MISSIONS_REFERENCE_FIELDS = `
   __typename
   ... on ComponentReferencesBuiltAroundMissionsReference {
-    builtAroundMissionsSection {
-      documentId
+    \n      layout
       title
       highlightTitle
       description

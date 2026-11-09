@@ -1,5 +1,7 @@
 'use client';
 
+import { cleanHeadingHtml, stripHtml } from '@/lib/utils/text';
+
 import React from 'react';
 import { motion, useReducedMotion } from 'motion/react';
 
@@ -279,9 +281,9 @@ export function WorkforceDeliverySection({
           return (
             <div key={card.id ?? card.documentId ?? `delivery-step-${index}`} className="relative w-full">
               <div className="relative z-10 flex w-full flex-col items-center gap-5 md:flex-row md:items-center md:justify-between md:gap-8">
-                <StepPhoto src={imageSrc} alt={card.image?.alternativeText || card.title} />
+                <StepPhoto src={imageSrc} alt={card.image?.alternativeText || stripHtml(card.title)} />
                 <div className={`w-full min-w-0 md:max-w-[46%] xl:max-w-none xl:w-auto ${isLeftText ? 'md:order-first' : ''}`}>
-                  <StepCopy stepNum={stepNum} title={card.title} description={card.description} />
+                  <StepCopy stepNum={stepNum} title={cleanHeadingHtml(card.title)} description={card.description} />
                 </div>
               </div>
               {isNotLast ? (

@@ -1,5 +1,7 @@
 'use client';
 
+import { cleanHeadingHtml, stripHtml } from '@/lib/utils/text';
+
 import React, { useRef, useState, useEffect, useCallback } from 'react';
 import { Heading, Section, Text } from '../atoms';
 
@@ -268,7 +270,7 @@ export function MissionsYouServeSection({
                       <div className="flex min-w-0 flex-col gap-[1.3333rem]">
                         {/* 40px semibold has no Heading step. The section token caps at 72. */}
                         <h3 className="min-w-0 font-sans text-[clamp(1.625rem,1.15rem+1.15vw,2.5rem)] font-semibold leading-[1.25] break-words text-black">
-                          {card.title}
+                          <span dangerouslySetInnerHTML={{ __html: cleanHeadingHtml(card.title) }} />
                         </h3>
                         <p
                           className="min-w-0 font-sans text-[clamp(1rem,0.9rem+0.4vw,1.5rem)] font-light break-words text-black"
