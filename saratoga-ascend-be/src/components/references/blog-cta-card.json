@@ -3,22 +3,14 @@
   "info": {
     "displayName": "Blog CTA Card",
     "icon": "handHeart",
-    "description": "Call-out banner card used inside blog and article details"
+    "description": "Reusable Blog CTA reference for dynamic zones"
   },
   "options": {},
   "attributes": {
-    "title": {
-      "type": "string",
-      "default": "Learn more"
-    },
-    "description": {
-      "type": "text",
-      "default": "Explore how maximum can support healthcare modernisation enhance patient experiances."
-    },
-    "link": {
-      "type": "component",
-      "repeatable": false,
-      "component": "shared.general-link"
+    "blogCta": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::blog-cta.blog-cta"
     }
   }
 }
