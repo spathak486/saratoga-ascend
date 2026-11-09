@@ -92,7 +92,8 @@
         "references.timeline-reference",
         "references.team-section-reference",
         "references.federal-environments-reference",
-        "references.insights-listing"
+        "references.insights-listing",
+        "references.blog-cta-card"
       ]
     }
   }
