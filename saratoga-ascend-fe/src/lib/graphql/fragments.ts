@@ -863,6 +863,7 @@ export const PAGE_BASE_SECTION_FRAGMENTS = [
 ].join('\n');
 
 // Dynamic-zone inline fragments supported by Page.Section
+
 export const COMMON_SECTION_FRAGMENTS = [
   PAGE_BASE_SECTION_FRAGMENTS,
   MISSION_VISION_PROMISE_REFERENCE_FIELDS,
