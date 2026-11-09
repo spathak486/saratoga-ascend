@@ -888,7 +888,27 @@ export const TimelineReferenceSchema = z.object({
 });
 export type TimelineReference = z.infer<typeof TimelineReferenceSchema>;
 
+export const TeamMemberSchema = z.object({
+  documentId: z.string().optional(),
+  id: z.string().optional(),
+  name: z.string(),
+  role: z.string(),
+  email: z.string().nullable().optional(),
+  phone: z.string().nullable().optional(),
+  image: StrapiImageSchema.nullable().optional(),
+});
+export type TeamMember = z.infer<typeof TeamMemberSchema>;
+
+export const TeamSectionReferenceSchema = z.object({
+  __typename: z.literal("ComponentReferencesTeamSectionReference"),
+  sectionTitle: z.string().nullable().optional(),
+  description: z.string().nullable().optional(),
+  members: z.array(TeamMemberSchema).nullable().optional(),
+});
+export type TeamSectionReference = z.infer<typeof TeamSectionReferenceSchema>;
+
 export const DynamicZoneSectionSchema = z.union([
+  TeamSectionReferenceSchema,
   TimelineReferenceSchema,
   DirectAccessReferenceSchema,
   ProcurementAccessReferenceSchema,

@@ -274,7 +274,7 @@ export default async function DynamicPage({ params }: DynamicPageProps) {
           }
         });
       } else {
-        const titleText = sec.title || sec.referenceTitle;
+        const titleText = sec.title || sec.referenceTitle || sec.sectionTitle;
         if (titleText && typeof titleText === 'string') {
           const baseId = slugify(titleText) || 'section';
           const count = (usedIdsForSections.get(baseId) ?? 0) + 1;

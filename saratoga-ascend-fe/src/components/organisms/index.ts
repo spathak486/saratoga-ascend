@@ -57,3 +57,4 @@ export * from './ProcurementAccessSection';
 
 export * from './DirectAccessSection';
 export * from './TimelineSection';
+export * from './TeamSection';

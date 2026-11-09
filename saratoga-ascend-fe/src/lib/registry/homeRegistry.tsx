@@ -33,6 +33,7 @@ import type {
   DefenseReference,
   IntegratedCapabilitiesReference,
   ProcurementAccessReference,
+  TeamSectionReference,
   TimelineReference,
   DirectAccessReference,
   ContactInquiryReference,
@@ -78,6 +79,7 @@ import {
   DefenseSection,
   IntegratedCapabilitiesSection,
   ProcurementAccessSection,
+  TeamSection,
   TimelineSection,
   DirectAccessSection,
   ContactInquirySection,
@@ -643,6 +645,18 @@ export const SECTION_REGISTRY: Record<
     );
   },
 
+  ComponentReferencesTeamSectionReference: (section, index) => {
+    const teamRef = section as TeamSectionReference;
+    if (!teamRef.members || teamRef.members.length === 0) return null;
+    return (
+      <TeamSection
+        key={`team-section-${index}`}
+        sectionTitle={teamRef.sectionTitle ?? undefined}
+        description={teamRef.description ?? undefined}
+        members={teamRef.members as any}
+      />
+    );
+  },
   ComponentReferencesTimelineReference: (section, index) => {
     const tRef = section as TimelineReference;
     if (!tRef.steps || tRef.steps.length === 0) return null;
