@@ -33,6 +33,7 @@ import type {
   DefenseReference,
   IntegratedCapabilitiesReference,
   ProcurementAccessReference,
+  FederalEnvironmentsReference,
   TeamSectionReference,
   TimelineReference,
   DirectAccessReference,
@@ -79,6 +80,7 @@ import {
   DefenseSection,
   IntegratedCapabilitiesSection,
   ProcurementAccessSection,
+  FederalEnvironmentsSection,
   TeamSection,
   TimelineSection,
   DirectAccessSection,
@@ -641,6 +643,19 @@ export const SECTION_REGISTRY: Record<
         referenceTitle={dRef?.referenceTitle ?? undefined}
         variant={dRef?.variant ?? 'left'}
         card={dRef?.card as any}
+      />
+    );
+  },
+
+ComponentReferencesFederalEnvironmentsReference: (section, index) => {
+    const feRef = section as FederalEnvironmentsReference;
+    if (!feRef.cards || feRef.cards.length === 0) return null;
+    return (
+      <FederalEnvironmentsSection
+        key={`federal-environments-${index}`}
+        sectionTitle={feRef.sectionTitle ?? undefined}
+        description={feRef.description ?? undefined}
+        cards={feRef.cards as any}
       />
     );
   },

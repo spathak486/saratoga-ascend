@@ -1,0 +1,28 @@
+{
+  "collectionName": "components_references_federal_environments_references",
+  "info": {
+    "displayName": "Federal Environments Reference",
+    "icon": "shield",
+    "description": "Explore the Federal Environments We Support Accordion Card Section (Frame 2147226325 / 2147226554)"
+  },
+  "options": {},
+  "attributes": {
+    "sectionTitle": {
+      "type": "customField",
+      "customField": "plugin::ckeditor5.CKEditor",
+      "options": {
+        "preset": "defaultHtml"
+      }
+    },
+    "description": {
+      "type": "text",
+      "default": "Different agencies and mission communities have distinct operating contexts. Explore the pathways most relevant to your requirement."
+    },
+    "cards": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::card.card"
+    }
+  }
+}
+

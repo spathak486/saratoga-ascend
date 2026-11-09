@@ -118,7 +118,8 @@
         "references.procurement-access-reference",
         "references.direct-access-reference",
         "references.timeline-reference",
-        "references.team-section-reference"
+        "references.team-section-reference",
+        "references.federal-environments-reference"
       ]
     }
   }

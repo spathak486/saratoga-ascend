@@ -94,7 +94,8 @@
         "references.integrated-capabilities-reference",
         "references.procurement-access-reference",
         "references.direct-access-reference",
-        "references.team-section-reference"
+        "references.team-section-reference",
+        "references.federal-environments-reference"
       ]
     }
   }
