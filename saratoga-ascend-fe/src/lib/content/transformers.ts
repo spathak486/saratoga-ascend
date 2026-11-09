@@ -38,6 +38,45 @@ export function resolveSeo(
 }
 
 /** Resolves the media URL fields on a page/article content node. */
+
+/**
+ * Recursively cleans stray HTML tags (<p>, <h2>, etc.) and HTML entities
+ * from titles, headings, labels, and names that come from Strapi CKEditor fields.
+ */
+function sanitizeFieldStrings(data: any): any {
+  if (data === null || data === undefined) return data;
+  if (typeof data === 'string') {
+    return data;
+  }
+  if (Array.isArray(data)) {
+    return data.map((item) => sanitizeFieldStrings(item));
+  }
+  if (typeof data === 'object') {
+    const cleaned: any = {};
+    for (const [key, value] of Object.entries(data)) {
+      if (
+        typeof value === 'string' &&
+        (/^(title|heading|subheading|subtitle|label|name|highlightTitle|categoriesLabel|supportAreasLabel)$/i.test(key) ||
+          (/<\s*\/?[a-z0-9]+[^>]*>/i.test(value) && !['description', 'body', 'content', 'richtext'].includes(key.toLowerCase())))
+      ) {
+        cleaned[key] = value
+          .replace(/<[^>]*>/g, '')
+          .replace(/&amp;/g, '&')
+          .replace(/&lt;/g, '<')
+          .replace(/&gt;/g, '>')
+          .replace(/&quot;/g, '"')
+          .replace(/&#39;/g, "'")
+          .replace(/&nbsp;/g, ' ')
+          .trim();
+      } else {
+        cleaned[key] = sanitizeFieldStrings(value);
+      }
+    }
+    return cleaned;
+  }
+  return data;
+}
+
 export function resolveImages(node: RawContentNode): RawContentNode {
   return {
     ...node,

@@ -44,6 +44,7 @@ import type {
   KeyTakeawaysReference,
   StatCardsReference,
 } from '@/lib/schemas';
+import { BlogCtaCard } from '@/components/molecules';
 import {
   HeroSection,
   NeedHelpSection,
@@ -453,6 +454,20 @@ export const SECTION_REGISTRY: Record<
         subTitle={listingRef.subheading}
         items={listingRef.items || listingRef.blogs}
         contentType={listingRef.contentType || 'blogs'}
+      />
+    );
+  },
+
+  ComponentReferencesBlogCtaCard: (section, index) => {
+    const cardRef = section as any;
+    return (
+      <BlogCtaCard
+        key={`blog-cta-card-${index}`}
+        title={cardRef.title}
+        description={cardRef.description}
+        link={cardRef.link}
+        buttonText={cardRef.buttonText}
+        buttonUrl={cardRef.buttonUrl}
       />
     );
   },

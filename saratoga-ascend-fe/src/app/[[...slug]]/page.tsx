@@ -251,6 +251,18 @@ export default async function DynamicPage({ params }: DynamicPageProps) {
     });
   }
 
+  const isInsightsPage = slugPath === 'insights';
+  if (isInsightsPage && !sections.some((sec: any) => sec.__typename === 'ComponentReferencesInsightsListing')) {
+    sections.push({
+      __typename: 'ComponentReferencesInsightsListing',
+      mainHeading: pageData?.pageTitle || pageData?.title || 'Insights',
+      mainSubheading: pageData?.seo?.metaDescription || 'Explore insights, news, and proven past performance shaping federal healthcare and defense.',
+      showBlog: true,
+      showNews: true,
+      showPastPerformance: true,
+    });
+  }
+
   const hasInsightsListing = sections.some(
     (sec: any) => sec.__typename === 'ComponentReferencesInsightsListing'
   );

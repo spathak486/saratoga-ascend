@@ -19,7 +19,7 @@ export const BlogListingSection: React.FC<BlogListingSectionProps> = ({
   items,
   contentType = 'blogs',
 }) => {
-  const [activeCategory, setActiveCategory] = useState('All Topics');
+  const [activeCategory, setActiveCategory] = useState('All');
 
   const normalizeImageSrc = (url?: string | null): string | undefined => {
     if (!url) return undefined;
@@ -50,12 +50,12 @@ export const BlogListingSection: React.FC<BlogListingSectionProps> = ({
   const finalSubTitle = subTitle || defaultSubTitle;
 
   const formattedItems = rawList.map((item: any, idx: number) => {
+    // Exact category name from CMS Category relation or fallback fields
+    // ONLY consider actual Category collection relation, ignore categoryType
     const rawCategory =
       item.category?.name ||
-      item.topic ||
-      item.categoryType ||
-      (typeof item.category === 'string' ? item.category : undefined) ||
-      'General';
+      (typeof item.category === 'string' ? item.category : '') ||
+      '';
 
     const authorOrClient = item.client || item.author || 'Saratoga Team';
 
@@ -84,22 +84,23 @@ export const BlogListingSection: React.FC<BlogListingSectionProps> = ({
     };
   });
 
+  // Unique categories from items that have a category
   const categories = [
-    'All Topics',
-    ...Array.from(new Set(formattedItems.map((b) => b.category).filter((c) => c && c !== 'General'))),
+    'All',
+    ...Array.from(new Set(formattedItems.map((b) => b.category).filter((c) => c && c.trim() !== ''))),
   ];
 
   const displayItems = formattedItems.filter((item) => {
-    const matchCategory = activeCategory === 'All Topics' || item.category === activeCategory;
+    const matchCategory = activeCategory === 'All' || item.category === activeCategory;
     return matchCategory;
   });
 
   return (
     <section className="w-full bg-white py-16 md:py-24">
       <div className="container mx-auto px-4 md:px-8 max-w-[1680px]">
-        {/* Filters Top Bar */}
-        <div className="flex flex-col items-center justify-center gap-[40px] mb-16">
-          {categories.length > 1 && (
+        {/* Category Pills (Dynamic from CMS categories) */}
+        {categories.length > 1 && (
+          <div className="flex flex-col items-center justify-center gap-[40px] mb-16">
             <div className="flex flex-wrap items-center justify-center gap-5">
               {categories.map((cat) => (
                 <button
@@ -115,8 +116,8 @@ export const BlogListingSection: React.FC<BlogListingSectionProps> = ({
                 </button>
               ))}
             </div>
-          )}
-        </div>
+          </div>
+        )}
 
         {/* Grid Container */}
         <div className="flex flex-col items-center gap-[40px] w-full mx-auto">
@@ -166,7 +167,7 @@ export const BlogListingSection: React.FC<BlogListingSectionProps> = ({
             </div>
           ) : displayItems.length === 0 ? (
             <div className="text-center py-12 text-brand-neutral w-full">
-              No items found matching the selected filters.
+              No items found matching the selected filter.
             </div>
           ) : null}
         </div>
