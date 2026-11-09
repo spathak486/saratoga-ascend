@@ -1,0 +1,76 @@
+{
+  "collectionName": "components_references_insights_listings",
+  "info": {
+    "displayName": "Insights Listing",
+    "icon": "bulletList",
+    "description": "Insights listing section with toggle for Blogs, News, and Past Performance"
+  },
+  "options": {},
+  "attributes": {
+    "mainHeading": {
+      "type": "string",
+      "default": "Insights"
+    },
+    "mainSubheading": {
+      "type": "text",
+      "default": "Explore insights, news, and proven past performance shaping federal healthcare and defense."
+    },
+    "showBlog": {
+      "type": "boolean",
+      "default": true
+    },
+    "blogTitle": {
+      "type": "string",
+      "default": "Latest Blogs"
+    },
+    "blogDescription": {
+      "type": "text",
+      "default": "Explore insights and thought leadership shaping the future of federal healthcare."
+    },
+    "blogButtonText": {
+      "type": "string",
+      "default": "View More"
+    },
+    "blogButtonUrl": {
+      "type": "string"
+    },
+    "showNews": {
+      "type": "boolean",
+      "default": true
+    },
+    "newsTitle": {
+      "type": "string",
+      "default": "Latest News"
+    },
+    "newsDescription": {
+      "type": "text",
+      "default": "Stay updated with recent press releases, industry announcements, and agency developments."
+    },
+    "newsButtonText": {
+      "type": "string",
+      "default": "View More"
+    },
+    "newsButtonUrl": {
+      "type": "string"
+    },
+    "showPastPerformance": {
+      "type": "boolean",
+      "default": true
+    },
+    "pastPerformanceTitle": {
+      "type": "string",
+      "default": "Past Performance"
+    },
+    "pastPerformanceDescription": {
+      "type": "text",
+      "default": "Discover how we deliver rapid, compliant, and critical staffing and healthcare solutions."
+    },
+    "pastPerformanceButtonText": {
+      "type": "string",
+      "default": "View More"
+    },
+    "pastPerformanceButtonUrl": {
+      "type": "string"
+    }
+  }
+}

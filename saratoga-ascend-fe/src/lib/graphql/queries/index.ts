@@ -8,3 +8,4 @@ export * from './solution';
 export * from './service';
 export * from './contract';
 
+export * from './case-study';
