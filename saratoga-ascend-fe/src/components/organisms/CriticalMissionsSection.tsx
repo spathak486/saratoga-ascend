@@ -1,5 +1,7 @@
 'use client';
 
+import { cleanHeadingHtml, stripHtml } from '@/lib/utils/text';
+
 export interface CriticalMissionCard {
   id?: string | number | null;
   documentId?: string | null;
@@ -183,7 +185,7 @@ export function CriticalMissionsSection({
                   >
                     <div className="relative z-10 flex w-full items-start justify-between gap-3">
                       <div className="flex size-14 shrink-0 items-center justify-center rounded-[13px] border border-[#000000] bg-[#95C3EC] sm:size-20 2xl:size-[104px]">
-                        <MissionCardIcon index={idx} iconUrl={card.icon?.url} title={card.title} />
+                        <MissionCardIcon index={idx} iconUrl={card.icon?.url} title={stripHtml(card.title)} />
                       </div>
 
                       <span
@@ -196,7 +198,7 @@ export function CriticalMissionsSection({
 
                     <div className="relative z-10 mt-5 xl:mt-auto">
                       <h3 className="mb-2 font-serif text-[clamp(1.35rem,1.15rem+0.7vw,1.75rem)] font-normal leading-tight text-[#2F2F2F]">
-                        {card.title}
+                        <span dangerouslySetInnerHTML={{ __html: cleanHeadingHtml(card.title) }} />
                       </h3>
                       <p className="line-clamp-4 max-w-[500px] min-w-0 break-words font-sans text-[clamp(0.95rem,0.88rem+0.3vw,1.1875rem)] font-light leading-[1.45] text-[#212121]">
                         {card.description}

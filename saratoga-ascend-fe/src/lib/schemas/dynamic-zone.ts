@@ -414,6 +414,7 @@ export type NumberedCardEntity = z.infer<typeof NumberedCardSchema>;
 
 export const BuiltAroundMissionsSectionEntitySchema = z.object({
   documentId: z.string().optional(),
+  layout: z.string().nullable().optional(),
   referenceTitle: z.string().nullable().optional(),
   title: z.string().nullable().optional(),
   highlightTitle: z.string().nullable().optional(),

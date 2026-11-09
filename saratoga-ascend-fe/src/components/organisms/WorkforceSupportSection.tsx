@@ -1,5 +1,7 @@
 'use client';
 
+import { cleanHeadingHtml, stripHtml } from '@/lib/utils/text';
+
 import React from 'react';
 
 export interface WorkforceSupportCard {
@@ -155,7 +157,7 @@ export function WorkforceSupportSection({
                           className="font-serif text-[clamp(1.5rem,1.3rem+0.8vw,2.375rem)] leading-[1.2] font-normal text-[#000000] flex-1"
                           style={{ fontFamily: "'DM Serif Text', serif" }}
                         >
-                          {card.title}
+                          <span dangerouslySetInnerHTML={{ __html: cleanHeadingHtml(card.title) }} />
                         </h3>
                         {/* Red Number Circle: 44px - 48px */}
                         <div className="w-11 h-11 xl:w-12 xl:h-12 rounded-full bg-[#F01424] shrink-0 flex items-center justify-center shadow-sm">
@@ -175,7 +177,7 @@ export function WorkforceSupportSection({
                     <div className="w-full h-[240px] sm:h-[270px] xl:h-[290px] rounded-[10px] overflow-hidden shrink-0 mt-auto bg-gray-100">
                       <img
                         src={imageSrc}
-                        alt={card.image?.alternativeText || card.title}
+                        alt={card.image?.alternativeText || stripHtml(card.title)}
                         className="w-full h-full object-cover object-center transition-transform duration-500 hover:scale-105"
                       />
                     </div>
@@ -186,7 +188,7 @@ export function WorkforceSupportSection({
                     <div className="w-full h-[240px] sm:h-[270px] xl:h-[290px] rounded-[10px] overflow-hidden shrink-0 mb-5 bg-gray-100">
                       <img
                         src={imageSrc}
-                        alt={card.image?.alternativeText || card.title}
+                        alt={card.image?.alternativeText || stripHtml(card.title)}
                         className="w-full h-full object-cover object-center transition-transform duration-500 hover:scale-105"
                       />
                     </div>
@@ -199,7 +201,7 @@ export function WorkforceSupportSection({
                           className="font-serif text-[clamp(1.5rem,1.3rem+0.8vw,2.375rem)] leading-[1.2] font-normal text-[#000000] flex-1"
                           style={{ fontFamily: "'DM Serif Text', serif" }}
                         >
-                          {card.title}
+                          <span dangerouslySetInnerHTML={{ __html: cleanHeadingHtml(card.title) }} />
                         </h3>
                         {/* Red Number Circle */}
                         <div className="w-11 h-11 xl:w-12 xl:h-12 rounded-full bg-[#F01424] shrink-0 flex items-center justify-center shadow-sm">
