@@ -283,6 +283,29 @@ export const BLOG_LISTING_REFERENCE_FIELDS = `
   }
 `;
 
+export const INSIGHTS_LISTING_REFERENCE_FIELDS = `
+  __typename
+  ... on ComponentReferencesInsightsListing {
+    mainHeading
+    mainSubheading
+    showBlog
+    blogTitle
+    blogDescription
+    blogButtonText
+    blogButtonUrl
+    showNews
+    newsTitle
+    newsDescription
+    newsButtonText
+    newsButtonUrl
+    showPastPerformance
+    pastPerformanceTitle
+    pastPerformanceDescription
+    pastPerformanceButtonText
+    pastPerformanceButtonUrl
+  }
+`;
+
 export const CEO_MESSAGE_REFERENCE_FIELDS = `
   __typename
   ... on ComponentReferencesCeoMessageReference {
@@ -959,6 +982,7 @@ export const COMMON_SECTION_FRAGMENTS = [
 export const PAGE_SECTION_FRAGMENTS = [
   COMMON_SECTION_FRAGMENTS,
   BLOG_LISTING_REFERENCE_FIELDS,
+  INSIGHTS_LISTING_REFERENCE_FIELDS,
 ].join('\n');
 
 export const PAGE_FIELDS = `

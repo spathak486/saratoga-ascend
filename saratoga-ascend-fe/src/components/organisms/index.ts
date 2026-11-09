@@ -60,3 +60,4 @@ export * from './TimelineSection';
 export * from './TeamSection';
 
 export * from './FederalEnvironmentsSection';
+export * from './InsightsListingSection';

@@ -60,6 +60,7 @@ import {
   LatestNewsSection,
   LegalPolicySection,
   BlogListingSection,
+  InsightsListingSection,
   CeoMessageSection,
   SupportingMissionSection,
   MissionVisionPromiseSection,
@@ -451,6 +452,35 @@ export const SECTION_REGISTRY: Record<
         title={listingRef.blogHeading}
         subTitle={listingRef.subheading}
         blogs={listingRef.blogs}
+      />
+    );
+  },
+
+  ComponentReferencesInsightsListing: (section, index) => {
+    const insightsRef = section as any;
+    return (
+      <InsightsListingSection
+        key={`insights-listing-${index}`}
+        mainHeading={insightsRef.mainHeading}
+        mainSubheading={insightsRef.mainSubheading}
+        showBlog={insightsRef.showBlog ?? true}
+        blogTitle={insightsRef.blogTitle}
+        blogDescription={insightsRef.blogDescription}
+        blogButtonText={insightsRef.blogButtonText}
+        blogButtonUrl={insightsRef.blogButtonUrl}
+        showNews={insightsRef.showNews ?? true}
+        newsTitle={insightsRef.newsTitle}
+        newsDescription={insightsRef.newsDescription}
+        newsButtonText={insightsRef.newsButtonText}
+        newsButtonUrl={insightsRef.newsButtonUrl}
+        showPastPerformance={insightsRef.showPastPerformance ?? true}
+        pastPerformanceTitle={insightsRef.pastPerformanceTitle}
+        pastPerformanceDescription={insightsRef.pastPerformanceDescription}
+        pastPerformanceButtonText={insightsRef.pastPerformanceButtonText}
+        pastPerformanceButtonUrl={insightsRef.pastPerformanceButtonUrl}
+        blogs={insightsRef.blogs}
+        news={insightsRef.news}
+        pastPerformance={insightsRef.pastPerformance}
       />
     );
   },

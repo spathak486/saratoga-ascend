@@ -5,9 +5,11 @@ import {
   ARTICLES_QUERY,
   ARTICLE_BY_SLUG_QUERY,
   ALL_ARTICLE_SLUGS_QUERY,
+  ALL_ARTICLES_QUERY,
   type ArticlesQueryResult,
   type ArticleBySlugQueryResult,
   type AllArticleSlugsQueryResult,
+  type AllArticlesQueryResult,
 } from '@/lib/graphql';
 import { resolveImages } from '@/lib/content/transformers';
 import {
@@ -43,6 +45,19 @@ export async function getArticles(
   }
 
   return ok({ articles, pagination: pageInfo });
+}
+
+export async function getAllArticles(): Promise<ApiResult<any[]>> {
+  if (isMockMode) {
+    const mock = getMockArticles(1, 100);
+    return ok(mock.articles);
+  }
+
+  const result = await gql.query<AllArticlesQueryResult>(ALL_ARTICLES_QUERY);
+  if (result.error) return result;
+
+  const articles = (result.data?.newsArticles ?? []).map((art) => resolveImages(art));
+  return ok(articles);
 }
 
 /** Used by /news/[slug]. */

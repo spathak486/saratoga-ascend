@@ -217,6 +217,31 @@ export default async function DynamicPage({ params }: DynamicPageProps) {
     }
   }
 
+  const hasInsightsListing = sections.some(
+    (sec: any) => sec.__typename === 'ComponentReferencesInsightsListing'
+  );
+
+  if (hasInsightsListing) {
+    const { getAllBlogs, getAllArticles, getAllCaseStudies } = await import('@/lib/services');
+    const [blogsResult, articlesResult, caseStudiesResult] = await Promise.all([
+      getAllBlogs(),
+      getAllArticles(),
+      getAllCaseStudies(),
+    ]);
+
+    sections = sections.map((sec: any) => {
+      if (sec.__typename === 'ComponentReferencesInsightsListing') {
+        return {
+          ...sec,
+          blogs: blogsResult.data ?? [],
+          news: articlesResult.data ?? [],
+          pastPerformance: caseStudiesResult.data ?? [],
+        };
+      }
+      return sec;
+    });
+  }
+
   const isDark = pageData.pageType === 'Dark' || pageData.variant === 'dark';
   const isLight = pageData.pageType === 'Light' || pageData.variant === 'light';
   const isBlogDetail = !hasBlogListing && Boolean(pageData.readTime || pageData.author || pageData.categoryType || (slugPath.startsWith('blog') && slugPath !== 'blogs' && slugPath !== 'blog'));

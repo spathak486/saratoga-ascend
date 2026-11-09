@@ -39,6 +39,16 @@ export const ARTICLE_BY_SLUG_QUERY = `
   }
 `;
 
+export interface AllArticlesQueryResult {
+  newsArticles: RawContentNode[];
+}
+
+export const ALL_ARTICLES_QUERY = `
+  query GetAllArticles {
+    newsArticles(sort: "publishedAt:desc") { ${ARTICLE_FIELDS} }
+  }
+`;
+
 export interface AllArticleSlugsQueryResult {
   newsArticles: Array<{ slug: string }>;
 }
