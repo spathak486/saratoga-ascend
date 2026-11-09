@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 
 export interface ValueCardItem {
@@ -143,41 +143,42 @@ function IncreaseChartIcon({ className = 'w-[73px] h-[73px] text-black' }: { cla
 }
 
 function FallbackPurposeIcon({ index, title }: { index: number; title?: string }) {
+  const iconClass = 'size-[70%] max-h-[73px] max-w-[73px] text-black';
   const t = (title || '').toLowerCase();
   if (t.includes('purpose') || t.includes('serve') || t.includes('objective')) {
-    return <ObjectiveTargetIcon />;
+    return <ObjectiveTargetIcon className={iconClass} />;
   }
   if (t.includes('outcome') || t.includes('own') || t.includes('clipboard')) {
-    return <ClipboardCheckIcon />;
+    return <ClipboardCheckIcon className={iconClass} />;
   }
   if (t.includes('team') || t.includes('collaborat') || t.includes('one team')) {
-    return <CollaborationIcon />;
+    return <CollaborationIcon className={iconClass} />;
   }
   if (t.includes('learn') || t.includes('book')) {
-    return <OpenBookIcon />;
+    return <OpenBookIcon className={iconClass} />;
   }
   if (t.includes('voice') || t.includes('respect') || t.includes('shake')) {
-    return <HandshakeIcon />;
+    return <HandshakeIcon className={iconClass} />;
   }
   if (t.includes('rise') || t.includes('together') || t.includes('increase') || t.includes('growth')) {
-    return <IncreaseChartIcon />;
+    return <IncreaseChartIcon className={iconClass} />;
   }
 
   // Fallback by index matching the 6 Figma cards
   switch (index % 6) {
     case 0:
-      return <ObjectiveTargetIcon />;
+      return <ObjectiveTargetIcon className={iconClass} />;
     case 1:
-      return <OpenBookIcon />;
+      return <OpenBookIcon className={iconClass} />;
     case 2:
-      return <ClipboardCheckIcon />;
+      return <ClipboardCheckIcon className={iconClass} />;
     case 3:
-      return <HandshakeIcon />;
+      return <HandshakeIcon className={iconClass} />;
     case 4:
-      return <CollaborationIcon />;
+      return <CollaborationIcon className={iconClass} />;
     case 5:
     default:
-      return <IncreaseChartIcon />;
+      return <IncreaseChartIcon className={iconClass} />;
   }
 }
 
@@ -192,28 +193,53 @@ function CardIconRenderer({
   title: string;
   index: number;
 }) {
-  const [imgError, setImgError] = useState(false);
-
-  useEffect(() => {
-    setImgError(false);
-  }, [iconUrl]);
+  const [failedUrl, setFailedUrl] = useState<string | null>(null);
+  const imgError = Boolean(iconUrl) && failedUrl === iconUrl;
 
   if (!iconUrl || imgError) {
     return <FallbackPurposeIcon index={index} title={title} />;
   }
 
   return (
-    <div className="relative w-[73px] h-[73px]">
+    <div className="relative size-[70%] max-h-[73px] max-w-[73px]">
       <Image
         src={iconUrl}
-        alt={altText || title}
+        alt={altText || ''}
         fill
         unoptimized
         className="object-contain"
-        onError={() => setImgError(true)}
+        onError={() => setFailedUrl(iconUrl)}
       />
     </div>
   );
+}
+
+/** Figma Frame 2147226448 heading — used when CMS title is a card-title leak. */
+const FIGMA_SECTION_TITLE = 'People who take the';
+const FIGMA_SECTION_HIGHLIGHT = 'mission seriously';
+
+function resolveSectionHeading(
+  title: string | null | undefined,
+  highlightTitle: string | null | undefined,
+  cards: PurposeCardItem[],
+): { title: string; highlight: string } {
+  const rawTitle = title?.trim() || '';
+  const rawHighlight = highlightTitle?.trim() || '';
+
+  // Narrow guard: only when section title equals or begins with a full card title
+  // (e.g. CMS "Serve with purposest" leaking from "Serve with purpose").
+  const titleLooksLikeCard = cards.some((card) => {
+    const cardTitle = card.title?.trim().toLowerCase() || '';
+    if (!cardTitle || !rawTitle) return false;
+    const sectionTitle = rawTitle.toLowerCase();
+    return sectionTitle === cardTitle || sectionTitle.startsWith(cardTitle);
+  });
+
+  if (titleLooksLikeCard) {
+    return { title: FIGMA_SECTION_TITLE, highlight: rawHighlight || FIGMA_SECTION_HIGHLIGHT };
+  }
+
+  return { title: rawTitle, highlight: rawHighlight };
 }
 
 export const TakeMissionSeriouslySection: React.FC<TakeMissionSeriouslySectionProps> = ({
@@ -226,10 +252,12 @@ export const TakeMissionSeriouslySection: React.FC<TakeMissionSeriouslySectionPr
     return null;
   }
 
+  const heading = resolveSectionHeading(title, highlightTitle, cards);
+
   // Render title with highlight (case-insensitive match, or append if separate field in CMS)
   const renderTitle = () => {
-    const rawTitle = title?.trim() || '';
-    const rawHighlight = highlightTitle?.trim() || '';
+    const rawTitle = heading.title;
+    const rawHighlight = heading.highlight;
 
     if (!rawTitle && !rawHighlight) return null;
 
@@ -238,10 +266,9 @@ export const TakeMissionSeriouslySection: React.FC<TakeMissionSeriouslySectionPr
     }
 
     if (!rawTitle) {
-      return <span className="text-[#D31E2D] font-normal">{rawHighlight}</span>;
+      return <span className="font-normal text-brand-cta-from">{rawHighlight}</span>;
     }
 
-    // Check if rawHighlight is contained in rawTitle (case-insensitive)
     const escapedHighlight = rawHighlight.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     const regex = new RegExp(`(${escapedHighlight})`, 'i');
 
@@ -250,7 +277,7 @@ export const TakeMissionSeriouslySection: React.FC<TakeMissionSeriouslySectionPr
       return parts.map((part, i) => {
         if (part.toLowerCase() === rawHighlight.toLowerCase()) {
           return (
-            <span key={i} className="text-[#D31E2D] font-normal">
+            <span key={i} className="font-normal text-brand-cta-from">
               {part}
             </span>
           );
@@ -259,72 +286,66 @@ export const TakeMissionSeriouslySection: React.FC<TakeMissionSeriouslySectionPr
       });
     }
 
-    // If highlightTitle is separate from title (e.g. title: "People who take the", highlightTitle: "mission seriously")
     return (
       <>
         <span>{rawTitle} </span>
-        <span className="text-[#D31E2D] font-normal">{rawHighlight}</span>
+        <span className="font-normal text-brand-cta-from">{rawHighlight}</span>
       </>
     );
   };
 
-  const hasHeading = Boolean(title?.trim() || highlightTitle?.trim());
+  const hasHeading = Boolean(heading.title || heading.highlight);
+  const ariaLabel =
+    [heading.title, heading.highlight].filter(Boolean).join(' ') ||
+    'People who take the mission seriously';
 
   return (
     <section
-      aria-label={title || highlightTitle || 'People who take the mission seriously'}
-      /* Figma desktop: Frame 2147226448 -> 1919×714, py 80. Mobile/iPad: single column, tighter vertical rhythm (no fixed min-height). */
-      className="relative mx-auto my-0 flex w-full max-w-[1919px] flex-col justify-center bg-white px-6 py-10 sm:px-10 sm:py-12 lg:min-h-[714px] lg:px-[120px] lg:py-[80px]"
+      aria-label={ariaLabel}
+      /* Figma Frame 613: pad 80 top/bottom, 120 sides; hug height. */
+      className="isolate relative mx-auto w-full max-w-[1920px] bg-white px-page pt-10 pb-20 sm:pt-12 xl:pt-20"
     >
-      <div className="mx-auto w-full max-w-[1679px]">
-        {/* Header: Group 2085665675 (width: 1402px, height: 86px, left: 120px, top: 80px) */}
-        {hasHeading && (
-          <div className="mb-8 max-w-[1402px] lg:mb-[60px]">
-            <h2 className="font-['DM_Serif_Text'] text-[36px] font-normal leading-[115%] tracking-normal text-[#000000] sm:text-[52px] lg:text-[72px] lg:leading-[86px]">
-              {renderTitle()}
-            </h2>
-          </div>
-        )}
+      <div className="mx-auto flex w-full max-w-[1680px] flex-col gap-8 sm:gap-10 xl:gap-[60px]">
+        {hasHeading ? (
+          <h2 className="max-w-[1402px] font-serif text-section font-normal tracking-normal text-black">
+            {renderTitle()}
+          </h2>
+        ) : null}
 
-        {/* Single column through iPad; 3-col from lg. Desktop gap 40px. */}
-        <div className="grid w-full max-w-[1679px] grid-cols-1 gap-6 sm:gap-7 lg:grid-cols-3 lg:gap-[40px]">
+        {/* Single column through tablet; 3×2 from xl. Desktop card gap 40px. */}
+        <div className="grid w-full grid-cols-1 gap-5 sm:gap-6 xl:grid-cols-3 xl:gap-10">
           {cards.map((card, index) => {
             const iconUrl =
               typeof card.icon === 'string'
                 ? normalizeImageSrc(card.icon)
                 : card.icon?.url
-                ? normalizeImageSrc(card.icon.url)
-                : '';
+                  ? normalizeImageSrc(card.icon.url)
+                  : '';
 
             return (
-              /* Figma Card: width: 533px, height: 184px, background: #F4F9FD, border: 1px solid #95C3EC, border-radius: 20px */
-              <div
+              /* Figma purpose card: #F4F9FD, border #95C3EC, radius 20, icon left + copy right */
+              <article
                 key={card.id || `card-${index}`}
-                className="box-border relative flex h-auto min-h-[184px] w-full items-center gap-4 rounded-[20px] border border-[#95C3EC] bg-[#F4F9FD] py-6 pl-5 pr-4 shadow-[0_4px_20px_rgba(149,195,236,0.12)] transition-all duration-300 hover:border-[#2B88D9] hover:shadow-[0_8px_25px_rgba(149,195,236,0.22)] sm:gap-[23px] sm:py-[34px] sm:pl-[40px] sm:pr-[20px] lg:h-[184px] lg:max-w-[533px]"
+                className="box-border flex w-full items-start gap-4 overflow-visible rounded-media border border-[#95C3EC] bg-[#F4F9FD] p-5 sm:gap-5 sm:p-6 xl:min-h-[184px] xl:items-center xl:gap-[23px] xl:py-10 xl:pl-10 xl:pr-5"
               >
-                {/* Left Icon Container: Rectangle 40068 (width: 104px, height: 104px, background: #95C3EC, border: 1px solid #000000, border-radius: 13px) */}
-                <div className="w-[104px] h-[104px] rounded-[13px] bg-[#95C3EC] border border-black flex items-center justify-center shrink-0 transition-transform duration-300 hover:scale-105">
+                <div className="flex size-16 shrink-0 items-center justify-center overflow-hidden rounded-[13px] border border-black bg-[#95C3EC] sm:size-20 xl:size-[104px]" aria-hidden={iconUrl ? undefined : true}>
                   <CardIconRenderer
                     iconUrl={iconUrl}
-                    altText={typeof card.icon !== 'string' ? card.icon?.alternativeText : card.title}
+                    altText={typeof card.icon !== 'string' ? card.icon?.alternativeText : null}
                     title={card.title}
                     index={index}
                   />
                 </div>
 
-                {/* Right Text Block: Group 2085664883 (width: 357px, height: 116px, left: 167px, top: 34px) */}
-                <div className="flex-1 flex flex-col justify-center max-w-[357px]">
-                  {/* Title: DM Serif Text, 28px, line-height: 46px, color: #000000 */}
-                  <h3 className="font-['DM_Serif_Text'] text-[24px] lg:text-[28px] leading-[36px] lg:leading-[46px] text-black font-normal mb-[10px]">
+                <div className="flex min-w-0 flex-1 flex-col justify-center gap-2 xl:max-w-[357px] xl:gap-2.5">
+                  <h3 className="font-serif text-[clamp(1.25rem,1.1rem+0.6vw,1.75rem)] font-normal leading-[1.3] text-black">
                     {card.title}
                   </h3>
-
-                  {/* Description: Google Sans Flex, 20px, line-height: 30px, color: #212121 */}
-                  <p className="line-clamp-4 min-w-0 break-words font-['Google_Sans_Flex'] text-[16px] lg:text-[20px] leading-[24px] lg:leading-[30px] text-[#212121] font-normal">
+                  <p className="min-w-0 break-words font-sans text-[clamp(0.95rem,0.9rem+0.25vw,1.25rem)] font-normal leading-[1.5] text-[#212121] [overflow-wrap:anywhere]">
                     {card.description}
                   </p>
                 </div>
-              </div>
+              </article>
             );
           })}
         </div>
