@@ -205,16 +205,25 @@ export default async function DynamicPage({ params }: DynamicPageProps) {
   );
 
   if (hasBlogListing) {
-    const { getAllBlogs } = await import('@/lib/services');
-    const blogsResult = await getAllBlogs();
-    if (blogsResult.data) {
-      sections = sections.map((sec: any) => {
-        if (sec.__typename === 'ComponentReferencesBlogListing') {
-          return { ...sec, blogs: blogsResult.data };
-        }
-        return sec;
-      });
-    }
+    const { getAllBlogs, getAllArticles, getAllCaseStudies } = await import('@/lib/services');
+    const [blogsResult, articlesResult, caseStudiesResult] = await Promise.all([
+      getAllBlogs(),
+      getAllArticles(),
+      getAllCaseStudies(),
+    ]);
+
+    sections = sections.map((sec: any) => {
+      if (sec.__typename === 'ComponentReferencesBlogListing') {
+        const type = sec.contentType || 'blogs';
+        let items: any[] = [];
+        if (type === 'news') items = articlesResult.data ?? [];
+        else if (type === 'case-studies') items = caseStudiesResult.data ?? [];
+        else items = blogsResult.data ?? [];
+
+        return { ...sec, items, blogs: items };
+      }
+      return sec;
+    });
   }
 
   const hasInsightsListing = sections.some(
