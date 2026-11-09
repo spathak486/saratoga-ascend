@@ -1,0 +1,27 @@
+{
+  "collectionName": "components_references_team_section_references",
+  "info": {
+    "displayName": "Team Section Reference",
+    "icon": "users",
+    "description": "Leadership and team members scrollable carousel/grid section"
+  },
+  "options": {},
+  "attributes": {
+    "sectionTitle": {
+      "type": "customField",
+      "customField": "plugin::ckeditor5.CKEditor",
+      "options": {
+        "preset": "defaultHtml"
+      }
+    },
+    "description": {
+      "type": "text"
+    },
+    "members": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::team-member.team-member"
+    }
+  },
+  "config": {}
+}

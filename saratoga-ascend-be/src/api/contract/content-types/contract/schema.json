@@ -93,7 +93,8 @@
         "references.defense-reference",
         "references.integrated-capabilities-reference",
         "references.procurement-access-reference",
-        "references.direct-access-reference"
+        "references.direct-access-reference",
+        "references.team-section-reference"
       ]
     }
   }

@@ -555,6 +555,25 @@ export const TIMELINE_REFERENCE_FIELDS = `
   }
 `;
 
+export const TEAM_SECTION_REFERENCE_FIELDS = `
+  __typename
+  ... on ComponentReferencesTeamSectionReference {
+    sectionTitle
+    description
+    members {
+      documentId
+      name
+      role
+      email
+      phone
+      image {
+        url
+        alternativeText
+      }
+    }
+  }
+`;
+
 export const BLOG_SECTION_FRAGMENTS = [
   BANNER_REFERENCE_FIELDS,
   CTA_REFERENCE_FIELDS,
@@ -571,7 +590,9 @@ export const BLOG_SECTION_FRAGMENTS = [
   PAST_PERFORMANCE_REFERENCE_FIELDS,
   KEY_TAKEAWAYS_REFERENCE_FIELDS,
   STAT_CARDS_REFERENCE_FIELDS,
+  TEAM_SECTION_REFERENCE_FIELDS,
   TIMELINE_REFERENCE_FIELDS,
+  TEAM_SECTION_REFERENCE_FIELDS,
 ].join('\n');
 
 export const CONTACT_INQUIRY_REFERENCE_FIELDS = `
