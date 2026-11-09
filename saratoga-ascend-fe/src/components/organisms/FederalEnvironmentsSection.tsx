@@ -5,41 +5,45 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { cleanHeadingHtml } from '@/lib/utils/text';
 
-export interface FederalEnvironmentCard {
+export interface AccordionItemData {
   id?: string | number | null;
-  documentId?: string | null;
   title?: string | null;
   description?: string | null;
   actionLabel?: string | null;
   href?: string | null;
+}
+
+export interface EnvironmentCardData {
+  id?: string | number | null;
   image?: {
     url?: string | null;
     alternativeText?: string | null;
   } | null;
+  accordions?: AccordionItemData[] | null;
 }
 
 export interface FederalEnvironmentsSectionProps {
   id?: string;
   sectionTitle?: string | null;
   description?: string | null;
-  cards?: FederalEnvironmentCard[] | null;
+  cards?: EnvironmentCardData[] | null;
   className?: string;
 }
 
 /**
  * Explore the Federal Environments We Support Section
+ * Supports multiple cards, each with its own background image and multiple accordion items.
+ *
  * Figma Specs:
  * - Frame 2147226325: width 1920px, bg #FAFAFA, py 80px
  * - Heading: Google Sans Flex 600, 72px, line-height 90px, #000000
- * - Description: Google Sans Flex 400, 24px, line-height 40px, #000000
+ * - Subtitle: Google Sans Flex 400, 24px, line-height 40px, #000000
  * - Cards: 827px x 826px, border-radius 44px
- * - Overlay Drawer:
- *   - Expanded: width 792px, height 237px, bg rgba(255, 255, 255, 0.9), backdrop-blur 5px, border-radius 30px
- *     - Description: Google Sans Flex 400, 18px, line-height 40px, #000000
- *     - CTA Link: Google Sans Flex 700, 18px, #2B88D9, with arrow
- *     - Title: Google Sans Flex 600, 24px, #000000, with minus icon
- *   - Collapsed: width 792px, height 80px, bg rgba(255, 255, 255, 0.9), border-radius 30px
- *     - Title: Google Sans Flex 600, 24px, #000000, with plus icon
+ * - Bottom Glassmorphic Drawer:
+ *   - Background: rgba(255, 255, 255, 0.9), backdrop-blur 5px, border-radius 30px
+ *   - Accordion Titles: Google Sans Flex 600, 24px
+ *   - Accordion Body: Google Sans Flex 400, 18px, line-height 40px
+ *   - CTA Button: Google Sans Flex 700, 18px, #2B88D9, with arrow
  */
 export const FederalEnvironmentsSection: React.FC<FederalEnvironmentsSectionProps> = ({
   id,
@@ -48,14 +52,19 @@ export const FederalEnvironmentsSection: React.FC<FederalEnvironmentsSectionProp
   cards,
   className = '',
 }) => {
-  // STRICT RULE: If no cards from CMS, render nothing
   if (!cards || cards.length === 0) return null;
 
-  // Track expanded state for each card (default first card open if 2 cards)
-  const [expandedIndex, setExpandedIndex] = useState<number | null>(0);
+  // Track active open accordion for EACH card independently: { [cardIndex]: activeAccordionIndex | null }
+  // Default: first accordion (index 0) of the first card is open
+  const [activeAccordions, setActiveAccordions] = useState<{ [cardIdx: number]: number | null }>({
+    0: 0,
+  });
 
-  const toggleExpand = (index: number) => {
-    setExpandedIndex((prev) => (prev === index ? null : index));
+  const toggleAccordion = (cardIdx: number, accordionIdx: number) => {
+    setActiveAccordions((prev) => ({
+      ...prev,
+      [cardIdx]: prev[cardIdx] === accordionIdx ? null : accordionIdx,
+    }));
   };
 
   return (
@@ -85,144 +94,163 @@ export const FederalEnvironmentsSection: React.FC<FederalEnvironmentsSectionProp
         </div>
       )}
 
-      {/* Cards Layout: 2 Cards (827px x 826px in Figma) */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 xl:gap-[25px] w-full max-w-[1679px] mx-auto items-center">
-        {cards.map((card, idx) => {
-          const isExpanded = expandedIndex === idx;
+      {/* Cards Layout: 2 Cards Side-by-Side (827px x 826px) */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 xl:gap-[25px] w-full max-w-[1679px] mx-auto items-start">
+        {cards.map((card, cardIdx) => {
           const imageUrl = card.image?.url;
-          const actionText = card.actionLabel || (card.title ? `Explore ${card.title}` : 'Explore');
-          const href = card.href || '#';
+          const accordions = card.accordions || [];
+          const currentActiveIdx = activeAccordions[cardIdx] ?? null;
 
           return (
             <div
-              key={card.id ?? card.documentId ?? `fed-env-${idx}`}
+              key={card.id ?? `fed-card-${cardIdx}`}
               className="relative w-full aspect-square max-h-[826px] rounded-[32px] sm:rounded-[44px] overflow-hidden shadow-lg bg-[#EAEFF4]"
             >
-              {/* Background Full Cover Image */}
+              {/* Card Background Full Cover Image */}
               {imageUrl ? (
                 <Image
                   src={imageUrl}
-                  alt={card.image?.alternativeText || card.title || 'Federal Environment'}
+                  alt={card.image?.alternativeText || 'Federal Environment'}
                   fill
                   className="object-cover transition-transform duration-700 ease-out hover:scale-105"
                   sizes="(max-width: 1024px) 100vw, 827px"
                 />
               ) : (
                 <div className="absolute inset-0 bg-gradient-to-br from-slate-200 to-slate-400 flex items-center justify-center">
-                  <span className="text-slate-500 font-sans text-xl">{card.title}</span>
+                  <span className="text-slate-500 font-sans text-xl">Environment Image</span>
                 </div>
               )}
 
-              {/* Bottom Glassmorphic Drawer */}
-              <div
-                className={`absolute left-3 right-3 sm:left-[17px] sm:right-[17px] bottom-[17px] rounded-[24px] sm:rounded-[30px] p-5 sm:p-6 transition-all duration-300 ease-in-out ${
-                  isExpanded ? 'bg-white/95 backdrop-blur-[5px]' : 'bg-white/90 backdrop-blur-[5px]'
-                }`}
-                style={{
-                  boxShadow: '0 4px 24px rgba(0, 0, 0, 0.08)',
-                }}
-              >
-                {/* Expanded Content: Description + Explore CTA Link */}
-                {isExpanded && (
-                  <div className="flex flex-col gap-4 sm:gap-6 mb-4 sm:mb-6 animate-fadeIn">
-                    {card.description && (
-                      <p
-                        className="font-sans font-normal text-sm sm:text-base lg:text-[18px] leading-relaxed sm:leading-[32px] lg:leading-[40px] text-[#000000]"
-                        style={{ fontFamily: "'Google Sans Flex', sans-serif" }}
-                      >
-                        {card.description}
-                      </p>
-                    )}
-
-                    <div>
-                      <Link
-                        href={href}
-                        className="group inline-flex items-center gap-2 font-sans font-bold text-base sm:text-[18px] leading-[40px] text-[#2B88D9] hover:text-[#005a9e] transition-colors"
-                        style={{ fontFamily: "'Google Sans Flex', sans-serif" }}
-                      >
-                        <span>{actionText}</span>
-                        <svg
-                          width="24"
-                          height="24"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          className="transform transition-transform duration-300 group-hover:translate-x-1"
-                        >
-                          <path
-                            d="M5 12H19M19 12L12 5M19 12L12 19"
-                            stroke="#2B88D9"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                        </svg>
-                      </Link>
-                    </div>
-                  </div>
-                )}
-
-                {/* Bottom Bar: Title + Toggle Icon Button */}
+              {/* Bottom Glassmorphic Drawer containing Accordions */}
+              {accordions.length > 0 && (
                 <div
-                  onClick={() => toggleExpand(idx)}
-                  className="flex items-center justify-between cursor-pointer select-none pt-1"
-                  role="button"
-                  tabIndex={0}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                      e.preventDefault();
-                      toggleExpand(idx);
-                    }
+                  className="absolute left-3 right-3 sm:left-[17px] sm:right-[17px] bottom-[17px] rounded-[24px] sm:rounded-[30px] p-4 sm:p-6 bg-white/95 backdrop-blur-[5px] max-h-[85%] overflow-y-auto transition-all duration-300 ease-in-out scrollbar-thin scrollbar-thumb-gray-300"
+                  style={{
+                    boxShadow: '0 4px 24px rgba(0, 0, 0, 0.08)',
                   }}
-                  aria-expanded={isExpanded}
                 >
-                  <h3
-                    className="font-sans font-semibold text-lg sm:text-xl lg:text-[24px] leading-snug lg:leading-[40px] text-[#000000]"
-                    style={{ fontFamily: "'Google Sans Flex', sans-serif" }}
-                  >
-                    {card.title}
-                  </h3>
+                  <div className="flex flex-col divide-y divide-gray-100">
+                    {accordions.map((acc, accIdx) => {
+                      const isOpen = currentActiveIdx === accIdx;
+                      const actionText =
+                        acc.actionLabel ||
+                        (acc.title ? `Explore ${cleanHeadingHtml(acc.title)}` : 'Explore');
+                      const href = acc.href || '#';
 
-                  {/* Plus / Minus Action Button */}
-                  <div
-                    className="w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center transition-colors duration-200 hover:bg-black/5"
-                    aria-label={isExpanded ? 'Collapse' : 'Expand'}
-                  >
-                    {isExpanded ? (
-                      /* Minus Icon */
-                      <svg
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M5 12H19"
-                          stroke="#141B34"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                        />
-                      </svg>
-                    ) : (
-                      /* Plus Icon */
-                      <svg
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M12 5V19M5 12H19"
-                          stroke="#000000"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                        />
-                      </svg>
-                    )}
+                      return (
+                        <div
+                          key={acc.id ?? `acc-${cardIdx}-${accIdx}`}
+                          className={`transition-all duration-200 ${
+                            accIdx > 0 ? 'pt-4 mt-2' : ''
+                          }`}
+                        >
+                          {/* Expanded Content (when open): Description + Explore CTA */}
+                          {isOpen && (
+                            <div className="flex flex-col gap-3 sm:gap-4 mb-4 animate-fadeIn">
+                              {acc.description && (
+                                <p
+                                  className="font-sans font-normal text-sm sm:text-base lg:text-[18px] leading-relaxed sm:leading-[32px] lg:leading-[40px] text-[#000000]"
+                                  style={{ fontFamily: "'Google Sans Flex', sans-serif" }}
+                                >
+                                  {acc.description}
+                                </p>
+                              )}
+
+                              <div>
+                                <Link
+                                  href={href}
+                                  className="group inline-flex items-center gap-2 font-sans font-bold text-base sm:text-[18px] leading-[40px] text-[#2B88D9] hover:text-[#005a9e] transition-colors"
+                                  style={{ fontFamily: "'Google Sans Flex', sans-serif" }}
+                                >
+                                  <span>{actionText}</span>
+                                  <svg
+                                    width="24"
+                                    height="24"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    className="transform transition-transform duration-300 group-hover:translate-x-1"
+                                  >
+                                    <path
+                                      d="M5 12H19M19 12L12 5M19 12L12 19"
+                                      stroke="#2B88D9"
+                                      strokeWidth="2"
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                    />
+                                  </svg>
+                                </Link>
+                              </div>
+                            </div>
+                          )}
+
+                          {/* Accordion Title Header & Toggle Button */}
+                          <div
+                            onClick={() => toggleAccordion(cardIdx, accIdx)}
+                            className="flex items-center justify-between cursor-pointer select-none py-1"
+                            role="button"
+                            tabIndex={0}
+                            onKeyDown={(e) => {
+                              if (e.key === 'Enter' || e.key === ' ') {
+                                e.preventDefault();
+                                toggleAccordion(cardIdx, accIdx);
+                              }
+                            }}
+                            aria-expanded={isOpen}
+                          >
+                            <h3
+                              className="font-sans font-semibold text-lg sm:text-xl lg:text-[24px] leading-snug lg:leading-[40px] text-[#000000]"
+                              style={{ fontFamily: "'Google Sans Flex', sans-serif" }}
+                              dangerouslySetInnerHTML={{
+                                __html: cleanHeadingHtml(acc.title || ''),
+                              }}
+                            />
+
+                            {/* Plus / Minus Action Button */}
+                            <div
+                              className="w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center shrink-0 transition-colors duration-200 hover:bg-black/5"
+                              aria-label={isOpen ? 'Collapse' : 'Expand'}
+                            >
+                              {isOpen ? (
+                                /* Minus Icon */
+                                <svg
+                                  width="24"
+                                  height="24"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path
+                                    d="M5 12H19"
+                                    stroke="#141B34"
+                                    strokeWidth="2"
+                                    strokeLinecap="round"
+                                  />
+                                </svg>
+                              ) : (
+                                /* Plus Icon */
+                                <svg
+                                  width="24"
+                                  height="24"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path
+                                    d="M12 5V19M5 12H19"
+                                    stroke="#000000"
+                                    strokeWidth="2"
+                                    strokeLinecap="round"
+                                  />
+                                </svg>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
-              </div>
+              )}
             </div>
           );
         })}
@@ -232,4 +260,3 @@ export const FederalEnvironmentsSection: React.FC<FederalEnvironmentsSectionProp
 };
 
 export default FederalEnvironmentsSection;
-

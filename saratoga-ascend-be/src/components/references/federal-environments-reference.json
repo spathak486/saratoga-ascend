@@ -3,7 +3,7 @@
   "info": {
     "displayName": "Federal Environments Reference",
     "icon": "shield",
-    "description": "Explore the Federal Environments We Support Accordion Card Section (Frame 2147226325 / 2147226554)"
+    "description": "Explore the Federal Environments We Support Section with multi-accordion cards (Frame 2147226325 / 2147226554)"
   },
   "options": {},
   "attributes": {
@@ -19,10 +19,9 @@
       "default": "Different agencies and mission communities have distinct operating contexts. Explore the pathways most relevant to your requirement."
     },
     "cards": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::card.card"
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.environment-card"
     }
   }
 }
-

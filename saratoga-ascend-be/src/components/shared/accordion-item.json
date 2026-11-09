@@ -1,0 +1,28 @@
+{
+  "collectionName": "components_shared_accordion_items",
+  "info": {
+    "displayName": "Accordion Item",
+    "icon": "bulletList",
+    "description": "Accordion item inside card drawer"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "customField",
+      "customField": "plugin::ckeditor5.CKEditor",
+      "options": {
+        "preset": "defaultHtml"
+      }
+    },
+    "description": {
+      "type": "text"
+    },
+    "actionLabel": {
+      "type": "string"
+    },
+    "href": {
+      "type": "string"
+    }
+  }
+}
+

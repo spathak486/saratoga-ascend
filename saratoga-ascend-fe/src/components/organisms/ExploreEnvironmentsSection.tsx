@@ -104,9 +104,8 @@ export function ExploreEnvironmentsSection({
                     <h3
                       className="font-serif text-[24px] sm:text-[32px] xl:text-[38px] leading-[1.25] xl:leading-[52px] font-normal text-[#000000]"
                       style={{ fontFamily: "'DM Serif Text', serif" }}
-                    >
-                      {card.title}
-                    </h3>
+                      dangerouslySetInnerHTML={{ __html: cleanHeadingHtml(card.title) }}
+                    />
                   )}
                 </div>
 

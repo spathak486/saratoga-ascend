@@ -561,12 +561,15 @@ export const FEDERAL_ENVIRONMENTS_REFERENCE_FIELDS = `
     sectionTitle
     description
     cards {
-      documentId
-      title
-      description
-      actionLabel
-      href
+      id
       image { ${IMAGE_FIELDS} }
+      accordions {
+        id
+        title
+        description
+        actionLabel
+        href
+      }
     }
   }
 `;
@@ -612,6 +615,7 @@ export const BLOG_SECTION_FRAGMENTS = [
   TEAM_SECTION_REFERENCE_FIELDS,
   FEDERAL_ENVIRONMENTS_REFERENCE_FIELDS,
   TEAM_SECTION_REFERENCE_FIELDS,
+  FEDERAL_ENVIRONMENTS_REFERENCE_FIELDS,
 ].join('\n');
 
 export const CONTACT_INQUIRY_REFERENCE_FIELDS = `
@@ -948,6 +952,7 @@ export const COMMON_SECTION_FRAGMENTS = [
   CONTACT_OFFICES_REFERENCE_FIELDS,
   TIMELINE_REFERENCE_FIELDS,
   TEAM_SECTION_REFERENCE_FIELDS,
+  FEDERAL_ENVIRONMENTS_REFERENCE_FIELDS,
 ].join('\n');
 
 // Page dynamic zone includes blog listing and any page-specific fragments.
