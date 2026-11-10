@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { Container } from '../atoms';
 
 export interface JobSearchHeroProps {
@@ -35,8 +36,11 @@ export const JobSearchHero: React.FC<JobSearchHeroProps> = ({
   defaultLocation = '',
   locations: initialLocations,
 }) => {
-  const [keyword, setKeyword] = useState('');
-  const [location, setLocation] = useState(defaultLocation);
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const [keyword, setKeyword] = useState(searchParams?.get('search') || '');
+  const [location, setLocation] = useState(searchParams?.get('location') || defaultLocation);
   const [isLocationOpen, setIsLocationOpen] = useState(false);
   const [availableLocations, setAvailableLocations] = useState<string[]>(
     initialLocations || []
@@ -51,9 +55,6 @@ export const JobSearchHero: React.FC<JobSearchHeroProps> = ({
         if (data.locations && data.locations.length > 0) {
           const locNames = data.locations.map((l: any) => l.name);
           setAvailableLocations(locNames);
-          if (!location) {
-            setLocation(locNames[0]);
-          }
         }
       })
       .catch(() => {
@@ -66,8 +67,38 @@ export const JobSearchHero: React.FC<JobSearchHeroProps> = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
     if (onSearch) {
       onSearch({ keyword, location });
+    }
+
+    // Broadcast search query via URL and custom event so JobListingSection picks it up immediately
+    const params = new URLSearchParams(window.location.search);
+    if (keyword.trim()) {
+      params.set('search', keyword.trim());
+    } else {
+      params.delete('search');
+    }
+    if (location && location !== 'All Locations') {
+      params.set('location', location);
+    } else {
+      params.delete('location');
+    }
+
+    const newUrl = `${window.location.pathname}?${params.toString()}`;
+    router.replace(newUrl, { scroll: false });
+
+    // Dispatch global custom event for instant sync
+    window.dispatchEvent(
+      new CustomEvent('job-search-trigger', {
+        detail: { keyword: keyword.trim(), location: location === 'All Locations' ? '' : location },
+      })
+    );
+
+    // Smooth scroll down to openings section
+    const openingsEl = document.getElementById('our-openings');
+    if (openingsEl) {
+      openingsEl.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
@@ -98,92 +129,113 @@ export const JobSearchHero: React.FC<JobSearchHeroProps> = ({
       {/* Hero Content */}
       <Container className="relative z-10 py-12 sm:py-16 xl:py-20 w-full">
         <div className="flex flex-col max-w-[991px]">
-          {/* Title: DM Serif Text, 90px */}
-          <h1 className="font-serif text-[clamp(2.75rem,5.5vw,5.625rem)] font-normal leading-[1.15] text-[#0A0A0A] max-w-[991px] tracking-tight">
+          {/* Main Title: DM Serif Text, 90px */}
+          <h1 className="font-serif text-[44px] sm:text-[64px] lg:text-[80px] xl:text-[90px] leading-[115%] text-[#0A0A0A] tracking-[-0.01em]">
             {title}
           </h1>
 
-          {/* Subtitle / Description: Google Sans Flex, 24px, #022E4C */}
-          <p className="mt-5 sm:mt-6 font-sans text-[clamp(1.125rem,1.5vw,1.5rem)] font-medium leading-[1.6] text-[#022E4C] max-w-[599px]">
+          {/* Subtitle / Lede: Google Sans Flex, 24px */}
+          <p className="mt-4 sm:mt-6 font-sans text-lg sm:text-xl lg:text-[24px] leading-[160%] font-medium text-[#022E4C] max-w-[599px]">
             {description}
           </p>
 
-          {/* Figma Group 2085663755: Search Box Container (740px x 79px) */}
+          {/* Search Capsule Form (Group 2085663755: 740px x 79px) */}
           <form
             onSubmit={handleSubmit}
-            className="mt-8 sm:mt-10 relative flex w-full max-w-[740px] items-center rounded-[100px] border-[1.33px] border-[#CBCBCB] bg-white p-2 sm:p-2.5 shadow-sm transition-all focus-within:border-brand-navy focus-within:ring-2 focus-within:ring-brand-navy/20 min-h-[72px] sm:min-h-[79px]"
+            className="mt-8 sm:mt-10 lg:mt-12 w-full max-w-[740px] bg-white rounded-full border-[1.33px] border-[#CBCBCB] shadow-sm flex items-center px-4 sm:px-6 py-2.5 sm:py-3 transition-all focus-within:border-brand-navy focus-within:shadow-md"
           >
-            {/* Left Search Icon & Input */}
-            <div className="flex flex-1 items-center gap-3 sm:gap-4 pl-3 sm:pl-5">
-              {/* Search Vector Icon (34px) */}
+            {/* Search Icon & Keyword Input */}
+            <div className="flex items-center flex-1 min-w-0 pr-2">
+              {/* Search Vector (34px) */}
               <svg
-                className="w-7 h-7 sm:w-[34px] sm:h-[34px] text-[#545454] shrink-0"
+                className="w-6 h-6 sm:w-[30px] sm:h-[30px] text-[#545454] shrink-0 mr-2 sm:mr-3"
                 viewBox="0 0 34 34"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
-                aria-hidden="true"
               >
-                <circle cx="15.58" cy="15.58" r="9.91" stroke="#545454" strokeWidth="2.5" />
-                <path d="M23.66 23.66L29.75 29.75" stroke="#545454" strokeWidth="2.5" strokeLinecap="round" />
+                <circle cx="15.5833" cy="15.5833" r="11.3333" stroke="#545454" strokeWidth="2.5" />
+                <path
+                  d="M23.6667 23.6667L29.75 29.75"
+                  stroke="#545454"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                />
               </svg>
-
               <input
                 type="text"
                 value={keyword}
                 onChange={(e) => setKeyword(e.target.value)}
                 placeholder="Job title, keywords..."
-                className="w-full bg-transparent font-sans text-base sm:text-[18px] font-medium text-[#0A0A0A] placeholder-[#8B8A8A] focus:outline-none"
+                className="w-full bg-transparent font-sans text-base sm:text-lg text-[#0A0A0A] placeholder-[#808080] focus:outline-none"
               />
             </div>
 
-            {/* Vertical Divider (Vector 7214: 31.5px border #BDBDBD) */}
-            <div className="hidden sm:block h-[31.5px] w-[1.5px] bg-[#BDBDBD] shrink-0 mx-2" />
+            {/* Vertical Divider (Rectangle 39728: 31.5px, #BDBDBD) */}
+            <div className="w-[1.5px] h-8 bg-[#BDBDBD] shrink-0 mx-1 sm:mx-2" />
 
-            {/* Location Selector Dropdown */}
-            <div className="relative flex items-center gap-2 sm:gap-2.5 pl-2 sm:pl-3 pr-2 shrink-0">
-              {/* Location Pin Icon (34px) */}
+            {/* Location Pin Icon & Location Dropdown */}
+            <div className="relative flex items-center flex-1 min-w-0 pl-2">
+              {/* Location Pin Vector (34px) */}
               <svg
-                className="w-6 h-6 sm:w-[34px] sm:h-[34px] text-[#545454] shrink-0"
+                className="w-6 h-6 sm:w-[30px] sm:h-[30px] text-[#545454] shrink-0 mr-2 sm:mr-3"
                 viewBox="0 0 34 34"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
-                aria-hidden="true"
               >
                 <path
-                  d="M17 4.25C11.52 4.25 7.08 8.69 7.08 14.17C7.08 21.6 17 29.75 17 29.75C17 29.75 26.92 21.6 26.92 14.17C26.92 8.69 22.48 4.25 17 4.25Z"
+                  d="M17 18.4167C19.3472 18.4167 21.25 16.5139 21.25 14.1667C21.25 11.8195 19.3472 9.91666 17 9.91666C14.6528 9.91666 12.75 11.8195 12.75 14.1667C12.75 16.5139 14.6528 18.4167 17 18.4167Z"
                   stroke="#545454"
-                  strokeWidth="2.125"
+                  strokeWidth="2.5"
                   strokeLinecap="round"
                   strokeLinejoin="round"
                 />
-                <circle cx="17" cy="14.17" r="3.54" stroke="#545454" strokeWidth="2.125" />
+                <path
+                  d="M17 29.75C22.6667 24.0833 28.3333 19.125 28.3333 14.1667C28.3333 7.92588 23.2575 2.83334 17 2.83334C10.7425 2.83334 5.66667 7.92588 5.66667 14.1667C5.66667 19.125 11.3333 24.0833 17 29.75Z"
+                  stroke="#545454"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
               </svg>
 
-              {/* Location Picker Trigger */}
               <button
                 type="button"
                 onClick={() => setIsLocationOpen(!isLocationOpen)}
-                className="flex items-center gap-2 font-sans text-sm sm:text-[18px] text-[#545454] hover:text-[#0A0A0A] focus:outline-none"
+                className="w-full text-left bg-transparent font-sans text-base sm:text-lg text-[#0A0A0A] truncate focus:outline-none flex items-center justify-between"
               >
-                <span className="truncate max-w-[90px] sm:max-w-[120px] font-normal">
-                  {location || (isLoading ? 'Loading...' : 'Select Location')}
+                <span className={location ? 'text-[#0A0A0A]' : 'text-[#808080]'}>
+                  {location || 'Location'}
                 </span>
-                {/* Chevron Down Arrow */}
                 <svg
-                  className={`w-3 h-3 text-[#545454] transition-transform duration-200 ${
+                  className={`w-4 h-4 ml-1 text-gray-500 transition-transform ${
                     isLocationOpen ? 'rotate-180' : ''
                   }`}
-                  viewBox="0 0 12 6"
+                  viewBox="0 0 24 24"
                   fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                 >
-                  <path d="M1 1L6 5L11 1" stroke="#545454" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                  <polyline points="6 9 12 15 18 9" />
                 </svg>
               </button>
 
-              {/* Location Dropdown Menu */}
+              {/* Location Popup Menu */}
               {isLocationOpen && (
-                <div className="absolute right-0 top-full mt-3 w-48 rounded-[12px] border border-[#E4EBF1] bg-[#F6F9FA] py-2 shadow-lg z-50">
+                <div className="absolute left-0 top-[120%] w-full sm:min-w-[220px] bg-white rounded-xl shadow-xl border border-gray-100 py-2 z-50 max-h-[260px] overflow-y-auto">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setLocation('');
+                      setIsLocationOpen(false);
+                    }}
+                    className={`w-full text-left px-4 py-2 font-sans text-sm hover:bg-[#EAF4FB] transition-colors ${
+                      !location ? 'font-semibold text-brand-navy' : 'text-[#0A0A0A]'
+                    }`}
+                  >
+                    All Locations
+                  </button>
                   {availableLocations.length > 0 ? (
                     availableLocations.map((loc) => (
                       <button

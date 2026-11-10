@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { Job } from '@/lib/types/job';
 import { FALLBACK_JOBS } from '@/lib/data/fallbackJobs';
 import { JobFilterBar, FilterOption } from '@/components/molecules/JobFilterBar';
@@ -17,6 +18,8 @@ export const JobListingSection: React.FC<JobListingSectionProps> = ({
   subheading = 'Discover open roles and find where your skills can make an impact. Explore opportunities across departments and locations.',
   itemsPerPage = 10,
 }) => {
+  const searchParams = useSearchParams();
+
   // Filter state
   const [locations, setLocations] = useState<FilterOption[]>([]);
   const [specialities, setSpecialities] = useState<FilterOption[]>([]);
@@ -31,11 +34,40 @@ export const JobListingSection: React.FC<JobListingSectionProps> = ({
   const [selectedSpecialities, setSelectedSpecialities] = useState<string[]>([]);
   const [selectedJobTypes, setSelectedJobTypes] = useState<string[]>([]);
   const [selectedSort, setSelectedSort] = useState<string>('recent');
+  const [searchQuery, setSearchQuery] = useState<string>('');
 
   // Job data state
   const [jobs, setJobs] = useState<Job[]>(FALLBACK_JOBS);
   const [loading, setLoading] = useState<boolean>(false);
   const [visibleCount, setVisibleCount] = useState<number>(itemsPerPage || 10);
+
+  // Initialize search query and location from URL on initial mount
+  useEffect(() => {
+    const urlSearch = searchParams?.get('search');
+    const urlLoc = searchParams?.get('location');
+    if (urlSearch) setSearchQuery(urlSearch);
+    if (urlLoc) setSelectedLocations([urlLoc]);
+  }, [searchParams]);
+
+  // Listen to banner search submit events across the page
+  useEffect(() => {
+    const handleBannerSearch = (e: Event) => {
+      const customEvent = e as CustomEvent<{ keyword?: string; location?: string }>;
+      if (customEvent.detail) {
+        if (typeof customEvent.detail.keyword === 'string') {
+          setSearchQuery(customEvent.detail.keyword);
+        }
+        if (customEvent.detail.location) {
+          setSelectedLocations([customEvent.detail.location]);
+        } else if (customEvent.detail.location === '') {
+          setSelectedLocations([]);
+        }
+      }
+    };
+
+    window.addEventListener('job-search-trigger', handleBannerSearch);
+    return () => window.removeEventListener('job-search-trigger', handleBannerSearch);
+  }, []);
 
   // 1. Fetch filter metadata from /api/job-filters
   useEffect(() => {
@@ -113,7 +145,7 @@ export const JobListingSection: React.FC<JobListingSectionProps> = ({
     };
   }, []);
 
-  // 2. Query jobs from /api/jobs whenever filters or sort change
+  // 2. Query jobs from /api/jobs whenever filters, sort, or search change
   useEffect(() => {
     let isMounted = true;
     async function fetchJobs() {
@@ -124,6 +156,7 @@ export const JobListingSection: React.FC<JobListingSectionProps> = ({
         selectedSpecialities.forEach((s) => params.append('speciality', s));
         selectedJobTypes.forEach((t) => params.append('jobType', t));
         if (selectedSort) params.set('sort', selectedSort);
+        if (searchQuery.trim()) params.set('search', searchQuery.trim());
 
         const res = await fetch(`/api/jobs?${params.toString()}`);
         if (!res.ok) throw new Error('Failed to load jobs');
@@ -134,14 +167,14 @@ export const JobListingSection: React.FC<JobListingSectionProps> = ({
         }
       } catch (err) {
         console.warn('Using client-filtered fallback jobs:', err);
-        // Client-side fallback filtering on error
         let filtered = [...FALLBACK_JOBS];
         if (selectedLocations.length > 0) {
           filtered = filtered.filter((j) =>
             selectedLocations.some(
               (l) =>
                 j.location?.slug?.toLowerCase().includes(l.toLowerCase()) ||
-                j.location?.name?.toLowerCase().includes(l.toLowerCase())
+                j.location?.name?.toLowerCase().includes(l.toLowerCase()) ||
+                j.locations?.some((loc) => loc.slug?.toLowerCase().includes(l.toLowerCase()) || loc.name?.toLowerCase().includes(l.toLowerCase()))
             )
           );
         }
@@ -163,6 +196,14 @@ export const JobListingSection: React.FC<JobListingSectionProps> = ({
             )
           );
         }
+        if (searchQuery.trim()) {
+          const q = searchQuery.toLowerCase();
+          filtered = filtered.filter((j) =>
+            j.title.toLowerCase().includes(q) ||
+            j.tagline?.toLowerCase().includes(q) ||
+            j.overview?.toLowerCase().includes(q)
+          );
+        }
         if (isMounted) {
           setJobs(filtered);
         }
@@ -175,13 +216,13 @@ export const JobListingSection: React.FC<JobListingSectionProps> = ({
     return () => {
       isMounted = false;
     };
-  }, [selectedLocations, selectedSpecialities, selectedJobTypes, selectedSort, itemsPerPage]);
+  }, [selectedLocations, selectedSpecialities, selectedJobTypes, selectedSort, searchQuery, itemsPerPage]);
 
   const displayedJobs = jobs.slice(0, visibleCount);
   const hasMore = visibleCount < jobs.length;
 
   return (
-    <section className="w-full bg-[#FFFFFF] py-16 lg:py-24 px-6 md:px-12 lg:px-20">
+    <section id="our-openings" className="w-full bg-[#FFFFFF] py-16 lg:py-24 px-6 md:px-12 lg:px-20">
       <div className="max-w-[1680px] mx-auto flex flex-col gap-10">
         {/* Header & Meta Row (Group 2085665770) */}
         <div className="flex flex-col gap-6">
@@ -202,6 +243,23 @@ export const JobListingSection: React.FC<JobListingSectionProps> = ({
               {jobs.length} {jobs.length === 1 ? 'opportunity' : 'opportunities'} available
             </div>
           </div>
+
+          {/* Active Search Pill (if searched from Banner) */}
+          {searchQuery && (
+            <div className="flex items-center gap-2">
+              <span className="text-sm font-sans text-gray-500">Search results for:</span>
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#EAF4FB] text-[#022E4C] text-sm font-medium">
+                "{searchQuery}"
+                <button
+                  type="button"
+                  onClick={() => setSearchQuery('')}
+                  className="hover:text-[#F01424] font-bold text-base leading-none"
+                >
+                  ×
+                </button>
+              </span>
+            </div>
+          )}
 
           {/* Filter Pills Bar */}
           <JobFilterBar
@@ -230,7 +288,7 @@ export const JobListingSection: React.FC<JobListingSectionProps> = ({
             <div className="py-16 text-center bg-[#FBFBFB] border border-[#E4EBF1] rounded-[24px]">
               <h4 className="font-serif text-[28px] text-[#101828] mb-2">No roles found</h4>
               <p className="text-gray-500 font-sans text-[18px]">
-                Try adjusting your filters or location search.
+                Try adjusting your filters or search keywords.
               </p>
             </div>
           ) : (

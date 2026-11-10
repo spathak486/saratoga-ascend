@@ -7,5 +7,5 @@ export * from './blog';
 export * from './solution';
 export * from './service';
 export * from './contract';
-
 export * from './case-study';
+export * from './job-apply-page';

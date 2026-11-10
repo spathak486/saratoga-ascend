@@ -1,0 +1,176 @@
+{
+  "kind": "singleType",
+  "collectionName": "job_apply_pages",
+  "info": {
+    "singularName": "job-apply-page",
+    "pluralName": "job-apply-pages",
+    "displayName": "Job Apply Page",
+    "description": "Editorial content and configuration for the Job Application Form page"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "heroTitle": {
+      "type": "string",
+      "default": "Apply for the position"
+    },
+    "heroSubtitleTemplate": {
+      "type": "string",
+      "default": "Complete the form below to apply for {jobTitle}."
+    },
+    "heroBackgroundImage": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"]
+    },
+    "breadcrumbRoot": {
+      "type": "string",
+      "default": "Home"
+    },
+    "breadcrumbCareers": {
+      "type": "string",
+      "default": "Careers"
+    },
+    "breadcrumbJobSearch": {
+      "type": "string",
+      "default": "Job Search"
+    },
+    "breadcrumbCurrent": {
+      "type": "string",
+      "default": "Apply"
+    },
+    "cardTitle": {
+      "type": "string",
+      "default": "Your Information"
+    },
+    "personalInfoTitle": {
+      "type": "string",
+      "default": "Personal Information"
+    },
+    "personalInfoSubtitle": {
+      "type": "string",
+      "default": "Tell us how we can contact you."
+    },
+    "firstNameLabel": {
+      "type": "string",
+      "default": "First Name *"
+    },
+    "firstNamePlaceholder": {
+      "type": "string",
+      "default": "Enter First Name"
+    },
+    "lastNameLabel": {
+      "type": "string",
+      "default": "Last Name *"
+    },
+    "lastNamePlaceholder": {
+      "type": "string",
+      "default": "Enter Last Name"
+    },
+    "emailLabel": {
+      "type": "string",
+      "default": "Email Address *"
+    },
+    "emailPlaceholder": {
+      "type": "string",
+      "default": "Enter Email Address"
+    },
+    "phoneLabel": {
+      "type": "string",
+      "default": "Phone Number *"
+    },
+    "phonePlaceholder": {
+      "type": "string",
+      "default": "Enter Phone Number"
+    },
+    "careerPreferencesTitle": {
+      "type": "string",
+      "default": "Career Preferences"
+    },
+    "careerPreferencesSubtitle": {
+      "type": "string",
+      "default": "Help us understand what opportunities interest you."
+    },
+    "careerAreaLabel": {
+      "type": "string",
+      "default": "Primary Career Area *"
+    },
+    "careerAreaPlaceholder": {
+      "type": "string",
+      "default": "Enter Primary Career Area"
+    },
+    "preferredLocationLabel": {
+      "type": "string",
+      "default": "Preferred Location *"
+    },
+    "preferredLocationPlaceholder": {
+      "type": "string",
+      "default": "Enter Preferred Location"
+    },
+    "employmentPreferenceLabel": {
+      "type": "string",
+      "default": "Employment Preference *"
+    },
+    "employmentPreferencePlaceholder": {
+      "type": "string",
+      "default": "Enter Employment Preference"
+    },
+    "resumeTitle": {
+      "type": "string",
+      "default": "Resume"
+    },
+    "resumeSubtitle": {
+      "type": "string",
+      "default": "Upload your most recent resume. PDF, DOC or DOCX up to 10 MB."
+    },
+    "dropzoneText": {
+      "type": "string",
+      "default": "Drop file here"
+    },
+    "uploadButtonText": {
+      "type": "string",
+      "default": "Upload PDF"
+    },
+    "resetButtonLabel": {
+      "type": "string",
+      "default": "Cancel"
+    },
+    "submitButtonLabel": {
+      "type": "string",
+      "default": "Submit"
+    },
+    "successTitle": {
+      "type": "string",
+      "default": "Thank You for Applying!"
+    },
+    "successDescription": {
+      "type": "text",
+      "default": "Your information and resume have been submitted successfully. Our talent team will review your details and contact you shortly."
+    },
+    "successButtonLabel": {
+      "type": "string",
+      "default": "Submit Another Application"
+    },
+    "needHelpTitle": {
+      "type": "string",
+      "default": "Need Help?"
+    },
+    "needHelpSubtitle": {
+      "type": "string",
+      "default": "Sign up now and get hired easily"
+    },
+    "needHelpButtonLabel": {
+      "type": "string",
+      "default": "Get Started"
+    },
+    "seo": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.seo"
+    }
+  }
+}
+
