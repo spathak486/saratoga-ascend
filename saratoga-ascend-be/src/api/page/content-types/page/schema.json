@@ -99,7 +99,8 @@
         "references.team-section-reference",
         "references.federal-environments-reference",
         "references.blog-cta-card",
-        "references.author-card"
+        "references.author-card",
+        "references.job-listing-reference"
       ]
     }
   }

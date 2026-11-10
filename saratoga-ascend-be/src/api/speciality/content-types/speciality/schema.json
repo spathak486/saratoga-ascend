@@ -28,7 +28,12 @@
     "order": {
       "type": "integer",
       "default": 0
+    },
+    "jobs": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::job.job",
+      "mappedBy": "speciality"
     }
   }
 }
-

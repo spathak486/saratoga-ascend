@@ -275,6 +275,17 @@ export const HAPPY_CLIENTS_REFERENCE_FIELDS = `
   }
 `;
 
+
+export const JOB_LISTING_REFERENCE_FIELDS = `
+  ... on ComponentReferencesJobListingReference {
+    __typename
+    id
+    heading
+    subheading
+    itemsPerPage
+  }
+`;
+
 export const BLOG_LISTING_REFERENCE_FIELDS = `
   __typename
   ... on ComponentReferencesBlogListing {
@@ -1021,6 +1032,7 @@ export const PAGE_SECTION_FRAGMENTS = [
   COMMON_SECTION_FRAGMENTS,
   BLOG_LISTING_REFERENCE_FIELDS,
   TIMELINE_REFERENCE_FIELDS,
+  JOB_LISTING_REFERENCE_FIELDS,
 ].join('\n');
 
 // Contract dynamic zone (ContractSectionDynamicZone does not contain Timeline)
