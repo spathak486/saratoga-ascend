@@ -1,5 +1,6 @@
 export * from './Navbar';
 export * from './HeroSection';
+export * from './JobSearchHero';
 export * from './WhatWeDoSection';
 export * from './MarketWeServeSection';
 export * from './HealthcareProgramsSection';
