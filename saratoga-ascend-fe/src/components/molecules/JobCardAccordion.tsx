@@ -1,3 +1,6 @@
+'use client';
+
+import React, { useState } from 'react';
 import { Job } from '@/lib/types/job';
 
 interface JobCardAccordionProps {
@@ -9,7 +12,7 @@ export const JobCardAccordion: React.FC<JobCardAccordionProps> = ({
   job,
   defaultExpanded = false,
 }) => {
-  const [isExpanded, setIsExpanded] = React.useState<boolean>(defaultExpanded);
+  const [isExpanded, setIsExpanded] = useState<boolean>(defaultExpanded);
 
   const toggleAccordion = () => {
     setIsExpanded((prev) => !prev);

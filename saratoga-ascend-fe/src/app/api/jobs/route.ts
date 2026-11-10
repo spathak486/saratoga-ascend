@@ -18,8 +18,8 @@ export async function GET(request: NextRequest) {
       search,
     });
 
-    if (!res.ok) {
-      return NextResponse.json({ error: res.error }, { status: 500 });
+    if (res.error) {
+      return NextResponse.json({ error: res.error }, { status: res.error.status || 500 });
     }
 
     return NextResponse.json(res.data);
@@ -28,4 +28,3 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }
-
