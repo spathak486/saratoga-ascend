@@ -458,10 +458,10 @@ export const SECTION_REGISTRY: Record<
     );
   },
 
-  ComponentReferencesAuthorCard: (section, index) => {
+  ComponentReferencesAuthorCard: (section, index, options) => {
     const cardRef = section as any;
     const authorData = cardRef.author || cardRef;
-    const author = contextData?.authorRelation || authorData;
+    const author = (options?.contextData as any)?.authorRelation || authorData;
 
     return (
       <AuthorCard
