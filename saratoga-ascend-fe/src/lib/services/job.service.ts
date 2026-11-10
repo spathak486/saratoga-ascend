@@ -122,6 +122,6 @@ export async function getAllJobs(params?: JobFilterParams): Promise<ApiResult<Jo
       total: items.length,
     });
   } catch (error) {
-    return fail('UNKNOWN', error instanceof Error ? error.message : 'Failed to fetch jobs');
+    return fail('UNKNOWN', 500, error instanceof Error ? error.message : 'Failed to fetch jobs');
   }
 }
