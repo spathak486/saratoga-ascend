@@ -280,7 +280,7 @@ export const JOB_LISTING_REFERENCE_FIELDS = `
   ... on ComponentReferencesJobListingReference {
     __typename
     id
-    heading
+    jobHeading: heading
     subheading
     itemsPerPage
   }
