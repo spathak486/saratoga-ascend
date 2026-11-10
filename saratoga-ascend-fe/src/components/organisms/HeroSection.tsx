@@ -2,6 +2,7 @@ import React from 'react';
 import { Container, Heading, Section, Text } from '../atoms';
 import { GeneralLink } from '../atoms/GeneralLink';
 import { CtaButton } from '../molecules/CtaButton';
+import { JobSearchHero } from './JobSearchHero';
 
 const HERO_BG = '/images/hero-final-bg.png';
 
@@ -115,7 +116,14 @@ export interface HeroSectionProps {
   secondaryCtaHref?: string;
   mediaMime?: string;
   mediaExt?: string;
-  variant?: 'homebanner' | 'homebanner_two_buttons' | 'default' | 'gradient' | 'blog' | 'banner_cta';
+  variant?:
+    | 'homebanner'
+    | 'homebanner_two_buttons'
+    | 'default'
+    | 'gradient'
+    | 'blog'
+    | 'banner_cta'
+    | 'banner-job-search';
   authorName?: string;
   date?: string;
   readTime?: string | number;
@@ -475,6 +483,20 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           </Container>
         </div>
       </Section>
+    );
+  }
+
+  if (variant === 'banner-job-search') {
+    return (
+      <JobSearchHero
+        title={title || 'Find Your Next Opportunity'}
+        description={
+          stripHtml(description) ||
+          'Explore open positions across healthcare, technology, science and operations.'
+        }
+        imageSrc={helixSrc}
+        imageAlt={mediaAlt}
+      />
     );
   }
 
