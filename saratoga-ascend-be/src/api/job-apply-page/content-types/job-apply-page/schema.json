@@ -24,7 +24,9 @@
       "type": "media",
       "multiple": false,
       "required": false,
-      "allowedTypes": ["images"]
+      "allowedTypes": [
+        "images"
+      ]
     },
     "breadcrumbRoot": {
       "type": "string",
@@ -215,7 +217,8 @@
         "references.federal-environments-reference",
         "references.blog-cta-card",
         "references.author-card",
-        "references.job-listing-reference"
+        "references.job-listing-reference",
+        "references.jobs-by-speciality-reference"
       ]
     },
     "seo": {
