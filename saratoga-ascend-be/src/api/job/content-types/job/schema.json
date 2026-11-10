@@ -5,7 +5,7 @@
     "singularName": "job",
     "pluralName": "jobs",
     "displayName": "Job",
-    "description": "Job listings with location, speciality, job-type, and full details"
+    "description": "Job listings with location, speciality, job-type, rich details, and dynamic labels"
   },
   "options": {
     "draftAndPublish": true
@@ -30,8 +30,16 @@
     "experience": {
       "type": "string"
     },
+    "overviewTitle": {
+      "type": "string",
+      "default": "Job Overview"
+    },
     "overview": {
       "type": "text"
+    },
+    "responsibilitiesTitle": {
+      "type": "string",
+      "default": "Responsibilities"
     },
     "responsibilities": {
       "type": "customField",
@@ -40,12 +48,20 @@
         "preset": "defaultHtml"
       }
     },
+    "requirementsTitle": {
+      "type": "string",
+      "default": "Requirements"
+    },
     "requirements": {
       "type": "customField",
       "customField": "plugin::ckeditor5.CKEditor",
       "options": {
         "preset": "defaultHtml"
       }
+    },
+    "benefitsTitle": {
+      "type": "string",
+      "default": "Benefits"
     },
     "benefits": {
       "type": "customField",
@@ -54,9 +70,25 @@
         "preset": "defaultHtml"
       }
     },
-    "location": {
+    "additionalDetailsTitle": {
+      "type": "string",
+      "default": "Additional Information"
+    },
+    "additionalDetails": {
+      "type": "customField",
+      "customField": "plugin::ckeditor5.CKEditor",
+      "options": {
+        "preset": "defaultHtml"
+      }
+    },
+    "applyButton": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.general-link"
+    },
+    "locations": {
       "type": "relation",
-      "relation": "manyToOne",
+      "relation": "manyToMany",
       "target": "api::location.location",
       "inversedBy": "jobs"
     },
@@ -81,4 +113,3 @@
     }
   }
 }
-

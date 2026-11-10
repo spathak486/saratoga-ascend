@@ -21,8 +21,7 @@ export const JobCardAccordion: React.FC<JobCardAccordionProps> = ({
   // Helper to render HTML or bullet points safely
   const renderList = (content?: string | null) => {
     if (!content) return null;
-    if (content.includes('<li') || content.includes('<ul')) {
-      // Remove standard bullets and wrap in custom list items with red vector markers
+    if (content.includes('<li') || content.includes('<ul') || content.includes('<p')) {
       return (
         <div
           className="prose prose-slate max-w-none [&_ul]:list-none [&_ul]:pl-0 [&_ul]:space-y-2 [&_li]:relative [&_li]:pl-6 [&_li]:before:content-[''] [&_li]:before:absolute [&_li]:before:left-0 [&_li]:before:top-[9px] [&_li]:before:w-2.5 [&_li]:before:h-2.5 [&_li]:before:rounded-full [&_li]:before:bg-[#F01424] text-[18px] text-[#1C1C1C] leading-[160%] font-sans"
@@ -43,6 +42,19 @@ export const JobCardAccordion: React.FC<JobCardAccordionProps> = ({
       </ul>
     );
   };
+
+  // Dynamic headings with graceful fallbacks
+  const overviewHeading = job.overviewTitle || 'Job Overview';
+  const responsibilitiesHeading = job.responsibilitiesTitle || 'Responsibilities';
+  const requirementsHeading = job.requirementsTitle || 'Requirements';
+  const benefitsHeading = job.benefitsTitle || 'Benefits';
+  const additionalDetailsHeading = job.additionalDetailsTitle || 'Additional Information';
+
+  // Dynamic apply button with fallback
+  const applyLabel = job.applyButton?.label || 'Apply';
+  const applyHref = job.applyButton?.href || `/careers/apply?job=${encodeURIComponent(job.slug)}`;
+  const isExternal = job.applyButton?.isExternal || false;
+  const target = job.applyButton?.target || (isExternal ? '_blank' : '_self');
 
   return (
     <div
@@ -84,8 +96,12 @@ export const JobCardAccordion: React.FC<JobCardAccordionProps> = ({
 
             {/* Meta info bar: Location • Job Type • Salary • Experience */}
             <div className="flex flex-wrap items-center gap-2 text-[14px] lg:text-[16px] text-[#64748B] font-sans">
-              {job.location?.name && <span>{job.location.name}</span>}
-              {job.location?.name && job.jobType?.name && <span>•</span>}
+              {job.locations && job.locations.length > 0 ? (
+                <span>{job.locations.map((l) => l.name).join(', ')}</span>
+              ) : job.location?.name ? (
+                <span>{job.location.name}</span>
+              ) : null}
+              {(job.locations?.length || job.location?.name) && job.jobType?.name && <span>•</span>}
               {job.jobType?.name && <span>{job.jobType.name}</span>}
               {job.salaryRange && (
                 <>
@@ -137,7 +153,7 @@ export const JobCardAccordion: React.FC<JobCardAccordionProps> = ({
           {job.overview && (
             <div className="mb-10">
               <h4 className="font-serif text-[32px] lg:text-[44px] text-[#0A0A0A] mb-4">
-                Job Overview
+                {overviewHeading}
               </h4>
               <p className="font-sans text-[18px] lg:text-[22px] text-[#344054] leading-[160%] whitespace-pre-line">
                 {job.overview}
@@ -150,7 +166,7 @@ export const JobCardAccordion: React.FC<JobCardAccordionProps> = ({
             {job.responsibilities && (
               <div>
                 <h4 className="font-serif text-[32px] lg:text-[44px] text-[#0A0A0A] mb-4">
-                  Responsibilities
+                  {responsibilitiesHeading}
                 </h4>
                 {renderList(job.responsibilities)}
               </div>
@@ -159,7 +175,7 @@ export const JobCardAccordion: React.FC<JobCardAccordionProps> = ({
             {job.requirements && (
               <div>
                 <h4 className="font-serif text-[32px] lg:text-[44px] text-[#0A0A0A] mb-4">
-                  Requirements
+                  {requirementsHeading}
                 </h4>
                 {renderList(job.requirements)}
               </div>
@@ -170,22 +186,34 @@ export const JobCardAccordion: React.FC<JobCardAccordionProps> = ({
           {job.benefits && (
             <div className="mb-10">
               <h4 className="font-serif text-[32px] lg:text-[44px] text-[#0A0A0A] mb-4">
-                Benefits
+                {benefitsHeading}
               </h4>
               {renderList(job.benefits)}
             </div>
           )}
 
-          {/* Apply Button */}
+          {/* Extra Rich Text / Additional Details Section */}
+          {job.additionalDetails && (
+            <div className="mb-10">
+              <h4 className="font-serif text-[32px] lg:text-[44px] text-[#0A0A0A] mb-4">
+                {additionalDetailsHeading}
+              </h4>
+              {renderList(job.additionalDetails)}
+            </div>
+          )}
+
+          {/* Dynamic Apply Button */}
           <div className="pt-4">
             <a
-              href={`#apply-${job.slug}`}
+              href={applyHref}
+              target={target}
+              rel={isExternal ? 'noopener noreferrer' : undefined}
               className="inline-flex items-center justify-center gap-3 px-8 py-3.5 rounded-[50px] text-white font-medium text-[18px] transition-all duration-300 shadow-md hover:shadow-lg hover:brightness-105"
               style={{
                 background: 'linear-gradient(90.55deg, #D31E2D 0.47%, #2A91DC 102.45%)',
               }}
             >
-              <span>Apply</span>
+              <span>{applyLabel}</span>
               <svg
                 className="w-5 h-5"
                 viewBox="0 0 24 24"

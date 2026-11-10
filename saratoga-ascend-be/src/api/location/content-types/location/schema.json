@@ -31,9 +31,9 @@
     },
     "jobs": {
       "type": "relation",
-      "relation": "oneToMany",
+      "relation": "manyToMany",
       "target": "api::job.job",
-      "mappedBy": "location"
+      "mappedBy": "locations"
     }
   }
 }
