@@ -48,11 +48,18 @@ export async function getAllJobs(params?: JobFilterParams): Promise<ApiResult<Jo
         const locations = Array.isArray(params.location) ? params.location : [params.location];
         if (locations.length > 0 && !locations.includes('All')) {
           items = items.filter((j) => {
-            const locName = j.location?.name?.toLowerCase() || '';
-            const locSlug = j.location?.slug?.toLowerCase() || '';
+            const locList = j.locations && j.locations.length > 0
+              ? j.locations
+              : j.location
+              ? [j.location]
+              : [];
             return locations.some((l) => {
               const needle = l.toLowerCase();
-              return locName.includes(needle) || locSlug.includes(needle);
+              return locList.some(
+                (item) =>
+                  item.name?.toLowerCase().includes(needle) ||
+                  item.slug?.toLowerCase().includes(needle)
+              );
             });
           });
         }

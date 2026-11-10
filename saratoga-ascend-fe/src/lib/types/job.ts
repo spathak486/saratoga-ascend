@@ -14,6 +14,13 @@ export interface JobType {
   slug: string;
 }
 
+export interface JobApplyButton {
+  label?: string | null;
+  href?: string | null;
+  target?: string | null;
+  isExternal?: boolean | null;
+}
+
 export interface Job {
   id?: string;
   title: string;
@@ -21,11 +28,19 @@ export interface Job {
   tagline?: string | null;
   salaryRange?: string | null;
   experience?: string | null;
+  overviewTitle?: string | null;
   overview?: string | null;
+  responsibilitiesTitle?: string | null;
   responsibilities?: string | null;
+  requirementsTitle?: string | null;
   requirements?: string | null;
+  benefitsTitle?: string | null;
   benefits?: string | null;
+  additionalDetailsTitle?: string | null;
+  additionalDetails?: string | null;
+  applyButton?: JobApplyButton | null;
   location?: JobLocation | null;
+  locations?: JobLocation[] | null;
   speciality?: JobSpeciality | null;
   jobType?: JobType | null;
   isFeatured?: boolean | null;
@@ -46,4 +61,3 @@ export interface JobsResponse {
   jobs: Job[];
   total: number;
 }
-
