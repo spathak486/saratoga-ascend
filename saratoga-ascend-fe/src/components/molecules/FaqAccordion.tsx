@@ -31,7 +31,7 @@ export const FaqAccordion: React.FC<FaqAccordionProps> = ({
   const [openIndex, setOpenIndex] = useState<number>(0);
 
   return (
-    <div className={`flex w-full flex-col gap-10 ${className}`.trim()}>
+    <div className={`flex w-full flex-col gap-5 xl:gap-10 ${className}`.trim()}>
       {items.map((item, index) => {
         const isOpen = openIndex === index;
         const panelId = `${baseId}-panel-${index}`;
@@ -51,14 +51,14 @@ export const FaqAccordion: React.FC<FaqAccordionProps> = ({
                 aria-expanded={isOpen}
                 aria-controls={panelId}
                 onClick={() => setOpenIndex(isOpen ? -1 : index)}
-                className="flex w-full items-center justify-between gap-6 px-5 py-5 text-left md:gap-[3.75rem] md:px-[2.5625rem] md:py-[1.3125rem] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-sky"
+                className="flex w-full items-center justify-between gap-6 px-5 py-5 text-left md:px-[25px] md:py-5 xl:gap-[3.75rem] xl:px-[2.5625rem] xl:py-[1.3125rem] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-sky"
               >
                 <span className="min-w-0 flex-1 font-sans text-[clamp(1.125rem,1.5vw,1.75rem)] font-medium leading-[1.4] text-ink md:leading-10">
                   {item.question}
                 </span>
 
                 <span
-                  className={`flex size-[3.1875rem] shrink-0 items-center justify-center rounded-full transition-colors duration-300 ease-out motion-reduce:transition-none ${
+                  className={`flex size-[41px] shrink-0 items-center justify-center rounded-full transition-colors duration-300 ease-out motion-reduce:transition-none md:size-[3.1875rem] ${
                     isOpen
                       ? 'bg-[#2fa3f4] text-ink'
                       : 'bg-[#b0d8f4] text-ink'
@@ -95,7 +95,7 @@ export const FaqAccordion: React.FC<FaqAccordionProps> = ({
               }`}
             >
               <div className="overflow-hidden">
-                <div className="px-5 pb-5 font-sans text-[clamp(1rem,1.25vw,1.5rem)] leading-[1.5] text-slate-body md:px-[2.5625rem] md:pb-5">
+                <div className="px-5 pb-5 font-sans text-[clamp(1rem,1.25vw,1.5rem)] leading-[1.5] text-slate-body md:px-[25px] md:pb-5 xl:px-[2.5625rem]">
                   {item.answer}
                 </div>
               </div>

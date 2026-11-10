@@ -130,7 +130,7 @@ export const ClientLogosSection: React.FC<ClientLogosectionProps> = ({
     <section
       aria-labelledby={heading ? 'client-logos-heading' : undefined}
       aria-label={heading ? undefined : 'Our clients'}
-      className="mt-10 overflow-hidden py-10 max-xl:mt-0 max-xl:py-5"
+      className="mt-10 overflow-hidden py-10 max-xl:mt-0"
       style={{
         backgroundImage:
           'linear-gradient(159.05deg, var(--color-brand-surface-muted) 0%, var(--color-brand-surface-sunk) 100%)',
@@ -138,7 +138,7 @@ export const ClientLogosSection: React.FC<ClientLogosectionProps> = ({
     >
       <div className="flex flex-col gap-[3.75rem] max-xl:gap-10">
         {heading || lede ? (
-          <Container className="max-xl:px-5!">
+          <Container className="max-sm:px-5!">
             <div className="flex w-full flex-col items-start gap-3">
               {heading ? (
                 <Heading
@@ -152,7 +152,7 @@ export const ClientLogosSection: React.FC<ClientLogosectionProps> = ({
                 </Heading>
               ) : null}
               {lede ? (
-                <Text size="sectionLead" tone="inherit" className="text-ink max-xl:text-base max-xl:leading-5">
+                <Text size="sectionLead" tone="inherit" className="text-ink max-xl:text-base max-xl:leading-6">
                   {lede}
                 </Text>
               ) : null}

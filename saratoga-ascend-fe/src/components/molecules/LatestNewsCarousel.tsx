@@ -7,12 +7,12 @@ import { LatestNewsCard, type LatestNewsCardProps } from './LatestNewsCard';
  * Figma 2105:865 coverflow — center 329 / peek 222 on mobile.
  * Tablet grows so iPad is not stuck on phone sizes.
  */
-const FEATURED_WIDTH_CLASS =
-  'w-[min(20.566rem,calc(100vw-6.3125rem))] md:w-[min(28rem,calc(100vw-8rem))] lg:w-[min(34rem,calc(100vw-10rem))]';
-const PEEK_WIDTH_CLASS =
-  'w-[min(13.896rem,calc((100vw-6.3125rem)*0.675))] md:w-[min(18.9rem,calc((100vw-8rem)*0.675))] lg:w-[min(23rem,calc((100vw-10rem)*0.675))]';
+const FEATURED_WIDTH_CLASS = 'w-[min(20.566rem,calc(100vw-6.3125rem))]';
+const PEEK_WIDTH_CLASS = 'w-[min(13.896rem,calc((100vw-6.3125rem)*0.675))]';
+/** Two equal cards fill the tablet row. Gap is `md:gap-4` (1rem). */
+const TABLET_SLIDE_CLASS = 'md:w-[calc((100%-1rem)/2)]';
 const FEATURED_PAD =
-  'px-[max(1.5rem,calc((100%-min(20.566rem,calc(100vw-6.3125rem)))/2))] md:px-[max(2rem,calc((100%-min(28rem,calc(100vw-8rem)))/2))] lg:px-[max(2.5rem,calc((100%-min(34rem,calc(100vw-10rem)))/2))]';
+  'px-[max(1.5rem,calc((100%-min(20.566rem,calc(100vw-6.3125rem)))/2))] md:px-0';
 
 /** Gentle coverflow — width + scroll stay locked together via rAF. */
 const WIDTH_EASE_MS = 480;
@@ -51,15 +51,17 @@ function ArrowGlyph({ direction }: { direction: 'prev' | 'next' }) {
   );
 }
 
-function nearestCenteredIndex(viewport: HTMLElement) {
+function nearestSlideIndex(viewport: HTMLElement, tablet: boolean) {
   const slides = Array.from(viewport.querySelectorAll<HTMLElement>('[data-carousel-slide]'));
   if (slides.length === 0) return 0;
-  const mid = viewport.getBoundingClientRect().left + viewport.clientWidth / 2;
+  const viewportRect = viewport.getBoundingClientRect();
+  const target = tablet ? viewportRect.left : viewportRect.left + viewport.clientWidth / 2;
   let best = 0;
   let bestDist = Infinity;
   slides.forEach((slide, index) => {
     const rect = slide.getBoundingClientRect();
-    const dist = Math.abs(rect.left + rect.width / 2 - mid);
+    const point = tablet ? rect.left : rect.left + rect.width / 2;
+    const dist = Math.abs(point - target);
     if (dist < bestDist) {
       bestDist = dist;
       best = index;
@@ -68,13 +70,15 @@ function nearestCenteredIndex(viewport: HTMLElement) {
   return best;
 }
 
-/** Instant recenter — call every frame while widths ease so scroll never lags layout. */
-function centerSlideNow(viewport: HTMLElement, index: number) {
+/** Phone centers the featured slide. Tablet aligns it to the left so two cards stay in view. */
+function alignSlideNow(viewport: HTMLElement, index: number, tablet: boolean) {
   const slide = viewport.querySelectorAll<HTMLElement>('[data-carousel-slide]')[index];
   if (!slide) return;
   const vRect = viewport.getBoundingClientRect();
   const sRect = slide.getBoundingClientRect();
-  const delta = sRect.left + sRect.width / 2 - (vRect.left + vRect.width / 2);
+  const delta = tablet
+    ? sRect.left - vRect.left
+    : sRect.left + sRect.width / 2 - (vRect.left + vRect.width / 2);
   if (Math.abs(delta) < 0.5) return;
   viewport.scrollLeft += delta;
 }
@@ -94,8 +98,20 @@ export function LatestNewsCarousel({
   const viewportRef = useRef<HTMLDivElement | null>(null);
   const programmaticRef = useRef(false);
   const scrollTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const tabletRef = useRef(false);
   const [active, setActive] = useState(0);
+  const [isTablet, setIsTablet] = useState(false);
   const count = articles.length;
+
+  tabletRef.current = isTablet;
+
+  useEffect(() => {
+    const media = window.matchMedia('(min-width: 768px)');
+    const sync = () => setIsTablet(media.matches);
+    sync();
+    media.addEventListener('change', sync);
+    return () => media.removeEventListener('change', sync);
+  }, []);
 
   const goTo = useCallback(
     (next: number) => {
@@ -128,12 +144,12 @@ export function LatestNewsCarousel({
 
     const tick = (now: number) => {
       if (cancelled) return;
-      centerSlideNow(viewport, active);
+      alignSlideNow(viewport, active, tabletRef.current);
       if (now - start < duration) {
         raf = requestAnimationFrame(tick);
         return;
       }
-      centerSlideNow(viewport, active);
+      alignSlideNow(viewport, active, tabletRef.current);
       viewport.style.scrollSnapType = previousSnap;
       programmaticRef.current = false;
     };
@@ -145,7 +161,7 @@ export function LatestNewsCarousel({
       cancelAnimationFrame(raf);
       viewport.style.scrollSnapType = previousSnap;
     };
-  }, [active]);
+  }, [active, isTablet]);
 
   /* Sync active from finger / trackpad after the gesture settles. */
   useEffect(() => {
@@ -154,7 +170,7 @@ export function LatestNewsCarousel({
 
     const syncFromScroll = () => {
       if (programmaticRef.current) return;
-      const next = nearestCenteredIndex(viewport);
+      const next = nearestSlideIndex(viewport, tabletRef.current);
       setActive((prev) => {
         if (prev === next) return prev;
         programmaticRef.current = true;
@@ -190,14 +206,14 @@ export function LatestNewsCarousel({
     const viewport = viewportRef.current;
     if (!viewport) return;
     programmaticRef.current = true;
-    centerSlideNow(viewport, 0);
+    alignSlideNow(viewport, 0, tabletRef.current);
     programmaticRef.current = false;
   }, []);
 
   if (articles.length === 0) return null;
 
   return (
-    <div className="relative mt-[2.3125rem] -mx-5 overflow-visible md:mt-10 xl:hidden">
+    <div className="relative mt-[2.3125rem] max-sm:-mx-5 overflow-visible md:mt-10 xl:hidden">
       <div
         ref={viewportRef}
         className={`snap-x snap-mandatory overflow-x-auto overscroll-x-contain touch-pan-x [scrollbar-width:none] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white [&::-webkit-scrollbar]:hidden ${FEATURED_PAD}`}
@@ -206,22 +222,22 @@ export function LatestNewsCarousel({
         aria-label="Latest news"
         tabIndex={0}
       >
-        <div className="flex items-center gap-3 md:gap-4">
+        <div className="flex items-center gap-3 md:w-full md:gap-4">
           {articles.map((article, idx) => {
             const featured = idx === active;
             return (
               <div
                 key={`${article.title}-${idx}`}
-                className={`min-w-0 shrink-0 grow-0 snap-center transition-[width] duration-[480ms] motion-reduce:transition-none ${
+                className={`min-w-0 shrink-0 grow-0 snap-center transition-[width] duration-[480ms] motion-reduce:transition-none md:snap-start ${
                   featured ? FEATURED_WIDTH_CLASS : PEEK_WIDTH_CLASS
-                }`}
+                } ${TABLET_SLIDE_CLASS}`}
                 style={{ transitionTimingFunction: GENTLE }}
                 role="group"
                 aria-roledescription="slide"
                 aria-current={featured ? 'true' : undefined}
                 data-carousel-slide
               >
-                <LatestNewsCard {...article} compact featured={featured} />
+                <LatestNewsCard {...article} compact featured={isTablet || featured} />
               </div>
             );
           })}
@@ -230,7 +246,7 @@ export function LatestNewsCarousel({
 
       {/* Overlay matches featured image box so arrows sit on the photo midline. */}
       <div
-        className={`pointer-events-none absolute top-0 left-1/2 z-10 aspect-[544/431] -translate-x-1/2 ${FEATURED_WIDTH_CLASS}`}
+        className={`pointer-events-none absolute top-0 z-10 aspect-[544/431] md:inset-x-0 md:aspect-auto md:h-full md:w-auto md:translate-x-0 ${FEATURED_WIDTH_CLASS} left-1/2 -translate-x-1/2 md:left-0`}
       >
         <button
           type="button"
