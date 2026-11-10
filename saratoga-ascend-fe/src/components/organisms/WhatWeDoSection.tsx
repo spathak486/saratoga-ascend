@@ -14,8 +14,12 @@ export interface WhatWeDoSectionProps {
   ctaHref?: string;
 }
 
+/** Hover fill is blue #29a6e3; the ink chevron and ring stay. */
+const ARROW_HOVER =
+  'hover:bg-[#29a6e3] focus-visible:bg-[#29a6e3]';
+
 const ARROW_BUTTON =
-  'flex size-[4.125rem] items-center justify-center rounded-full border-[1.375px] border-ink bg-white text-ink shadow-[0px_1.375px_2.75px_rgba(16,24,40,0.05)] transition-colors duration-300 ease-out hover:bg-[rgb(43_192_234/0.8)] focus-visible:bg-[rgb(43_192_234/0.8)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-navy motion-reduce:transition-none';
+  `flex size-[4.125rem] items-center justify-center rounded-full border-[1.375px] border-ink bg-white text-ink shadow-[0px_1.375px_2.75px_rgba(16,24,40,0.05)] transition-colors duration-300 ease-out ${ARROW_HOVER} focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-navy motion-reduce:transition-none`;
 
 /** Figma chevron, drawn pointing down and rotated onto the button. */
 function ArrowGlyph({ direction }: { direction: 'left' | 'right' }) {
@@ -87,7 +91,7 @@ export const WhatWeDoSection: React.FC<WhatWeDoSectionProps> = ({
             >
               {title}
             </h2>
-            <p className="text-section-lead text-ink">{description}</p>
+            <p className="text-section-lead text-ink max-sm:text-[18px]! max-sm:leading-[25px]!">{description}</p>
           </div>
           <CtaButton href={ctaHref} className="shrink-0" showArrow>
             {ctaLabel}
@@ -129,7 +133,7 @@ export const WhatWeDoSection: React.FC<WhatWeDoSectionProps> = ({
                   <h3 className="mb-5 font-serif text-feature text-ink">
                     {line.heading}
                   </h3>
-                  <p className="mb-5 text-body-lg leading-8 text-brand-navy">
+                  <p className="mb-5 text-body-lg leading-[22px] text-brand-navy sm:leading-8">
                     {line.blurb}
                   </p>
                   <div className="flex flex-col gap-4">

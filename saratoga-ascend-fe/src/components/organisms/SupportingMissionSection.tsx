@@ -86,7 +86,7 @@ export const SupportingMissionSection: React.FC<SupportingMissionSectionProps> =
             {description ? (
               description.includes('<') ? (
                 <div
-                  className="mt-6 md:mt-8 2xl:mt-[36px] font-sans font-normal text-white text-[clamp(1rem,0.85rem+0.8vw,1.875rem)] leading-[1.35] tracking-normal space-y-4 md:space-y-6 2xl:space-y-[30px] [&_p]:mb-4 2xl:[&_p]:mb-[30px] [&_p:last-child]:mb-0"
+                  className="mt-6 md:mt-8 2xl:mt-[36px] font-sans font-normal text-white text-[clamp(1rem,0.85rem+0.8vw,1.875rem)] leading-[1.35] tracking-normal max-sm:leading-[24px]! space-y-4 md:space-y-6 2xl:space-y-[30px] [&_p]:mb-4 2xl:[&_p]:mb-[30px] [&_p:last-child]:mb-0"
                   dangerouslySetInnerHTML={{ __html: description }}
                 />
               ) : (
@@ -98,7 +98,7 @@ export const SupportingMissionSection: React.FC<SupportingMissionSectionProps> =
                     .map((para, idx) => (
                       <p
                         key={idx}
-                        className="font-sans font-normal text-white text-[clamp(1rem,0.85rem+0.8vw,1.875rem)] leading-[1.35] tracking-normal"
+                        className="font-sans font-normal text-white text-[clamp(1rem,0.85rem+0.8vw,1.875rem)] leading-[1.35] tracking-normal max-sm:leading-[24px]!"
                       >
                         {para}
                       </p>

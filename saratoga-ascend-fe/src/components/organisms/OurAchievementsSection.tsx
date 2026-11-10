@@ -21,8 +21,8 @@ import type { StrapiImage } from '@/lib/schemas';
 /** 828 + 27 + 828 inside the 1683px track (Figma Homepage 2243:3498 / 2243:3505). */
 const CARD_GAP = '1.6875rem';
 const TWO_UP_SLIDE_CLASS = `${CAROUSEL_SLIDE_CLASS} box-border shrink-0 basis-[calc((100%-1.6875rem)/2)] p-[2px]`;
-/** One full card per view on mobile/tablet — no next-card peek. */
-const MOBILE_SLIDE_CLASS = `${CAROUSEL_SLIDE_CLASS} box-border w-full min-w-full shrink-0 grow-0 basis-full`;
+/** One full card per view on mobile. Tablet shows two cards. */
+const MOBILE_SLIDE_CLASS = `${CAROUSEL_SLIDE_CLASS} box-border w-full min-w-full shrink-0 grow-0 basis-full md:w-auto md:min-w-0 md:basis-[calc((100%-1rem)/2)]`;
 const ACHIEVEMENT_BG = '/images/bg-achievements.gif';
 const INTRO_COPY =
   'Connecting cleared, credentialed healthcare professionals with government, military, and local facilities nationwide.';
@@ -134,10 +134,9 @@ function AwardsTrack({
   return (
     <div
       ref={viewportRef}
-      className={`${singleSlide ? 'flex' : ''} snap-x snap-mandatory scroll-smooth overflow-x-auto py-1 [scrollbar-width:none] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white motion-reduce:scroll-auto [&::-webkit-scrollbar]:hidden ${
+      className={`${singleSlide ? 'flex gap-0 md:gap-4' : ''} snap-x snap-mandatory scroll-smooth overflow-x-auto py-1 [scrollbar-width:none] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white motion-reduce:scroll-auto [&::-webkit-scrollbar]:hidden ${
         isDragging ? 'cursor-grabbing select-none' : dragHandlers ? 'cursor-grab' : ''
       }`.trim()}
-      style={singleSlide ? { gap: 0 } : undefined}
       role="group"
       aria-roledescription="carousel"
       aria-label="Achievement awards"
@@ -344,7 +343,7 @@ export const OurAchievementsSection: React.FC<OurAchievementsSectionProps> = ({
       <div className="relative scroll-mt-24 xl:hidden">
         <Backdrop overlay={MOBILE_OVERLAY} />
 
-        <Container className="relative px-5! pt-5 pb-5">
+        <Container className="relative max-sm:px-5! pt-10 pb-10">
           <div className="flex flex-col gap-3">
             <p
               aria-hidden="true"
@@ -352,7 +351,7 @@ export const OurAchievementsSection: React.FC<OurAchievementsSectionProps> = ({
             >
               {headingText}
             </p>
-            <p className="font-sans text-base leading-5 text-[#ebebeb]">{INTRO_COPY}</p>
+            <p className="font-sans text-base leading-6 text-[#ebebeb]">{INTRO_COPY}</p>
           </div>
 
           <div className="relative mt-10">
@@ -372,12 +371,12 @@ export const OurAchievementsSection: React.FC<OurAchievementsSectionProps> = ({
                 <BandArrow
                   direction="prev"
                   onClick={mobile.scrollPrev}
-                  className="absolute top-1/2 left-0 z-50 size-12 -translate-y-1/2 border-[1.375px] border-white bg-black/25 shadow-md backdrop-blur-[2px] md:left-1 md:size-[66px]"
+                  className="absolute top-[calc(2rem+5.625rem)] left-0 z-50 size-12 -translate-y-1/2 border-[1.375px] border-white bg-black/25 shadow-md backdrop-blur-[2px] md:top-[calc(4rem+5.625rem)] md:left-1 md:size-[55px]"
                 />
                 <BandArrow
                   direction="next"
                   onClick={mobile.scrollNext}
-                  className="absolute top-1/2 right-0 z-50 size-12 -translate-y-1/2 border-[1.375px] border-white bg-black/25 shadow-md backdrop-blur-[2px] md:right-1 md:size-[66px]"
+                  className="absolute top-[calc(2rem+5.625rem)] right-0 z-50 size-12 -translate-y-1/2 border-[1.375px] border-white bg-black/25 shadow-md backdrop-blur-[2px] md:top-[calc(4rem+5.625rem)] md:right-1 md:size-[55px]"
                 />
               </>
             ) : null}

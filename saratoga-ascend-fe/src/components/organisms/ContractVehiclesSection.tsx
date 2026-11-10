@@ -104,8 +104,8 @@ export const ContractVehiclesSection: React.FC<ContractVehiclesSectionProps> = (
       id="contract-vehicles"
       aria-labelledby="contract-vehicles-heading"
       tone="surface"
-      spacing="lg"
-      className="max-xl:mt-10 max-xl:py-5!"
+      spacing="none"
+      className="py-10 xl:py-16"
     >
       <div className="flex flex-col gap-[clamp(2.5rem,3.125vw,3.75rem)] max-xl:gap-5">
         {(title || description) && (
@@ -115,7 +115,7 @@ export const ContractVehiclesSection: React.FC<ContractVehiclesSectionProps> = (
             description={description || ''}
             wide
             titleClassName="max-xl:text-[2rem]! max-xl:leading-[2.5rem]! max-xl:text-brand-cta-from"
-            descriptionClassName="max-xl:text-base max-xl:leading-5"
+            descriptionClassName="max-xl:text-base max-xl:leading-6"
             className="gap-3"
           />
         )}

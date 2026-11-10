@@ -109,7 +109,7 @@ export const PastPerformanceSection: React.FC<PastPerformanceSectionProps> = ({
       aria-labelledby="past-performance-heading"
       tone="surface"
       spacing="none"
-      containerClassName="py-10 max-xl:px-5! max-xl:py-5"
+      containerClassName="py-10 max-sm:px-5! max-sm:pt-10! max-sm:pb-5! sm:max-xl:pt-10! sm:max-xl:pb-5!"
     >
       <div className="flex flex-col gap-10 max-xl:gap-[1.875rem]">
         {(heading || subheading) && (
@@ -129,7 +129,7 @@ export const PastPerformanceSection: React.FC<PastPerformanceSectionProps> = ({
               <Text
                 size="sectionLead"
                 tone="inherit"
-                className="text-ink max-xl:text-base! max-xl:leading-5! max-xl:font-normal"
+                className="text-ink max-xl:text-base! max-xl:leading-6! max-xl:font-normal"
               >
                 {subheading}
               </Text>
@@ -141,7 +141,7 @@ export const PastPerformanceSection: React.FC<PastPerformanceSectionProps> = ({
           <>
             <div
               ref={viewportRef}
-              className={`snap-x snap-mandatory overflow-x-auto [scrollbar-width:none] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-navy [&::-webkit-scrollbar]:hidden max-xl:-mr-5 ${
+              className={`snap-x snap-mandatory overflow-x-auto [scrollbar-width:none] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-navy [&::-webkit-scrollbar]:hidden max-sm:-mr-5 ${
                 isDragging ? 'cursor-grabbing select-none' : 'max-xl:cursor-grab'
               }`}
               role="group"

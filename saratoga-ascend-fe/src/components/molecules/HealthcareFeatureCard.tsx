@@ -154,7 +154,7 @@ function FadeCopy({
           {slide.role}
         </p>
       </div>
-      <Text size="cardCopy" tone="onDark" className="max-xl:text-base max-xl:leading-5">
+      <Text size="cardCopy" tone="onDark" className="max-xl:text-base max-xl:leading-6">
         {slide.blurb}
       </Text>
     </motion.div>

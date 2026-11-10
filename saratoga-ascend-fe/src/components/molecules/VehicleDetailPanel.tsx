@@ -62,7 +62,7 @@ export const VehicleDetailPanel: React.FC<VehicleDetailPanelProps> = ({
       </Heading>
     </div>
 
-    <p className="mt-10 max-w-[61.3125rem] text-button font-medium leading-[1.5] text-slate-copy max-xl:mt-5 max-xl:text-base max-xl:leading-5 max-xl:font-normal max-xl:text-[#475569]">
+    <p className="mt-10 max-w-[61.3125rem] text-button font-medium leading-[1.5] text-slate-copy max-xl:mt-5 max-xl:text-base max-xl:leading-6 max-xl:font-normal max-xl:text-[#475569]">
       {detail.body}
     </p>
 

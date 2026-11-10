@@ -36,9 +36,9 @@ export const NeedHelpSection: React.FC<NeedHelpSectionProps> = ({
     tone="surface"
     spacing="none"
     bleed
-    className="relative py-section overflow-hidden max-xl:py-5"
+    className="relative py-section overflow-hidden max-xl:pt-5 max-xl:pb-5 max-sm:pb-10! sm:max-xl:pt-0! sm:max-xl:pb-0! xl:pt-0!"
   >
-    <div className="relative mx-auto max-w-home px-page max-xl:px-5">
+    <div className="relative mx-auto max-w-home px-page max-sm:px-5!">
       {/* Rectangle 14: 1680x519px, radius 52px, Red Blue gradient with 20% black film */}
       <div className="relative isolate overflow-hidden rounded-[clamp(24px,2.7vw,52px)] bg-need-help-gradient min-h-[clamp(28rem,38.18vw,519px)] lg:h-[519px] max-xl:min-h-[46.625rem] max-xl:rounded-xl">
         {/* Left Column: 70px padding */}
@@ -57,7 +57,7 @@ export const NeedHelpSection: React.FC<NeedHelpSectionProps> = ({
 
             {/* Sign up now and get hired easily */}
             {(subTitle || description) ? (
-              <p className="mt-2 max-w-[356px] text-[clamp(1.125rem,1.25vw,24px)] leading-[160%] font-medium text-white max-xl:mt-5 max-xl:max-w-none max-xl:text-base max-xl:leading-5 max-xl:font-normal">
+              <p className="mt-2 max-w-[356px] text-[clamp(1.125rem,1.25vw,24px)] leading-[160%] font-medium text-white max-xl:mt-5 max-xl:max-w-none max-xl:text-base max-xl:leading-6 max-xl:font-normal">
                 {subTitle ||
                   (description
                     ? description.replace(/<[^>]*>?/gm, '').trim()
@@ -73,15 +73,13 @@ export const NeedHelpSection: React.FC<NeedHelpSectionProps> = ({
         </div>
 
         {personSrc ? (
-          <div
-            className="pointer-events-none absolute bottom-0 right-0 z-0 flex h-full w-full items-end justify-center lg:right-0 lg:h-[519px] lg:w-[45%] lg:max-w-[767px] lg:justify-end max-xl:left-0 max-xl:h-[24.5rem] max-xl:w-full max-xl:max-w-none!"
-          >
+          <div className="pointer-events-none relative z-0 w-full md:mx-auto md:w-[55%] lg:absolute lg:bottom-0 lg:right-0 lg:mx-0 lg:flex lg:h-[519px] lg:w-[45%] lg:max-w-[767px] lg:items-end lg:justify-end">
             <img
               src={personSrc}
               alt={mediaAlt || 'Healthcare worker offering help'}
               className={
                 imageClassName ??
-                'h-full w-full object-contain object-bottom max-xl:object-cover max-xl:object-[center_20%]'
+                'h-auto w-full object-contain object-bottom lg:h-full lg:object-contain'
               }
             />
           </div>

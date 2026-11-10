@@ -32,9 +32,9 @@ export const FaqSection: React.FC<FaqSectionProps> = ({
   return (
     <section
       aria-labelledby="faq-heading"
-      className="w-full bg-brand-surface py-10 md:py-16 xl:py-[7.75rem]"
+      className="w-full bg-brand-surface py-10 xl:py-[7.75rem]"
     >
-      <Container size="home" className="max-xl:px-5!">
+      <Container size="home" className="max-sm:px-5!">
         <div className="flex flex-col items-stretch gap-10 xl:flex-row xl:items-stretch xl:gap-10">
           {/* Left — title + support CTA (Figma left 680 / CTA 597) */}
           <div className="flex w-full max-w-[42.5rem] flex-col gap-10 xl:w-[40.476%] xl:max-w-[42.5rem] xl:justify-between xl:gap-16">
@@ -52,7 +52,7 @@ export const FaqSection: React.FC<FaqSectionProps> = ({
                 <Text
                   size="lead"
                   tone="inherit"
-                  className="max-w-[41.0625rem] text-ink max-xl:text-base! max-xl:leading-5! xl:text-2xl! xl:leading-[2.5rem]!"
+                  className="max-w-[41.0625rem] text-ink max-xl:text-base! max-xl:leading-6! xl:text-2xl! xl:leading-[2.5rem]!"
                 >
                   {lead}
                 </Text>
@@ -60,7 +60,7 @@ export const FaqSection: React.FC<FaqSectionProps> = ({
             </div>
 
             {supportCta ? (
-              <div className="flex w-full max-w-[37.3125rem] flex-col items-start gap-5 rounded-[1.25rem] border-2 border-brand-sky bg-[rgb(42_145_220/0.2)] px-8 py-10 backdrop-blur-[18px] md:pr-[2.4375rem] md:pl-8">
+              <div className="flex w-full max-w-[37.3125rem] flex-col items-start gap-5 rounded-[1.25rem] border-2 border-brand-sky bg-[rgb(42_145_220/0.2)] px-[25px] py-5 backdrop-blur-[18px] xl:py-10 xl:pr-[2.4375rem] xl:pl-8">
                 <Heading
                   level={3}
                   size="statLabel"

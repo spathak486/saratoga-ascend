@@ -155,7 +155,7 @@ export const MissionSection: React.FC<MissionSectionProps> = ({
 
           {description ? (
             <div
-              className="font-sans text-[clamp(1.125rem,0.95rem+0.7vw,1.625rem)] leading-[1.3846] font-normal text-[#475569] max-xl:text-base! max-xl:leading-5! [&_p]:m-0"
+              className="font-sans text-[clamp(1.125rem,0.95rem+0.7vw,1.625rem)] leading-[1.3846] font-normal text-[#475569] max-xl:text-base! max-xl:leading-6! [&_p]:m-0"
               dangerouslySetInnerHTML={{ __html: description }}
             />
           ) : null}
