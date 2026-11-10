@@ -1101,7 +1101,7 @@ ComponentReferencesFederalEnvironmentsReference: (section, index) => {
     return (
       <JobListingSection
         key={`job-listing-${index}`}
-        heading={jobSec.heading}
+        heading={jobSec.jobHeading || jobSec.heading}
         subheading={jobSec.subheading}
         itemsPerPage={jobSec.itemsPerPage}
       />
