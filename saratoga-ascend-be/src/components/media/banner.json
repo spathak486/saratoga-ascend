@@ -48,7 +48,7 @@
         "gradient",
         "blog",
         "banner_cta",
-        "banner-job-search"
+        "banner_job_search"
       ],
       "default": "homebanner",
       "required": true

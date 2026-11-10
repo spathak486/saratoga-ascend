@@ -986,7 +986,6 @@ export const PAGE_BASE_SECTION_FRAGMENTS = [
 
 // Dynamic-zone inline fragments supported by Page.Section
 
-
 export const COMMON_SECTION_FRAGMENTS = [
   PAGE_BASE_SECTION_FRAGMENTS,
   MISSION_VISION_PROMISE_REFERENCE_FIELDS,
@@ -1013,13 +1012,19 @@ export const COMMON_SECTION_FRAGMENTS = [
   CONTACT_PATHWAYS_REFERENCE_FIELDS,
   CONTACT_LEARN_REFERENCE_FIELDS,
   CONTACT_OFFICES_REFERENCE_FIELDS,
-  TIMELINE_REFERENCE_FIELDS,
   TEAM_SECTION_REFERENCE_FIELDS,
   FEDERAL_ENVIRONMENTS_REFERENCE_FIELDS,
 ].join('\n');
 
-// Page dynamic zone includes blog listing and any page-specific fragments.
+// Page dynamic zone includes blog listing and timeline.
 export const PAGE_SECTION_FRAGMENTS = [
+  COMMON_SECTION_FRAGMENTS,
+  BLOG_LISTING_REFERENCE_FIELDS,
+  TIMELINE_REFERENCE_FIELDS,
+].join('\n');
+
+// Contract dynamic zone (ContractSectionDynamicZone does not contain Timeline)
+export const CONTRACT_SECTION_FRAGMENTS = [
   COMMON_SECTION_FRAGMENTS,
   BLOG_LISTING_REFERENCE_FIELDS,
 ].join('\n');
@@ -1034,6 +1039,19 @@ export const PAGE_FIELDS = `
   seo { ${SEO_FIELDS} }
   Section {
     ${PAGE_SECTION_FRAGMENTS}
+  }
+`;
+
+export const CONTRACT_FIELDS = `
+  documentId
+  internalName
+  pageTitle
+  slug
+  pageType
+  variant
+  seo { ${SEO_FIELDS} }
+  Section {
+    ${CONTRACT_SECTION_FRAGMENTS}
   }
 `;
 

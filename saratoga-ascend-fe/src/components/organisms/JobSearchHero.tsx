@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container } from '../atoms';
 
 export interface JobSearchHeroProps {
@@ -14,7 +14,7 @@ export interface JobSearchHeroProps {
 }
 
 /**
- * Job Search Banner Variant (`banner-job-search`)
+ * Job Search Banner Variant (`banner_job_search`)
  * Matches Figma 1920x723 Hero:
  * - Background Image: Collaborative Governance and Healthcare Team
  * - Gradient Overlay: linear-gradient(90.1deg, #EAF4FB 23.08%, rgba(234, 244, 251, 0) 101.83%)
@@ -23,7 +23,7 @@ export interface JobSearchHeroProps {
  * - Search Capsule: 740px x 79px, #FFFFFF, border 1.33px #CBCBCB, radius 100px
  *   - Search Icon (34px) + Job Title input (placeholder "Job title, keywords...")
  *   - Vertical Divider (31.5px #BDBDBD)
- *   - Location Pin Icon (34px) + Location dropdown/input
+ *   - Location Pin Icon (34px) + Dynamic Location dropdown/input
  *   - Red Circular Action/Submit Button (60px #F01424) with arrow icon
  */
 export const JobSearchHero: React.FC<JobSearchHeroProps> = ({
@@ -32,12 +32,37 @@ export const JobSearchHero: React.FC<JobSearchHeroProps> = ({
   imageSrc,
   imageAlt = 'Healthcare Team',
   onSearch,
-  defaultLocation = 'San Diego',
-  locations = ['San Diego', 'Dallas', 'Philadelphia', 'Phoenix', 'All Locations'],
+  defaultLocation = '',
+  locations: initialLocations,
 }) => {
   const [keyword, setKeyword] = useState('');
   const [location, setLocation] = useState(defaultLocation);
   const [isLocationOpen, setIsLocationOpen] = useState(false);
+  const [availableLocations, setAvailableLocations] = useState<string[]>(
+    initialLocations || []
+  );
+  const [isLoading, setIsLoading] = useState(!initialLocations || initialLocations.length === 0);
+
+  useEffect(() => {
+    // Dynamically fetch locations from API route
+    fetch('/api/job-filters')
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.locations && data.locations.length > 0) {
+          const locNames = data.locations.map((l: any) => l.name);
+          setAvailableLocations(locNames);
+          if (!location) {
+            setLocation(locNames[0]);
+          }
+        }
+      })
+      .catch(() => {
+        // Handled silently
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -140,7 +165,9 @@ export const JobSearchHero: React.FC<JobSearchHeroProps> = ({
                 onClick={() => setIsLocationOpen(!isLocationOpen)}
                 className="flex items-center gap-2 font-sans text-sm sm:text-[18px] text-[#545454] hover:text-[#0A0A0A] focus:outline-none"
               >
-                <span className="truncate max-w-[90px] sm:max-w-[120px] font-normal">{location}</span>
+                <span className="truncate max-w-[90px] sm:max-w-[120px] font-normal">
+                  {location || (isLoading ? 'Loading...' : 'Select Location')}
+                </span>
                 {/* Chevron Down Arrow */}
                 <svg
                   className={`w-3 h-3 text-[#545454] transition-transform duration-200 ${
@@ -157,21 +184,27 @@ export const JobSearchHero: React.FC<JobSearchHeroProps> = ({
               {/* Location Dropdown Menu */}
               {isLocationOpen && (
                 <div className="absolute right-0 top-full mt-3 w-48 rounded-[12px] border border-[#E4EBF1] bg-[#F6F9FA] py-2 shadow-lg z-50">
-                  {locations.map((loc) => (
-                    <button
-                      key={loc}
-                      type="button"
-                      onClick={() => {
-                        setLocation(loc);
-                        setIsLocationOpen(false);
-                      }}
-                      className={`w-full text-left px-4 py-2 font-sans text-sm hover:bg-[#EAF4FB] transition-colors ${
-                        location === loc ? 'font-semibold text-brand-navy' : 'text-[#0A0A0A]'
-                      }`}
-                    >
-                      {loc}
-                    </button>
-                  ))}
+                  {availableLocations.length > 0 ? (
+                    availableLocations.map((loc) => (
+                      <button
+                        key={loc}
+                        type="button"
+                        onClick={() => {
+                          setLocation(loc);
+                          setIsLocationOpen(false);
+                        }}
+                        className={`w-full text-left px-4 py-2 font-sans text-sm hover:bg-[#EAF4FB] transition-colors ${
+                          location === loc ? 'font-semibold text-brand-navy' : 'text-[#0A0A0A]'
+                        }`}
+                      >
+                        {loc}
+                      </button>
+                    ))
+                  ) : (
+                    <div className="px-4 py-2 text-sm text-gray-500">
+                      {isLoading ? 'Loading locations...' : 'No locations found'}
+                    </div>
+                  )}
                 </div>
               )}
             </div>
