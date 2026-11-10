@@ -1,4 +1,4 @@
-import { IMAGE_FIELDS, SEO_FIELDS } from '../fragments';
+import { IMAGE_FIELDS, SEO_FIELDS, PAGE_BASE_SECTION_FRAGMENTS } from '../fragments';
 
 export const JOB_APPLY_PAGE_QUERY = `
   query GetJobApplyPage($status: PublicationStatus = PUBLISHED) {
@@ -38,12 +38,15 @@ export const JOB_APPLY_PAGE_QUERY = `
       uploadButtonText
       resetButtonLabel
       submitButtonLabel
-      successTitle
-      successDescription
-      successButtonLabel
-      needHelpTitle
-      needHelpSubtitle
-      needHelpButtonLabel
+      modalTitle
+      modalDescription
+      modalHomeButtonLabel
+      modalExploreJobsButtonLabel
+      modalSupportText
+      modalSupportEmail
+      Section {
+        ${PAGE_BASE_SECTION_FRAGMENTS}
+      }
       seo {
         ${SEO_FIELDS}
       }

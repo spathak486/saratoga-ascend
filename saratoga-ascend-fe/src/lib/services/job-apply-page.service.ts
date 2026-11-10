@@ -13,6 +13,7 @@ import {
 export interface JobApplyPageQueryResult {
   jobApplyPage: (Record<string, unknown> & {
     heroBackgroundImage?: RawStrapiMedia | null;
+    Section?: unknown[];
   }) | null;
 }
 
@@ -49,13 +50,14 @@ export const defaultJobApplyPageData: JobApplyPageData = {
   uploadButtonText: 'Upload PDF',
   resetButtonLabel: 'Cancel',
   submitButtonLabel: 'Submit',
-  successTitle: 'Thank You for Applying!',
-  successDescription:
-    'Your information and resume have been submitted successfully. Our talent team will review your details and contact you shortly.',
-  successButtonLabel: 'Submit Another Application',
-  needHelpTitle: 'Need Help?',
-  needHelpSubtitle: 'Sign up now and get hired easily',
-  needHelpButtonLabel: 'Get Started',
+  modalTitle: 'Application Submitted',
+  modalDescription:
+    'Thank you for applying. We’ve received your application and our team will review your profile.',
+  modalHomeButtonLabel: 'Home',
+  modalExploreJobsButtonLabel: 'Explore More Jobs',
+  modalSupportText: 'Need help? Contact our careers support team',
+  modalSupportEmail: 'careers@company.com',
+  Section: [],
   seo: {
     metaTitle: 'Apply for the position | Saratoga Ascend Careers',
     metaDescription:
@@ -95,6 +97,7 @@ export async function getJobApplyPageData(): Promise<ApiResult<JobApplyPageData>
       ...rawPatch,
       heroBackgroundImage:
         unwrapImage(rawPatch.heroBackgroundImage) || defaultJobApplyPageData.heroBackgroundImage,
+      Section: Array.isArray(rawPatch.Section) ? rawPatch.Section : [],
     };
 
     const parsed = JobApplyPageDataSchema.safeParse(resolvedPatch);
