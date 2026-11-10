@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { strapiUrl } from '@/lib/api/config';
 import type {
   DynamicZoneSection,
@@ -46,6 +46,7 @@ import type {
 } from '@/lib/schemas';
 import { BlogCtaCard, AuthorCard } from '@/components/molecules';
 import {
+  JobsBySpecialitySection,
   HeroSection,
   NeedHelpSection,
   FaqSection,
@@ -1096,15 +1097,27 @@ ComponentReferencesFederalEnvironmentsReference: (section, index) => {
   },
 
   // Frontend-only Figma bands — used by local mocks until Strapi types exist.
+    ComponentReferencesJobsBySpecialityReference: (section, index) => {
+    const sec = section as any;
+    return (
+      <JobsBySpecialitySection
+        key={`jobs-by-speciality-${index}`}
+        title={sec.title}
+        description={sec.description}
+        specialities={sec.specialities}
+      />
+    );
+  },
   ComponentReferencesJobListingReference: (section, index) => {
     const jobSec = section as any;
     return (
-      <JobListingSection
-        key={`job-listing-${index}`}
-        heading={jobSec.jobHeading || jobSec.heading}
-        subheading={jobSec.subheading}
-        itemsPerPage={jobSec.itemsPerPage}
-      />
+      <Suspense key={`job-listing-${index}`} fallback={null}>
+        <JobListingSection
+          heading={jobSec.jobHeading || jobSec.heading}
+          subheading={jobSec.subheading}
+          itemsPerPage={jobSec.itemsPerPage}
+        />
+      </Suspense>
     );
   },
   MockWorkforcePlanning: (_section, index) => (

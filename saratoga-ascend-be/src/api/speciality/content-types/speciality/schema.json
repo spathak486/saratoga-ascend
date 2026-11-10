@@ -22,8 +22,33 @@
       "required": true,
       "unique": true
     },
+    "roleTitle": {
+      "type": "string",
+      "default": "Medical Pharmacist"
+    },
     "description": {
-      "type": "text"
+      "type": "text",
+      "default": "Connecting cleared, credentialed healthcare professionals with government, military, and local facilities nationwide."
+    },
+    "doctorImage": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"]
+    },
+    "backgroundImage": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"]
+    },
+    "ctaLabel": {
+      "type": "string",
+      "default": "Explore Jobs"
+    },
+    "ctaHref": {
+      "type": "string",
+      "default": "/careers/search-jobs"
     },
     "order": {
       "type": "integer",

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { Container, Heading, Section, Text } from '../atoms';
 import { GeneralLink } from '../atoms/GeneralLink';
 import { CtaButton } from '../molecules/CtaButton';
@@ -489,15 +489,17 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 
   if (variant === 'banner_job_search' || variant === 'banner-job-search') {
     return (
-      <JobSearchHero
-        title={title || 'Find Your Next Opportunity'}
-        description={
-          stripHtml(description) ||
-          'Explore open positions across healthcare, technology, science and operations.'
-        }
-        imageSrc={helixSrc}
-        imageAlt={mediaAlt}
-      />
+      <Suspense fallback={null}>
+        <JobSearchHero
+          title={title || 'Find Your Next Opportunity'}
+          description={
+            stripHtml(description) ||
+            'Explore open positions across healthcare, technology, science and operations.'
+          }
+          imageSrc={helixSrc}
+          imageAlt={mediaAlt}
+        />
+      </Suspense>
     );
   }
 
