@@ -1,0 +1,24 @@
+{
+  "collectionName": "components_references_jobs_by_speciality_references",
+  "info": {
+    "displayName": "Jobs By Speciality Reference",
+    "description": "Featured Speciality banner carousel synced with dynamic related job cards below (Figma Frame 2147226373)"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "default": "Lorem epsum"
+    },
+    "description": {
+      "type": "text",
+      "default": "Simple ideas can have profound impacts. Understanding users leads to better solutions. Each project teaches valuable lessons."
+    },
+    "specialities": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::speciality.speciality"
+    }
+  }
+}
+

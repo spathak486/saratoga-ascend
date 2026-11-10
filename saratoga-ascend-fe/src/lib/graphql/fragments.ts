@@ -276,6 +276,38 @@ export const HAPPY_CLIENTS_REFERENCE_FIELDS = `
 `;
 
 
+export const JOBS_BY_SPECIALITY_REFERENCE_FIELDS = `
+  ... on ComponentReferencesJobsBySpecialityReference {
+    __typename
+    id
+    title
+    description
+    specialities {
+      documentId
+      name
+      slug
+      roleTitle
+      description
+      doctorImage { ${IMAGE_FIELDS} }
+      backgroundImage { ${IMAGE_FIELDS} }
+      ctaLabel
+      ctaHref
+      order
+      jobs {
+        documentId
+        title
+        slug
+        tagline
+        salaryRange
+        experience
+        locations { name state }
+        speciality { name slug }
+        jobType { name }
+      }
+    }
+  }
+`;
+
 export const JOB_LISTING_REFERENCE_FIELDS = `
   ... on ComponentReferencesJobListingReference {
     __typename
@@ -1033,7 +1065,7 @@ export const PAGE_SECTION_FRAGMENTS = [
   BLOG_LISTING_REFERENCE_FIELDS,
   TIMELINE_REFERENCE_FIELDS,
   JOB_LISTING_REFERENCE_FIELDS,
-].join('\n');
+  ].join('\n');
 
 // Contract dynamic zone (ContractSectionDynamicZone does not contain Timeline)
 export const CONTRACT_SECTION_FRAGMENTS = [
