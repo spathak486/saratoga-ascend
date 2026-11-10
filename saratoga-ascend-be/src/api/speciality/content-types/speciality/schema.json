@@ -1,0 +1,34 @@
+{
+  "kind": "collectionType",
+  "collectionName": "specialities",
+  "info": {
+    "singularName": "speciality",
+    "pluralName": "specialities",
+    "displayName": "Speciality",
+    "description": "Job Specialities (e.g., Healthcare Jobs, IT Jobs, Allied Health, Laboratory & Scientific)"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "slug": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "description": {
+      "type": "text"
+    },
+    "order": {
+      "type": "integer",
+      "default": 0
+    }
+  }
+}
+
