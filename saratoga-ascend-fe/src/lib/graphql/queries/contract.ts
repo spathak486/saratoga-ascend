@@ -1,4 +1,4 @@
-import { PAGE_FIELDS } from '../fragments';
+import { CONTRACT_FIELDS } from '../fragments';
 import type { RawPageNode } from '../types';
 
 export interface ContractBySlugQueryVariables {
@@ -16,7 +16,7 @@ export const CONTRACT_BY_SLUG_QUERY = `
     contracts(
       filters: { or: [{ slug: { eq: $slug } }, { slug: { eq: $altSlug } }] }
       status: $status
-    ) { ${PAGE_FIELDS} }
+    ) { ${CONTRACT_FIELDS} }
   }
 `;
 
@@ -29,4 +29,3 @@ export const ALL_CONTRACT_SLUGS_QUERY = `
     contracts { slug }
   }
 `;
-

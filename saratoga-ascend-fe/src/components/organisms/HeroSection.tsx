@@ -123,6 +123,7 @@ export interface HeroSectionProps {
     | 'gradient'
     | 'blog'
     | 'banner_cta'
+    | 'banner_job_search'
     | 'banner-job-search';
   authorName?: string;
   date?: string;
@@ -486,7 +487,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
     );
   }
 
-  if (variant === 'banner-job-search') {
+  if (variant === 'banner_job_search' || variant === 'banner-job-search') {
     return (
       <JobSearchHero
         title={title || 'Find Your Next Opportunity'}

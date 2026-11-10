@@ -15,3 +15,4 @@ export {
 } from './slug-utils';
 
 export * from './case-study.service';
+export * from './job-filter.service';
