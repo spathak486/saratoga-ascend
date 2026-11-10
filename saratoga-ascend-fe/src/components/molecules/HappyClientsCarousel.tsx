@@ -11,7 +11,7 @@ const SWIPE_THRESHOLD_PX = 40;
  * Side padding reserves room for half-off edge arrows.
  */
 const MOBILE_STAGE =
-  'mx-auto w-full max-w-[26.875rem] px-6 md:max-w-[48rem] md:px-10 lg:max-w-[56rem]';
+  'mx-auto w-full max-w-[26.875rem] px-6 md:max-w-[48rem] md:px-0 lg:max-w-[56rem]';
 
 export interface ClientReview {
   /** Role headline shown above the name — optional since Strapi content may omit it. */
@@ -81,7 +81,7 @@ const MOBILE_MAIN_SLOTS = [
     top: '0%',
     left: '50%',
     right: 'auto',
-    width: '42%',
+    width: '70%',
     height: '100%',
     opacity: 1,
     zIndex: 5,
@@ -114,7 +114,7 @@ const MOBILE_FAR_SLOTS = [
     top: '0%',
     left: '50%',
     right: 'auto',
-    width: '42%',
+    width: '70%',
     height: '100%',
     opacity: 0,
     zIndex: 0,
@@ -205,7 +205,7 @@ function QuoteCopy({
             </>
           ) : null}
         </p>
-        <p className="mt-3 line-clamp-4 min-w-0 break-words font-sans text-[1.25rem] leading-[1.5] font-medium text-white md:mt-5 md:line-clamp-5 md:text-[1.375rem] md:leading-[1.55]">
+        <p className="mt-3 line-clamp-4 min-w-0 break-words font-sans text-base leading-[1.5] font-medium text-white md:mt-5 md:line-clamp-5 md:text-[1.375rem] md:leading-[1.55]">
           {review.quote}
         </p>
       </>
@@ -482,7 +482,7 @@ export const HappyClientsCarousel: React.FC<HappyClientsCarouselProps> = ({
           })}
         </div>
 
-        <div className="relative z-[4] -mt-[3.75rem] overflow-visible rounded-[3.125rem] bg-brand-red px-8 pb-10 pt-[3.75rem] md:-mt-16 md:px-10 md:pb-12 md:pt-16 lg:px-12">
+        <div className="relative z-[4] -mt-[3.75rem] overflow-visible rounded-[3.125rem] bg-brand-red px-8 pb-10 pt-20 md:-mt-16 md:px-10 md:pb-12 md:pt-[5.25rem] lg:px-12">
           <div className="relative overflow-hidden px-1 md:px-2">
             {/* Spacer keeps card height for the active quote while slides animate. */}
             <div className="invisible" aria-hidden="true">

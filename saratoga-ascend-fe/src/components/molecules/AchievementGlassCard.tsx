@@ -82,7 +82,7 @@ export const AchievementGlassCard: React.FC<AchievementGlassCardProps> = ({
             >
               {title}
             </Heading>
-            <p className="line-clamp-3 min-w-0 break-words font-sans text-base font-normal leading-5 text-white">
+            <p className="line-clamp-3 min-w-0 break-words font-sans text-base font-normal leading-6 text-white">
               {cleanBody}
             </p>
           </div>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { Container, Heading, Section, Text } from '../atoms';
 import { GeneralLink } from '../atoms/GeneralLink';
 import { CtaButton } from '../molecules/CtaButton';
@@ -489,15 +489,17 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 
   if (variant === 'banner_job_search' || variant === 'banner-job-search') {
     return (
-      <JobSearchHero
-        title={title || 'Find Your Next Opportunity'}
-        description={
-          stripHtml(description) ||
-          'Explore open positions across healthcare, technology, science and operations.'
-        }
-        imageSrc={helixSrc}
-        imageAlt={mediaAlt}
-      />
+      <Suspense fallback={null}>
+        <JobSearchHero
+          title={title || 'Find Your Next Opportunity'}
+          description={
+            stripHtml(description) ||
+            'Explore open positions across healthcare, technology, science and operations.'
+          }
+          imageSrc={helixSrc}
+          imageAlt={mediaAlt}
+        />
+      </Suspense>
     );
   }
 
@@ -676,7 +678,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
     */
     return (
       <section className="w-full">
-        <div className="mx-auto w-full max-w-home px-page pt-4 pb-6 sm:pb-8 xl:pb-10">
+        <div className="mx-auto w-full max-w-home px-page pt-0 pb-0 xl:pt-4 xl:pb-10">
           <div className="relative isolate flex w-full flex-col justify-end rounded-[1.25rem] bg-neutral-900 shadow-lg sm:rounded-[1.625rem] min-h-[min(22rem,70dvh)] md:min-h-[min(28rem,72dvh)] xl:min-h-[min(54.25rem,78dvh)]">
             <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-[inherit]" aria-hidden="true">
               {resolvedVideoSrc ? (
@@ -699,7 +701,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             </div>
 
             {/* Keep side + bottom inset at xl/100% — xl:px-0/pb-0 sat copy on the radius. */}
-            <div className="relative z-10 mx-auto flex w-full min-w-0 max-w-[83.625rem] flex-col gap-3 px-6 py-6 text-white sm:gap-4 sm:px-8 sm:py-8 md:px-10 md:py-10 xl:flex-row xl:items-stretch xl:gap-[clamp(1.25rem,3.375vw,3.375rem)] xl:px-[clamp(2.5rem,5.2vw,5.625rem)] xl:pt-[clamp(2rem,6vw,4rem)] xl:pb-[clamp(2rem,3.5vw,3.75rem)]">
+            <div className="relative z-10 mx-auto flex w-full min-w-0 max-w-[83.625rem] flex-col gap-3 px-6 pt-5 pb-10 text-white sm:gap-4 xl:flex-row xl:items-stretch xl:gap-[clamp(1.25rem,3.375vw,3.375rem)] xl:px-[clamp(2.5rem,5.2vw,5.625rem)] xl:pt-[clamp(2rem,6vw,4rem)] xl:pb-[clamp(2rem,3.5vw,3.75rem)]">
               {title ? (
                 <h2 className="min-w-0 break-words font-serif text-feature text-white xl:max-w-[21.75rem] xl:basis-[min(100%,21.75rem)] xl:shrink-0">
                   {title}
@@ -712,7 +714,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                 />
               ) : null}
               {lede ? (
-                <p className="min-w-0 break-words text-card-copy text-white xl:max-w-[55.125rem] xl:flex-1">
+                <p className="line-clamp-4 min-w-0 break-words text-card-copy text-white xl:line-clamp-none xl:max-w-[55.125rem] xl:flex-1">
                   {lede}
                 </p>
               ) : null}
@@ -1080,7 +1082,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             <Text
               size="lead"
               tone="navy"
-              className="min-w-0 font-medium tracking-normal"
+              className="min-w-0 font-medium tracking-normal max-sm:leading-[24px]!"
               style={ledeStyle}
             >
               {lede}

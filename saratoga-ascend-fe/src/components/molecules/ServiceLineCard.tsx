@@ -105,7 +105,7 @@ function SlideBody({ line }: { line: ServiceLine }) {
       </Heading>
 
       <div className="flex flex-col gap-5">
-        <Text size="cardCopy" tone="navy" className="max-[89.99rem]:text-base max-[89.99rem]:leading-5">
+        <Text size="cardCopy" tone="navy" className="max-[89.99rem]:text-base max-[89.99rem]:leading-6">
           {line.blurb}
         </Text>
 
