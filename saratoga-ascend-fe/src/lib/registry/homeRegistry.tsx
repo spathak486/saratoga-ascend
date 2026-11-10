@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { strapiUrl } from '@/lib/api/config';
 import type {
   DynamicZoneSection,
@@ -1111,12 +1111,13 @@ ComponentReferencesFederalEnvironmentsReference: (section, index) => {
   ComponentReferencesJobListingReference: (section, index) => {
     const jobSec = section as any;
     return (
-      <JobListingSection
-        key={`job-listing-${index}`}
-        heading={jobSec.jobHeading || jobSec.heading}
-        subheading={jobSec.subheading}
-        itemsPerPage={jobSec.itemsPerPage}
-      />
+      <Suspense key={`job-listing-${index}`} fallback={null}>
+        <JobListingSection
+          heading={jobSec.jobHeading || jobSec.heading}
+          subheading={jobSec.subheading}
+          itemsPerPage={jobSec.itemsPerPage}
+        />
+      </Suspense>
     );
   },
   MockWorkforcePlanning: (_section, index) => (
