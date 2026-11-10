@@ -1,0 +1,35 @@
+{
+  "kind": "collectionType",
+  "collectionName": "job_sort_options",
+  "info": {
+    "singularName": "job-sort-option",
+    "pluralName": "job-sort-options",
+    "displayName": "Job Sort Option",
+    "description": "Sorting options for jobs listing (e.g., Most Recent, Title A-Z, Relevance)"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "label": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "value": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "isDefault": {
+      "type": "boolean",
+      "default": false
+    },
+    "order": {
+      "type": "integer",
+      "default": 0
+    }
+  }
+}
+
