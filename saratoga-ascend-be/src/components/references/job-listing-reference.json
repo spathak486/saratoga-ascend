@@ -1,0 +1,24 @@
+{
+  "collectionName": "components_references_job_listings",
+  "info": {
+    "displayName": "Job Listing",
+    "icon": "briefcase",
+    "description": "Job openings section with filter pills, accordion details, and dynamic roles"
+  },
+  "options": {},
+  "attributes": {
+    "heading": {
+      "type": "string",
+      "default": "Our Openings"
+    },
+    "subheading": {
+      "type": "text",
+      "default": "Discover open roles and find where your skills can make an impact. Explore opportunities across departments and locations."
+    },
+    "itemsPerPage": {
+      "type": "integer",
+      "default": 10
+    }
+  }
+}
+

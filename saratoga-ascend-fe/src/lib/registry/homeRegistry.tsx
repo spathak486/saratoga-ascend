@@ -92,6 +92,7 @@ import {
   ContactOfficesSection,
   KeyTakeawaysSection,
   StatCardsSection,
+  JobListingSection,
 } from '@/components/organisms';
 
 const MOCK_WHAT_WE_DO_LINES = [
@@ -1095,6 +1096,17 @@ ComponentReferencesFederalEnvironmentsReference: (section, index) => {
   },
 
   // Frontend-only Figma bands — used by local mocks until Strapi types exist.
+  ComponentReferencesJobListingReference: (section, index) => {
+    const jobSec = section as any;
+    return (
+      <JobListingSection
+        key={`job-listing-${index}`}
+        heading={jobSec.heading}
+        subheading={jobSec.subheading}
+        itemsPerPage={jobSec.itemsPerPage}
+      />
+    );
+  },
   MockWorkforcePlanning: (_section, index) => (
     <WorkforcePlanningSection key={`workforce-planning-${index}`} />
   ),

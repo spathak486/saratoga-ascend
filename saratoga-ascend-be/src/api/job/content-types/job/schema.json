@@ -1,0 +1,84 @@
+{
+  "kind": "collectionType",
+  "collectionName": "jobs",
+  "info": {
+    "singularName": "job",
+    "pluralName": "jobs",
+    "displayName": "Job",
+    "description": "Job listings with location, speciality, job-type, and full details"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "slug": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "tagline": {
+      "type": "string"
+    },
+    "salaryRange": {
+      "type": "string"
+    },
+    "experience": {
+      "type": "string"
+    },
+    "overview": {
+      "type": "text"
+    },
+    "responsibilities": {
+      "type": "customField",
+      "customField": "plugin::ckeditor5.CKEditor",
+      "options": {
+        "preset": "defaultHtml"
+      }
+    },
+    "requirements": {
+      "type": "customField",
+      "customField": "plugin::ckeditor5.CKEditor",
+      "options": {
+        "preset": "defaultHtml"
+      }
+    },
+    "benefits": {
+      "type": "customField",
+      "customField": "plugin::ckeditor5.CKEditor",
+      "options": {
+        "preset": "defaultHtml"
+      }
+    },
+    "location": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::location.location",
+      "inversedBy": "jobs"
+    },
+    "speciality": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::speciality.speciality",
+      "inversedBy": "jobs"
+    },
+    "jobType": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::job-type.job-type",
+      "inversedBy": "jobs"
+    },
+    "isFeatured": {
+      "type": "boolean",
+      "default": false
+    },
+    "postedDate": {
+      "type": "date"
+    }
+  }
+}
+
