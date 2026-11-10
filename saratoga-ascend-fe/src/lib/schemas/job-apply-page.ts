@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { StrapiImageSchema, SEOMetadataSchema } from './common';
+import { DynamicZoneSectionSchema } from './dynamic-zone';
 
 export const JobApplyPageDataSchema = z.object({
   heroTitle: z.string().nullable().optional(),
@@ -34,14 +35,14 @@ export const JobApplyPageDataSchema = z.object({
   uploadButtonText: z.string().nullable().optional(),
   resetButtonLabel: z.string().nullable().optional(),
   submitButtonLabel: z.string().nullable().optional(),
-  successTitle: z.string().nullable().optional(),
-  successDescription: z.string().nullable().optional(),
-  successButtonLabel: z.string().nullable().optional(),
-  needHelpTitle: z.string().nullable().optional(),
-  needHelpSubtitle: z.string().nullable().optional(),
-  needHelpButtonLabel: z.string().nullable().optional(),
+  modalTitle: z.string().nullable().optional(),
+  modalDescription: z.string().nullable().optional(),
+  modalHomeButtonLabel: z.string().nullable().optional(),
+  modalExploreJobsButtonLabel: z.string().nullable().optional(),
+  modalSupportText: z.string().nullable().optional(),
+  modalSupportEmail: z.string().nullable().optional(),
+  Section: z.array(DynamicZoneSectionSchema).nullable().optional(),
   seo: SEOMetadataSchema.nullable().optional(),
 });
 
 export type JobApplyPageData = z.infer<typeof JobApplyPageDataSchema>;
-

@@ -5,7 +5,7 @@
     "singularName": "job-apply-page",
     "pluralName": "job-apply-pages",
     "displayName": "Job Apply Page",
-    "description": "Editorial content and configuration for the Job Application Form page"
+    "description": "Editorial content, modal popup, and dynamic zone configuration for the Job Application Form page"
   },
   "options": {
     "draftAndPublish": true
@@ -142,29 +142,81 @@
       "type": "string",
       "default": "Submit"
     },
-    "successTitle": {
+    "modalTitle": {
       "type": "string",
-      "default": "Thank You for Applying!"
+      "default": "Application Submitted"
     },
-    "successDescription": {
+    "modalDescription": {
       "type": "text",
-      "default": "Your information and resume have been submitted successfully. Our talent team will review your details and contact you shortly."
+      "default": "Thank you for applying. We’ve received your application and our team will review your profile."
     },
-    "successButtonLabel": {
+    "modalHomeButtonLabel": {
       "type": "string",
-      "default": "Submit Another Application"
+      "default": "Home"
     },
-    "needHelpTitle": {
+    "modalExploreJobsButtonLabel": {
       "type": "string",
-      "default": "Need Help?"
+      "default": "Explore More Jobs"
     },
-    "needHelpSubtitle": {
+    "modalSupportText": {
       "type": "string",
-      "default": "Sign up now and get hired easily"
+      "default": "Need help? Contact our careers support team"
     },
-    "needHelpButtonLabel": {
+    "modalSupportEmail": {
       "type": "string",
-      "default": "Get Started"
+      "default": "careers@company.com"
+    },
+    "Section": {
+      "type": "dynamiczone",
+      "components": [
+        "references.banner-reference",
+        "references.cta",
+        "references.fa-qs",
+        "references.client-logos-reference",
+        "references.service-reference",
+        "references.what-we-do-reference",
+        "references.mission-reference",
+        "references.achievements",
+        "references.legal-content",
+        "references.happy-clients-reference",
+        "references.latest-insights",
+        "references.blog-listing",
+        "references.insights-listing",
+        "references.ceo-message-reference",
+        "references.supporting-mission-reference",
+        "references.past-performance-reference",
+        "references.mission-vision-promise-reference",
+        "references.built-around-missions-reference",
+        "references.take-mission-seriously-reference",
+        "references.accountable-operating-environments-reference",
+        "references.our-capabilities-reference",
+        "references.workforce-planning-reference",
+        "references.critical-missions-reference",
+        "references.contact-inquiry-reference",
+        "references.contact-pathways-reference",
+        "references.contact-learn-reference",
+        "references.contact-offices-reference",
+        "references.key-takeaways-reference",
+        "references.workforce-support-reference",
+        "references.workforce-delivery-reference",
+        "references.explore-capabilities-reference",
+        "references.clear-path-reference",
+        "references.missions-you-serve-reference",
+        "references.service-lifecycle-reference",
+        "references.federal-government-reference",
+        "references.contract-vehicles-reference",
+        "references.explore-environments-reference",
+        "references.defense-reference",
+        "references.integrated-capabilities-reference",
+        "references.procurement-access-reference",
+        "references.direct-access-reference",
+        "references.timeline-reference",
+        "references.team-section-reference",
+        "references.federal-environments-reference",
+        "references.blog-cta-card",
+        "references.author-card",
+        "references.job-listing-reference"
+      ]
     },
     "seo": {
       "type": "component",
@@ -173,4 +225,3 @@
     }
   }
 }
-
