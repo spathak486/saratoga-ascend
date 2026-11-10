@@ -616,6 +616,48 @@ export const TEAM_SECTION_REFERENCE_FIELDS = `
   }
 `;
 
+;
+
+export const BLOG_CTA_CARD_REFERENCE_FIELDS = `
+  __typename
+  ... on ComponentReferencesBlogCtaCard {
+    id
+    blogCta {
+      documentId
+      referenceTitle
+      title
+      description
+      link {
+        label
+        href
+        target
+        isExternal
+      }
+    }
+  }
+`;
+
+export const AUTHOR_CARD_REFERENCE_FIELDS = `
+  __typename
+  ... on ComponentReferencesAuthorCard {
+    id
+    author {
+      documentId
+      name
+      role
+      bio
+      linkedinUrl
+      twitterUrl
+      facebookUrl
+      instagramUrl
+      avatar {
+        url
+        alternativeText
+      }
+    }
+  }
+`;
+
 export const BLOG_SECTION_FRAGMENTS = [
   BANNER_REFERENCE_FIELDS,
   CTA_REFERENCE_FIELDS,
@@ -635,10 +677,8 @@ export const BLOG_SECTION_FRAGMENTS = [
   TEAM_SECTION_REFERENCE_FIELDS,
   TIMELINE_REFERENCE_FIELDS,
   FEDERAL_ENVIRONMENTS_REFERENCE_FIELDS,
-  TEAM_SECTION_REFERENCE_FIELDS,
-  FEDERAL_ENVIRONMENTS_REFERENCE_FIELDS,
-  TEAM_SECTION_REFERENCE_FIELDS,
-  FEDERAL_ENVIRONMENTS_REFERENCE_FIELDS,
+  BLOG_CTA_CARD_REFERENCE_FIELDS,
+  AUTHOR_CARD_REFERENCE_FIELDS,
 ].join('\n');
 
 export const CONTACT_INQUIRY_REFERENCE_FIELDS = `

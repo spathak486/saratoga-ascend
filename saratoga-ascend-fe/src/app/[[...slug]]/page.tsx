@@ -305,6 +305,21 @@ export default async function DynamicPage({ params }: DynamicPageProps) {
   // For Blog Detail pages, separate hero banner from content sections to render
   // the exact Figma 2-column layout: Left column = Table of Contents, Right column = Article components & body
   if (isBlogDetail) {
+    const authorCardSection = sections.find(
+      (sec: any) => sec.__typename === 'ComponentReferencesAuthorCard'
+    );
+    const resolvedAuthorName =
+      authorCardSection?.author?.name ||
+      pageData.authorRelation?.name ||
+      pageData.authorName ||
+      pageData.author;
+
+    const blogContext = {
+      ...pageData,
+      author: resolvedAuthorName,
+      authorName: resolvedAuthorName,
+    };
+
     const bannerSection = sections.find(
       (sec: any) => sec.__typename === 'ComponentReferencesBannerReference'
     );
@@ -313,7 +328,7 @@ export default async function DynamicPage({ params }: DynamicPageProps) {
     );
 
     const bannerNode = bannerSection
-      ? renderRegisteredSection(bannerSection, 0, { contextData: pageData })
+      ? renderRegisteredSection(bannerSection, 0, { contextData: blogContext })
       : null;
 
     // Collect headings from all content sections (LegalContent body, KeyTakeaways titles, etc.)
