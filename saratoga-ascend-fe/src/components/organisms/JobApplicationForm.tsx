@@ -171,10 +171,17 @@ export const JobApplicationForm: React.FC<JobApplicationFormProps> = ({
         data.append('resume', resumeFile);
       }
 
-      if (onFormSubmit) {
+            if (onFormSubmit) {
         await onFormSubmit(data);
       } else {
-        await new Promise((resolve) => setTimeout(resolve, 800));
+        const res = await fetch('/api/job-applications', {
+          method: 'POST',
+          body: data,
+        });
+        if (!res.ok) {
+          const errJson = await res.json().catch(() => ({}));
+          throw new Error(errJson.error || 'Failed to submit application to CMS.');
+        }
       }
 
       setIsSubmitted(true);
