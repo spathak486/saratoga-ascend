@@ -16,3 +16,5 @@ export {
 
 export * from './case-study.service';
 export * from './job-filter.service';
+
+export * from './job-apply-page.service';

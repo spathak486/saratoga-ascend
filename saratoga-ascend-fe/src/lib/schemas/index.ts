@@ -211,6 +211,10 @@ export {
   NotFoundDataSchema,
   type NotFoundData,
 } from './not-found';
+export {
+  JobApplyPageDataSchema,
+  type JobApplyPageData,
+} from './job-apply-page';
 
 
 // Phase 2 → export * from './job'

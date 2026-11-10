@@ -1,0 +1,47 @@
+import { z } from 'zod';
+import { StrapiImageSchema, SEOMetadataSchema } from './common';
+
+export const JobApplyPageDataSchema = z.object({
+  heroTitle: z.string().nullable().optional(),
+  heroSubtitleTemplate: z.string().nullable().optional(),
+  heroBackgroundImage: StrapiImageSchema.nullable().optional(),
+  breadcrumbRoot: z.string().nullable().optional(),
+  breadcrumbCareers: z.string().nullable().optional(),
+  breadcrumbJobSearch: z.string().nullable().optional(),
+  breadcrumbCurrent: z.string().nullable().optional(),
+  cardTitle: z.string().nullable().optional(),
+  personalInfoTitle: z.string().nullable().optional(),
+  personalInfoSubtitle: z.string().nullable().optional(),
+  firstNameLabel: z.string().nullable().optional(),
+  firstNamePlaceholder: z.string().nullable().optional(),
+  lastNameLabel: z.string().nullable().optional(),
+  lastNamePlaceholder: z.string().nullable().optional(),
+  emailLabel: z.string().nullable().optional(),
+  emailPlaceholder: z.string().nullable().optional(),
+  phoneLabel: z.string().nullable().optional(),
+  phonePlaceholder: z.string().nullable().optional(),
+  careerPreferencesTitle: z.string().nullable().optional(),
+  careerPreferencesSubtitle: z.string().nullable().optional(),
+  careerAreaLabel: z.string().nullable().optional(),
+  careerAreaPlaceholder: z.string().nullable().optional(),
+  preferredLocationLabel: z.string().nullable().optional(),
+  preferredLocationPlaceholder: z.string().nullable().optional(),
+  employmentPreferenceLabel: z.string().nullable().optional(),
+  employmentPreferencePlaceholder: z.string().nullable().optional(),
+  resumeTitle: z.string().nullable().optional(),
+  resumeSubtitle: z.string().nullable().optional(),
+  dropzoneText: z.string().nullable().optional(),
+  uploadButtonText: z.string().nullable().optional(),
+  resetButtonLabel: z.string().nullable().optional(),
+  submitButtonLabel: z.string().nullable().optional(),
+  successTitle: z.string().nullable().optional(),
+  successDescription: z.string().nullable().optional(),
+  successButtonLabel: z.string().nullable().optional(),
+  needHelpTitle: z.string().nullable().optional(),
+  needHelpSubtitle: z.string().nullable().optional(),
+  needHelpButtonLabel: z.string().nullable().optional(),
+  seo: SEOMetadataSchema.nullable().optional(),
+});
+
+export type JobApplyPageData = z.infer<typeof JobApplyPageDataSchema>;
+
