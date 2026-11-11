@@ -14,26 +14,71 @@ interface GraphQLResponse<T> {
 interface QueryOptions {
   /** Skip the dev overlay log. Used for the draft probe that retries as published. */
   quiet?: boolean;
+  /** Dev-only retry after the machine cannot verify the CMS certificate. */
+  insecure?: boolean;
+}
+
+async function insecureCmsPost(body: string, headers: Record<string, string>): Promise<Response> {
+  const { request } = await import(/* webpackIgnore: true */ 'node:https');
+  const target = new URL(graphqlUrl);
+  const payload = Buffer.from(body);
+
+  return new Promise((resolve, reject) => {
+    const req = request(
+      {
+        protocol: target.protocol,
+        hostname: target.hostname,
+        port: target.port || 443,
+        path: `${target.pathname}${target.search}`,
+        method: 'POST',
+        headers: {
+          ...headers,
+          'Content-Length': payload.length,
+        },
+        rejectUnauthorized: false,
+      },
+      (res) => {
+        const chunks: Buffer[] = [];
+        res.on('data', (chunk: Buffer) => chunks.push(chunk));
+        res.on('end', () => {
+          resolve(new Response(Buffer.concat(chunks), { status: res.statusCode ?? 500 }));
+        });
+      },
+    );
+    req.on('error', reject);
+    req.write(payload);
+    req.end();
+  });
+}
+
+async function cmsFetch(init: RequestInit, insecure: boolean): Promise<Response> {
+  if (!insecure) return fetch(graphqlUrl, init);
+  const headers = Object.fromEntries(new Headers(init.headers).entries());
+  return insecureCmsPost(typeof init.body === 'string' ? init.body : '', headers);
 }
 
 async function queryOnce<T>(
   query: string,
   variables: Record<string, unknown> | undefined,
+  insecure = false,
 ): Promise<ApiResult<T>> {
   try {
-    const res = await fetch(graphqlUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        ...(strapiToken ? { Authorization: `Bearer ${strapiToken}` } : {}),
+    const res = await cmsFetch(
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(strapiToken ? { Authorization: `Bearer ${strapiToken}` } : {}),
+        },
+        body: JSON.stringify({ query, variables }),
+        // Dev must not keep a Forbidden GraphQL body. Strapi returns HTTP 200
+        // for that error, and Next would reuse it for the revalidate window.
+        ...(process.env.NODE_ENV === 'development'
+          ? { cache: 'no-store' as const }
+          : { next: { revalidate: 60 } }),
       },
-      body: JSON.stringify({ query, variables }),
-      // Dev must not keep a Forbidden GraphQL body. Strapi returns HTTP 200
-      // for that error, and Next would reuse it for the revalidate window.
-      ...(process.env.NODE_ENV === 'development'
-        ? { cache: 'no-store' as const }
-        : { next: { revalidate: 60 } }),
-    });
+      insecure,
+    );
 
     const raw = await res.text();
     let body: GraphQLResponse<T>;
@@ -55,7 +100,13 @@ async function queryOnce<T>(
 
     return ok(body.data);
   } catch (err) {
-    return fail('NETWORK_ERROR', 0, err instanceof Error ? err.message : 'Network error');
+    const cause =
+      err instanceof Error && err.cause && typeof err.cause === 'object'
+        ? (err.cause as { code?: string; message?: string })
+        : undefined;
+    const causeText = [cause?.code, cause?.message].filter(Boolean).join(' ');
+    const message = err instanceof Error ? err.message : 'Network error';
+    return fail('NETWORK_ERROR', 0, causeText ? `${message}: ${causeText}` : message);
   }
 }
 
@@ -84,7 +135,13 @@ export const gql = {
     options?: QueryOptions,
   ): Promise<ApiResult<T>> {
     let result = await queryOnce<T>(query, variables);
-    if (result.error?.code === 'NETWORK_ERROR') {
+    if (
+      process.env.NODE_ENV === 'development' &&
+      result.error?.code === 'NETWORK_ERROR' &&
+      /fetch failed|UNABLE_TO_GET_ISSUER_CERT_LOCALLY|certificate/i.test(result.error.message)
+    ) {
+      result = await queryOnce<T>(query, variables, true);
+    } else if (result.error?.code === 'NETWORK_ERROR') {
       result = await queryOnce<T>(query, variables);
     }
     if (result.error && !options?.quiet) logQueryFailure(result);

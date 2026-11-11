@@ -371,12 +371,12 @@ export const OurAchievementsSection: React.FC<OurAchievementsSectionProps> = ({
                 <BandArrow
                   direction="prev"
                   onClick={mobile.scrollPrev}
-                  className="absolute top-[calc(2rem+5.625rem)] left-0 z-50 size-12 -translate-y-1/2 border-[1.375px] border-white bg-black/25 shadow-md backdrop-blur-[2px] md:top-[calc(4rem+5.625rem)] md:left-1 md:size-[55px]"
+                  className="absolute top-[calc(2rem+7.5rem)] left-0 z-50 size-12 -translate-y-1/2 border-[1.375px] border-white bg-black/25 shadow-md backdrop-blur-[2px] md:top-[calc(4rem+5.625rem)] md:left-1 md:size-[55px]"
                 />
                 <BandArrow
                   direction="next"
                   onClick={mobile.scrollNext}
-                  className="absolute top-[calc(2rem+5.625rem)] right-0 z-50 size-12 -translate-y-1/2 border-[1.375px] border-white bg-black/25 shadow-md backdrop-blur-[2px] md:top-[calc(4rem+5.625rem)] md:right-1 md:size-[55px]"
+                  className="absolute top-[calc(2rem+7.5rem)] right-0 z-50 size-12 -translate-y-1/2 border-[1.375px] border-white bg-black/25 shadow-md backdrop-blur-[2px] md:top-[calc(4rem+5.625rem)] md:right-1 md:size-[55px]"
                 />
               </>
             ) : null}

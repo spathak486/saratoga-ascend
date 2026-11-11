@@ -33,7 +33,7 @@ export interface HeaderNavListProps {
   id?: string;
 }
 
-/** Rest ink. Hover and the open item are Primary-Red. */
+/** Rest ink (#0a0a0a). Hover and the open item are Primary-Red. */
 const NAV_HOVER = 'hover:text-brand-red';
 const NAV_ACTIVE = 'text-brand-cta-from';
 /**
@@ -42,24 +42,29 @@ const NAV_ACTIVE = 'text-brand-cta-from';
  */
 const NAV_MOTION = 'duration-300 ease-out motion-reduce:transition-none';
 
+/** Figma utility / primary link icons are 12px (node 1899:2116 / 1899:2159). */
+const NAV_ICON = 'size-3';
+
 const variantStyles: Record<
   HeaderNavVariant,
   { size: string; rest: string; active: string }
 > = {
   primary: {
-    size: 'text-[clamp(1rem,0.25rem+0.9375vw,1.375rem)] leading-[normal]',
-    rest: 'text-black',
+    size: 'text-[clamp(1rem,0.25rem+0.9375vw,1.375rem)] leading-[1.5]',
+    rest: 'text-ink',
     active: NAV_ACTIVE,
   },
   utility: {
     size: 'text-[clamp(1rem,0.25rem+0.9375vw,1.375rem)] leading-[1.5]',
-    rest: `text-ink ${NAV_HOVER}`,
-    active: NAV_ACTIVE,
+    // Figma utility row is Neutral/1000 at rest; Primary-Red on hover.
+    // ! on both so hover wins over the forced rest ink color.
+    rest: '!text-ink hover:!text-brand-red',
+    active: '!text-ink hover:!text-brand-red',
   },
   utilityPlain: {
     size: 'text-nav',
-    rest: 'text-brand-navy hover:text-brand-red',
-    active: 'text-brand-red',
+    rest: 'text-ink hover:!text-brand-red',
+    active: 'text-ink hover:!text-brand-red',
   },
 };
 
@@ -70,11 +75,13 @@ function isItemActive(pathname: string | undefined, href: string): boolean {
 
 const gapClass: Record<HeaderNavVariant, Record<HeaderNavOrientation, string>> = {
   primary: {
-    horizontal: 'gap-[clamp(0.75rem,1.5625vw,1.875rem)]',
+    // Figma Link row: 20px between items at 1920.
+    horizontal: 'gap-5',
     vertical: 'gap-4',
   },
   utility: {
-    horizontal: 'gap-[clamp(0.75rem,1.0417vw,1.25rem)]',
+    // Figma utility Link row: 20px at 1920.
+    horizontal: 'gap-5',
     vertical: 'gap-3',
   },
   utilityPlain: {
@@ -135,17 +142,23 @@ export const HeaderNavList: React.FC<HeaderNavListProps> = ({
       {items.map((item, index) => {
         const isActive = isItemActive(activeHref, item.href);
         const menuLinks = item.links ?? [];
-        const showMenu = Boolean(isPrimaryBar && menuLinks.length > 0 && (item.hasMenu ?? true));
-        const isOpen = showMenu && openHref === item.href;
+        const isUtilityRow = variant === 'utility' || variant === 'utilityPlain';
+        // Figma primary row always shows a caret (About us included). Open only when links exist.
+        const showCaret = Boolean(isPrimaryBar && (item.hasMenu ?? true));
+        const canOpenMenu = showCaret && menuLinks.length > 0;
+        const isOpen = canOpenMenu && openHref === item.href;
+        // Figma utility row always shows ↗. CMS often sends hasExternalIcon:false —
+        // ignore that flag for presentation only; labels/hrefs stay CMS-driven.
+        const showExternalIcon = isUtilityRow ? true : Boolean(item.hasExternalIcon);
 
-        const caret = showMenu ? (
+        const trailingIcon = showCaret ? (
           <span
             className={`inline-flex origin-center transform-gpu text-current transition-transform ${NAV_MOTION} ${isOpen ? 'rotate-180' : ''}`}
           >
-            <CaretDownIcon className="size-[clamp(0.75rem,1.0417vw,1.25rem)]" />
+            <CaretDownIcon className={NAV_ICON} />
           </span>
-        ) : item.hasExternalIcon ? (
-          <ArrowUpRightIcon className="size-6" />
+        ) : showExternalIcon ? (
+          <ArrowUpRightIcon className={`${NAV_ICON} shrink-0`} />
         ) : undefined;
 
         const link = (
@@ -153,11 +166,11 @@ export const HeaderNavList: React.FC<HeaderNavListProps> = ({
             href={item.href}
             variant="unstyled"
             aria-current={isActive ? 'page' : undefined}
-            aria-haspopup={showMenu ? 'true' : undefined}
-            aria-expanded={showMenu ? isOpen : undefined}
-            rightIcon={caret}
+            aria-haspopup={canOpenMenu ? 'true' : undefined}
+            aria-expanded={canOpenMenu ? isOpen : undefined}
+            rightIcon={trailingIcon}
             onClick={
-              showMenu
+              canOpenMenu
                 ? (event) => {
                     event.preventDefault();
                     setOpen((current) =>
@@ -168,7 +181,7 @@ export const HeaderNavList: React.FC<HeaderNavListProps> = ({
                   }
                 : undefined
             }
-            className={`inline-flex items-center rounded-button font-sans font-medium whitespace-nowrap transition-colors ${NAV_MOTION} ${isPrimaryBar ? `h-full gap-1.5 px-0 ${NAV_HOVER} focus-visible:text-brand-red` : 'gap-2.5 px-3 py-2'} ${styles.size} ${isActive || isOpen ? styles.active : styles.rest} ${!isPrimaryBar && variant === 'primary' ? NAV_HOVER : ''}`}
+            className={`inline-flex items-center rounded-button font-sans font-medium whitespace-nowrap transition-colors ${NAV_MOTION} ${isPrimaryBar ? `h-full gap-2.5 px-3 py-2 ${NAV_HOVER} focus-visible:text-brand-red` : 'gap-2.5 px-3 py-2'} ${styles.size} ${isActive || isOpen ? styles.active : styles.rest} ${!isPrimaryBar && variant === 'primary' ? NAV_HOVER : ''}`}
           >
             {item.label}
           </GeneralLink>
@@ -202,7 +215,7 @@ export const HeaderNavList: React.FC<HeaderNavListProps> = ({
               aria-hidden="true"
             />
             </div>
-            {showMenu ? <MegaMenu links={menuLinks} open={isOpen} /> : null}
+            {canOpenMenu ? <MegaMenu links={menuLinks} open={isOpen} /> : null}
           </div>
         );
       })}

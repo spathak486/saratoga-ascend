@@ -156,7 +156,7 @@ export const WhatWeDoSection: React.FC<WhatWeDoSectionProps> = ({
                             <polyline points="20 6 9 17 4 12" />
                           </svg>
                         </div>
-                        <span className="text-tick text-slate-ink">{feature}</span>
+                        <span className="text-tick text-brand-cta-to">{feature}</span>
                       </div>
                     ))}
                   </div>

@@ -33,7 +33,7 @@ export const PastPerformanceCard: React.FC<PastPerformanceCardProps> = ({
 }) => (
   <article
     tabIndex={0}
-    className="group relative aspect-[411/650] w-full overflow-hidden rounded-[1.875rem] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-sky max-xl:aspect-auto max-xl:h-[33.5rem] max-xl:rounded-xl"
+    className="group relative aspect-[411/650] w-full overflow-hidden rounded-[1.875rem] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-sky max-xl:aspect-auto max-xl:h-[22.5rem] max-xl:rounded-xl"
   >
     <MediaFrame
       src={imageSrc}

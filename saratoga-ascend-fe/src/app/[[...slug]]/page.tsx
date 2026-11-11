@@ -130,11 +130,10 @@ export default async function DynamicPage({ params }: DynamicPageProps) {
   // 1. First, try to fetch as a Page
   const pageResult = await getPageBySlug(slugPath);
   if (pageResult.error && pageResult.error.code !== 'NOT_FOUND') {
-    throw new Error(
-      `CMS page query failed for "/${slugPath}": ${pageResult.error.message}`,
+    console.warn(
+      `[Page] CMS query failed for "/${slugPath}": ${pageResult.error.message}`,
     );
-  }
-  if (pageResult.data) {
+  } else if (pageResult.data) {
     pageData = pageResult.data;
   }
 

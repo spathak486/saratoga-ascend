@@ -701,8 +701,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0)_46.5%,#000000_106.95%)]" />
             </div>
 
-            {/* Keep side + bottom inset at xl/100% — xl:px-0/pb-0 sat copy on the radius. */}
-            <div className="relative z-10 mx-auto flex w-full min-w-0 max-w-[83.625rem] flex-col gap-3 px-6 pt-5 pb-10 text-white sm:gap-4 xl:flex-row xl:items-stretch xl:gap-[clamp(1.25rem,3.375vw,3.375rem)] xl:px-[clamp(2.5rem,5.2vw,5.625rem)] xl:pt-[clamp(2rem,6vw,4rem)] xl:pb-[clamp(2rem,3.5vw,3.75rem)]">
+            {/* Mobile: 20px sides. Tablet: 80px. 1440+: 160px + vertically centered columns. */}
+            <div className="relative z-10 mx-auto flex w-full min-w-0 max-w-[83.625rem] flex-col gap-3 px-5 pt-5 pb-10 text-white sm:gap-4 md:px-20 xl:flex-row xl:items-stretch xl:gap-[clamp(1.25rem,3.375vw,3.375rem)] xl:pt-[clamp(2rem,6vw,4rem)] xl:pb-[clamp(2rem,3.5vw,3.75rem)] min-[90rem]:items-center min-[90rem]:px-[160px]">
               {title ? (
                 <h2 className="min-w-0 break-words font-serif text-feature text-white xl:max-w-[21.75rem] xl:basis-[min(100%,21.75rem)] xl:shrink-0">
                   {title}
