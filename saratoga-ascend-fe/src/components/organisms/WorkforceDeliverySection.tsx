@@ -256,7 +256,7 @@ export function WorkforceDeliverySection({
   return (
     <section
       aria-label={title || 'Workforce delivery built on accountability.'}
-      className="relative mx-auto w-full max-w-[1920px] bg-white py-12 xl:py-[80px] px-page overflow-hidden"
+      className="relative mx-auto w-full max-w-[1920px] bg-white py-12 xl:py-[80px] px-page overflow-hidden max-sm:px-6!"
     >
       {/* Header Container (Group 2085665728: fluid clamp matching standard design system) */}
       <div className="mb-10 w-full max-w-[1354px] xl:mb-[60px]">

@@ -1,4 +1,5 @@
 import React, { Suspense } from 'react';
+import Link from 'next/link';
 import { Container, Heading, Section, Text } from '../atoms';
 import { GeneralLink } from '../atoms/GeneralLink';
 import { CtaButton } from '../molecules/CtaButton';
@@ -140,7 +141,7 @@ export interface HeroSectionProps {
    * red phrase. Homepage variants ignore this.
    * `contact` is Figma 2219:1455. `who-we-serve` is Figma 2:1015.
    */
-  layout?: 'contact' | 'who-we-serve';
+  layout?: 'contact' | 'who-we-serve' | 'solutions';
   /** CMS page title for the Who We Serve breadcrumb. */
   breadcrumbLabel?: string;
 }
@@ -163,10 +164,6 @@ const ctaStyle: React.CSSProperties = {
   marginTop: 'clamp(1.5rem, 2.5vw, 2.5rem)',
 };
 
-/** Figma 567:1862 while-hover → Variant2. Smart animate, ease-out, 300ms. */
-const SERVICE_HERO_MOTION =
-  'transition-[rotate,color,background-color,border-color,opacity] duration-300 ease-out motion-reduce:transition-none';
-
 /**
  * Primary rests pointing right and rotates 45° up-right on hover.
  * The requirements button stays up-right in both states.
@@ -181,7 +178,7 @@ function ServiceHeroArrow({ fixedUpRight = false }: { fixedUpRight?: boolean }) 
       className={
         fixedUpRight
           ? 'relative z-10 size-6 origin-center -rotate-45'
-          : `relative z-10 size-6 origin-center rotate-0 ${SERVICE_HERO_MOTION} group-hover/hero:-rotate-45 group-focus-visible/hero:-rotate-45 motion-reduce:group-hover/hero:rotate-0 motion-reduce:group-focus-visible/hero:rotate-0`
+          : 'relative z-10 size-6 origin-center'
       }
     >
       <path
@@ -246,38 +243,36 @@ function ServiceHeroButton({
   children: React.ReactNode;
   tone: 'primary' | 'secondary';
 }) {
+  const isExternal = /^(https?:)?\/\//i.test(href) || href.startsWith('mailto:') || href.startsWith('tel:');
   const arrow = <ServiceHeroArrow fixedUpRight={tone === 'secondary'} />;
-
   const box =
-    'group/hero relative inline-flex h-auto min-h-12 w-full max-w-full items-center justify-center gap-3 rounded-button px-5 py-3 font-sans text-button font-medium shadow-button focus-visible:outline-brand-navy! sm:w-auto sm:px-6 xl:min-h-[3.75rem] xl:px-6';
+    'relative inline-flex h-auto min-h-12 w-full max-w-full items-center justify-center gap-3 rounded-button px-5 py-3 font-sans text-button font-medium shadow-button focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-navy sm:w-auto sm:px-6 xl:min-h-[3.75rem] xl:px-6';
+  const className =
+    tone === 'primary'
+      ? `hero-service-cta-primary ${box} bg-cta-gradient text-white xl:py-[0.9375rem]`
+      : `hero-service-cta-secondary ${box} border border-brand-navy bg-white text-brand-navy xl:py-[calc(0.9375rem-1px)]`;
+  const inner = (
+    <>
+      {tone === 'secondary' ? (
+        <span aria-hidden="true" className="hero-service-cta-fill pointer-events-none absolute -inset-px rounded-button bg-cta-gradient" />
+      ) : null}
+      <span className="relative z-10">{children}</span>
+      {arrow}
+    </>
+  );
 
-  if (tone === 'primary') {
+  if (isExternal) {
     return (
-      <GeneralLink
-        href={href}
-        variant="unstyled"
-        rightIcon={arrow}
-        className={`${box} bg-cta-gradient text-white xl:py-[0.9375rem]`}
-      >
-        {children}
-      </GeneralLink>
+      <a href={href} className={className}>
+        {inner}
+      </a>
     );
   }
 
   return (
-    <GeneralLink
-      href={href}
-      variant="unstyled"
-      rightIcon={arrow}
-      contentClassName="contents"
-      className={`${box} border border-brand-navy bg-white text-brand-navy xl:py-[calc(0.9375rem-1px)] ${SERVICE_HERO_MOTION} hover:border-transparent hover:text-white focus-visible:border-transparent focus-visible:text-white`}
-    >
-      <span
-        aria-hidden="true"
-        className={`pointer-events-none absolute -inset-px rounded-button bg-cta-gradient opacity-0 ${SERVICE_HERO_MOTION} group-hover/hero:opacity-100 group-focus-visible/hero:opacity-100`}
-      />
-      <span className="relative z-10">{children}</span>
-    </GeneralLink>
+    <Link href={href} className={className}>
+      {inner}
+    </Link>
   );
 }
 
@@ -577,7 +572,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             />
           )}
 
-          <div className="relative z-10 px-page py-10 sm:py-12 xl:w-full xl:py-[clamp(3rem,5.46875vw,6.5625rem)]">
+          <div className="relative z-10 px-page py-10 max-sm:px-6! sm:py-12 xl:w-full xl:py-[clamp(3rem,5.46875vw,6.5625rem)]">
             <div className="flex w-full max-w-[58.1875rem] flex-col">
               <h2
                 id="workforce-cta-heading"
@@ -623,7 +618,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
       <section
         aria-labelledby={title ? 'service-hero-heading' : undefined}
         aria-label={title ? undefined : 'Healthcare workforce solutions'}
-        className="relative flex w-full flex-col overflow-hidden bg-[#eaf4fb] px-page pt-28 pb-12 max-xl:min-h-[28rem] sm:pb-16 md:pt-32 lg:pb-20 xl:min-h-[clamp(36rem,44.427vw,53.3125rem)] xl:py-[clamp(4.5rem,6.5625vw,7.875rem)]"
+        className="relative flex w-full flex-col overflow-hidden bg-[#eaf4fb] px-page pt-28 pb-12 max-xl:min-h-[28rem] max-sm:px-6! sm:pb-16 md:pt-32 lg:pb-20 xl:min-h-[clamp(36rem,44.427vw,53.3125rem)] xl:py-[clamp(4.5rem,6.5625vw,7.875rem)]"
       >
         <div
           className="pointer-events-none absolute inset-0 bg-cover bg-right"
@@ -1095,19 +1090,31 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               className="flex flex-wrap items-center gap-[30px]"
             >
               {ctaLabel && ctaHref ? (
-                <CtaButton href={ctaHref} className="self-start">
-                  {ctaLabel}
-                </CtaButton>
+                layout === 'solutions' ? (
+                  <ServiceHeroButton href={ctaHref} tone="primary">
+                    {ctaLabel}
+                  </ServiceHeroButton>
+                ) : (
+                  <CtaButton href={ctaHref} className="self-start">
+                    {ctaLabel}
+                  </CtaButton>
+                )
               ) : null}
 
               {(variant === 'homebanner_two_buttons' || secondaryCtaLabel) && secondaryCtaHref && secondaryCtaLabel ? (
-                <CtaButton
-                  href={secondaryCtaHref}
-                  buttonVariant="outlineNavy"
-                  className="self-start"
-                >
-                  {secondaryCtaLabel}
-                </CtaButton>
+                layout === 'solutions' ? (
+                  <ServiceHeroButton href={secondaryCtaHref} tone="secondary">
+                    {secondaryCtaLabel}
+                  </ServiceHeroButton>
+                ) : (
+                  <CtaButton
+                    href={secondaryCtaHref}
+                    buttonVariant="outlineNavy"
+                    className="self-start"
+                  >
+                    {secondaryCtaLabel}
+                  </CtaButton>
+                )
               ) : null}
             </div>
           ) : null}

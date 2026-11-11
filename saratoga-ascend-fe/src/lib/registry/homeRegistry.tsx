@@ -198,7 +198,7 @@ function renderFaqSection(faqsRef: FaqsReference, index: number) {
  */
 export type SectionRenderOptions = {
   /** Page-specific hero composition of the shared banner. */
-  heroLayout?: 'contact' | 'who-we-serve';
+  heroLayout?: 'contact' | 'who-we-serve' | 'solutions';
   /** Page or Blog level data to fallback/bind if missing in banner */
   contextData?: {
     pageTitle?: string;

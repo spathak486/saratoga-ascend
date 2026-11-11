@@ -339,6 +339,46 @@ body {
       var(--color-brand-cta-to) 102.45%);
 }
 
+/* Solutions / service hero CTAs (Figma 567:1862). Not Tailwind group-hover —
+   those classes were not applying in local CSS. */
+.hero-service-cta-primary svg {
+  rotate: 0deg;
+  transition: rotate 300ms ease-out;
+}
+
+.hero-service-cta-primary:hover svg,
+.hero-service-cta-primary:focus-visible svg {
+  rotate: -45deg;
+}
+
+.hero-service-cta-secondary .hero-service-cta-fill {
+  opacity: 0;
+  transition: opacity 300ms ease-out;
+}
+
+.hero-service-cta-secondary:hover,
+.hero-service-cta-secondary:focus-visible {
+  color: var(--color-brand-on-dark, #fff);
+  border-color: transparent;
+}
+
+.hero-service-cta-secondary:hover .hero-service-cta-fill,
+.hero-service-cta-secondary:focus-visible .hero-service-cta-fill {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-service-cta-primary svg,
+  .hero-service-cta-secondary .hero-service-cta-fill {
+    transition: none;
+  }
+
+  .hero-service-cta-primary:hover svg,
+  .hero-service-cta-primary:focus-visible svg {
+    rotate: 0deg;
+  }
+}
+
 /* Featured article stroke — Figma 2186:1563. 1.33px linear, Prime R at 0%
    to Prime B at 100%. The white padding-box keeps the fill solid while the
    border-box layer paints the gradient only in the stroke. */

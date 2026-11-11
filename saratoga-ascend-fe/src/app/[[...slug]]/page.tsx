@@ -199,6 +199,7 @@ export default async function DynamicPage({ params }: DynamicPageProps) {
   });
   const isContactPage = slugPath === 'contact';
   const isWhoWeServePage = slugPath === 'who-we-serve';
+  const isSolutionsPage = slugPath === 'solutions';
 
   const hasBlogListing = sections.some(
     (sec: any) => sec.__typename === 'ComponentReferencesBlogListing'
@@ -430,6 +431,8 @@ export default async function DynamicPage({ params }: DynamicPageProps) {
         heroLayout:
           isWhoWeServePage && idx === firstBannerIndex
             ? 'who-we-serve'
+            : isSolutionsPage && idx === firstBannerIndex
+              ? 'solutions'
             : isContactPage
               ? 'contact'
               : undefined,

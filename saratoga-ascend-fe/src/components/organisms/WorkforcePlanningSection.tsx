@@ -294,7 +294,7 @@ export function WorkforcePlanningSection({
   // --- 1. ACCORDION VARIANT ---
   if (variant === 'accordion') {
     return (
-      <section className="relative mx-auto flex w-full max-w-[1920px] flex-col justify-between overflow-hidden bg-[#FFFFFF] px-5 pb-12 pt-10 sm:px-8 sm:pb-14 sm:pt-12 lg:min-h-[690px] lg:px-[120px] lg:pb-[90px] lg:pt-[80px]">
+      <section className="relative mx-auto flex w-full max-w-[1920px] flex-col justify-between overflow-hidden bg-[#FFFFFF] px-6 pb-12 pt-10 sm:px-8 sm:pb-14 sm:pt-12 lg:min-h-[690px] lg:px-[120px] lg:pb-[90px] lg:pt-[80px]">
         <div className="w-full">
           <div className="mb-14 sm:mb-16 lg:mb-20 max-w-[878px]">
             <h2
@@ -356,7 +356,7 @@ export function WorkforcePlanningSection({
   return (
     <section
       aria-label={title || highlightTitle || 'From Workforce Planning to Ongoing Support'}
-      className="relative mx-auto w-full max-w-[1920px] overflow-x-clip bg-white px-4 py-10 sm:px-6 sm:py-12 lg:px-10 xl:py-[80px] 2xl:px-[120px]"
+      className="relative mx-auto w-full max-w-[1920px] overflow-x-clip bg-white px-6 py-10 sm:px-6 sm:py-12 lg:px-10 xl:py-[80px] 2xl:px-[120px]"
     >
       {/* Title */}
       <div className="mb-8 w-full text-center sm:mb-10 xl:mb-[60px]">

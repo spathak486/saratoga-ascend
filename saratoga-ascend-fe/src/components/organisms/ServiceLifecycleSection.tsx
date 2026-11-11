@@ -108,7 +108,7 @@ export function ServiceLifecycleSection({
   return (
     <section
       aria-label={`${title || 'Healthcare Workforce Solutions'} ${subtitle || 'Across the Service Lifecycle'}`.trim()}
-      className="relative mx-auto flex w-full max-w-[1920px] flex-col items-center overflow-hidden bg-[#FAFAFA] px-4 py-12 sm:px-8 sm:py-14 xl:px-[120px] xl:py-[80px]"
+      className="relative mx-auto flex w-full max-w-[1920px] flex-col items-center overflow-hidden bg-[#FAFAFA] px-6 py-12 sm:px-8 sm:py-14 xl:px-[120px] xl:py-[80px]"
     >
       <div className="mx-auto mb-8 flex w-full max-w-[1141px] flex-col items-center text-center xl:mb-10">
         <h2

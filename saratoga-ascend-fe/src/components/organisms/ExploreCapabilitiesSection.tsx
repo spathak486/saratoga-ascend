@@ -219,7 +219,7 @@ export function ExploreCapabilitiesSection({
   return (
     <section
       aria-label={title || 'Explore more Saratoga Ascend capabilities.'}
-      className="relative mx-auto w-full max-w-[1920px] bg-[#FAFAFA] py-14 xl:py-[80px] px-page overflow-hidden"
+      className="relative mx-auto w-full max-w-[1920px] bg-[#FAFAFA] py-14 xl:py-[80px] px-page overflow-hidden max-sm:px-6!"
     >
       {/* Title & Carousel Buttons Header (Group 2085665688) */}
       <div className="mx-auto mb-10 flex max-w-[1680px] flex-col gap-6 xl:mb-[60px] lg:flex-row lg:items-end lg:justify-between">

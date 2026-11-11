@@ -160,7 +160,7 @@ export function CriticalMissionsSection({
       aria-label={title || 'Critical Healthcare Missions'}
       className="isolate relative mx-auto w-full max-w-[1920px] bg-white xl:mb-[60px]"
     >
-      <div className="px-4 pt-10 pb-0 sm:px-6 sm:pt-12 lg:px-10 xl:pt-[80px] 2xl:px-[120px]">
+      <div className="px-6 pt-10 pb-0 sm:px-6 sm:pt-12 lg:px-10 xl:pt-[80px] 2xl:px-[120px]">
         <div className="mx-auto flex w-full max-w-[1680px] flex-col items-start justify-between gap-8 sm:gap-10 xl:flex-row xl:gap-8 2xl:gap-[60px]">
           <div className="w-full min-w-0 xl:sticky xl:top-[calc(var(--spacing-nav-h)+1.5rem)] xl:max-w-[850px] xl:flex-1 xl:self-start 2xl:max-w-[904px]">
             <h2 className="font-serif text-[clamp(2rem,1.4rem+2.5vw,4.5rem)] font-normal leading-[1.15] tracking-tight text-[#000000]">
