@@ -1,3 +1,4 @@
+import { stripHtml } from '@/lib/utils/text';
 import React from 'react';
 import Link from 'next/link';
 import { MediaFrame } from '../atoms/MediaFrame';
@@ -37,7 +38,7 @@ export const PastPerformanceCard: React.FC<PastPerformanceCardProps> = ({
     <MediaFrame
       src={imageSrc}
       alt=""
-      pendingLabel={title}
+      pendingLabel={stripHtml(title)}
       tone="navy"
       sizes="(max-width: 768px) 90vw, 411px"
       imageClassName="object-cover!"
@@ -63,7 +64,7 @@ export const PastPerformanceCard: React.FC<PastPerformanceCardProps> = ({
         expanded ? 'max-xl:hidden' : 'max-xl:top-[85%] max-xl:block max-xl:text-[2.25rem] max-xl:opacity-100'
       }`}
     >
-      {title}
+      {stripHtml(title)}
     </p>
 
     <div
@@ -72,7 +73,7 @@ export const PastPerformanceCard: React.FC<PastPerformanceCardProps> = ({
       }`}
     >
       <h3 className="font-serif text-[clamp(1.5rem,1.15rem+1.125vw,2.5rem)] leading-[1.2] max-xl:text-[2rem]! max-xl:leading-[1.2]!">
-        {title}
+        {stripHtml(title)}
       </h3>
       <span
         className="mt-[0.9375rem] block h-1 w-[4.9375rem] rounded-full bg-brand-blue-soft max-xl:mt-1 max-xl:h-[3px] max-xl:w-16"

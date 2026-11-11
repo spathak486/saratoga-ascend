@@ -1,5 +1,6 @@
 'use client';
 
+import { stripHtml } from '@/lib/utils/text';
 import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -88,7 +89,7 @@ export const FederalEnvironmentsSection: React.FC<FederalEnvironmentsSectionProp
               className="mt-4 sm:mt-6 font-sans font-normal text-base sm:text-lg lg:text-xl xl:text-[24px] leading-relaxed xl:leading-[40px] text-[#000000] max-w-[927px]"
               style={{ fontFamily: "'Google Sans Flex', sans-serif" }}
             >
-              {description}
+              {stripHtml(description)}
             </p>
           )}
         </div>

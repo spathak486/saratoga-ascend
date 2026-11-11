@@ -1,3 +1,4 @@
+import { stripHtml } from '@/lib/utils/text';
 import React from 'react';
 import { Heading, Section, Text } from '../atoms';
 import {
@@ -40,7 +41,7 @@ export const HappyClientsSection: React.FC<HappyClientsSectionProps> = ({
                 tone="inherit"
                 className="text-brand-cta-from max-md:text-[2rem]! max-md:leading-[2.5rem]! max-md:font-normal"
               >
-                {title}
+                {stripHtml(title)}
               </Heading>
             ) : (
               <h2 id="happy-clients-heading" className="sr-only">
@@ -53,7 +54,7 @@ export const HappyClientsSection: React.FC<HappyClientsSectionProps> = ({
                 tone="inherit"
                 className="text-ink max-md:text-base! max-md:leading-6! max-md:font-normal"
               >
-                {description}
+                {stripHtml(description)}
               </Text>
             ) : null}
           </div>

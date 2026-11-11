@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { GeneralLink } from '../atoms';
+import { stripHtml } from '@/lib/utils/text';
 
 export interface ServiceLifecycleCategory {
   id?: string | null;
@@ -115,14 +116,14 @@ export function ServiceLifecycleSection({
           className="max-w-[1109px] font-serif text-[clamp(2.25rem,1.4rem+2.8vw,4.5rem)] font-normal leading-[1.15] tracking-tight text-[#F01424]"
           style={{ fontFamily: "'DM Serif Text', serif" }}
         >
-          {title}
+          {stripHtml(title)}
         </h2>
         {subtitle ? (
           <h3
             className="max-w-[1109px] font-serif text-[clamp(2rem,1.3rem+2.6vw,4.5rem)] font-normal leading-[1.15] tracking-tight text-[#000000]"
             style={{ fontFamily: "'DM Serif Text', serif" }}
           >
-            {subtitle}
+            {stripHtml(subtitle)}
           </h3>
         ) : null}
         {description ? (
@@ -130,7 +131,7 @@ export function ServiceLifecycleSection({
             className="mt-6 max-w-[1141px] font-sans text-[clamp(1rem,0.92rem+0.35vw,1.5rem)] font-normal leading-[1.55] text-[#000000] xl:mt-8 xl:text-[24px] xl:leading-[40px]"
             style={{ fontFamily: "'Google Sans Flex', sans-serif" }}
           >
-            {description}
+            {stripHtml(description)}
           </p>
         ) : null}
       </div>
@@ -158,7 +159,7 @@ export function ServiceLifecycleSection({
                       }`}
                       style={{ fontFamily: "'Google Sans Flex', sans-serif" }}
                     >
-                      {tab.label}
+                      {stripHtml(tab.label)}
                     </button>
                   );
                 })}
@@ -175,14 +176,14 @@ export function ServiceLifecycleSection({
                   className="font-serif text-[clamp(1.75rem,1.4rem+1vw,2.5rem)] font-normal leading-[34px] text-[#022542]"
                   style={{ fontFamily: "'DM Serif Text', serif" }}
                 >
-                  {active.heading}
+                  {stripHtml(active.heading)}
                 </h3>
                 <span className="mt-3 mb-4 block h-px w-[174px] max-w-full bg-[#022542]" aria-hidden="true" />
                 <p
                   className="max-w-[891px] font-sans text-[16px] font-normal leading-[26px] text-[#000000] sm:text-[20px] sm:leading-[30px] xl:text-[24px] xl:leading-[34px]"
                   style={{ fontFamily: "'Google Sans Flex', sans-serif" }}
                 >
-                  {active.subheading}
+                  {stripHtml(active.subheading)}
                 </p>
               </div>
               <div className="mb-4 flex items-center gap-2 xl:mb-6">
@@ -191,7 +192,7 @@ export function ServiceLifecycleSection({
                   className="font-sans text-[18px] font-semibold leading-[28px] text-[#000000] sm:text-[20px] xl:text-[22px]"
                   style={{ fontFamily: "'Google Sans Flex', sans-serif" }}
                 >
-                  {active.categoriesLabel || 'Workforce categories'}
+                  {stripHtml(active.categoriesLabel) || 'Workforce categories'}
                 </h4>
               </div>
               <div className="grid w-full grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 xl:gap-[16px]">
@@ -211,14 +212,14 @@ export function ServiceLifecycleSection({
                         className="font-sans text-[18px] font-semibold leading-7 text-[#2B88D9] xl:text-[22px]"
                         style={{ fontFamily: "'Google Sans Flex', sans-serif" }}
                       >
-                        {category.title}
+                        {stripHtml(category.title)}
                       </h5>
                     </div>
                     <p
                       className="pl-7 font-sans text-[14px] font-normal leading-snug text-[#000000] sm:text-[16px] xl:text-[20px] xl:leading-normal"
                       style={{ fontFamily: "'Google Sans Flex', sans-serif" }}
                     >
-                      {category.description}
+                      {stripHtml(category.description)}
                     </p>
                   </div>
                 ))}
@@ -236,12 +237,12 @@ export function ServiceLifecycleSection({
                     className="font-sans text-[18px] font-semibold leading-[28px] text-[#000000] sm:text-[20px] xl:text-[22px]"
                     style={{ fontFamily: "'Google Sans Flex', sans-serif" }}
                   >
-                    {active.supportAreasLabel || 'Support areas'}
+                    {stripHtml(active.supportAreasLabel) || 'Support areas'}
                   </h4>
                 </div>
                 <div className="grid grid-cols-1 gap-x-4 gap-y-3 sm:grid-cols-2">
                   {supportAreas.map((area, index) => (
-                    <div key={`${area}-${index}`} className="flex items-center gap-2.5">
+                    <div key={`${stripHtml(area)}-${index}`} className="flex items-center gap-2.5">
                       <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#006CAF] xl:h-[22px] xl:w-[22px]">
                         <svg className="h-3 w-3 text-white" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2.5">
                           <path d="M3.5 8.5L6.5 11.5L12.5 4.5" strokeLinecap="round" strokeLinejoin="round" />

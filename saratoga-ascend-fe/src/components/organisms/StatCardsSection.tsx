@@ -1,3 +1,4 @@
+import { stripHtml } from '@/lib/utils/text';
 import React from 'react';
 
 export interface StatCardItem {
@@ -35,7 +36,7 @@ export const StatCardsSection: React.FC<StatCardsSectionProps> = ({
     >
       {title && (
         <h2 className="mb-4 font-serif text-[24px] font-normal capitalize leading-[1.2] tracking-[-0.02em] text-ink sm:mb-5 sm:text-[32px] xl:mb-6 xl:text-[40px]">
-          {title}
+          {stripHtml(title)}
         </h2>
       )}
 
@@ -67,7 +68,7 @@ export const StatCardsSection: React.FC<StatCardsSectionProps> = ({
 
             {/* Description Text */}
             <p className="line-clamp-4 min-w-0 break-words font-sans font-normal text-[16px] sm:text-[18px] leading-[150%] text-[#4A4A4A]">
-              {card.description}
+              {stripHtml(card.description)}
             </p>
           </div>
         ))}

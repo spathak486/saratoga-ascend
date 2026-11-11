@@ -1,3 +1,4 @@
+import { stripHtml } from '@/lib/utils/text';
 import React from 'react';
 import { Container, Heading } from '../atoms';
 import { LatestNewsCard, type LatestNewsCardProps } from '../molecules/LatestNewsCard';
@@ -108,11 +109,11 @@ export const LatestNewsSection = async ({
             tone="onDark"
             className="text-left text-[clamp(32px,4vw,72px)] leading-[1.2] font-normal text-white"
           >
-            {title}
+            {stripHtml(title)}
           </Heading>
           {subTitle && (
             <p className="font-sans text-left text-[clamp(16px,1.8vw,30px)] leading-6 text-white md:leading-7 xl:leading-[40px]">
-              {subTitle}
+              {stripHtml(subTitle)}
             </p>
           )}
         </div>

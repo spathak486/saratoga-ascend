@@ -1,3 +1,4 @@
+import { stripHtml } from '@/lib/utils/text';
 import React from 'react';
 import { GeneralLink } from '../atoms/GeneralLink';
 import { Heading } from '../atoms/Heading';
@@ -131,7 +132,7 @@ export const LatestNewsCard: React.FC<LatestNewsCardProps> = ({
             variant="unstyled"
             className="transition-colors duration-150 after:absolute after:inset-0 group-hover:text-brand-red group-focus-within:text-brand-red motion-reduce:transition-none"
           >
-            {title}
+            {stripHtml(title)}
           </GeneralLink>
         </Heading>
       </div>

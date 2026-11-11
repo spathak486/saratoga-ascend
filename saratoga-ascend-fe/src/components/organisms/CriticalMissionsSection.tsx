@@ -201,7 +201,7 @@ export function CriticalMissionsSection({
                         <span dangerouslySetInnerHTML={{ __html: cleanHeadingHtml(card.title) }} />
                       </h3>
                       <p className="line-clamp-4 max-w-[500px] min-w-0 break-words font-sans text-[clamp(0.95rem,0.88rem+0.3vw,1.1875rem)] font-light leading-[1.45] text-[#212121]">
-                        {card.description}
+                        {stripHtml(card.description)}
                       </p>
                     </div>
                   </div>

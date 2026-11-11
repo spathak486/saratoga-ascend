@@ -1,3 +1,4 @@
+import { stripHtml } from '@/lib/utils/text';
 import React from 'react';
 import { Container, Heading, Section } from '../atoms';
 
@@ -91,7 +92,7 @@ export const ContactLearnSection: React.FC<ContactLearnSectionProps> = ({
           <span className="text-brand-red">{titleLead}</span> {titleClose}
         </Heading>
         {description ? (
-          <p className="font-sans text-section-lead text-ink">{description}</p>
+          <p className="font-sans text-section-lead text-ink">{stripHtml(description)}</p>
         ) : null}
       </div>
 
@@ -135,10 +136,10 @@ export const ContactLearnSection: React.FC<ContactLearnSectionProps> = ({
                 <h3
                   className={`font-serif text-ink ${card.featured ? 'text-subtitle' : 'text-card'}`}
                 >
-                  {card.title}
+                  {stripHtml(card.title)}
                 </h3>
                 <p className={`line-clamp-4 min-w-0 break-words font-sans text-ink ${card.featured ? 'text-card-copy' : 'text-body'}`}>
-                  {card.description}
+                  {stripHtml(card.description)}
                 </p>
                 <a
                   href={card.href}

@@ -1,3 +1,4 @@
+import { stripHtml } from '@/lib/utils/text';
 import React from 'react';
 import Link from 'next/link';
 
@@ -39,7 +40,7 @@ export const BlogCtaCard: React.FC<BlogCtaCardProps> = ({
 
   return (
     <aside
-      aria-label={title}
+      aria-label={stripHtml(title)}
       className="box-border relative flex w-full max-w-[1051px] flex-col justify-between overflow-hidden rounded-[30px] p-6 sm:p-8 md:p-10 xl:min-h-[286px] xl:p-[40px_50px]"
       style={{
         background:
@@ -49,12 +50,12 @@ export const BlogCtaCard: React.FC<BlogCtaCardProps> = ({
       <div className="flex flex-col gap-3 max-w-[900px]">
         {title && (
           <h3 className="font-serif font-normal text-[28px] sm:text-[34px] xl:text-[40px] leading-[1.2] xl:leading-[60px] tracking-[-1px] text-[#00162D]">
-            {title}
+            {stripHtml(title)}
           </h3>
         )}
         {description && (
           <p className="font-sans font-normal text-[16px] sm:text-[20px] xl:text-[24px] leading-[1.5] xl:leading-[160%] text-[#000000]">
-            {description}
+            {stripHtml(description)}
           </p>
         )}
       </div>

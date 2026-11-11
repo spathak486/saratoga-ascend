@@ -24,9 +24,39 @@ export interface CtaButtonProps {
   className?: string;
 }
 
-/* Sized in `em` so the arrow rides the button's fluid type scale rather than
-   needing a clamp of its own: 1.2em of the 20px label is the file's 24px. */
-const arrow = <ArrowUpRightIcon className="size-[1.2em]" />;
+/**
+ * Primary CTA Button Arrow:
+ * Resting state: pointing straight horizontally (&rarr;)
+ * Hover state: rotates 45° up-right (cross / diagonal arrow) smoothly
+ */
+function PrimaryHorizontalToCrossArrow() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      aria-hidden="true"
+      focusable="false"
+      className="size-[1.2em] shrink-0 origin-center rotate-0 transition-transform duration-300 ease-out group-hover:-rotate-45 group-focus-visible:-rotate-45 motion-reduce:transition-none motion-reduce:group-hover:rotate-0 motion-reduce:group-focus-visible:rotate-0"
+    >
+      <path
+        d="M4.5 12H19.5"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+      <path
+        d="M13.5 6L19.5 12L13.5 18"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+/* Secondary button keeps the fixed cross arrow (Figma default) */
+const fixedCrossArrow = <ArrowUpRightIcon className="size-[1.2em]" />;
 
 export const CtaButton: React.FC<CtaButtonProps> = ({
   href,
@@ -35,15 +65,29 @@ export const CtaButton: React.FC<CtaButtonProps> = ({
   showArrow = true,
   buttonVariant = 'cta',
   className = '',
-}) => (
-  <GeneralLink
-    href={href}
-    variant="button"
-    buttonVariant={buttonVariant}
-    size={shape === 'pill' ? 'ctaPill' : 'cta'}
-    rightIcon={showArrow ? arrow : undefined}
-    className={`whitespace-nowrap ${className}`.trim()}
-  >
-    {children}
-  </GeneralLink>
-);
+}) => {
+  const isSecondary =
+    buttonVariant === 'outlineNavy' ||
+    buttonVariant === 'outlineLight' ||
+    buttonVariant === 'ghost';
+
+  const renderArrow = () => {
+    if (!showArrow) return undefined;
+    if (isSecondary) return fixedCrossArrow;
+    // Primary gradient CTA: horizontal arrow that animates to cross (-45deg) on hover
+    return <PrimaryHorizontalToCrossArrow />;
+  };
+
+  return (
+    <GeneralLink
+      href={href}
+      variant="button"
+      buttonVariant={buttonVariant}
+      size={shape === 'pill' ? 'ctaPill' : 'cta'}
+      rightIcon={renderArrow()}
+      className={`group whitespace-nowrap ${isSecondary ? '' : 'transition-all duration-300 ease-out hover:scale-[1.02] active:scale-[0.98]'} ${className}`.trim()}
+    >
+      {children}
+    </GeneralLink>
+  );
+};

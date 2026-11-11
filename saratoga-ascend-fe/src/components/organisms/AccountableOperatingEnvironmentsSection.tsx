@@ -409,7 +409,7 @@ export function AccountableOperatingEnvironmentsSection({
 
                   {/* Description: Google Sans Flex, 20px, line-height: 35px (175%), color: #000000 */}
                   <p className="line-clamp-4 min-w-0 break-words font-['Google_Sans_Flex'] text-[16px] sm:text-[18px] md:text-[20px] leading-[28px] md:leading-[35px] text-[#000000] font-normal">
-                    {card.description}
+                    {stripHtml(card.description)}
                   </p>
                 </div>
               </div>

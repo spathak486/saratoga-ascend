@@ -1,3 +1,4 @@
+import { stripHtml } from '@/lib/utils/text';
 import React from 'react';
 import { Container, Heading, Section } from '../atoms';
 import { ArrowUpRightIcon } from '../atoms/icons';
@@ -96,7 +97,7 @@ export const ContactInquirySection: React.FC<ContactInquirySectionProps> = ({
               </Heading>
               {description ? (
                 <p className="max-w-[50.4375rem] font-sans text-body-lg font-normal text-ink">
-                  {description}
+                  {stripHtml(description)}
                 </p>
               ) : null}
             </div>

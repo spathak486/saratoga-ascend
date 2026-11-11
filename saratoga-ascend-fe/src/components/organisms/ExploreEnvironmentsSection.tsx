@@ -1,5 +1,6 @@
 'use client';
 
+import { stripHtml } from '@/lib/utils/text';
 import React from 'react';
 
 export interface EnvironmentCardItem {
@@ -114,7 +115,7 @@ export function ExploreEnvironmentsSection({
                     className="font-sans text-[16px] sm:text-[20px] xl:text-[24px] leading-[1.45] xl:leading-[36px] font-normal text-[#000000] pl-6 sm:pl-7 max-w-[700px]"
                     style={{ fontFamily: "'Google Sans Flex', sans-serif" }}
                   >
-                    {card.description}
+                    {stripHtml(card.description)}
                   </p>
                 )}
               </div>

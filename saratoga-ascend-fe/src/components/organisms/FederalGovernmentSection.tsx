@@ -1,5 +1,6 @@
 'use client';
 
+import { stripHtml } from '@/lib/utils/text';
 import React from 'react';
 import { motion, useReducedMotion } from 'motion/react';
 import { Heading, Text } from '../atoms';
@@ -142,7 +143,7 @@ function OverviewCard({
                 className="mt-6 max-w-[40.25rem] text-black"
                 style={{ lineHeight: 1.6667 }}
               >
-                {card.description}
+                {stripHtml(card.description)}
               </Text>
             ) : null}
             {tags.length > 0 ? (
@@ -215,13 +216,13 @@ export function FederalGovernmentSection({
     >
       {title ? (
         <div className="mx-auto mb-12 max-w-[1494px] text-center lg:text-left">
-          <h2 className="font-serif text-[36px] font-normal text-[#212121] sm:text-[48px]">{title}</h2>
+          <h2 className="font-serif text-[36px] font-normal text-[#212121] sm:text-[48px]">{stripHtml(title)}</h2>
         </div>
       ) : null}
       <div className="relative flex w-full flex-col items-center">
         {slides.map((card, index) => (
           <OverviewCard
-            key={card.documentId || card.id || `${card.title}-${index}`}
+            key={card.documentId || card.id || `${stripHtml(card.title)}-${index}`}
             card={card}
             index={index}
             total={slides.length}

@@ -1,3 +1,4 @@
+import { stripHtml } from '@/lib/utils/text';
 import React from 'react';
 import { Heading } from '../atoms/Heading';
 import { MediaFrame } from '../atoms/MediaFrame';
@@ -26,7 +27,7 @@ export const BlogCard: React.FC<BlogCardProps> = ({
       <div className="relative w-full aspect-[544/431] rounded-tr-[100px] overflow-hidden">
         <MediaFrame
           src={imageSrc}
-          alt={title}
+          alt={stripHtml(title)}
           pendingLabel="blog-image"
           sizes="(max-width: 768px) 100vw, 33vw"
           className="size-full border-0 bg-transparent rounded-tr-[100px]"
@@ -56,7 +57,7 @@ export const BlogCard: React.FC<BlogCardProps> = ({
             variant="unstyled"
             className="after:absolute after:inset-0"
           >
-            {title}
+            {stripHtml(title)}
           </GeneralLink>
         </Heading>
       </div>

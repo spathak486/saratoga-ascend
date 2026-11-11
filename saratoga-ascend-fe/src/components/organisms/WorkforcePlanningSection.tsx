@@ -226,7 +226,7 @@ function OrbitPill({
           <span dangerouslySetInnerHTML={{ __html: cleanHeadingHtml(card.title) }} />
         </h3>
         <p className="line-clamp-4 min-w-0 break-words font-sans text-[14px] leading-snug text-[#212121] sm:text-[15px] xl:text-[16px] xl:leading-6">
-          {card.description}
+          {stripHtml(card.description)}
         </p>
       </div>
       {iconSide === 'right' ? icon : null}
@@ -332,7 +332,7 @@ export function WorkforcePlanningSection({
                           <span dangerouslySetInnerHTML={{ __html: cleanHeadingHtml(card.title) }} />
                         </h3>
                         <p className="line-clamp-4 min-w-0 break-words font-sans text-[20px] leading-[28px] text-[#212121]">
-                          {card.description}
+                          {stripHtml(card.description)}
                         </p>
                       </div>
                     )}

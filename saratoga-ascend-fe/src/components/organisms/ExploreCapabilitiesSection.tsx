@@ -347,7 +347,7 @@ export function ExploreCapabilitiesSection({
                     className="line-clamp-4 min-h-0 min-w-0 max-w-[300px] break-words text-center font-sans text-[20px] font-normal leading-[32px] sm:min-h-[80px] 2xl:min-h-[120px] 2xl:text-[24px] 2xl:leading-[40px]"
                     style={{ fontFamily: "'Google Sans Flex', sans-serif" }}
                   >
-                    {card.description}
+                    {stripHtml(card.description)}
                   </p>
                 </div>
               </div>

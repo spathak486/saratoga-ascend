@@ -1,5 +1,6 @@
 'use client';
 
+import { stripHtml } from '@/lib/utils/text';
 import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -142,10 +143,10 @@ export const JobsBySpecialitySection: React.FC<JobsBySpecialitySectionProps> = (
         {/* Frame 607 / 769: Section Intro */}
         <div className="flex flex-col gap-3">
           <h2 className="font-['DM_Serif_Text'] text-[40px] sm:text-[56px] lg:text-[72px] font-normal leading-[120%] text-[#D31E2D]">
-            {title}
+            {stripHtml(title)}
           </h2>
           <p className="max-w-[1500px] font-['Google_Sans_Flex'] text-[20px] sm:text-[26px] lg:text-[30px] font-normal leading-[133%] text-[#0A0A0A]">
-            {description}
+            {stripHtml(description)}
           </p>
         </div>
 

@@ -1,5 +1,6 @@
 'use client';
 
+import { stripHtml } from '@/lib/utils/text';
 import React, { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Container } from '../atoms';
@@ -106,7 +107,7 @@ export const JobSearchHero: React.FC<JobSearchHeroProps> = ({
 
   return (
     <section
-      aria-label={title}
+      aria-label={stripHtml(title)}
       className="relative w-full max-w-[1920px] mx-auto min-h-[560px] md:min-h-[640px] xl:min-h-[723px] overflow-hidden flex items-center bg-[#EAF4FB]"
     >
       {/* Background Image */}
@@ -131,12 +132,12 @@ export const JobSearchHero: React.FC<JobSearchHeroProps> = ({
         <div className="flex flex-col max-w-[991px]">
           {/* Main Title: DM Serif Text, 90px */}
           <h1 className="font-serif text-[44px] sm:text-[64px] lg:text-[80px] xl:text-[90px] leading-[115%] text-[#0A0A0A] tracking-[-0.01em]">
-            {title}
+            {stripHtml(title)}
           </h1>
 
           {/* Subtitle / Lede: Google Sans Flex, 24px */}
           <p className="mt-4 sm:mt-6 font-sans text-lg sm:text-xl lg:text-[24px] leading-[160%] font-medium text-[#022E4C] max-w-[599px]">
-            {description}
+            {stripHtml(description)}
           </p>
 
           {/* Search Capsule Form (Group 2085663755: 740px x 79px) */}

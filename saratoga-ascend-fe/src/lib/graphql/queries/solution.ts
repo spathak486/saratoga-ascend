@@ -1,4 +1,4 @@
-import { PAGE_FIELDS } from '../fragments';
+import { SOLUTION_FIELDS } from '../fragments';
 import type { RawPageNode } from '../types';
 
 export interface SolutionBySlugQueryVariables {
@@ -16,7 +16,7 @@ export const SOLUTION_BY_SLUG_QUERY = `
     solutions(
       filters: { or: [{ slug: { eq: $slug } }, { slug: { eq: $altSlug } }] }
       status: $status
-    ) { ${PAGE_FIELDS} }
+    ) { ${SOLUTION_FIELDS} }
   }
 `;
 

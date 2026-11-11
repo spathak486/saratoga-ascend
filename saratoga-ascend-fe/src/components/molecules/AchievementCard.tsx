@@ -1,3 +1,4 @@
+import { stripHtml } from '@/lib/utils/text';
 import React from 'react';
 import { Heading } from '../atoms/Heading';
 import { MediaFrame } from '../atoms/MediaFrame';
@@ -58,7 +59,7 @@ export const AchievementCard: React.FC<AchievementCardProps> = ({
 
     <div className="max-w-[26ch]">
       <Heading level={3} size="award" font="serif" tone="onDark">
-        {title}
+        {stripHtml(title)}
       </Heading>
       <p className="mt-[clamp(0.625rem,0.5188rem+0.4531vw,1.0625rem)] line-clamp-4 min-w-0 break-words text-body leading-[1.18] tracking-[0.2px] text-brand-on-dark">
         {body}

@@ -220,7 +220,7 @@ export function MissionsYouServeSection({
                   className="mt-3 max-w-[40.25rem] font-normal text-black"
                   style={{ lineHeight: 1.6667 }}
                 >
-                  {description}
+                  {stripHtml(description)}
                 </Text>
               ) : null}
 
@@ -276,7 +276,7 @@ export function MissionsYouServeSection({
                           className="min-w-0 font-sans text-[clamp(1rem,0.9rem+0.4vw,1.5rem)] font-light break-words text-black"
                           style={{ lineHeight: 1.6667 }}
                         >
-                          {card.description}
+                          {stripHtml(card.description)}
                         </p>
                       </div>
 

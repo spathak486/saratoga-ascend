@@ -128,11 +128,11 @@ function StepCopy({ step }: { step: ClearPathStepItem }) {
   return (
     <div className="min-w-0">
       <h3 className="font-serif text-[clamp(1.125rem,1rem+0.6vw,1.75rem)] leading-none font-normal text-[#2f2f2f]">
-        {step.title}
+        {stripHtml(step.title)}
       </h3>
       <div className="mt-5 h-px w-[4.5rem] bg-black" aria-hidden="true" />
       <p className="mt-5 font-sans text-[clamp(0.9375rem,0.85rem+0.3vw,1.25rem)] leading-[1.4] font-light text-[#212121]">
-        {step.description}
+        {stripHtml(step.description)}
       </p>
     </div>
   );
@@ -206,7 +206,7 @@ export function ClearPathSection({
         </Heading>
         {description ? (
           <Text size="lead" tone="inherit" className="mt-4 max-w-[80.625rem] text-black" style={{ lineHeight: 1.6667 }}>
-            {description}
+            {stripHtml(description)}
           </Text>
         ) : null}
       </div>
@@ -250,11 +250,11 @@ export function ClearPathSection({
                 ) : null}
                 <div className="row-start-2 mt-3.5 w-[127%]" style={{ gridColumn: photoColumn }}>
                   <h3 className="font-serif text-[clamp(1rem,1.81cqw,1.75rem)] leading-none font-normal text-[#2f2f2f]">
-                    {step.title}
+                    {stripHtml(step.title)}
                   </h3>
                   <div className="mt-5 h-px w-[5.625rem] bg-black" aria-hidden="true" />
                   <p className="mt-5 font-sans text-[clamp(0.875rem,1.29cqw,1.25rem)] leading-[1.4] font-light text-[#212121]">
-                    {step.description}
+                    {stripHtml(step.description)}
                   </p>
                 </div>
               </React.Fragment>
