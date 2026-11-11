@@ -1,5 +1,6 @@
 'use client';
 
+import { stripHtml } from '@/lib/utils/text';
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -113,7 +114,7 @@ export function IntegratedCapabilitiesSection({
             {/* Description */}
             {description ? (
               <p className="mt-4 sm:mt-5 xl:mt-6 2xl:mt-[24px] font-sans text-[16px] sm:text-[18px] xl:text-[20px] 2xl:text-[24px] font-normal leading-[1.5] 2xl:leading-[40px] text-[#000000] max-w-[872px]">
-                {description}
+                {stripHtml(description)}
               </p>
             ) : null}
 

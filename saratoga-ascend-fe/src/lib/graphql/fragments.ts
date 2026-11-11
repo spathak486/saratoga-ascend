@@ -1059,13 +1059,33 @@ export const COMMON_SECTION_FRAGMENTS = [
   FEDERAL_ENVIRONMENTS_REFERENCE_FIELDS,
 ].join('\n');
 
-// Page dynamic zone includes blog listing and timeline.
+// Solution and Service dynamic zone fragments (do not contain job listing reference in their schema)
+export const SOLUTION_SECTION_FRAGMENTS = [
+  COMMON_SECTION_FRAGMENTS,
+  BLOG_LISTING_REFERENCE_FIELDS,
+  TIMELINE_REFERENCE_FIELDS,
+].join('\n');
+
+export const SOLUTION_FIELDS = `
+  documentId
+  internalName
+  pageTitle
+  slug
+  pageType
+  variant
+  seo { ${SEO_FIELDS} }
+  Section {
+    ${SOLUTION_SECTION_FRAGMENTS}
+  }
+`;
+
+// Page dynamic zone includes blog listing, timeline, and job listing.
 export const PAGE_SECTION_FRAGMENTS = [
   COMMON_SECTION_FRAGMENTS,
   BLOG_LISTING_REFERENCE_FIELDS,
   TIMELINE_REFERENCE_FIELDS,
   JOB_LISTING_REFERENCE_FIELDS,
-  ].join('\n');
+].join('\n');
 
 // Contract dynamic zone (ContractSectionDynamicZone does not contain Timeline)
 export const CONTRACT_SECTION_FRAGMENTS = [

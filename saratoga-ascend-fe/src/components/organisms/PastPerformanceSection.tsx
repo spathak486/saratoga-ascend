@@ -1,5 +1,6 @@
 'use client';
 
+import { stripHtml } from '@/lib/utils/text';
 import React, { useEffect, useState } from 'react';
 import { Heading, Section, Text } from '../atoms';
 import {
@@ -122,7 +123,7 @@ export const PastPerformanceSection: React.FC<PastPerformanceSectionProps> = ({
                 tone="inherit"
                 className="text-brand-cta-from max-xl:text-[2rem]! max-xl:leading-[2.5rem]! max-xl:font-normal"
               >
-                {heading}
+                {stripHtml(heading)}
               </Heading>
             )}
             {subheading && (

@@ -1,5 +1,6 @@
 'use client';
 
+import { stripHtml } from '@/lib/utils/text';
 import React, { useState } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
 import { Heading } from '../atoms';
@@ -99,7 +100,7 @@ export const StaffingSlideCard: React.FC<StaffingSlideCardProps> = ({
             tone="onDark"
             className="w-[285px] text-[2.75rem] leading-[1.2] text-white xl:mx-auto"
           >
-            {title}
+            {stripHtml(title)}
           </Heading>
           <motion.p
             className="w-full text-center font-sans text-[1.125rem] leading-[1.375rem] font-medium text-white"
@@ -123,7 +124,7 @@ export const StaffingSlideCard: React.FC<StaffingSlideCardProps> = ({
             tone="onDark"
             className="w-full text-center text-[1.375rem] leading-[1.2] text-white"
           >
-            {title}
+            {stripHtml(title)}
           </Heading>
           <p className="line-clamp-4 w-full min-w-0 break-words text-center font-sans text-[0.8125rem] leading-[1.125rem] font-medium text-white">
             {body}

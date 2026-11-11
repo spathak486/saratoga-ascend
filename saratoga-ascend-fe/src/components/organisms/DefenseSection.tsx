@@ -1,5 +1,6 @@
 'use client';
 
+import { stripHtml } from '@/lib/utils/text';
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -210,7 +211,7 @@ export function DefenseSection({
                 className="mt-4 sm:mt-6 xl:mt-7 2xl:mt-[40px] font-sans text-[15px] sm:text-[18px] xl:text-[20px] 2xl:text-[24px] leading-[1.5] xl:leading-[1.6] 2xl:leading-[40px] font-normal text-[#000000] max-w-full xl:max-w-[640px] 2xl:max-w-[712px]"
                 style={{ fontFamily: "'Google Sans Flex', sans-serif" }}
               >
-                {description}
+                {stripHtml(description)}
               </p>
             )}
 

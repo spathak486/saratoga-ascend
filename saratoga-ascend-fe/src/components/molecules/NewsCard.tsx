@@ -1,3 +1,4 @@
+import { stripHtml } from '@/lib/utils/text';
 import React from 'react';
 import { GeneralLink } from '../atoms/GeneralLink';
 import { MediaFrame } from '../atoms/MediaFrame';
@@ -44,7 +45,7 @@ export const NewsCard: React.FC<NewsCardProps> = ({
             variant="unstyled"
             className="transition-colors duration-150 after:absolute after:inset-0 group-hover:text-brand-red"
           >
-            {title}
+            {stripHtml(title)}
           </GeneralLink>
         ) : (
           title

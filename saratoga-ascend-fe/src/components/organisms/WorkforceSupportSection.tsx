@@ -169,7 +169,7 @@ export function WorkforceSupportSection({
 
                       {/* Description Text */}
                       <p className="mb-5 line-clamp-4 min-w-0 break-words font-sans text-[clamp(1rem,0.92rem+0.3vw,1.375rem)] font-normal leading-[1.5] text-[#000000] xl:leading-[1.6]">
-                        {card.description}
+                        {stripHtml(card.description)}
                       </p>
                     </div>
 
@@ -213,7 +213,7 @@ export function WorkforceSupportSection({
 
                       {/* Description Text */}
                       <p className="line-clamp-4 min-w-0 break-words font-sans text-[clamp(1rem,0.92rem+0.3vw,1.375rem)] font-normal leading-[1.5] text-[#000000] xl:leading-[1.6]">
-                        {card.description}
+                        {stripHtml(card.description)}
                       </p>
                     </div>
                   </>

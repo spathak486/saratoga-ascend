@@ -1,3 +1,4 @@
+import { stripHtml } from '@/lib/utils/text';
 import React from 'react';
 import { Heading, Section } from '../atoms';
 import { NeedHelpForm } from '../molecules/NeedHelpForm';
@@ -40,24 +41,24 @@ export const NeedHelpSection: React.FC<NeedHelpSectionProps> = ({
   >
     <div className="relative mx-auto max-w-home px-page max-sm:px-5!">
       {/* Rectangle 14: 1680x519px, radius 52px, Red Blue gradient with 20% black film */}
-      <div className="relative isolate overflow-hidden rounded-[clamp(24px,2.7vw,52px)] bg-need-help-gradient min-h-[clamp(28rem,38.18vw,519px)] lg:h-[519px] max-xl:min-h-[46.625rem] max-xl:rounded-xl">
+      <div className="relative isolate overflow-hidden rounded-[clamp(24px,2.7vw,52px)] bg-need-help-gradient min-h-[519px] max-xl:rounded-xl">
         {/* Left Column: 70px padding */}
-        <div className="relative z-10 flex min-w-0 max-w-full lg:max-w-[50%] flex-col justify-between p-[clamp(1.5rem,5.21vw,70px)] h-full max-xl:max-w-none max-xl:gap-[1.875rem] max-xl:px-5 max-xl:py-10">
+        <div className="relative z-10 flex min-w-0 max-w-full lg:max-w-[55%] xl:max-w-[50%] flex-col justify-center gap-6 xl:gap-8 p-[clamp(1.5rem,4vw,70px)] min-h-[519px] max-xl:max-w-none max-xl:gap-[1.875rem] max-xl:px-5 max-xl:py-10">
           <div>
             {title ? (
               <Heading
                 id="need-help-heading"
                 level={2}
                 tone="onDark"
-                className="font-serif text-[clamp(2rem,3.75vw,72px)] leading-[120%] font-normal text-white max-w-[353px] max-xl:max-w-none max-xl:text-[2rem]! max-xl:leading-[2.5rem]!"
+                className="font-serif text-[clamp(2rem,3.75vw,72px)] leading-[120%] font-normal text-white max-w-[420px] max-xl:max-w-none max-xl:text-[2rem]! max-xl:leading-[2.5rem]!"
               >
-                {title}
+                {stripHtml(title)}
               </Heading>
             ) : null}
 
             {/* Sign up now and get hired easily */}
             {(subTitle || description) ? (
-              <p className="mt-2 max-w-[356px] text-[clamp(1.125rem,1.25vw,24px)] leading-[160%] font-medium text-white max-xl:mt-5 max-xl:max-w-none max-xl:text-base max-xl:leading-6 max-xl:font-normal">
+              <p className="mt-2 xl:mt-3 max-w-[450px] text-[clamp(1.125rem,1.25vw,24px)] leading-[150%] font-medium text-white max-xl:mt-5 max-xl:max-w-none max-xl:text-base max-xl:leading-6 max-xl:font-normal">
                 {subTitle ||
                   (description
                     ? description.replace(/<[^>]*>?/gm, '').trim()
@@ -67,13 +68,13 @@ export const NeedHelpSection: React.FC<NeedHelpSectionProps> = ({
           </div>
 
           {/* Inputs & CTA Button */}
-          <div className="mt-6 max-xl:mt-0">
+          <div className="w-full">
             <NeedHelpForm buttonLabel={ctaLabel} buttonHref={ctaHref} />
           </div>
         </div>
 
         {personSrc ? (
-          <div className="pointer-events-none relative z-0 w-full md:mx-auto md:w-[55%] lg:absolute lg:bottom-0 lg:right-0 lg:mx-0 lg:flex lg:h-[519px] lg:w-[45%] lg:max-w-[767px] lg:items-end lg:justify-end">
+          <div className="pointer-events-none relative z-0 w-full md:mx-auto md:w-[55%] lg:absolute lg:bottom-0 lg:right-0 lg:mx-0 lg:flex lg:h-full lg:max-h-[580px] lg:w-[48%] lg:max-w-[767px] lg:items-end lg:justify-end">
             <img
               src={personSrc}
               alt={mediaAlt || 'Healthcare worker offering help'}

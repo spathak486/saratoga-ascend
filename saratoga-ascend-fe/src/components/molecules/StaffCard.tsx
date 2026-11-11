@@ -1,3 +1,4 @@
+import { stripHtml } from '@/lib/utils/text';
 import React from 'react';
 import { MediaFrame } from '../atoms/MediaFrame';
 import { GeneralLink } from '../atoms/GeneralLink';
@@ -49,7 +50,7 @@ export const StaffPhotoCard: React.FC<StaffPhotoCardProps> = ({
 
     <div className="absolute inset-x-0 bottom-0 z-2 flex items-end justify-between gap-3 p-4">
       <div className="min-w-0">
-        <h3 className="font-serif text-subtitle leading-tight">{title}</h3>
+        <h3 className="font-serif text-subtitle leading-tight">{stripHtml(title)}</h3>
         <p className="mt-1 text-caption text-brand-on-dark-muted">{body}</p>
       </div>
 
@@ -101,7 +102,7 @@ export const StaffInfoCard: React.FC<StaffInfoCardProps> = ({
     className={`${cardShell} bg-card-tint ${selected ? 'outline-2 outline-brand-sky' : ''}`}
   >
     <div className="absolute inset-x-0 top-0 z-3 p-4">
-      <h3 className="font-serif text-subtitle leading-tight text-brand-navy">{title}</h3>
+      <h3 className="font-serif text-subtitle leading-tight text-brand-navy">{stripHtml(title)}</h3>
       <p className="mt-1.5 text-caption text-brand-red">{body}</p>
     </div>
 

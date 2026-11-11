@@ -348,7 +348,7 @@ export const TakeMissionSeriouslySection: React.FC<TakeMissionSeriouslySectionPr
                     <span dangerouslySetInnerHTML={{ __html: cleanHeadingHtml(card.title) }} />
                   </h3>
                   <p className="min-w-0 break-words font-sans text-[clamp(0.95rem,0.9rem+0.25vw,1.25rem)] font-normal leading-[1.5] text-[#212121] [overflow-wrap:anywhere]">
-                    {card.description}
+                    {stripHtml(card.description)}
                   </p>
                 </div>
               </article>
