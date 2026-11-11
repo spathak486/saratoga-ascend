@@ -1,5 +1,6 @@
 'use client';
 
+import { stripHtml } from '@/lib/utils/text';
 import React from 'react';
 
 export interface TimelineStepItem {
@@ -41,7 +42,7 @@ export const TimelineSection: React.FC<TimelineSectionProps> = ({
     >
       {sectionTitle && (
         <h2 className="mb-8 font-serif text-3xl sm:text-4xl text-[#00162D] tracking-tight">
-          {sectionTitle}
+          {stripHtml(sectionTitle)}
         </h2>
       )}
 
@@ -83,12 +84,12 @@ export const TimelineSection: React.FC<TimelineSectionProps> = ({
 
                   {/* Heading 3: DM Serif Text, 30px */}
                   <h3 className="font-serif font-normal text-2xl sm:text-[28px] xl:text-[30px] leading-[1.3] xl:leading-[46px] text-[#00162D] mb-2 sm:mb-2.5">
-                    {step.title}
+                    {stripHtml(step.title)}
                   </h3>
 
                   {/* Description: Google Sans Flex, 24px (160% line height) */}
                   <p className="font-sans font-normal text-base sm:text-lg xl:text-[24px] leading-relaxed xl:leading-[38px] text-[#5A5A5A] max-w-[978px]">
-                    {step.description}
+                    {stripHtml(step.description)}
                   </p>
                 </div>
               </div>

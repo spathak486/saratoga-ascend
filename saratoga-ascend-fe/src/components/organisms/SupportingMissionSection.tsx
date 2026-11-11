@@ -1,5 +1,6 @@
 'use client';
 
+import { stripHtml } from '@/lib/utils/text';
 import React from 'react';
 import Image from 'next/image';
 
@@ -78,7 +79,7 @@ export const SupportingMissionSection: React.FC<SupportingMissionSectionProps> =
             {/* Title (Figma: DM Serif Text, 72px, line-height 120%) */}
             {title && (
               <h2 className="font-serif font-normal text-white text-[clamp(2.25rem,1.5rem+2.6vw,4.5rem)] leading-[1.2] tracking-[-0.01em]">
-                {title}
+                {stripHtml(title)}
               </h2>
             )}
 

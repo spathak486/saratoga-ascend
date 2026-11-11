@@ -13,10 +13,10 @@ type SubmitState =
   | { status: 'error'; message: string };
 
 const fieldClass =
-  'w-full border-0 border-b border-white/40 bg-transparent pb-2.5 text-[18px] leading-[150%] font-normal text-white placeholder:text-white/50 focus:border-white focus:outline-none';
+  'w-full border-0 border-b border-white/40 bg-transparent pb-2 text-[16px] sm:text-[18px] leading-[150%] font-normal text-white placeholder:text-white/50 focus:border-white focus:outline-none';
 
 const buttonClass =
-  'mt-[40px] inline-flex h-[60px] w-[180px] shrink-0 cursor-pointer items-center justify-center self-start rounded-[999px] bg-white px-6 py-4 text-[20px] font-bold leading-[150%] text-[#2B88D9] shadow-button transition-transform hover:scale-[1.02] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white disabled:cursor-not-allowed disabled:opacity-70 max-xl:mt-[1.875rem]';
+  'mt-6 xl:mt-8 inline-flex h-[52px] xl:h-[60px] w-[160px] xl:w-[180px] shrink-0 cursor-pointer items-center justify-center self-start rounded-[999px] bg-white px-6 py-3.5 xl:py-4 text-[18px] xl:text-[20px] font-bold leading-[150%] text-[#2B88D9] shadow-button transition-transform hover:scale-[1.02] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white disabled:cursor-not-allowed disabled:opacity-70';
 
 /**
  * Name / email capture on the Need Help card. Submits to the same-origin
@@ -108,7 +108,7 @@ export const NeedHelpForm: React.FC<NeedHelpFormProps> = ({
       className={`flex flex-col ${className}`.trim()}
       onSubmit={handleSubmit}
     >
-      <div className="flex w-full max-w-[540px] flex-col gap-[30px]">
+      <div className="flex w-full max-w-[500px] flex-col gap-5 sm:gap-6">
         <div className="relative">
           <label htmlFor={nameId} className="sr-only">
             Name
@@ -147,7 +147,7 @@ export const NeedHelpForm: React.FC<NeedHelpFormProps> = ({
       </div>
 
       {state.status === 'error' && (
-        <p role="alert" className="mt-4 max-w-[540px] text-[14px] leading-[150%] text-red-300">
+        <p role="alert" className="mt-3 max-w-[500px] text-[14px] leading-[150%] text-red-300">
           {state.message}
         </p>
       )}

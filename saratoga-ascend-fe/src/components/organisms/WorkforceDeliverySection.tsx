@@ -171,11 +171,11 @@ function StepCopy({
       </div>
       <div className="flex min-w-0 flex-1 flex-col justify-center gap-3 xl:w-[min(42.94rem,42vw)] xl:flex-none xl:gap-[23.8px]">
         <h3 className="font-serif text-[clamp(1.5rem,1.1rem+1vw,2.75rem)] font-normal leading-tight text-[#212121] xl:text-[clamp(1.75rem,2.3vw,2.75rem)] xl:leading-[1.36]">
-          {title}
+          {stripHtml(title)}
         </h3>
         <div className="flex min-h-[7.5rem] min-w-0 items-center overflow-hidden rounded-[1.75rem] border border-[#2B88D9] bg-[#E4EBF1] px-5 py-4 xl:min-h-[clamp(7.5rem,8.7vw,10.41rem)] xl:rounded-[42.3px] xl:border-[1.058px] xl:px-[clamp(1.25rem,1.65vw,1.983rem)] xl:py-[clamp(0.75rem,0.83vw,0.99rem)]">
           <p className="line-clamp-4 min-w-0 break-words font-sans text-base font-normal leading-snug text-black xl:text-[clamp(1.05rem,1.46vw,1.75rem)] xl:leading-[1.6]">
-            {description}
+            {stripHtml(description)}
           </p>
         </div>
       </div>
@@ -283,7 +283,7 @@ export function WorkforceDeliverySection({
               <div className="relative z-10 flex w-full flex-col items-center gap-5 md:flex-row md:items-center md:justify-between md:gap-8">
                 <StepPhoto src={imageSrc} alt={card.image?.alternativeText || stripHtml(card.title)} />
                 <div className={`w-full min-w-0 md:max-w-[46%] xl:max-w-none xl:w-auto ${isLeftText ? 'md:order-first' : ''}`}>
-                  <StepCopy stepNum={stepNum} title={cleanHeadingHtml(card.title)} description={card.description} />
+                  <StepCopy stepNum={stepNum} title={cleanHeadingHtml(card.title)} description={stripHtml(card.description)} />
                 </div>
               </div>
               {isNotLast ? (

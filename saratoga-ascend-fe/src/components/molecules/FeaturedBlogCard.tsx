@@ -1,3 +1,4 @@
+import { stripHtml } from '@/lib/utils/text';
 import React from 'react';
 import Link from 'next/link';
 
@@ -25,7 +26,7 @@ export const FeaturedBlogCard: React.FC<FeaturedBlogCardProps> = ({
       {/* Image */}
       <div className="w-full lg:w-[45%] aspect-[16/9] lg:aspect-auto lg:min-h-[415px] relative shrink-0 rounded-[24px] overflow-hidden bg-gray-100">
         {imageSrc ? (
-          <img src={imageSrc} alt={title} className="w-full h-full object-cover" />
+          <img src={imageSrc} alt={stripHtml(title)} className="w-full h-full object-cover" />
         ) : (
           <div className="w-full h-full bg-gray-200" />
         )}
@@ -42,7 +43,7 @@ export const FeaturedBlogCard: React.FC<FeaturedBlogCardProps> = ({
 
         {/* Title */}
         <h3 className="font-serif font-normal text-[clamp(32px,2.5vw,40px)] leading-[1.2] lg:leading-[60px] tracking-[-1px] text-[#00162D] mb-[24px] line-clamp-2">
-          {title}
+          {stripHtml(title)}
         </h3>
 
         {/* Excerpt */}

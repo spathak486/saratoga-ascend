@@ -1,5 +1,6 @@
 'use client';
 
+import { stripHtml } from '@/lib/utils/text';
 import React from 'react';
 import { cleanHeadingHtml } from '@/lib/utils/text';
 
@@ -158,7 +159,7 @@ export const BuiltAroundMissionsSection: React.FC<BuiltAroundMissionsSectionProp
                         isBlue ? 'text-white' : 'text-[#212121]'
                       }`}
                     >
-                      {card.title}
+                      {stripHtml(card.title)}
                     </h3>
 
                     {/* Description: DM Sans 18pt, 300, 24px, line-height: 40px (167%) */}
@@ -167,7 +168,7 @@ export const BuiltAroundMissionsSection: React.FC<BuiltAroundMissionsSectionProp
                         isBlue ? 'text-white' : 'text-[#212121]'
                       }`}
                     >
-                      {card.description}
+                      {stripHtml(card.description)}
                     </p>
                   </div>
                 </div>
@@ -260,7 +261,7 @@ export const BuiltAroundMissionsSection: React.FC<BuiltAroundMissionsSectionProp
                         isHighlighted ? 'text-white' : 'text-[#212121]'
                       }`}
                     >
-                      {card.title}
+                      {stripHtml(card.title)}
                     </h3>
 
                     <p
@@ -268,7 +269,7 @@ export const BuiltAroundMissionsSection: React.FC<BuiltAroundMissionsSectionProp
                         isHighlighted ? 'text-white' : 'text-[#212121]'
                       }`}
                     >
-                      {card.description}
+                      {stripHtml(card.description)}
                     </p>
                   </div>
                 </div>

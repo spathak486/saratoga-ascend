@@ -1,3 +1,4 @@
+import { stripHtml } from '@/lib/utils/text';
 import React from 'react';
 import { Heading, MediaFrame } from '../atoms';
 
@@ -80,7 +81,7 @@ export const AchievementGlassCard: React.FC<AchievementGlassCardProps> = ({
               tone="onDark"
               className="line-clamp-2 min-w-0 text-[1.75rem]! leading-[1.25]! text-white"
             >
-              {title}
+              {stripHtml(title)}
             </Heading>
             <p className="line-clamp-3 min-w-0 break-words font-sans text-base font-normal leading-6 text-white">
               {cleanBody}
@@ -110,7 +111,7 @@ export const AchievementGlassCard: React.FC<AchievementGlassCardProps> = ({
           tone="onDark"
           className="absolute top-[20.84%] left-[7.246%] hidden w-[53.5%] min-w-0 text-white xl:block! xl:line-clamp-2 xl:leading-[1.25] xl:pb-[0.15em]"
         >
-          {title}
+          {stripHtml(title)}
         </Heading>
 
         {/* Cap at 3 lines + bottom inset so body never spills the plate at 100%. */}

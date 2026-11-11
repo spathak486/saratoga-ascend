@@ -343,7 +343,7 @@ export const MissionVisionPromiseSection: React.FC<MissionVisionPromiseSectionPr
                     isCardHighlighted ? 'text-white' : 'text-black'
                   }`}
                 >
-                  {card.description}
+                  {stripHtml(card.description)}
                 </p>
               </div>
             );

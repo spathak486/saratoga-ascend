@@ -1,5 +1,6 @@
 'use client';
 
+import { stripHtml } from '@/lib/utils/text';
 import React, { useRef } from 'react';
 import { Section } from '../atoms';
 import type { ServiceLine } from '../molecules/ServiceLineCard';
@@ -89,9 +90,9 @@ export const WhatWeDoSection: React.FC<WhatWeDoSectionProps> = ({
               id="what-we-do-heading"
               className="font-serif text-section text-brand-cta-from"
             >
-              {title}
+              {stripHtml(title)}
             </h2>
-            <p className="text-section-lead text-ink max-sm:text-[18px]! max-sm:leading-[25px]!">{description}</p>
+            <p className="text-section-lead text-ink max-sm:text-[18px]! max-sm:leading-[25px]!">{stripHtml(description)}</p>
           </div>
           <CtaButton href={ctaHref} className="shrink-0" showArrow>
             {ctaLabel}

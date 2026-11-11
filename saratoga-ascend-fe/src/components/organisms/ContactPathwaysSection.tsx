@@ -1,3 +1,4 @@
+import { stripHtml } from '@/lib/utils/text';
 import React from 'react';
 import { Container, Heading, Section } from '../atoms';
 import { CaretDownIcon } from '../atoms/icons';
@@ -89,7 +90,7 @@ export const ContactPathwaysSection: React.FC<ContactPathwaysSectionProps> = ({
           {titleClose}
         </Heading>
         {description ? (
-          <p className="font-sans text-section-lead text-ink">{description}</p>
+          <p className="font-sans text-section-lead text-ink">{stripHtml(description)}</p>
         ) : null}
       </div>
 

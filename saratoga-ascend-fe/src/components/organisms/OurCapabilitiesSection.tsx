@@ -285,7 +285,7 @@ export function OurCapabilitiesSection({
           {/* Subtitle Description: Google Sans Flex, 26px, line-height: 36px (138%), color: #475569 */}
           {description && (
             <p className="font-['Google_Sans_Flex'] text-[18px] sm:text-[22px] lg:text-[26px] leading-[28px] sm:leading-[32px] lg:leading-[36px] text-[#475569] font-normal max-w-[711px]">
-              {description}
+              {stripHtml(description)}
             </p>
           )}
         </div>
@@ -347,7 +347,7 @@ export function OurCapabilitiesSection({
 
                     {/* Card Description: Google Sans Flex / DM Sans, 20px, line-height: 28px, color: #212121 */}
                     <p className="line-clamp-4 min-w-0 break-words font-['Google_Sans_Flex'] text-[15px] sm:text-[17px] md:text-[20px] leading-[22px] sm:leading-[25px] md:leading-[28px] text-[#212121] font-normal transition-colors duration-300">
-                      {card.description}
+                      {stripHtml(card.description)}
                     </p>
                   </div>
                 </div>
