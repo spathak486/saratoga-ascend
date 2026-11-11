@@ -204,13 +204,12 @@ function ServiceHeroArrow({ fixedUpRight = false }: { fixedUpRight?: boolean }) 
 /** Right-pointing arrow from Figma 1:721, turned up-right inside the 24px slot. */
 function BannerCtaArrow() {
   return (
-    <span className="inline-flex size-6 shrink-0 items-center justify-center" aria-hidden="true">
+    <span className="inline-flex size-6 shrink-0 items-center justify-center origin-center rotate-0 transition-transform duration-300 ease-out group-hover:-rotate-45 group-focus-visible:-rotate-45 motion-reduce:transition-none motion-reduce:group-hover:rotate-0 motion-reduce:group-focus-visible:rotate-0" aria-hidden="true">
       <svg
         width="19.1257"
         height="16.2918"
         viewBox="0 0 19.1257 16.2918"
         fill="none"
-        className="-rotate-45"
       >
         <path
           d="M18.0625 8.14596L1.0625 8.14596"
@@ -595,14 +594,21 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                   href={primaryHref}
                   variant="unstyled"
                   rightIcon={<BannerCtaArrow />}
-                  className={`${buttonClass} bg-cta-gradient text-white hover:opacity-90 focus-visible:outline-white`}
+                  className={`group ${buttonClass} bg-cta-gradient text-white hover:opacity-90 hover:scale-[1.02] active:scale-[0.98] focus-visible:outline-white`}
                 >
                   {primaryLabel}
                 </GeneralLink>
                 <GeneralLink
                   href={secondaryHref}
                   variant="unstyled"
-                  rightIcon={<BannerCtaArrow />}
+                  rightIcon={
+                    <span className="inline-flex size-6 shrink-0 items-center justify-center -rotate-45" aria-hidden="true">
+                      <svg width="19.1257" height="16.2918" viewBox="0 0 19.1257 16.2918" fill="none">
+                        <path d="M18.0625 8.14596L1.0625 8.14596" stroke="currentColor" strokeWidth="2.12499" strokeLinecap="round" strokeLinejoin="round"/>
+                        <path d="M10.9799 15.2292C10.9799 15.2292 18.0632 10.0124 18.0632 8.14583C18.0632 6.27924 10.9799 1.06257 10.9799 1.06257" stroke="currentColor" strokeWidth="2.12499" strokeLinecap="round" strokeLinejoin="round"/>
+                      </svg>
+                    </span>
+                  }
                   className={`${buttonClass} border border-brand-navy bg-white/80 text-brand-navy hover:bg-brand-navy hover:text-white focus-visible:outline-brand-navy`}
                 >
                   {secondaryLabel}
