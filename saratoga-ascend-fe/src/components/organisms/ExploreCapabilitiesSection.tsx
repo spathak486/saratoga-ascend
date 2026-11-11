@@ -132,19 +132,22 @@ export function ExploreCapabilitiesSection({
   const [visibleCount, setVisibleCount] = useState(1);
   const swipeStart = useRef<number | null>(null);
 
-  // One card on phones, two from sm, four from lg — same steps the card widths use.
+  // One card on phones, two from sm, three from lg (tablet), four from xl — same steps the card widths use.
   useLayoutEffect(() => {
+    const xlQuery = window.matchMedia('(min-width: 1280px)');
     const lgQuery = window.matchMedia('(min-width: 1024px)');
     const smQuery = window.matchMedia('(min-width: 640px)');
     const update = () => {
-      const next = lgQuery.matches ? 4 : smQuery.matches ? 2 : 1;
+      const next = xlQuery.matches ? 4 : lgQuery.matches ? 3 : smQuery.matches ? 2 : 1;
       setVisibleCount(next);
       setStartIndex((index) => Math.min(index, Math.max(0, displayCards.length - next)));
     };
     update();
+    xlQuery.addEventListener('change', update);
     lgQuery.addEventListener('change', update);
     smQuery.addEventListener('change', update);
     return () => {
+      xlQuery.removeEventListener('change', update);
       lgQuery.removeEventListener('change', update);
       smQuery.removeEventListener('change', update);
     };
@@ -156,9 +159,11 @@ export function ExploreCapabilitiesSection({
       ? 'hidden'
       : displayCards.length <= 2
         ? 'flex sm:hidden'
-        : displayCards.length <= 4
+        : displayCards.length <= 3
           ? 'flex lg:hidden'
-          : 'flex';
+          : displayCards.length <= 4
+            ? 'flex xl:hidden'
+            : 'flex';
 
   const handlePrev = () => {
     setStartIndex((prev) => Math.max(0, prev - 1));
@@ -292,7 +297,7 @@ export function ExploreCapabilitiesSection({
         aria-roledescription="carousel"
       >
         <div
-          className="flex w-full transition-transform duration-500 ease-in-out motion-reduce:transition-none [--cap-visible:1] sm:[--cap-visible:2] lg:[--cap-visible:4]"
+          className="flex w-full transition-transform duration-500 ease-in-out motion-reduce:transition-none [--cap-visible:1] sm:[--cap-visible:2] lg:[--cap-visible:3] xl:[--cap-visible:4]"
           style={{
             transform: `translateX(calc(${startIndex} * -100% / var(--cap-visible)))`,
           }}
@@ -308,7 +313,7 @@ export function ExploreCapabilitiesSection({
             return (
               <div
                 key={card.id ?? card.documentId ?? `capability-${index}`}
-                className={`flex h-auto w-full shrink-0 flex-col items-center justify-center gap-4 p-5 text-center transition-colors duration-300 sm:h-[516px] sm:w-1/2 sm:justify-between sm:gap-0 sm:p-7 lg:w-1/4 2xl:p-[30px] ${
+                className={`flex h-auto w-full shrink-0 flex-col items-center justify-center gap-4 p-5 text-center transition-colors duration-300 sm:h-[516px] sm:w-1/2 sm:justify-between sm:gap-0 sm:p-7 lg:w-1/3 xl:w-1/4 2xl:p-[30px] ${
                   isDark ? 'bg-[#2B88D9] text-white' : 'bg-[#EBF6FF] text-[#000000]'
                 }`}
               >

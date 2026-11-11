@@ -253,7 +253,9 @@ export const SECTION_REGISTRY: Record<
         readTime={ctx?.readTime}
         socialLinks={ctx?.socialLinks ?? undefined}
         breadcrumbLabel={
-          options?.heroLayout === 'who-we-serve' ? ctx?.pageTitle ?? undefined : undefined
+          options?.heroLayout === 'who-we-serve' || options?.heroLayout === 'solutions'
+            ? ctx?.pageTitle ?? undefined
+            : undefined
         }
         layout={options?.heroLayout}
       />

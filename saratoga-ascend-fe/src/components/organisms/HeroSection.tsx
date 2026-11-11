@@ -617,57 +617,87 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   }
 
   if (variant === 'default') {
-    /* Service hero (Figma 567:1855): 1920×853, 120px gutters, copy inset 126px. */
+    /* Service / solutions hero (Figma 2633:8907 / 567:1855): breadcrumb above
+       (2633:8906 — Home / page title), then 1920×853 band. */
     const photo = helixSrc ? `url(${JSON.stringify(helixSrc)})` : 'none';
+    const crumbLabel =
+      breadcrumbLabel ||
+      (layout === 'solutions' ? stripHtml(title) || 'Solutions' : undefined);
 
     return (
-      <section
-        aria-labelledby={title ? 'service-hero-heading' : undefined}
-        aria-label={title ? undefined : 'Healthcare workforce solutions'}
-        className="relative flex w-full flex-col overflow-hidden bg-[#eaf4fb] px-page pt-28 pb-12 max-xl:min-h-[28rem] max-sm:px-6! sm:pb-16 md:pt-32 lg:pb-20 xl:min-h-[clamp(36rem,44.427vw,53.3125rem)] xl:py-[clamp(4.5rem,6.5625vw,7.875rem)]"
-      >
-        <div
-          className="pointer-events-none absolute inset-0 bg-cover bg-right"
-          style={{
-            backgroundImage: `linear-gradient(89.95deg, #eaf4fb 13.3%, rgba(234, 244, 251, 0) 128%), ${photo}`,
-          }}
-          role={mediaAlt ? 'img' : undefined}
-          aria-label={mediaAlt || undefined}
-          aria-hidden={mediaAlt ? undefined : true}
-        />
-        <div className="relative z-10 mx-auto flex w-full min-w-0 max-w-[1680px] flex-col items-start gap-6 md:gap-8 xl:gap-10">
-          {title ? (
-            <Heading
-              id="service-hero-heading"
-              level={1}
-              size="hero"
-              tone="ink"
-              className="max-w-[min(100%,64.5625rem)] font-normal tracking-normal"
-            >
-              {titleWithAccent(title, stripHtml(subTitle))}
-            </Heading>
-          ) : null}
-          {lede || subTitle ? (
-            <p className="max-w-[min(100%,48.6875rem)] min-w-0 font-sans text-body-lg font-medium text-brand-navy">
-              {lede || stripHtml(subTitle)}
-            </p>
-          ) : null}
-          {(ctaLabel && ctaHref) || (secondaryCtaLabel && secondaryCtaHref) ? (
-            <div className="flex w-full min-w-0 flex-col items-stretch gap-4 sm:flex-row sm:flex-wrap sm:items-center xl:gap-[30px]">
-              {ctaLabel && ctaHref ? (
-                <ServiceHeroButton href={ctaHref} tone="primary">
-                  {ctaLabel}
-                </ServiceHeroButton>
-              ) : null}
-              {secondaryCtaLabel && secondaryCtaHref ? (
-                <ServiceHeroButton href={secondaryCtaHref} tone="secondary">
-                  {secondaryCtaLabel}
-                </ServiceHeroButton>
-              ) : null}
-            </div>
-          ) : null}
-        </div>
-      </section>
+      <div className="bg-white">
+        {crumbLabel ? (
+          <Container className="pt-[calc(6rem+env(safe-area-inset-top,0px))] pb-4 xl:pt-4 xl:pb-[0.875rem]">
+            <nav aria-label="Breadcrumb">
+              <p className="font-sans text-sm font-medium leading-normal text-black">
+                <GeneralLink
+                  href="/"
+                  variant="unstyled"
+                  className="rounded-sm hover:text-brand-red focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-navy"
+                >
+                  Home
+                </GeneralLink>
+                <span aria-hidden="true"> / </span>
+                <span aria-current="page">{crumbLabel}</span>
+              </p>
+            </nav>
+          </Container>
+        ) : (
+          <div className="pt-[calc(6rem+env(safe-area-inset-top,0px))] xl:hidden" aria-hidden="true" />
+        )}
+
+        <section
+          aria-labelledby={title ? 'service-hero-heading' : undefined}
+          aria-label={title ? undefined : 'Healthcare workforce solutions'}
+          className={`relative flex w-full flex-col overflow-hidden bg-[#eaf4fb] px-page pb-12 max-xl:min-h-[28rem] max-sm:px-6! sm:pb-16 lg:pb-20 xl:min-h-[clamp(36rem,44.427vw,53.3125rem)] xl:pb-[clamp(4.5rem,6.5625vw,7.875rem)] ${
+            crumbLabel
+              ? 'pt-8 md:pt-10 xl:pt-[clamp(4.5rem,6.5625vw,7.875rem)]'
+              : 'pt-28 md:pt-32 xl:pt-[clamp(4.5rem,6.5625vw,7.875rem)]'
+          }`}
+        >
+          <div
+            className="pointer-events-none absolute inset-0 bg-cover bg-right"
+            style={{
+              backgroundImage: `linear-gradient(89.95deg, #eaf4fb 13.3%, rgba(234, 244, 251, 0) 128%), ${photo}`,
+            }}
+            role={mediaAlt ? 'img' : undefined}
+            aria-label={mediaAlt || undefined}
+            aria-hidden={mediaAlt ? undefined : true}
+          />
+          <div className="relative z-10 mx-auto flex w-full min-w-0 max-w-[1680px] flex-col items-start gap-6 md:gap-8 xl:gap-10">
+            {title ? (
+              <Heading
+                id="service-hero-heading"
+                level={1}
+                size="hero"
+                tone="ink"
+                className="max-w-[min(100%,64.5625rem)] font-normal tracking-normal"
+              >
+                {titleWithAccent(title, stripHtml(subTitle))}
+              </Heading>
+            ) : null}
+            {lede || subTitle ? (
+              <p className="max-w-[min(100%,48.6875rem)] min-w-0 font-sans text-body-lg font-medium text-brand-navy">
+                {lede || stripHtml(subTitle)}
+              </p>
+            ) : null}
+            {(ctaLabel && ctaHref) || (secondaryCtaLabel && secondaryCtaHref) ? (
+              <div className="flex w-full min-w-0 flex-col items-stretch gap-4 sm:flex-row sm:flex-wrap sm:items-center xl:gap-[30px]">
+                {ctaLabel && ctaHref ? (
+                  <ServiceHeroButton href={ctaHref} tone="primary">
+                    {ctaLabel}
+                  </ServiceHeroButton>
+                ) : null}
+                {secondaryCtaLabel && secondaryCtaHref ? (
+                  <ServiceHeroButton href={secondaryCtaHref} tone="secondary">
+                    {secondaryCtaLabel}
+                  </ServiceHeroButton>
+                ) : null}
+              </div>
+            ) : null}
+          </div>
+        </section>
+      </div>
     );
   }
 

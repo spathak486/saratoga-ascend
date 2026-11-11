@@ -37,7 +37,7 @@ export const NeedHelpSection: React.FC<NeedHelpSectionProps> = ({
     tone="surface"
     spacing="none"
     bleed
-    className="relative py-section overflow-hidden max-xl:pt-5 max-xl:pb-5 max-sm:pb-10! sm:max-xl:pt-0! md:max-xl:pb-10! xl:pt-0! xl:pb-0!"
+    className="relative py-section overflow-hidden max-xl:pt-5 max-xl:pb-5 max-sm:pb-10! sm:max-xl:pt-0! md:max-xl:pb-10! xl:pt-0! xl:pb-[60px]!"
   >
     <div className="relative mx-auto max-w-home px-page max-sm:px-5!">
       {/* Rectangle 14: 1680x519px, radius 52px, Red Blue gradient with 20% black film */}

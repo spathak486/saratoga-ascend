@@ -18,30 +18,64 @@ interface QueryOptions {
   insecure?: boolean;
 }
 
-async function insecureCmsPost(body: string, headers: Record<string, string>): Promise<Response> {
-  const { request } = await import(/* webpackIgnore: true */ 'node:https');
-  const target = new URL(graphqlUrl);
+/** Mimecast sometimes returns `/graphql&X-MC-...` instead of `/graphql?X-MC-...`. */
+function normalizeRedirectUrl(location: string | string[], base: URL): string {
+  const raw = Array.isArray(location) ? location[0] : location;
+  const next = new URL(raw, base);
+  if (!next.search && next.pathname.includes('&')) {
+    const amp = next.pathname.indexOf('&');
+    next.search = `?${next.pathname.slice(amp + 1)}`;
+    next.pathname = next.pathname.slice(0, amp);
+  }
+  return next.toString();
+}
+
+async function insecureCmsPost(
+  body: string,
+  headers: Record<string, string>,
+  url = graphqlUrl,
+  redirectsLeft = 5,
+): Promise<Response> {
+  const https = await import(/* webpackIgnore: true */ 'node:https');
+  const http = await import(/* webpackIgnore: true */ 'node:http');
+  const target = new URL(url);
   const payload = Buffer.from(body);
+  const transport = target.protocol === 'http:' ? http : https;
 
   return new Promise((resolve, reject) => {
-    const req = request(
+    const req = transport.request(
       {
         protocol: target.protocol,
         hostname: target.hostname,
-        port: target.port || 443,
+        port: target.port || (target.protocol === 'http:' ? 80 : 443),
         path: `${target.pathname}${target.search}`,
         method: 'POST',
         headers: {
           ...headers,
-          'Content-Length': payload.length,
+          'Content-Length': String(payload.length),
+          Host: target.host,
         },
         rejectUnauthorized: false,
       },
       (res) => {
+        const status = res.statusCode ?? 500;
+        const location = res.headers.location ?? res.headers.Location;
+        if (
+          location &&
+          redirectsLeft > 0 &&
+          status >= 300 &&
+          status < 400
+        ) {
+          res.resume();
+          const nextUrl = normalizeRedirectUrl(location, target);
+          resolve(insecureCmsPost(body, headers, nextUrl, redirectsLeft - 1));
+          return;
+        }
+
         const chunks: Buffer[] = [];
         res.on('data', (chunk: Buffer) => chunks.push(chunk));
         res.on('end', () => {
-          resolve(new Response(Buffer.concat(chunks), { status: res.statusCode ?? 500 }));
+          resolve(new Response(Buffer.concat(chunks), { status }));
         });
       },
     );
@@ -49,6 +83,13 @@ async function insecureCmsPost(body: string, headers: Record<string, string>): P
     req.write(payload);
     req.end();
   });
+}
+
+function shouldBypassTls(): boolean {
+  return (
+    process.env.NODE_ENV === 'development' &&
+    process.env.NODE_TLS_REJECT_UNAUTHORIZED === '0'
+  );
 }
 
 async function cmsFetch(init: RequestInit, insecure: boolean): Promise<Response> {
@@ -63,6 +104,7 @@ async function queryOnce<T>(
   insecure = false,
 ): Promise<ApiResult<T>> {
   try {
+    const useInsecure = insecure || shouldBypassTls();
     const res = await cmsFetch(
       {
         method: 'POST',
@@ -77,7 +119,7 @@ async function queryOnce<T>(
           ? { cache: 'no-store' as const }
           : { next: { revalidate: 60 } }),
       },
-      insecure,
+      useInsecure,
     );
 
     const raw = await res.text();
@@ -85,7 +127,12 @@ async function queryOnce<T>(
     try {
       body = JSON.parse(raw) as GraphQLResponse<T>;
     } catch {
-      return fail('NETWORK_ERROR', res.status, raw.slice(0, 180) || 'GraphQL response was not JSON');
+      const preview = raw.trim().slice(0, 180);
+      return fail(
+        'NETWORK_ERROR',
+        res.status,
+        preview || `GraphQL response was not JSON (status ${res.status})`,
+      );
     }
 
     // GraphQL returns HTTP 200 even on query errors — the errors
@@ -110,19 +157,25 @@ async function queryOnce<T>(
   }
 }
 
-function logQueryFailure(result: { error: { message: string; details?: unknown } }) {
+function logQueryFailure(result: {
+  error: { code?: string; message: string; details?: unknown };
+}) {
   if (process.env.NODE_ENV !== 'development') return;
   const details = result.error.details ?? result.error.message;
   const text = typeof details === 'string' ? details : JSON.stringify(details, null, 2);
-  // Draft reads, the public CMS gateway, and a CMS the dev machine cannot
-  // reach already fall back. These must not open the Next.js error overlay.
+  // Draft reads, the public CMS gateway, TLS/proxy noise, and a CMS the
+  // dev machine cannot reach already fall back. console.error would open
+  // the Next.js overlay for these expected local misses.
   const expectedMiss =
+    result.error.code === 'NETWORK_ERROR' ||
     text.includes('Forbidden access') ||
-    text === 'Method Not Allowed' ||
-    text === 'fetch failed' ||
-    text === 'Network error';
+    text.includes('Method Not Allowed') ||
+    text.includes('GraphQL response was not JSON') ||
+    text.includes('fetch failed') ||
+    text.includes('Network error') ||
+    text.trimStart().startsWith('<');
   if (expectedMiss) {
-    console.warn('[GQL]', text);
+    console.warn('[GQL]', result.error.message);
     return;
   }
   console.error('[GQL] Query errors:', text);

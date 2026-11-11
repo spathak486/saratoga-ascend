@@ -160,7 +160,7 @@ export function CriticalMissionsSection({
       aria-label={title || 'Critical Healthcare Missions'}
       className="isolate relative mx-auto w-full max-w-[1920px] bg-white xl:mb-[60px]"
     >
-      <div className="px-6 pt-10 pb-0 sm:px-6 sm:pt-12 lg:px-10 xl:pt-[80px] 2xl:px-[120px]">
+      <div className="px-6 pt-10 pb-0 sm:px-6 sm:pt-12 lg:px-10 xl:pt-[78px] 2xl:px-[120px]">
         <div className="mx-auto flex w-full max-w-[1680px] flex-col items-start justify-between gap-8 sm:gap-10 xl:flex-row xl:gap-8 2xl:gap-[60px]">
           <div className="w-full min-w-0 xl:sticky xl:top-[calc(var(--spacing-nav-h)+1.5rem)] xl:max-w-[850px] xl:flex-1 xl:self-start 2xl:max-w-[904px]">
             <h2 className="font-serif text-[clamp(2rem,1.4rem+2.5vw,4.5rem)] font-normal leading-[1.15] tracking-tight text-[#000000]">
@@ -181,7 +181,7 @@ export function CriticalMissionsSection({
                   <div
                     key={card.id ?? card.documentId ?? `mission-${idx}`}
                     style={{ zIndex: idx + 1 }}
-                    className="relative flex h-auto min-h-[16rem] w-full shrink-0 flex-col justify-between overflow-hidden rounded-[20px] border border-[#95C3EC] bg-[#F4F9FD] p-6 shadow-[0_8px_20px_rgba(33,33,33,0.06)] transition-[border-color,box-shadow] duration-300 hover:border-[#2B88D9] hover:shadow-md motion-reduce:transition-none sm:p-7 xl:sticky xl:top-[calc(var(--spacing-nav-h)+1.5rem)] xl:h-[350px] xl:min-h-[350px] 2xl:p-9"
+                    className="relative flex h-auto min-h-[16rem] w-full shrink-0 flex-col justify-between overflow-hidden rounded-[20px] border border-[#95C3EC] bg-[#F4F9FD] p-6 shadow-[0_8px_20px_rgba(33,33,33,0.06)] transition-[border-color,box-shadow] duration-300 hover:border-[#2B88D9] hover:shadow-md motion-reduce:transition-none sm:p-7 xl:sticky xl:top-[calc(var(--spacing-nav-h)+1.5rem)] 2xl:p-9"
                   >
                     <div className="relative z-10 flex w-full items-start justify-between gap-3">
                       <div className="flex size-14 shrink-0 items-center justify-center rounded-[13px] border border-[#000000] bg-[#95C3EC] sm:size-20 2xl:size-[104px]">
@@ -189,7 +189,7 @@ export function CriticalMissionsSection({
                       </div>
 
                       <span
-                        className="pointer-events-none select-none font-sans text-[clamp(4.5rem,10vw,9.5rem)] font-bold leading-none tracking-tight text-[#212121]/30"
+                        className="pointer-events-none select-none font-sans text-[clamp(4.5rem,10vw,9.5rem)] font-bold leading-none tracking-tight text-transparent [-webkit-text-stroke-width:1px] [-webkit-text-stroke-color:#212121]"
                         aria-hidden="true"
                       >
                         {stepNum}
