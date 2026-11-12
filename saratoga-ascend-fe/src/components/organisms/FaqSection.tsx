@@ -32,7 +32,7 @@ export const FaqSection: React.FC<FaqSectionProps> = ({
   return (
     <section
       aria-labelledby="faq-heading"
-      className="w-full bg-brand-surface py-10 xl:py-[7.75rem]"
+      className="w-full bg-brand-surface py-12 xl:py-[7.75rem]"
     >
       <Container size="home" className="max-sm:px-6!">
         <div className="flex flex-col items-stretch gap-10 xl:flex-row xl:items-stretch xl:gap-10">
