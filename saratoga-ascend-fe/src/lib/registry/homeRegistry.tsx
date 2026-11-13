@@ -782,9 +782,6 @@ ComponentReferencesFederalEnvironmentsReference: (section, index) => {
         key={'procurement-pathways-' + index}
         title={ppRef?.title}
         description={ppRef?.description}
-        cardTitle={ppRef?.cardTitle}
-        cardDescription={ppRef?.cardDescription}
-        cta={ppRef?.cta}
         cards={ppRef?.cards}
       />
     );
