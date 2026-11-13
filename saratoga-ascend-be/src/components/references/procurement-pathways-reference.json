@@ -1,0 +1,41 @@
+{
+  "collectionName": "components_references_procurement_pathways_references",
+  "info": {
+    "displayName": "Procurement Pathways Reference",
+    "icon": "layer",
+    "description": "Federal procurement pathways aligned to agency requirements with timeline accordion"
+  },
+  "options": {},
+  "attributes": {
+    "referenceTitle": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string",
+      "default": "Federal procurement pathways aligned to agency requirements"
+    },
+    "description": {
+      "type": "text",
+      "default": "Federal agencies may acquire services through open-market solicitations, agency-specific IDIQs and BPAs, governmentwide acquisition contracts, or existing contract holders. Saratoga Ascend can discuss direct opportunities and teaming arrangements where scope and eligibility align."
+    },
+    "cardTitle": {
+      "type": "string",
+      "default": "How buyers may engage"
+    },
+    "cardDescription": {
+      "type": "text",
+      "default": "Start with the mission requirement and procurement strategy. We can review capability alignment, clarify the relevant contract record, and discuss whether a direct opportunity or a partner-led route is appropriate."
+    },
+    "cta": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.general-link"
+    },
+    "cards": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.procurement-pathway-card"
+    }
+  }
+}
+

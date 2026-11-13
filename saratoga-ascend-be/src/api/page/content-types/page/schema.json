@@ -101,7 +101,8 @@
         "references.blog-cta-card",
         "references.author-card",
         "references.job-listing-reference",
-        "references.jobs-by-speciality-reference"
+        "references.jobs-by-speciality-reference",
+        "references.procurement-pathways-reference"
       ]
     }
   }

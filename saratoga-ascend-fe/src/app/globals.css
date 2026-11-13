@@ -1295,3 +1295,18 @@ body {
     line-height: 2rem;
   }
 }
+
+/* CKEditor inline & block rich content — preserves tags from Strapi (<p>, <h2>, <h3>) while cleanly matching container styling */
+.ck-inline-content > p,
+.ck-inline-content > h1,
+.ck-inline-content > h2,
+.ck-inline-content > h3,
+.ck-inline-content > h4,
+.ck-inline-content > h5,
+.ck-inline-content > h6 {
+  margin: 0;
+  font: inherit;
+  color: inherit;
+  line-height: inherit;
+  display: inline;
+}

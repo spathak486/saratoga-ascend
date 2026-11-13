@@ -1,0 +1,41 @@
+{
+  "collectionName": "components_shared_procurement_pathway_cards",
+  "info": {
+    "displayName": "Procurement Pathway Card",
+    "icon": "bulletList",
+    "description": "Accordion item card for federal procurement pathways section"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "contractNumber": {
+      "type": "string"
+    },
+    "subtitle": {
+      "type": "string"
+    },
+    "categoryLabel": {
+      "type": "string",
+      "default": "GSA Multiple Award Schedule (MAS) Category:"
+    },
+    "categories": {
+      "type": "customField",
+      "customField": "plugin::ckeditor5.CKEditor",
+      "options": {
+        "preset": "defaultHtml"
+      }
+    },
+    "description": {
+      "type": "text"
+    },
+    "link": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.general-link"
+    }
+  }
+}
+
