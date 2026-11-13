@@ -836,7 +836,7 @@ export const IntegratedCapabilitiesReferenceSchema = z.object({
 export type IntegratedCapabilitiesReference = z.infer<typeof IntegratedCapabilitiesReferenceSchema>;
 
 
-export const ProcurementPathwayCardSchema = z.object({
+export const ProcurementContractItemSchema = z.object({
   title: z.string(),
   contractNumber: z.string().nullable().optional(),
   subtitle: z.string().nullable().optional(),
@@ -845,6 +845,15 @@ export const ProcurementPathwayCardSchema = z.object({
   description: z.string().nullable().optional(),
   link: GeneralLinkSchema.nullable().optional(),
 });
+export type ProcurementContractItem = z.infer<typeof ProcurementContractItemSchema>;
+
+export const ProcurementPathwayCardSchema = z.object({
+  cardTitle: z.string().default('How buyers may engage'),
+  cardSubtitle: z.string().nullable().optional(),
+  description: z.string().nullable().optional(),
+  cta: GeneralLinkSchema.nullable().optional(),
+  items: z.array(ProcurementContractItemSchema).nullable().optional(),
+});
 export type ProcurementPathwayCard = z.infer<typeof ProcurementPathwayCardSchema>;
 
 export const ProcurementPathwaysReferenceSchema = z.object({
@@ -852,9 +861,6 @@ export const ProcurementPathwaysReferenceSchema = z.object({
   referenceTitle: z.string().nullable().optional(),
   title: z.string().nullable().optional(),
   description: z.string().nullable().optional(),
-  cardTitle: z.string().nullable().optional(),
-  cardDescription: z.string().nullable().optional(),
-  cta: GeneralLinkSchema.nullable().optional(),
   cards: z.array(ProcurementPathwayCardSchema).nullable().optional(),
 });
 export type ProcurementPathwaysReference = z.infer<typeof ProcurementPathwaysReferenceSchema>;
