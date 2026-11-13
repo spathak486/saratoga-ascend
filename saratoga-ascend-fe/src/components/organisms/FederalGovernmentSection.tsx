@@ -86,7 +86,7 @@ function OverviewCard({
   return (
     <div
       style={{ top: `${80 + 24 * index}px`, zIndex: index + 10 }}
-      className="sticky mx-auto mb-16 w-full max-w-[93.375rem] lg:mb-24"
+      className="sticky mx-auto mb-16 w-full max-w-[93.375rem] max-xl:mb-0! lg:mb-24"
     >
       <motion.div
         initial={reduce ? false : { opacity: 0, y: 50 }}
@@ -212,7 +212,7 @@ export function FederalGovernmentSection({
   return (
     <section
       aria-label={title || 'Federal Government Mission Overview'}
-      className="relative mx-auto w-full max-w-home overflow-visible bg-transparent px-4 py-16 sm:px-8 sm:py-24 xl:px-[110px] xl:pt-[7.333rem]"
+      className="relative mx-auto w-full max-w-home overflow-visible bg-transparent px-6 py-10 xl:px-[110px] xl:pt-[7.333rem] xl:pb-24"
     >
       {title ? (
         <div className="mx-auto mb-12 max-w-[1494px] text-center lg:text-left">

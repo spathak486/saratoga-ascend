@@ -36,7 +36,7 @@ export const MarketWeServeSection: React.FC<MarketWeServeSectionProps> = ({
       aria-labelledby="market-we-serve-heading"
       tone="surface"
       spacing="none"
-      className="mt-0 py-10"
+      className="mt-0 py-10 max-xl:pt-0!"
     >
       <div className="flex flex-col gap-10">
         {(title || description) ? (
@@ -46,7 +46,7 @@ export const MarketWeServeSection: React.FC<MarketWeServeSectionProps> = ({
             description={description ?? ''}
             wide
             titleTone="inherit"
-            titleClassName="text-brand-cta-from max-[89.99rem]:text-[2rem] max-[89.99rem]:leading-[2.5rem]"
+            titleClassName="text-brand-cta-from max-md:text-[2rem]! max-md:leading-[2.5rem]!"
             descriptionSize="sectionLead"
             descriptionStyle={{ color: 'var(--color-ink)' }}
             descriptionClassName="max-[89.99rem]:text-base max-[89.99rem]:leading-6"

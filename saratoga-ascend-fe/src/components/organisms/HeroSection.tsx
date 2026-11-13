@@ -571,7 +571,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             />
           )}
 
-          <div className="relative z-10 px-page py-12 max-sm:px-6! xl:w-full xl:py-[clamp(3rem,5.46875vw,6.5625rem)]">
+          <div className="relative z-10 px-page py-12 max-sm:px-6! max-xl:py-10! xl:w-full xl:py-[clamp(3rem,5.46875vw,6.5625rem)]">
             <div className="flex w-full max-w-[58.1875rem] flex-col">
               <h2
                 id="workforce-cta-heading"
