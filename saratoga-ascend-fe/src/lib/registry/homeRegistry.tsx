@@ -198,7 +198,7 @@ function renderFaqSection(faqsRef: FaqsReference, index: number) {
  */
 export type SectionRenderOptions = {
   /** Page-specific hero composition of the shared banner. */
-  heroLayout?: 'contact' | 'who-we-serve';
+  heroLayout?: 'contact' | 'who-we-serve' | 'solutions';
   /** Page or Blog level data to fallback/bind if missing in banner */
   contextData?: {
     pageTitle?: string;
@@ -253,7 +253,9 @@ export const SECTION_REGISTRY: Record<
         readTime={ctx?.readTime}
         socialLinks={ctx?.socialLinks ?? undefined}
         breadcrumbLabel={
-          options?.heroLayout === 'who-we-serve' ? ctx?.pageTitle ?? undefined : undefined
+          options?.heroLayout === 'who-we-serve' || options?.heroLayout === 'solutions'
+            ? ctx?.pageTitle ?? undefined
+            : undefined
         }
         layout={options?.heroLayout}
       />

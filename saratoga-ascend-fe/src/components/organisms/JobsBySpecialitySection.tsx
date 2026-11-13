@@ -137,9 +137,9 @@ export const JobsBySpecialitySection: React.FC<JobsBySpecialitySectionProps> = (
     <Section
       tone="surface"
       spacing="none"
-      className="relative w-full overflow-hidden bg-[linear-gradient(135deg,#F8FAFC_0%,#F1F5F9_100%)] py-12 lg:py-20"
+      className="relative w-full overflow-hidden bg-[linear-gradient(135deg,#F8FAFC_0%,#F1F5F9_100%)] py-12 lg:py-20 xl:my-10 xl:py-10"
     >
-      <div className="mx-auto max-w-[1680px] px-6 sm:px-10 lg:px-[120px] flex flex-col gap-10">
+      <div className="flex flex-col gap-10">
         {/* Frame 607 / 769: Section Intro */}
         <div className="flex flex-col gap-3">
           <h2 className="font-['DM_Serif_Text'] text-[40px] sm:text-[56px] lg:text-[72px] font-normal leading-[120%] text-[#D31E2D]">

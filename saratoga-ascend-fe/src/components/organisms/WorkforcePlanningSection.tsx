@@ -85,12 +85,12 @@ function orbitalColumns(cards: WorkflowCardItem[]) {
 
 function StepIcon({ number, tone, iconUrl, title }: { number: string; tone: 'sky' | 'red'; iconUrl?: string | null; title?: string }) {
   if (iconUrl) {
-    return <img src={iconUrl} alt={title || 'Icon'} className="w-10 h-10 sm:w-12 sm:h-12 2xl:w-[70px] 2xl:h-[70px] object-contain" />;
+    return <img src={iconUrl} alt={title || 'Icon'} className="size-full object-contain" />;
   }
 
   const color = tone === 'red' ? '#F01424' : '#2B88D9';
   const numInt = parseInt(number.replace(/\D/g, '') || '1', 10);
-  const iconClass = 'size-8 sm:size-10 xl:size-11';
+  const iconClass = 'size-full';
   const stroke = {
     fill: 'none' as const,
     stroke: color,
@@ -201,31 +201,49 @@ function OrbitPill({
   const stepNum = card.number || (index < 9 ? `0${index + 1}` : `${index + 1}`);
   const tone = toneFor(card, index);
   const isRed = tone === 'red';
+  // Figma 2633:9114 — 150px icon disc, 80px glyph, pill radius 120.5px, min height 241px
   const icon = (
     <div
-      className={`flex size-16 shrink-0 items-center justify-center rounded-full sm:size-20 xl:size-[5.5rem] 2xl:size-28 ${
+      className={`flex size-[4.5rem] shrink-0 items-center justify-center rounded-full sm:size-[5.5rem] xl:size-[150px] ${
         isRed ? 'bg-[#FFD8DB]' : 'bg-[#C8E7FB]'
       }`}
     >
-      <StepIcon number={stepNum} tone={tone} iconUrl={card.icon?.url} title={stripHtml(card.title)} />
+      <div className="flex size-10 items-center justify-center sm:size-12 xl:size-20">
+        <StepIcon number={stepNum} tone={tone} iconUrl={card.icon?.url} title={stripHtml(card.title)} />
+      </div>
     </div>
   );
 
   return (
     <div
-      className={`flex w-full min-w-0 items-center gap-3 rounded-pill border px-3 py-3 shadow-sm transition-shadow duration-300 ease-out hover:shadow-md motion-reduce:transition-none sm:gap-4 sm:px-4 xl:min-h-[9.25rem] xl:py-4 2xl:min-h-[11.5rem] ${
+      className={`flex w-full min-w-0 items-center gap-3 overflow-hidden rounded-[120.5px] border border-solid px-4 py-4 transition-shadow duration-300 ease-out hover:shadow-sm motion-reduce:transition-none sm:gap-5 sm:px-5 sm:py-5 xl:min-h-[241px] xl:gap-[21px] xl:px-8 xl:py-9 ${
         isRed ? 'border-[#F01424] bg-[#FFF5F6]' : 'border-[#2B88D9] bg-[#EEF7FE]'
       }`}
     >
       {iconSide === 'left' ? icon : null}
-      <div className={`min-w-0 flex-1 ${iconSide === 'left' ? 'pr-2 sm:pr-4' : 'pl-2 sm:pl-4'}`}>
-        <span className={`block font-sans text-[15px] font-bold leading-tight sm:text-lg xl:text-xl ${isRed ? 'text-[#F01424]' : 'text-[#2B88D9]'}`}>
+      <div
+        className={`min-w-0 flex-1 overflow-hidden ${
+          iconSide === 'left' ? 'pr-3 sm:pr-5 xl:pr-8' : 'pl-3 sm:pl-5 xl:pl-8'
+        }`}
+      >
+        {/* Figma: Google Sans Flex Bold 24px; 20px gap to title at 1920 */}
+        <span
+          className={`mb-3 block font-sans text-[18px] font-bold leading-7 sm:text-[20px] xl:mb-5 xl:text-[24px] ${
+            isRed ? 'text-[#F01424]' : 'text-[#2B88D9]'
+          }`}
+        >
           {stepNum}
         </span>
-        <h3 className={`my-0.5 font-sans text-[clamp(1.15rem,1rem+0.45vw,1.75rem)] font-bold leading-tight ${isRed ? 'text-[#F01424]' : 'text-[#2B88D9]'}`}>
+        {/* Figma: Google Sans Flex Bold 28px / 28px */}
+        <h3
+          className={`min-w-0 break-words font-sans text-[20px] font-bold leading-7 sm:text-[24px] xl:text-[28px] xl:leading-7 ${
+            isRed ? 'text-[#F01424]' : 'text-[#2B88D9]'
+          }`}
+        >
           <span dangerouslySetInnerHTML={{ __html: cleanHeadingHtml(card.title) }} />
         </h3>
-        <p className="line-clamp-4 min-w-0 break-words font-sans text-[14px] leading-snug text-[#212121] sm:text-[15px] xl:text-[16px] xl:leading-6">
+        {/* Figma: Google Sans Flex Regular 20px / 28px, Off Black #212121 */}
+        <p className="mt-1 line-clamp-3 min-w-0 break-words font-sans text-[14px] font-normal leading-5 text-[#212121] sm:text-[16px] sm:leading-6 xl:mt-2 xl:text-[20px] xl:leading-7">
           {stripHtml(card.description)}
         </p>
       </div>
@@ -294,7 +312,7 @@ export function WorkforcePlanningSection({
   // --- 1. ACCORDION VARIANT ---
   if (variant === 'accordion') {
     return (
-      <section className="relative mx-auto flex w-full max-w-[1920px] flex-col justify-between overflow-hidden bg-[#FFFFFF] px-5 pb-12 pt-10 sm:px-8 sm:pb-14 sm:pt-12 lg:min-h-[690px] lg:px-[120px] lg:pb-[90px] lg:pt-[80px]">
+      <section className="relative mx-auto flex w-full max-w-[1920px] flex-col justify-between overflow-hidden bg-[#FFFFFF] px-6 pb-12 pt-10 sm:px-8 sm:pb-14 sm:pt-12 lg:min-h-[690px] lg:px-[120px] lg:pb-[90px] lg:pt-[80px]">
         <div className="w-full">
           <div className="mb-14 sm:mb-16 lg:mb-20 max-w-[878px]">
             <h2
@@ -356,22 +374,22 @@ export function WorkforcePlanningSection({
   return (
     <section
       aria-label={title || highlightTitle || 'From Workforce Planning to Ongoing Support'}
-      className="relative mx-auto w-full max-w-[1920px] overflow-x-clip bg-white px-4 py-10 sm:px-6 sm:py-12 lg:px-10 xl:py-[80px] 2xl:px-[120px]"
+      className="relative mx-auto w-full max-w-[1920px] overflow-x-clip bg-white px-page py-12 max-sm:px-6! xl:py-20"
     >
-      {/* Title */}
-      <div className="mb-8 w-full text-center sm:mb-10 xl:mb-[60px]">
-        <h2 className="mx-auto max-w-[1442px] font-serif text-[clamp(2rem,1.35rem+2.6vw,4.5rem)] font-normal leading-[1.15]">
+      {/* Title — Figma 72px DM Serif; 80px gap to orbital content */}
+      <div className="mb-8 w-full text-center sm:mb-10 xl:mb-20">
+        <h2 className="mx-auto max-w-[1442px] font-serif text-[clamp(2rem,1.35rem+2.6vw,4.5rem)] font-normal leading-normal">
           {renderTitle()}
         </h2>
       </div>
 
-      {/* Negative column gap equals the ring inset, so each oval meets the circle. */}
+      {/* Figma: ~608px pills + 422px portrait; cards meet the ring via negative column gap */}
       <div
-        className="relative mx-auto hidden w-full min-w-0 max-w-[1680px] items-center xl:grid xl:grid-cols-[minmax(0,1fr)_clamp(16rem,22vw,26.5rem)_minmax(0,1fr)] xl:[column-gap:calc(var(--orbit-ring-inset)*-1)]"
+        className="relative mx-auto hidden w-full min-w-0 max-w-[1680px] items-center xl:grid xl:grid-cols-[minmax(0,1fr)_minmax(16rem,26.375rem)_minmax(0,1fr)] xl:[column-gap:calc(var(--orbit-ring-inset)*-1)]"
         style={{ '--orbit-ring-inset': 'clamp(0.96rem, 1.32vw, 1.59rem)' } as React.CSSProperties}
       >
-        
-        <div className="relative z-10 flex min-w-0 flex-col justify-center gap-8">
+        {/* Vertical gap Figma: 589 − 259 − 241 ≈ 89px */}
+        <div className="relative z-10 flex min-w-0 flex-col justify-center gap-8 xl:gap-[89px]">
           {leftCards.map((card) => (
             <OrbitPill
               key={card.id ?? card.documentId ?? card.title}
@@ -382,7 +400,7 @@ export function WorkforcePlanningSection({
           ))}
         </div>
 
-        <div className="relative mx-auto aspect-square w-full max-w-[clamp(16rem,22vw,26.5rem)]">
+        <div className="relative mx-auto aspect-square w-full max-w-[422px]">
           <OrbitRing />
           <div className="absolute left-1/2 top-1/2 aspect-square w-[78%] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-full border-[6px] border-white shadow-md">
             <img
@@ -393,7 +411,7 @@ export function WorkforcePlanningSection({
           </div>
         </div>
 
-        <div className="relative z-10 flex min-w-0 flex-col justify-center gap-8">
+        <div className="relative z-10 flex min-w-0 flex-col justify-center gap-8 xl:gap-[89px]">
           {rightCards.map((card) => (
             <OrbitPill
               key={card.id ?? card.documentId ?? card.title}
@@ -403,7 +421,6 @@ export function WorkforcePlanningSection({
             />
           ))}
         </div>
-
       </div>
 
       <div className="mx-auto flex w-full min-w-0 max-w-[720px] flex-col gap-4 sm:gap-5 xl:hidden">

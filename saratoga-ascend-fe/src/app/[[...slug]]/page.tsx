@@ -130,11 +130,10 @@ export default async function DynamicPage({ params }: DynamicPageProps) {
   // 1. First, try to fetch as a Page
   const pageResult = await getPageBySlug(slugPath);
   if (pageResult.error && pageResult.error.code !== 'NOT_FOUND') {
-    throw new Error(
-      `CMS page query failed for "/${slugPath}": ${pageResult.error.message}`,
+    console.warn(
+      `[Page] CMS query failed for "/${slugPath}": ${pageResult.error.message}`,
     );
-  }
-  if (pageResult.data) {
+  } else if (pageResult.data) {
     pageData = pageResult.data;
   }
 
@@ -199,6 +198,7 @@ export default async function DynamicPage({ params }: DynamicPageProps) {
   });
   const isContactPage = slugPath === 'contact';
   const isWhoWeServePage = slugPath === 'who-we-serve';
+  const isSolutionsPage = slugPath === 'solutions';
 
   const hasBlogListing = sections.some(
     (sec: any) => sec.__typename === 'ComponentReferencesBlogListing'
@@ -430,6 +430,8 @@ export default async function DynamicPage({ params }: DynamicPageProps) {
         heroLayout:
           isWhoWeServePage && idx === firstBannerIndex
             ? 'who-we-serve'
+            : isSolutionsPage && idx === firstBannerIndex
+              ? 'solutions'
             : isContactPage
               ? 'contact'
               : undefined,

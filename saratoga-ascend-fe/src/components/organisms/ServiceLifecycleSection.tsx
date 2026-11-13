@@ -109,7 +109,7 @@ export function ServiceLifecycleSection({
   return (
     <section
       aria-label={`${title || 'Healthcare Workforce Solutions'} ${subtitle || 'Across the Service Lifecycle'}`.trim()}
-      className="relative mx-auto flex w-full max-w-[1920px] flex-col items-center overflow-hidden bg-[#FAFAFA] px-4 py-12 sm:px-8 sm:py-14 xl:px-[120px] xl:py-[80px]"
+      className="relative mx-auto flex w-full max-w-[1920px] flex-col items-center overflow-hidden bg-[#FAFAFA] px-6 py-12 sm:px-8 sm:py-14 xl:px-[120px] xl:py-[80px]"
     >
       <div className="mx-auto mb-8 flex w-full max-w-[1141px] flex-col items-center text-center xl:mb-10">
         <h2
@@ -169,8 +169,8 @@ export function ServiceLifecycleSection({
         </div>
 
         <div className="flex w-full flex-col justify-between rounded-[28px] border border-[#DAE5ED] bg-white p-5 shadow-[0px_4px_24px_rgba(0,0,0,0.04)] sm:p-8 xl:p-10">
-          <div className="flex w-full flex-col items-stretch justify-between gap-8 lg:flex-row xl:gap-[50px]">
-            <div className="flex w-full flex-col justify-between lg:w-[58%]">
+          <div className="flex w-full flex-col items-stretch justify-between gap-8 xl:flex-row xl:gap-[50px]">
+            <div className="flex w-full min-w-0 flex-1 flex-col justify-between">
               <div className="mb-6 xl:mb-8">
                 <h3
                   className="font-serif text-[clamp(1.75rem,1.4rem+1vw,2.5rem)] font-normal leading-[34px] text-[#022542]"
@@ -226,7 +226,7 @@ export function ServiceLifecycleSection({
               </div>
             </div>
 
-            <div className="relative flex min-h-[460px] w-full flex-col justify-end overflow-hidden rounded-[20px] border border-[#006CAF] p-4 sm:min-h-[520px] sm:p-6 lg:w-[42%] xl:min-h-[640px] xl:p-[20px]">
+            <div className="relative flex min-h-[460px] w-full min-w-0 flex-1 flex-col justify-end overflow-hidden rounded-[20px] border border-[#006CAF] p-4 sm:min-h-[520px] sm:p-6 xl:min-h-[640px] xl:p-[20px]">
               {imageSrc ? (
                 <img src={imageSrc} alt={active.heading || active.label} className="absolute inset-0 z-0 h-full w-full object-cover" />
               ) : null}
