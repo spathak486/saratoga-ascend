@@ -37,13 +37,13 @@ export const NeedHelpSection: React.FC<NeedHelpSectionProps> = ({
     tone="surface"
     spacing="none"
     bleed
-    className="relative py-section overflow-hidden max-xl:pt-5 max-xl:pb-5 max-sm:pb-10! sm:max-xl:pt-0! sm:max-xl:pb-0! xl:pt-0!"
+    className="relative py-section overflow-hidden max-xl:pt-5 max-xl:pb-5 max-sm:pb-10! sm:max-xl:pt-0! md:max-xl:pb-10! xl:pt-0! xl:pb-[60px]!"
   >
     <div className="relative mx-auto max-w-home px-page max-sm:px-5!">
       {/* Rectangle 14: 1680x519px, radius 52px, Red Blue gradient with 20% black film */}
-      <div className="relative isolate overflow-hidden rounded-[clamp(24px,2.7vw,52px)] bg-need-help-gradient min-h-[519px] max-xl:rounded-xl">
-        {/* Left Column: 70px padding */}
-        <div className="relative z-10 flex min-w-0 max-w-full lg:max-w-[55%] xl:max-w-[50%] flex-col justify-center gap-6 xl:gap-8 p-[clamp(1.5rem,4vw,70px)] min-h-[519px] max-xl:max-w-none max-xl:gap-[1.875rem] max-xl:px-5 max-xl:py-10">
+      <div className="relative isolate overflow-hidden rounded-[clamp(24px,2.7vw,52px)] bg-need-help-gradient min-h-[320px] md:min-h-[519px] max-xl:rounded-xl">
+        {/* Left Column: 70px padding. Tablet: padding-bottom 40px. Mobile min-height 320px. */}
+        <div className="relative z-10 flex min-w-0 max-w-full lg:max-w-[55%] xl:max-w-[50%] flex-col justify-center gap-6 xl:gap-8 p-[clamp(1.5rem,4vw,70px)] min-h-[320px] md:min-h-[519px] max-xl:max-w-none max-xl:gap-[1.875rem] max-xl:px-5 max-xl:pt-10 max-xl:pb-10 md:pb-10 xl:pb-[clamp(1.5rem,4vw,70px)]">
           <div>
             {title ? (
               <Heading

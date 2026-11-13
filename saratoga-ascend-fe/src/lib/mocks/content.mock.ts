@@ -1051,7 +1051,7 @@ export const mockPages: Page[] = [
   {
     documentId: 'cm2a8h4j10006qk3fsolutions1',
     internalName: 'Solutions',
-    pageTitle: 'Solutions',
+    pageTitle: 'Healthcare Workforce Solutions',
     slug: 'solutions',
     pageType: 'Standard',
     variant: 'default',

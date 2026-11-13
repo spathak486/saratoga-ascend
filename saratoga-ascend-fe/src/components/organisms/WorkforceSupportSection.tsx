@@ -107,7 +107,7 @@ export function WorkforceSupportSection({
   return (
     <section
       aria-label={title || 'Workforce support where it matters most.'}
-      className="relative mx-auto w-full max-w-[1920px] bg-[#FAFAFA] overflow-hidden py-12 xl:py-[80px] px-page"
+      className="relative mx-auto w-full max-w-[1920px] bg-[#FAFAFA] overflow-hidden py-12 xl:py-[80px] px-page max-sm:px-6!"
     >
       <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
         <img
