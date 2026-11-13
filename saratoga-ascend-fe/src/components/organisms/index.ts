@@ -65,3 +65,5 @@ export * from './InsightsListingSection';
 export * from './JobListingSection';
 
 export * from './JobsBySpecialitySection';
+
+export * from './FederalProcurementPathwaysSection';

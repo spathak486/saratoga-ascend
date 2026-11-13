@@ -888,6 +888,28 @@ export const DIRECT_ACCESS_REFERENCE_FIELDS = `
   }
 `;
 
+
+export const PROCUREMENT_PATHWAYS_REFERENCE_FIELDS = `
+  __typename
+  ... on ComponentReferencesProcurementPathwaysReference {
+    referenceTitle
+    title
+    description
+    cardTitle
+    cardDescription
+    cta { ${GENERAL_LINK_FIELDS} }
+    cards {
+      title
+      contractNumber
+      subtitle
+      categoryLabel
+      categories
+      description
+      link { ${GENERAL_LINK_FIELDS} }
+    }
+  }
+`;
+
 export const PROCUREMENT_ACCESS_REFERENCE_FIELDS = `
   __typename
   ... on ComponentReferencesProcurementAccessReference {

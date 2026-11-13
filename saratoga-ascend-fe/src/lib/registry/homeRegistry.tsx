@@ -33,6 +33,7 @@ import type {
   DefenseReference,
   IntegratedCapabilitiesReference,
   ProcurementAccessReference,
+  ProcurementPathwaysReference,
   FederalEnvironmentsReference,
   TeamSectionReference,
   TimelineReference,
@@ -83,6 +84,7 @@ import {
   DefenseSection,
   IntegratedCapabilitiesSection,
   ProcurementAccessSection,
+  FederalProcurementPathwaysSection,
   FederalEnvironmentsSection,
   TeamSection,
   TimelineSection,
@@ -769,6 +771,21 @@ ComponentReferencesFederalEnvironmentsReference: (section, index) => {
         description={da?.description ?? undefined}
         callout={da?.callout ?? undefined}
         cards={da?.cards as any}
+      />
+    );
+  },
+
+  ComponentReferencesProcurementPathwaysReference: (section, index) => {
+    const ppRef = section as any;
+    return (
+      <FederalProcurementPathwaysSection
+        key={'procurement-pathways-' + index}
+        title={ppRef?.title}
+        description={ppRef?.description}
+        cardTitle={ppRef?.cardTitle}
+        cardDescription={ppRef?.cardDescription}
+        cta={ppRef?.cta}
+        cards={ppRef?.cards}
       />
     );
   },
