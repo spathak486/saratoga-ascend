@@ -1,0 +1,38 @@
+{
+  "kind": "singleType",
+  "collectionName": "site_settings",
+  "info": {
+    "singularName": "site-setting",
+    "pluralName": "site-settings",
+    "displayName": "Site Setting",
+    "description": "Global website settings including Robots.txt and SEO configuration"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "siteName": {
+      "type": "string",
+      "default": "Saratoga Ascend"
+    },
+    "siteUrl": {
+      "type": "string",
+      "default": "https://saratoga-ascend.com"
+    },
+    "allowRobotsIndex": {
+      "type": "boolean",
+      "default": true
+    },
+    "robotsTxtCustom": {
+      "type": "text",
+      "description": "Custom robots.txt content (if provided, overrides automatic rules)"
+    },
+    "disallowedPaths": {
+      "type": "text",
+      "default": "/api/\n/_next/",
+      "description": "New-line separated paths to disallow (e.g. /api/)"
+    }
+  }
+}
+
