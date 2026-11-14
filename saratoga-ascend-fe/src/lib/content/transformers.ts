@@ -502,7 +502,16 @@ case 'ComponentReferencesFederalEnvironmentsReference': {
       };
     }
 
-    default:
+        case 'ComponentReferencesProcurementPathwaysReference': {
+      const pprRef = section as any;
+      const rawCards = pprRef.pathwayCards || pprRef.cards;
+      return {
+        ...section,
+        cards: rawCards || [],
+      };
+    }
+
+default:
       return section;
   }
 }
