@@ -337,8 +337,12 @@ export default async function DynamicPage({ params }: DynamicPageProps) {
     const bannerSection = sections.find(
       (sec: any) => sec.__typename === 'ComponentReferencesBannerReference'
     );
-    const ctaSection = sections.find(
-      (sec: any) => sec.__typename === 'ComponentReferencesBlogCtaCard'
+    // If variant is 'left', it goes to the left sidebar.
+    // If variant is 'default' (or any other), it stays in contentSections to be rendered in the body.
+    const leftCtaSection = sections.find(
+      (sec: any) =>
+        sec.__typename === 'ComponentReferencesBlogCtaCard' &&
+        (sec.ctaVariant === 'left' || sec.variant === 'left' || sec.blogCta?.variant === 'left')
     );
     const topicsSection = sections.find(
       (sec: any) => sec.__typename === 'ComponentReferencesRelatedTopics'
@@ -352,7 +356,10 @@ export default async function DynamicPage({ params }: DynamicPageProps) {
     const contentSections = sections.filter(
       (sec: any) =>
         sec.__typename !== 'ComponentReferencesBannerReference' &&
-        sec.__typename !== 'ComponentReferencesBlogCtaCard' &&
+        !(
+          sec.__typename === 'ComponentReferencesBlogCtaCard' &&
+          (sec.ctaVariant === 'left' || sec.variant === 'left' || sec.blogCta?.variant === 'left')
+        ) &&
         sec.__typename !== 'ComponentReferencesRelatedTopics' &&
         sec.__typename !== 'ComponentReferencesTrendingPosts' &&
         sec.__typename !== 'ComponentReferencesRelatedPostsCarousel'
@@ -487,7 +494,7 @@ export default async function DynamicPage({ params }: DynamicPageProps) {
     });
 
     const hasTopics = Boolean(topicsSection) && relatedTopicsList.length > 0;
-    const hasSidebar = allHeadings.length > 0 || hasTopics || Boolean(trendingSection) || Boolean(ctaSection);
+    const hasSidebar = allHeadings.length > 0 || hasTopics || Boolean(trendingSection) || Boolean(leftCtaSection);
 
     return (
       <main id="main" className={`min-h-screen ${toneClass}`.trim()}>
@@ -511,14 +518,14 @@ export default async function DynamicPage({ params }: DynamicPageProps) {
                     type={detailType}
                   />
                 )}
-                {ctaSection && (
+                {leftCtaSection && (
                   <BlogCtaCard
                     variant="left"
-                    title={ctaSection.blogCta?.title || ctaSection.title}
-                    description={ctaSection.blogCta?.description || ctaSection.description}
-                    link={ctaSection.blogCta?.link || ctaSection.link}
-                    buttonText={ctaSection.blogCta?.buttonText || ctaSection.buttonText}
-                    buttonUrl={ctaSection.blogCta?.buttonUrl || ctaSection.buttonUrl}
+                    title={leftCtaSection.blogCta?.title || leftCtaSection.title}
+                    description={leftCtaSection.blogCta?.description || leftCtaSection.description}
+                    link={leftCtaSection.blogCta?.link || leftCtaSection.link}
+                    buttonText={leftCtaSection.blogCta?.buttonText || leftCtaSection.buttonText}
+                    buttonUrl={leftCtaSection.blogCta?.buttonUrl || leftCtaSection.buttonUrl}
                   />
                 )}
               </aside>
