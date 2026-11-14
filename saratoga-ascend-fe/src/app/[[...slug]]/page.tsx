@@ -381,9 +381,7 @@ export default async function DynamicPage({ params }: DynamicPageProps) {
       topicsSection.topics.forEach((top: any) => {
         const label = top?.name || top?.label;
         if (label) {
-          const href = top?.slug
-            ? (top.slug.startsWith('/') ? top.slug : '/insights?category=' + encodeURIComponent(top.slug))
-            : (top?.href || '/insights?topic=' + encodeURIComponent(label));
+          const href = top?.link?.href || (top?.slug ? (top.slug.startsWith("/") ? top.slug : `/insights?category=${encodeURIComponent(top.slug)}`) : (top?.href || `/insights?topic=${encodeURIComponent(label)}`));
           relatedTopicsList.push({ label, href });
         }
       });

@@ -665,6 +665,7 @@ export const BLOG_CTA_CARD_REFERENCE_FIELDS = `
   __typename
   ... on ComponentReferencesBlogCtaCard {
     id
+    variant
     blogCta {
       documentId
       referenceTitle
@@ -710,6 +711,7 @@ export const RELATED_TOPICS_REFERENCE_FIELDS = `
       documentId
       name
       slug
+      link {  }
     }
   }
 `;

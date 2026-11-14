@@ -104,6 +104,12 @@
       "relation": "manyToOne",
       "target": "api::author.author",
       "inversedBy": "news"
+    },
+    "category": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::category.category",
+      "inversedBy": "news"
     }
   }
 }
