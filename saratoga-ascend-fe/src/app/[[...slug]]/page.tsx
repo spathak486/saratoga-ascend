@@ -369,38 +369,30 @@ export default async function DynamicPage({ params }: DynamicPageProps) {
     const { Container } = await import('@/components/atoms');
 
     
-    // Resolve dynamic topics from category, topic, or categories in CMS
+    // Topics are 100% dynamic from BE:
+    // If topicsSection.topics exists, use them. If not, fallback to category/topic from CMS. No hardcoded static topics.
     const currentCategoryName =
       pageData.category?.name ||
       pageData.topic ||
       (Array.isArray(pageData.categories) ? pageData.categories[0]?.name : null);
 
     const relatedTopicsList: Array<{ label: string; href?: string }> = [];
-    if (currentCategoryName) {
+    if (topicsSection?.topics && topicsSection.topics.length > 0) {
+      topicsSection.topics.forEach((top: any) => {
+        const label = top?.name || top?.label;
+        if (label) {
+          const href = top?.slug
+            ? (top.slug.startsWith('/') ? top.slug : '/insights?category=' + encodeURIComponent(top.slug))
+            : (top?.href || '/insights?topic=' + encodeURIComponent(label));
+          relatedTopicsList.push({ label, href });
+        }
+      });
+    } else if (currentCategoryName) {
       relatedTopicsList.push({
         label: currentCategoryName,
         href: `/insights?category=${encodeURIComponent(currentCategoryName)}`,
       });
     }
-
-    // Include standard agency & healthcare topics matching Figma
-    const defaultFallbackTopics = [
-      'Federal Healthcare',
-      'Clinical Staffing',
-      'Health IT & Modernization',
-      'Agency Direct Solicitations',
-      'Veterans Health',
-      'Compliance & Quality',
-    ];
-
-    defaultFallbackTopics.forEach((t) => {
-      if (!relatedTopicsList.some((existing) => existing.label.toLowerCase() === t.toLowerCase())) {
-        relatedTopicsList.push({
-          label: t,
-          href: `/insights?topic=${encodeURIComponent(t)}`,
-        });
-      }
-    });
 
     
     const { getAllBlogs, getAllArticles, getAllCaseStudies } = await import('@/lib/services');
@@ -496,7 +488,8 @@ export default async function DynamicPage({ params }: DynamicPageProps) {
       );
     });
 
-    const hasSidebar = allHeadings.length > 0 || Boolean(topicsSection) || Boolean(trendingSection) || Boolean(ctaSection);
+    const hasTopics = Boolean(topicsSection) && relatedTopicsList.length > 0;
+    const hasSidebar = allHeadings.length > 0 || hasTopics || Boolean(trendingSection) || Boolean(ctaSection);
 
     return (
       <main id="main" className={`min-h-screen ${toneClass}`.trim()}>
@@ -507,10 +500,10 @@ export default async function DynamicPage({ params }: DynamicPageProps) {
             <div className="grid items-start gap-8 sm:gap-10 xl:grid-cols-[minmax(16rem,36.125rem)_minmax(0,65.875rem)] xl:gap-12">
               <aside className="flex flex-col gap-10 xl:sticky xl:top-[calc(var(--spacing-utility-h)+var(--spacing-nav-h)+1.5rem)]">
                 {allHeadings.length > 0 && <LegalToc headings={allHeadings} />}
-                {topicsSection && (
+                {hasTopics && (
                   <RelatedTopicsCard
                     title={topicsSection.title || 'RELATED TOPICS'}
-                    topics={topicsSection.topics && topicsSection.topics.length > 0 ? topicsSection.topics : relatedTopicsList}
+                    topics={relatedTopicsList}
                   />
                 )}
                 {trendingSection && (

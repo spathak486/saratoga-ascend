@@ -701,6 +701,83 @@ export const AUTHOR_CARD_REFERENCE_FIELDS = `
   }
 `;
 
+export const RELATED_TOPICS_REFERENCE_FIELDS = `
+  __typename
+  ... on ComponentReferencesRelatedTopics {
+    id
+    title
+    topics {
+      documentId
+      name
+      slug
+    }
+  }
+`;
+
+export const TRENDING_POSTS_REFERENCE_FIELDS = `
+  __typename
+  ... on ComponentReferencesTrendingPosts {
+    id
+    title
+    blogs {
+      documentId
+      title
+      slug
+      readTime
+      articleDate
+      image { ${IMAGE_FIELDS} }
+    }
+    newsArticles {
+      documentId
+      title
+      slug
+      readTime
+      articleDate
+      image { ${IMAGE_FIELDS} }
+    }
+    caseStudies {
+      documentId
+      title
+      slug
+      readTime
+      articleDate
+      image { ${IMAGE_FIELDS} }
+    }
+  }
+`;
+
+export const RELATED_POSTS_CAROUSEL_REFERENCE_FIELDS = `
+  __typename
+  ... on ComponentReferencesRelatedPostsCarousel {
+    id
+    title
+    blogs {
+      documentId
+      title
+      slug
+      readTime
+      articleDate
+      image { ${IMAGE_FIELDS} }
+    }
+    newsArticles {
+      documentId
+      title
+      slug
+      readTime
+      articleDate
+      image { ${IMAGE_FIELDS} }
+    }
+    caseStudies {
+      documentId
+      title
+      slug
+      readTime
+      articleDate
+      image { ${IMAGE_FIELDS} }
+    }
+  }
+`;
+
 export const BLOG_SECTION_FRAGMENTS = [
   BANNER_REFERENCE_FIELDS,
   CTA_REFERENCE_FIELDS,
@@ -722,6 +799,9 @@ export const BLOG_SECTION_FRAGMENTS = [
   FEDERAL_ENVIRONMENTS_REFERENCE_FIELDS,
   BLOG_CTA_CARD_REFERENCE_FIELDS,
   AUTHOR_CARD_REFERENCE_FIELDS,
+  RELATED_TOPICS_REFERENCE_FIELDS,
+  TRENDING_POSTS_REFERENCE_FIELDS,
+  RELATED_POSTS_CAROUSEL_REFERENCE_FIELDS,
 ].join('\n');
 
 export const CONTACT_INQUIRY_REFERENCE_FIELDS = `
