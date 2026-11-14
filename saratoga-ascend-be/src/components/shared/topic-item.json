@@ -1,0 +1,19 @@
+{
+  "collectionName": "components_shared_topic_items",
+  "info": {
+    "displayName": "Topic Item",
+    "icon": "bulletList",
+    "description": "Topic pill with label and optional link"
+  },
+  "options": {},
+  "attributes": {
+    "label": {
+      "type": "string",
+      "required": true
+    },
+    "href": {
+      "type": "string"
+    }
+  }
+}
+

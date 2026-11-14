@@ -1,0 +1,31 @@
+{
+  "collectionName": "components_references_trending_posts",
+  "info": {
+    "displayName": "Trending Posts",
+    "icon": "fire",
+    "description": "Trending posts sidebar section for Blog, Case Study, and News"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "default": "Trending Posts"
+    },
+    "blogs": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::blog.blog"
+    },
+    "newsArticles": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::news.news"
+    },
+    "caseStudies": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::case-study.case-study"
+    }
+  }
+}
+

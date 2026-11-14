@@ -1160,7 +1160,7 @@ export const ARTICLE_FIELDS = `
   image { ${IMAGE_FIELDS} }
   seo { ${SEO_FIELDS} }
   Section {
-    ${PAGE_BASE_SECTION_FRAGMENTS}
+    ${BLOG_SECTION_FRAGMENTS}
   }
 `;
 
