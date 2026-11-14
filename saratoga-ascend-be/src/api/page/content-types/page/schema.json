@@ -102,7 +102,10 @@
         "references.author-card",
         "references.job-listing-reference",
         "references.jobs-by-speciality-reference",
-        "references.procurement-pathways-reference"
+        "references.procurement-pathways-reference",
+        "references.related-topics",
+        "references.trending-posts",
+        "references.related-posts-carousel"
       ]
     }
   }

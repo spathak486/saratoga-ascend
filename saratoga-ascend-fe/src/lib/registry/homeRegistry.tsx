@@ -61,6 +61,7 @@ import {
   PastPerformanceSection,
   HappyClientsSection,
   LatestNewsSection,
+  RelatedPostsSection,
   LegalPolicySection,
   BlogListingSection,
   InsightsListingSection,
@@ -438,6 +439,26 @@ export const SECTION_REGISTRY: Record<
     );
   },
 
+  ComponentReferencesRelatedPostsCarousel: (section, index) => {
+    const relRef = section as any;
+    const items =
+      relRef.blogs?.length > 0
+        ? relRef.blogs
+        : relRef.newsArticles?.length > 0
+          ? relRef.newsArticles
+          : relRef.caseStudies?.length > 0
+            ? relRef.caseStudies
+            : [];
+    const type = relRef.blogs?.length > 0 ? 'blog' : relRef.newsArticles?.length > 0 ? 'news' : 'case-study';
+    return (
+      <RelatedPostsSection
+        key={`related-posts-${index}`}
+        title={relRef.title}
+        items={items}
+        type={type}
+      />
+    );
+  },
   ComponentReferencesLatestInsights: (section, index) => {
     const insightsRef = section as any;
     return (

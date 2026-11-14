@@ -1,0 +1,21 @@
+{
+  "collectionName": "components_references_related_topics",
+  "info": {
+    "displayName": "Related Topics",
+    "icon": "bulletList",
+    "description": "Related Topics sidebar section for Blog, Case Study, and News"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "default": "RELATED TOPICS"
+    },
+    "topics": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.topic-item"
+    }
+  }
+}
+

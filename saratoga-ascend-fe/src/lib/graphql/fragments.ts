@@ -895,17 +895,22 @@ export const PROCUREMENT_PATHWAYS_REFERENCE_FIELDS = `
     referenceTitle
     title
     description
-    cardTitle
-    cardDescription
-    cta { ${GENERAL_LINK_FIELDS} }
-    cards {
-      title
-      contractNumber
-      subtitle
-      categoryLabel
-      categories
+    pathwayCards: cards {
+      id
+      cardTitle
+      cardSubtitle
       description
-      link { ${GENERAL_LINK_FIELDS} }
+      cta { ${GENERAL_LINK_FIELDS} }
+      items {
+        id
+        title
+        contractNumber
+        subtitle
+        categoryLabel
+        categories
+        description
+        link { ${GENERAL_LINK_FIELDS} }
+      }
     }
   }
 `;
@@ -1052,6 +1057,7 @@ export const PAGE_BASE_SECTION_FRAGMENTS = [
 // Dynamic-zone inline fragments supported by Page.Section
 
 export const COMMON_SECTION_FRAGMENTS = [
+  PROCUREMENT_PATHWAYS_REFERENCE_FIELDS,
   PAGE_BASE_SECTION_FRAGMENTS,
   MISSION_VISION_PROMISE_REFERENCE_FIELDS,
   BUILT_AROUND_MISSIONS_REFERENCE_FIELDS,
@@ -1154,7 +1160,7 @@ export const ARTICLE_FIELDS = `
   image { ${IMAGE_FIELDS} }
   seo { ${SEO_FIELDS} }
   Section {
-    ${PAGE_BASE_SECTION_FRAGMENTS}
+    ${BLOG_SECTION_FRAGMENTS}
   }
 `;
 
