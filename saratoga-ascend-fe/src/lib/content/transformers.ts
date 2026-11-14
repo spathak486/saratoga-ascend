@@ -502,7 +502,45 @@ case 'ComponentReferencesFederalEnvironmentsReference': {
       };
     }
 
-        case 'ComponentReferencesProcurementPathwaysReference': {
+        case 'ComponentReferencesRelatedPostsCarousel': {
+      const carouselRef = section as any;
+      return {
+        ...section,
+        blogs: (carouselRef.blogs || []).map((b: any) => ({
+          ...b,
+          image: unwrapImage(b.image),
+        })),
+        newsArticles: (carouselRef.newsArticles || []).map((n: any) => ({
+          ...n,
+          image: unwrapImage(n.image),
+        })),
+        caseStudies: (carouselRef.caseStudies || []).map((c: any) => ({
+          ...c,
+          image: unwrapImage(c.image),
+        })),
+      };
+    }
+
+    case 'ComponentReferencesTrendingPosts': {
+      const trendingRef = section as any;
+      return {
+        ...section,
+        blogs: (trendingRef.blogs || []).map((b: any) => ({
+          ...b,
+          image: unwrapImage(b.image),
+        })),
+        newsArticles: (trendingRef.newsArticles || []).map((n: any) => ({
+          ...n,
+          image: unwrapImage(n.image),
+        })),
+        caseStudies: (trendingRef.caseStudies || []).map((c: any) => ({
+          ...c,
+          image: unwrapImage(c.image),
+        })),
+      };
+    }
+
+    case 'ComponentReferencesProcurementPathwaysReference': {
       const pprRef = section as any;
       const rawCards = pprRef.pathwayCards || pprRef.cards;
       return {

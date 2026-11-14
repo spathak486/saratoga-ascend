@@ -190,10 +190,15 @@ export const RelatedPostsSection: React.FC<RelatedPostsSectionProps> = ({
                       : `/blogs/${item.slug}`
                 : '#');
 
-            const imgSrc =
+            let rawImg =
               typeof item.image === 'string'
                 ? item.image
-                : item.image?.url || '/images/card_img.png';
+                : item.image?.url;
+            if (rawImg && rawImg.startsWith('/') && !rawImg.startsWith('/images/')) {
+              const strapiBase = process.env.NEXT_PUBLIC_STRAPI_API_URL || 'http://localhost:1337';
+              rawImg = `${strapiBase}${rawImg}`;
+            }
+            const imgSrc = rawImg || '/images/card_img.png';
 
             const readTimeStr = item.readTime ? `${item.readTime} min read` : '5 min read';
             const dateStr = formatDate(item.articleDate || item.publishedAt);
