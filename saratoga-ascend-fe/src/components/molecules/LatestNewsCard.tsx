@@ -69,7 +69,7 @@ export const LatestNewsCard: React.FC<LatestNewsCardProps> = ({
                   ? 'left-[0.306rem] top-[0.306rem] px-[0.255rem] py-[0.153rem] font-serif text-[0.511rem] leading-[0.766rem] opacity-50'
                   : compact
                     ? 'left-2 top-2 px-2 py-0.5 text-[0.75rem] opacity-50'
-                    : 'left-3 top-3 px-2.5 py-1.5 font-serif text-[1.25rem] leading-[1.875rem] opacity-50'
+                    : 'left-3 top-3 px-[10px] py-[6px] font-serif text-[1.25rem] leading-[1.5] text-white opacity-90 rounded-full'
             }`}
           >
             {badge}
@@ -117,6 +117,7 @@ export const LatestNewsCard: React.FC<LatestNewsCardProps> = ({
           level={3}
           size="subtitle"
           tone="onDark"
+          style={{ fontFamily: "'DM Serif Text', serif" }}
           className={
             mobileFeatured
               ? 'text-[1.663rem]! leading-[1.2]!'

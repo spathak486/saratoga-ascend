@@ -108,13 +108,19 @@ export const Navbar: React.FC<NavbarProps> = ({ data }) => {
         />
       </div>
 
-      <button
-        type="button"
-        aria-label={searchLabel}
-        className="inline-flex size-[clamp(2.25rem,2.34375vw,2.8125rem)] items-center justify-center rounded-full border border-slate-faint bg-white p-1 text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-navy"
-      >
-        <SearchIcon className="size-6" />
-      </button>
+      <div className="relative inline-flex items-center">
+                <button
+                  type="button"
+                  aria-label={searchLabel}
+                  className="inline-flex size-[45px] shrink-0 items-center justify-center rounded-full border border-slate-faint bg-white p-1 text-ink transition-all duration-200 hover:border-brand-navy hover:text-brand-navy hover:shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-navy"
+                >
+                  <SearchIcon className="size-[18px]" />
+                </button>
+                {/* Figma 2633:9416 alert badge */}
+                <span className="absolute -top-1 -right-1 flex size-[14px] items-center justify-center rounded-full bg-[#D12E34] text-[10px] font-medium leading-none text-white pointer-events-none">
+                  1
+                </span>
+              </div>
 
       <CtaButton href={ctaHref}>{ctaLabel}</CtaButton>
     </Container>

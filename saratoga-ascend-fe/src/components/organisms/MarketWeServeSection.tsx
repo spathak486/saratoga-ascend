@@ -46,10 +46,10 @@ export const MarketWeServeSection: React.FC<MarketWeServeSectionProps> = ({
             description={description ?? ''}
             wide
             titleTone="inherit"
-            titleClassName="text-brand-cta-from max-[89.99rem]:text-[2rem] max-[89.99rem]:leading-[2.5rem]"
+            titleClassName="text-[#F01424] font-serif font-normal text-[clamp(2.5rem,4.5vw,72px)] leading-[110%] tracking-[0%]"
             descriptionSize="sectionLead"
             descriptionStyle={{ color: 'var(--color-ink)' }}
-            descriptionClassName="max-[89.99rem]:text-base max-[89.99rem]:leading-6"
+            descriptionClassName="max-[89.99rem]:text-base max-[89.99rem]:leading-6 mt-3 max-w-[800px]"
             className="gap-3"
           />
         ) : null}

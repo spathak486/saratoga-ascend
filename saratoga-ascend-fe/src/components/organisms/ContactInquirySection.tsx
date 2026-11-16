@@ -27,9 +27,9 @@ export interface ContactInquirySectionProps {
 }
 
 const DETAIL_ICONS: Record<DetailIcon, { src: string; width: number; height: number }> = {
-  location: { src: '/images/contact/location.svg', width: 28.695, height: 31.6338 },
-  mail: { src: '/images/contact/mail.svg', width: 31.6338, height: 27.2198 },
-  phone: { src: '/images/contact/headphones.svg', width: 31.6338, height: 27.2204 },
+  location: { src: '/images/contact/location-v2.svg', width: 56, height: 56 },
+  mail: { src: '/images/contact/mail-v2.svg', width: 56, height: 56 },
+  phone: { src: '/images/contact/headphones-v2.svg', width: 56, height: 56 },
 };
 
 const DEFAULT_DETAILS: ContactDetail[] = [
@@ -53,8 +53,10 @@ const DEFAULT_DETAILS: ContactDetail[] = [
 ];
 
 /**
- * Contact inquiry band (Figma 2219:1584). Copy and contact rows are props so a
- * later CMS section can supply them. There is no matching section type yet.
+ * Contact inquiry section (Figma 2448:6844).
+ * Layout: 2-column grid.
+ * Left: Heading ("Let's Start a <Conversation> About Your Mission."), description, and 3 contact pills.
+ * Right: Inquiry Form card + Submit CTA button.
  */
 export const ContactInquirySection: React.FC<ContactInquirySectionProps> = ({
   titleLead = 'Let’s Start a',
@@ -63,96 +65,108 @@ export const ContactInquirySection: React.FC<ContactInquirySectionProps> = ({
   description = 'Whether you are exploring a new requirement, discussing a contract opportunity, seeking a qualified delivery partner, or looking for career information, our team is ready to connect.',
   details = DEFAULT_DETAILS,
   options,
-  submitLabel,
+  submitLabel = 'Submit',
   statementHref,
-  statementLabel = 'Download SMC Capability Statement',
+  statementLabel,
 }) => (
   <Section
     aria-labelledby="contact-inquiry-heading"
     tone="surface"
     spacing="none"
     bleed
-    className="py-[clamp(2.5rem,4.167vw,5rem)]"
+    className="bg-white py-[clamp(2.5rem,5.2vw,6.25rem)]"
   >
     <Container>
-      {/* #F2F8FD and the 25px radius are local to this frame. */}
-      <div className="rounded-[1.592rem] border-2 border-ink bg-[#f2f8fd] px-[clamp(1.25rem,4.635vw,5.5625rem)] py-[clamp(2rem,3.385vw,4.0625rem)]">
-        {/* Title column sizes to the three lines. The form uses the space that remains. */}
-        <div className="grid items-start gap-10 min-[72rem]:grid-cols-[max-content_minmax(16rem,44rem)] min-[72rem]:gap-x-10">
-          <div className="flex flex-col gap-10">
-            <div className="flex flex-col gap-5">
-              <Heading
-                id="contact-inquiry-heading"
-                level={2}
-                size="hero"
-                tone="ink"
-                className="tracking-normal min-[72rem]:w-max min-[72rem]:whitespace-nowrap"
-                style={{ lineHeight: 1.2 }}
-              >
-                {titleLead}
-                <br />
-                <span className="text-brand-red">{titleAccent}</span>
-                <br />
-                {titleClose}
-              </Heading>
-              {description ? (
-                <p className="max-w-[50.4375rem] font-sans text-body-lg font-normal text-ink">
-                  {stripHtml(description)}
-                </p>
-              ) : null}
-            </div>
-
-            <ul className="flex flex-col gap-10">
-              {details.map((detail) => {
-                const icon = DETAIL_ICONS[detail.icon];
-                const value = detail.href ? (
-                  <a
-                    href={detail.href}
-                    className="font-sans text-body-lg font-light text-ink underline decoration-ink/40 underline-offset-4 hover:decoration-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-navy"
-                  >
-                    {detail.value}
-                  </a>
-                ) : (
-                  <p className="font-sans text-body-lg font-light text-ink">{detail.value}</p>
-                );
-
-                return (
-                  <li key={detail.label} className="flex flex-col gap-2">
-                    <div className="flex items-center gap-3">
-                      <span className="inline-flex size-9 shrink-0 items-center justify-center">
-                        <img src={icon.src} alt="" width={icon.width} height={icon.height} />
-                      </span>
-                      <p className="font-serif text-card-copy text-ink">{detail.label}</p>
-                    </div>
-                    {value}
-                  </li>
-                );
-              })}
-            </ul>
+      <div className="grid items-start gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,44rem)] lg:gap-16 xl:gap-24">
+        {/* Left Column: Heading + Description + 3 Contact Pills */}
+        <div className="flex flex-col gap-8 md:gap-10">
+          <div className="flex flex-col gap-5 md:gap-6">
+            <Heading
+              id="contact-inquiry-heading"
+              level={2}
+              tone="ink"
+              className="font-serif text-[clamp(2.5rem,4.6875vw,5.625rem)] font-normal tracking-normal text-ink"
+              style={{ lineHeight: '120%' }}
+            >
+              {titleLead}
+              <br />
+              <span className="text-[#F01424]">{titleAccent}</span>
+              <br />
+              {titleClose}
+            </Heading>
+            {description ? (
+              <p className="max-w-[40.625rem] font-sans text-[clamp(1rem,1.15vw,1.25rem)] font-normal leading-relaxed text-ink/90">
+                {stripHtml(description)}
+              </p>
+            ) : null}
           </div>
 
+          {/* 3 Contact Pills matching Figma node 2448:6844 */}
+          <ul className="flex flex-col gap-5 max-w-[40.625rem]">
+            {details.map((detail) => {
+              const icon = DETAIL_ICONS[detail.icon];
+              const valueContent = detail.href ? (
+                <a
+                  href={detail.href}
+                  className="font-sans text-[1.125rem] font-normal text-ink transition-colors hover:text-brand-navy focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-navy"
+                >
+                  {detail.value}
+                </a>
+              ) : (
+                <span className="font-sans text-[1.125rem] font-normal text-ink">{detail.value}</span>
+              );
+
+              return (
+                <li
+                  key={detail.label}
+                  className="flex items-center gap-5 rounded-[15.5px] border border-[#E0E0E0] bg-[#E4EBF1]/50 px-6 py-4 shadow-[0_0_15px_rgba(0,0,0,0.09)] transition-transform duration-200 hover:shadow-md"
+                >
+                  <div className="relative flex size-14 shrink-0 items-center justify-center">
+                    <img
+                      src={icon.src}
+                      alt={detail.label}
+                      width={icon.width}
+                      height={icon.height}
+                      className="size-14 shrink-0 drop-shadow-[0_0_11px_rgba(0,0,0,0.29)]"
+                    />
+                  </div>
+                  <div className="flex flex-col justify-center">
+                    <h3 className="font-serif text-[1.25rem] font-medium leading-snug text-ink">{detail.label}</h3>
+                    {valueContent}
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+
+        {/* Right Column: Inquiry Form */}
+        <div className="flex justify-center lg:justify-end">
           <ContactInquiryForm options={options} submitLabel={submitLabel} />
         </div>
       </div>
-      <div className="mt-[clamp(1.5rem,3.125vw,3.75rem)] flex justify-center">
-        {statementHref ? (
-          <a
-            href={statementHref}
-            className="inline-flex min-h-[3.75rem] w-full max-w-[70.625rem] cursor-pointer items-center justify-center gap-3 rounded-[0.875rem] bg-cta-gradient px-6 py-3 text-center font-sans text-[clamp(0.875rem,1.25vw,1.5rem)] font-bold leading-[1.5] text-white uppercase shadow-button transition-opacity duration-200 hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-navy"
-          >
-            {statementLabel}
-            <ArrowUpRightIcon className="size-6 shrink-0" />
-          </a>
-        ) : (
-          <button
-            type="button"
-            className="inline-flex min-h-[3.75rem] w-full max-w-[70.625rem] cursor-pointer items-center justify-center gap-3 rounded-[0.875rem] bg-cta-gradient px-6 py-3 text-center font-sans text-[clamp(0.875rem,1.25vw,1.5rem)] font-bold leading-[1.5] text-white uppercase shadow-button transition-opacity duration-200 hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-navy"
-          >
-            {statementLabel}
-            <ArrowUpRightIcon className="size-6 shrink-0" />
-          </button>
-        )}
-      </div>
+
+      {statementLabel ? (
+        <div className="mt-12 flex justify-center">
+          {statementHref ? (
+            <a
+              href={statementHref}
+              className="inline-flex min-h-[3.75rem] w-full max-w-[44rem] cursor-pointer items-center justify-center gap-3 rounded-[8px] bg-cta-gradient px-6 py-3 text-center font-sans text-[1.125rem] font-bold text-white uppercase shadow-button transition-opacity duration-200 hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-navy"
+            >
+              {statementLabel}
+              <ArrowUpRightIcon className="size-5 shrink-0" />
+            </a>
+          ) : (
+            <button
+              type="button"
+              className="inline-flex min-h-[3.75rem] w-full max-w-[44rem] cursor-pointer items-center justify-center gap-3 rounded-[8px] bg-cta-gradient px-6 py-3 text-center font-sans text-[1.125rem] font-bold text-white uppercase shadow-button transition-opacity duration-200 hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-navy"
+            >
+              {statementLabel}
+              <ArrowUpRightIcon className="size-5 shrink-0" />
+            </button>
+          )}
+        </div>
+      ) : null}
     </Container>
   </Section>
 );
