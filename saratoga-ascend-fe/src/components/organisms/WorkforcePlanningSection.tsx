@@ -388,6 +388,12 @@ export function WorkforcePlanningSection({
         className="relative mx-auto hidden w-full min-w-0 max-w-[1680px] items-center xl:grid xl:grid-cols-[minmax(0,1fr)_minmax(16rem,26.375rem)_minmax(0,1fr)] xl:[column-gap:calc(var(--orbit-ring-inset)*-1)]"
         style={{ '--orbit-ring-inset': 'clamp(0.96rem, 1.32vw, 1.59rem)' } as React.CSSProperties}
       >
+        {/* Central horizontal dashed line matching Figma reference */}
+        <div
+          className="pointer-events-none absolute left-0 right-0 top-1/2 z-0 -translate-y-1/2 border-t-2 border-dashed border-[#2B88D9]"
+          aria-hidden="true"
+        />
+
         {/* Vertical gap Figma: 589 − 259 − 241 ≈ 89px */}
         <div className="relative z-10 flex min-w-0 flex-col justify-center gap-8 xl:gap-[89px]">
           {leftCards.map((card) => (
