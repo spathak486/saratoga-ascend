@@ -315,7 +315,7 @@ export const TakeMissionSeriouslySection: React.FC<TakeMissionSeriouslySectionPr
         ) : null}
 
         {/* Single column through tablet; 3×2 from xl. Desktop card gap 40px. */}
-        <div className="grid w-full grid-cols-1 gap-5 sm:gap-6 xl:grid-cols-3 xl:gap-10">
+        <div className="grid w-full grid-cols-1 gap-5 sm:gap-6 md:grid-cols-2 2xl:grid-cols-3 xl:gap-6 2xl:gap-10">
           {cards.map((card, index) => {
             const iconUrl =
               typeof card.icon === 'string'
@@ -328,7 +328,7 @@ export const TakeMissionSeriouslySection: React.FC<TakeMissionSeriouslySectionPr
               /* Figma purpose card: #F4F9FD, border #95C3EC, radius 20, icon left + copy right */
               <article
                 key={card.id || `card-${index}`}
-                className="box-border flex w-full items-start gap-4 overflow-visible rounded-media border border-[#95C3EC] bg-[#F4F9FD] p-5 sm:gap-5 sm:p-6 xl:min-h-[184px] xl:items-center xl:gap-[23px] xl:py-10 xl:pl-10 xl:pr-5"
+                className="box-border flex w-full items-start gap-4 overflow-visible rounded-media border border-[#95C3EC] bg-[#F4F9FD] p-5 sm:gap-5 sm:p-6 min-h-[160px] xl:min-h-[184px] xl:items-center xl:gap-[18px] 2xl:gap-[23px] py-6 sm:py-8 xl:py-9 2xl:py-10 pl-6 sm:pl-8 xl:pl-8 2xl:pl-10 pr-5"
               >
                 <div className="flex size-16 shrink-0 items-center justify-center overflow-hidden rounded-[13px] border border-black bg-[#95C3EC] sm:size-20 xl:size-[104px]" aria-hidden={iconUrl ? undefined : true}>
                   <CardIconRenderer
@@ -343,7 +343,7 @@ export const TakeMissionSeriouslySection: React.FC<TakeMissionSeriouslySectionPr
                   />
                 </div>
 
-                <div className="flex min-w-0 flex-1 flex-col justify-center gap-2 xl:max-w-[357px] xl:gap-2.5">
+                <div className="flex min-w-0 flex-1 flex-col justify-center gap-2 2xl:max-w-[357px] xl:gap-2.5">
                   <h3 className="font-serif text-[clamp(1.25rem,1.1rem+0.6vw,1.75rem)] font-normal leading-[1.3] text-black">
                     <span dangerouslySetInnerHTML={{ __html: cleanHeadingHtml(card.title) }} />
                   </h3>
