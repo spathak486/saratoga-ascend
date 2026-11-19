@@ -191,7 +191,7 @@ export const BuiltAroundMissionsSection: React.FC<BuiltAroundMissionsSectionProp
       <div className="relative z-10 w-full px-6 sm:px-10 lg:px-[clamp(2.5rem,6.25vw,7.5rem)]">
         <div className="flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-14 xl:gap-[clamp(3rem,6.3vw,7.56rem)]">
           {/* Left Column: Title, Description, Callout */}
-          <div className="w-full lg:w-[clamp(520px,49.47vw,950px)] flex flex-col justify-center">
+          <div className="w-full lg:flex-1 lg:max-w-[950px] flex flex-col justify-center">
             <h2 className="font-serif font-normal text-[clamp(2.25rem,3.75vw,4.5rem)] leading-[1.2] text-[#000000] tracking-tight mb-5 lg:mb-[clamp(1.5rem,1.8vw,2.25rem)] max-w-[878px]">
               {renderTitle()}
             </h2>
@@ -224,7 +224,7 @@ export const BuiltAroundMissionsSection: React.FC<BuiltAroundMissionsSectionProp
           </div>
 
           {/* Right Column: Stacked Cards */}
-          <div className="w-full lg:w-[clamp(380px,27.24vw,523px)] flex flex-col gap-[clamp(1rem,1.56vw,1.875rem)] shrink-0">
+          <div className="w-full lg:w-[clamp(340px,27.24vw,523px)] flex flex-col gap-[clamp(1rem,1.56vw,1.875rem)] shrink-0">
             {cards.map((card, idx) => {
               const cardNumber = card.number || `0${idx + 1}`;
               const isHighlighted = Boolean(card.isHighlighted);
@@ -232,7 +232,7 @@ export const BuiltAroundMissionsSection: React.FC<BuiltAroundMissionsSectionProp
               return (
                 <div
                   key={card.id || `card-${idx}`}
-                  className={`box-border relative flex items-center gap-4 sm:gap-6 p-6 sm:py-[clamp(1.5rem,1.77vw,2.125rem)] sm:px-[clamp(1.25rem,1.56vw,1.875rem)] w-full lg:w-[clamp(380px,26.82vw,515px)] min-h-[clamp(150px,10.05vw,193px)] rounded-[20px] border border-[#2B88D9] transition-all duration-300 hover:shadow-lg ${
+                  className={`box-border relative flex items-center gap-4 sm:gap-6 p-6 sm:py-[clamp(1.5rem,1.77vw,2.125rem)] sm:px-[clamp(1.25rem,1.56vw,1.875rem)] w-full min-h-[clamp(140px,10.05vw,193px)] rounded-[20px] border border-[#2B88D9] transition-all duration-300 hover:shadow-lg ${
                     isHighlighted
                       ? 'bg-[#2B88D9] text-white shadow-[0_8px_30px_rgba(43,136,217,0.28)]'
                       : 'bg-[#F3F9FF] text-[#212121] shadow-[0_4px_20px_rgba(43,136,217,0.06)]'

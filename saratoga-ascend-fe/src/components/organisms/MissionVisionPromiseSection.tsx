@@ -269,7 +269,7 @@ export const MissionVisionPromiseSection: React.FC<MissionVisionPromiseSectionPr
         </div>
 
         {/* Group 2085665691: The 3 Cards Container (1684px total width, 26px gap between 544px cards) */}
-        <div className="flex flex-col lg:flex-row items-stretch justify-between gap-6 lg:gap-[clamp(1rem,1.35vw,1.625rem)] w-full max-w-[1684px]">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-[clamp(1rem,1.35vw,1.625rem)] w-full max-w-[1684px]">
           {cards.map((card, index) => {
             const iconUrl =
               typeof card.icon === 'string'
@@ -294,7 +294,7 @@ export const MissionVisionPromiseSection: React.FC<MissionVisionPromiseSectionPr
                   backdropFilter: isCardHighlighted ? 'none' : 'blur(15.5px)',
                   WebkitBackdropFilter: isCardHighlighted ? 'none' : 'blur(15.5px)',
                 }}
-                className={`group relative flex min-w-0 flex-col items-center justify-between overflow-hidden text-center w-full lg:w-[clamp(440px,28.33vw,544px)] lg:h-[clamp(520px,30.83vw,592px)] py-[clamp(2rem,3.2vw,3.75rem)] px-[clamp(1.25rem,2.5vw,3.06rem)] border-2 border-[#2B88D9] rounded-[35px] cursor-pointer transition-all duration-300 ease-out select-none ${
+                className={`group relative flex min-w-0 flex-col items-center justify-between overflow-hidden text-center w-full min-h-[460px] lg:min-h-[520px] 2xl:min-h-[592px] py-[clamp(1.75rem,2.5vw,3.75rem)] px-[clamp(1.25rem,2vw,3.06rem)] border-2 border-[#2B88D9] rounded-[35px] cursor-pointer transition-all duration-300 ease-out select-none ${
                   isCardHighlighted
                     ? 'bg-[#2B88D9] text-white shadow-[0_22px_55px_rgba(43,136,217,0.38)] -translate-y-2'
                     : 'bg-[rgba(249,251,254,0.7)] text-black shadow-[0_10px_35px_rgba(43,136,217,0.08)] translate-y-0'
@@ -339,7 +339,7 @@ export const MissionVisionPromiseSection: React.FC<MissionVisionPromiseSectionPr
 
                 {/* Card Body: Figma Google Sans Flex, 24px, line-height: 160% (38px), text-align: center */}
                 <p
-                  className={`line-clamp-4 w-full min-w-0 break-words font-sans font-normal text-[clamp(0.95rem,1.25vw,1.5rem)] leading-[160%] text-center mt-2 lg:mt-4 transition-colors duration-300 ${
+                  className={`w-full min-w-0 break-words font-sans font-normal text-[clamp(0.95rem,0.85rem+0.4vw,1.5rem)] leading-[150%] text-center mt-2 lg:mt-4 transition-colors duration-300 ${
                     isCardHighlighted ? 'text-white' : 'text-black'
                   }`}
                 >
