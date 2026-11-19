@@ -109,18 +109,18 @@ export function ServiceLifecycleSection({
   return (
     <section
       aria-label={`${title || 'Healthcare Workforce Solutions'} ${subtitle || 'Across the Service Lifecycle'}`.trim()}
-      className="relative mx-auto flex w-full max-w-[1920px] flex-col items-center overflow-hidden bg-[#FAFAFA] px-6 py-12 sm:px-8 sm:py-14 xl:px-[120px] xl:py-[80px]"
+      className="relative mx-auto flex w-full max-w-[1920px] flex-col items-center overflow-hidden bg-[#FAFAFA] px-6 py-12 sm:px-8 sm:py-16 xl:px-[120px] xl:py-[100px]"
     >
-      <div className="mx-auto mb-8 flex w-full max-w-[1141px] flex-col items-center text-center xl:mb-10">
+      <div className="mx-auto mb-8 flex w-full max-w-[1141px] flex-col items-center text-center xl:mb-12">
         <h2
-          className="max-w-[1109px] font-serif text-[clamp(2.25rem,1.4rem+2.8vw,4.5rem)] font-normal leading-[1.15] tracking-tight text-[#F01424]"
+          className="max-w-[1109px] font-serif text-[clamp(2.5rem,1.8rem+2.8vw,72px)] font-normal leading-[1.15] tracking-[0%] text-[#F01424]"
           style={{ fontFamily: "'DM Serif Text', serif" }}
         >
           {stripHtml(title)}
         </h2>
         {subtitle ? (
           <h3
-            className="max-w-[1109px] font-serif text-[clamp(2rem,1.3rem+2.6vw,4.5rem)] font-normal leading-[1.15] tracking-tight text-[#000000]"
+            className="mt-1 max-w-[1109px] font-serif text-[clamp(2rem,1.5rem+2.5vw,64px)] font-normal leading-[1.15] tracking-[0%] text-[#000000]"
             style={{ fontFamily: "'DM Serif Text', serif" }}
           >
             {stripHtml(subtitle)}
@@ -128,7 +128,7 @@ export function ServiceLifecycleSection({
         ) : null}
         {description ? (
           <p
-            className="mt-6 max-w-[1141px] font-sans text-[clamp(1rem,0.92rem+0.35vw,1.5rem)] font-normal leading-[1.55] text-[#000000] xl:mt-8 xl:text-[24px] xl:leading-[40px]"
+            className="mt-5 max-w-[1141px] font-sans text-[clamp(1rem,0.92rem+0.35vw,1.25rem)] font-normal leading-[1.6] text-[#212121] xl:mt-6 xl:text-[20px] xl:leading-[32px]"
             style={{ fontFamily: "'Google Sans Flex', sans-serif" }}
           >
             {stripHtml(description)}
@@ -137,7 +137,7 @@ export function ServiceLifecycleSection({
       </div>
 
       <div className="mx-auto flex w-full max-w-[1680px] flex-col items-center">
-        <div className="mb-8 flex w-full flex-col items-center gap-4 sm:gap-5 xl:mb-10 xl:gap-[30px]">
+        <div className="mb-8 flex w-full flex-col items-center gap-3 sm:gap-4 xl:mb-12 xl:gap-[16px]">
           {[firstRow, secondRow].map((row, rowIndex) =>
             row.length > 0 ? (
               <div
@@ -152,10 +152,10 @@ export function ServiceLifecycleSection({
                       key={key}
                       type="button"
                       onClick={() => setActiveId(key)}
-                      className={`box-border flex h-auto min-h-[58px] max-w-full cursor-pointer items-center justify-center rounded-[18px] px-5 py-2 text-center text-[16px] font-semibold leading-7 text-[#2F2F2F] transition-[background-color,border-color,box-shadow] duration-300 ease-out focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#022542] motion-reduce:transition-none sm:h-[58px] sm:whitespace-nowrap sm:py-0 sm:text-[18px] xl:text-[22px] ${
+                      className={`box-border flex h-auto min-h-[52px] max-w-full cursor-pointer items-center justify-center rounded-[16px] px-6 py-2.5 text-center text-[16px] font-medium leading-none transition-all duration-300 ease-out focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#022542] motion-reduce:transition-none sm:h-[56px] sm:whitespace-nowrap sm:text-[18px] xl:text-[20px] ${
                         selected
-                          ? 'border border-[#95C3EC] bg-[#F4F9FD] shadow-[0px_0px_4px_rgba(0,0,0,0.19)]'
-                          : 'border border-[#DAE5ED] bg-white hover:border-[#95C3EC] hover:bg-[#F9FBFE]'
+                          ? 'border-2 border-[#2B88D9] bg-[#EEF7FE] text-[#2B88D9] font-bold shadow-[0px_4px_12px_rgba(43,136,217,0.12)]'
+                          : 'border border-[#DAE5ED] bg-white text-[#2F2F2F] hover:border-[#95C3EC] hover:bg-[#F9FBFE]'
                       }`}
                       style={{ fontFamily: "'Google Sans Flex', sans-serif" }}
                     >
@@ -168,55 +168,57 @@ export function ServiceLifecycleSection({
           )}
         </div>
 
-        <div className="flex w-full flex-col justify-between rounded-[28px] border border-[#DAE5ED] bg-white p-5 shadow-[0px_4px_24px_rgba(0,0,0,0.04)] sm:p-8 xl:p-10">
-          <div className="flex w-full flex-col items-stretch justify-between gap-8 xl:flex-row xl:gap-[50px]">
-            <div className="flex w-full min-w-0 flex-1 flex-col justify-between">
-              <div className="mb-6 xl:mb-8">
+        <div className="flex w-full flex-col justify-between rounded-[clamp(1.25rem,1rem+0.8vw,1.75rem)] border border-[#DAE5ED] bg-white p-5 shadow-[0px_8px_30px_rgba(0,0,0,0.04)] sm:p-7 xl:p-[clamp(1.75rem,1.2rem+1vw,2.3125rem)]">
+          <div className="flex w-full flex-col items-start justify-between gap-8 xl:flex-row xl:gap-[clamp(1.5rem,1rem+1vw,2.4375rem)]">
+            {/* Left Content Column */}
+            <div className="flex w-full min-w-0 flex-1 flex-col">
+              <div className="mb-6 xl:mb-[clamp(1.25rem,1rem+0.5vw,1.75rem)]">
                 <h3
-                  className="font-serif text-[clamp(1.75rem,1.4rem+1vw,2.5rem)] font-normal leading-[34px] text-[#022542]"
+                  className="font-serif text-[clamp(1.75rem,1.3rem+1.2vw,2.5rem)] font-normal leading-[1.15] text-[#022542]"
                   style={{ fontFamily: "'DM Serif Text', serif" }}
                 >
                   {stripHtml(active.heading)}
                 </h3>
-                <span className="mt-3 mb-4 block h-px w-[174px] max-w-full bg-[#022542]" aria-hidden="true" />
+                <span className="mt-3 mb-4 block h-[1px] w-[10.9rem] max-w-full bg-[#022542]" aria-hidden="true" />
                 <p
-                  className="max-w-[891px] font-sans text-[16px] font-normal leading-[26px] text-[#000000] sm:text-[20px] sm:leading-[30px] xl:text-[24px] xl:leading-[34px]"
+                  className="max-w-[55.6875rem] font-sans text-[clamp(1rem,0.85rem+0.4vw,1.5rem)] font-normal leading-[1.45] text-[#000000]"
                   style={{ fontFamily: "'Google Sans Flex', sans-serif" }}
                 >
                   {stripHtml(active.subheading)}
                 </p>
               </div>
-              <div className="mb-4 flex items-center gap-2 xl:mb-6">
-                <span className="h-6 w-1.5 rounded-[6px] bg-[#006CAF]" />
+              <div className="mb-4 flex items-center gap-2 xl:mb-[clamp(0.875rem,0.75rem+0.25vw,1rem)]">
+                <span className="h-[1.4375rem] w-[0.375rem] rounded-[6px] bg-[#006CAF]" />
                 <h4
-                  className="font-sans text-[18px] font-semibold leading-[28px] text-[#000000] sm:text-[20px] xl:text-[22px]"
+                  className="font-sans text-[clamp(1.125rem,0.95rem+0.35vw,1.375rem)] font-semibold leading-[1.3] text-[#000000]"
                   style={{ fontFamily: "'Google Sans Flex', sans-serif" }}
                 >
                   {stripHtml(active.categoriesLabel) || 'Workforce categories'}
                 </h4>
               </div>
-              <div className="grid w-full grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 xl:gap-[16px]">
+              {/* Figma node 2633:9041 — Grid: col gap 14px, row gap 14px, width 440px each card */}
+              <div className="grid w-full grid-cols-1 gap-3.5 sm:grid-cols-2 xl:gap-[0.875rem]">
                 {categories.map((category, index) => (
                   <div
                     key={category.documentId || category.id || `cat-${index}`}
-                    className="box-border flex min-h-[7.5rem] flex-col gap-1.5 rounded-[16px] border border-[#D7E2EB] bg-[#F2F7FA] p-4 transition-[border-color] duration-200 ease-out hover:border-[#95C3EC] motion-reduce:transition-none sm:p-5 xl:min-h-[8.75rem]"
+                    className="box-border flex min-h-[9.875rem] flex-col justify-start rounded-[1rem] border border-[#D7E2EB] bg-[#F2F7FA] p-4.5 transition-[border-color] duration-200 ease-out hover:border-[#95C3EC] motion-reduce:transition-none sm:p-5 xl:p-[clamp(1rem,0.85rem+0.3vw,1.25rem)]"
                   >
-                    <div className="flex items-start gap-2">
+                    <div className="flex items-start gap-2.5">
                       <span
-                        className="shrink-0 font-sans text-[18px] font-semibold leading-7 text-[#2B88D9] xl:text-[22px]"
+                        className="shrink-0 font-sans text-[clamp(1.125rem,0.95rem+0.35vw,1.375rem)] font-semibold leading-[1.3] text-[#2B88D9]"
                         style={{ fontFamily: "'Google Sans Flex', sans-serif" }}
                       >
-                        {category.number || `0${index + 1}`}
+                        {category.number || (index < 9 ? `0${index + 1}` : `${index + 1}`)}
                       </span>
                       <h5
-                        className="font-sans text-[18px] font-semibold leading-7 text-[#2B88D9] xl:text-[22px]"
+                        className="font-sans text-[clamp(1.125rem,0.95rem+0.35vw,1.375rem)] font-semibold leading-[1.3] text-[#2B88D9]"
                         style={{ fontFamily: "'Google Sans Flex', sans-serif" }}
                       >
                         {stripHtml(category.title)}
                       </h5>
                     </div>
                     <p
-                      className="pl-7 font-sans text-[14px] font-normal leading-snug text-[#000000] sm:text-[16px] xl:text-[20px] xl:leading-normal"
+                      className="mt-2.5 font-sans text-[clamp(0.875rem,0.78rem+0.3vw,1.25rem)] font-normal leading-[1.35] text-[#000000]"
                       style={{ fontFamily: "'Google Sans Flex', sans-serif" }}
                     >
                       {stripHtml(category.description)}
@@ -226,30 +228,36 @@ export function ServiceLifecycleSection({
               </div>
             </div>
 
-            <div className="relative flex min-h-[460px] w-full min-w-0 flex-1 flex-col justify-end overflow-hidden rounded-[20px] border border-[#006CAF] p-4 sm:min-h-[520px] sm:p-6 xl:min-h-[640px] xl:p-[20px]">
+            {/* Right Showcase Card: exact Figma node 2633:9082 (w=670px, h=760px, rounded=20px, border=1px #006CAF) */}
+            <div className="relative flex min-h-[28.75rem] w-full min-w-0 flex-1 flex-col justify-end overflow-hidden rounded-[1.25rem] border border-[#006CAF] p-3 sm:min-h-[32.5rem] sm:p-4 xl:sticky xl:top-24 xl:h-[47.5rem] xl:min-h-[47.5rem] xl:w-[min(41.875rem,45%)] xl:max-w-[41.875rem] xl:shrink-0 xl:p-[0.875rem] 2xl:w-[41.875rem]">
               {imageSrc ? (
-                <img src={imageSrc} alt={active.heading || active.label} className="absolute inset-0 z-0 h-full w-full object-cover" />
+                <img
+                  src={imageSrc}
+                  alt={active.heading || active.label}
+                  className="absolute inset-0 z-0 h-full w-full object-cover object-center"
+                />
               ) : null}
-              <div className="relative z-10 w-full rounded-[20px] border border-[#006CAF] bg-white/80 p-5 backdrop-blur-[7px] sm:p-6 xl:p-[24px]">
-                <div className="mb-4 flex items-center gap-2">
-                  <span className="h-6 w-1.5 rounded-[6px] bg-[#006CAF]" />
+              {/* Floating Support Areas Badge: exact Figma node 2633:9084 (w=642px, h=222px, rounded=20px, bg white/80, blur 14px) */}
+              <div className="relative z-10 w-full rounded-[1.25rem] border border-[#006CAF] bg-white/80 p-4.5 backdrop-blur-[14px] sm:p-5 xl:h-[13.875rem] xl:w-full xl:max-w-[40.125rem] xl:p-[clamp(1rem,0.85rem+0.4vw,1.5rem)]">
+                <div className="mb-3.5 flex items-center gap-2 xl:mb-4">
+                  <span className="h-[1.4375rem] w-[0.375rem] rounded-[6px] bg-[#006CAF]" />
                   <h4
-                    className="font-sans text-[18px] font-semibold leading-[28px] text-[#000000] sm:text-[20px] xl:text-[22px]"
+                    className="font-sans text-[clamp(1.125rem,0.95rem+0.35vw,1.375rem)] font-semibold leading-[1.3] text-[#000000]"
                     style={{ fontFamily: "'Google Sans Flex', sans-serif" }}
                   >
                     {stripHtml(active.supportAreasLabel) || 'Support areas'}
                   </h4>
                 </div>
-                <div className="grid grid-cols-1 gap-x-4 gap-y-3 sm:grid-cols-2">
+                <div className="grid grid-cols-1 gap-x-4 gap-y-2.5 sm:grid-cols-2 xl:gap-y-3">
                   {supportAreas.map((area, index) => (
                     <div key={`${stripHtml(area)}-${index}`} className="flex items-center gap-2.5">
-                      <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#006CAF] xl:h-[22px] xl:w-[22px]">
+                      <span className="flex size-[1.25rem] shrink-0 items-center justify-center rounded-full bg-[#006CAF] xl:size-[1.375rem]">
                         <svg className="h-3 w-3 text-white" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2.5">
                           <path d="M3.5 8.5L6.5 11.5L12.5 4.5" strokeLinecap="round" strokeLinejoin="round" />
                         </svg>
                       </span>
                       <span
-                        className="font-sans text-[13px] font-normal leading-[18px] text-[#000000] sm:text-[14px]"
+                        className="font-sans text-[clamp(0.8125rem,0.75rem+0.15vw,0.875rem)] font-normal leading-[1.3] text-[#000000]"
                         style={{ fontFamily: "'Google Sans Flex', sans-serif" }}
                       >
                         {area}

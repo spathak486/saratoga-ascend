@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useEffect, useId, useRef, useState } from 'react';
-import { Button } from '../atoms';
 import { ArrowUpRightIcon } from '../atoms/icons';
 
 export const CONTACT_INQUIRY_OPTIONS = [
@@ -26,13 +25,9 @@ type SubmitState =
   | { status: 'error'; message: string };
 
 const controlClass =
-  'w-full border-0 border-b border-brand-line bg-transparent pb-2 font-sans text-body font-light text-ink placeholder:font-light placeholder:text-slate-muted focus:border-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-navy disabled:opacity-60';
+  'w-full border-0 border-b-[1.91px] border-[#DADADA] bg-transparent pb-2.5 font-sans text-[1.125rem] font-light text-ink placeholder:font-light placeholder:text-[#B8B8B8] focus:border-ink focus-visible:outline-none disabled:opacity-60 transition-colors';
 
-/** 20px serif labels are local to this frame. No type token is 20px at every width. */
-const labelClass = 'font-serif text-[1.25rem] leading-normal text-ink';
-
-/** 25px radius, local to Figma 2219:1584. The shared panel token is 32px. */
-const cardRadius = 'rounded-[1.592rem]';
+const labelClass = 'font-sans text-[1.25rem] font-medium leading-normal text-ink';
 
 function InquiryTypeSelect({
   id,
@@ -83,57 +78,50 @@ function InquiryTypeSelect({
         aria-controls={listId}
         onClick={() => setOpen((prev) => !prev)}
         className={`${controlClass} flex appearance-none items-center justify-between gap-3 pr-8 text-left ${
-          value ? '' : 'text-slate-muted'
+          value ? 'text-ink' : 'text-[#B8B8B8]'
         }`}
       >
         <span className="min-w-0 truncate">{value || 'Select Inquiry Type'}</span>
       </button>
-      <img
-        src="/images/contact/caret.svg"
-        alt=""
-        width={13.5}
-        height={7.5}
+      <svg
+        width="14"
+        height="8"
+        viewBox="0 0 14 8"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
         className={`pointer-events-none absolute right-1 bottom-3 transition-transform duration-150 ${open ? 'rotate-180' : ''}`}
-      />
+      >
+        <path d="M1 1.5L7 7.5L13 1.5" stroke="black" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
       {open ? (
         <ul
           id={listId}
           role="listbox"
-          aria-labelledby={id}
-          className="absolute inset-x-0 top-[calc(100%+0.25rem)] z-50 max-h-60 overflow-y-auto rounded-frame border border-brand-line bg-white py-1 shadow-button"
+          tabIndex={-1}
+          className="absolute z-20 mt-2 max-h-60 w-full overflow-auto rounded-xl border border-brand-line bg-white py-2 shadow-card focus:outline-none"
         >
-          {options.map((option) => {
-            const selected = option === value;
-            return (
-              <li key={option} role="presentation">
-                <button
-                  type="button"
-                  role="option"
-                  aria-selected={selected}
-                  className={`w-full px-4 py-2.5 text-left font-sans text-body font-light text-ink transition-colors hover:bg-brand-surface-muted focus-visible:bg-brand-surface-muted focus-visible:outline-none ${
-                    selected ? 'bg-brand-surface-muted' : ''
-                  }`}
-                  onClick={() => {
-                    onChange(option);
-                    setOpen(false);
-                  }}
-                >
-                  {option}
-                </button>
-              </li>
-            );
-          })}
+          {options.map((option) => (
+            <li
+              key={option}
+              role="option"
+              aria-selected={value === option}
+              onClick={() => {
+                onChange(option);
+                setOpen(false);
+              }}
+              className={`cursor-pointer px-4 py-2 font-sans text-body transition-colors hover:bg-brand-surface ${
+                value === option ? 'bg-brand-surface font-medium text-brand-navy' : 'text-ink'
+              }`}
+            >
+              {option}
+            </li>
+          ))}
         </ul>
       ) : null}
     </div>
   );
 }
 
-/**
- * Contact inquiry fields from Figma 2219:1584. The live submission endpoint
- * stores name, email, and source only, so first and last name are joined into
- * `name` and sent with source `contact`.
- */
 export const ContactInquiryForm: React.FC<ContactInquiryFormProps> = ({
   options = CONTACT_INQUIRY_OPTIONS,
   submitLabel = 'Submit',
@@ -146,7 +134,7 @@ export const ContactInquiryForm: React.FC<ContactInquiryFormProps> = ({
   const organizationId = useId();
   const descriptionId = useId();
 
-  const [inquiryType, setInquiryType] = useState('');
+  const [inquiryType, setInquiryType] = useState<string>('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
@@ -154,8 +142,14 @@ export const ContactInquiryForm: React.FC<ContactInquiryFormProps> = ({
   const [description, setDescription] = useState('');
   const [state, setState] = useState<SubmitState>({ status: 'idle' });
 
-  const handleSubmit = async (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    if (!inquiryType) {
+      setState({ status: 'error', message: 'Please select an inquiry type.' });
+      return;
+    }
+
     setState({ status: 'submitting' });
 
     try {
@@ -194,7 +188,7 @@ export const ContactInquiryForm: React.FC<ContactInquiryFormProps> = ({
 
   if (state.status === 'success') {
     return (
-      <div role="status" className={`${cardRadius} border-2 border-ink/50 bg-white p-[clamp(1.25rem,2.66vw,3.1875rem)] ${className}`.trim()}>
+      <div role="status" className={`rounded-[25.5px] border-2 border-[#212121]/50 bg-white p-[clamp(1.5rem,3.125vw,3.1875rem)] ${className}`.trim()}>
         <p className="font-serif text-subtitle text-ink">Thank you{firstName ? `, ${firstName}` : ''}.</p>
         <p className="mt-3 font-sans text-body-lg font-light text-ink">
           Your details have been received. Our team will get back to you shortly.
@@ -204,11 +198,12 @@ export const ContactInquiryForm: React.FC<ContactInquiryFormProps> = ({
   }
 
   return (
-    <form className={`flex flex-col gap-[1.875rem] ${className}`.trim()} onSubmit={handleSubmit}>
-      <div className={`flex flex-col gap-9 border-2 border-ink/50 bg-white p-[clamp(1.25rem,2.66vw,3.1875rem)] ${cardRadius}`}>
-        <div className="flex flex-col gap-2">
+    <form className={`flex flex-col gap-[1.875rem] w-full max-w-[44rem] ${className}`.trim()} onSubmit={handleSubmit}>
+      {/* Form Card: Figma node 2448:6844 rect w:704px h:776px, rounded 25.5px, border 2px #212121/50, bg white */}
+      <div className="flex flex-col gap-8 rounded-[25.5px] border-2 border-[#212121]/50 bg-white px-[clamp(1.25rem,3.1875vw,3.1875rem)] py-[clamp(1.5rem,3.25vw,3.25rem)] shadow-sm">
+        <div className="flex flex-col gap-1.5">
           <label htmlFor={inquiryId} className={labelClass}>
-            Inquiry Type<span className="text-brand-red">*</span>
+            Inquiry Type<span className="text-[#CD1C1C]">*</span>
           </label>
           <InquiryTypeSelect
             id={inquiryId}
@@ -221,9 +216,9 @@ export const ContactInquiryForm: React.FC<ContactInquiryFormProps> = ({
           />
         </div>
 
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-1.5">
           <label htmlFor={firstNameId} className={labelClass}>
-            First Name<span className="text-brand-red">*</span>
+            First Name<span className="text-[#CD1C1C]">*</span>
           </label>
           <input
             id={firstNameId}
@@ -239,9 +234,9 @@ export const ContactInquiryForm: React.FC<ContactInquiryFormProps> = ({
           />
         </div>
 
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-1.5">
           <label htmlFor={lastNameId} className={labelClass}>
-            Last Name<span className="text-brand-red">*</span>
+            Last Name<span className="text-[#CD1C1C]">*</span>
           </label>
           <input
             id={lastNameId}
@@ -257,9 +252,9 @@ export const ContactInquiryForm: React.FC<ContactInquiryFormProps> = ({
           />
         </div>
 
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-1.5">
           <label htmlFor={emailId} className={labelClass}>
-            Business Email<span className="text-brand-red">*</span>
+            Business Email<span className="text-[#CD1C1C]">*</span>
           </label>
           <input
             id={emailId}
@@ -275,9 +270,9 @@ export const ContactInquiryForm: React.FC<ContactInquiryFormProps> = ({
           />
         </div>
 
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-1.5">
           <label htmlFor={organizationId} className={labelClass}>
-            Organization<span className="text-brand-red">*</span>
+            Organization<span className="text-[#CD1C1C]">*</span>
           </label>
           <input
             id={organizationId}
@@ -293,7 +288,7 @@ export const ContactInquiryForm: React.FC<ContactInquiryFormProps> = ({
           />
         </div>
 
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-1.5">
           <label htmlFor={descriptionId} className={labelClass}>
             Description
           </label>
@@ -305,27 +300,26 @@ export const ContactInquiryForm: React.FC<ContactInquiryFormProps> = ({
             placeholder="Tell us about your requirements."
             value={description}
             onChange={(event) => setDescription(event.target.value)}
-            className={`${controlClass} min-h-[6.5rem] resize-y`}
+            className={`${controlClass} min-h-[4.5rem] resize-y`}
           />
         </div>
       </div>
 
       {state.status === 'error' ? (
-        <p role="alert" className="font-sans text-body text-brand-red">
+        <p role="alert" className="font-sans text-body text-[#CD1C1C]">
           {state.message}
         </p>
       ) : null}
 
-      <Button
+      {/* Submit Button: Figma node 2448:6844 rect w:704px h:60px, rounded 8px, gradient #D31E2D to #2A91DC */}
+      <button
         type="submit"
-        variant="cta"
-        size="cta"
-        fullWidth
-        isLoading={state.status === 'submitting'}
-        rightIcon={<ArrowUpRightIcon className="size-[1.2em]" />}
+        disabled={state.status === 'submitting'}
+        className="group flex h-[3.75rem] w-full items-center justify-center gap-3 rounded-[8px] bg-cta-gradient px-6 py-4 font-sans text-[1.125rem] font-bold text-white shadow-[0_1px_2px_rgba(16,24,40,0.05)] transition-opacity duration-200 hover:opacity-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2B88D9] disabled:opacity-60 cursor-pointer"
       >
-        {state.status === 'submitting' ? 'Submitting...' : submitLabel}
-      </Button>
+        <span>{state.status === 'submitting' ? 'Submitting...' : submitLabel}</span>
+        <ArrowUpRightIcon className="size-5 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+      </button>
     </form>
   );
 };

@@ -41,7 +41,7 @@ export const SupportingMissionSection: React.FC<SupportingMissionSectionProps> =
   return (
     <section
       aria-label="Supporting the Missions"
-      className="relative my-0 flex w-full items-center justify-center overflow-hidden bg-white py-10 sm:py-12 lg:h-[clamp(680px,44.375vw,852px)] lg:py-0"
+      className="relative flex w-full items-center justify-center overflow-hidden bg-white py-10 sm:py-12 my-12 sm:my-16 lg:my-20 lg:h-[clamp(680px,44.375vw,852px)] lg:py-0"
     >
       {/* Background Gradient Bar (Figma Rectangle 40130: 1921px x 713px, top: 1049px / centered vertically) */}
       <div
