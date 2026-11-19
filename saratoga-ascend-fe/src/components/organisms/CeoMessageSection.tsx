@@ -2,7 +2,6 @@
 
 import React from 'react';
 import Image from 'next/image';
-import { Section } from '../atoms';
 
 export interface CeoMessageSectionProps {
   title?: string;
@@ -19,12 +18,6 @@ const DEFAULT_HIGHLIGHT = 'Our CEO';
 const DEFAULT_AUTHOR_NAME = 'Jenny Wilson';
 const DEFAULT_AUTHOR_ROLE = 'CEO of Saratoga Ascend';
 const DEFAULT_IMAGE_SRC = '/images/ceo-portrait.jpg';
-
-const DEFAULT_PARAGRAPHS = [
-  'For more than 40 years, Saratoga has been defined by trust- built through consistency, integrity, and delivery in environments where precision and accountability matter.',
-  'Carrying this legacy forward has been both a responsibility and a privilege. Over the years, Saratoga has evolved alongside the missions we support, adapting to rising complexity while remaining anchored in the values that shaped us from the beginning.',
-  'Saratoga Ascend represents that evolution. Not a reinvention, but a purposeful expansion – strengthening our ability to deliver integrated, mission-ready healthcare and operational solutions without compromising the standards that define us.',
-];
 
 function renderHeading(title?: string, highlight?: string) {
   const rawTitle = title?.trim() || '';
@@ -68,7 +61,6 @@ function renderHeading(title?: string, highlight?: string) {
     );
   }
 
-  // If highlight is separate from title (e.g. title: "Message from", highlight: "Our CEO")
   return (
     <h2 className="font-serif text-[clamp(2.5rem,1.8rem+3vw,4.5rem)] font-normal leading-[1.15] text-[#000000] tracking-[-0.01em]">
       <span>{rawTitle} </span>
@@ -130,8 +122,8 @@ export const CeoMessageSection: React.FC<CeoMessageSectionProps> = ({
         aria-hidden="true"
       />
 
-      {/* Main: stack on mobile/tablet; fixed desktop height matches Figma 556:1898 (838px) */}
-      <div className="relative z-10 mx-auto flex w-full max-w-[1920px] flex-col overflow-hidden lg:h-[720px] lg:flex-row lg:items-center xl:h-[780px] 2xl:h-[838px]">
+      {/* Main: stack on mobile/tablet; desktop height */}
+      <div className="relative z-10 mx-auto flex w-full max-w-[1920px] flex-col overflow-hidden lg:min-h-[720px] lg:flex-row lg:items-center xl:min-h-[780px] 2xl:h-[838px]">
         {/* Left Content Area (Figma Group 2085665634: left 135px, top 87px) */}
         <div className="relative z-10 flex w-full flex-col justify-start px-5 pb-6 pt-10 sm:px-8 md:px-10 lg:max-w-[50vw] lg:min-h-[546px] lg:px-[6vw] lg:pb-10 lg:pt-14 2xl:max-w-[927px] 2xl:pl-[135px] 2xl:pr-4 2xl:pt-[87px]">
           {title && (
@@ -165,23 +157,25 @@ export const CeoMessageSection: React.FC<CeoMessageSectionProps> = ({
 
         {/* Desktop portraits — Figma left 1015 / watermark 1302 */}
         <div className="pointer-events-none absolute inset-0 z-0 hidden overflow-visible select-none lg:block">
+          
+          {/* Black and white 1 (Figma node 2463:4671): width 618px, height 838px, left 1302px, top 0px, opacity 0.4 */}
           <div
-            className="absolute top-0 right-0 bottom-0 z-[1] aspect-[618/838] h-full opacity-40 grayscale contrast-125 2xl:right-auto 2xl:left-[1302px] 2xl:w-[618px]"
+            className="absolute top-0 z-[1] opacity-40 grayscale contrast-125 overflow-hidden right-0 w-[clamp(380px,32vw,618px)] h-full 2xl:right-auto 2xl:left-[1302px] 2xl:w-[618px] 2xl:h-[838px]"
+            style={{
+              opacity: 0.4,
+              transform: 'rotate(0deg)',
+            }}
             aria-hidden="true"
           >
-            <Image
+            <img
               src={wmSrc}
               alt=""
-              fill
-              sizes="(max-width: 1536px) 560px, 618px"
-              className="object-cover object-bottom"
-              priority
-              unoptimized
-              onError={() => setWmSrc(DEFAULT_IMAGE_SRC)}
+              className="absolute h-[156.13%] left-[-0.02%] max-w-none top-[0.36%] w-[145.68%] object-cover pointer-events-none select-none"
             />
           </div>
 
-          <div className="absolute top-0 right-[10vw] bottom-0 z-[2] aspect-[717/838] h-full xl:right-[12vw] 2xl:right-auto 2xl:left-[1015px] 2xl:w-[717px]">
+          {/* Foreground Portrait */}
+          <div className="absolute top-0 right-[6vw] xl:right-[8vw] 2xl:right-auto 2xl:left-[1015px] bottom-0 z-[2] aspect-[717/838] h-full 2xl:w-[717px]">
             <Image
               src={imgSrc}
               alt={`${authorName} - ${authorRole}`}
@@ -229,3 +223,5 @@ export const CeoMessageSection: React.FC<CeoMessageSectionProps> = ({
     </section>
   );
 };
+
+export default CeoMessageSection;

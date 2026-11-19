@@ -291,6 +291,15 @@ html {
   color-scheme: light;
 }
 
+/* 125% screen scaling (typically 1200px - 1600px viewport on 1080p/laptops):
+   Proportionally balances rem down to 87.5% (14px) so extensive content & headings
+   fit naturally without clipping or crowding cards */
+@media (min-width: 1200px) and (max-width: 1600px) {
+  html {
+    font-size: 87.5%;
+  }
+}
+
 body {
   background-color: var(--color-brand-surface);
   color: var(--color-brand-navy);
