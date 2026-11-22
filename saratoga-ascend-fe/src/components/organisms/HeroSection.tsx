@@ -544,7 +544,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
     return (
       <section
         aria-labelledby="workforce-cta-heading"
-        className="relative mx-auto w-full max-w-[1920px] overflow-hidden bg-[#f4f8fc]"
+        className="relative mx-auto w-full max-w-[120rem] overflow-hidden bg-[#f4f8fc]"
       >
         {/*
           Figma 1:712 is 1920×640. From xl the band keeps that ratio so the
@@ -664,7 +664,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             aria-label={mediaAlt || undefined}
             aria-hidden={mediaAlt ? undefined : true}
           />
-          <div className="relative z-10 mx-auto flex w-full min-w-0 max-w-[1680px] flex-col items-start gap-6 md:gap-8 xl:gap-10">
+          <div className="relative z-10 mx-auto flex w-full min-w-0 max-w-[105rem] flex-col items-start gap-6 md:gap-8 xl:gap-10">
             {title ? (
               <Heading
                 id="service-hero-heading"
@@ -682,7 +682,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               </p>
             ) : null}
             {(ctaLabel && ctaHref) || (secondaryCtaLabel && secondaryCtaHref) ? (
-              <div className="flex w-full min-w-0 flex-col items-stretch gap-[8px]! sm:flex-row sm:flex-wrap sm:items-center sm:gap-3! xl:gap-[30px]!">
+              <div className="flex w-full min-w-0 flex-col items-stretch gap-[8px]! sm:flex-row sm:flex-wrap sm:items-center sm:gap-3! xl:gap-[1.875rem]!">
                 {ctaLabel && ctaHref ? (
                   <ServiceHeroButton href={ctaHref} tone="primary">
                     {ctaLabel}
@@ -731,21 +731,21 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0)_46.5%,#000000_106.95%)]" />
             </div>
 
-            {/* Mobile: 20px sides. Tablet: 80px. 1440+: 160px + vertically centered columns. */}
-            <div className="relative z-10 mx-auto flex w-full min-w-0 max-w-[83.625rem] flex-col gap-3 px-5 pt-5 pb-10 text-white sm:gap-4 md:px-20 xl:flex-row xl:items-stretch xl:gap-[clamp(1.25rem,3.375vw,3.375rem)] xl:pt-[clamp(2rem,6vw,4rem)] xl:pb-[clamp(2rem,3.5vw,3.75rem)] min-[90rem]:items-center min-[90rem]:px-[160px]">
+            {/* Figma Frame 2147226373: Auto layout, row, align-center, gap 54px (3.375rem), w 1338px (83.625rem), min-h 122.5px */}
+            <div className="relative z-10 mx-auto flex w-full min-w-0 max-w-[83.625rem] flex-col gap-5 px-5 pt-5 pb-10 text-white sm:gap-6 md:px-12 xl:flex-row xl:items-center xl:gap-[3.375rem] xl:px-0 xl:pt-[clamp(2rem,6vw,4rem)] xl:pb-[clamp(2.5rem,4vw,4.5rem)]">
               {title ? (
-                <h2 className="min-w-0 break-words font-serif text-feature text-white xl:max-w-[21.75rem] xl:basis-[min(100%,21.75rem)] xl:shrink-0">
+                <h2 className="min-w-0 break-words font-serif text-[2.25rem] sm:text-[2.75rem] md:text-[3.25rem] xl:text-[3.75rem] font-normal leading-[1.2] xl:leading-[4.5rem] text-white xl:w-[21.75rem] xl:shrink-0">
                   {title}
                 </h2>
               ) : null}
               {title && lede ? (
                 <div
-                  className="hidden w-0 shrink-0 self-stretch border-l-[3px] border-white xl:block"
+                  className="hidden h-[7.65625rem] w-0 shrink-0 border-l-[3px] border-white xl:block"
                   aria-hidden="true"
                 />
               ) : null}
               {lede ? (
-                <p className="line-clamp-4 min-w-0 break-words text-card-copy text-white xl:line-clamp-none xl:max-w-[55.125rem] xl:flex-1">
+                <p className="min-w-0 break-words font-sans text-[1.125rem] sm:text-[1.375rem] xl:text-[1.75rem] font-normal leading-[1.4] xl:leading-[2.375rem] text-white xl:max-w-[55.125rem] xl:flex-1">
                   {lede}
                 </p>
               ) : null}
@@ -775,7 +775,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
     return (
       <section className="relative flex w-full justify-center overflow-hidden bg-white px-page py-6 sm:py-8 xl:py-12">
         {/* Figma 563:1383 Frame 2147225834: 1680×654, radius 40, inset ~54. Stack meta under title through tablet. */}
-        <div className="relative flex min-h-[20rem] w-full max-w-[1680px] flex-col justify-end overflow-hidden rounded-[24px] p-5 shadow-sm sm:min-h-[26rem] sm:rounded-[32px] sm:p-8 md:min-h-[34rem] md:p-10 xl:min-h-[654px] xl:rounded-[40px] xl:p-[54px]">
+        <div className="relative flex min-h-[20rem] w-full max-w-[105rem] flex-col justify-end overflow-hidden rounded-[24px] p-5 shadow-sm sm:min-h-[26rem] sm:rounded-[32px] sm:p-8 md:min-h-[34rem] md:p-10 xl:min-h-[40.875rem] xl:rounded-[2.5rem] xl:p-[3.375rem]">
           {/* Background image & Fallback */}
           {resolvedVideoSrc ? (
             <video
@@ -808,15 +808,15 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           {/* Bottom Content Area: Title on Left, Meta & Social Share on Right */}
           <div className="relative z-10 flex w-full flex-col justify-between gap-5 sm:gap-6 xl:flex-row xl:items-end xl:gap-8">
             {/* Left: How we support state and local agencies / Title */}
-            <div className="max-w-[888px] flex-1">
-              <h1 className="font-serif text-[28px] font-normal leading-[1.2] tracking-tight text-[#000000] sm:text-[36px] md:text-[44px] xl:text-[50px] xl:leading-[69px]">
+            <div className="max-w-[55.5rem] flex-1">
+              <h1 className="font-serif text-[28px] font-normal leading-[1.2] tracking-tight text-[#000000] sm:text-[36px] md:text-[44px] xl:text-[3.125rem] xl:leading-[4.3125rem]">
                 {title || 'How we support state and local agencies'}
               </h1>
             </div>
 
             {/* Divider (Figma: Rectangle 40129: width: 3px, height: 110px, background: #8C8C8C) */}
             <div
-              className="mx-2 hidden h-[110px] w-[3px] shrink-0 bg-[#8C8C8C] xl:block"
+              className="mx-2 hidden h-[6.875rem] w-[3px] shrink-0 bg-[#8C8C8C] xl:block"
               aria-hidden="true"
             />
 

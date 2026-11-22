@@ -222,24 +222,24 @@ export const JobListingSection: React.FC<JobListingSectionProps> = ({
   const hasMore = visibleCount < jobs.length;
 
   return (
-    <section id="our-openings" className="w-full bg-[#FFFFFF] py-16 lg:py-24 px-6 md:px-12 lg:px-20">
-      <div className="max-w-[1680px] mx-auto flex flex-col gap-10">
+    <section id="our-openings" className="w-full bg-[#FFFFFF] py-[4rem] xl:py-[6rem] px-6 md:px-10 xl:px-[5rem]">
+      <div className="max-w-[105rem] mx-auto flex flex-col gap-10">
         {/* Header & Meta Row (Group 2085665770) */}
         <div className="flex flex-col gap-6">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
             <div>
-              <h2 className="font-serif text-[42px] md:text-[56px] lg:text-[72px] text-[#1C1C1C] leading-[115%]">
+              <h2 className="font-serif text-[2.625rem] md:text-[3.5rem] xl:text-[4.5rem] text-[#1C1C1C] leading-[115%]">
                 {heading}
               </h2>
               {subheading && (
-                <p className="font-sans text-[18px] md:text-[22px] lg:text-[24px] text-[#1C1C1C] leading-[150%] max-w-[900px] mt-4">
+                <p className="font-sans text-[1.125rem] md:text-[1.375rem] xl:text-[1.5rem] text-[#1C1C1C] leading-[150%] max-w-[56.25rem] mt-4">
                   {subheading}
                 </p>
               )}
             </div>
 
             {/* Opportunities Count */}
-            <div className="font-sans text-[20px] lg:text-[24px] font-medium text-[#1C1C1C] whitespace-nowrap self-start md:self-end pb-2">
+            <div className="font-sans text-[1.25rem] xl:text-[1.5rem] font-medium text-[#1C1C1C] whitespace-nowrap self-start md:self-end pb-2">
               {jobs.length} {jobs.length === 1 ? 'opportunity' : 'opportunities'} available
             </div>
           </div>

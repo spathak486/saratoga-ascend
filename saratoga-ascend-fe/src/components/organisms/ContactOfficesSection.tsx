@@ -70,14 +70,14 @@ function OfficeDetail({ detail }: { detail: ContactOfficeDetail }) {
       {detail.parts.map((part) =>
         part.href ? (
           <a
-            key={part.text}
+            key={stripHtml(part.text)}
             href={part.href}
             className="rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
           >
             {part.text}
           </a>
         ) : (
-          <span key={part.text}>{part.text}</span>
+          <span key={part.text}>{stripHtml(part.text)}</span>
         ),
       )}
     </p>
@@ -113,14 +113,14 @@ export const ContactOfficesSection: React.FC<ContactOfficesSectionProps> = ({
       <Container className="relative z-10 flex min-h-[inherit] flex-col justify-center gap-6 py-12">
         {offices.map((office) => (
           <article
-            key={office.name}
+            key={stripHtml(office.name)}
             className="w-max max-w-full rounded-[1.667rem] border-2 border-ink bg-[rgb(35_35_35/0.7)] px-6 py-5 backdrop-blur-[3px] xl:px-10"
           >
             <div className="flex flex-col gap-2.5">
               <h3 className="font-serif text-card-copy leading-8 text-brand-on-dark uppercase">
                 {office.name}
               </h3>
-              <p className="font-sans text-nav leading-8 text-brand-on-dark">{office.address}</p>
+              <p className="font-sans text-nav leading-8 text-brand-on-dark">{stripHtml(office.address)}</p>
               {office.details.map((detail) => (
                 <OfficeDetail key={detail.label} detail={detail} />
               ))}
