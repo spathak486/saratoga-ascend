@@ -798,6 +798,7 @@ export const BLOG_SECTION_FRAGMENTS = [
   HAPPY_CLIENTS_REFERENCE_FIELDS,
   CEO_MESSAGE_REFERENCE_FIELDS,
   SUPPORTING_MISSION_REFERENCE_FIELDS,
+  JOBS_BY_SPECIALITY_REFERENCE_FIELDS,
   PAST_PERFORMANCE_REFERENCE_FIELDS,
   KEY_TAKEAWAYS_REFERENCE_FIELDS,
   STAT_CARDS_REFERENCE_FIELDS,
@@ -1194,12 +1195,46 @@ export const SOLUTION_FIELDS = `
   }
 `;
 
+export const LATEST_INSIGHTS_REFERENCE_FIELDS = `
+  ... on ComponentReferencesLatestInsights {
+    __typename
+    id
+    latestInsightsHeading: heading
+    latestInsightsSubheading: subheading
+    blogs {
+      documentId
+      title
+      slug
+      summary
+      articleDate
+      readTime
+      categoryType
+      author
+      description
+      image { ${IMAGE_FIELDS} }
+    }
+    news {
+      documentId
+      title
+      slug
+      summary
+      articleDate
+      readTime
+      categoryType
+      author
+      description
+      image { ${IMAGE_FIELDS} }
+    }
+  }
+`;
+
 // Page dynamic zone includes blog listing, timeline, and job listing.
 export const PAGE_SECTION_FRAGMENTS = [
   COMMON_SECTION_FRAGMENTS,
   BLOG_LISTING_REFERENCE_FIELDS,
   TIMELINE_REFERENCE_FIELDS,
   JOB_LISTING_REFERENCE_FIELDS,
+  LATEST_INSIGHTS_REFERENCE_FIELDS,
 ].join('\n');
 
 // Contract dynamic zone (ContractSectionDynamicZone does not contain Timeline)
@@ -1273,6 +1308,8 @@ export const BLOG_ITEM_FIELDS = `
     icon { ${IMAGE_FIELDS} }
   }
 `;
+
+
 
 export const BLOG_FIELDS = `
   ${BLOG_ITEM_FIELDS}
