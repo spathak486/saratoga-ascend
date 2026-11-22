@@ -1,3 +1,4 @@
+import { stripHtml } from '@/lib/utils/text';
 import React, { Suspense } from 'react';
 import { strapiUrl } from '@/lib/api/config';
 import type {
@@ -1117,8 +1118,8 @@ ComponentReferencesFederalEnvironmentsReference: (section, index) => {
       }
 
       return {
-        name: card.title,
-        address: card.address || card.description,
+        name: stripHtml(card.title) || card.title,
+        address: stripHtml(card.address || card.description) || card.address || card.description,
         details,
       };
     });

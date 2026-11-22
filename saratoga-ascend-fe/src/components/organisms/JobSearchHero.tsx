@@ -143,7 +143,7 @@ export const JobSearchHero: React.FC<JobSearchHeroProps> = ({
           {/* Search Capsule Form (Group 2085663755: 740px x 79px) */}
           <form
             onSubmit={handleSubmit}
-            className="mt-8 sm:mt-10 lg:mt-12 w-full max-w-[740px] bg-white rounded-full border-[1.33px] border-[#CBCBCB] shadow-sm flex items-center px-4 sm:px-6 py-2.5 sm:py-3 transition-all focus-within:border-brand-navy focus-within:shadow-md"
+            className="mt-8 sm:mt-10 lg:mt-12 w-full max-w-[46.25rem] bg-white rounded-full border-[1.33px] border-[#CBCBCB] shadow-sm flex items-center px-4 sm:px-6 py-2.5 sm:py-3 transition-all focus-within:border-brand-navy focus-within:shadow-md"
           >
             {/* Search Icon & Keyword Input */}
             <div className="flex items-center flex-1 min-w-0 pr-2">

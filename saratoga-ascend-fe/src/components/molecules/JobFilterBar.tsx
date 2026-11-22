@@ -75,7 +75,7 @@ export const JobFilterBar: React.FC<JobFilterBarProps> = ({
         <button
           type="button"
           onClick={() => toggleDropdown('location')}
-          className={`h-[50px] px-6 rounded-full flex items-center justify-center gap-2.5 transition-all text-[18px] leading-[150%] font-medium font-sans border ${
+          className={`h-[3.125rem] px-[1.5rem] rounded-full flex items-center justify-center gap-2.5 transition-all text-[1.125rem] leading-[150%] font-medium font-sans border ${
             openDropdown === 'location' || selectedLocations.length > 0
               ? 'bg-[#E4EBF1] border-[#000000] text-black shadow-sm'
               : 'bg-[#E4EBF1]/30 hover:bg-[#E4EBF1]/60 border-transparent text-black'
@@ -142,7 +142,7 @@ export const JobFilterBar: React.FC<JobFilterBarProps> = ({
         <button
           type="button"
           onClick={() => toggleDropdown('speciality')}
-          className={`h-[50px] px-6 rounded-full flex items-center justify-center gap-2.5 transition-all text-[18px] leading-[150%] font-medium font-sans border ${
+          className={`h-[3.125rem] px-[1.5rem] rounded-full flex items-center justify-center gap-2.5 transition-all text-[1.125rem] leading-[150%] font-medium font-sans border ${
             openDropdown === 'speciality' || selectedSpecialities.length > 0
               ? 'bg-[#E4EBF1] border-[#000000] text-black shadow-sm'
               : 'bg-[#E4EBF1]/30 hover:bg-[#E4EBF1]/60 border-transparent text-black'
@@ -209,7 +209,7 @@ export const JobFilterBar: React.FC<JobFilterBarProps> = ({
         <button
           type="button"
           onClick={() => toggleDropdown('jobType')}
-          className={`h-[50px] px-6 rounded-full flex items-center justify-center gap-2.5 transition-all text-[18px] leading-[150%] font-medium font-sans border ${
+          className={`h-[3.125rem] px-[1.5rem] rounded-full flex items-center justify-center gap-2.5 transition-all text-[1.125rem] leading-[150%] font-medium font-sans border ${
             openDropdown === 'jobType' || selectedJobTypes.length > 0
               ? 'bg-[#E4EBF1] border-[#000000] text-black shadow-sm'
               : 'bg-[#E4EBF1]/30 hover:bg-[#E4EBF1]/60 border-transparent text-black'
@@ -276,7 +276,7 @@ export const JobFilterBar: React.FC<JobFilterBarProps> = ({
         <button
           type="button"
           onClick={() => toggleDropdown('sort')}
-          className={`h-[50px] px-6 rounded-full flex items-center justify-center gap-2.5 transition-all text-[18px] leading-[150%] font-medium font-sans border ${
+          className={`h-[3.125rem] px-[1.5rem] rounded-full flex items-center justify-center gap-2.5 transition-all text-[1.125rem] leading-[150%] font-medium font-sans border ${
             openDropdown === 'sort'
               ? 'bg-[#E4EBF1] border-[#000000] text-black shadow-sm'
               : 'bg-[#E4EBF1]/30 hover:bg-[#E4EBF1]/60 border-transparent text-black'
