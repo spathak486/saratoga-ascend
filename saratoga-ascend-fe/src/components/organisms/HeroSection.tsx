@@ -146,9 +146,14 @@ export interface HeroSectionProps {
   breadcrumbLabel?: string;
 }
 
+/**
+ * Homepage hero copy (Figma 1899:2103, 1920×900).
+ * Vertical centering is handled by the hero flex container; keep equal
+ * top/bottom padding so space above and below the text block stays balanced.
+ */
 const copyStyle: React.CSSProperties = {
-  paddingTop: 'clamp(8rem, 17.708vw, 21.25rem)',
-  paddingBottom: 'clamp(3rem, 8.333vw, 6.5rem)',
+  paddingTop: 'clamp(1.5rem, 2.5vw, 2.5rem)',
+  paddingBottom: 'clamp(1.5rem, 2.5vw, 2.5rem)',
 };
 
 const headingStyle: React.CSSProperties = {
@@ -710,7 +715,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
     return (
       <section className="w-full">
         <div className="mx-auto w-full max-w-home px-page pt-0 pb-0 xl:pt-4 xl:pb-10">
-          <div className="relative isolate flex w-full flex-col justify-end rounded-[1.25rem] bg-neutral-900 shadow-lg sm:rounded-[1.625rem] min-h-[min(22rem,70dvh)] md:min-h-[min(28rem,72dvh)] xl:min-h-[min(54.25rem,78dvh)]">
+          {/* Figma 1899:2241 Group 262: 1680×868, radius 26px; text frame bottom inset ~30.5px.
+              xl min-height is Figma 868px (54.25rem) — do not cap with dvh (that made local shorter). */}
+          <div className="relative isolate flex w-full flex-col justify-end rounded-[1.25rem] bg-neutral-900 shadow-lg sm:rounded-[1.625rem] min-h-[min(22rem,70dvh)] md:min-h-[min(32rem,75dvh)] xl:min-h-[54.25rem]">
             <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-[inherit]" aria-hidden="true">
               {resolvedVideoSrc ? (
                 <video
@@ -732,7 +739,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             </div>
 
             {/* Figma Frame 2147226373: Auto layout, row, align-center, gap 54px (3.375rem), w 1338px (83.625rem), min-h 122.5px */}
-            <div className="relative z-10 mx-auto flex w-full min-w-0 max-w-[83.625rem] flex-col gap-5 px-5 pt-5 pb-10 text-white sm:gap-6 md:px-12 xl:flex-row xl:items-center xl:gap-[3.375rem] xl:px-0 xl:pt-[clamp(2rem,6vw,4rem)] xl:pb-[clamp(2.5rem,4vw,4.5rem)]">
+            <div className="relative z-10 mx-auto flex w-full min-w-0 max-w-[83.625rem] flex-col gap-5 px-5 pt-5 pb-10 text-white sm:gap-6 md:px-12 xl:flex-row xl:items-center xl:gap-[3.375rem] xl:px-0 xl:pt-8 xl:pb-[1.90625rem]">
               {title ? (
                 <h2 className="min-w-0 break-words font-serif text-[2.25rem] sm:text-[2.75rem] md:text-[3.25rem] xl:text-[3.75rem] font-normal leading-[1.2] xl:leading-[4.5rem] text-white xl:w-[21.75rem] xl:shrink-0">
                   {title}
@@ -1057,7 +1064,12 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
       bleed
       className="overflow-hidden min-[90rem]:-mt-nav-h"
     >
-      <div className="relative min-h-hero-min">
+      {/*
+        Vertically center copy in the hero band (Figma 1899:2103).
+        On desktop the hero tucks under the nav (-mt-nav-h); pt-nav-h keeps
+        centering relative to the visible area below the header.
+      */}
+      <div className="relative flex min-h-hero-min flex-col justify-center min-[90rem]:pt-nav-h">
         <div className="pointer-events-none absolute inset-0" aria-hidden="true">
           {resolvedVideoSrc ? (
             <video
@@ -1090,7 +1102,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         />
 
         <Container
-          className="relative z-10 flex min-h-full min-w-0 flex-col items-start"
+          className="relative z-10 flex w-full min-w-0 flex-col items-start"
           style={copyStyle}
         >
           {heading ? (

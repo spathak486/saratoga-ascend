@@ -118,9 +118,14 @@ export const WhatWeDoSection: React.FC<WhatWeDoSectionProps> = ({
               <div
                 key={`${line.href || 'line'}-${idx}`}
                 data-what-we-do-card
-                className="flex w-full shrink-0 snap-start flex-col gap-6 rounded-[1.25rem] border-[1.5px] border-[#BDE4FF] bg-white p-6 shadow-[0px_0px_20px_rgba(0,0,0,0.08)] sm:p-8 xl:min-h-[39.8125rem] xl:w-[min(69.9375rem,62.17%)] xl:flex-row xl:items-stretch xl:gap-[clamp(3rem,4.2vw,4.9375rem)] xl:px-[clamp(1.5rem,2.2vw,2.4375rem)] xl:pt-[clamp(1.5rem,2vw,2.1875rem)] xl:pb-7"
+                className="flex w-full shrink-0 snap-start flex-col gap-6 rounded-[1.25rem] border-[1.5px] border-[#BDE4FF] bg-white p-6 shadow-[0px_0px_20px_rgba(0,0,0,0.08)] sm:p-8 xl:grid xl:w-[min(69.9375rem,62.17%)] xl:grid-cols-[min(27.6875rem,39.6%)_minmax(0,1fr)] xl:gap-[clamp(3rem,4.2vw,4.9375rem)] xl:px-[clamp(1.5rem,2.2vw,2.4375rem)] xl:py-[clamp(1.5rem,2vw,2.1875rem)]"
               >
-                <div className="flex w-full shrink-0 flex-col gap-[0.875rem] xl:w-[min(27.6875rem,39.6%)]">
+                {/*
+                  Figma 1899:2186 — card height is driven by image (443×506) +
+                  Learn More, not by the text column. Extra height under the
+                  button was from a taller CMS text column stretching the row.
+                */}
+                <div className="flex w-full flex-col gap-[0.875rem]">
                   <div className="aspect-[443/506] w-full overflow-hidden rounded-xl border border-[#BDE4FF]">
                     <img
                       src={currentSrc}
@@ -138,17 +143,18 @@ export const WhatWeDoSection: React.FC<WhatWeDoSectionProps> = ({
                   </CtaButton>
                 </div>
 
-                <div className="flex min-w-0 flex-1 flex-col xl:pt-0">
-                  <h3 className="mb-4 sm:mb-5 font-serif text-[clamp(1.75rem,1.25rem+1.8vw,3.75rem)] leading-[1.2] text-ink">
+                {/* h-0 min-h-full: text fills the media column height only (no card growth) */}
+                <div className="flex min-w-0 flex-col gap-5 xl:h-0 xl:min-h-full xl:gap-[clamp(1.25rem,1.65vw,1.875rem)]">
+                  <h3 className="font-serif text-[clamp(1.75rem,1.25rem+1.8vw,3.75rem)] leading-[1.2] text-ink">
                     {line.heading}
                   </h3>
-                  <p className="mb-6 sm:mb-8 font-sans text-[clamp(1.125rem,0.95rem+0.6vw,1.5rem)] leading-[1.33] text-brand-navy">
+                  <p className="font-sans text-[clamp(1.125rem,0.95rem+0.6vw,1.5rem)] leading-[1.33] text-brand-navy">
                     {line.blurb}
                   </p>
-                  <div className="flex flex-col gap-3.5 sm:gap-4">
+                  <div className="flex flex-col gap-4">
                     {line.features.map((feature) => (
                       <div key={feature} className="flex items-center gap-3.5 sm:gap-4">
-                        <div className="flex size-9 sm:size-10 shrink-0 items-center justify-center rounded-full bg-[#E0F2FE]">
+                        <div className="flex size-9 shrink-0 items-center justify-center rounded-full bg-[#E0F2FE] sm:size-10">
                           <svg
                             width="16"
                             height="16"
