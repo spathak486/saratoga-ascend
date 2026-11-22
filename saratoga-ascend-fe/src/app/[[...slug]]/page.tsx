@@ -211,6 +211,7 @@ export default async function DynamicPage({ params }: DynamicPageProps) {
     return !String(sec.__typename ?? '').startsWith('Mock');
   });
   const isContactPage = slugPath === 'contact';
+  const isAboutPage = slugPath === 'about-us';
   const isWhoWeServePage = slugPath === 'who-we-serve';
   const isSolutionsPage = slugPath === 'solutions';
 
@@ -576,6 +577,8 @@ export default async function DynamicPage({ params }: DynamicPageProps) {
             ? 'who-we-serve'
             : isSolutionsPage && idx === firstBannerIndex
               ? 'solutions'
+            : isAboutPage && idx === firstBannerIndex
+              ? 'about'
             : isContactPage
               ? 'contact'
               : undefined,

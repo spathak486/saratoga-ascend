@@ -161,7 +161,7 @@ export const PastPerformanceSection: React.FC<PastPerformanceSectionProps> = ({
               }}
               {...dragHandlers}
             >
-              <div className="flex gap-3 max-xl:gap-[1.125rem]">
+              <div className="flex items-start gap-3 max-xl:gap-[1.125rem]">
                 {slides.map((slide, index) => (
                   <div
                     key={slide.key}

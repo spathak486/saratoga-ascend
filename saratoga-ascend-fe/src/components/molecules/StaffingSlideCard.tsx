@@ -36,10 +36,15 @@ export const StaffingSlideCard: React.FC<StaffingSlideCardProps> = ({
   href = '/what-we-do',
 }) => {
   const titleText = stripHtml(title);
+  const titleWords = titleText.trim().split(/\s+/).filter(Boolean);
+  /** Rest state: max 2 words + ellipsis; full title on hover with body. */
+  const restTitle =
+    titleWords.length > 2 ? `${titleWords.slice(0, 2).join(' ')}\u2026` : titleText;
 
   return (
     <a
       href={href}
+      aria-label={titleText}
       draggable={false}
       onDragStart={(event) => event.preventDefault()}
       className="group block select-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-sky"
@@ -81,10 +86,11 @@ export const StaffingSlideCard: React.FC<StaffingSlideCardProps> = ({
 
         {/*
           Desktop text — CSS group-hover Smart Animate (744ms Quick).
-          Rest ~78% (full heading visible); hover → 36% (Figma y=162).
+          Rest top 68% (was 78%): leaves room for 2-line CMS titles + ~1.25rem
+          foot clearance so the heading is not clipped. Hover → 36% (Figma y=162).
         */}
         <div
-          className="pointer-events-none absolute top-[78%] left-[10.7%] hidden w-[78.61%] flex-col items-center transition-[top] motion-reduce:transition-none group-hover:top-[36%] group-focus-within:top-[36%] lg:flex"
+          className="pointer-events-none absolute top-[68%] left-[10.7%] hidden w-[78.61%] flex-col items-center transition-[top] motion-reduce:transition-none group-hover:top-[36%] group-focus-within:top-[36%] lg:flex"
           style={{
             transitionDuration: `${HOVER_MS}ms`,
             transitionTimingFunction: HOVER_EASE,
@@ -97,7 +103,12 @@ export const StaffingSlideCard: React.FC<StaffingSlideCardProps> = ({
             className="m-0 w-full max-w-full text-center text-balance break-words font-normal leading-[1.2] text-white"
             style={{ fontSize: TITLE_SIZE }}
           >
-            {titleText}
+            <span className="block group-hover:hidden group-focus-within:hidden">
+              {restTitle}
+            </span>
+            <span className="hidden group-hover:block group-focus-within:block">
+              {titleText}
+            </span>
           </Heading>
           <p
             className="absolute top-full left-0 m-0 mt-2 line-clamp-3 w-full text-center font-sans font-medium text-white opacity-0 transition-opacity motion-reduce:transition-none group-hover:opacity-100 group-focus-within:opacity-100"
