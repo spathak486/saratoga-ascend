@@ -139,9 +139,11 @@ export interface HeroSectionProps {
    * Page-specific composition. CMS still supplies the banner title, description,
    * image, and subtitle. The subtitle, when it appears inside the title, is the
    * red phrase. Homepage variants ignore this.
-   * `contact` is Figma 2219:1455. `who-we-serve` is Figma 2:1015.
+   * `contact` is Figma 2219:1455. `about` is Figma 2310:5553 / photo 2310:5554
+   * (homebanner markup, 1920×723 band below sticky nav, top/bottom insets via
+   * aboutCopyStyle, no contact wash). `who-we-serve` is Figma 2:1015.
    */
-  layout?: 'contact' | 'who-we-serve' | 'solutions';
+  layout?: 'contact' | 'about' | 'who-we-serve' | 'solutions';
   /** CMS page title for the Who We Serve breadcrumb. */
   breadcrumbLabel?: string;
 }
@@ -156,12 +158,28 @@ const copyStyle: React.CSSProperties = {
   paddingBottom: 'clamp(1.5rem, 2.5vw, 2.5rem)',
 };
 
+/**
+ * About banner copy (Figma 2310:5554 band inside 2310:5553).
+ * At 1920: title starts ~164px below the photo top; lede ends ~153px above
+ * the band bottom. Title→lede gap is 48px (see ledeStyle).
+ */
+const aboutCopyStyle: React.CSSProperties = {
+  paddingTop: 'clamp(1.5rem, 8.5417vw, 10.25rem)',
+  paddingBottom: 'clamp(1.5rem, 7.9688vw, 9.5625rem)',
+};
+
 const headingStyle: React.CSSProperties = {
   maxWidth: 'min(100%, 61.9375rem)',
 };
 
 const ledeStyle: React.CSSProperties = {
   marginTop: 'clamp(1.25rem, 2.448vw, 2.9375rem)',
+  maxWidth: 'min(100%, 37.4375rem)',
+};
+
+/** About title→lede gap is 48px at 1920 (Figma 2310:5557 → 2310:5558). */
+const aboutLedeStyle: React.CSSProperties = {
+  marginTop: 'clamp(1.25rem, 2.5vw, 3rem)',
   maxWidth: 'min(100%, 37.4375rem)',
 };
 
@@ -1055,6 +1073,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
     );
   }
 
+  /* About keeps homebanner CMS title/lede/CTA; only band height/centering differs. */
+  const isAboutHero = layout === 'about';
+
   return (
     <Section
       id="overview"
@@ -1062,75 +1083,86 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
       tone="surface"
       spacing="none"
       bleed
-      className="overflow-hidden min-[90rem]:-mt-nav-h"
+      className={`overflow-hidden ${isAboutHero ? '' : 'min-[90rem]:-mt-nav-h'}`}
     >
       {/*
-        Vertically center copy in the hero band (Figma 1899:2103).
-        On desktop the hero tucks under the nav (-mt-nav-h); pt-nav-h keeps
-        centering relative to the visible area below the header.
+        Homepage: underlap nav and vertically center copy.
+        About: sits below the sticky header. Figma 2310:5553 is 899 including
+        nav; the photo band (2310:5554) is 1920×723. aboutCopyStyle pins the
+        164px / 153px insets at 1920. Mobile nav clearance stays on the outer
+        wrapper so it does not eat into the 723 min-height (border-box).
       */}
-      <div className="relative flex min-h-hero-min flex-col justify-center min-[90rem]:pt-nav-h">
-        <div className="pointer-events-none absolute inset-0" aria-hidden="true">
-          {resolvedVideoSrc ? (
-            <video
-              className="absolute inset-0 size-full object-cover object-right"
-              poster={HERO_BG}
-              autoPlay
-              muted
-              loop
-              playsInline
-              preload="metadata"
-            >
-              <source src={resolvedVideoSrc} type={mediaMime || 'video/mp4'} />
-            </video>
-          ) : (
-            <img
-              src={helixSrc || HERO_BG}
-              alt={mediaAlt || ""}
-              width={1920}
-              height={900}
-              className="absolute inset-0 size-full object-cover object-right"
-              decoding="async"
-              fetchPriority="high"
-            />
-          )}
-        </div>
-        {/* object-cover crops the baked wash below 1440. The scrim keeps the title readable. */}
+      <div className={isAboutHero ? 'max-xl:pt-24' : undefined}>
         <div
-          className="bg-hero-scrim pointer-events-none absolute inset-0 min-[90rem]:hidden"
-          aria-hidden="true"
-        />
-
-        <Container
-          className="relative z-10 flex w-full min-w-0 flex-col items-start"
-          style={copyStyle}
+          className={
+            isAboutHero
+              ? 'relative flex min-h-[clamp(28rem,calc(100vw*723/1920),45.1875rem)] flex-col justify-start'
+              : 'relative flex min-h-hero-min flex-col justify-center min-[90rem]:pt-nav-h'
+          }
         >
-          {heading ? (
-            <Heading
-              id="hero-heading"
-              level={1}
-              size="hero"
-              tone="inherit"
-              className="min-w-0 max-w-full tracking-normal"
-              style={headingStyle}
-            >
-              <span className="block text-ink">{heading.line1}</span>
-              {heading.line2 ? (
-                <span className="block text-brand-cta-from">{heading.line2}</span>
-              ) : null}
-            </Heading>
+          <div className="pointer-events-none absolute inset-0" aria-hidden="true">
+            {resolvedVideoSrc ? (
+              <video
+                className="absolute inset-0 size-full object-cover object-right"
+                poster={HERO_BG}
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="metadata"
+              >
+                <source src={resolvedVideoSrc} type={mediaMime || 'video/mp4'} />
+              </video>
+            ) : (
+              <img
+                src={helixSrc || HERO_BG}
+                alt={mediaAlt || ""}
+                width={1920}
+                height={isAboutHero ? 723 : 900}
+                className="absolute inset-0 size-full object-cover object-right"
+                decoding="async"
+                fetchPriority="high"
+              />
+            )}
+          </div>
+          {/* Homepage only: scrim when object-cover crops the baked wash. Not on About. */}
+          {!isAboutHero ? (
+            <div
+              className="bg-hero-scrim pointer-events-none absolute inset-0 min-[90rem]:hidden"
+              aria-hidden="true"
+            />
           ) : null}
 
-          {lede ? (
-            <Text
-              size="lead"
-              tone="navy"
-              className="min-w-0 font-medium tracking-normal max-sm:leading-[1.5rem]!"
-              style={ledeStyle}
-            >
-              {lede}
-            </Text>
-          ) : null}
+          <Container
+            className="relative z-10 flex w-full min-w-0 flex-col items-start"
+            style={isAboutHero ? aboutCopyStyle : copyStyle}
+          >
+            {heading ? (
+              <Heading
+                id="hero-heading"
+                level={1}
+                size="hero"
+                tone="inherit"
+                className="min-w-0 max-w-full tracking-normal"
+                style={headingStyle}
+              >
+                <span className="block text-ink">{heading.line1}</span>
+                {heading.line2 ? (
+                  <span className="block text-brand-cta-from">{heading.line2}</span>
+                ) : null}
+              </Heading>
+            ) : null}
+
+            {lede ? (
+              <Text
+                size="lead"
+                tone="navy"
+                className="min-w-0 font-medium tracking-normal max-sm:leading-[1.5rem]!"
+                style={isAboutHero ? aboutLedeStyle : ledeStyle}
+              >
+                {lede}
+              </Text>
+            ) : null}
 
           {(ctaLabel && ctaHref) || (secondaryCtaLabel && secondaryCtaHref) ? (
             <div
@@ -1165,8 +1197,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                 )
               ) : null}
             </div>
-          ) : null}
-        </Container>
+            ) : null}
+          </Container>
+        </div>
       </div>
     </Section>
   );
