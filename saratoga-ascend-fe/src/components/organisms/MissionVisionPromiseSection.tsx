@@ -285,7 +285,7 @@ export const MissionVisionPromiseSection: React.FC<MissionVisionPromiseSectionPr
               index % 2 === 1 ? 'bg-[#E5F0FB]' : 'bg-[#F8F4F7]';
 
             return (
-              /* Figma Rectangle 74 / 71 / 73: 544px x 592px, border: 2px solid #2B88D9, border-radius: 35px */
+              /* Figma 2310:5627 / 2231:8635: 544×592, pad 60×49, icon→title 16, title→rule 9, rule→body 23 */
               <div
                 key={card.id || `card-${index}`}
                 onMouseEnter={() => setHoveredIndex(index)}
@@ -294,52 +294,49 @@ export const MissionVisionPromiseSection: React.FC<MissionVisionPromiseSectionPr
                   backdropFilter: isCardHighlighted ? 'none' : 'blur(15.5px)',
                   WebkitBackdropFilter: isCardHighlighted ? 'none' : 'blur(15.5px)',
                 }}
-                className={`group relative flex min-w-0 flex-col items-center justify-between overflow-hidden text-center w-full min-h-[28.75rem] lg:min-h-[32.5rem] 2xl:min-h-[37rem] py-[clamp(1.75rem,2.5vw,3.75rem)] px-[clamp(1.25rem,2vw,3.06rem)] border-2 border-[#2B88D9] rounded-[2.1875rem] cursor-pointer transition-all duration-300 ease-out select-none ${
+                className={`group relative flex min-w-0 w-full flex-col items-center justify-start overflow-hidden text-center min-h-[clamp(28.75rem,30.83vw,37rem)] py-[clamp(2.5rem,3.125vw,3.75rem)] px-[clamp(1.5rem,2.55vw,3.0625rem)] border-2 border-[#2B88D9] rounded-[2.1875rem] cursor-pointer transition-all duration-300 ease-out select-none ${
                   isCardHighlighted
                     ? 'bg-[#2B88D9] text-white shadow-[0_22px_55px_rgba(43,136,217,0.38)] -translate-y-2'
                     : 'bg-[rgba(249,251,254,0.7)] text-black shadow-[0_10px_35px_rgba(43,136,217,0.08)] translate-y-0'
                 }`}
               >
-                {/* Top Section: Circular Badge + Title + Underline */}
-                <div className="flex flex-col items-center w-full">
-                  {/* Figma Rectangle 40122: Circular Icon Badge (~121px x 121px, border: 2.2411px solid #2B88D9, border-radius: 102.41px) */}
-                  <div
-                    className={`size-[clamp(90px,6.3vw,121px)] rounded-full border-[0.14rem] flex items-center justify-center p-2 mb-4 lg:mb-6 transition-all duration-300 ${
-                      isCardHighlighted
-                        ? 'bg-white border-white shadow-md scale-105'
-                        : `${badgeBgClass} border-[#2B88D9] scale-100`
-                    }`}
-                  >
-                    <CardIconRenderer
-                      iconUrl={iconUrl}
-                      altText={typeof card.icon !== 'string' ? card.icon?.alternativeText : stripHtml(card.title)}
-                      title={stripHtml(card.title)}
-                      index={index}
-                    />
-                  </div>
-
-                  {/* Card Title: Figma DM Serif Text, 52px, line-height: 71px, letter-spacing: -1px */}
-                  <h3
-                    className={`font-serif font-normal text-[clamp(2rem,2.7vw,3.25rem)] leading-[clamp(2.75rem,3.7vw,4.4375rem)] tracking-[-1px] text-center transition-colors duration-300 ${
-                      isCardHighlighted ? 'text-white' : 'text-[#2B88D9]'
-                    }`}
-                  >
-                    <span dangerouslySetInnerHTML={{ __html: cleanHeadingHtml(card.title) }} />
-                  </h3>
-
-                  {/* Rectangle 40131: Accent Underline Bar (~146px width, border-radius: 10px) */}
-                  <div
-                    className={`h-[clamp(4px,0.3vw,6px)] rounded-[0.625rem] my-3 sm:my-4 transition-all duration-300 ${
-                      isCardHighlighted
-                        ? 'w-[clamp(110px,8.5vw,164px)] bg-white'
-                        : 'w-[clamp(90px,7.6vw,146px)] bg-[#2B88D9]'
-                    }`}
+                {/* Figma Rectangle 40122: ~121×121 circle, border 2.24px #2B88D9 */}
+                <div
+                  className={`mb-4 flex size-[clamp(5.625rem,6.3vw,7.5625rem)] shrink-0 items-center justify-center rounded-full border-[0.14rem] p-2 transition-all duration-300 ${
+                    isCardHighlighted
+                      ? 'scale-105 border-white bg-white shadow-md'
+                      : `${badgeBgClass} scale-100 border-[#2B88D9]`
+                  }`}
+                >
+                  <CardIconRenderer
+                    iconUrl={iconUrl}
+                    altText={typeof card.icon !== 'string' ? card.icon?.alternativeText : stripHtml(card.title)}
+                    title={stripHtml(card.title)}
+                    index={index}
                   />
                 </div>
 
-                {/* Card Body: Figma Google Sans Flex, 24px, line-height: 160% (38px), text-align: center */}
+                {/* Title: DM Serif 52, tracking -1px */}
+                <h3
+                  className={`w-full min-w-0 break-words font-serif text-[clamp(2rem,2.7vw,3.25rem)] font-normal leading-[1.2] tracking-[-0.0625rem] text-center transition-colors duration-300 ${
+                    isCardHighlighted ? 'text-white' : 'text-[#2B88D9]'
+                  }`}
+                >
+                  <span dangerouslySetInnerHTML={{ __html: cleanHeadingHtml(card.title) }} />
+                </h3>
+
+                {/* Rectangle 40131: 146×4, radius 10 — 9px under title */}
+                <div
+                  className={`mt-[0.5625rem] h-1 shrink-0 rounded-[0.625rem] transition-all duration-300 ${
+                    isCardHighlighted
+                      ? 'w-[clamp(6.875rem,8.5vw,10.25rem)] bg-white'
+                      : 'w-[clamp(5.625rem,7.6vw,9.125rem)] bg-[#2B88D9]'
+                  }`}
+                />
+
+                {/* Body: 24px / 1.6 — 23px under rule */}
                 <p
-                  className={`w-full min-w-0 break-words font-sans font-normal text-[clamp(0.95rem,0.85rem+0.4vw,1.5rem)] leading-[150%] text-center mt-2 lg:mt-4 transition-colors duration-300 ${
+                  className={`mt-[1.4375rem] w-full min-w-0 break-words text-center font-sans text-[clamp(0.95rem,0.85rem+0.4vw,1.5rem)] font-normal leading-[1.6] transition-colors duration-300 ${
                     isCardHighlighted ? 'text-white' : 'text-black'
                   }`}
                 >
