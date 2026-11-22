@@ -237,18 +237,21 @@ export const JobsBySpecialitySection: React.FC<JobsBySpecialitySectionProps> = (
             )}
           </div>
 
-          {/* Bottom Linked Job Cards Row (Frame 582: 402x450px) */}
+          {/* Bottom Linked Job Cards Row — Figma Frame 582: 4×402 + 3×24 = 1680 */}
           <div className="relative w-full">
             <div
               ref={viewportRef}
-              className={`w-full overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden ${
+              className={`@container w-full overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden ${
                 isDragging ? 'cursor-grabbing select-none' : 'cursor-grab'
               }`}
               {...dragHandlers}
             >
               <div className="flex gap-6 pb-2">
                 {currentJobs.map((job, idx) => (
-                  <div key={job.documentId || job.id || idx} className="shrink-0 w-[300px] sm:w-[350px] lg:w-[402px]">
+                  <div
+                    key={job.documentId || job.id || idx}
+                    className="w-[min(300px,85%)] shrink-0 sm:w-[350px] lg:w-[calc((100cqi-4.5rem)/4)] lg:max-w-[402px]"
+                  >
                     <StaffingSlideCard
                       title={job.title}
                       body={job.tagline || 'Connecting cleared, credentialed healthcare professionals with facilities nationwide.'}

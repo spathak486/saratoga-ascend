@@ -194,6 +194,8 @@ export function AccountableOperatingEnvironmentsSection({
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
+  /** Figma artboard shows Group 49 as hover/active; no card stays gradient by default. */
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   const checkScrollState = () => {
     const el = scrollContainerRef.current;
@@ -237,7 +239,7 @@ export function AccountableOperatingEnvironmentsSection({
     }
 
     if (!rawTitle) {
-      return <span className="text-[#D31E2D] block sm:inline">{rawHighlight}</span>;
+      return <span className="text-[#F01424] block sm:inline">{rawHighlight}</span>;
     }
 
     const escapedHighlight = rawHighlight.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -248,7 +250,7 @@ export function AccountableOperatingEnvironmentsSection({
       return parts.map((part, i) => {
         if (part.toLowerCase() === rawHighlight.toLowerCase()) {
           return (
-            <span key={i} className="text-[#D31E2D] block sm:inline">
+            <span key={i} className="text-[#F01424] block sm:inline">
               {part}
             </span>
           );
@@ -261,7 +263,7 @@ export function AccountableOperatingEnvironmentsSection({
     return (
       <>
         <span>{rawTitle} </span>
-        <span className="text-[#D31E2D] block sm:inline">{rawHighlight}</span>
+        <span className="text-[#F01424] block sm:inline">{rawHighlight}</span>
       </>
     );
   };
@@ -345,36 +347,51 @@ export function AccountableOperatingEnvironmentsSection({
           style={{ scrollSnapType: 'x mandatory' }}
         >
           {cards.map((card, index) => {
-            const isHighlighted = card.isHighlighted ?? (index === 0);
+            const isActive = hoveredIndex === index;
             const iconUrl = typeof card.icon === 'string' ? card.icon : card.icon?.url;
             const CardIcon = getCardIcon(card.title, index);
 
             return (
-              /* Outer Card: width: 456.29px, height: 564px, border-radius: 30px, border: 1px solid #FAFAFA */
+              /*
+                Figma Group 49 (active/hover) vs Group 50 (default).
+                Transition ~400ms ease-out; gradient + icon #D7E8FF only while hovered.
+              */
               <div
                 key={card.id ?? `env-card-${index}`}
+                onMouseEnter={() => setHoveredIndex(index)}
+                onMouseLeave={() => setHoveredIndex(null)}
+                onFocus={() => setHoveredIndex(index)}
+                onBlur={() => setHoveredIndex(null)}
+                tabIndex={0}
                 style={{ scrollSnapAlign: 'start' }}
-                className={`relative shrink-0 flex flex-col justify-between w-[320px] sm:w-[400px] md:w-[456.29px] h-[520px] md:h-[564px] rounded-[30px] p-[21.54px] transition-all duration-300 hover:-translate-y-1 ${
-                  isHighlighted
-                    ? 'border border-[#FAFAFA] text-white shadow-xl'
-                    : 'bg-[#FCFCFC] border border-[#FAFAFA] text-[#000000] shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-md'
+                className={`relative isolate flex h-[520px] w-[320px] shrink-0 cursor-pointer flex-col justify-between overflow-hidden rounded-[30px] border border-[#FAFAFA] p-[21.54px] transition-[box-shadow] duration-[400ms] ease-out motion-reduce:transition-none sm:w-[400px] md:h-[564px] md:w-[456.29px] ${
+                  isActive
+                    ? 'shadow-xl'
+                    : 'bg-[#FCFCFC] shadow-[0_4px_20px_rgba(0,0,0,0.03)]'
                 }`}
               >
-                {/* Highlight gradient background layer (Figma Rectangle 12) */}
-                {isHighlighted && (
-                  <div
-                    className="absolute inset-0 rounded-[30px] pointer-events-none -z-10"
-                    style={{
-                      background:
-                        'linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), linear-gradient(87.03deg, #FF0013 -15.22%, #00BBFF 104.41%)',
-                    }}
-                  />
-                )}
+                {/* Default fill + hover gradient (z-0 inside isolate so it stays visible) */}
+                <div
+                  aria-hidden="true"
+                  className={`pointer-events-none absolute inset-0 z-0 bg-[#FCFCFC] transition-opacity duration-[400ms] ease-out motion-reduce:transition-none ${
+                    isActive ? 'opacity-0' : 'opacity-100'
+                  }`}
+                />
+                <div
+                  aria-hidden="true"
+                  className={`pointer-events-none absolute inset-0 z-0 transition-opacity duration-[400ms] ease-out motion-reduce:transition-none ${
+                    isActive ? 'opacity-100' : 'opacity-0'
+                  }`}
+                  style={{
+                    background:
+                      'linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), linear-gradient(87.03deg, #FF0013 -15.22%, #00BBFF 104.41%)',
+                  }}
+                />
 
-                {/* Top Icon Area: 100px x 100px, left: 52.88px, top: 26.44px (inside card: padding-left: 31.34px, padding-top: 4.9px) */}
-                <div className="pt-[4.9px] pl-[31.34px]">
+                {/* Icon 100×100 — Default #000 / Hover #D7E8FF */}
+                <div className="relative z-10 pt-[4.9px] pl-[31.34px]">
                   {iconUrl ? (
-                    <div className="relative w-[80px] h-[80px] md:w-[100px] md:h-[100px]">
+                    <div className="relative size-20 md:size-[100px]">
                       <Image
                         src={normalizeImageSrc(iconUrl)}
                         alt={stripHtml(card.title)}
@@ -385,30 +402,30 @@ export function AccountableOperatingEnvironmentsSection({
                     </div>
                   ) : (
                     <div
-                      className={`w-[80px] h-[80px] md:w-[100px] md:h-[100px] flex items-center justify-center ${
-                        isHighlighted ? 'text-[#D7E8FF]' : 'text-[#000000]'
+                      className={`flex size-20 items-center justify-center transition-colors duration-[400ms] ease-out motion-reduce:transition-none md:size-[100px] ${
+                        isActive ? 'text-[#D7E8FF]' : 'text-[#000000]'
                       }`}
                     >
-                      <CardIcon className="w-full h-full" />
+                      <CardIcon className="size-full" />
                     </div>
                   )}
                 </div>
 
-                {/* Inner Content Card (Figma Rectangle 13 / 11: width: 413.21px, height: 235.98px, border-radius: 30px) */}
+                {/* Rectangle 13/11 — white when active, rgba(217,217,217,0.2) default */}
                 <div
-                  className={`w-full min-h-[220px] md:min-h-[235.98px] rounded-[30px] px-[31.34px] py-[28px] md:py-[30px] flex flex-col justify-center transition-colors ${
-                    isHighlighted
-                      ? 'bg-[#FFFFFF] shadow-[0_4px_24px_rgba(0,0,0,0.08)]'
+                  className={`relative z-10 flex w-full min-h-[220px] flex-col justify-center rounded-[30px] px-[31.34px] py-7 transition-colors duration-[400ms] ease-out motion-reduce:transition-none md:min-h-[235.98px] md:py-[30px] ${
+                    isActive
+                      ? 'bg-white shadow-[0_4px_24px_rgba(0,0,0,0.08)]'
                       : 'bg-[rgba(217,217,217,0.2)]'
                   }`}
                 >
-                  {/* Title: DM Serif Text, 32px, line-height: 44px, Primary-Blue #022E4C */}
-                  <h3 className="font-['DM_Serif_Text'] text-[24px] sm:text-[28px] md:text-[32px] leading-[36px] md:leading-[44px] text-[#022E4C] font-normal mb-[12px] md:mb-[16px]">
+                  {/* Title: DM Serif Text 32 / Primary-Blue #022E4C */}
+                  <h3 className="mb-3 font-['DM_Serif_Text'] text-2xl leading-9 font-normal text-[#022E4C] sm:text-[28px] md:mb-4 md:text-[32px] md:leading-[normal]">
                     <span dangerouslySetInnerHTML={{ __html: cleanHeadingHtml(card.title) }} />
                   </h3>
 
-                  {/* Description: Google Sans Flex, 20px, line-height: 35px (175%), color: #000000 */}
-                  <p className="line-clamp-4 min-w-0 break-words font-['Google_Sans_Flex'] text-[16px] sm:text-[18px] md:text-[20px] leading-[28px] md:leading-[35px] text-[#000000] font-normal">
+                  {/* Body: Google Sans Flex 20 / lh 35 / #000 */}
+                  <p className="line-clamp-4 min-w-0 break-words font-['Google_Sans_Flex'] text-base leading-7 font-normal text-black sm:text-lg md:text-[20px] md:leading-[35px]">
                     {stripHtml(card.description)}
                   </p>
                 </div>

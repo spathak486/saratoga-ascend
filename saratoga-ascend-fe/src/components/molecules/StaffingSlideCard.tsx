@@ -1,8 +1,7 @@
 'use client';
 
 import { stripHtml } from '@/lib/utils/text';
-import React, { useState } from 'react';
-import { motion, useReducedMotion } from 'motion/react';
+import React from 'react';
 import { Heading } from '../atoms';
 import { MediaFrame } from '../atoms/MediaFrame';
 
@@ -13,49 +12,41 @@ export interface StaffingSlideCardProps {
   href?: string;
 }
 
-/** Figma Job Card ON_HOVER → Property 1=2, Smart Animate, Quick, 744ms. */
-const HOVER_TRANSITION = {
-  duration: 0.744,
-  ease: [0.2, 0, 0, 1] as const,
-};
+/**
+ * Figma Job Card 1351:4684 → 1351:4683 ON_HOVER:
+ * Smart Animate 744ms Quick. Title y 377→162; body + navy wash fade in.
+ * No text-overflow ellipsis; no extra blob behind the heading.
+ */
+const HOVER_EASE = 'cubic-bezier(0.2, 0, 0, 1)';
+const HOVER_MS = 744;
 
 const DEFAULT_BODY =
   'Connecting cleared, credentialed healthcare professionals with government, military.';
 
+/** Hover-only wash (Figma Rectangle 115). Not present behind rest titles. */
 const NAVY_WASH =
   'linear-gradient(180deg, rgb(0 40 69 / 0) 0%, var(--color-brand-navy-band) 100%)';
 
-/**
- * Travel Staffing tile (Figma Job Card 2002:261 / 2002:266).
- * Desktop rest: 402×450, 32px corners, 1px #C6C6C6, 20% black + navy foot wash,
- * title at y=377. Hover (744ms Quick): second navy wash, title to y=162,
- * 18/22 body at y=223.
- * Mobile instance 2105:646 is 246×276 — title + body stay centered at rest.
- */
+/** 44px @ 402px artboard → scales with card via cqi. */
+const TITLE_SIZE = 'clamp(1.125rem, 10.95cqi, 2.75rem)';
+
 export const StaffingSlideCard: React.FC<StaffingSlideCardProps> = ({
   title = 'Travel Staffing',
   body = DEFAULT_BODY,
   imageSrc = '/images/Rectangle%20113.png',
   href = '/what-we-do',
 }) => {
-  const reduce = useReducedMotion();
-  const [active, setActive] = useState(false);
-  const hovered = Boolean(active && !reduce);
-  const motionTime = reduce ? { duration: 0 } : HOVER_TRANSITION;
+  const titleText = stripHtml(title);
 
   return (
     <a
       href={href}
       draggable={false}
       onDragStart={(event) => event.preventDefault()}
-      onMouseEnter={() => setActive(true)}
-      onMouseLeave={() => setActive(false)}
-      onFocus={() => setActive(true)}
-      onBlur={() => setActive(false)}
       className="group block focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-sky"
     >
       <article
-        className="relative aspect-[402/450] w-full overflow-hidden rounded-[1.25rem] xl:rounded-panel"
+        className="@container relative aspect-[402/450] w-full overflow-hidden rounded-[1.25rem] lg:rounded-panel"
         style={{ border: '1px solid #c6c6c6', boxSizing: 'border-box' }}
       >
         <MediaFrame
@@ -68,65 +59,70 @@ export const StaffingSlideCard: React.FC<StaffingSlideCardProps> = ({
           className="absolute inset-0 size-full border-0"
         />
 
+        {/* Original rest overlays — CMS image unchanged underneath */}
         <div className="pointer-events-none absolute inset-0 bg-black/20" aria-hidden="true" />
         <div
           className="pointer-events-none absolute inset-0"
           style={{ backgroundImage: NAVY_WASH }}
           aria-hidden="true"
         />
-        <motion.div
+
+        {/* Hover navy wash (Figma Rectangle 115) */}
+        <div
           aria-hidden
-          className="pointer-events-none absolute inset-0"
-          style={{ backgroundImage: NAVY_WASH }}
-          initial={false}
-          animate={{ opacity: hovered ? 1 : 0 }}
-          transition={motionTime}
+          className="pointer-events-none absolute inset-0 opacity-0 transition-opacity motion-reduce:transition-none group-hover:opacity-100 group-focus-within:opacity-100"
+          style={{
+            backgroundImage: NAVY_WASH,
+            transitionDuration: `${HOVER_MS}ms`,
+            transitionTimingFunction: HOVER_EASE,
+          }}
         />
 
-        <motion.div
-          className="pointer-events-none absolute hidden xl:block"
-          initial={false}
-          animate={{
-            top: hovered ? 162 : 377,
-            left: hovered ? 43 : 58,
-            width: hovered ? 316 : 285,
+        {/*
+          Desktop text — CSS group-hover so the lift always runs (JS hover was unreliable).
+          Rest top 78% keeps the full heading above the card edge; hover → 36% (Figma y=162).
+        */}
+        <div
+          className="pointer-events-none absolute left-[10.7%] hidden w-[78.61%] flex-col items-center transition-[top] motion-reduce:transition-none lg:flex top-[78%] group-hover:top-[36%] group-focus-within:top-[36%]"
+          style={{
+            transitionDuration: `${HOVER_MS}ms`,
+            transitionTimingFunction: HOVER_EASE,
           }}
-          transition={motionTime}
         >
           <Heading
             level={3}
-            size="subtitle"
             font="serif"
             tone="onDark"
-            className="w-[285px] text-[2.75rem] leading-[1.2] text-white xl:mx-auto"
+            className="m-0 w-full max-w-full text-balance break-words text-center font-normal leading-[1.2] text-white"
+            style={{ fontSize: TITLE_SIZE }}
           >
-            {stripHtml(title)}
+            {titleText}
           </Heading>
-          <motion.p
-            className="w-full text-center font-sans text-[1.125rem] leading-[1.375rem] font-medium text-white"
-            initial={false}
-            animate={{
-              opacity: hovered ? 1 : 0,
-              height: hovered ? 66 : 0,
-              marginTop: hovered ? 8 : 0,
+          <p
+            className="absolute top-full left-0 m-0 mt-2 line-clamp-3 w-full text-center font-sans font-medium text-white opacity-0 transition-opacity motion-reduce:transition-none group-hover:opacity-100 group-focus-within:opacity-100"
+            style={{
+              fontSize: 'clamp(0.8125rem, 4.48cqi, 1.125rem)',
+              lineHeight: '1.375rem',
+              transitionDuration: `${HOVER_MS}ms`,
+              transitionTimingFunction: HOVER_EASE,
             }}
-            transition={motionTime}
           >
             {body}
-          </motion.p>
-        </motion.div>
+          </p>
+        </div>
 
-        <div className="pointer-events-none absolute inset-0 z-[1] flex flex-col items-center justify-center gap-2 px-3.5 xl:hidden">
+        {/* Mobile / tablet — centered title + body */}
+        <div className="pointer-events-none absolute inset-0 z-[1] flex flex-col items-center justify-center gap-2 px-3.5 lg:hidden">
           <Heading
             level={3}
-            size="subtitle"
             font="serif"
             tone="onDark"
-            className="w-full text-center text-[1.375rem] leading-[1.2] text-white"
+            className="m-0 w-full max-w-full text-balance break-words text-center font-normal leading-[1.2] text-white"
+            style={{ fontSize: '1.375rem' }}
           >
-            {stripHtml(title)}
+            {titleText}
           </Heading>
-          <p className="line-clamp-4 w-full min-w-0 break-words text-center font-sans text-[0.8125rem] leading-[1.125rem] font-medium text-white">
+          <p className="m-0 line-clamp-4 w-full min-w-0 break-words text-center font-sans text-[0.8125rem] leading-[1.125rem] font-medium text-white">
             {body}
           </p>
         </div>
