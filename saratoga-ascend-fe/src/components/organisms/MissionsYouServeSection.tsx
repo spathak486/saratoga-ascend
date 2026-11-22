@@ -80,7 +80,7 @@ function cardImage(card: MissionsYouServeCard, index: number): { src: string; al
 }
 
 /**
- * Built Around the Missions You Serve — Figma JzRl5kAw1Yx0qUj9MTvjkm 2:1128.
+ * Built Around the Missions You Serve — Figma 38S6hot17hjBCnXF7CLVCj 2731:11598.
  * Desktop frame is 1920×930. The file has no tablet or mobile frame for this
  * section, and get_motion_context returned no tracks.
  */
@@ -190,7 +190,7 @@ export function MissionsYouServeSection({
         down (80 + 23). Cards start 163px down (80 + 83). Buttons sit 60px
         above the card bottoms. No tablet/mobile frame exists in the file.
       */}
-      <div className="relative mx-auto w-full max-w-home overflow-hidden py-10 xl:py-20">
+      <div className="relative mx-auto w-full max-w-home overflow-x-clip py-10 xl:py-20">
         <div
           className="pointer-events-none absolute top-20 right-[-8.1875rem] hidden h-[39.3125rem] w-[49.6875rem] rounded-[42.667px] border-[1.5px] border-brand-red xl:block"
           aria-hidden="true"
@@ -245,7 +245,7 @@ export function MissionsYouServeSection({
             <div className="min-w-0 xl:pt-[5.1875rem]">
               <div
                 ref={scrollContainerRef}
-                className="w-full min-w-0 overflow-x-auto scroll-smooth motion-reduce:scroll-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+                className="w-full min-w-0 overflow-x-auto overflow-y-clip scroll-smooth motion-reduce:scroll-auto xl:min-h-[42.9375rem] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
                 tabIndex={0}
                 aria-label="Government environments"
                 onKeyDown={(event) => {
@@ -258,14 +258,14 @@ export function MissionsYouServeSection({
                   }
                 }}
               >
-                <div className="flex w-max min-w-full snap-x snap-mandatory gap-4 ps-[var(--spacing-gutter)] pe-[var(--spacing-gutter)] xl:ps-0">
+                <div className="flex w-max min-w-full snap-x snap-mandatory gap-4 ps-[var(--spacing-gutter)] pe-[var(--spacing-gutter)] xl:gap-4 xl:ps-0">
                 {displayCards.map((card, idx) => {
                   const photo = cardImage(card, idx);
                   return (
                     <article
                       key={card.id ?? card.documentId ?? `mission-card-${idx}`}
                       data-mission-card
-                      className="flex w-[min(85vw,20rem)] shrink-0 snap-start flex-col justify-between gap-8 rounded-panel border-[1.5px] border-brand-sky bg-[#f1f8ff] p-6 sm:w-[min(72vw,28rem)] sm:p-8 xl:min-h-[42.9375rem] xl:w-[35.9375rem] xl:p-[3.375rem]"
+                      className="flex w-[min(85vw,20rem)] shrink-0 snap-start flex-col justify-between gap-8 rounded-panel border-[1.5px] border-brand-sky bg-[#f1f8ff] p-6 sm:w-[min(72vw,28rem)] sm:p-8 xl:h-[42.9375rem] xl:w-[35.9375rem] xl:gap-8 xl:p-[3.375rem]"
                     >
                       <div className="flex min-w-0 flex-col gap-[1.3333rem]">
                         {/* 40px semibold has no Heading step. The section token caps at 72. */}
@@ -280,22 +280,26 @@ export function MissionsYouServeSection({
                         </p>
                       </div>
 
-                      <div className="relative mt-auto aspect-[467/317.333] w-full overflow-hidden rounded-2xl">
+                      {/*
+                        Figma 2731:11613 — 467×317.333 plate, gradient + #2B88D9
+                        ellipse peeking top-left, photo bottom-aligned at 82.275%.
+                      */}
+                      <div className="relative mt-auto aspect-[467/317.333] w-full shrink-0 overflow-hidden rounded-2xl">
                         <div
-                          className="absolute inset-0"
+                          className="absolute inset-0 rounded-2xl bg-white"
                           style={{
-                            background:
-                              'linear-gradient(109.1deg, #9ED2FF 19.68%, rgba(192, 226, 255, 0.3) 65.6%, #F1F8FF 82.94%), #FFFFFF',
+                            backgroundImage:
+                              'linear-gradient(109.1deg, #9ED2FF 19.68%, rgba(192, 226, 255, 0.3) 65.6%, #F1F8FF 82.94%)',
                           }}
                           aria-hidden="true"
                         />
                         <div
-                          className="pointer-events-none absolute rounded-full bg-brand-sky"
+                          className="pointer-events-none absolute z-[1] rounded-full bg-brand-sky"
                           style={{
-                            width: '24.857%',
+                            width: '24.84%',
                             aspectRatio: '1',
-                            left: '-10.572%',
-                            top: '-18.487%',
+                            left: '-10.57%',
+                            top: '-18.49%',
                           }}
                           aria-hidden="true"
                         />
@@ -303,8 +307,8 @@ export function MissionsYouServeSection({
                           <img
                             src={photo.src}
                             alt={photo.alt}
-                            className="absolute inset-x-0 bottom-0 w-full rounded-b-2xl object-cover"
-                            style={{ height: '82.275%' }}
+                            className="absolute inset-x-0 bottom-0 z-[2] h-[82.275%] w-full rounded-2xl object-cover object-center"
+                            loading="lazy"
                           />
                         ) : null}
                       </div>

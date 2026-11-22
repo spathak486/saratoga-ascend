@@ -207,7 +207,7 @@ export function ExploreCapabilitiesSection({
   return (
     <section
       aria-label={title || 'Explore more Saratoga Ascend capabilities.'}
-      className="relative mx-auto w-full max-w-[1920px] overflow-hidden bg-[#FAFAFA] px-page py-12 max-sm:px-6! xl:py-20"
+      className="relative mx-auto w-full max-w-[1920px] overflow-hidden bg-[#FAFAFA] px-page py-12 max-sm:px-6! max-xl:py-10! xl:py-20"
     >
       {/* Title + carousel controls — Figma title y=80, cards y=226 → 60px gap after 86px title */}
       <div className="mx-auto mb-10 flex max-w-[1680px] flex-col gap-6 xl:mb-[60px] lg:flex-row lg:items-end lg:justify-between">

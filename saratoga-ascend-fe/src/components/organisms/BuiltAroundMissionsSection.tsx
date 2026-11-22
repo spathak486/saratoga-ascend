@@ -112,62 +112,41 @@ export const BuiltAroundMissionsSection: React.FC<BuiltAroundMissionsSectionProp
             )}
           </div>
 
-          {/* 2x2 Grid Layout */}
+          {/* 2x2 Grid Layout — rest light; blue fill only on hover/focus (Figma middle-card state) */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-7 lg:gap-8 xl:gap-[30px] w-full max-w-[1618px]">
             {cards.map((card, idx) => {
               const cardNumber = card.number || `0${idx + 1}`;
-              const isBlue =
-                typeof card.isHighlighted === 'boolean'
-                  ? card.isHighlighted
-                  : idx === 1 || idx === 2;
 
               return (
                 /* Frame 2147226435 / Frame 2147226437 / Frame 2147226438 / Frame 2147226439:
                    width: 794px, height: 232px, padding: 34px 30px 34px 20px, border-radius: 20px, border: 1px solid #2B88D9 */
                 <div
                   key={card.id || `card-${idx}`}
-                  className={`box-border relative flex items-center gap-[19px] p-5 sm:p-6 lg:py-[34px] lg:pl-[20px] lg:pr-[30px] w-full max-w-[794px] min-h-[190px] lg:h-[232px] rounded-[20px] border border-[#2B88D9] transition-all duration-300 hover:shadow-xl ${
-                    isBlue
-                      ? 'bg-[#2B88D9] text-white shadow-[0_8px_30px_rgba(43,136,217,0.25)]'
-                      : 'bg-[#F3F9FF] text-[#212121] shadow-[0_4px_20px_rgba(43,136,217,0.06)]'
-                  }`}
+                  tabIndex={0}
+                  className="group box-border relative flex items-center gap-[19px] p-5 sm:p-6 lg:py-[34px] lg:pl-[20px] lg:pr-[30px] w-full max-w-[794px] min-h-[190px] lg:h-[232px] rounded-[20px] border border-[#2B88D9] bg-[#F3F9FF] text-[#212121] shadow-[0_4px_20px_rgba(43,136,217,0.06)] transition-[background-color,box-shadow,color] duration-300 ease-out hover:bg-[#2B88D9] hover:text-white hover:shadow-[0_8px_30px_rgba(43,136,217,0.25)] focus-visible:bg-[#2B88D9] focus-visible:text-white focus-visible:shadow-[0_8px_30px_rgba(43,136,217,0.25)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-navy motion-reduce:transition-none"
                 >
                   {/* Left Number: Outfit, 700, 36px, line-height: 45px (width: 58px) */}
                   <div className="shrink-0 flex items-center justify-center w-[58px]">
-                    <span
-                      className={`font-['Outfit',sans-serif] font-bold text-3xl lg:text-[36px] leading-[45px] ${
-                        isBlue ? 'text-white' : 'text-[#212121]'
-                      }`}
-                    >
+                    <span className="font-['Outfit',sans-serif] font-bold text-3xl lg:text-[36px] leading-[45px] text-[#212121] transition-colors duration-300 group-hover:text-white group-focus-visible:text-white motion-reduce:transition-none">
                       {cardNumber}
                     </span>
                   </div>
 
                   {/* Vertical Divider: Vector 7171, height: 148px, border: 2px solid */}
                   <div
-                    className={`h-[110px] lg:h-[148px] w-0 border-l-2 shrink-0 ${
-                      isBlue ? 'border-white' : 'border-[#000000]'
-                    }`}
+                    className="h-[110px] lg:h-[148px] w-0 border-l-2 shrink-0 border-[#000000] transition-colors duration-300 group-hover:border-white group-focus-visible:border-white motion-reduce:transition-none"
                     aria-hidden="true"
                   />
 
                   {/* Group 2085664883: Title & Description */}
                   <div className="flex-1 flex flex-col justify-center min-w-0 pl-[1px]">
                     {/* Title: Google Sans Flex, 700, 28px, line-height: 28px */}
-                    <h3
-                      className={`font-sans font-bold text-xl lg:text-[28px] leading-[1.15] lg:leading-[28px] mb-2 sm:mb-2.5 ${
-                        isBlue ? 'text-white' : 'text-[#212121]'
-                      }`}
-                    >
+                    <h3 className="font-sans font-bold text-xl lg:text-[28px] leading-[1.15] lg:leading-[28px] mb-2 sm:mb-2.5 text-[#212121] transition-colors duration-300 group-hover:text-white group-focus-visible:text-white motion-reduce:transition-none">
                       {stripHtml(card.title)}
                     </h3>
 
                     {/* Description: DM Sans 18pt, 300, 24px, line-height: 40px (167%) */}
-                    <p
-                      className={`font-sans font-light text-base lg:text-[24px] leading-snug lg:leading-[40px] ${
-                        isBlue ? 'text-white' : 'text-[#212121]'
-                      }`}
-                    >
+                    <p className="font-sans font-light text-base lg:text-[24px] leading-snug lg:leading-[40px] text-[#212121] transition-colors duration-300 group-hover:text-white group-focus-visible:text-white motion-reduce:transition-none">
                       {stripHtml(card.description)}
                     </p>
                   </div>
@@ -223,52 +202,34 @@ export const BuiltAroundMissionsSection: React.FC<BuiltAroundMissionsSectionProp
             )}
           </div>
 
-          {/* Right Column: Stacked Cards */}
+          {/* Right Column: Stacked Cards — Figma shows 02 as hover example; no card stays blue */}
           <div className="w-full lg:w-[clamp(340px,27.24vw,523px)] flex flex-col gap-[clamp(1rem,1.56vw,1.875rem)] shrink-0">
             {cards.map((card, idx) => {
               const cardNumber = card.number || `0${idx + 1}`;
-              const isHighlighted = Boolean(card.isHighlighted);
 
               return (
                 <div
                   key={card.id || `card-${idx}`}
-                  className={`box-border relative flex items-center gap-4 sm:gap-6 p-6 sm:py-[clamp(1.5rem,1.77vw,2.125rem)] sm:px-[clamp(1.25rem,1.56vw,1.875rem)] w-full min-h-[clamp(140px,10.05vw,193px)] rounded-[20px] border border-[#2B88D9] transition-all duration-300 hover:shadow-lg ${
-                    isHighlighted
-                      ? 'bg-[#2B88D9] text-white shadow-[0_8px_30px_rgba(43,136,217,0.28)]'
-                      : 'bg-[#F3F9FF] text-[#212121] shadow-[0_4px_20px_rgba(43,136,217,0.06)]'
-                  }`}
+                  tabIndex={0}
+                  className="group box-border relative flex cursor-pointer items-center gap-4 sm:gap-6 p-6 sm:py-[clamp(1.5rem,1.77vw,2.125rem)] sm:px-[clamp(1.25rem,1.56vw,1.875rem)] w-full min-h-[clamp(140px,10.05vw,193px)] rounded-[20px] border border-[#2B88D9] bg-[#F3F9FF] text-[#212121] shadow-[0_4px_20px_rgba(43,136,217,0.06)] transition-[background-color,box-shadow,color] duration-300 ease-out hover:bg-[#2B88D9] hover:text-white hover:shadow-[0_8px_30px_rgba(43,136,217,0.28)] focus-visible:bg-[#2B88D9] focus-visible:text-white focus-visible:shadow-[0_8px_30px_rgba(43,136,217,0.28)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-navy motion-reduce:transition-none"
                 >
                   <div className="shrink-0 flex items-center justify-center min-w-[48px] sm:min-w-[56px]">
-                    <span
-                      className={`font-['Outfit',sans-serif] font-bold text-[clamp(1.75rem,1.875vw,2.25rem)] leading-[clamp(2rem,2.34vw,2.8125rem)] ${
-                        isHighlighted ? 'text-white' : 'text-[#212121]'
-                      }`}
-                    >
+                    <span className="font-['Outfit',sans-serif] font-bold text-[clamp(1.75rem,1.875vw,2.25rem)] leading-[clamp(2rem,2.34vw,2.8125rem)] text-[#212121] transition-colors duration-300 group-hover:text-white group-focus-visible:text-white motion-reduce:transition-none">
                       {cardNumber}
                     </span>
                   </div>
 
                   <div
-                    className={`h-[clamp(70px,6.35vw,122px)] w-0 border-l-2 shrink-0 ${
-                      isHighlighted ? 'border-white' : 'border-[#000000]'
-                    }`}
+                    className="h-[clamp(70px,6.35vw,122px)] w-0 border-l-2 shrink-0 border-[#000000] transition-colors duration-300 group-hover:border-white group-focus-visible:border-white motion-reduce:transition-none"
                     aria-hidden="true"
                   />
 
                   <div className="flex-1 flex flex-col justify-center">
-                    <h3
-                      className={`font-sans font-bold text-[clamp(1.125rem,1.25vw,1.5rem)] leading-[clamp(1.4rem,1.45vw,1.75rem)] mb-1 sm:mb-2 ${
-                        isHighlighted ? 'text-white' : 'text-[#212121]'
-                      }`}
-                    >
+                    <h3 className="font-sans font-bold text-[clamp(1.125rem,1.25vw,1.5rem)] leading-[clamp(1.4rem,1.45vw,1.75rem)] mb-1 sm:mb-2 text-[#212121] transition-colors duration-300 group-hover:text-white group-focus-visible:text-white motion-reduce:transition-none">
                       {stripHtml(card.title)}
                     </h3>
 
-                    <p
-                      className={`line-clamp-4 min-w-0 break-words font-sans font-light text-[clamp(0.95rem,1.04vw,1.25rem)] leading-[clamp(1.35rem,1.45vw,1.75rem)] ${
-                        isHighlighted ? 'text-white' : 'text-[#212121]'
-                      }`}
-                    >
+                    <p className="line-clamp-4 min-w-0 break-words font-sans font-light text-[clamp(0.95rem,1.04vw,1.25rem)] leading-[clamp(1.35rem,1.45vw,1.75rem)] text-[#212121] transition-colors duration-300 group-hover:text-white group-focus-visible:text-white motion-reduce:transition-none">
                       {stripHtml(card.description)}
                     </p>
                   </div>

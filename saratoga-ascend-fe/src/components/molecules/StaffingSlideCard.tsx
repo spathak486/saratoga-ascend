@@ -1,9 +1,9 @@
 'use client';
 
 import { stripHtml } from '@/lib/utils/text';
-import React, { useState } from 'react';
-import { motion, useReducedMotion } from 'motion/react';
+import React from 'react';
 import Image from 'next/image';
+import { Heading } from '../atoms';
 
 export interface StaffingSlideCardProps {
   title?: React.ReactNode;
@@ -12,11 +12,13 @@ export interface StaffingSlideCardProps {
   href?: string;
 }
 
-/** Figma Job Card ON_HOVER → Property 1=2, Smart Animate, Quick, 744ms. */
-const HOVER_TRANSITION = {
-  duration: 0.744,
-  ease: [0.2, 0, 0, 1] as const,
-};
+/**
+ * Figma Job Card 1351:4684 → 1351:4683 ON_HOVER:
+ * Smart Animate 744ms Quick. Title y≈377→162; body + navy wash fade in.
+ * CMS image comes through `imageSrc` (parent resolves Strapi URLs).
+ */
+const HOVER_EASE = 'cubic-bezier(0.2, 0, 0, 1)';
+const HOVER_MS = 744;
 
 const DEFAULT_BODY =
   'Connecting cleared, credentialed healthcare professionals with government, military.';
@@ -24,101 +26,104 @@ const DEFAULT_BODY =
 const NAVY_WASH =
   'linear-gradient(180deg, rgb(0 40 69 / 0) 0%, var(--color-brand-navy-band) 100%)';
 
-/**
- * Travel Staffing tile (Figma Node 1899:2263 / 1351:4684).
- * Desktop rest: 402×450px, border-radius: 32px, border: 1px solid #c6c6c6
- * Dark overlay: 20% black + navy foot wash
- * Title rest: DM Serif Text, 44px (2.75rem), line-height: 1.2, color: white, y = 377px
- * Title hover: top = 162px, body fades in at y = 223px
- */
+/** 44px @ 402px artboard → scales with card via cqi. */
+const TITLE_SIZE = 'clamp(1.125rem, 10.95cqi, 2.75rem)';
+
 export const StaffingSlideCard: React.FC<StaffingSlideCardProps> = ({
   title = 'Travel Staffing',
   body = DEFAULT_BODY,
   imageSrc = '/images/Rectangle 113.png',
   href = '/what-we-do',
 }) => {
-  const reduce = useReducedMotion();
-  const [active, setActive] = useState(false);
-  const hovered = Boolean(active && !reduce);
-  const motionTime = reduce ? { duration: 0 } : HOVER_TRANSITION;
+  const titleText = stripHtml(title);
 
   return (
     <a
       href={href}
       draggable={false}
       onDragStart={(event) => event.preventDefault()}
-      onMouseEnter={() => setActive(true)}
-      onMouseLeave={() => setActive(false)}
-      onFocus={() => setActive(true)}
-      onBlur={() => setActive(false)}
-      className="group block focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-sky select-none"
+      className="group block select-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-sky"
     >
       <article
-        className="relative aspect-[402/450] w-full overflow-hidden rounded-[2rem] border border-[#c6c6c6] bg-white shadow-sm"
+        className="@container relative aspect-[402/450] w-full overflow-hidden rounded-[1.25rem] border border-[#c6c6c6] bg-white shadow-sm lg:rounded-panel"
         style={{ boxSizing: 'border-box' }}
       >
-        {/* Background Photo */}
-        <div className="absolute inset-0 size-full pointer-events-none">
+        {/* CMS / prop photo — do not hardcode; parent passes resolved URL */}
+        <div className="pointer-events-none absolute inset-0 size-full">
           <Image
             src={imageSrc}
             alt=""
             fill
             sizes="(max-width: 1279px) 300px, 402px"
-            className="object-cover pointer-events-none select-none"
+            className="pointer-events-none object-cover select-none"
             priority
           />
         </div>
 
-        {/* 20% Black Overlay (Figma Node 1351:4665) */}
+        {/* Rest overlays (Figma 20% black + navy foot wash) */}
         <div className="pointer-events-none absolute inset-0 bg-black/20" aria-hidden="true" />
-        
-        {/* Navy foot wash overlay */}
         <div
           className="pointer-events-none absolute inset-0"
           style={{ backgroundImage: NAVY_WASH }}
           aria-hidden="true"
         />
-        <motion.div
+
+        {/* Hover navy wash (Figma Rectangle 115) */}
+        <div
           aria-hidden
-          className="pointer-events-none absolute inset-0"
-          style={{ backgroundImage: NAVY_WASH }}
-          initial={false}
-          animate={{ opacity: hovered ? 1 : 0 }}
-          transition={motionTime}
+          className="pointer-events-none absolute inset-0 opacity-0 transition-opacity motion-reduce:transition-none group-hover:opacity-100 group-focus-within:opacity-100"
+          style={{
+            backgroundImage: NAVY_WASH,
+            transitionDuration: `${HOVER_MS}ms`,
+            transitionTimingFunction: HOVER_EASE,
+          }}
         />
 
-        {/* Desktop Title & Hover Body (Figma Node 1351:4667: y: 377px, font-size: 44px, line-height: 1.2) */}
-        <motion.div
-          className="pointer-events-none absolute hidden xl:flex flex-col items-center justify-center text-center inset-x-0"
-          initial={false}
-          animate={{
-            top: hovered ? '9rem' : '20.5rem',
+        {/*
+          Desktop text — CSS group-hover Smart Animate (744ms Quick).
+          Rest ~78% (full heading visible); hover → 36% (Figma y=162).
+        */}
+        <div
+          className="pointer-events-none absolute top-[78%] left-[10.7%] hidden w-[78.61%] flex-col items-center transition-[top] motion-reduce:transition-none group-hover:top-[36%] group-focus-within:top-[36%] lg:flex"
+          style={{
+            transitionDuration: `${HOVER_MS}ms`,
+            transitionTimingFunction: HOVER_EASE,
           }}
-          transition={motionTime}
         >
-          <h4 className="w-full text-center font-serif text-[1.85rem] sm:text-[2.15rem] xl:text-[2.35rem] leading-[1.2] text-white px-4 tracking-normal drop-shadow-sm line-clamp-2 break-words">
-            {stripHtml(title)}
-          </h4>
-          <motion.p
-            className="w-full max-w-[19.75rem] text-center font-sans text-[1.125rem] leading-[1.375rem] font-medium text-white px-2"
-            initial={false}
-            animate={{
-              opacity: hovered ? 1 : 0,
-              height: hovered ? 'auto' : 0,
-              marginTop: hovered ? '0.5rem' : 0,
+          <Heading
+            level={3}
+            font="serif"
+            tone="onDark"
+            className="m-0 w-full max-w-full text-center text-balance break-words font-normal leading-[1.2] text-white"
+            style={{ fontSize: TITLE_SIZE }}
+          >
+            {titleText}
+          </Heading>
+          <p
+            className="absolute top-full left-0 m-0 mt-2 line-clamp-3 w-full text-center font-sans font-medium text-white opacity-0 transition-opacity motion-reduce:transition-none group-hover:opacity-100 group-focus-within:opacity-100"
+            style={{
+              fontSize: 'clamp(0.8125rem, 4.48cqi, 1.125rem)',
+              lineHeight: '1.375rem',
+              transitionDuration: `${HOVER_MS}ms`,
+              transitionTimingFunction: HOVER_EASE,
             }}
-            transition={motionTime}
           >
             {body}
-          </motion.p>
-        </motion.div>
+          </p>
+        </div>
 
-        {/* Mobile / Tablet fallback view */}
-        <div className="pointer-events-none absolute inset-0 z-[1] flex flex-col items-center justify-center gap-2 px-3.5 xl:hidden">
-          <h4 className="w-full text-center font-serif text-[1.75rem] sm:text-[2.25rem] leading-[1.2] text-white">
-            {stripHtml(title)}
-          </h4>
-          <p className="line-clamp-3 w-full min-w-0 break-words text-center font-sans text-[0.875rem] leading-[1.25rem] font-medium text-white">
+        {/* Mobile / tablet */}
+        <div className="pointer-events-none absolute inset-0 z-[1] flex flex-col items-center justify-center gap-2 px-3.5 lg:hidden">
+          <Heading
+            level={3}
+            font="serif"
+            tone="onDark"
+            className="m-0 w-full max-w-full text-center text-balance break-words font-normal leading-[1.2] text-white"
+            style={{ fontSize: '1.375rem' }}
+          >
+            {titleText}
+          </Heading>
+          <p className="m-0 line-clamp-4 w-full min-w-0 break-words text-center font-sans text-[0.8125rem] leading-[1.125rem] font-medium text-white">
             {body}
           </p>
         </div>
