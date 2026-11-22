@@ -79,7 +79,7 @@ export const AchievementGlassCard: React.FC<AchievementGlassCardProps> = ({
               level={3}
               size="section"
               tone="onDark"
-              className="line-clamp-2 min-w-0 text-[1.75rem]! leading-[1.25]! text-white"
+              className="mt-1 line-clamp-2 min-w-0 text-[1.75rem]! leading-[1.05]! text-white"
             >
               {stripHtml(title)}
             </Heading>
@@ -109,7 +109,7 @@ export const AchievementGlassCard: React.FC<AchievementGlassCardProps> = ({
           level={3}
           size="feature"
           tone="onDark"
-          className="absolute top-[20.84%] left-[7.246%] hidden w-[53.5%] min-w-0 text-white xl:block! xl:line-clamp-2 xl:leading-[1.25] xl:pb-[0.15em]"
+          className="absolute top-[24%] left-[7.246%] hidden w-[53.5%] min-w-0 text-white xl:block! xl:line-clamp-2 xl:leading-[1.05]! xl:pb-[0.15em]"
         >
           {stripHtml(title)}
         </Heading>

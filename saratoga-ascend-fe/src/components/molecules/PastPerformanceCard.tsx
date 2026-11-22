@@ -19,7 +19,7 @@ const PANEL_EASE =
   'transition-opacity duration-[600ms] ease-in-out motion-reduce:transition-none';
 
 /**
- * Past Performance tile (Figma 2002:304 / hover 2002:308, mobile 2105:769).
+ * Past Performance tile (Figma 1899:2396 → 411×650, radius 30; title y=527).
  * Rest shows the photo, a 20% black film, and a serif title. Hover (desktop)
  * or the snapped slide (mobile) smart-animates a navy wash, rule, body, and
  * Learn More in 600ms.
@@ -33,7 +33,7 @@ export const PastPerformanceCard: React.FC<PastPerformanceCardProps> = ({
 }) => (
   <article
     tabIndex={0}
-    className="group relative aspect-[411/650] w-full overflow-hidden rounded-[1.875rem] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-sky max-xl:aspect-auto max-xl:h-[22.5rem] max-xl:rounded-xl"
+    className="group relative aspect-[411/650] w-full max-w-[25.6875rem] overflow-hidden rounded-[1.875rem] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-sky max-xl:aspect-auto max-xl:h-[22.5rem] max-xl:max-w-none max-xl:rounded-xl"
   >
     <MediaFrame
       src={imageSrc}
@@ -60,7 +60,7 @@ export const PastPerformanceCard: React.FC<PastPerformanceCardProps> = ({
 
     <p
       aria-hidden="true"
-      className={`pointer-events-none absolute inset-x-[7%] top-[81%] text-center font-serif text-subtitle leading-[1.2] text-white transition-all duration-[600ms] ease-in-out group-hover:-translate-y-1/2 group-hover:opacity-0 group-focus-visible:-translate-y-1/2 group-focus-visible:opacity-0 motion-reduce:transition-none ${
+      className={`pointer-events-none absolute inset-x-[7%] top-[calc(527/650*100%)] text-center font-serif text-subtitle leading-[1.2] text-white transition-all duration-[600ms] ease-in-out group-hover:-translate-y-1/2 group-hover:opacity-0 group-focus-visible:-translate-y-1/2 group-focus-visible:opacity-0 motion-reduce:transition-none ${
         expanded ? 'max-xl:hidden' : 'max-xl:top-[85%] max-xl:block max-xl:text-[2.25rem] max-xl:opacity-100'
       }`}
     >

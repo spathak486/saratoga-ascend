@@ -286,11 +286,12 @@ export const JobsBySpecialitySection: React.FC<JobsBySpecialitySectionProps> = (
                 )}
               </motion.div>
 
-              {/* Explore Jobs Button (Figma I1899:2261;123:7652: w: 180px, h: 60px, rounded: 999px, bg: #2A91DC) */}
-              <div>
+              {/* Explore Jobs Button (Figma I1899:2261;123:7652: h 60, min-w 180, pill, #2A91DC, 20px medium, nowrap).
+                  Width grows with CMS label so longer copy is not clipped. */}
+              <div className="min-w-0 max-w-full">
                 <Link
                   href={currentSlide.ctaHref || `/careers/search-jobs?speciality=${currentSlide.slug}`}
-                  className="inline-flex h-[3.75rem] w-[11.25rem] items-center justify-center rounded-full bg-[#2A91DC] px-6 py-4 font-sans text-[1.25rem] font-medium leading-[1.5] text-white shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)] hover:bg-[#1E74C0] transition-colors"
+                  className="inline-flex h-auto min-h-[3.75rem] min-w-[11.25rem] max-w-full items-center justify-center rounded-full bg-[#2A91DC] px-6 py-4 text-center font-sans text-[1.25rem] font-medium leading-[1.5] text-white whitespace-normal sm:whitespace-nowrap shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)] transition-colors hover:bg-[#1E74C0] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
                 >
                   {currentSlide.ctaLabel || 'Explore Jobs'}
                 </Link>
