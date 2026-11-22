@@ -66,18 +66,18 @@ const DEFAULT_OFFICES: ContactOffice[] = [
 function OfficeDetail({ detail }: { detail: ContactOfficeDetail }) {
   return (
     <p className="font-sans text-nav leading-8 text-brand-on-dark">
-      <span className="font-medium">{detail.label}:</span>{' '}
-      {detail.parts.map((part) =>
+      <span className="font-medium">{stripHtml(detail.label)}:</span>{' '}
+      {detail.parts.map((part, idx) =>
         part.href ? (
           <a
-            key={stripHtml(part.text)}
+            key={idx}
             href={part.href}
             className="rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
           >
-            {part.text}
+            {stripHtml(part.text)}
           </a>
         ) : (
-          <span key={part.text}>{stripHtml(part.text)}</span>
+          <span key={idx}>{stripHtml(part.text)}</span>
         ),
       )}
     </p>
@@ -114,15 +114,15 @@ export const ContactOfficesSection: React.FC<ContactOfficesSectionProps> = ({
         {offices.map((office) => (
           <article
             key={stripHtml(office.name)}
-            className="w-max max-w-full rounded-[1.667rem] border-2 border-ink bg-[rgb(35_35_35/0.7)] px-6 py-5 backdrop-blur-[3px] xl:px-10"
+            className="w-max max-w-full rounded-[1.667rem] border-2 border-ink bg-[rgb(35_35_35/0.7)] px-6 py-5 backdrop-blur-[0.1875rem] xl:px-10"
           >
             <div className="flex flex-col gap-2.5">
               <h3 className="font-serif text-card-copy leading-8 text-brand-on-dark uppercase">
-                {office.name}
+                {stripHtml(office.name)}
               </h3>
               <p className="font-sans text-nav leading-8 text-brand-on-dark">{stripHtml(office.address)}</p>
               {office.details.map((detail) => (
-                <OfficeDetail key={detail.label} detail={detail} />
+                <OfficeDetail key={stripHtml(detail.label)} detail={detail} />
               ))}
             </div>
           </article>

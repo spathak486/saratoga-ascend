@@ -204,7 +204,7 @@ function OrbitPill({
   // Figma 2633:9114 — 150px icon disc, 80px glyph, pill radius 120.5px, min height 241px
   const icon = (
     <div
-      className={`flex size-[4.5rem] shrink-0 items-center justify-center rounded-full sm:size-[5.5rem] xl:size-[150px] ${
+      className={`flex size-[4.5rem] shrink-0 items-center justify-center rounded-full sm:size-[5.5rem] xl:size-[9.375rem] ${
         isRed ? 'bg-[#FFD8DB]' : 'bg-[#C8E7FB]'
       }`}
     >
@@ -216,7 +216,7 @@ function OrbitPill({
 
   return (
     <div
-      className={`flex w-full min-w-0 items-center gap-3 overflow-hidden rounded-[120.5px] border border-solid px-4 py-4 transition-shadow duration-300 ease-out hover:shadow-sm motion-reduce:transition-none sm:gap-5 sm:px-5 sm:py-5 xl:min-h-[241px] xl:gap-[21px] xl:px-8 xl:py-9 ${
+      className={`flex w-full min-w-0 items-center gap-3 overflow-hidden rounded-[7.53125rem] border border-solid px-4 py-4 transition-shadow duration-300 ease-out hover:shadow-sm motion-reduce:transition-none sm:gap-5 sm:px-5 sm:py-5 xl:min-h-[15.0625rem] xl:gap-[1.3125rem] xl:px-8 xl:py-9 ${
         isRed ? 'border-[#F01424] bg-[#FFF5F6]' : 'border-[#2B88D9] bg-[#EEF7FE]'
       }`}
     >
@@ -228,7 +228,7 @@ function OrbitPill({
       >
         {/* Figma: Google Sans Flex Bold 24px; 20px gap to title at 1920 */}
         <span
-          className={`mb-3 block font-sans text-[18px] font-bold leading-7 sm:text-[20px] xl:mb-5 xl:text-[24px] ${
+          className={`mb-2 block font-sans text-base font-bold leading-7 sm:text-lg xl:mb-3 xl:text-[1.5rem] ${
             isRed ? 'text-[#F01424]' : 'text-[#2B88D9]'
           }`}
         >
@@ -236,14 +236,14 @@ function OrbitPill({
         </span>
         {/* Figma: Google Sans Flex Bold 28px / 28px */}
         <h3
-          className={`min-w-0 break-words font-sans text-[20px] font-bold leading-7 sm:text-[24px] xl:text-[28px] xl:leading-7 ${
+          className={`min-w-0 break-words font-sans text-lg font-bold leading-7 sm:text-xl xl:text-[1.75rem] xl:leading-7 ${
             isRed ? 'text-[#F01424]' : 'text-[#2B88D9]'
           }`}
         >
           <span dangerouslySetInnerHTML={{ __html: cleanHeadingHtml(card.title) }} />
         </h3>
         {/* Figma: Google Sans Flex Regular 20px / 28px, Off Black #212121 */}
-        <p className="mt-1 line-clamp-3 min-w-0 break-words font-sans text-[14px] font-normal leading-5 text-[#212121] sm:text-[16px] sm:leading-6 xl:mt-2 xl:text-[20px] xl:leading-7">
+        <p className="mt-1 line-clamp-3 min-w-0 break-words font-sans text-sm font-normal leading-5 text-[#212121] sm:text-base sm:leading-6 xl:mt-2 xl:text-[1.25rem] xl:leading-7">
           {stripHtml(card.description)}
         </p>
       </div>
@@ -312,17 +312,17 @@ export function WorkforcePlanningSection({
   // --- 1. ACCORDION VARIANT ---
   if (variant === 'accordion') {
     return (
-      <section className="relative mx-auto flex w-full max-w-[1920px] flex-col justify-between overflow-hidden bg-[#FFFFFF] px-6 pb-12 pt-10 sm:px-8 sm:pb-14 sm:pt-12 lg:min-h-[690px] lg:px-[120px] lg:pb-[90px] lg:pt-[80px]">
+      <section className="relative mx-auto flex w-full max-w-[120rem] flex-col justify-between overflow-hidden bg-[#FFFFFF] px-6 pb-12 pt-10 sm:px-8 sm:pb-14 sm:pt-12 lg:min-h-[43.125rem] lg:px-[7.5rem] lg:pb-[5.625rem] lg:pt-[5rem]">
         <div className="w-full">
-          <div className="mb-14 sm:mb-16 lg:mb-20 max-w-[878px]">
+          <div className="mb-14 sm:mb-16 lg:mb-20 max-w-[54.875rem]">
             <h2
-              className="font-serif text-[38px] sm:text-[54px] lg:text-[72px] leading-[115%] lg:leading-[86px] tracking-normal font-normal"
+              className="font-serif text-[2.375rem] sm:text-[3.375rem] lg:text-[4.5rem] leading-[115%] lg:leading-[5.375rem] tracking-normal font-normal"
               style={{ fontFamily: "'DM Serif Text', serif" }}
             >
               {renderTitle()}
             </h2>
           </div>
-          <div className="flex w-full flex-col items-start gap-8 overflow-x-auto pb-4 pt-2 scrollbar-none sm:gap-10 lg:flex-row lg:gap-[94px]">
+          <div className="flex w-full flex-col items-start gap-8 overflow-x-auto pb-4 pt-2 scrollbar-none sm:gap-10 lg:flex-row lg:gap-[5.875rem]">
             {displayCards.map((card, index) => {
               const isActive = activeIndex === index;
               const stepNum = card.number || (index < 9 ? `0${index + 1}` : `${index + 1}`);
@@ -331,13 +331,13 @@ export function WorkforcePlanningSection({
                   key={card.id ?? card.documentId ?? `step-${index}`}
                   onClick={() => setActiveIndex(index)}
                   className={`group flex shrink-0 cursor-pointer flex-col pt-0 transition-all duration-500 ease-in-out ${
-                    isActive ? 'w-full lg:w-[602px]' : 'w-full lg:w-[205px]'
+                    isActive ? 'w-full lg:w-[37.625rem]' : 'w-full lg:w-[12.8125rem]'
                   }`}
                 >
                   <div className="mb-5 h-[2px] w-full bg-[#BBBBBB]" />
-                  <div className="flex h-auto flex-row items-center gap-4 overflow-hidden sm:gap-6 lg:h-[278px] lg:gap-[43px]">
+                  <div className="flex h-auto flex-row items-center gap-4 overflow-hidden sm:gap-6 lg:h-[17.375rem] lg:gap-[2.6875rem]">
                     <span
-                      className={`font-serif text-[5.5rem] leading-none transition-colors duration-300 lg:text-[358px] ${
+                      className={`font-serif text-[5.5rem] leading-none transition-colors duration-300 lg:text-[22.375rem] ${
                         isActive ? 'text-[#F01424]' : 'text-[#CCCCCC] hover:text-[#F01424]/70'
                       }`}
                       style={{ fontFamily: "'DM Serif Text', serif" }}
@@ -345,11 +345,11 @@ export function WorkforcePlanningSection({
                       {stepNum}
                     </span>
                     {isActive && (
-                      <div className="flex flex-col justify-center max-w-[398px]">
-                        <h3 className="mb-2 font-serif text-[28px] leading-[36px] font-normal text-[#000000]">
+                      <div className="flex flex-col justify-center max-w-[24.875rem]">
+                        <h3 className="mb-2 font-serif text-[1.75rem] leading-[2.25rem] font-normal text-[#000000]">
                           <span dangerouslySetInnerHTML={{ __html: cleanHeadingHtml(card.title) }} />
                         </h3>
-                        <p className="line-clamp-4 min-w-0 break-words font-sans text-[20px] leading-[28px] text-[#212121]">
+                        <p className="line-clamp-4 min-w-0 break-words font-sans text-[1.25rem] leading-[1.75rem] text-[#212121]">
                           {stripHtml(card.description)}
                         </p>
                       </div>
@@ -374,18 +374,18 @@ export function WorkforcePlanningSection({
   return (
     <section
       aria-label={title || highlightTitle || 'From Workforce Planning to Ongoing Support'}
-      className="relative mx-auto w-full max-w-[1920px] overflow-x-clip bg-white px-page py-12 max-sm:px-6! xl:py-20"
+      className="relative mx-auto w-full max-w-home overflow-x-clip bg-white px-page py-12 max-sm:px-6! xl:py-20"
     >
       {/* Title — Figma 72px DM Serif; 80px gap to orbital content */}
       <div className="mb-8 w-full text-center sm:mb-10 xl:mb-20">
-        <h2 className="mx-auto max-w-[1442px] font-serif text-[clamp(2rem,1.35rem+2.6vw,4.5rem)] font-normal leading-normal">
+        <h2 className="mx-auto max-w-[90.125rem] font-serif text-[clamp(2rem,1.35rem+2.6vw,4.5rem)] font-normal leading-normal">
           {renderTitle()}
         </h2>
       </div>
 
       {/* Figma: ~608px pills + 422px portrait; cards meet the ring via negative column gap */}
       <div
-        className="relative mx-auto hidden w-full min-w-0 max-w-[1680px] items-center xl:grid xl:grid-cols-[minmax(0,1fr)_minmax(16rem,26.375rem)_minmax(0,1fr)] xl:[column-gap:calc(var(--orbit-ring-inset)*-1)]"
+        className="relative mx-auto hidden w-full min-w-0 max-w-home items-center xl:grid xl:grid-cols-[minmax(0,1fr)_minmax(16rem,26.375rem)_minmax(0,1fr)] xl:[column-gap:calc(var(--orbit-ring-inset)*-1)]"
         style={{ '--orbit-ring-inset': 'clamp(0.96rem, 1.32vw, 1.59rem)' } as React.CSSProperties}
       >
         {/* Central horizontal dashed line matching Figma reference */}
@@ -395,7 +395,7 @@ export function WorkforcePlanningSection({
         />
 
         {/* Vertical gap Figma: 589 − 259 − 241 ≈ 89px */}
-        <div className="relative z-10 flex min-w-0 flex-col justify-center gap-8 xl:gap-[89px]">
+        <div className="relative z-10 flex min-w-0 flex-col justify-center gap-8 xl:gap-[5.5625rem]">
           {leftCards.map((card) => (
             <OrbitPill
               key={card.id ?? card.documentId ?? card.title}
@@ -406,9 +406,9 @@ export function WorkforcePlanningSection({
           ))}
         </div>
 
-        <div className="relative mx-auto aspect-square w-full max-w-[422px]">
+        <div className="relative mx-auto aspect-square w-full max-w-[26.375rem]">
           <OrbitRing />
-          <div className="absolute left-1/2 top-1/2 aspect-square w-[78%] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-full border-[6px] border-white shadow-md">
+          <div className="absolute left-1/2 top-1/2 aspect-square w-[78%] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-full border-[0.375rem] border-white shadow-md">
             <img
               src={resolvedCenterImage}
               alt={centerImage?.alternativeText || 'Healthcare Team'}
@@ -417,7 +417,7 @@ export function WorkforcePlanningSection({
           </div>
         </div>
 
-        <div className="relative z-10 flex min-w-0 flex-col justify-center gap-8 xl:gap-[89px]">
+        <div className="relative z-10 flex min-w-0 flex-col justify-center gap-8 xl:gap-[5.5625rem]">
           {rightCards.map((card) => (
             <OrbitPill
               key={card.id ?? card.documentId ?? card.title}
@@ -429,7 +429,7 @@ export function WorkforcePlanningSection({
         </div>
       </div>
 
-      <div className="mx-auto flex w-full min-w-0 max-w-[720px] flex-col gap-4 sm:gap-5 xl:hidden">
+      <div className="mx-auto flex w-full min-w-0 max-w-[45rem] flex-col gap-4 sm:gap-5 xl:hidden">
         <div className="mx-auto my-2 size-40 overflow-hidden rounded-full border-4 border-white shadow-md sm:my-3 sm:size-56 md:size-64">
           <img
             src={resolvedCenterImage}

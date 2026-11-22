@@ -291,12 +291,35 @@ html {
   color-scheme: light;
 }
 
-/* 125% screen scaling (1200px - 1600px viewport on standard 1080p with 125% OS scaling):
-   80% root font-size perfectly scales 16px -> 12.8px (100 / 125 = 0.8),
-   rendering exactly the same visual proportions as 100% scale! */
+/* ---------------------------------------------------------------------------
+   Display Scaling & Multi-Resolution Proportional Normalization
+   
+   Calculations based on 1080p and 1440p physical displays:
+   - 100% scaling: 1920x1080 (CSS 1920px) -> root font-size: 100% (16px)
+   - 125% scaling: 1920x1080 (CSS 1536x864) / 1600x900 -> root font-size: 80% (12.8px) [100 / 125 = 0.8]
+   - 150% scaling: 1920x1080 (CSS 1280x720) / 1366x768 -> root font-size: 70% to 75% (11.2px - 12px)
+   - 175% scaling: 1920x1080 (CSS 1097x617) -> root font-size: 65% (10.4px)
+   - 2K / 2560x1440 scaling: 2560px -> fluid rem and container max-w-home preserve exact spacing.
+   --------------------------------------------------------------------------- */
+
+/* Standard 1080p @ 125% OS zoom (1536px viewport), 1600x900, 1440x900 */
 @media (min-width: 1200px) and (max-width: 1600px) {
   html {
     font-size: 80%;
+  }
+}
+
+/* 1366x768 native laptops, or 1080p @ 150% OS zoom (1280px viewport) */
+@media (min-width: 1024px) and (max-width: 1199px) {
+  html {
+    font-size: 72%;
+  }
+}
+
+/* 1080p @ 175% OS zoom (1097px viewport) */
+@media (min-width: 800px) and (max-width: 1023px) {
+  html {
+    font-size: 65%;
   }
 }
 

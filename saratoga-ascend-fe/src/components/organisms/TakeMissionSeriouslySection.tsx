@@ -30,7 +30,7 @@ function normalizeImageSrc(url?: string | null): string {
 }
 
 /* 1. objective_18853420 1: Target / Bullseye (Serve with purpose) */
-function ObjectiveTargetIcon({ className = 'w-[73px] h-[73px] text-black' }: { className?: string }) {
+function ObjectiveTargetIcon({ className = 'w-[4.5625rem] h-[4.5625rem] text-black' }: { className?: string }) {
   return (
     <svg viewBox="0 0 73 73" fill="none" className={className} stroke="currentColor" strokeWidth="2.8">
       {/* Concentric target rings */}
@@ -45,7 +45,7 @@ function ObjectiveTargetIcon({ className = 'w-[73px] h-[73px] text-black' }: { c
 }
 
 /* 2. book_17351118 1: Open Book (Keep learning) */
-function OpenBookIcon({ className = 'w-[73px] h-[73px] text-black' }: { className?: string }) {
+function OpenBookIcon({ className = 'w-[4.5625rem] h-[4.5625rem] text-black' }: { className?: string }) {
   return (
     <svg viewBox="0 0 73 73" fill="none" className={className} stroke="currentColor" strokeWidth="2.8">
       {/* Book pages spine and curves */}
@@ -68,7 +68,7 @@ function OpenBookIcon({ className = 'w-[73px] h-[73px] text-black' }: { classNam
 }
 
 /* 3. clipboard_793891 1: Clipboard with checklist (Own the outcome) */
-function ClipboardCheckIcon({ className = 'w-[73px] h-[73px] text-black' }: { className?: string }) {
+function ClipboardCheckIcon({ className = 'w-[4.5625rem] h-[4.5625rem] text-black' }: { className?: string }) {
   return (
     <svg viewBox="0 0 73 73" fill="none" className={className} stroke="currentColor" strokeWidth="2.8">
       {/* Board frame */}
@@ -89,7 +89,7 @@ function ClipboardCheckIcon({ className = 'w-[73px] h-[73px] text-black' }: { cl
 }
 
 /* 4. shake_16469907 1: Handshake (Respect every voice) */
-function HandshakeIcon({ className = 'w-[73px] h-[73px] text-black' }: { className?: string }) {
+function HandshakeIcon({ className = 'w-[4.5625rem] h-[4.5625rem] text-black' }: { className?: string }) {
   return (
     <svg viewBox="0 0 73 73" fill="none" className={className} stroke="currentColor" strokeWidth="2.8">
       {/* Left wrist sleeve */}
@@ -109,7 +109,7 @@ function HandshakeIcon({ className = 'w-[73px] h-[73px] text-black' }: { classNa
 }
 
 /* 5. collaboration_7080843 1: Multi-person collaboration (Work as one team) */
-function CollaborationIcon({ className = 'w-[73px] h-[73px] text-black' }: { className?: string }) {
+function CollaborationIcon({ className = 'w-[4.5625rem] h-[4.5625rem] text-black' }: { className?: string }) {
   return (
     <svg viewBox="0 0 73 73" fill="none" className={className} stroke="currentColor" strokeWidth="2.8">
       {/* Center member */}
@@ -128,7 +128,7 @@ function CollaborationIcon({ className = 'w-[73px] h-[73px] text-black' }: { cla
 }
 
 /* 6. increase_2275286 1: Growth / Upward Trend Graph (Rise together) */
-function IncreaseChartIcon({ className = 'w-[73px] h-[73px] text-black' }: { className?: string }) {
+function IncreaseChartIcon({ className = 'w-[4.5625rem] h-[4.5625rem] text-black' }: { className?: string }) {
   return (
     <svg viewBox="0 0 73 73" fill="none" className={className} stroke="currentColor" strokeWidth="2.8">
       {/* Ascending Trend Line */}
@@ -145,7 +145,7 @@ function IncreaseChartIcon({ className = 'w-[73px] h-[73px] text-black' }: { cla
 }
 
 function FallbackPurposeIcon({ index, title }: { index: number; title?: string }) {
-  const iconClass = 'size-[70%] max-h-[73px] max-w-[73px] text-black';
+  const iconClass = 'size-[70%] max-h-[4.5625rem] max-w-[4.5625rem] text-black';
   const t = (title || '').toLowerCase();
   if (t.includes('purpose') || t.includes('serve') || t.includes('objective')) {
     return <ObjectiveTargetIcon className={iconClass} />;
@@ -203,7 +203,7 @@ function CardIconRenderer({
   }
 
   return (
-    <div className="relative size-[70%] max-h-[73px] max-w-[73px]">
+    <div className="relative size-[70%] max-h-[4.5625rem] max-w-[4.5625rem]">
       <Image
         src={iconUrl}
         alt={altText || ''}
@@ -304,18 +304,18 @@ export const TakeMissionSeriouslySection: React.FC<TakeMissionSeriouslySectionPr
   return (
     <section
       aria-label={ariaLabel}
-      /* Figma Frame 613: pad 80 top/bottom, 120 sides; hug height. */
-      className="isolate relative mx-auto w-full max-w-[1920px] bg-white px-page pt-10 pb-20 sm:pt-12 xl:pt-20"
+      /* Figma Frame 613: responsive container with fluid margins */
+      className="isolate relative mx-auto w-full max-w-home bg-white px-page pt-10 pb-20 sm:pt-12 xl:pt-20"
     >
-      <div className="mx-auto flex w-full max-w-[1680px] flex-col gap-8 sm:gap-10 xl:gap-[60px]">
+      <div className="mx-auto flex w-full max-w-home flex-col gap-8 sm:gap-10 xl:gap-[3.75rem]">
         {hasHeading ? (
-          <h2 className="max-w-[1402px] font-serif text-section font-normal tracking-normal text-black">
+          <h2 className="max-w-[87.625rem] font-serif text-section font-normal tracking-normal text-black">
             {renderTitle()}
           </h2>
         ) : null}
 
-        {/* Single column through tablet; 3×2 from xl. Desktop card gap 40px. */}
-        <div className="grid w-full grid-cols-1 gap-5 sm:gap-6 md:grid-cols-2 2xl:grid-cols-3 xl:gap-6 2xl:gap-10">
+        {/* Single column through tablet; 3×2 from xl. Desktop card gap fluid rem. */}
+        <div className="grid w-full grid-cols-1 gap-5 sm:gap-6 md:grid-cols-2 2xl:grid-cols-3 xl:gap-6 2xl:gap-8">
           {cards.map((card, index) => {
             const iconUrl =
               typeof card.icon === 'string'
@@ -328,9 +328,9 @@ export const TakeMissionSeriouslySection: React.FC<TakeMissionSeriouslySectionPr
               /* Figma purpose card: #F4F9FD, border #95C3EC, radius 20, icon left + copy right */
               <article
                 key={card.id || `card-${index}`}
-                className="box-border flex w-full items-start gap-4 overflow-visible rounded-media border border-[#95C3EC] bg-[#F4F9FD] p-5 sm:gap-5 sm:p-6 min-h-[160px] xl:min-h-[184px] xl:items-center xl:gap-[18px] 2xl:gap-[23px] py-6 sm:py-8 xl:py-9 2xl:py-10 pl-6 sm:pl-8 xl:pl-8 2xl:pl-10 pr-5"
+                className="box-border flex w-full items-start gap-4 overflow-visible rounded-media border border-[#95C3EC] bg-[#F4F9FD] p-5 sm:gap-5 sm:p-6 min-h-[10rem] xl:min-h-[11.5rem] xl:items-center xl:gap-4 2xl:gap-6 py-6 sm:py-8 xl:py-8 2xl:py-9 pl-6 sm:pl-8 xl:pl-7 2xl:pl-8 pr-5"
               >
-                <div className="flex size-16 shrink-0 items-center justify-center overflow-hidden rounded-[13px] border border-black bg-[#95C3EC] sm:size-20 xl:size-[104px]" aria-hidden={iconUrl ? undefined : true}>
+                <div className="flex size-16 shrink-0 items-center justify-center overflow-hidden rounded-[0.8125rem] border border-black bg-[#95C3EC] sm:size-20 xl:size-[5.5rem] 2xl:size-[6.5rem]" aria-hidden={iconUrl ? undefined : true}>
                   <CardIconRenderer
                     iconUrl={iconUrl}
                     altText={
@@ -343,7 +343,7 @@ export const TakeMissionSeriouslySection: React.FC<TakeMissionSeriouslySectionPr
                   />
                 </div>
 
-                <div className="flex min-w-0 flex-1 flex-col justify-center gap-2 2xl:max-w-[357px] xl:gap-2.5">
+                <div className="flex min-w-0 flex-1 flex-col justify-center gap-2 2xl:max-w-[22.3125rem] xl:gap-2.5">
                   <h3 className="font-serif text-[clamp(1.25rem,1.1rem+0.6vw,1.75rem)] font-normal leading-[1.3] text-black">
                     <span dangerouslySetInnerHTML={{ __html: cleanHeadingHtml(card.title) }} />
                   </h3>

@@ -108,7 +108,7 @@ export const JobSearchHero: React.FC<JobSearchHeroProps> = ({
   return (
     <section
       aria-label={stripHtml(title)}
-      className="relative w-full max-w-[1920px] mx-auto min-h-[560px] md:min-h-[640px] xl:min-h-[723px] overflow-hidden flex items-center bg-[#EAF4FB]"
+      className="relative w-full max-w-[120rem] mx-auto min-h-[35rem] md:min-h-[40rem] xl:min-h-[45.1875rem] overflow-hidden flex items-center bg-[#EAF4FB]"
     >
       {/* Background Image */}
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
@@ -129,14 +129,14 @@ export const JobSearchHero: React.FC<JobSearchHeroProps> = ({
 
       {/* Hero Content */}
       <Container className="relative z-10 py-12 sm:py-16 xl:py-20 w-full">
-        <div className="flex flex-col max-w-[991px]">
+        <div className="flex flex-col max-w-[61.9375rem]">
           {/* Main Title: DM Serif Text, 90px */}
-          <h1 className="font-serif text-[44px] sm:text-[64px] lg:text-[80px] xl:text-[90px] leading-[115%] text-[#0A0A0A] tracking-[-0.01em]">
+          <h1 className="font-serif text-[2.75rem] sm:text-[4rem] lg:text-[5rem] xl:text-[5.625rem] leading-[115%] text-[#0A0A0A] tracking-[-0.01em]">
             {stripHtml(title)}
           </h1>
 
           {/* Subtitle / Lede: Google Sans Flex, 24px */}
-          <p className="mt-4 sm:mt-6 font-sans text-lg sm:text-xl lg:text-[24px] leading-[160%] font-medium text-[#022E4C] max-w-[599px]">
+          <p className="mt-4 sm:mt-6 font-sans text-lg sm:text-xl lg:text-[1.5rem] leading-[160%] font-medium text-[#022E4C] max-w-[37.4375rem]">
             {stripHtml(description)}
           </p>
 
@@ -149,7 +149,7 @@ export const JobSearchHero: React.FC<JobSearchHeroProps> = ({
             <div className="flex items-center flex-1 min-w-0 pr-2">
               {/* Search Vector (34px) */}
               <svg
-                className="w-6 h-6 sm:w-[30px] sm:h-[30px] text-[#545454] shrink-0 mr-2 sm:mr-3"
+                className="w-6 h-6 sm:w-[1.875rem] sm:h-[1.875rem] text-[#545454] shrink-0 mr-2 sm:mr-3"
                 viewBox="0 0 34 34"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
@@ -178,7 +178,7 @@ export const JobSearchHero: React.FC<JobSearchHeroProps> = ({
             <div className="relative flex items-center flex-1 min-w-0 pl-2">
               {/* Location Pin Vector (34px) */}
               <svg
-                className="w-6 h-6 sm:w-[30px] sm:h-[30px] text-[#545454] shrink-0 mr-2 sm:mr-3"
+                className="w-6 h-6 sm:w-[1.875rem] sm:h-[1.875rem] text-[#545454] shrink-0 mr-2 sm:mr-3"
                 viewBox="0 0 34 34"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
@@ -224,7 +224,7 @@ export const JobSearchHero: React.FC<JobSearchHeroProps> = ({
 
               {/* Location Popup Menu */}
               {isLocationOpen && (
-                <div className="absolute left-0 top-[120%] w-full sm:min-w-[220px] bg-white rounded-xl shadow-xl border border-gray-100 py-2 z-50 max-h-[260px] overflow-y-auto">
+                <div className="absolute left-0 top-[120%] w-full sm:min-w-[13.75rem] bg-white rounded-xl shadow-xl border border-gray-100 py-2 z-50 max-h-[16.25rem] overflow-y-auto">
                   <button
                     type="button"
                     onClick={() => {
@@ -266,7 +266,7 @@ export const JobSearchHero: React.FC<JobSearchHeroProps> = ({
             <button
               type="submit"
               aria-label="Search Jobs"
-              className="ml-1 sm:ml-2 flex h-12 w-12 sm:h-[60px] sm:w-[60px] items-center justify-center rounded-full bg-[#F01424] text-white shadow-md hover:bg-[#d6121f] transition-all hover:scale-105 shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#F01424]"
+              className="ml-1 sm:ml-2 flex h-12 w-12 sm:h-[3.75rem] sm:w-[3.75rem] items-center justify-center rounded-full bg-[#F01424] text-white shadow-md hover:bg-[#d6121f] transition-all hover:scale-105 shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#F01424]"
             >
               {/* Arrow Icon */}
               <svg

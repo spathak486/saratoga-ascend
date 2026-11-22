@@ -32,7 +32,7 @@ const DEFAULT_TITLE = 'Built for accountable operating environments';
 const DEFAULT_HIGHLIGHT = 'operating environments';
 
 /* Icon 1: personality_18814885 1 (Quality mindset - Head profile with medal badge) */
-function PersonalityMedalIcon({ className = 'w-[100px] h-[100px]' }: { className?: string }) {
+function PersonalityMedalIcon({ className = 'w-[6.25rem] h-[6.25rem]' }: { className?: string }) {
   return (
     <svg viewBox="0 0 100 100" fill="none" className={className} stroke="currentColor" strokeWidth="2.8">
       {/* Head profile */}
@@ -52,7 +52,7 @@ function PersonalityMedalIcon({ className = 'w-[100px] h-[100px]' }: { className
 }
 
 /* Icon 2: default_18233982 1 (Operational readiness - Gear with checkmark) */
-function GearCheckIcon({ className = 'w-[100px] h-[100px]' }: { className?: string }) {
+function GearCheckIcon({ className = 'w-[6.25rem] h-[6.25rem]' }: { className?: string }) {
   return (
     <svg viewBox="0 0 100 100" fill="none" className={className} stroke="currentColor" strokeWidth="2.8">
       {/* Outer Gear */}
@@ -69,7 +69,7 @@ function GearCheckIcon({ className = 'w-[100px] h-[100px]' }: { className?: stri
 }
 
 /* Icon 3: speed_14829023 1 (Information discipline - Speedometer / Gauge) */
-function SpeedometerGaugeIcon({ className = 'w-[100px] h-[100px]' }: { className?: string }) {
+function SpeedometerGaugeIcon({ className = 'w-[6.25rem] h-[6.25rem]' }: { className?: string }) {
   return (
     <svg viewBox="0 0 100 100" fill="none" className={className} stroke="currentColor" strokeWidth="2.8">
       {/* Outer speedometer arc */}
@@ -90,7 +90,7 @@ function SpeedometerGaugeIcon({ className = 'w-[100px] h-[100px]' }: { className
 }
 
 /* Icon 4: project-plan_16821542 1 (Contract alignment - Project plan / milestone checklist) */
-function ProjectPlanIcon({ className = 'w-[100px] h-[100px]' }: { className?: string }) {
+function ProjectPlanIcon({ className = 'w-[6.25rem] h-[6.25rem]' }: { className?: string }) {
   return (
     <svg viewBox="0 0 100 100" fill="none" className={className} stroke="currentColor" strokeWidth="2.8">
       {/* Document border */}
@@ -111,7 +111,7 @@ function ProjectPlanIcon({ className = 'w-[100px] h-[100px]' }: { className?: st
 }
 
 /* Icon 5: support_18152968 1 (Workforce accountability - Agent with headset support) */
-function WorkforceSupportIcon({ className = 'w-[100px] h-[100px]' }: { className?: string }) {
+function WorkforceSupportIcon({ className = 'w-[6.25rem] h-[6.25rem]' }: { className?: string }) {
   return (
     <svg viewBox="0 0 100 100" fill="none" className={className} stroke="currentColor" strokeWidth="2.8">
       {/* Center head */}
@@ -135,7 +135,7 @@ function WorkforceSupportIcon({ className = 'w-[100px] h-[100px]' }: { className
 }
 
 /* Icon 6: continuous-improvement_11343192 1 (Continuous improvement - Circular cycle arrows with chart) */
-function ContinuousImprovementIcon({ className = 'w-[100px] h-[100px]' }: { className?: string }) {
+function ContinuousImprovementIcon({ className = 'w-[6.25rem] h-[6.25rem]' }: { className?: string }) {
   return (
     <svg viewBox="0 0 100 100" fill="none" className={className} stroke="currentColor" strokeWidth="2.8">
       {/* Top circular cycle arrow */}
@@ -272,27 +272,27 @@ export function AccountableOperatingEnvironmentsSection({
     <section
       aria-label={title || highlightTitle || 'Built for accountable operating environments'}
       /* Figma: Frame 2147226447 -> width: 1919px; height: 976px; top: 7820px; left: 0px; */
-      className="relative w-full max-w-[1919px] mx-auto min-h-[976px] bg-[#FFFFFF] py-[80px] overflow-hidden flex flex-col justify-between"
+      className="relative w-full max-w-[119.9375rem] mx-auto min-h-[61rem] bg-[#FFFFFF] py-[5rem] overflow-hidden flex flex-col justify-between"
     >
       <div className="w-full">
         {/* Header Row: Title (Group 2085665669, left: 123px, top: 80px) & Navigation (Group 2085665688, left: 1648px, top: 186px) */}
-        <div className="w-full px-6 sm:px-10 lg:pl-[123px] lg:pr-[120px] flex flex-col lg:flex-row lg:items-end justify-between gap-8 pb-[80px]">
-          <div className="max-w-[960px]">
+        <div className="w-full px-6 sm:px-10 lg:pl-[7.6875rem] lg:pr-[7.5rem] flex flex-col lg:flex-row lg:items-end justify-between gap-8 pb-[5rem]">
+          <div className="max-w-[60rem]">
             {/* Title: DM Serif Text, 72px, line-height: 86px (120%), color: #0A0A0A */}
-            <h2 className="font-['DM_Serif_Text'] text-[36px] sm:text-[48px] md:text-[60px] lg:text-[72px] leading-[115%] lg:leading-[86px] tracking-normal text-[#0A0A0A] font-normal">
+            <h2 className="font-['DM_Serif_Text'] text-[2.25rem] sm:text-[3rem] md:text-[3.75rem] lg:text-[4.5rem] leading-[115%] lg:leading-[5.375rem] tracking-normal text-[#0A0A0A] font-normal">
               {renderTitle()}
             </h2>
           </div>
 
           {/* Carousel Arrows (Figma Group 2085665688: width: 152px, height: 66px, left: 1648px, top: 186px) */}
-          <div className="flex items-center gap-[20px] self-start lg:self-end shrink-0">
+          <div className="flex items-center gap-[1.25rem] self-start lg:self-end shrink-0">
             {/* Left Button (width: 66px, height: 66px, border: 1.375px solid #000000, border-radius: 1373.62px) */}
             <button
               type="button"
               onClick={() => handleScroll('left')}
               disabled={!canScrollLeft}
               aria-label="Previous card"
-              className={`flex items-center justify-center w-[66px] h-[66px] rounded-full border-[1.375px] border-[#000000] transition-all duration-200 shadow-[0px_1.375px_2.75px_rgba(16,24,40,0.05)] ${
+              className={`flex items-center justify-center w-[4.125rem] h-[4.125rem] rounded-full border-[1.375px] border-[#000000] transition-all duration-200 shadow-[0px_1.375px_2.75px_rgba(16,24,40,0.05)] ${
                 canScrollLeft
                   ? 'bg-white hover:bg-[#F3F4F6] active:scale-95 text-[#000000] cursor-pointer'
                   : 'bg-white/60 opacity-40 cursor-not-allowed text-[#000000]'
@@ -318,7 +318,7 @@ export function AccountableOperatingEnvironmentsSection({
               onClick={() => handleScroll('right')}
               disabled={!canScrollRight}
               aria-label="Next card"
-              className={`flex items-center justify-center w-[66px] h-[66px] rounded-full border-[1.375px] border-[#000000] transition-all duration-200 shadow-[0px_1.375px_2.75px_rgba(16,24,40,0.05)] ${
+              className={`flex items-center justify-center w-[4.125rem] h-[4.125rem] rounded-full border-[1.375px] border-[#000000] transition-all duration-200 shadow-[0px_1.375px_2.75px_rgba(16,24,40,0.05)] ${
                 canScrollRight
                   ? 'bg-white hover:bg-[#F3F4F6] active:scale-95 text-[#000000] cursor-pointer'
                   : 'bg-white/60 opacity-40 cursor-not-allowed text-[#000000]'
@@ -343,7 +343,7 @@ export function AccountableOperatingEnvironmentsSection({
         {/* Carousel Frame: Frame 2147226446 (width: 1796px, height: 564px, left: 123px, top: 332px, overflow-x: scroll) */}
         <div
           ref={scrollContainerRef}
-          className="flex flex-row overflow-x-auto gap-[18px] scrollbar-none scroll-smooth pl-6 sm:pl-10 lg:pl-[123px] pr-6 sm:pr-10 lg:pr-[120px]"
+          className="flex flex-row overflow-x-auto gap-[1.125rem] scrollbar-none scroll-smooth pl-6 sm:pl-10 lg:pl-[7.6875rem] pr-6 sm:pr-10 lg:pr-[7.5rem]"
           style={{ scrollSnapType: 'x mandatory' }}
         >
           {cards.map((card, index) => {
@@ -364,7 +364,7 @@ export function AccountableOperatingEnvironmentsSection({
                 onBlur={() => setHoveredIndex(null)}
                 tabIndex={0}
                 style={{ scrollSnapAlign: 'start' }}
-                className={`relative isolate flex h-[520px] w-[320px] shrink-0 cursor-pointer flex-col justify-between overflow-hidden rounded-[30px] border border-[#FAFAFA] p-[21.54px] transition-[box-shadow] duration-[400ms] ease-out motion-reduce:transition-none sm:w-[400px] md:h-[564px] md:w-[456.29px] ${
+                className={`relative isolate flex h-[32.5rem] w-[18.75rem] shrink-0 cursor-pointer flex-col justify-between overflow-hidden rounded-[1.875rem] border border-[#FAFAFA] p-[1.346rem] transition-[box-shadow] duration-[400ms] ease-out motion-reduce:transition-none sm:w-[22rem] md:h-[35.25rem] md:w-[28.5rem] ${
                   isActive
                     ? 'shadow-xl'
                     : 'bg-[#FCFCFC] shadow-[0_4px_20px_rgba(0,0,0,0.03)]'
@@ -389,9 +389,9 @@ export function AccountableOperatingEnvironmentsSection({
                 />
 
                 {/* Icon 100×100 — Default #000 / Hover #D7E8FF */}
-                <div className="relative z-10 pt-[4.9px] pl-[31.34px]">
+                <div className="relative z-10 pt-[0.3063rem] pl-[1.9587rem]">
                   {iconUrl ? (
-                    <div className="relative size-20 md:size-[100px]">
+                    <div className="relative size-20 md:size-[6.25rem]">
                       <Image
                         src={normalizeImageSrc(iconUrl)}
                         alt={stripHtml(card.title)}
@@ -402,7 +402,7 @@ export function AccountableOperatingEnvironmentsSection({
                     </div>
                   ) : (
                     <div
-                      className={`flex size-20 items-center justify-center transition-colors duration-[400ms] ease-out motion-reduce:transition-none md:size-[100px] ${
+                      className={`flex size-20 items-center justify-center transition-colors duration-[400ms] ease-out motion-reduce:transition-none md:size-[6.25rem] ${
                         isActive ? 'text-[#D7E8FF]' : 'text-[#000000]'
                       }`}
                     >
@@ -413,19 +413,19 @@ export function AccountableOperatingEnvironmentsSection({
 
                 {/* Rectangle 13/11 — white when active, rgba(217,217,217,0.2) default */}
                 <div
-                  className={`relative z-10 flex w-full min-h-[220px] flex-col justify-center rounded-[30px] px-[31.34px] py-7 transition-colors duration-[400ms] ease-out motion-reduce:transition-none md:min-h-[235.98px] md:py-[30px] ${
+                  className={`relative z-10 flex w-full min-h-[13.75rem] flex-col justify-center rounded-[1.875rem] px-[1.9587rem] py-7 transition-colors duration-[400ms] ease-out motion-reduce:transition-none md:min-h-[14.7487rem] md:py-[1.875rem] ${
                     isActive
                       ? 'bg-white shadow-[0_4px_24px_rgba(0,0,0,0.08)]'
                       : 'bg-[rgba(217,217,217,0.2)]'
                   }`}
                 >
                   {/* Title: DM Serif Text 32 / Primary-Blue #022E4C */}
-                  <h3 className="mb-3 font-['DM_Serif_Text'] text-2xl leading-9 font-normal text-[#022E4C] sm:text-[28px] md:mb-4 md:text-[32px] md:leading-[normal]">
+                  <h3 className="mb-3 font-['DM_Serif_Text'] text-2xl leading-9 font-normal text-[#022E4C] sm:text-[1.75rem] md:mb-4 md:text-[2rem] md:leading-[normal]">
                     <span dangerouslySetInnerHTML={{ __html: cleanHeadingHtml(card.title) }} />
                   </h3>
 
                   {/* Body: Google Sans Flex 20 / lh 35 / #000 */}
-                  <p className="line-clamp-4 min-w-0 break-words font-['Google_Sans_Flex'] text-base leading-7 font-normal text-black sm:text-lg md:text-[20px] md:leading-[35px]">
+                  <p className="line-clamp-4 min-w-0 break-words font-['Google_Sans_Flex'] text-base leading-7 font-normal text-black sm:text-lg md:text-[1.25rem] md:leading-[2.1875rem]">
                     {stripHtml(card.description)}
                   </p>
                 </div>

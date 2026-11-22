@@ -55,11 +55,11 @@ export const RelatedTopicsCard: React.FC<RelatedTopicsCardProps> = ({
   return (
     <section
       aria-label="Related Topics"
-      className={`box-border flex w-full max-w-[525px] flex-col gap-5 ${className}`.trim()}
+      className={`box-border flex w-full max-w-[32.8125rem] flex-col gap-5 ${className}`.trim()}
     >
       {/* Title */}
       <h2
-        className="font-serif text-[32px] font-normal uppercase leading-tight tracking-tight text-[#F01424] sm:text-[36px] xl:text-[40px] xl:leading-[40px]"
+        className="font-serif text-[2rem] font-normal uppercase leading-tight tracking-tight text-[#F01424] sm:text-[2.25rem] xl:text-[2.5rem] xl:leading-[2.5rem]"
         style={{ fontFamily: "'DM Serif Text', serif" }}
       >
         {title}
@@ -78,10 +78,10 @@ export const RelatedTopicsCard: React.FC<RelatedTopicsCardProps> = ({
           <Link
             key={`topic-${index}-${topic.label}`}
             href={topic.href}
-            className="group inline-flex items-center justify-center rounded-[19.65px] border border-black/15 bg-white px-5 py-3.5 shadow-[0px_1px_3px_rgba(0,0,0,0.04)] transition-all duration-200 hover:border-[#2B88D9] hover:bg-[#F1F8FE] hover:shadow-sm"
+            className="group inline-flex items-center justify-center rounded-[1.2281rem] border border-black/15 bg-white px-5 py-3.5 shadow-[0px_1px_3px_rgba(0,0,0,0.04)] transition-all duration-200 hover:border-[#2B88D9] hover:bg-[#F1F8FE] hover:shadow-sm"
           >
             <span
-              className="font-sans text-[18px] font-semibold leading-[22px] text-[#000000] transition-colors duration-200 group-hover:text-[#2B88D9] xl:text-[20px]"
+              className="font-sans text-[1.125rem] font-semibold leading-[1.375rem] text-[#000000] transition-colors duration-200 group-hover:text-[#2B88D9] xl:text-[1.25rem]"
               style={{ fontFamily: "'Google Sans Flex', sans-serif" }}
             >
               {topic.label}

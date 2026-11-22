@@ -49,7 +49,7 @@ export const MarketWeServeSection: React.FC<MarketWeServeSectionProps> = ({
             titleClassName="text-[#F01424] font-serif font-normal text-[clamp(2.5rem,4.5vw,72px)] leading-[110%] tracking-[0%]"
             descriptionSize="sectionLead"
             descriptionStyle={{ color: 'var(--color-ink)' }}
-            descriptionClassName="max-[89.99rem]:text-base max-[89.99rem]:leading-6 mt-3 max-w-[800px]"
+            descriptionClassName="max-[89.99rem]:text-base max-[89.99rem]:leading-6 mt-3 max-w-[50rem]"
             className="gap-3"
           />
         ) : null}

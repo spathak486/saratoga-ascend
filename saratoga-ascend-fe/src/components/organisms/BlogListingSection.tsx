@@ -97,16 +97,16 @@ export const BlogListingSection: React.FC<BlogListingSectionProps> = ({
 
   return (
     <section className="w-full bg-white py-16 md:py-24">
-      <div className="container mx-auto px-4 md:px-8 max-w-[1680px]">
+      <div className="container mx-auto px-4 md:px-8 max-w-[105rem]">
         {/* Category Pills (Dynamic from CMS categories) */}
         {categories.length > 1 && (
-          <div className="flex flex-col items-center justify-center gap-[40px] mb-16">
+          <div className="flex flex-col items-center justify-center gap-[2.5rem] mb-16">
             <div className="flex flex-wrap items-center justify-center gap-5">
               {categories.map((cat) => (
                 <button
                   key={cat as string}
                   onClick={() => setActiveCategory(cat as string)}
-                  className={`px-5 py-2 rounded-full text-[20px] font-sans font-medium transition-colors border ${
+                  className={`px-5 py-2 rounded-full text-[1.25rem] font-sans font-medium transition-colors border ${
                     activeCategory === cat
                       ? 'bg-[#B81C31] text-white border-transparent shadow-sm'
                       : 'bg-white text-[#717171] border-[#E3E3E3] hover:bg-gray-50'
@@ -120,7 +120,7 @@ export const BlogListingSection: React.FC<BlogListingSectionProps> = ({
         )}
 
         {/* Grid Container */}
-        <div className="flex flex-col items-center gap-[40px] w-full mx-auto">
+        <div className="flex flex-col items-center gap-[2.5rem] w-full mx-auto">
           {/* Featured Card */}
           {displayItems.length > 0 && (
             <FeaturedBlogCard
@@ -136,14 +136,14 @@ export const BlogListingSection: React.FC<BlogListingSectionProps> = ({
 
           {/* List Heading (Below Featured) */}
           {(finalTitle || finalSubTitle) && displayItems.length > 1 && (
-            <div className="w-full flex flex-col items-start gap-[12px] mt-[64px] mb-[32px]">
+            <div className="w-full flex flex-col items-start gap-[0.75rem] mt-[4rem] mb-[2rem]">
               {finalTitle && (
                 <h2 className="text-[clamp(40px,4vw,72px)] leading-[1.2] font-serif font-normal text-[#D31E2D]">
                   {finalTitle}
                 </h2>
               )}
               {finalSubTitle && (
-                <p className="text-[clamp(20px,1.8vw,30px)] leading-[1.33] text-[#0A0A0A] font-sans font-normal max-w-[1041px]">
+                <p className="text-[clamp(20px,1.8vw,30px)] leading-[1.33] text-[#0A0A0A] font-sans font-normal max-w-[65.0625rem]">
                   {finalSubTitle}
                 </p>
               )}
@@ -152,7 +152,7 @@ export const BlogListingSection: React.FC<BlogListingSectionProps> = ({
 
           {/* Grid */}
           {displayItems.length > 1 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-[40px] w-full">
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-[2.5rem] w-full">
               {displayItems.slice(1).map((item, idx) => (
                 <BlogCard
                   key={`${item.id}-${idx}`}

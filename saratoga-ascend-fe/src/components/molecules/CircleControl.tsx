@@ -79,7 +79,7 @@ const tones: Record<CircleControlTone, ToneConfig> = {
     focus: 'focus-visible:outline-brand-navy',
   },
   dark: {
-    size: 'size-[42px]',
+    size: 'size-[2.625rem]',
     viewBox: '0 0 44 44',
     circle: { cx: 22, cy: 22, r: 19, fill: NAVY_CARD, stroke: SKY, strokeWidth: 1 },
     paths: SHARP_TRIANGLES,
@@ -87,7 +87,7 @@ const tones: Record<CircleControlTone, ToneConfig> = {
     focus: 'focus-visible:outline-brand-on-dark',
   },
   staffingArrow: {
-    size: 'size-[43px]',
+    size: 'size-[2.6875rem]',
     viewBox: '0 0 44 44',
     circle: { cx: 22, cy: 22, r: 19, fill: SURFACE, stroke: LINE, strokeWidth: 1 },
     paths: SHARP_TRIANGLES,

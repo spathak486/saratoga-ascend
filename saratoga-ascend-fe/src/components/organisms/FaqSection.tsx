@@ -60,7 +60,7 @@ export const FaqSection: React.FC<FaqSectionProps> = ({
             </div>
 
             {supportCta ? (
-              <div className="flex w-full max-w-[37.3125rem] flex-col items-start gap-5 rounded-[1.25rem] border-2 border-brand-sky bg-[rgb(42_145_220/0.2)] px-[25px] py-5 backdrop-blur-[18px] xl:py-10 xl:pr-[2.4375rem] xl:pl-8">
+              <div className="flex w-full max-w-[37.3125rem] flex-col items-start gap-5 rounded-[1.25rem] border-2 border-brand-sky bg-[rgb(42_145_220/0.2)] px-[1.5625rem] py-5 backdrop-blur-[1.125rem] xl:py-10 xl:pr-[2.4375rem] xl:pl-8">
                 <Heading
                   level={3}
                   size="statLabel"

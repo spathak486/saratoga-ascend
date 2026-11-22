@@ -188,7 +188,7 @@ export const ContactInquiryForm: React.FC<ContactInquiryFormProps> = ({
 
   if (state.status === 'success') {
     return (
-      <div role="status" className={`rounded-[25.5px] border-2 border-[#212121]/50 bg-white p-[clamp(1.5rem,3.125vw,3.1875rem)] ${className}`.trim()}>
+      <div role="status" className={`rounded-[1.5938rem] border-2 border-[#212121]/50 bg-white p-[clamp(1.5rem,3.125vw,3.1875rem)] ${className}`.trim()}>
         <p className="font-serif text-subtitle text-ink">Thank you{firstName ? `, ${firstName}` : ''}.</p>
         <p className="mt-3 font-sans text-body-lg font-light text-ink">
           Your details have been received. Our team will get back to you shortly.
@@ -200,7 +200,7 @@ export const ContactInquiryForm: React.FC<ContactInquiryFormProps> = ({
   return (
     <form className={`flex flex-col gap-[1.875rem] w-full max-w-[44rem] ${className}`.trim()} onSubmit={handleSubmit}>
       {/* Form Card: Figma node 2448:6844 rect w:704px h:776px, rounded 25.5px, border 2px #212121/50, bg white */}
-      <div className="flex flex-col gap-8 rounded-[25.5px] border-2 border-[#212121]/50 bg-white px-[clamp(1.25rem,3.1875vw,3.1875rem)] py-[clamp(1.5rem,3.25vw,3.25rem)] shadow-sm">
+      <div className="flex flex-col gap-8 rounded-[1.5938rem] border-2 border-[#212121]/50 bg-white px-[clamp(1.25rem,3.1875vw,3.1875rem)] py-[clamp(1.5rem,3.25vw,3.25rem)] shadow-sm">
         <div className="flex flex-col gap-1.5">
           <label htmlFor={inquiryId} className={labelClass}>
             Inquiry Type<span className="text-[#CD1C1C]">*</span>
@@ -315,7 +315,7 @@ export const ContactInquiryForm: React.FC<ContactInquiryFormProps> = ({
       <button
         type="submit"
         disabled={state.status === 'submitting'}
-        className="group flex h-[3.75rem] w-full items-center justify-center gap-3 rounded-[8px] bg-cta-gradient px-6 py-4 font-sans text-[1.125rem] font-bold text-white shadow-[0_1px_2px_rgba(16,24,40,0.05)] transition-opacity duration-200 hover:opacity-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2B88D9] disabled:opacity-60 cursor-pointer"
+        className="group flex h-[3.75rem] w-full items-center justify-center gap-3 rounded-[0.5rem] bg-cta-gradient px-6 py-4 font-sans text-[1.125rem] font-bold text-white shadow-[0_1px_2px_rgba(16,24,40,0.05)] transition-opacity duration-200 hover:opacity-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2B88D9] disabled:opacity-60 cursor-pointer"
       >
         <span>{state.status === 'submitting' ? 'Submitting...' : submitLabel}</span>
         <ArrowUpRightIcon className="size-5 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />

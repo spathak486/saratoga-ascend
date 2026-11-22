@@ -79,7 +79,7 @@ export const AchievementsSection: React.FC<AchievementsSectionProps> = ({
       tone="navy"
       spacing="none"
       bleed
-      className="isolate overflow-hidden pb-[clamp(2.5rem,4vw,3.5rem)] md:min-h-[688px]"
+      className="isolate overflow-hidden pb-[clamp(2.5rem,4vw,3.5rem)] md:min-h-[43rem]"
     >
       {/* Footage, colour wash, then a lighter pass — stacked below the content
           so the band reads as one image rather than three layers. */}
@@ -134,11 +134,11 @@ export const AchievementsSection: React.FC<AchievementsSectionProps> = ({
             aria-label="Certifications"
             tabIndex={0}
           >
-            <div className="-ml-[23px] flex">
+            <div className="-ml-[1.4375rem] flex">
               {ACHIEVEMENTS.map((card) => (
                 <div
                   key={card.badgeAlt}
-                  className={`${CAROUSEL_SLIDE_CLASS} basis-full pl-[23px] min-[751px]:basis-1/2`}
+                  className={`${CAROUSEL_SLIDE_CLASS} basis-full pl-[1.4375rem] min-[46.9375rem]:basis-1/2`}
                   role="group"
                   aria-roledescription="slide"
                   data-carousel-slide
@@ -150,7 +150,7 @@ export const AchievementsSection: React.FC<AchievementsSectionProps> = ({
           </div>
         </div>
 
-        <dl className="mt-[clamp(2rem,1.6207rem+1.6181vw,3.5625rem)] grid grid-cols-2 gap-y-10 text-center min-[751px]:grid-cols-4">
+        <dl className="mt-[clamp(2rem,1.6207rem+1.6181vw,3.5625rem)] grid grid-cols-2 gap-y-10 text-center min-[46.9375rem]:grid-cols-4">
           {/* Reversed so the numeral reads first while `dt` still precedes `dd`. */}
           {STATS.map((stat) => (
             <div key={stat.label} className="flex flex-col-reverse items-center">
@@ -179,7 +179,7 @@ export const AchievementsSection: React.FC<AchievementsSectionProps> = ({
       />
 
       {cornerLogoSrc && (
-        <div className="absolute top-3 right-[clamp(1rem,3.4vw,4.0625rem)] z-10 size-[43px] overflow-hidden rounded-full bg-brand-surface shadow-[0_2px_8px_rgb(0_0_0/0.45)]">
+        <div className="absolute top-3 right-[clamp(1rem,3.4vw,4.0625rem)] z-10 size-[2.6875rem] overflow-hidden rounded-full bg-brand-surface shadow-[0_2px_8px_rgb(0_0_0/0.45)]">
           <MediaFrame
             src={cornerLogoSrc}
             alt=""

@@ -24,7 +24,7 @@ export const JobCardAccordion: React.FC<JobCardAccordionProps> = ({
     if (content.includes('<li') || content.includes('<ul') || content.includes('<p')) {
       return (
         <div
-          className="prose prose-slate max-w-none [&_ul]:list-none [&_ul]:pl-0 [&_ul]:space-y-2 [&_li]:relative [&_li]:pl-6 [&_li]:before:content-[''] [&_li]:before:absolute [&_li]:before:left-0 [&_li]:before:top-[9px] [&_li]:before:w-2.5 [&_li]:before:h-2.5 [&_li]:before:rounded-full [&_li]:before:bg-[#F01424] text-[1.125rem] text-[#1C1C1C] leading-[160%] font-sans"
+          className="prose prose-slate max-w-none [&_ul]:list-none [&_ul]:pl-0 [&_ul]:space-y-2 [&_li]:relative [&_li]:pl-6 [&_li]:before:content-[''] [&_li]:before:absolute [&_li]:before:left-0 [&_li]:before:top-[0.5625rem] [&_li]:before:w-2.5 [&_li]:before:h-2.5 [&_li]:before:rounded-full [&_li]:before:bg-[#F01424] text-[1.125rem] text-[#1C1C1C] leading-[160%] font-sans"
           dangerouslySetInnerHTML={{ __html: content }}
         />
       );
@@ -208,7 +208,7 @@ export const JobCardAccordion: React.FC<JobCardAccordionProps> = ({
               href={applyHref}
               target={target}
               rel={isExternal ? 'noopener noreferrer' : undefined}
-              className="inline-flex items-center justify-center gap-3 px-8 py-3.5 rounded-[50px] text-white font-medium text-[1.125rem] transition-all duration-300 shadow-md hover:shadow-lg hover:brightness-105"
+              className="inline-flex items-center justify-center gap-3 px-8 py-3.5 rounded-[3.125rem] text-white font-medium text-[1.125rem] transition-all duration-300 shadow-md hover:shadow-lg hover:brightness-105"
               style={{
                 background: 'linear-gradient(90.55deg, #D31E2D 0.47%, #2A91DC 102.45%)',
               }}

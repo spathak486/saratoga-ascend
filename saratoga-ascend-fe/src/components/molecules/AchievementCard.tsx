@@ -36,7 +36,7 @@ export const AchievementCard: React.FC<AchievementCardProps> = ({
   title,
   body,
 }) => (
-  <article className="bg-award-card rounded-award relative flex min-h-[clamp(17.5rem,15.831rem+7.1198vw,24.375rem)] flex-col justify-between overflow-hidden border-2 border-brand-on-dark/95 px-[clamp(1.25rem,0.9921rem+1.1003vw,2.3125rem)] pt-[clamp(1.75rem,1.3707rem+1.6181vw,3.3125rem)] pb-[clamp(1.25rem,0.977rem+1.165vw,2.375rem)] backdrop-blur-[5px]">
+  <article className="bg-award-card rounded-award relative flex min-h-[clamp(17.5rem,15.831rem+7.1198vw,24.375rem)] flex-col justify-between overflow-hidden border-2 border-brand-on-dark/95 px-[clamp(1.25rem,0.9921rem+1.1003vw,2.3125rem)] pt-[clamp(1.75rem,1.3707rem+1.6181vw,3.3125rem)] pb-[clamp(1.25rem,0.977rem+1.165vw,2.375rem)] backdrop-blur-[0.3125rem]">
     <p className="font-serif text-body text-brand-on-dark">{year}</p>
 
     {/* Positioned rather than laid out: the seal overhangs the card's top

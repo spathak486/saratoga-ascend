@@ -100,7 +100,7 @@ export const CaretDownIcon: React.FC<IconProps> = ({
 
 /** News card arrow — Figma 2002:722, 32×33, fill #E3E3E3. */
 export const NewsArrowIcon: React.FC<IconProps> = ({
-  className = 'h-[33px] w-8',
+  className = 'h-[2.0625rem] w-8',
 }) => (
   <svg
     viewBox="0 0 32 33"

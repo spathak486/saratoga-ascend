@@ -32,10 +32,10 @@ export const StatCardsSection: React.FC<StatCardsSectionProps> = ({
   return (
     <section
       id={id}
-      className={`my-4 w-full max-w-[1054px] scroll-mt-28 sm:my-6 xl:my-8 ${className}`}
+      className={`my-4 w-full max-w-[65.875rem] scroll-mt-28 sm:my-6 xl:my-8 ${className}`}
     >
       {title && (
-        <h2 className="mb-4 font-serif text-[24px] font-normal capitalize leading-[1.2] tracking-[-0.02em] text-ink sm:mb-5 sm:text-[32px] xl:mb-6 xl:text-[40px]">
+        <h2 className="mb-4 font-serif text-[1.5rem] font-normal capitalize leading-[1.2] tracking-[-0.02em] text-ink sm:mb-5 sm:text-[2rem] xl:mb-6 xl:text-[2.5rem]">
           {stripHtml(title)}
         </h2>
       )}
@@ -52,22 +52,22 @@ export const StatCardsSection: React.FC<StatCardsSectionProps> = ({
         {cards.map((card, idx) => (
           <div
             key={idx}
-            className="flex flex-col justify-start rounded-[20px] bg-[#EAF0F6] p-5 transition-transform duration-200 hover:-translate-y-0.5 motion-reduce:transition-none motion-reduce:hover:translate-y-0 sm:rounded-[24px] sm:p-6 xl:p-8"
+            className="flex flex-col justify-start rounded-[1.25rem] bg-[#EAF0F6] p-5 transition-transform duration-200 hover:-translate-y-0.5 motion-reduce:transition-none motion-reduce:hover:translate-y-0 sm:rounded-[1.5rem] sm:p-6 xl:p-8"
           >
             {/* Header: Metric & Badge */}
             <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1 mb-4">
-              <span className="font-sans font-bold text-[36px] sm:text-[42px] leading-[110%] text-[#362A4E] tracking-tight">
+              <span className="font-sans font-bold text-[2.25rem] sm:text-[2.625rem] leading-[110%] text-[#362A4E] tracking-tight">
                 {card.metric}
               </span>
               {card.badge && (
-                <span className="font-sans font-semibold text-[12px] sm:text-[13px] tracking-[0.08em] uppercase text-[#615777]">
+                <span className="font-sans font-semibold text-[0.75rem] sm:text-[0.8125rem] tracking-[0.08em] uppercase text-[#615777]">
                   {card.badge}
                 </span>
               )}
             </div>
 
             {/* Description Text */}
-            <p className="line-clamp-4 min-w-0 break-words font-sans font-normal text-[16px] sm:text-[18px] leading-[150%] text-[#4A4A4A]">
+            <p className="line-clamp-4 min-w-0 break-words font-sans font-normal text-[1rem] sm:text-[1.125rem] leading-[150%] text-[#4A4A4A]">
               {stripHtml(card.description)}
             </p>
           </div>

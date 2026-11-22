@@ -215,11 +215,11 @@ export const JobApplicationForm: React.FC<JobApplicationFormProps> = ({
           backgroundPosition: 'center',
         }}
       >
-        <div className="mx-auto max-w-[1680px] px-6 sm:px-10 lg:px-[120px] text-center text-white">
+        <div className="mx-auto max-w-[105rem] px-6 sm:px-10 lg:px-[7.5rem] text-center text-white">
           {/* Breadcrumbs */}
           <nav
             aria-label="Breadcrumb"
-            className="flex items-center justify-center flex-wrap gap-2 text-[14px] sm:text-[16px] font-['Google_Sans_Flex'] font-normal text-white/90 mb-6"
+            className="flex items-center justify-center flex-wrap gap-2 text-[0.875rem] sm:text-[1rem] font-['Google_Sans_Flex'] font-normal text-white/90 mb-6"
           >
             <Link href="/" className="hover:underline text-white">
               {breadcrumbRoot}
@@ -233,7 +233,7 @@ export const JobApplicationForm: React.FC<JobApplicationFormProps> = ({
               {breadcrumbJobSearch}
             </Link>
             <span>/</span>
-            <span className="truncate max-w-[200px] sm:max-w-none text-white">
+            <span className="truncate max-w-[12.5rem] sm:max-w-none text-white">
               {initialJobTitle}
             </span>
             <span>/</span>
@@ -241,12 +241,12 @@ export const JobApplicationForm: React.FC<JobApplicationFormProps> = ({
           </nav>
 
           {/* Title: 90px DM Serif Text, line-height 115% */}
-          <h1 className="mx-auto max-w-[1100px] font-['DM_Serif_Text'] text-[42px] sm:text-[64px] lg:text-[90px] font-normal leading-[115%] text-white tracking-tight">
+          <h1 className="mx-auto max-w-[68.75rem] font-['DM_Serif_Text'] text-[2.625rem] sm:text-[4rem] lg:text-[5.625rem] font-normal leading-[115%] text-white tracking-tight">
             {heroTitle}
           </h1>
 
           {/* Subtitle: 24px Google Sans Flex, line-height 160% */}
-          <p className="mx-auto mt-4 max-w-[950px] font-['Google_Sans_Flex'] text-[18px] sm:text-[22px] lg:text-[24px] font-medium leading-[160%] text-white/95">
+          <p className="mx-auto mt-4 max-w-[59.375rem] font-['Google_Sans_Flex'] text-[1.125rem] sm:text-[1.375rem] lg:text-[1.5rem] font-medium leading-[160%] text-white/95">
             {heroSubtitle}
           </p>
         </div>
@@ -256,21 +256,21 @@ export const JobApplicationForm: React.FC<JobApplicationFormProps> = ({
       {/* APPLICATION FORM CONTAINER (Frame 661: 1126px width)     */}
       {/* Border 2px #9E9E9E, Radius 40px, Shadow, Background #FFF */}
       {/* ======================================================== */}
-      <div className="relative mx-auto max-w-[1126px] px-4 sm:px-6 -mt-36 sm:-mt-48 md:-mt-52 z-20">
-        <div className="w-full rounded-[40px] border-2 border-[#9E9E9E] bg-white p-6 sm:p-10 md:p-[40px] shadow-[20px_24px_44px_rgba(0,0,0,0.07)]">
+      <div className="relative mx-auto max-w-[70.375rem] px-4 sm:px-6 -mt-36 sm:-mt-48 md:-mt-52 z-20">
+        <div className="w-full rounded-[2.5rem] border-2 border-[#9E9E9E] bg-white p-6 sm:p-10 md:p-[2.5rem] shadow-[20px_24px_44px_rgba(0,0,0,0.07)]">
           {/* Header: DM Serif Text 44px */}
-          <h2 className="text-center font-['DM_Serif_Text'] text-[32px] sm:text-[40px] lg:text-[44px] font-normal leading-[120%] text-[#1C1C1C] mb-8 sm:mb-10">
+          <h2 className="text-center font-['DM_Serif_Text'] text-[2rem] sm:text-[2.5rem] lg:text-[2.75rem] font-normal leading-[120%] text-[#1C1C1C] mb-8 sm:mb-10">
             {cardTitle}
           </h2>
 
           <form onSubmit={handleSubmit} className="flex flex-col gap-6 sm:gap-8">
             {/* SECTION 1: Personal Information (Frame 2147226535) */}
-            <div className="rounded-[20px] border-[1.5px] border-[#E4EBF1] bg-[#FCFDFD] p-5 sm:p-[30px]">
+            <div className="rounded-[1.25rem] border-[1.5px] border-[#E4EBF1] bg-[#FCFDFD] p-5 sm:p-[1.875rem]">
               <div className="mb-6">
-                <h3 className="font-['DM_Serif_Text'] text-[22px] sm:text-[24px] font-normal leading-[160%] text-[#17202A]">
+                <h3 className="font-['DM_Serif_Text'] text-[1.375rem] sm:text-[1.5rem] font-normal leading-[160%] text-[#17202A]">
                   {personalInfoTitle}
                 </h3>
-                <p className="font-['Google_Sans_Flex'] text-[14px] font-normal leading-[150%] text-[#687582]">
+                <p className="font-['Google_Sans_Flex'] text-[0.875rem] font-normal leading-[150%] text-[#687582]">
                   {personalInfoSubtitle}
                 </p>
               </div>
@@ -281,7 +281,7 @@ export const JobApplicationForm: React.FC<JobApplicationFormProps> = ({
                 <div className="flex flex-col">
                   <label
                     htmlFor="firstName"
-                    className="font-['DM_Serif_Text'] text-[18px] sm:text-[20px] font-normal leading-[27px] text-[#4C4536] mb-1"
+                    className="font-['DM_Serif_Text'] text-[1.125rem] sm:text-[1.25rem] font-normal leading-[1.6875rem] text-[#4C4536] mb-1"
                   >
                     {firstNameLabel}
                   </label>
@@ -293,7 +293,7 @@ export const JobApplicationForm: React.FC<JobApplicationFormProps> = ({
                     value={formData.firstName}
                     onChange={handleInputChange}
                     placeholder={firstNamePlaceholder}
-                    className="w-full bg-transparent border-b-[1.9px] border-[#DADADA] py-2 font-['Google_Sans_Flex'] text-[16px] sm:text-[18px] font-light text-[#17202A] placeholder:text-[#B8B8B8] focus:border-[#2B88D9] focus:outline-none transition-colors"
+                    className="w-full bg-transparent border-b-[1.9px] border-[#DADADA] py-2 font-['Google_Sans_Flex'] text-[1rem] sm:text-[1.125rem] font-light text-[#17202A] placeholder:text-[#B8B8B8] focus:border-[#2B88D9] focus:outline-none transition-colors"
                   />
                 </div>
 
@@ -301,7 +301,7 @@ export const JobApplicationForm: React.FC<JobApplicationFormProps> = ({
                 <div className="flex flex-col">
                   <label
                     htmlFor="lastName"
-                    className="font-['DM_Serif_Text'] text-[18px] sm:text-[20px] font-normal leading-[27px] text-[#4C4536] mb-1"
+                    className="font-['DM_Serif_Text'] text-[1.125rem] sm:text-[1.25rem] font-normal leading-[1.6875rem] text-[#4C4536] mb-1"
                   >
                     {lastNameLabel}
                   </label>
@@ -313,7 +313,7 @@ export const JobApplicationForm: React.FC<JobApplicationFormProps> = ({
                     value={formData.lastName}
                     onChange={handleInputChange}
                     placeholder={lastNamePlaceholder}
-                    className="w-full bg-transparent border-b-[1.9px] border-[#DADADA] py-2 font-['Google_Sans_Flex'] text-[16px] sm:text-[18px] font-light text-[#17202A] placeholder:text-[#B8B8B8] focus:border-[#2B88D9] focus:outline-none transition-colors"
+                    className="w-full bg-transparent border-b-[1.9px] border-[#DADADA] py-2 font-['Google_Sans_Flex'] text-[1rem] sm:text-[1.125rem] font-light text-[#17202A] placeholder:text-[#B8B8B8] focus:border-[#2B88D9] focus:outline-none transition-colors"
                   />
                 </div>
 
@@ -321,7 +321,7 @@ export const JobApplicationForm: React.FC<JobApplicationFormProps> = ({
                 <div className="flex flex-col">
                   <label
                     htmlFor="email"
-                    className="font-['DM_Serif_Text'] text-[18px] sm:text-[20px] font-normal leading-[27px] text-[#4C4536] mb-1"
+                    className="font-['DM_Serif_Text'] text-[1.125rem] sm:text-[1.25rem] font-normal leading-[1.6875rem] text-[#4C4536] mb-1"
                   >
                     {emailLabel}
                   </label>
@@ -333,7 +333,7 @@ export const JobApplicationForm: React.FC<JobApplicationFormProps> = ({
                     value={formData.email}
                     onChange={handleInputChange}
                     placeholder={emailPlaceholder}
-                    className="w-full bg-transparent border-b-[1.9px] border-[#DADADA] py-2 font-['Google_Sans_Flex'] text-[16px] sm:text-[18px] font-light text-[#17202A] placeholder:text-[#B8B8B8] focus:border-[#2B88D9] focus:outline-none transition-colors"
+                    className="w-full bg-transparent border-b-[1.9px] border-[#DADADA] py-2 font-['Google_Sans_Flex'] text-[1rem] sm:text-[1.125rem] font-light text-[#17202A] placeholder:text-[#B8B8B8] focus:border-[#2B88D9] focus:outline-none transition-colors"
                   />
                 </div>
 
@@ -341,7 +341,7 @@ export const JobApplicationForm: React.FC<JobApplicationFormProps> = ({
                 <div className="flex flex-col">
                   <label
                     htmlFor="phone"
-                    className="font-['DM_Serif_Text'] text-[18px] sm:text-[20px] font-normal leading-[27px] text-[#4C4536] mb-1"
+                    className="font-['DM_Serif_Text'] text-[1.125rem] sm:text-[1.25rem] font-normal leading-[1.6875rem] text-[#4C4536] mb-1"
                   >
                     {phoneLabel}
                   </label>
@@ -353,19 +353,19 @@ export const JobApplicationForm: React.FC<JobApplicationFormProps> = ({
                     value={formData.phone}
                     onChange={handleInputChange}
                     placeholder={phonePlaceholder}
-                    className="w-full bg-transparent border-b-[1.9px] border-[#DADADA] py-2 font-['Google_Sans_Flex'] text-[16px] sm:text-[18px] font-light text-[#17202A] placeholder:text-[#B8B8B8] focus:border-[#2B88D9] focus:outline-none transition-colors"
+                    className="w-full bg-transparent border-b-[1.9px] border-[#DADADA] py-2 font-['Google_Sans_Flex'] text-[1rem] sm:text-[1.125rem] font-light text-[#17202A] placeholder:text-[#B8B8B8] focus:border-[#2B88D9] focus:outline-none transition-colors"
                   />
                 </div>
               </div>
             </div>
 
             {/* SECTION 2: Career Preferences (Frame 2147226536) */}
-            <div className="rounded-[20px] border-[1.5px] border-[#E4EBF1] bg-[#FCFDFD] p-5 sm:p-[30px]">
+            <div className="rounded-[1.25rem] border-[1.5px] border-[#E4EBF1] bg-[#FCFDFD] p-5 sm:p-[1.875rem]">
               <div className="mb-6">
-                <h3 className="font-['DM_Serif_Text'] text-[22px] sm:text-[24px] font-normal leading-[160%] text-[#17202A]">
+                <h3 className="font-['DM_Serif_Text'] text-[1.375rem] sm:text-[1.5rem] font-normal leading-[160%] text-[#17202A]">
                   {careerPreferencesTitle}
                 </h3>
-                <p className="font-['Google_Sans_Flex'] text-[14px] font-normal leading-[150%] text-[#687582]">
+                <p className="font-['Google_Sans_Flex'] text-[0.875rem] font-normal leading-[150%] text-[#687582]">
                   {careerPreferencesSubtitle}
                 </p>
               </div>
@@ -375,7 +375,7 @@ export const JobApplicationForm: React.FC<JobApplicationFormProps> = ({
                 <div className="flex flex-col">
                   <label
                     htmlFor="careerArea"
-                    className="font-['DM_Serif_Text'] text-[18px] sm:text-[20px] font-normal leading-[27px] text-[#4C4536] mb-1"
+                    className="font-['DM_Serif_Text'] text-[1.125rem] sm:text-[1.25rem] font-normal leading-[1.6875rem] text-[#4C4536] mb-1"
                   >
                     {careerAreaLabel}
                   </label>
@@ -387,7 +387,7 @@ export const JobApplicationForm: React.FC<JobApplicationFormProps> = ({
                     value={formData.careerArea}
                     onChange={handleInputChange}
                     placeholder={careerAreaPlaceholder}
-                    className="w-full bg-transparent border-b-[1.9px] border-[#DADADA] py-2 font-['Google_Sans_Flex'] text-[16px] sm:text-[18px] font-light text-[#17202A] placeholder:text-[#B8B8B8] focus:border-[#2B88D9] focus:outline-none transition-colors"
+                    className="w-full bg-transparent border-b-[1.9px] border-[#DADADA] py-2 font-['Google_Sans_Flex'] text-[1rem] sm:text-[1.125rem] font-light text-[#17202A] placeholder:text-[#B8B8B8] focus:border-[#2B88D9] focus:outline-none transition-colors"
                   />
                 </div>
 
@@ -395,7 +395,7 @@ export const JobApplicationForm: React.FC<JobApplicationFormProps> = ({
                 <div className="flex flex-col">
                   <label
                     htmlFor="preferredLocation"
-                    className="font-['DM_Serif_Text'] text-[18px] sm:text-[20px] font-normal leading-[27px] text-[#4C4536] mb-1"
+                    className="font-['DM_Serif_Text'] text-[1.125rem] sm:text-[1.25rem] font-normal leading-[1.6875rem] text-[#4C4536] mb-1"
                   >
                     {preferredLocationLabel}
                   </label>
@@ -407,15 +407,15 @@ export const JobApplicationForm: React.FC<JobApplicationFormProps> = ({
                     value={formData.preferredLocation}
                     onChange={handleInputChange}
                     placeholder={preferredLocationPlaceholder}
-                    className="w-full bg-transparent border-b-[1.9px] border-[#DADADA] py-2 font-['Google_Sans_Flex'] text-[16px] sm:text-[18px] font-light text-[#17202A] placeholder:text-[#B8B8B8] focus:border-[#2B88D9] focus:outline-none transition-colors"
+                    className="w-full bg-transparent border-b-[1.9px] border-[#DADADA] py-2 font-['Google_Sans_Flex'] text-[1rem] sm:text-[1.125rem] font-light text-[#17202A] placeholder:text-[#B8B8B8] focus:border-[#2B88D9] focus:outline-none transition-colors"
                   />
                 </div>
 
                 {/* Employment Preference */}
-                <div className="flex flex-col md:col-span-2 md:max-w-[495px]">
+                <div className="flex flex-col md:col-span-2 md:max-w-[30.9375rem]">
                   <label
                     htmlFor="employmentPreference"
-                    className="font-['DM_Serif_Text'] text-[18px] sm:text-[20px] font-normal leading-[27px] text-[#4C4536] mb-1"
+                    className="font-['DM_Serif_Text'] text-[1.125rem] sm:text-[1.25rem] font-normal leading-[1.6875rem] text-[#4C4536] mb-1"
                   >
                     {employmentPreferenceLabel}
                   </label>
@@ -427,7 +427,7 @@ export const JobApplicationForm: React.FC<JobApplicationFormProps> = ({
                     value={formData.employmentPreference}
                     onChange={handleInputChange}
                     placeholder={employmentPreferencePlaceholder}
-                    className="w-full bg-transparent border-b-[1.9px] border-[#DADADA] py-2 font-['Google_Sans_Flex'] text-[16px] sm:text-[18px] font-light text-[#17202A] placeholder:text-[#B8B8B8] focus:border-[#2B88D9] focus:outline-none transition-colors"
+                    className="w-full bg-transparent border-b-[1.9px] border-[#DADADA] py-2 font-['Google_Sans_Flex'] text-[1rem] sm:text-[1.125rem] font-light text-[#17202A] placeholder:text-[#B8B8B8] focus:border-[#2B88D9] focus:outline-none transition-colors"
                   />
                 </div>
               </div>
@@ -436,10 +436,10 @@ export const JobApplicationForm: React.FC<JobApplicationFormProps> = ({
             {/* SECTION 3: Resume (Frame 664) */}
             <div className="p-2 sm:p-4">
               <div className="mb-4">
-                <h3 className="font-['DM_Serif_Text'] text-[22px] sm:text-[24px] font-normal leading-[160%] text-[#17202A]">
+                <h3 className="font-['DM_Serif_Text'] text-[1.375rem] sm:text-[1.5rem] font-normal leading-[160%] text-[#17202A]">
                   {resumeTitle}
                 </h3>
-                <p className="font-['Google_Sans_Flex'] text-[14px] sm:text-[16px] font-normal leading-[150%] text-[#687582]">
+                <p className="font-['Google_Sans_Flex'] text-[0.875rem] sm:text-[1rem] font-normal leading-[150%] text-[#687582]">
                   {resumeSubtitle}
                 </p>
               </div>
@@ -462,7 +462,7 @@ export const JobApplicationForm: React.FC<JobApplicationFormProps> = ({
                 onDragLeave={() => setIsDragging(false)}
                 onDrop={handleFileDrop}
                 onClick={() => fileInputRef.current?.click()}
-                className={`relative flex min-h-[115px] w-full flex-col sm:flex-row items-center justify-between gap-4 rounded-[12px] border border-dashed p-6 cursor-pointer transition-all ${
+                className={`relative flex min-h-[7.1875rem] w-full flex-col sm:flex-row items-center justify-between gap-4 rounded-[0.75rem] border border-dashed p-6 cursor-pointer transition-all ${
                   isDragging
                     ? 'border-[#2B88D9] bg-[#E7EFF5]'
                     : 'border-[#C9D1D7] bg-[#F8FAFB] hover:border-[#2B88D9] hover:bg-[#F2F7FA]'
@@ -470,7 +470,7 @@ export const JobApplicationForm: React.FC<JobApplicationFormProps> = ({
               >
                 <div className="flex items-center gap-4">
                   {/* Upload icon circle */}
-                  <div className="flex size-[50px] shrink-0 items-center justify-center rounded-full bg-[#E7EFF5] text-[#17202A]">
+                  <div className="flex size-[3.125rem] shrink-0 items-center justify-center rounded-full bg-[#E7EFF5] text-[#17202A]">
                     <svg
                       className="size-6"
                       fill="none"
@@ -487,11 +487,11 @@ export const JobApplicationForm: React.FC<JobApplicationFormProps> = ({
                   </div>
 
                   <div>
-                    <span className="font-['Google_Sans_Flex'] text-[18px] sm:text-[20px] font-medium leading-[150%] text-[#303943]">
+                    <span className="font-['Google_Sans_Flex'] text-[1.125rem] sm:text-[1.25rem] font-medium leading-[150%] text-[#303943]">
                       {resumeFile ? resumeFile.name : dropzoneText}
                     </span>
                     {resumeFile && (
-                      <span className="block text-[13px] text-[#687582]">
+                      <span className="block text-[0.8125rem] text-[#687582]">
                         {(resumeFile.size / (1024 * 1024)).toFixed(2)} MB
                       </span>
                     )}
@@ -499,14 +499,14 @@ export const JobApplicationForm: React.FC<JobApplicationFormProps> = ({
                 </div>
 
                 <div className="shrink-0">
-                  <span className="font-['Arial'] text-[14px] font-bold text-[#173F5F] hover:underline">
+                  <span className="font-['Arial'] text-[0.875rem] font-bold text-[#173F5F] hover:underline">
                     {resumeFile ? 'Change File' : uploadButtonText}
                   </span>
                 </div>
               </div>
 
               {errorMessage && (
-                <p className="mt-2 text-[14px] text-red-600 font-medium">
+                <p className="mt-2 text-[0.875rem] text-red-600 font-medium">
                   {errorMessage}
                 </p>
               )}
@@ -518,7 +518,7 @@ export const JobApplicationForm: React.FC<JobApplicationFormProps> = ({
               <button
                 type="button"
                 onClick={handleReset}
-                className="flex h-[60px] min-w-[158px] items-center justify-center rounded-[8px] bg-transparent border border-[#DADADA] px-8 font-['Google_Sans_Flex'] text-[20px] font-medium text-[#000000] hover:bg-neutral-50 transition-colors cursor-pointer"
+                className="flex h-[3.75rem] min-w-[9.875rem] items-center justify-center rounded-[0.5rem] bg-transparent border border-[#DADADA] px-8 font-['Google_Sans_Flex'] text-[1.25rem] font-medium text-[#000000] hover:bg-neutral-50 transition-colors cursor-pointer"
               >
                 {resetButtonLabel}
               </button>
@@ -527,7 +527,7 @@ export const JobApplicationForm: React.FC<JobApplicationFormProps> = ({
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="flex h-[60px] min-w-[146px] items-center justify-center rounded-[8px] bg-[linear-gradient(90.55deg,#D31E2D_0.47%,#2A91DC_102.45%)] px-8 font-['Google_Sans_Flex'] text-[20px] font-medium text-white shadow-[0px_1px_2px_rgba(16,24,40,0.05)] hover:opacity-95 transition-opacity disabled:opacity-60 cursor-pointer"
+                className="flex h-[3.75rem] min-w-[9.125rem] items-center justify-center rounded-[0.5rem] bg-[linear-gradient(90.55deg,#D31E2D_0.47%,#2A91DC_102.45%)] px-8 font-['Google_Sans_Flex'] text-[1.25rem] font-medium text-white shadow-[0px_1px_2px_rgba(16,24,40,0.05)] hover:opacity-95 transition-opacity disabled:opacity-60 cursor-pointer"
               >
                 {isSubmitting ? (
                   <span className="flex items-center gap-2">
@@ -565,15 +565,15 @@ export const JobApplicationForm: React.FC<JobApplicationFormProps> = ({
         <div
           role="dialog"
           aria-modal="true"
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-xs transition-opacity"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-xs transition-opacity overflow-y-auto"
         >
-          <div className="relative w-full max-w-[723px] rounded-[30px] bg-white p-8 sm:p-12 md:p-[48px] shadow-2xl flex flex-col items-center gap-8">
+          <div className="relative w-full max-w-[45.1875rem] max-h-[90vh] overflow-y-auto rounded-[1.875rem] bg-white p-6 sm:p-10 md:p-[3rem] shadow-2xl flex flex-col items-center gap-6 sm:gap-8">
             {/* Close button at top-right */}
             <button
               type="button"
               onClick={closeModal}
               aria-label="Close modal"
-              className="absolute top-5 right-5 flex size-9 items-center justify-center rounded-full text-neutral-400 hover:bg-neutral-100 hover:text-neutral-700 transition-colors cursor-pointer"
+              className="sticky top-0 self-end -mr-2 -mt-2 sm:-mr-4 sm:-mt-4 z-20 flex size-9 items-center justify-center rounded-full text-neutral-400 hover:bg-neutral-100 hover:text-neutral-700 transition-colors cursor-pointer"
             >
               <svg className="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -583,7 +583,7 @@ export const JobApplicationForm: React.FC<JobApplicationFormProps> = ({
             {/* Group 267: Success Icon + Title + Description */}
             <div className="flex w-full flex-col items-center">
               {/* Group 263: Success Circle with Checkmark (100x100px) */}
-              <div className="relative flex size-[100px] items-center justify-center rounded-full border-[6.17px] border-[#159447] bg-white mb-6">
+              <div className="relative flex size-[6.25rem] items-center justify-center rounded-full border-[0.3856rem] border-[#159447] bg-white mb-6">
                 <svg
                   className="size-12 text-[#159447]"
                   fill="none"
@@ -596,28 +596,28 @@ export const JobApplicationForm: React.FC<JobApplicationFormProps> = ({
               </div>
 
               {/* Title (Heading 03: DM Serif Text 44px, line-height 120%) */}
-              <h3 className="w-full text-center font-['DM_Serif_Text'] text-[32px] sm:text-[44px] font-normal leading-[120%] text-[#1C1C1C]">
+              <h3 className="w-full text-center font-['DM_Serif_Text'] text-[2rem] sm:text-[2.75rem] font-normal leading-[120%] text-[#1C1C1C]">
                 {modalTitle}
               </h3>
 
               {/* Description (Body - 00: Google Sans Flex 24px, line-height 160%) */}
-              <p className="mt-4 w-full max-w-[620px] text-center font-['Google_Sans_Flex'] text-[18px] sm:text-[22px] lg:text-[24px] font-medium leading-[160%] text-[#1C1C1C]">
+              <p className="mt-4 w-full max-w-[38.75rem] text-center font-['Google_Sans_Flex'] text-[1.125rem] sm:text-[1.375rem] lg:text-[1.5rem] font-medium leading-[160%] text-[#1C1C1C]">
                 {modalDescription}
               </p>
             </div>
 
             {/* Line 22: Divider line with opacity 0.3 */}
-            <div className="w-full max-w-[723px] h-0 border-t border-black/30" />
+            <div className="w-full max-w-[45.1875rem] h-0 border-t border-black/30" />
 
             {/* Frame 720: Action buttons + Support Contact */}
             <div className="flex w-full flex-col items-center gap-8">
               {/* Frame 646: Home button + Explore More Jobs button */}
-              <div className="flex flex-wrap items-center justify-center gap-[10px]">
+              <div className="flex flex-wrap items-center justify-center gap-[0.625rem]">
                 {/* Home Button: Frame 204 (168x56px, gradient, radius 10px) */}
                 <Link
                   href="/"
                   onClick={closeModal}
-                  className="flex h-[56px] min-w-[168px] items-center justify-center rounded-[10px] bg-[linear-gradient(90.55deg,#D31E2D_0.47%,#2A91DC_102.45%)] px-8 font-['Google_Sans_Flex'] text-[16px] font-bold text-white shadow-sm hover:opacity-95 transition-opacity"
+                  className="flex h-[3.5rem] min-w-[10.5rem] items-center justify-center rounded-[0.625rem] bg-[linear-gradient(90.55deg,#D31E2D_0.47%,#2A91DC_102.45%)] px-8 font-['Google_Sans_Flex'] text-[1rem] font-bold text-white shadow-sm hover:opacity-95 transition-opacity"
                 >
                   {modalHomeButtonLabel}
                 </Link>
@@ -626,14 +626,14 @@ export const JobApplicationForm: React.FC<JobApplicationFormProps> = ({
                 <Link
                   href="/careers/search-jobs"
                   onClick={closeModal}
-                  className="flex h-[56px] min-w-[228px] items-center justify-center rounded-[10px] bg-[#F7F8FA] px-8 font-['Google_Sans_Flex'] text-[16px] font-bold text-[#1C1C1C] opacity-90 hover:bg-[#ECEEF2] transition-colors"
+                  className="flex h-[3.5rem] min-w-[14.25rem] items-center justify-center rounded-[0.625rem] bg-[#F7F8FA] px-8 font-['Google_Sans_Flex'] text-[1rem] font-bold text-[#1C1C1C] opacity-90 hover:bg-[#ECEEF2] transition-colors"
                 >
                   {modalExploreJobsButtonLabel}
                 </Link>
               </div>
 
               {/* Frame 719: Support Contact */}
-              <div className="flex flex-col items-center gap-1 text-center font-['Google_Sans_Flex'] text-[18px] leading-[150%]">
+              <div className="flex flex-col items-center gap-1 text-center font-['Google_Sans_Flex'] text-[1.125rem] leading-[150%]">
                 <span className="font-normal text-[#1C1C1C]">
                   {modalSupportText}
                 </span>

@@ -22,23 +22,23 @@ export const BlogCard: React.FC<BlogCardProps> = ({
   href,
 }) => {
   return (
-    <article className="group relative flex w-full max-w-[544px] flex-col gap-[30px] rounded-tr-[100px] mx-auto">
+    <article className="group relative flex w-full max-w-[34rem] flex-col gap-[1.875rem] rounded-tr-[6.25rem] mx-auto">
       {/* Image Container */}
-      <div className="relative w-full aspect-[544/431] rounded-tr-[100px] overflow-hidden">
+      <div className="relative w-full aspect-[544/431] rounded-tr-[6.25rem] overflow-hidden">
         <MediaFrame
           src={imageSrc}
           alt={stripHtml(title)}
           pendingLabel="blog-image"
           sizes="(max-width: 768px) 100vw, 33vw"
-          className="size-full border-0 bg-transparent rounded-tr-[100px]"
-          imageClassName="object-cover rounded-tr-[100px] transition-transform duration-500 group-hover:scale-105"
+          className="size-full border-0 bg-transparent rounded-tr-[6.25rem]"
+          imageClassName="object-cover rounded-tr-[6.25rem] transition-transform duration-500 group-hover:scale-105"
         />
       </div>
 
       {/* Content Container */}
       <div className="flex flex-col gap-3">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-1.5 text-[22px] leading-[1.5] text-black font-sans">
+          <div className="flex items-center gap-1.5 text-[1.375rem] leading-[1.5] text-black font-sans">
             {readTime && <span>{readTime} min read</span>}
             {readTime && date && <span>&middot;</span>}
             {date && <span>{date}</span>}

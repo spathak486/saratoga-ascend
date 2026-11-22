@@ -98,13 +98,13 @@ export function DirectAccessSection({
 
   return (
     <section className="relative w-full bg-[#FAFAFA] py-12 sm:py-16 xl:py-20 overflow-hidden">
-      <div className="mx-auto w-full max-w-[1920px] px-4 sm:px-6 md:px-8 xl:px-12 2xl:px-[120px]">
+      <div className="mx-auto w-full max-w-[120rem] px-4 sm:px-6 md:px-8 xl:px-12 2xl:px-[7.5rem]">
         
         {/* Header Block: Group 2085665802 (Title + Description CKEditor) */}
-        <div className="w-full max-w-[1512px] flex flex-col">
+        <div className="w-full max-w-[94.5rem] flex flex-col">
           {cleanTitle ? (
             <h2
-              className="font-serif text-[36px] sm:text-[48px] md:text-[56px] xl:text-[64px] 2xl:text-[72px] font-normal leading-[1.15] 2xl:leading-[99px] text-[#F01424] tracking-[-0.01em] [&_p]:m-0 [&_p]:font-inherit [&_p]:text-inherit [&_p]:leading-inherit [&_span[style*='color']]:font-semibold"
+              className="font-serif text-[2.25rem] sm:text-[3rem] md:text-[3.5rem] xl:text-[4rem] 2xl:text-[4.5rem] font-normal leading-[1.15] 2xl:leading-[6.1875rem] text-[#F01424] tracking-[-0.01em] [&_p]:m-0 [&_p]:font-inherit [&_p]:text-inherit [&_p]:leading-inherit [&_span[style*='color']]:font-semibold"
               style={{ fontFamily: "'DM Serif Text', serif" }}
               dangerouslySetInnerHTML={{ __html: cleanTitle }}
             />
@@ -112,7 +112,7 @@ export function DirectAccessSection({
 
           {cleanDesc ? (
             <div
-              className="mt-6 sm:mt-8 2xl:mt-[38px] font-sans font-normal text-[16px] sm:text-[19px] md:text-[21px] xl:text-[22px] 2xl:text-[24px] leading-[1.5] sm:leading-[1.6] 2xl:leading-[40px] text-[#000000] max-w-[1344px] [&_p]:mb-4 sm:[&_p]:mb-5 2xl:[&_p]:mb-6 last:[&_p]:mb-0 [&_span[style*='color']]:font-semibold"
+              className="mt-6 sm:mt-8 2xl:mt-[2.375rem] font-sans font-normal text-[1rem] sm:text-[1.1875rem] md:text-[1.3125rem] xl:text-[1.375rem] 2xl:text-[1.5rem] leading-[1.5] sm:leading-[1.6] 2xl:leading-[2.5rem] text-[#000000] max-w-[84rem] [&_p]:mb-4 sm:[&_p]:mb-5 2xl:[&_p]:mb-6 last:[&_p]:mb-0 [&_span[style*='color']]:font-semibold"
               style={{ fontFamily: "'Google Sans Flex', sans-serif" }}
               dangerouslySetInnerHTML={{ __html: cleanDesc }}
             />
@@ -121,7 +121,7 @@ export function DirectAccessSection({
 
         {/* 4 Cards Row: Group 2085664502 (410px width each, 241px height with top floating 116px circular badge) */}
         {cardList.length > 0 ? (
-          <div className="mt-12 sm:mt-16 xl:mt-20 2xl:mt-[76px] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-16 xl:gap-6 2xl:gap-[20px] max-w-[1680px]">
+          <div className="mt-12 sm:mt-16 xl:mt-20 2xl:mt-[4.75rem] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-16 xl:gap-6 2xl:gap-[1.25rem] max-w-[105rem]">
             {cardList.map((card, idx) => {
               const cardTitle = card.title?.trim() || '';
               const iconUrl = typeof card.icon === 'string' ? card.icon : card.icon?.url;
@@ -130,12 +130,12 @@ export function DirectAccessSection({
               return (
                 <div
                   key={`direct-access-card-${idx}`}
-                  className="relative w-full pt-[58px] flex flex-col items-center"
+                  className="relative w-full pt-[3.625rem] flex flex-col items-center"
                 >
                   {/* Floating Top Circular Badge (Ellipse 2579: 116px x 116px, bg: #2B88D9) */}
-                  <div className="absolute top-0 z-20 w-[100px] h-[100px] 2xl:w-[116px] 2xl:h-[116px] rounded-full bg-[#2B88D9] flex items-center justify-center shadow-sm">
+                  <div className="absolute top-0 z-20 w-[6.25rem] h-[6.25rem] 2xl:w-[7.25rem] 2xl:h-[7.25rem] rounded-full bg-[#2B88D9] flex items-center justify-center shadow-sm">
                     {fullIconUrl ? (
-                      <div className="relative w-[48px] h-[48px] 2xl:w-[52px] 2xl:h-[52px]">
+                      <div className="relative w-[3rem] h-[3rem] 2xl:w-[3.25rem] 2xl:h-[3.25rem]">
                         <Image
                           src={fullIconUrl}
                           alt={card.title || 'Benefit icon'}
@@ -149,10 +149,10 @@ export function DirectAccessSection({
                   </div>
 
                   {/* White Card Box (Frame 2085664342: bg #FFFFFF, border 1.27px solid #2B88D9, border-radius 15.3px) */}
-                  <div className="box-border w-full min-h-[160px] 2xl:min-h-[181px] bg-[#FFFFFF] border-[1.27px] border-[#2B88D9] rounded-[15.3px] pt-[58px] pb-6 px-4 sm:px-6 flex items-center justify-center text-center shadow-xs">
+                  <div className="box-border w-full min-h-[10rem] 2xl:min-h-[11.3125rem] bg-[#FFFFFF] border-[1.27px] border-[#2B88D9] rounded-[0.9563rem] pt-[3.625rem] pb-6 px-4 sm:px-6 flex items-center justify-center text-center shadow-xs">
                     {cardTitle ? (
                       <h3
-                        className="font-serif text-[22px] sm:text-[24px] 2xl:text-[28px] font-normal leading-[1.3] 2xl:leading-[38px] text-[#000000] max-w-[330px]"
+                        className="font-serif text-[1.375rem] sm:text-[1.5rem] 2xl:text-[1.75rem] font-normal leading-[1.3] 2xl:leading-[2.375rem] text-[#000000] max-w-[20.625rem]"
                         style={{ fontFamily: "'DM Serif Text', serif" }}
                       >
                         {cardTitle}
@@ -167,9 +167,9 @@ export function DirectAccessSection({
 
         {/* Bottom Callout Banner: Frame 2147226561 (Gradient 10% red to 10% blue, rounded 10px) */}
         {cleanCallout ? (
-          <div className="mt-12 sm:mt-16 2xl:mt-[60px] w-full max-w-[1529px] mx-auto min-h-[72px] 2xl:h-[88px] px-6 sm:px-8 2xl:px-[30px] py-4 2xl:py-[23px] rounded-[10px] bg-gradient-to-r from-[rgba(211,30,45,0.1)] to-[rgba(42,145,220,0.1)] flex items-center justify-center text-center">
+          <div className="mt-12 sm:mt-16 2xl:mt-[3.75rem] w-full max-w-[95.5625rem] mx-auto min-h-[4.5rem] 2xl:h-[5.5rem] px-6 sm:px-8 2xl:px-[1.875rem] py-4 2xl:py-[1.4375rem] rounded-[0.625rem] bg-gradient-to-r from-[rgba(211,30,45,0.1)] to-[rgba(42,145,220,0.1)] flex items-center justify-center text-center">
             <div
-              className="font-sans font-normal text-[16px] sm:text-[20px] 2xl:text-[24px] leading-[1.5] 2xl:leading-[40px] text-[#000000] max-w-[1467px] [&_p]:m-0 [&_span[style*='color']]:font-semibold"
+              className="font-sans font-normal text-[1rem] sm:text-[1.25rem] 2xl:text-[1.5rem] leading-[1.5] 2xl:leading-[2.5rem] text-[#000000] max-w-[91.6875rem] [&_p]:m-0 [&_span[style*='color']]:font-semibold"
               style={{ fontFamily: "'Google Sans Flex', sans-serif" }}
               dangerouslySetInnerHTML={{ __html: cleanCallout }}
             />

@@ -13,10 +13,10 @@ type SubmitState =
   | { status: 'error'; message: string };
 
 const fieldClass =
-  'w-full max-w-[540px] border-0 border-b border-white/40 bg-transparent pb-2 font-sans text-[18px] leading-[150%] font-normal text-white placeholder:text-white/50 focus:border-white focus:outline-none transition-colors';
+  'w-full max-w-[33.75rem] border-0 border-b border-white/40 bg-transparent pb-2 font-sans text-[1.125rem] leading-[150%] font-normal text-white placeholder:text-white/50 focus:border-white focus:outline-none transition-colors';
 
 const buttonClass =
-  'inline-flex h-[60px] w-[180px] shrink-0 cursor-pointer items-center justify-center rounded-[999px] bg-white px-6 py-4 font-sans text-[20px] font-bold leading-none text-[#2B88D9] shadow-button transition-transform duration-200 hover:scale-[1.02] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white disabled:cursor-not-allowed disabled:opacity-70';
+  'inline-flex h-[3.75rem] w-[11.25rem] shrink-0 cursor-pointer items-center justify-center rounded-[62.4375rem] bg-white px-6 py-4 font-sans text-[1.25rem] font-bold leading-none text-[#2B88D9] shadow-button transition-transform duration-200 hover:scale-[1.02] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white disabled:cursor-not-allowed disabled:opacity-70';
 
 /**
  * Name / email capture on the Need Help card (Figma node 2448:6829).
@@ -75,7 +75,7 @@ export const NeedHelpForm: React.FC<NeedHelpFormProps> = ({
     return (
       <div
         role="status"
-        className={`flex w-full max-w-[540px] flex-col gap-6 text-white ${className}`.trim()}
+        className={`flex w-full max-w-[33.75rem] flex-col gap-6 text-white ${className}`.trim()}
       >
         <div className="flex size-14 items-center justify-center rounded-full bg-white/15">
           <svg className="size-7" fill="none" viewBox="0 0 24 24" stroke="white" strokeWidth="2.5">
@@ -83,8 +83,8 @@ export const NeedHelpForm: React.FC<NeedHelpFormProps> = ({
           </svg>
         </div>
         <div>
-          <p className="font-sans text-[20px] font-bold leading-[150%]">Thank you{name ? `, ${name}` : ''}!</p>
-          <p className="mt-1 font-sans text-[16px] leading-[150%] text-white/70">
+          <p className="font-sans text-[1.25rem] font-bold leading-[150%]">Thank you{name ? `, ${name}` : ''}!</p>
+          <p className="mt-1 font-sans text-[1rem] leading-[150%] text-white/70">
             Your details have been received. Our team will get back to you shortly.
           </p>
         </div>

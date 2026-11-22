@@ -26,8 +26,8 @@ export interface TrendingSidebarSectionProps {
  * - Heading: "Trending Blog" / "Trending Case Studies" / "Trending News" in 'DM Serif Text', 40px, line-height 40px, color #F01424
  * - Divider line under heading: Rectangle 18017 (541.77px, 1.09px, background #2B88D9)
  * - Post Card (Blog component 4 & 6):
- *   - Container: 471px width, rounded-tr-[86.6px]
- *   - Image: height 373px, rounded-tr-[86.6px], object-cover
+ *   - Container: 471px width, rounded-tr-[5.4125rem]
+ *   - Image: height 373px, rounded-tr-[5.4125rem], object-cover
  *   - Meta row: Google Sans Flex, 19px, line-height 29px (e.g. "5 min read · August 12, 2026") + Arrow icon
  *   - Title: DM Serif Text, 38px, line-height 46px (120%), color #000000
  *   - Divider line between cards: Rectangle 18018 (558px, 1px, background #2B88D9)
@@ -67,12 +67,12 @@ export const TrendingSidebarSection: React.FC<TrendingSidebarSectionProps> = ({
   return (
     <section
       aria-label={defaultHeading}
-      className={`box-border flex w-full max-w-[558px] flex-col gap-6 ${className}`.trim()}
+      className={`box-border flex w-full max-w-[34.875rem] flex-col gap-6 ${className}`.trim()}
     >
       {/* Title */}
       <div className="flex flex-col gap-5">
         <h2
-          className="font-serif text-[32px] font-normal leading-tight text-[#F01424] sm:text-[36px] xl:text-[40px] xl:leading-[40px]"
+          className="font-serif text-[2rem] font-normal leading-tight text-[#F01424] sm:text-[2.25rem] xl:text-[2.5rem] xl:leading-[2.5rem]"
           style={{ fontFamily: "'DM Serif Text', serif" }}
         >
           {defaultHeading}
@@ -127,16 +127,16 @@ export const TrendingSidebarSection: React.FC<TrendingSidebarSectionProps> = ({
                 />
               )}
 
-              <article className="group relative flex w-full max-w-[471px] flex-col gap-[26px]">
-                {/* Image Frame with rounded-tr-[86.6px] */}
-                <div className="relative aspect-[471/373] w-full overflow-hidden rounded-tr-[86.6px] bg-[#E2E8F0]">
+              <article className="group relative flex w-full max-w-[29.4375rem] flex-col gap-[1.625rem]">
+                {/* Image Frame with rounded-tr-[5.4125rem] */}
+                <div className="relative aspect-[471/373] w-full overflow-hidden rounded-tr-[5.4125rem] bg-[#E2E8F0]">
                   <Link href={itemHref} tabIndex={-1} aria-hidden="true" className="block size-full">
                     <Image
                       src={imgSrc}
                       alt={itemTitle}
                       fill
                       sizes="(max-width: 640px) 100vw, 471px"
-                      className="rounded-tr-[86.6px] object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+                      className="rounded-tr-[5.4125rem] object-cover transition-transform duration-500 ease-out group-hover:scale-105"
                     />
                   </Link>
                 </div>
@@ -146,7 +146,7 @@ export const TrendingSidebarSection: React.FC<TrendingSidebarSectionProps> = ({
                   {/* Meta row + animated arrow */}
                   <div className="flex items-center justify-between gap-4">
                     <span
-                      className="font-sans text-[16px] font-normal leading-[150%] text-[#000000] sm:text-[18px] xl:text-[19px] xl:leading-[29px]"
+                      className="font-sans text-[1rem] font-normal leading-[150%] text-[#000000] sm:text-[1.125rem] xl:text-[1.1875rem] xl:leading-[1.8125rem]"
                       style={{ fontFamily: "'Google Sans Flex', sans-serif" }}
                     >
                       {metaText}
@@ -170,7 +170,7 @@ export const TrendingSidebarSection: React.FC<TrendingSidebarSectionProps> = ({
 
                   {/* Title */}
                   <h3
-                    className="font-serif text-[26px] font-normal leading-[1.2] text-[#000000] transition-colors duration-200 group-hover:text-[#2B88D9] sm:text-[32px] xl:text-[38px] xl:leading-[46px]"
+                    className="font-serif text-[1.625rem] font-normal leading-[1.2] text-[#000000] transition-colors duration-200 group-hover:text-[#2B88D9] sm:text-[2rem] xl:text-[2.375rem] xl:leading-[2.875rem]"
                     style={{ fontFamily: "'DM Serif Text', serif" }}
                   >
                     <Link href={itemHref} className="focus:outline-none focus-visible:underline">
