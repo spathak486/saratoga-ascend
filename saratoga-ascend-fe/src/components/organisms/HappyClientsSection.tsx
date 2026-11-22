@@ -28,6 +28,7 @@ export const HappyClientsSection: React.FC<HappyClientsSectionProps> = ({
       aria-labelledby="happy-clients-heading"
       tone="surface"
       spacing="none"
+      className="xl:mt-[1.875rem]"
       containerClassName="overflow-visible py-10 max-xl:overflow-x-visible max-sm:px-5! max-xl:py-5 max-sm:pb-10! sm:max-xl:px-[var(--spacing-gutter)]! sm:max-xl:pt-5! sm:max-xl:pb-10! md:px-8 md:py-8"
     >
       <div className="flex flex-col items-start gap-20 max-xl:gap-10 md:gap-12">
