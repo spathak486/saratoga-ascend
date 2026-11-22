@@ -26,7 +26,7 @@ export interface RelatedPostsSectionProps {
 
 /**
  * Related Posts Section (Figma Group 2085665619 / Frame 2147226388)
- * - Container: max-w-[1680px], top divider #D9D9D9 (2px)
+ * - Container: max-w-[105rem], top divider #D9D9D9 (2px)
  * - Header Row:
  *   - Heading: "Related Blog" / "Related News" / "Related Case Studies" in 'DM Serif Text', 72px, line-height 86px (120%), color #D31E2D
  *   - Slider Controls (Group 2085665586):
@@ -34,8 +34,8 @@ export interface RelatedPostsSectionProps {
  *     - Resting state: white with black stroke, hover state: subtle shadow / accent
  * - Cards Carousel Row (Frame 2147226385):
  *   - 3 columns visible on desktop (544px card width, gap 24px)
- *   - Card Frame: rounded-tr-[100px]
- *   - Image: 544px x 431px, rounded-tr-[100px], object-cover
+ *   - Card Frame: rounded-tr-[6.25rem]
+ *   - Image: 544px x 431px, rounded-tr-[6.25rem], object-cover
  *   - Meta row: Google Sans Flex, 22px, line-height 33px (150%), e.g. "5 min read · August 12, 2026" + Arrow icon
  *   - Title: DM Serif Text, 44px, line-height 53px (120%), color #000000
  */
@@ -109,7 +109,7 @@ export const RelatedPostsSection: React.FC<RelatedPostsSectionProps> = ({
         {/* Header Row */}
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <h2
-            className="font-serif text-[40px] font-normal leading-[1.2] text-[#D31E2D] sm:text-[54px] xl:text-[72px] xl:leading-[86px]"
+            className="font-serif text-[2.5rem] font-normal leading-[1.2] text-[#D31E2D] sm:text-[3.375rem] xl:text-[4.5rem] xl:leading-[5.375rem]"
             style={{ fontFamily: "'DM Serif Text', serif" }}
           >
             {defaultTitle}
@@ -122,7 +122,7 @@ export const RelatedPostsSection: React.FC<RelatedPostsSectionProps> = ({
               onClick={() => handleScroll('left')}
               disabled={!canScrollLeft}
               aria-label="Previous slide"
-              className={`flex size-[54px] items-center justify-center rounded-full border border-black transition-all duration-300 sm:size-[66px] ${
+              className={`flex size-[3.375rem] items-center justify-center rounded-full border border-black transition-all duration-300 sm:size-[4.125rem] ${
                 canScrollLeft
                   ? 'cursor-pointer hover:bg-black hover:text-white'
                   : 'cursor-not-allowed opacity-40'
@@ -147,7 +147,7 @@ export const RelatedPostsSection: React.FC<RelatedPostsSectionProps> = ({
               onClick={() => handleScroll('right')}
               disabled={!canScrollRight}
               aria-label="Next slide"
-              className={`flex size-[54px] items-center justify-center rounded-full border border-black transition-all duration-300 sm:size-[66px] ${
+              className={`flex size-[3.375rem] items-center justify-center rounded-full border border-black transition-all duration-300 sm:size-[4.125rem] ${
                 canScrollRight
                   ? 'cursor-pointer hover:bg-black hover:text-white'
                   : 'cursor-not-allowed opacity-40'
@@ -173,7 +173,7 @@ export const RelatedPostsSection: React.FC<RelatedPostsSectionProps> = ({
         <div
           ref={scrollRef}
           onScroll={updateScrollButtons}
-          className="no-scrollbar mt-10 flex w-full snap-x snap-mandatory gap-6 overflow-x-auto scroll-smooth pb-4 sm:mt-12 xl:mt-[42px]"
+          className="no-scrollbar mt-10 flex w-full snap-x snap-mandatory gap-6 overflow-x-auto scroll-smooth pb-4 sm:mt-12 xl:mt-[2.625rem]"
           style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
         >
           {items.map((item, index) => {
@@ -207,17 +207,17 @@ export const RelatedPostsSection: React.FC<RelatedPostsSectionProps> = ({
             return (
               <article
                 key={`related-post-${item.id || index}-${item.slug || index}`}
-                className="group relative flex w-[300px] shrink-0 snap-start flex-col gap-6 sm:w-[420px] sm:gap-[30px] xl:w-[544px]"
+                className="group relative flex w-[18.75rem] shrink-0 snap-start flex-col gap-6 sm:w-[26.25rem] sm:gap-[1.875rem] xl:w-[34rem]"
               >
-                {/* Image Frame with rounded-tr-[100px] */}
-                <div className="relative aspect-[544/431] w-full overflow-hidden rounded-tr-[70px] bg-[#E2E8F0] sm:rounded-tr-[100px]">
+                {/* Image Frame with rounded-tr-[6.25rem] */}
+                <div className="relative aspect-[544/431] w-full overflow-hidden rounded-tr-[4.375rem] bg-[#E2E8F0] sm:rounded-tr-[6.25rem]">
                   <Link href={itemHref} tabIndex={-1} aria-hidden="true" className="block size-full">
                     <Image
                       src={imgSrc}
                       alt={itemTitle}
                       fill
                       sizes="(max-width: 640px) 300px, (max-width: 1024px) 420px, 544px"
-                      className="rounded-tr-[70px] object-cover transition-transform duration-500 ease-out group-hover:scale-105 sm:rounded-tr-[100px]"
+                      className="rounded-tr-[4.375rem] object-cover transition-transform duration-500 ease-out group-hover:scale-105 sm:rounded-tr-[6.25rem]"
                     />
                   </Link>
                 </div>
@@ -227,7 +227,7 @@ export const RelatedPostsSection: React.FC<RelatedPostsSectionProps> = ({
                   {/* Meta row + animated arrow */}
                   <div className="flex items-center justify-between gap-4">
                     <span
-                      className="font-sans text-[18px] font-normal leading-[150%] text-[#000000] sm:text-[20px] xl:text-[22px] xl:leading-[33px]"
+                      className="font-sans text-[1.125rem] font-normal leading-[150%] text-[#000000] sm:text-[1.25rem] xl:text-[1.375rem] xl:leading-[2.0625rem]"
                       style={{ fontFamily: "'Google Sans Flex', sans-serif" }}
                     >
                       {metaText}
@@ -251,7 +251,7 @@ export const RelatedPostsSection: React.FC<RelatedPostsSectionProps> = ({
 
                   {/* Title (Heading 03: DM Serif Text, 44px, line-height 53px) */}
                   <h3
-                    className="font-serif text-[28px] font-normal leading-[1.2] text-[#000000] transition-colors duration-200 group-hover:text-[#D31E2D] sm:text-[36px] xl:text-[44px] xl:leading-[53px]"
+                    className="font-serif text-[1.75rem] font-normal leading-[1.2] text-[#000000] transition-colors duration-200 group-hover:text-[#D31E2D] sm:text-[2.25rem] xl:text-[2.75rem] xl:leading-[3.3125rem]"
                     style={{ fontFamily: "'DM Serif Text', serif" }}
                   >
                     <Link href={itemHref} className="focus:outline-none focus-visible:underline">

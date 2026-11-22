@@ -114,7 +114,7 @@ export const InsightsListingSection: React.FC<InsightsListingSectionProps> = ({
 
   return (
     <section className="w-full bg-white py-16 md:py-24">
-      <div className="container mx-auto px-4 md:px-8 max-w-[1680px]">
+      <div className="container mx-auto px-4 md:px-8 max-w-[105rem]">
         {/* Main Section Header */}
         {(mainHeading || mainSubheading) && (
           <div className="flex flex-col items-start gap-4 mb-16 md:mb-20 max-w-4xl">
@@ -172,7 +172,7 @@ export const InsightsListingSection: React.FC<InsightsListingSectionProps> = ({
 
               {/* Blog 3 Cards */}
               {formattedBlogs.length > 0 ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-[40px] w-full">
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-[2.5rem] w-full">
                   {formattedBlogs.map((item) => (
                     <BlogCard
                       key={item.id}
@@ -233,7 +233,7 @@ export const InsightsListingSection: React.FC<InsightsListingSectionProps> = ({
 
               {/* News 3 Cards */}
               {formattedNews.length > 0 ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-[40px] w-full">
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-[2.5rem] w-full">
                   {formattedNews.map((item) => (
                     <BlogCard
                       key={item.id}
@@ -294,7 +294,7 @@ export const InsightsListingSection: React.FC<InsightsListingSectionProps> = ({
 
               {/* Past Performance 3 Cards (Same BlogCard Style) */}
               {formattedPastPerformance.length > 0 ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-[40px] w-full">
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-[2.5rem] w-full">
                   {formattedPastPerformance.map((item) => (
                     <BlogCard
                       key={item.id}

@@ -208,7 +208,7 @@ export function useWheelToScroll(viewportRef: React.RefObject<HTMLDivElement | n
 export interface CardCarouselProps extends UseCardCarouselOptions {
   label: string;
   children: React.ReactNode;
-  /** Per-breakpoint slide width, e.g. `basis-full min-[751px]:basis-1/4`. */
+  /** Per-breakpoint slide width, e.g. `basis-full min-[46.9375rem]:basis-1/4`. */
   slideClassName: string;
   className?: string;
   /** Negative inline margin on the track that pairs with the slide's left padding. */

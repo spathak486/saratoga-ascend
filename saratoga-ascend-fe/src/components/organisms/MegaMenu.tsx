@@ -23,7 +23,7 @@ function MenuArrow() {
     <svg
       viewBox="0 0 22 22"
       fill="none"
-      className="size-[27px] shrink-0"
+      className="size-[1.6875rem] shrink-0"
       aria-hidden="true"
       focusable="false"
     >
@@ -49,7 +49,7 @@ export const MegaMenu: React.FC<MegaMenuProps> = ({ links, open }) => {
         open ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'
       }`}
     >
-      <div className="flex flex-col gap-10 rounded-[20px] border border-brand-hairline bg-brand-tile/95 p-[39px] backdrop-blur-[25px]">
+      <div className="flex flex-col gap-10 rounded-[1.25rem] border border-brand-hairline bg-brand-tile/95 p-[2.4375rem] backdrop-blur-[1.5625rem]">
         {links.map((link, index) => (
           <GeneralLink
             key={`${link.href}-${link.label}`}
@@ -57,7 +57,7 @@ export const MegaMenu: React.FC<MegaMenuProps> = ({ links, open }) => {
             variant="unstyled"
             target={link.target ?? undefined}
             isExternal={link.isExternal ?? undefined}
-            contentClassName="font-sans text-[22px] font-medium leading-[28px]"
+            contentClassName="font-sans text-[1.375rem] font-medium leading-[1.75rem]"
             rightIcon={
               <span
                 className={`inline-flex text-inherit transition-transform ${MENU_MOTION} group-hover/link:[transform:translate(3px,-3px)_rotate(-45deg)] group-focus-visible/link:[transform:translate(3px,-3px)_rotate(-45deg)]`}

@@ -69,14 +69,14 @@ export function FederalProcurementPathwaysSection({
   return (
     <section
       aria-label="Federal Procurement Pathways"
-      className="relative mx-auto w-full max-w-[1920px] overflow-hidden bg-[#FAFAFA] px-4 py-12 sm:px-8 sm:py-16 md:px-12 xl:px-[118px] xl:py-[80px]"
+      className="relative mx-auto w-full max-w-[120rem] overflow-hidden bg-[#FAFAFA] px-4 py-12 sm:px-8 sm:py-16 md:px-12 xl:px-[7.375rem] xl:py-[5rem]"
     >
       {/* Top Header Area (CKEditor Title & Description) */}
       {(cleanTitle || cleanDesc) && (
-        <div className="mx-auto mb-10 flex w-full max-w-[1680px] flex-col items-start xl:mb-14">
+        <div className="mx-auto mb-10 flex w-full max-w-[105rem] flex-col items-start xl:mb-14">
           {cleanTitle ? (
             <div
-              className="ck-content max-w-[1512px] font-serif text-[clamp(2.25rem,1.5rem+3vw,4.5rem)] font-normal leading-[1.15] tracking-tight text-[#000000] [&_p]:m-0 [&_p]:font-inherit [&_p]:text-inherit [&_p]:leading-inherit [&_h1]:m-0 [&_h1]:font-inherit [&_h1]:text-inherit [&_h1]:leading-inherit [&_h2]:m-0 [&_h2]:font-inherit [&_h2]:text-inherit [&_h2]:leading-inherit [&_h3]:m-0 [&_h3]:font-inherit [&_h3]:text-inherit [&_h3]:leading-inherit"
+              className="ck-content max-w-[94.5rem] font-serif text-[clamp(2.25rem,1.5rem+3vw,4.5rem)] font-normal leading-[1.15] tracking-tight text-[#000000] [&_p]:m-0 [&_p]:font-inherit [&_p]:text-inherit [&_p]:leading-inherit [&_h1]:m-0 [&_h1]:font-inherit [&_h1]:text-inherit [&_h1]:leading-inherit [&_h2]:m-0 [&_h2]:font-inherit [&_h2]:text-inherit [&_h2]:leading-inherit [&_h3]:m-0 [&_h3]:font-inherit [&_h3]:text-inherit [&_h3]:leading-inherit"
               style={{ fontFamily: "'DM Serif Text', serif" }}
               dangerouslySetInnerHTML={{ __html: cleanHeadingHtml(cleanTitle) }}
             />
@@ -84,7 +84,7 @@ export function FederalProcurementPathwaysSection({
 
           {cleanDesc ? (
             <div
-              className="ck-content mt-6 max-w-[1449px] font-sans text-[clamp(1.125rem,1rem+0.5vw,1.5rem)] font-normal leading-[1.65] text-[#000000] xl:mt-7 xl:text-[24px] xl:leading-[40px] [&_p]:m-0 [&_p]:font-inherit [&_p]:text-inherit [&_p]:leading-inherit"
+              className="ck-content mt-6 max-w-[90.5625rem] font-sans text-[clamp(1.125rem,1rem+0.5vw,1.5rem)] font-normal leading-[1.65] text-[#000000] xl:mt-7 xl:text-[1.5rem] xl:leading-[2.5rem] [&_p]:m-0 [&_p]:font-inherit [&_p]:text-inherit [&_p]:leading-inherit"
               style={{ fontFamily: "'Google Sans Flex', sans-serif" }}
               dangerouslySetInnerHTML={{ __html: cleanHeadingHtml(cleanDesc) }}
             />
@@ -94,7 +94,7 @@ export function FederalProcurementPathwaysSection({
 
       {/* Multiple Order Landing Cards: completely dynamic from BE */}
       {displayCards.length > 0 && (
-        <div className="mx-auto flex w-full max-w-[1680px] flex-col gap-8 xl:gap-12">
+        <div className="mx-auto flex w-full max-w-[105rem] flex-col gap-8 xl:gap-12">
           {displayCards.map((card, cardIndex) => {
             const isCardOpen = expandedCardIndices.includes(cardIndex);
             const ctaLabel = card.cta?.label?.trim() || '';
@@ -104,7 +104,7 @@ export function FederalProcurementPathwaysSection({
             return (
               <div
                 key={card.documentId || card.id || `card-${cardIndex}`}
-                className="relative box-border flex w-full flex-col rounded-[24px] border border-black/80 bg-gradient-to-b from-[#F1F8FE] to-[#FFFFFF] p-6 shadow-[0px_0px_20px_rgba(0,0,0,0.12)] transition-shadow duration-300 hover:shadow-[0px_4px_24px_rgba(0,0,0,0.16)] sm:rounded-[32px] sm:p-10 xl:p-[40px_60px]"
+                className="relative box-border flex w-full flex-col rounded-[1.5rem] border border-black/80 bg-gradient-to-b from-[#F1F8FE] to-[#FFFFFF] p-6 shadow-[0px_0px_20px_rgba(0,0,0,0.12)] transition-shadow duration-300 hover:shadow-[0px_4px_24px_rgba(0,0,0,0.16)] sm:rounded-[2rem] sm:p-10 xl:p-[40px_60px]"
               >
                 {/* Accordion Card Header */}
                 <button
@@ -158,7 +158,7 @@ export function FederalProcurementPathwaysSection({
                       <div className="flex w-full flex-col items-start justify-between gap-6 pt-2 lg:flex-row lg:items-center">
                         {card.description ? (
                           <div
-                            className="ck-content max-w-[1049px] font-sans text-[clamp(1rem,0.9rem+0.4vw,1.5rem)] font-light leading-[1.55] text-[#212121] xl:text-[24px] xl:leading-[37px] [&_p]:m-0 [&_p]:font-inherit [&_p]:text-inherit [&_p]:leading-inherit"
+                            className="ck-content max-w-[65.5625rem] font-sans text-[clamp(1rem,0.9rem+0.4vw,1.5rem)] font-light leading-[1.55] text-[#212121] xl:text-[1.5rem] xl:leading-[2.3125rem] [&_p]:m-0 [&_p]:font-inherit [&_p]:text-inherit [&_p]:leading-inherit"
                             style={{ fontFamily: "'Google Sans Flex', sans-serif" }}
                             dangerouslySetInnerHTML={{ __html: cleanHeadingHtml(card.description) }}
                           />
@@ -170,7 +170,7 @@ export function FederalProcurementPathwaysSection({
                               href={ctaHref}
                               shape="square"
                               buttonVariant="cta"
-                              className="min-h-[56px] px-6 text-[18px] sm:min-h-[60px] sm:px-7 sm:text-[20px]"
+                              className="min-h-[3.5rem] px-6 text-[1.125rem] sm:min-h-[3.75rem] sm:px-7 sm:text-[1.25rem]"
                             >
                               {ctaLabel}
                             </CtaButton>
@@ -205,7 +205,7 @@ export function FederalProcurementPathwaysSection({
                               {/* Timeline Column */}
                               <div className="relative flex flex-col items-center">
                                 <div className="relative z-10 flex size-9 shrink-0 items-center justify-center rounded-full border-[1.33px] border-black bg-white sm:size-10">
-                                  <span className="size-[18px] rounded-full bg-[#2B88D9] sm:size-[21.33px]" />
+                                  <span className="size-[1.125rem] rounded-full bg-[#2B88D9] sm:size-[1.3331rem]" />
                                 </div>
 
                                 {!isLastItem ? (
@@ -218,7 +218,7 @@ export function FederalProcurementPathwaysSection({
                                 <div className="flex flex-col pr-4">
                                   {item.title ? (
                                     <h4
-                                      className="font-sans text-[clamp(1.125rem,1rem+0.6vw,1.75rem)] font-semibold leading-[1.25] text-[#212121] xl:text-[28px] xl:leading-[35px]"
+                                      className="font-sans text-[clamp(1.125rem,1rem+0.6vw,1.75rem)] font-semibold leading-[1.25] text-[#212121] xl:text-[1.75rem] xl:leading-[2.1875rem]"
                                       style={{ fontFamily: "'Google Sans Flex', sans-serif" }}
                                     >
                                       {item.title}
@@ -227,7 +227,7 @@ export function FederalProcurementPathwaysSection({
 
                                   {item.subtitle || item.contractNumber ? (
                                     <p
-                                      className="mt-2 font-sans text-[clamp(1rem,0.9rem+0.4vw,1.5rem)] font-light leading-[1.55] text-[#212121] xl:text-[24px] xl:leading-[37px]"
+                                      className="mt-2 font-sans text-[clamp(1rem,0.9rem+0.4vw,1.5rem)] font-light leading-[1.55] text-[#212121] xl:text-[1.5rem] xl:leading-[2.3125rem]"
                                       style={{ fontFamily: "'Google Sans Flex', sans-serif" }}
                                     >
                                       {item.subtitle || `Contract Number: ${item.contractNumber}`}
@@ -238,10 +238,10 @@ export function FederalProcurementPathwaysSection({
                                 {/* Details & Categories Drawer (rendered only if categories, description, or link exist) */}
                                 {(item.categoryLabel || categoriesRaw || item.description || (item.link?.label && item.link?.href)) && (
                                   <div className="mt-4 sm:mt-6">
-                                    <div className="rounded-[16px] border border-[#DAE5ED] bg-white/70 p-4 sm:p-6 xl:p-8">
+                                    <div className="rounded-[1rem] border border-[#DAE5ED] bg-white/70 p-4 sm:p-6 xl:p-8">
                                       {item.categoryLabel ? (
                                         <h5
-                                          className="font-sans text-[18px] font-semibold leading-[1.3] text-[#212121] sm:text-[22px] xl:text-[28px] xl:leading-[35px]"
+                                          className="font-sans text-[1.125rem] font-semibold leading-[1.3] text-[#212121] sm:text-[1.375rem] xl:text-[1.75rem] xl:leading-[2.1875rem]"
                                           style={{ fontFamily: "'Google Sans Flex', sans-serif" }}
                                         >
                                           {item.categoryLabel}
@@ -251,11 +251,11 @@ export function FederalProcurementPathwaysSection({
                                       {/* If categories is CKEditor HTML */}
                                       {isHtml ? (
                                         <div
-                                          className="ck-content mt-4 font-sans text-[16px] font-light leading-[1.6] text-[#212121] sm:text-[20px] xl:text-[24px] xl:leading-[46px] [&_ul]:list-disc [&_ul]:pl-5 [&_p]:m-0"
+                                          className="ck-content mt-4 font-sans text-[1rem] font-light leading-[1.6] text-[#212121] sm:text-[1.25rem] xl:text-[1.5rem] xl:leading-[2.875rem] [&_ul]:list-disc [&_ul]:pl-5 [&_p]:m-0"
                                           dangerouslySetInnerHTML={{ __html: cleanHeadingHtml(categoriesRaw) }}
                                         />
                                       ) : categoryLines.length > 0 ? (
-                                        <ul className="mt-4 flex flex-col gap-2 font-sans text-[16px] font-light leading-[1.6] text-[#212121] sm:text-[20px] xl:text-[24px] xl:leading-[46px]">
+                                        <ul className="mt-4 flex flex-col gap-2 font-sans text-[1rem] font-light leading-[1.6] text-[#212121] sm:text-[1.25rem] xl:text-[1.5rem] xl:leading-[2.875rem]">
                                           {categoryLines.map((line, lIdx) => (
                                             <li key={lIdx} className="flex items-start gap-2.5">
                                               <span className="mt-2.5 size-1.5 shrink-0 rounded-full bg-[#2B88D9]" />
@@ -264,7 +264,7 @@ export function FederalProcurementPathwaysSection({
                                           ))}
                                         </ul>
                                       ) : item.description ? (
-                                        <p className="mt-4 font-sans text-[16px] font-light leading-[1.6] text-[#212121] sm:text-[20px] xl:text-[24px]">
+                                        <p className="mt-4 font-sans text-[1rem] font-light leading-[1.6] text-[#212121] sm:text-[1.25rem] xl:text-[1.5rem]">
                                           {item.description}
                                         </p>
                                       ) : null}
@@ -274,7 +274,7 @@ export function FederalProcurementPathwaysSection({
                                           <a
                                             href={item.link.href}
                                             target={item.link.target || '_self'}
-                                            className="inline-flex items-center gap-2 font-sans text-[16px] font-semibold text-[#006CAF] underline transition-colors hover:text-[#022542] sm:text-[18px]"
+                                            className="inline-flex items-center gap-2 font-sans text-[1rem] font-semibold text-[#006CAF] underline transition-colors hover:text-[#022542] sm:text-[1.125rem]"
                                           >
                                             <span>{item.link.label}</span>
                                             <svg className="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">

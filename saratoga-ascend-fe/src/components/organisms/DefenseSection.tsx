@@ -119,17 +119,17 @@ export function DefenseSection({
   return (
     <section
       aria-label={cleanTitle ? cleanTitle.replace(/<[^>]*>/g, '') : 'Defense Section'}
-      className="relative w-full max-w-[1920px] mx-auto py-8 sm:py-12 xl:py-14 2xl:py-[60px] px-4 sm:px-6 md:px-8 xl:px-12 2xl:px-[120px] overflow-hidden"
+      className="relative w-full max-w-[120rem] mx-auto py-8 sm:py-12 xl:py-14 2xl:py-[3.75rem] px-4 sm:px-6 md:px-8 xl:px-12 2xl:px-[7.5rem] overflow-hidden"
     >
       {/* Inner Card Container: Responsive flex/grid container across 100% and 125% scales */}
-      <div className="box-border relative w-full max-w-[1680px] mx-auto bg-[#EEEEEE] rounded-[24px] sm:rounded-[30px] overflow-hidden p-6 sm:p-8 xl:p-10 2xl:p-14 min-h-[500px] xl:min-h-[720px] 2xl:min-h-[850px] flex flex-col justify-center">
+      <div className="box-border relative w-full max-w-[105rem] mx-auto bg-[#EEEEEE] rounded-[1.5rem] sm:rounded-[1.875rem] overflow-hidden p-6 sm:p-8 xl:p-10 2xl:p-14 min-h-[31.25rem] xl:min-h-[45rem] 2xl:min-h-[53.125rem] flex flex-col justify-center">
         
         {/* Background Graphic Blueprint / Media (Figma copy_of_untitled_project (1) 1) */}
         <div
           className={`pointer-events-none select-none absolute z-0 overflow-hidden opacity-100 ${
             isRight
-              ? 'xl:left-0 2xl:left-[60px] xl:top-[50px] 2xl:top-[81.95px] xl:w-[960px] 2xl:w-[1192.9px] xl:h-[600px] 2xl:h-[745.56px] scale-x-[-1]'
-              : 'xl:right-0 2xl:left-[414.88px] xl:top-[50px] 2xl:top-[81.95px] xl:w-[960px] 2xl:w-[1192.9px] xl:h-[600px] 2xl:h-[745.56px]'
+              ? 'xl:left-0 2xl:left-[3.75rem] xl:top-[3.125rem] 2xl:top-[5.1219rem] xl:w-[60rem] 2xl:w-[74.5563rem] xl:h-[37.5rem] 2xl:h-[46.5975rem] scale-x-[-1]'
+              : 'xl:right-0 2xl:left-[25.93rem] xl:top-[3.125rem] 2xl:top-[5.1219rem] xl:w-[60rem] 2xl:w-[74.5563rem] xl:h-[37.5rem] 2xl:h-[46.5975rem]'
           } max-xl:inset-0 max-xl:w-full max-xl:h-full`}
         >
           {bgUrl ? (
@@ -170,9 +170,9 @@ export function DefenseSection({
           <div
             className={`pointer-events-none select-none z-10 ${
               isRight
-                ? 'xl:absolute xl:left-[20px] 2xl:left-[261px] xl:bottom-0 xl:w-[420px] 2xl:w-[560px] xl:h-[640px] 2xl:h-[840px]'
-                : 'xl:absolute xl:right-[20px] 2xl:right-[40px] 2xl:left-[936px] xl:bottom-0 xl:w-[440px] 2xl:w-[571px] xl:h-[640px] 2xl:h-[840px]'
-            } max-xl:relative max-xl:w-full max-xl:h-[340px] sm:max-xl:h-[460px] max-xl:mt-6 max-xl:flex max-xl:items-end max-xl:justify-center`}
+                ? 'xl:absolute xl:left-[1.25rem] 2xl:left-[16.3125rem] xl:bottom-0 xl:w-[26.25rem] 2xl:w-[35rem] xl:h-[40rem] 2xl:h-[52.5rem]'
+                : 'xl:absolute xl:right-[1.25rem] 2xl:right-[2.5rem] 2xl:left-[58.5rem] xl:bottom-0 xl:w-[27.5rem] 2xl:w-[35.6875rem] xl:h-[40rem] 2xl:h-[52.5rem]'
+            } max-xl:relative max-xl:w-full max-xl:h-[21.25rem] sm:max-xl:h-[28.75rem] max-xl:mt-6 max-xl:flex max-xl:items-end max-xl:justify-center`}
           >
             <div className="relative w-full h-full">
               <Image
@@ -191,15 +191,15 @@ export function DefenseSection({
         <div
           className={`relative z-20 flex flex-col justify-between opacity-100 ${
             isRight
-              ? 'xl:ml-auto xl:w-[52%] 2xl:w-[726px]'
-              : 'xl:mr-auto xl:w-[52%] 2xl:w-[726px]'
+              ? 'xl:ml-auto xl:w-[52%] 2xl:w-[45.375rem]'
+              : 'xl:mr-auto xl:w-[52%] 2xl:w-[45.375rem]'
           } max-xl:w-full`}
         >
           <div>
             {/* Title: DM Serif Text */}
             {cleanTitle && (
               <h2
-                className="font-serif text-[28px] sm:text-[36px] xl:text-[42px] 2xl:text-[53.33px] leading-[1.2] xl:leading-[1.25] 2xl:leading-[73px] font-normal text-[#212121] tracking-[-0.01em] [&_span[style*='color']]:font-semibold"
+                className="font-serif text-[1.75rem] sm:text-[2.25rem] xl:text-[2.625rem] 2xl:text-[3.3331rem] leading-[1.2] xl:leading-[1.25] 2xl:leading-[4.5625rem] font-normal text-[#212121] tracking-[-0.01em] [&_span[style*='color']]:font-semibold"
                 style={{ fontFamily: "'DM Serif Text', serif" }}
                 dangerouslySetInnerHTML={{ __html: cleanTitle }}
               />
@@ -208,7 +208,7 @@ export function DefenseSection({
             {/* Description: Google Sans Flex */}
             {description && (
               <p
-                className="mt-4 sm:mt-6 xl:mt-7 2xl:mt-[40px] font-sans text-[15px] sm:text-[18px] xl:text-[20px] 2xl:text-[24px] leading-[1.5] xl:leading-[1.6] 2xl:leading-[40px] font-normal text-[#000000] max-w-full xl:max-w-[640px] 2xl:max-w-[712px]"
+                className="mt-4 sm:mt-6 xl:mt-7 2xl:mt-[2.5rem] font-sans text-[0.9375rem] sm:text-[1.125rem] xl:text-[1.25rem] 2xl:text-[1.5rem] leading-[1.5] xl:leading-[1.6] 2xl:leading-[2.5rem] font-normal text-[#000000] max-w-full xl:max-w-[40rem] 2xl:max-w-[44.5rem]"
                 style={{ fontFamily: "'Google Sans Flex', sans-serif" }}
               >
                 {stripHtml(description)}
@@ -217,14 +217,14 @@ export function DefenseSection({
 
             {/* Tags / Pills: Responsive flex-wrap */}
             {tagList.length > 0 && (
-              <div className="mt-5 sm:mt-6 xl:mt-7 2xl:mt-[30px] flex flex-wrap gap-2 sm:gap-3 xl:gap-3.5 2xl:gap-[20px] max-w-[644px]">
+              <div className="mt-5 sm:mt-6 xl:mt-7 2xl:mt-[1.875rem] flex flex-wrap gap-2 sm:gap-3 xl:gap-3.5 2xl:gap-[1.25rem] max-w-[40.25rem]">
                 {tagList.map((tag, idx) => (
                   <div
                     key={`defense-tag-${idx}`}
-                    className="box-border inline-flex items-center justify-center px-4 sm:px-6 xl:px-7 2xl:px-[40px] py-1.5 sm:py-2 xl:h-[52px] 2xl:h-[62px] bg-[rgba(240,20,36,0.02)] border border-[#F01424] rounded-[60px] text-center transition-transform duration-200 hover:scale-105"
+                    className="box-border inline-flex items-center justify-center px-4 sm:px-6 xl:px-7 2xl:px-[2.5rem] py-1.5 sm:py-2 xl:h-[3.25rem] 2xl:h-[3.875rem] bg-[rgba(240,20,36,0.02)] border border-[#F01424] rounded-[3.75rem] text-center transition-transform duration-200 hover:scale-105"
                   >
                     <span
-                      className="font-sans font-medium text-[14px] sm:text-[17px] xl:text-[19px] 2xl:text-[24px] leading-[26px] sm:leading-[30px] xl:leading-[34px] 2xl:leading-[40px] text-[#000000]"
+                      className="font-sans font-medium text-[0.875rem] sm:text-[1.0625rem] xl:text-[1.1875rem] 2xl:text-[1.5rem] leading-[1.625rem] sm:leading-[1.875rem] xl:leading-[2.125rem] 2xl:leading-[2.5rem] text-[#000000]"
                       style={{ fontFamily: "'Google Sans Flex', sans-serif" }}
                     >
                       {tag}
@@ -237,16 +237,16 @@ export function DefenseSection({
 
           {/* CTA Button */}
           {actionText && (
-            <div className="mt-6 sm:mt-8 xl:mt-8 2xl:mt-[40px]">
+            <div className="mt-6 sm:mt-8 xl:mt-8 2xl:mt-[2.5rem]">
               <Link
                 href={targetHref || '#'}
-                className="group inline-flex items-center justify-center gap-3 w-full sm:w-[320px] 2xl:w-[352px] h-[50px] sm:h-[56px] 2xl:h-[60px] px-6 py-3.5 rounded-[8px] text-white shadow-md transition-all duration-300 hover:shadow-lg hover:brightness-105 active:scale-98"
+                className="group inline-flex items-center justify-center gap-3 w-full sm:w-[20rem] 2xl:w-[22rem] h-[3.125rem] sm:h-[3.5rem] 2xl:h-[3.75rem] px-6 py-3.5 rounded-[0.5rem] text-white shadow-md transition-all duration-300 hover:shadow-lg hover:brightness-105 active:scale-98"
                 style={{
                   background: 'linear-gradient(90.55deg, #D31E2D 0.47%, #2A91DC 102.45%)',
                 }}
               >
                 <span
-                  className="font-sans font-medium text-[16px] sm:text-[18px] 2xl:text-[20px] leading-[150%] text-white"
+                  className="font-sans font-medium text-[1rem] sm:text-[1.125rem] 2xl:text-[1.25rem] leading-[150%] text-white"
                   style={{ fontFamily: "'Google Sans Flex', sans-serif" }}
                 >
                   {actionText}

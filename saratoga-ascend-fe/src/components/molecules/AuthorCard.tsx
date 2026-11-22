@@ -37,7 +37,7 @@ export const AuthorCard: React.FC<AuthorCardProps> = ({
   return (
     <aside
       aria-label={`About ${name}`}
-      className="box-border relative flex w-full max-w-[1051px] flex-col justify-between overflow-hidden rounded-[30px] p-6 sm:p-8 md:p-10 xl:min-h-[314px] xl:p-[38px_42px]"
+      className="box-border relative flex w-full max-w-[65.6875rem] flex-col justify-between overflow-hidden rounded-[1.875rem] p-6 sm:p-8 md:p-10 xl:min-h-[19.625rem] xl:p-[38px_42px]"
       style={{
         backgroundColor: '#E4EBF1',
         backgroundImage:
@@ -48,7 +48,7 @@ export const AuthorCard: React.FC<AuthorCardProps> = ({
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 w-full">
         {/* Left: Avatar + Identity */}
         <div className="flex items-center gap-5">
-          <div className="relative size-[78px] shrink-0 overflow-hidden rounded-full border border-black/10 bg-[#CECECE]">
+          <div className="relative size-[4.875rem] shrink-0 overflow-hidden rounded-full border border-black/10 bg-[#CECECE]">
             {avatarUrl ? (
               <img
                 src={avatarUrl}
@@ -63,11 +63,11 @@ export const AuthorCard: React.FC<AuthorCardProps> = ({
           </div>
 
           <div className="flex flex-col justify-center">
-            <h3 className="font-serif font-normal text-[28px] sm:text-[34px] xl:text-[40px] leading-[1.1] tracking-[0.03em] text-[#000000]">
+            <h3 className="font-serif font-normal text-[1.75rem] sm:text-[2.125rem] xl:text-[2.5rem] leading-[1.1] tracking-[0.03em] text-[#000000]">
               {name}
             </h3>
             {role && (
-              <p className="font-serif font-normal text-[16px] sm:text-[18px] xl:text-[20px] leading-[1.3] text-[#000000] mt-1">
+              <p className="font-serif font-normal text-[1rem] sm:text-[1.125rem] xl:text-[1.25rem] leading-[1.3] text-[#000000] mt-1">
                 {role}
               </p>
             )}
@@ -82,7 +82,7 @@ export const AuthorCard: React.FC<AuthorCardProps> = ({
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Facebook"
-              className="flex size-[39px] items-center justify-center rounded-full border border-black text-black transition-colors hover:bg-black hover:text-white"
+              className="flex size-[2.4375rem] items-center justify-center rounded-full border border-black text-black transition-colors hover:bg-black hover:text-white"
             >
               <svg width="10" height="18" viewBox="0 0 10 18" fill="currentColor">
                 <path d="M8.5 10.125H6V17.5H2.875V10.125H1.3125V7.5H2.875V5.625C2.875 3.55469 4.14844 2.5 6.02344 2.5C6.92188 2.5 7.69531 2.57031 7.92188 2.59766V4.78125H6.63281C5.625 4.78125 5.42969 5.25781 5.42969 5.96094V7.5H8.5L8.5 10.125Z" />
@@ -96,7 +96,7 @@ export const AuthorCard: React.FC<AuthorCardProps> = ({
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Instagram"
-              className="flex size-[39px] items-center justify-center rounded-full border border-black text-black transition-colors hover:bg-black hover:text-white"
+              className="flex size-[2.4375rem] items-center justify-center rounded-full border border-black text-black transition-colors hover:bg-black hover:text-white"
             >
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
@@ -112,7 +112,7 @@ export const AuthorCard: React.FC<AuthorCardProps> = ({
               target="_blank"
               rel="noopener noreferrer"
               aria-label="LinkedIn"
-              className="flex size-[39px] items-center justify-center rounded-full border border-black text-black transition-colors hover:bg-black hover:text-white"
+              className="flex size-[2.4375rem] items-center justify-center rounded-full border border-black text-black transition-colors hover:bg-black hover:text-white"
             >
               <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
@@ -126,7 +126,7 @@ export const AuthorCard: React.FC<AuthorCardProps> = ({
               target="_blank"
               rel="noopener noreferrer"
               aria-label="X (formerly Twitter)"
-              className="flex size-[39px] items-center justify-center rounded-full border border-black text-black transition-colors hover:bg-black hover:text-white"
+              className="flex size-[2.4375rem] items-center justify-center rounded-full border border-black text-black transition-colors hover:bg-black hover:text-white"
             >
               <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
@@ -138,7 +138,7 @@ export const AuthorCard: React.FC<AuthorCardProps> = ({
 
       {/* Biography Description */}
       {bio && (
-        <p className="font-sans font-normal text-[16px] sm:text-[20px] xl:text-[24px] leading-[1.6] xl:leading-[46px] text-[#000000] mt-6">
+        <p className="font-sans font-normal text-[1rem] sm:text-[1.25rem] xl:text-[1.5rem] leading-[1.6] xl:leading-[2.875rem] text-[#000000] mt-6">
           {bio}
         </p>
       )}

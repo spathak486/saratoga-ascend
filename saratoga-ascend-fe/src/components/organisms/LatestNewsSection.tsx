@@ -100,8 +100,8 @@ export const LatestNewsSection = async ({
       className="bg-latest-news relative overflow-hidden"
     >
       {/* Desktop padding/gaps from Figma 2243:3792 — 40px top, 40px header→cards, ~80px bottom */}
-      <Container className="pt-10 pb-[79px] max-sm:px-5! max-xl:py-10! sm:max-xl:px-[var(--spacing-gutter)]! md:px-8 md:py-12">
-        <div className="flex flex-col items-start gap-3 xl:gap-[12px]">
+      <Container className="pt-10 pb-[4.9375rem] max-sm:px-5! max-xl:py-10! sm:max-xl:px-[var(--spacing-gutter)]! md:px-8 md:py-12">
+        <div className="flex flex-col items-start gap-3 xl:gap-[0.75rem]">
           <Heading
             id="latest-news-heading"
             level={2}
@@ -112,7 +112,7 @@ export const LatestNewsSection = async ({
             {stripHtml(title)}
           </Heading>
           {subTitle && (
-            <p className="font-sans text-left text-[clamp(1rem,0.85rem+0.6vw,1.875rem)] font-normal leading-[1.33] text-white xl:leading-[40px]" style={{ fontFamily: "'Google Sans Flex', sans-serif" }}>
+            <p className="font-sans text-left text-[clamp(1rem,0.85rem+0.6vw,1.875rem)] font-normal leading-[1.33] text-white xl:leading-[2.5rem]" style={{ fontFamily: "'Google Sans Flex', sans-serif" }}>
               {stripHtml(subTitle)}
             </p>
           )}

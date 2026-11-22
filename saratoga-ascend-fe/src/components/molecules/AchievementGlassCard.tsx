@@ -58,7 +58,7 @@ export const AchievementGlassCard: React.FC<AchievementGlassCardProps> = ({
       : body;
 
   return (
-    <article className="relative w-full rounded-panel border-[2px] border-white bg-[rgba(10,10,10,0.1)] backdrop-blur-[12px] xl:aspect-[828/427] max-xl:bg-white/16">
+    <article className="relative w-full rounded-panel border-[2px] border-white bg-[rgba(10,10,10,0.1)] backdrop-blur-[0.75rem] xl:aspect-[828/427] max-xl:bg-white/16">
       <div className="size-full overflow-hidden rounded-[inherit]">
         <div className="flex flex-col items-center justify-start gap-3 p-4 xl:hidden">
           <Badge

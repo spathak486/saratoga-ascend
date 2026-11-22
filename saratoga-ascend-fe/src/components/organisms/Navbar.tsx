@@ -112,12 +112,12 @@ export const Navbar: React.FC<NavbarProps> = ({ data }) => {
                 <button
                   type="button"
                   aria-label={searchLabel}
-                  className="inline-flex size-[45px] shrink-0 items-center justify-center rounded-full border border-slate-faint bg-white p-1 text-ink transition-all duration-200 hover:border-brand-navy hover:text-brand-navy hover:shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-navy"
+                  className="inline-flex size-[2.8125rem] shrink-0 items-center justify-center rounded-full border border-slate-faint bg-white p-1 text-ink transition-all duration-200 hover:border-brand-navy hover:text-brand-navy hover:shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-navy"
                 >
-                  <SearchIcon className="size-[18px]" />
+                  <SearchIcon className="size-[1.125rem]" />
                 </button>
                 {/* Figma 2633:9416 alert badge */}
-                <span className="absolute -top-1 -right-1 flex size-[14px] items-center justify-center rounded-full bg-[#D12E34] text-[10px] font-medium leading-none text-white pointer-events-none">
+                <span className="absolute -top-1 -right-1 flex size-[0.875rem] items-center justify-center rounded-full bg-[#D12E34] text-[0.625rem] font-medium leading-none text-white pointer-events-none">
                   1
                 </span>
               </div>
@@ -191,7 +191,7 @@ export const Navbar: React.FC<NavbarProps> = ({ data }) => {
           inside a tall ancestor. Solid white at rest; frost once pinned. */}
       <header
         className={`sticky top-0 z-50 hidden overflow-visible bg-white transition-[background-color,box-shadow,backdrop-filter] duration-200 motion-reduce:transition-none xl:block ${
-          isOverlay ? 'bg-white/80 shadow-button backdrop-blur-[25px]' : ''
+          isOverlay ? 'bg-white/80 shadow-button backdrop-blur-[1.5625rem]' : ''
         }`}
       >
         <Container className="flex h-nav-h min-w-0 items-center justify-between gap-[clamp(1rem,2vw,2.5rem)]">

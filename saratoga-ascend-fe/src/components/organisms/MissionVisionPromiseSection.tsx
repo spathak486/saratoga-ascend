@@ -231,7 +231,7 @@ export const MissionVisionPromiseSection: React.FC<MissionVisionPromiseSectionPr
     <section
       aria-label={finalTitle}
       /* Figma: width: 1920px; height: 990px; background: #F6F6F6; */
-      className="relative mx-auto my-0 flex w-full max-w-[1920px] flex-col justify-center overflow-hidden bg-[#F6F6F6] py-12 sm:py-14 lg:min-h-[clamp(850px,51.56vw,990px)] lg:py-0"
+      className="relative mx-auto my-0 flex w-full max-w-[120rem] flex-col justify-center overflow-hidden bg-[#F6F6F6] py-12 sm:py-14 lg:min-h-[clamp(850px,51.56vw,990px)] lg:py-0"
     >
       {/* Background Graphic: Figma ChatGPT Image Oct 5, 2026, 10_17_40 PM 1 */}
       <div className="absolute inset-0 w-full h-full pointer-events-none select-none z-0">
@@ -254,7 +254,7 @@ export const MissionVisionPromiseSection: React.FC<MissionVisionPromiseSectionPr
       <div className="relative z-10 w-full px-6 sm:px-10 lg:px-[clamp(2.5rem,6.25vw,7.5rem)]">
         
         {/* Frame 2147226356 / Frame 610: Header Section */}
-        <div className="flex flex-col items-start gap-3 sm:gap-4 max-w-[1680px] mb-8 lg:mb-[clamp(2rem,3.125vw,3.75rem)]">
+        <div className="flex flex-col items-start gap-3 sm:gap-4 max-w-[105rem] mb-8 lg:mb-[clamp(2rem,3.125vw,3.75rem)]">
           {/* Heading: Figma DM Serif Text, 72px, line-height: 120% (86px), color: #000000 */}
           <h2 className="font-serif font-normal text-[clamp(2.25rem,3.75vw,4.5rem)] leading-[1.2] text-black tracking-tight">
             {renderTitle()}
@@ -262,14 +262,14 @@ export const MissionVisionPromiseSection: React.FC<MissionVisionPromiseSectionPr
 
           {/* Subheading: Figma Google Sans Flex, 30px, line-height: 40px (133%), color: #000000, max-w: 917px */}
           {finalDescription && (
-            <p className="font-sans font-normal text-[clamp(1.125rem,1.56vw,1.875rem)] leading-[clamp(1.65rem,2.08vw,2.5rem)] text-black max-w-[917px]">
+            <p className="font-sans font-normal text-[clamp(1.125rem,1.56vw,1.875rem)] leading-[clamp(1.65rem,2.08vw,2.5rem)] text-black max-w-[57.3125rem]">
               {finalDescription}
             </p>
           )}
         </div>
 
         {/* Group 2085665691: The 3 Cards Container (1684px total width, 26px gap between 544px cards) */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-[clamp(1rem,1.35vw,1.625rem)] w-full max-w-[1684px]">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-[clamp(1rem,1.35vw,1.625rem)] w-full max-w-[105.25rem]">
           {cards.map((card, index) => {
             const iconUrl =
               typeof card.icon === 'string'
@@ -294,7 +294,7 @@ export const MissionVisionPromiseSection: React.FC<MissionVisionPromiseSectionPr
                   backdropFilter: isCardHighlighted ? 'none' : 'blur(15.5px)',
                   WebkitBackdropFilter: isCardHighlighted ? 'none' : 'blur(15.5px)',
                 }}
-                className={`group relative flex min-w-0 flex-col items-center justify-between overflow-hidden text-center w-full min-h-[460px] lg:min-h-[520px] 2xl:min-h-[592px] py-[clamp(1.75rem,2.5vw,3.75rem)] px-[clamp(1.25rem,2vw,3.06rem)] border-2 border-[#2B88D9] rounded-[35px] cursor-pointer transition-all duration-300 ease-out select-none ${
+                className={`group relative flex min-w-0 flex-col items-center justify-between overflow-hidden text-center w-full min-h-[28.75rem] lg:min-h-[32.5rem] 2xl:min-h-[37rem] py-[clamp(1.75rem,2.5vw,3.75rem)] px-[clamp(1.25rem,2vw,3.06rem)] border-2 border-[#2B88D9] rounded-[2.1875rem] cursor-pointer transition-all duration-300 ease-out select-none ${
                   isCardHighlighted
                     ? 'bg-[#2B88D9] text-white shadow-[0_22px_55px_rgba(43,136,217,0.38)] -translate-y-2'
                     : 'bg-[rgba(249,251,254,0.7)] text-black shadow-[0_10px_35px_rgba(43,136,217,0.08)] translate-y-0'
@@ -304,7 +304,7 @@ export const MissionVisionPromiseSection: React.FC<MissionVisionPromiseSectionPr
                 <div className="flex flex-col items-center w-full">
                   {/* Figma Rectangle 40122: Circular Icon Badge (~121px x 121px, border: 2.2411px solid #2B88D9, border-radius: 102.41px) */}
                   <div
-                    className={`size-[clamp(90px,6.3vw,121px)] rounded-full border-[2.24px] flex items-center justify-center p-2 mb-4 lg:mb-6 transition-all duration-300 ${
+                    className={`size-[clamp(90px,6.3vw,121px)] rounded-full border-[0.14rem] flex items-center justify-center p-2 mb-4 lg:mb-6 transition-all duration-300 ${
                       isCardHighlighted
                         ? 'bg-white border-white shadow-md scale-105'
                         : `${badgeBgClass} border-[#2B88D9] scale-100`
@@ -329,7 +329,7 @@ export const MissionVisionPromiseSection: React.FC<MissionVisionPromiseSectionPr
 
                   {/* Rectangle 40131: Accent Underline Bar (~146px width, border-radius: 10px) */}
                   <div
-                    className={`h-[clamp(4px,0.3vw,6px)] rounded-[10px] my-3 sm:my-4 transition-all duration-300 ${
+                    className={`h-[clamp(4px,0.3vw,6px)] rounded-[0.625rem] my-3 sm:my-4 transition-all duration-300 ${
                       isCardHighlighted
                         ? 'w-[clamp(110px,8.5vw,164px)] bg-white'
                         : 'w-[clamp(90px,7.6vw,146px)] bg-[#2B88D9]'

@@ -59,7 +59,7 @@ const DEFAULT_MISSIONS: CriticalMissionCard[] = [
 // Inline vector fallback icons matching Figma's icon box
 function MissionCardIcon({ index, iconUrl, title }: { index: number; iconUrl?: string | null; title?: string }) {
   if (iconUrl) {
-    return <img src={iconUrl} alt={title || 'Icon'} className="w-[36px] h-[36px] sm:w-[48px] sm:h-[48px] object-contain" />;
+    return <img src={iconUrl} alt={title || 'Icon'} className="w-[2.25rem] h-[2.25rem] sm:w-[3rem] sm:h-[3rem] object-contain" />;
   }
 
   // 6 distinctive medical / operational vector designs corresponding to the 6 cards in Figma
@@ -158,22 +158,22 @@ export function CriticalMissionsSection({
   return (
     <section
       aria-label={title || 'Critical Healthcare Missions'}
-      className="isolate relative mx-auto w-full max-w-[1920px] bg-white xl:mb-[60px]"
+      className="isolate relative mx-auto w-full max-w-[120rem] bg-white xl:mb-[3.75rem]"
     >
-      <div className="px-6 py-12 sm:px-6 sm:py-14 lg:px-10 xl:pt-[78px] xl:pb-12 2xl:px-[120px]">
-        <div className="mx-auto flex w-full max-w-[1680px] flex-col items-start justify-between gap-8 sm:gap-10 xl:flex-row xl:gap-8 2xl:gap-[60px]">
-          <div className="w-full min-w-0 xl:sticky xl:top-[calc(var(--spacing-nav-h)+1.5rem)] xl:max-w-[850px] xl:flex-1 xl:self-start 2xl:max-w-[904px]">
+      <div className="px-6 py-12 sm:px-6 sm:py-14 lg:px-10 xl:pt-[4.875rem] xl:pb-12 2xl:px-[7.5rem]">
+        <div className="mx-auto flex w-full max-w-[105rem] flex-col items-start justify-between gap-8 sm:gap-10 xl:flex-row xl:gap-8 2xl:gap-[3.75rem]">
+          <div className="w-full min-w-0 xl:sticky xl:top-[calc(var(--spacing-nav-h)+1.5rem)] xl:max-w-[53.125rem] xl:flex-1 xl:self-start 2xl:max-w-[56.5rem]">
             <h2 className="font-serif text-[clamp(2rem,1.4rem+2.5vw,4.5rem)] font-normal leading-[1.15] tracking-tight text-[#000000]">
               {renderTitle()}
             </h2>
             {description && (
-              <p className="mt-5 max-w-[820px] font-sans text-[clamp(1.05rem,0.95rem+0.45vw,1.5rem)] font-normal leading-[1.6] text-[#000000] sm:mt-6 xl:mt-8 xl:leading-10">
+              <p className="mt-5 max-w-[51.25rem] font-sans text-[clamp(1.05rem,0.95rem+0.45vw,1.5rem)] font-normal leading-[1.6] text-[#000000] sm:mt-6 xl:mt-8 xl:leading-10">
                 {description}
               </p>
             )}
           </div>
 
-          <div className="flex w-full min-w-0 shrink-0 flex-col gap-5 xl:w-[480px] 2xl:w-[582px]">
+          <div className="flex w-full min-w-0 shrink-0 flex-col gap-5 xl:w-[30rem] 2xl:w-[36.375rem]">
               {displayCards.map((card, idx) => {
                 const stepNum = card.number || (idx < 9 ? `0${idx + 1}` : `${idx + 1}`);
 
@@ -181,10 +181,10 @@ export function CriticalMissionsSection({
                   <div
                     key={card.id ?? card.documentId ?? `mission-${idx}`}
                     style={{ zIndex: idx + 1 }}
-                    className="relative flex h-auto min-h-[16rem] w-full shrink-0 flex-col justify-between overflow-hidden rounded-[20px] border border-[#95C3EC] bg-[#F4F9FD] p-6 shadow-[0_8px_20px_rgba(33,33,33,0.06)] transition-[border-color,box-shadow] duration-300 hover:border-[#2B88D9] hover:shadow-md motion-reduce:transition-none sm:p-7 xl:sticky xl:top-[calc(var(--spacing-nav-h)+1.5rem)] 2xl:p-9"
+                    className="relative flex h-auto min-h-[16rem] w-full shrink-0 flex-col justify-between overflow-hidden rounded-[1.25rem] border border-[#95C3EC] bg-[#F4F9FD] p-6 shadow-[0_8px_20px_rgba(33,33,33,0.06)] transition-[border-color,box-shadow] duration-300 hover:border-[#2B88D9] hover:shadow-md motion-reduce:transition-none sm:p-7 xl:sticky xl:top-[calc(var(--spacing-nav-h)+1.5rem)] 2xl:p-9"
                   >
                     <div className="relative z-10 flex w-full items-start justify-between gap-3">
-                      <div className="flex size-14 shrink-0 items-center justify-center rounded-[13px] border border-[#000000] bg-[#95C3EC] sm:size-20 2xl:size-[104px]">
+                      <div className="flex size-14 shrink-0 items-center justify-center rounded-[0.8125rem] border border-[#000000] bg-[#95C3EC] sm:size-20 2xl:size-[6.5rem]">
                         <MissionCardIcon index={idx} iconUrl={card.icon?.url} title={stripHtml(card.title)} />
                       </div>
 
@@ -200,7 +200,7 @@ export function CriticalMissionsSection({
                       <h3 className="mb-2 font-serif text-[clamp(1.35rem,1.15rem+0.7vw,1.75rem)] font-normal leading-tight text-[#2F2F2F]">
                         <span dangerouslySetInnerHTML={{ __html: cleanHeadingHtml(card.title) }} />
                       </h3>
-                      <p className="line-clamp-4 max-w-[500px] min-w-0 break-words font-sans text-[clamp(0.95rem,0.88rem+0.3vw,1.1875rem)] font-light leading-[1.45] text-[#212121]">
+                      <p className="line-clamp-4 max-w-[31.25rem] min-w-0 break-words font-sans text-[clamp(0.95rem,0.88rem+0.3vw,1.1875rem)] font-light leading-[1.45] text-[#212121]">
                         {stripHtml(card.description)}
                       </p>
                     </div>

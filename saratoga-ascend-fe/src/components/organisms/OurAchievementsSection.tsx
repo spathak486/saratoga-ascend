@@ -283,7 +283,7 @@ export const OurAchievementsSection: React.FC<OurAchievementsSectionProps> = ({
 
         <div
           ref={bandRef}
-          className="relative aspect-[1920/973] w-full max-w-[1920px]"
+          className="relative aspect-[1920/973] w-full max-w-[120rem]"
         >
           <p
             aria-hidden="true"
@@ -303,7 +303,7 @@ export const OurAchievementsSection: React.FC<OurAchievementsSectionProps> = ({
         </div>
 
         <div className="absolute top-[73.69%] left-[6.25%] w-[87.5%]">
-          <dl className="flex h-[183px] items-center justify-between">
+          <dl className="flex h-[11.4375rem] items-center justify-between">
             {resolvedStats.map((stat, idx) => (
               <React.Fragment key={`${stat.label}-${idx}`}>
                 <div className="flex flex-col items-center text-center">
@@ -319,7 +319,7 @@ export const OurAchievementsSection: React.FC<OurAchievementsSectionProps> = ({
                   </dt>
                 </div>
                 {idx < resolvedStats.length - 1 && (
-                  <div className="h-[183px] w-[3px] bg-white opacity-50" />
+                  <div className="h-[11.4375rem] w-[0.1875rem] bg-white opacity-50" />
                 )}
               </React.Fragment>
             ))}
@@ -329,12 +329,12 @@ export const OurAchievementsSection: React.FC<OurAchievementsSectionProps> = ({
           <BandArrow
             direction="prev"
             onClick={desktop.scrollPrev}
-            className="absolute top-[41.93%] left-[19px] z-10 size-[66px] border-[1.375px] border-white"
+            className="absolute top-[41.93%] left-[1.1875rem] z-10 size-[4.125rem] border-[1.375px] border-white"
           />
           <BandArrow
             direction="next"
             onClick={desktop.scrollNext}
-            className="absolute top-[41.93%] right-[19px] z-10 size-[66px] border-[1.375px] border-white"
+            className="absolute top-[41.93%] right-[1.1875rem] z-10 size-[4.125rem] border-[1.375px] border-white"
           />
         </div>
       </div>
@@ -371,12 +371,12 @@ export const OurAchievementsSection: React.FC<OurAchievementsSectionProps> = ({
                 <BandArrow
                   direction="prev"
                   onClick={mobile.scrollPrev}
-                  className="absolute top-[calc(2rem+7.5rem)] left-0 z-50 size-12 -translate-y-1/2 border-[1.375px] border-white bg-black/25 shadow-md backdrop-blur-[2px] md:top-[calc(4rem+5.625rem)] md:left-1 md:size-[55px]"
+                  className="absolute top-[calc(2rem+7.5rem)] left-0 z-50 size-12 -translate-y-1/2 border-[1.375px] border-white bg-black/25 shadow-md backdrop-blur-[2px] md:top-[calc(4rem+5.625rem)] md:left-1 md:size-[3.4375rem]"
                 />
                 <BandArrow
                   direction="next"
                   onClick={mobile.scrollNext}
-                  className="absolute top-[calc(2rem+7.5rem)] right-0 z-50 size-12 -translate-y-1/2 border-[1.375px] border-white bg-black/25 shadow-md backdrop-blur-[2px] md:top-[calc(4rem+5.625rem)] md:right-1 md:size-[55px]"
+                  className="absolute top-[calc(2rem+7.5rem)] right-0 z-50 size-12 -translate-y-1/2 border-[1.375px] border-white bg-black/25 shadow-md backdrop-blur-[2px] md:top-[calc(4rem+5.625rem)] md:right-1 md:size-[3.4375rem]"
                 />
               </>
             ) : null}

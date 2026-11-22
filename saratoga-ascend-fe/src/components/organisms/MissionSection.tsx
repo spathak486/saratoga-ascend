@@ -139,7 +139,7 @@ export const MissionSection: React.FC<MissionSectionProps> = ({
       containerClassName="py-10 sm:py-12 xl:py-16"
       style={{ backgroundColor: '#ffe6e8' }}
     >
-      <div className="grid grid-cols-1 items-start gap-10 max-xl:gap-[1.875rem] xl:grid-cols-[minmax(0,960fr)_minmax(0,641fr)] xl:gap-[79px]">
+      <div className="grid grid-cols-1 items-start gap-10 max-xl:gap-[1.875rem] xl:grid-cols-[minmax(0,960fr)_minmax(0,641fr)] xl:gap-[4.9375rem]">
         <div className="flex min-w-0 flex-col gap-[1.875rem] max-xl:gap-5">
           {title ? (
             <Heading
@@ -222,11 +222,11 @@ export const MissionSection: React.FC<MissionSectionProps> = ({
           <ButterflyMark src={imageSrc} />
           <GlassTile
             src={shieldIconSrc}
-            className="top-[3.262%] left-[14.041%] z-[1] w-[17.773%] rounded-[12.3%] backdrop-blur-[12px] max-xl:left-[2.07%] max-xl:w-[28.15%] max-xl:rounded-[10.6%] max-xl:backdrop-blur-[10px]"
+            className="top-[3.262%] left-[14.041%] z-[1] w-[17.773%] rounded-[12.3%] backdrop-blur-[0.75rem] max-xl:left-[2.07%] max-xl:w-[28.15%] max-xl:rounded-[10.6%] max-xl:backdrop-blur-[0.625rem]"
           />
           <GlassTile
             src={pulseIconSrc}
-            className="top-[76.52%] left-[85.101%] z-[1] w-[12.48%] rounded-[25%] backdrop-blur-[17px] max-xl:left-[80.37%] max-xl:w-[16.45%]"
+            className="top-[76.52%] left-[85.101%] z-[1] w-[12.48%] rounded-[25%] backdrop-blur-[1.0625rem] max-xl:left-[80.37%] max-xl:w-[16.45%]"
           />
         </div>
       </div>

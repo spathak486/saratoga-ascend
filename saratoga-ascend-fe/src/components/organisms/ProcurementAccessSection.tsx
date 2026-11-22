@@ -68,9 +68,9 @@ export function ProcurementAccessSection({
   }
 
   return (
-    <section className="relative w-full max-w-[1920px] mx-auto py-8 sm:py-12 xl:py-16 px-4 sm:px-6 md:px-8 xl:px-12 2xl:px-[120px] overflow-hidden">
+    <section className="relative w-full max-w-[120rem] mx-auto py-8 sm:py-12 xl:py-16 px-4 sm:px-6 md:px-8 xl:px-12 2xl:px-[7.5rem] overflow-hidden">
       {/* Outer Banner Card: Figma Group 2085665798 & Rectangle 40171 (1680px x 654px, bg #F1F8FF, border-radius 50px) */}
-      <div className="box-border relative w-full max-w-[1680px] mx-auto min-h-[480px] xl:min-h-[600px] 2xl:min-h-[654px] bg-[#F1F8FF] rounded-[32px] sm:rounded-[40px] 2xl:rounded-[50px] overflow-hidden p-6 sm:p-10 md:p-12 xl:p-14 2xl:py-[60px] 2xl:px-[74px] flex flex-col justify-center items-center">
+      <div className="box-border relative w-full max-w-[105rem] mx-auto min-h-[30rem] xl:min-h-[37.5rem] 2xl:min-h-[40.875rem] bg-[#F1F8FF] rounded-[2rem] sm:rounded-[2.5rem] 2xl:rounded-[3.125rem] overflow-hidden p-6 sm:p-10 md:p-12 xl:p-14 2xl:py-[3.75rem] 2xl:px-[4.625rem] flex flex-col justify-center items-center">
         
         {/* Background Media / Video / Pattern: Rectangle 40174 (opacity: 0.4, border-radius: 50px, matrix transform) */}
         {bgUrl ? (
@@ -108,12 +108,12 @@ export function ProcurementAccessSection({
         )}
 
         {/* Content Container: Figma Frame 2147226559 (width 1533px, max-w-full) */}
-        <div className="relative z-10 w-full max-w-[1533px] flex flex-col items-center text-center">
+        <div className="relative z-10 w-full max-w-[95.8125rem] flex flex-col items-center text-center">
           
           {/* CKEditor Description HTML: supports multiple paragraphs with Figma spacing */}
           {cleanDesc ? (
             <div
-              className="font-sans font-normal text-[16px] sm:text-[19px] md:text-[21px] xl:text-[22px] 2xl:text-[24px] leading-[1.5] sm:leading-[1.6] 2xl:leading-[40px] text-[#000000] max-w-[1528px] [&_p]:mb-6 sm:[&_p]:mb-8 2xl:[&_p]:mb-[40px] last:[&_p]:mb-0 [&_span[style*='color']]:font-semibold"
+              className="font-sans font-normal text-[1rem] sm:text-[1.1875rem] md:text-[1.3125rem] xl:text-[1.375rem] 2xl:text-[1.5rem] leading-[1.5] sm:leading-[1.6] 2xl:leading-[2.5rem] text-[#000000] max-w-[95.5rem] [&_p]:mb-6 sm:[&_p]:mb-8 2xl:[&_p]:mb-[2.5rem] last:[&_p]:mb-0 [&_span[style*='color']]:font-semibold"
               style={{ fontFamily: "'Google Sans Flex', sans-serif" }}
               dangerouslySetInnerHTML={{ __html: cleanDesc }}
             />
@@ -121,11 +121,11 @@ export function ProcurementAccessSection({
 
           {/* Feature Badges / Pills: Frame 2147226558 */}
           {pillList.length > 0 ? (
-            <div className="mt-8 sm:mt-10 2xl:mt-[40px] flex flex-wrap items-center justify-center gap-3.5 sm:gap-6 2xl:gap-[35px]">
+            <div className="mt-8 sm:mt-10 2xl:mt-[2.5rem] flex flex-wrap items-center justify-center gap-3.5 sm:gap-6 2xl:gap-[2.1875rem]">
               {pillList.map((pill, idx) => (
                 <div
                   key={`procurement-pill-${idx}`}
-                  className="box-border inline-flex items-center justify-center gap-2.5 h-[48px] sm:h-[52px] 2xl:h-[54px] px-4 sm:px-5 2xl:px-[20px] py-[6px] bg-[#F1F8FE] border border-[#2B88D9] rounded-[60px] shadow-xs"
+                  className="box-border inline-flex items-center justify-center gap-2.5 h-[3rem] sm:h-[3.25rem] 2xl:h-[3.375rem] px-4 sm:px-5 2xl:px-[1.25rem] py-[0.375rem] bg-[#F1F8FE] border border-[#2B88D9] rounded-[3.75rem] shadow-xs"
                 >
                   {/* Circular check icon (Ellipse 1334 & Vector 6662) */}
                   <span className="w-5 h-5 shrink-0 relative flex items-center justify-center">
@@ -142,7 +142,7 @@ export function ProcurementAccessSection({
                   </span>
 
                   <span
-                    className="font-sans font-medium text-[15px] sm:text-[17px] 2xl:text-[18px] leading-none text-[#000000] whitespace-nowrap"
+                    className="font-sans font-medium text-[0.9375rem] sm:text-[1.0625rem] 2xl:text-[1.125rem] leading-none text-[#000000] whitespace-nowrap"
                     style={{ fontFamily: "'Google Sans Flex', sans-serif" }}
                   >
                     {pill}
@@ -154,10 +154,10 @@ export function ProcurementAccessSection({
 
           {/* Download / CTA Button: Figma _Button base width 468px, height 60px */}
           {ctaLabel ? (
-            <div className="mt-8 sm:mt-10 2xl:mt-[42px] flex justify-center w-full">
+            <div className="mt-8 sm:mt-10 2xl:mt-[2.625rem] flex justify-center w-full">
               <Link
                 href={ctaHref}
-                className="group inline-flex items-center justify-center gap-3 w-full sm:w-[420px] 2xl:w-[468px] min-h-[52px] sm:h-[58px] 2xl:h-[60px] px-6 py-4 rounded-[8px] text-white shadow-md transition-all duration-300 hover:shadow-lg hover:brightness-105 active:scale-98"
+                className="group inline-flex items-center justify-center gap-3 w-full sm:w-[26.25rem] 2xl:w-[29.25rem] min-h-[3.25rem] sm:h-[3.625rem] 2xl:h-[3.75rem] px-6 py-4 rounded-[0.5rem] text-white shadow-md transition-all duration-300 hover:shadow-lg hover:brightness-105 active:scale-98"
                 style={{
                   background: 'linear-gradient(90.55deg, #D31E2D 0.47%, #2A91DC 102.45%)',
                 }}
@@ -180,7 +180,7 @@ export function ProcurementAccessSection({
                 </svg>
 
                 <span
-                  className="font-sans font-medium text-[16px] sm:text-[18px] 2xl:text-[20px] leading-[150%] text-white text-center"
+                  className="font-sans font-medium text-[1rem] sm:text-[1.125rem] 2xl:text-[1.25rem] leading-[150%] text-white text-center"
                   style={{ fontFamily: "'Google Sans Flex', sans-serif" }}
                 >
                   {ctaLabel}

@@ -107,7 +107,7 @@ export function WorkforceSupportSection({
   return (
     <section
       aria-label={title || 'Workforce support where it matters most.'}
-      className="relative mx-auto w-full max-w-[1920px] bg-[#FAFAFA] overflow-hidden py-12 xl:py-[80px] px-page max-sm:px-6!"
+      className="relative mx-auto w-full max-w-[120rem] bg-[#FAFAFA] overflow-hidden py-12 xl:py-[5rem] px-page max-sm:px-6!"
     >
       <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
         <img
@@ -117,11 +117,11 @@ export function WorkforceSupportSection({
         />
       </div>
 
-      <div className="relative z-10 w-full max-w-[1680px] mx-auto">
+      <div className="relative z-10 w-full max-w-[105rem] mx-auto">
         {/* Title: 72px DM Serif Text, fluid clamp for 100% and 125% OS zoom */}
-        <div className="mb-10 xl:mb-[60px] max-w-[1336px]">
+        <div className="mb-10 xl:mb-[3.75rem] max-w-[83.5rem]">
           <h2
-            className="font-serif text-[clamp(2.25rem,1.5rem+2.6vw,4.5rem)] leading-[1.15] xl:leading-[86px] font-normal tracking-tight"
+            className="font-serif text-[clamp(2.25rem,1.5rem+2.6vw,4.5rem)] leading-[1.15] xl:leading-[5.375rem] font-normal tracking-tight"
             style={{ fontFamily: "'DM Serif Text', serif" }}
           >
             {renderTitle()}
@@ -145,7 +145,7 @@ export function WorkforceSupportSection({
             return (
               <div
                 key={card.id ?? card.documentId ?? `support-card-${index}`}
-                className="flex w-full min-w-0 max-w-[544px] flex-col justify-start overflow-hidden rounded-[20px] border border-[#F01424] bg-white p-5 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl sm:p-6 md:min-h-[520px] md:justify-between xl:min-h-[568px] xl:p-[25px]"
+                className="flex w-full min-w-0 max-w-[34rem] flex-col justify-start overflow-hidden rounded-[1.25rem] border border-[#F01424] bg-white p-5 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl sm:p-6 md:min-h-[32.5rem] md:justify-between xl:min-h-[35.5rem] xl:p-[1.5625rem]"
               >
                 {isTextTop ? (
                   <>
@@ -161,7 +161,7 @@ export function WorkforceSupportSection({
                         </h3>
                         {/* Red Number Circle: 44px - 48px */}
                         <div className="w-11 h-11 xl:w-12 xl:h-12 rounded-full bg-[#F01424] shrink-0 flex items-center justify-center shadow-sm">
-                          <span className="font-sans font-bold text-white text-[18px] xl:text-[24px] leading-none">
+                          <span className="font-sans font-bold text-white text-[1.125rem] xl:text-[1.5rem] leading-none">
                             {stepNum}
                           </span>
                         </div>
@@ -174,7 +174,7 @@ export function WorkforceSupportSection({
                     </div>
 
                     {/* IMAGE BOTTOM (Card 02 style: radius 10px) */}
-                    <div className="w-full h-[240px] sm:h-[270px] xl:h-[290px] rounded-[10px] overflow-hidden shrink-0 mt-auto bg-gray-100">
+                    <div className="w-full h-[15rem] sm:h-[16.875rem] xl:h-[18.125rem] rounded-[0.625rem] overflow-hidden shrink-0 mt-auto bg-gray-100">
                       <img
                         src={imageSrc}
                         alt={card.image?.alternativeText || stripHtml(card.title)}
@@ -185,7 +185,7 @@ export function WorkforceSupportSection({
                 ) : (
                   <>
                     {/* IMAGE TOP (Card 01 & 03 style: radius 10px) */}
-                    <div className="w-full h-[240px] sm:h-[270px] xl:h-[290px] rounded-[10px] overflow-hidden shrink-0 mb-5 bg-gray-100">
+                    <div className="w-full h-[15rem] sm:h-[16.875rem] xl:h-[18.125rem] rounded-[0.625rem] overflow-hidden shrink-0 mb-5 bg-gray-100">
                       <img
                         src={imageSrc}
                         alt={card.image?.alternativeText || stripHtml(card.title)}
@@ -205,7 +205,7 @@ export function WorkforceSupportSection({
                         </h3>
                         {/* Red Number Circle */}
                         <div className="w-11 h-11 xl:w-12 xl:h-12 rounded-full bg-[#F01424] shrink-0 flex items-center justify-center shadow-sm">
-                          <span className="font-sans font-bold text-white text-[18px] xl:text-[24px] leading-none">
+                          <span className="font-sans font-bold text-white text-[1.125rem] xl:text-[1.5rem] leading-none">
                             {stepNum}
                           </span>
                         </div>

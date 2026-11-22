@@ -35,7 +35,7 @@ export const TravelStaffingSection: React.FC<TravelStaffingSectionProps> = ({
       label="Travel staffing services"
       className="px-[clamp(2.75rem,4vw,3.5rem)]"
       trackClassName="-ml-3"
-      slideClassName="basis-full pl-3 min-[481px]:basis-1/2 lg:basis-1/4"
+      slideClassName="basis-full pl-3 min-[30.0625rem]:basis-1/2 lg:basis-1/4"
       loop
       controls={({ scrollPrev, scrollNext }) => (
         <>
