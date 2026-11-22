@@ -464,8 +464,8 @@ export const SECTION_REGISTRY: Record<
     return (
       <LatestNewsSection
         key={`latest-insights-${index}`}
-        title={insightsRef.heading}
-        subTitle={insightsRef.subheading}
+        title={insightsRef.latestInsightsHeading || insightsRef.heading}
+        subTitle={insightsRef.latestInsightsSubheading || insightsRef.subheading}
         blogs={insightsRef.blogs}
         news={insightsRef.news}
       />

@@ -1,13 +1,18 @@
 'use client';
 
-import { stripHtml } from '@/lib/utils/text';
-import React, { useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Section } from '../atoms';
+import { motion, useReducedMotion } from 'motion/react';
 import { CircleControl } from '../molecules/CircleControl';
 import { StaffingSlideCard } from '../molecules/StaffingSlideCard';
-import { useCardCarousel, useDragToScroll, useWheelToScroll } from '../molecules/CardCarousel';
+import {
+  CAROUSEL_SLIDE_CLASS,
+  useCardCarousel,
+  useDragToScroll,
+  useWheelToScroll,
+} from '../molecules/CardCarousel';
+import { stripHtml } from '@/lib/utils/text';
 
 export interface SpecialityJobItem {
   id?: string;
@@ -49,28 +54,28 @@ const DEFAULT_SPECIALITIES: SpecialitySlide[] = [
     ctaLabel: 'Explore Jobs',
     ctaHref: '/careers/search-jobs?speciality=healthcare',
     doctorImage: {
-      url: '/images/phase5/phase5-nurse.png',
+      url: '/images/healthcare-doctor-asian.png',
     },
     jobs: [
       {
         title: 'Travel Staffing',
         slug: 'travel-staffing',
-        imageSrc: '/images/Rectangle%20113.png',
+        imageSrc: '/images/Rectangle 113.png',
       },
       {
-        title: 'Emergency Nurse',
-        slug: 'emergency-nurse',
-        imageSrc: '/images/healthcare-team.png',
+        title: 'Travel Staffing',
+        slug: 'travel-staffing-2',
+        imageSrc: '/images/Rectangle 113.png',
       },
       {
-        title: 'Clinical Specialist',
-        slug: 'clinical-specialist',
-        imageSrc: '/images/what-we-do-doctor.png',
+        title: 'Travel Staffing',
+        slug: 'travel-staffing-3',
+        imageSrc: '/images/Rectangle 113.png',
       },
       {
-        title: 'ICU Staffing',
-        slug: 'icu-staffing',
-        imageSrc: '/images/Rectangle%20113.png',
+        title: 'Travel Staffing',
+        slug: 'travel-staffing-4',
+        imageSrc: '/images/Rectangle 113.png',
       },
     ],
   },
@@ -87,157 +92,261 @@ const DEFAULT_SPECIALITIES: SpecialitySlide[] = [
     },
     jobs: [
       {
-        title: 'Travel RN - ICU',
-        slug: 'travel-rn-icu',
-        imageSrc: '/images/Rectangle%20113.png',
+        title: 'Travel Staffing',
+        slug: 'travel-staffing-5',
+        imageSrc: '/images/Rectangle 113.png',
       },
       {
-        title: 'Pediatric Care',
-        slug: 'pediatric-care',
-        imageSrc: '/images/healthcare-team.png',
+        title: 'Travel Staffing',
+        slug: 'travel-staffing-6',
+        imageSrc: '/images/Rectangle 113.png',
       },
       {
-        title: 'Surgical Tech',
-        slug: 'surgical-tech',
-        imageSrc: '/images/what-we-do-doctor.png',
+        title: 'Travel Staffing',
+        slug: 'travel-staffing-7',
+        imageSrc: '/images/Rectangle 113.png',
       },
     ],
   },
 ];
 
+const FADE_MS = 0.5;
+const EASE_FADE = [0.4, 0, 0.2, 1] as const;
+const FALLBACK_PERSON = '/images/healthcare-doctor-asian.png';
+const BANNER_BG = '/images/healthcare-banner-bg.png';
+
+/**
+ * JobsBySpecialitySection — Figma Node 1899:2255 (Frame 2147226373)
+ * Exact Figma Layout:
+ * - Background gradient: linear-gradient(142.22deg, rgb(248, 250, 252) 0%, rgb(241, 245, 249) 100%)
+ * - Outer padding: 120px x 40px, max-w: 1920px
+ * - Title: DM Serif Text 72px, #D31E2D
+ * - Subtitle: Google Sans Flex 30px, #0A0A0A
+ * - Top Banner: 1680px x 700px, rounded: 12px, border: 1px #C6C6C6, bg: #002845
+ * - Left arrow (x: 760px, y: 325px), Right arrow (x: 1515px, y: 325px), size: 66px
+ * - Cutout: asian female doctor with clipboard right: 0, bottom: 0, w: 700px
+ * - Bottom cards: 402px x 450px, rounded: 32px, gap: 24px, scroll arrow top: 125px
+ */
 export const JobsBySpecialitySection: React.FC<JobsBySpecialitySectionProps> = ({
-  title = 'Lorem epsum',
-  description = 'Simple ideas can have profound impacts. Understanding users leads to better solutions. Each project teaches valuable lessons.',
+  title,
+  description,
   specialities = [],
 }) => {
-  const activeSlides =
-    specialities && specialities.length > 0 ? specialities : DEFAULT_SPECIALITIES;
+  const [apiSpecialities, setApiSpecialities] = useState<SpecialitySlide[]>([]);
+  const [apiTitle, setApiTitle] = useState<string | undefined>(title);
+  const [apiDescription, setApiDescription] = useState<string | undefined>(description);
 
-  const [activeIndex, setActiveIndex] = useState(0);
-  const currentSlide = activeSlides[activeIndex] || activeSlides[0];
+  useEffect(() => {
+    let isMounted = true;
+    async function fetchDynamicSpecialitiesAndJobs() {
+      try {
+        const res = await fetch('/api/specialities');
+        if (!res.ok) return;
+        const data = await res.json();
+        if (isMounted) {
+          if (data?.title) {
+            setApiTitle(data.title);
+          }
+          if (data?.description) {
+            setApiDescription(data.description);
+          }
+          if (data?.specialities && data.specialities.length > 0) {
+            setApiSpecialities(data.specialities);
+          }
+        }
+      } catch (err) {
+        console.error('Failed to load dynamic specialities from API:', err);
+      }
+    }
+    fetchDynamicSpecialitiesAndJobs();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
-  const { viewportRef, scrollNext, scrollPrev } = useCardCarousel({ loop: true });
+  const displayTitle = apiTitle || title || 'Explore Healthcare Careers';
+  const displayDescription =
+    apiDescription ||
+    description ||
+    'Step into rewarding healthcare careers across military, federal, and community facilities nationwide.';
+
+  const activeSlides = useMemo(() => {
+    if (apiSpecialities.length > 0) {
+      return apiSpecialities;
+    }
+    if (specialities && specialities.length > 0) {
+      return specialities;
+    }
+    return DEFAULT_SPECIALITIES;
+  }, [apiSpecialities, specialities]);
+
+  const canRotate = activeSlides.length > 1;
+  const [index, setIndex] = useState(0);
+  const [isAnimating, setIsAnimating] = useState(false);
+
+  const safeIndex = activeSlides.length === 0 ? 0 : index % activeSlides.length;
+  const currentSlide = activeSlides[safeIndex];
+  const getMediaUrl = (url?: string | null): string => {
+    if (!url) return '';
+    if (url.startsWith('/uploads/')) {
+      const base = process.env.NEXT_PUBLIC_STRAPI_API_URL || 'https://cms.saratogaascend.com';
+      return `${base.replace(/\/+$/, '')}${url}`;
+    }
+    return url;
+  };
+
+  const doctorSrc = currentSlide?.doctorImage?.url
+    ? getMediaUrl(currentSlide.doctorImage.url)
+    : FALLBACK_PERSON;
+  const bannerSrc = currentSlide?.backgroundImage?.url
+    ? getMediaUrl(currentSlide.backgroundImage.url)
+    : BANNER_BG;
+
+  const { viewportRef, scrollNext } = useCardCarousel({ loop: true });
   const { isDragging, dragHandlers } = useDragToScroll(viewportRef);
   useWheelToScroll(viewportRef);
 
-  const handleNextSlide = () => {
-    setActiveIndex((prev) => (prev + 1) % activeSlides.length);
+  const step = (delta: 1 | -1) => {
+    if (!canRotate || isAnimating) return;
+    setIsAnimating(true);
+    setIndex((prev) => (prev + delta + activeSlides.length) % activeSlides.length);
+    setTimeout(() => setIsAnimating(false), 500);
   };
 
-  const handlePrevSlide = () => {
-    setActiveIndex((prev) => (prev - 1 + activeSlides.length) % activeSlides.length);
-  };
-
-  const currentJobs =
-    currentSlide.jobs && currentSlide.jobs.length > 0
-      ? currentSlide.jobs
-      : DEFAULT_SPECIALITIES[0].jobs || [];
+  const currentJobs = useMemo(() => {
+    return currentSlide?.jobs && currentSlide.jobs.length > 0 ? currentSlide.jobs : [];
+  }, [currentSlide]);
 
   return (
-    <Section
-      tone="surface"
-      spacing="none"
-      className="relative w-full overflow-hidden bg-[linear-gradient(135deg,#F8FAFC_0%,#F1F5F9_100%)] py-12 lg:py-20 xl:my-10 xl:py-10"
+    <section
+      aria-label="Jobs by Speciality"
+      className="relative w-full overflow-hidden py-10 lg:py-[40px]"
+      style={{
+        backgroundImage: 'linear-gradient(142.22deg, rgb(248, 250, 252) 0%, rgb(241, 245, 249) 100%)',
+      }}
     >
-      <div className="flex flex-col gap-10">
-        {/* Frame 607 / 769: Section Intro */}
-        <div className="flex flex-col gap-3">
-          <h2 className="font-['DM_Serif_Text'] text-[40px] sm:text-[56px] lg:text-[72px] font-normal leading-[120%] text-[#D31E2D]">
-            {stripHtml(title)}
-          </h2>
-          <p className="max-w-[1500px] font-['Google_Sans_Flex'] text-[20px] sm:text-[26px] lg:text-[30px] font-normal leading-[133%] text-[#0A0A0A]">
-            {stripHtml(description)}
-          </p>
-        </div>
+      {/* 1920px canvas centered with 120px gutters (Figma Frame 2147226373) */}
+      <div className="mx-auto flex w-full max-w-[120rem] flex-col gap-[2.5rem] px-6 sm:px-10 lg:px-[7.5rem]">
+        {/* Frame 1899:2256: Section Intro (gap: 0.75rem / 12px) */}
+        {(displayTitle || displayDescription) && (
+          <div className="flex w-full flex-col gap-[0.75rem] items-start justify-center">
+            {displayTitle && (
+              <h2 className="font-serif text-[2.5rem] sm:text-[3.5rem] lg:text-[4.5rem] font-normal leading-[1.2] text-[#D31E2D]">
+                {stripHtml(displayTitle)}
+              </h2>
+            )}
+            {displayDescription && (
+              <p className="max-w-[93.75rem] font-sans text-[1.25rem] sm:text-[1.625rem] lg:text-[1.875rem] font-normal leading-[2.5rem] text-[#0A0A0A]">
+                {stripHtml(displayDescription)}
+              </p>
+            )}
+          </div>
+        )}
 
-        {/* Frame 111: Main Area */}
-        <div className="flex flex-col gap-10">
-          {/* Top Big Feature Card: Healthcare / Speciality Slide */}
-          <div className="relative min-h-[550px] lg:h-[700px] w-full overflow-hidden rounded-[12px] border border-[#C6C6C6] bg-white p-6 sm:p-10 lg:p-[40px] flex flex-col justify-center">
-            {/* Background Graphic / Texture */}
-            <div
-              className="absolute inset-0 bg-[#002845] opacity-90 z-0"
-              style={{
-                backgroundImage: currentSlide.backgroundImage?.url
-                  ? `url(${currentSlide.backgroundImage.url})`
-                  : undefined,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-              }}
-            />
+        {/* Frame 1899:2260: Main Area (gap: 40px) */}
+        <div className="flex w-full flex-col gap-[40px]">
+          {/* Top Big Feature Card (Figma 1899:2261: 1680px x 700px, rounded: 12px, border: 1px #C6C6C6) */}
+          <article className="relative w-full overflow-hidden rounded-[0.75rem] border border-[#C6C6C6] bg-[#002845] min-h-[32rem] lg:h-[43.75rem] shadow-sm select-none">
+            {/* Background Graphic / Texture from Figma node 1899:2261 */}
+            <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden rounded-[12px]">
+              <Image
+                src={bannerSrc}
+                alt=""
+                fill
+                className="object-cover object-center"
+                priority
+              />
+            </div>
 
-            {/* Left Content (Frame 768 / 767) */}
-            <div className="relative z-10 flex max-w-[718px] flex-col gap-6 lg:gap-[30px]">
-              <div>
-                <h3 className="font-['DM_Serif_Text'] text-[48px] sm:text-[68px] lg:text-[90px] font-normal leading-[115%] text-[#FFFEFE]">
-                  {currentSlide.name}
-                </h3>
-                {currentSlide.roleTitle && (
-                  <p className="mt-2 font-['Google_Sans_Flex'] text-[22px] sm:text-[28px] font-bold leading-[120%] text-[#A2D8FE]">
-                    {currentSlide.roleTitle}
+            {/* Left Content Area (Figma Frame 767 / Frame 768: left 40px, width 718px, gap 30px) */}
+            <div className="relative z-10 flex h-full w-full max-w-full lg:w-[44.875rem] lg:max-w-[45vw] xl:max-w-[44.875rem] flex-col justify-center gap-[1.875rem] px-6 py-8 sm:px-10 lg:pl-[2.5rem] lg:pr-4 lg:py-[1.25rem]">
+              <motion.div
+                key={`slide-content-${safeIndex}`}
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: FADE_MS, ease: EASE_FADE }}
+                className="flex flex-col gap-[1.875rem]"
+              >
+                {/* Frame 768: Title + Role Subtitle */}
+                <div className="flex flex-col gap-[1.875rem]">
+                  <h3 className="font-serif text-[3.25rem] sm:text-[4.25rem] lg:text-[5.625rem] font-normal leading-[1.15] text-[#FFFEFE] whitespace-nowrap">
+                    {currentSlide.name}
+                  </h3>
+                  {currentSlide.roleTitle && (
+                    <p className="font-sans text-[1.375rem] sm:text-[1.5rem] lg:text-[1.75rem] font-bold leading-[1.2] text-[#A2D8FE]">
+                      {currentSlide.roleTitle}
+                    </p>
+                  )}
+                </div>
+
+                {currentSlide.description && (
+                  <p className="font-sans text-[1.125rem] sm:text-[1.375rem] lg:text-[1.75rem] font-normal leading-[2.375rem] text-white">
+                    {currentSlide.description}
                   </p>
                 )}
-              </div>
+              </motion.div>
 
-              {currentSlide.description && (
-                <p className="font-['Google_Sans_Flex'] text-[18px] sm:text-[24px] lg:text-[28px] font-normal leading-[136%] text-white">
-                  {currentSlide.description}
-                </p>
-              )}
-
-              {/* Action Button */}
+              {/* Explore Jobs Button (Figma I1899:2261;123:7652: w: 180px, h: 60px, rounded: 999px, bg: #2A91DC) */}
               <div>
                 <Link
                   href={currentSlide.ctaHref || `/careers/search-jobs?speciality=${currentSlide.slug}`}
-                  className="inline-flex h-[60px] min-w-[180px] items-center justify-center rounded-full bg-[#2A91DC] px-8 font-['Google_Sans_Flex'] text-[20px] font-medium text-white shadow-[0px_1px_2px_rgba(16,24,40,0.05)] hover:bg-[#1E74C0] transition-colors"
+                  className="inline-flex h-[3.75rem] w-[11.25rem] items-center justify-center rounded-full bg-[#2A91DC] px-6 py-4 font-sans text-[1.25rem] font-medium leading-[1.5] text-white shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)] hover:bg-[#1E74C0] transition-colors"
                 >
                   {currentSlide.ctaLabel || 'Explore Jobs'}
                 </Link>
               </div>
             </div>
 
-            {/* Doctor / Healthcare Worker Cutout Image */}
-            <div className="absolute right-0 bottom-0 top-0 hidden lg:block w-[700px] pointer-events-none z-10">
-              <Image
-                src={currentSlide.doctorImage?.url || '/images/phase5/phase5-nurse.png'}
-                alt={currentSlide.name}
-                fill
-                className="object-contain object-bottom"
-                sizes="(max-width: 1680px) 700px, 700px"
-              />
+            {/* Doctor Cutout (Figma node I1899:2261;123:7655: w: 700px, h: 1068px, bottom: 0) */}
+            <div className="pointer-events-none absolute bottom-0 right-0 top-0 hidden lg:block w-[43.75rem] max-w-[45vw] z-10 overflow-hidden">
+              <motion.div
+                key={`doctor-${safeIndex}`}
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                className="relative size-full"
+              >
+                <Image
+                  src={doctorSrc}
+                  alt={currentSlide.name}
+                  fill
+                  className="object-contain object-bottom pointer-events-none select-none"
+                  priority
+                />
+              </motion.div>
             </div>
 
-            {/* Carousel Navigation Arrows: Group 2085665597 */}
-            {activeSlides.length > 1 && (
-              <div className="absolute bottom-8 right-8 lg:bottom-12 lg:right-12 z-20 flex items-center gap-4">
-                {/* Prev Button */}
-                <button
-                  type="button"
-                  onClick={handlePrevSlide}
-                  aria-label="Previous category"
-                  className="flex size-[60px] lg:size-[66px] items-center justify-center rounded-full border border-white bg-black/20 text-white backdrop-blur-xs hover:bg-white hover:text-black transition-all cursor-pointer shadow-md"
-                >
-                  <svg className="size-6 rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                  </svg>
-                </button>
-
-                {/* Next Button */}
-                <button
-                  type="button"
-                  onClick={handleNextSlide}
-                  aria-label="Next category"
-                  className="flex size-[60px] lg:size-[66px] items-center justify-center rounded-full border border-white bg-black/20 text-white backdrop-blur-xs hover:bg-white hover:text-black transition-all cursor-pointer shadow-md"
-                >
-                  <svg className="size-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                  </svg>
-                </button>
-              </div>
+            {/* Figma Left Navigation Arrow (Node I1899:2261;123:7716) */}
+            {canRotate && (
+              <button
+                type="button"
+                onClick={() => step(-1)}
+                aria-label="Previous speciality slide"
+                className="absolute z-20 top-1/2 -translate-y-1/2 left-4 sm:left-6 lg:left-[47.5rem] size-[3.5rem] lg:size-[4.125rem] flex items-center justify-center rounded-full border-[1.375px] border-solid border-white bg-black/20 text-white drop-shadow-[0px_1.375px_1.375px_rgba(16,24,40,0.05)] backdrop-blur-xs hover:bg-white hover:text-black transition-all cursor-pointer"
+              >
+                <svg className="size-6 rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
             )}
-          </div>
 
-          {/* Bottom Linked Job Cards Row (Frame 582: 402x450px) */}
+            {/* Figma Right Navigation Arrow (Node I1899:2261;123:7711) */}
+            {canRotate && (
+              <button
+                type="button"
+                onClick={() => step(1)}
+                aria-label="Next speciality slide"
+                className="absolute z-20 top-1/2 -translate-y-1/2 right-4 sm:right-6 lg:right-[2.5rem] size-[3.5rem] lg:size-[4.125rem] flex items-center justify-center rounded-full border-[1.375px] border-solid border-white bg-black/20 text-white drop-shadow-[0px_1.375px_1.375px_rgba(16,24,40,0.05)] backdrop-blur-xs hover:bg-white hover:text-black transition-all cursor-pointer"
+              >
+                <svg className="size-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
+            )}
+          </article>
+
+          {/* Bottom Linked Job Cards Row (Render ONLY if dynamic jobs exist in CMS for this speciality) */}
+          {currentJobs.length > 0 && (
           <div className="relative w-full">
             <div
               ref={viewportRef}
@@ -246,13 +355,19 @@ export const JobsBySpecialitySection: React.FC<JobsBySpecialitySectionProps> = (
               }`}
               {...dragHandlers}
             >
-              <div className="flex gap-6 pb-2">
+              <div className="flex gap-[1.5rem] pb-2">
                 {currentJobs.map((job, idx) => (
-                  <div key={job.documentId || job.id || idx} className="shrink-0 w-[300px] sm:w-[350px] lg:w-[402px]">
+                  <div
+                    key={`slide-${safeIndex}-job-${job.documentId || job.id || idx}`}
+                    className={`${CAROUSEL_SLIDE_CLASS} shrink-0 w-[18.75rem] sm:w-[21.875rem] lg:w-[25.125rem]`}
+                  >
                     <StaffingSlideCard
                       title={job.title}
-                      body={job.tagline || 'Connecting cleared, credentialed healthcare professionals with facilities nationwide.'}
-                      imageSrc={job.imageSrc || '/images/Rectangle%20113.png'}
+                      body={
+                        job.tagline ||
+                        'Connecting cleared, credentialed healthcare professionals with government, military.'
+                      }
+                      imageSrc={job.imageSrc ? getMediaUrl(job.imageSrc) : '/images/Rectangle 113.png'}
                       href={`/careers/apply?job=${job.slug}&title=${encodeURIComponent(job.title)}`}
                     />
                   </div>
@@ -260,20 +375,22 @@ export const JobsBySpecialitySection: React.FC<JobsBySpecialitySectionProps> = (
               </div>
             </div>
 
-            {/* Carousel Right Scroll Control: Frame 5 */}
+            {/* Carousel Right Scroll Control: Figma node 1899:2267 (size: 60px, top: 125px) */}
             {currentJobs.length > 3 && (
               <CircleControl
                 label="Next jobs"
                 direction="next"
                 tone="jobCardArrow"
                 onClick={scrollNext}
-                className="absolute top-1/2 -right-6 lg:-right-8 -translate-y-1/2 z-20 hidden sm:flex"
+                className="absolute top-[7.8125rem] -right-6 lg:-right-8 z-20 hidden sm:flex"
               />
             )}
           </div>
+          )}
         </div>
       </div>
-    </Section>
+    </section>
   );
 };
 
+export default JobsBySpecialitySection;
