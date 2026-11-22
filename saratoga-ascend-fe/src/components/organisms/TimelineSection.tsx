@@ -38,7 +38,7 @@ export const TimelineSection: React.FC<TimelineSectionProps> = ({
   return (
     <div
       id={id}
-      className={`my-6 sm:my-8 xl:my-10 w-full max-w-[1054px] scroll-mt-28 ${className}`.trim()}
+      className={`my-6 sm:my-8 xl:my-10 w-full max-w-[65.875rem] scroll-mt-28 ${className}`.trim()}
     >
       {sectionTitle && (
         <h2 className="mb-8 font-serif text-3xl sm:text-4xl text-[#00162D] tracking-tight">
@@ -47,16 +47,16 @@ export const TimelineSection: React.FC<TimelineSectionProps> = ({
       )}
 
       {/* Main Timeline Container with isolated stacking */}
-      <div className="relative flex flex-col items-start w-full isolate pl-12 sm:pl-16 xl:pl-[72px]">
+      <div className="relative flex flex-col items-start w-full isolate pl-12 sm:pl-16 xl:pl-[4.5rem]">
         {/* Continuous Background Vertical Line: 2px solid #F6EFEC */}
         {/* Positioned at left: 20px (centered with the ~40px circle) */}
         <div
-          className="absolute left-[19px] top-[20px] bottom-[20px] w-[2px] bg-[#F6EFEC] -z-10"
+          className="absolute left-[1.1875rem] top-[1.25rem] bottom-[1.25rem] w-[2px] bg-[#F6EFEC] -z-10"
           aria-hidden="true"
         />
 
         {/* Timeline Steps List */}
-        <div className="flex flex-col w-full gap-8 sm:gap-10 xl:gap-[40px]">
+        <div className="flex flex-col w-full gap-8 sm:gap-10 xl:gap-[2.5rem]">
           {steps.map((step, idx) => {
             const stepNum = step.stepNumber || `${idx + 1}`;
 
@@ -67,10 +67,10 @@ export const TimelineSection: React.FC<TimelineSectionProps> = ({
               >
                 {/* Step Circle Marker: 39.44px x 39.44px, #2B88D9, white number */}
                 <div
-                  className="absolute -left-[48px] sm:-left-[64px] xl:-left-[71.71px] top-0 flex items-center justify-center w-[39.44px] h-[39.44px] rounded-full bg-[#2B88D9] shadow-sm z-10 transition-transform duration-200 group-hover:scale-105"
+                  className="absolute -left-[3rem] sm:-left-[4rem] xl:-left-[4.4819rem] top-0 flex items-center justify-center w-[2.465rem] h-[2.465rem] rounded-full bg-[#2B88D9] shadow-sm z-10 transition-transform duration-200 group-hover:scale-105"
                   aria-hidden="true"
                 >
-                  <span className="font-['Inter',sans-serif] font-bold text-[16px] leading-[24px] text-white">
+                  <span className="font-['Inter',sans-serif] font-bold text-[1rem] leading-[1.5rem] text-white">
                     {stepNum}
                   </span>
                 </div>
@@ -78,17 +78,17 @@ export const TimelineSection: React.FC<TimelineSectionProps> = ({
                 {/* Content Block */}
                 <div className="flex flex-col items-start w-full">
                   {/* Timeframe Tag: DM Serif Text, 18px uppercase */}
-                  <span className="font-serif font-normal text-sm sm:text-base xl:text-[18px] leading-[28px] tracking-[2.69px] uppercase text-[#919191] mb-1 sm:mb-2">
+                  <span className="font-serif font-normal text-sm sm:text-base xl:text-[1.125rem] leading-[1.75rem] tracking-[0.1681rem] uppercase text-[#919191] mb-1 sm:mb-2">
                     {step.timeframe}
                   </span>
 
                   {/* Heading 3: DM Serif Text, 30px */}
-                  <h3 className="font-serif font-normal text-2xl sm:text-[28px] xl:text-[30px] leading-[1.3] xl:leading-[46px] text-[#00162D] mb-2 sm:mb-2.5">
+                  <h3 className="font-serif font-normal text-2xl sm:text-[1.75rem] xl:text-[1.875rem] leading-[1.3] xl:leading-[2.875rem] text-[#00162D] mb-2 sm:mb-2.5">
                     {stripHtml(step.title)}
                   </h3>
 
                   {/* Description: Google Sans Flex, 24px (160% line height) */}
-                  <p className="font-sans font-normal text-base sm:text-lg xl:text-[24px] leading-relaxed xl:leading-[38px] text-[#5A5A5A] max-w-[978px]">
+                  <p className="font-sans font-normal text-base sm:text-lg xl:text-[1.5rem] leading-relaxed xl:leading-[2.375rem] text-[#5A5A5A] max-w-[61.125rem]">
                     {stripHtml(step.description)}
                   </p>
                 </div>

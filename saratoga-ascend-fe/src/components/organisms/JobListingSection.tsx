@@ -285,9 +285,9 @@ export const JobListingSection: React.FC<JobListingSectionProps> = ({
               <div className="w-10 h-10 border-4 border-[#2A91DC] border-t-transparent rounded-full animate-spin" />
             </div>
           ) : displayedJobs.length === 0 ? (
-            <div className="py-16 text-center bg-[#FBFBFB] border border-[#E4EBF1] rounded-[24px]">
-              <h4 className="font-serif text-[28px] text-[#101828] mb-2">No roles found</h4>
-              <p className="text-gray-500 font-sans text-[18px]">
+            <div className="py-16 text-center bg-[#FBFBFB] border border-[#E4EBF1] rounded-[1.5rem]">
+              <h4 className="font-serif text-[1.75rem] text-[#101828] mb-2">No roles found</h4>
+              <p className="text-gray-500 font-sans text-[1.125rem]">
                 Try adjusting your filters or search keywords.
               </p>
             </div>
@@ -308,7 +308,7 @@ export const JobListingSection: React.FC<JobListingSectionProps> = ({
             <button
               type="button"
               onClick={() => setVisibleCount((prev) => prev + (itemsPerPage || 10))}
-              className="inline-flex items-center justify-center px-10 py-4 rounded-[60px] text-white font-medium text-[18px] transition-all duration-300 shadow-md hover:shadow-lg hover:brightness-105"
+              className="inline-flex items-center justify-center px-10 py-4 rounded-[3.75rem] text-white font-medium text-[1.125rem] transition-all duration-300 shadow-md hover:shadow-lg hover:brightness-105"
               style={{
                 background: 'linear-gradient(90.55deg, #D31E2D 0.47%, #2A91DC 102.45%)',
               }}

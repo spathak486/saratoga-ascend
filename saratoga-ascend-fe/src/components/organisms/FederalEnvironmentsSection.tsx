@@ -109,7 +109,7 @@ export const FederalEnvironmentsSection: React.FC<FederalEnvironmentsSectionProp
         </div>
       )}
 
-      <div className="grid w-full grid-cols-1 items-start gap-6 xl:grid-cols-2 xl:gap-[25px]">
+      <div className="grid w-full grid-cols-1 items-start gap-6 xl:grid-cols-2 xl:gap-[1.5625rem]">
         {cards.map((card, cardIdx) => {
           const imageUrl = card.image?.url;
           const accordions = card.accordions || [];
@@ -133,7 +133,7 @@ export const FederalEnvironmentsSection: React.FC<FederalEnvironmentsSectionProp
               )}
 
               {accordions.length > 0 && (
-                <div className="absolute inset-x-3 bottom-3 max-h-[85%] overflow-y-auto rounded-[30px] bg-white/90 px-6 py-5 backdrop-blur-[5px] sm:inset-x-[17px] sm:bottom-[17px]">
+                <div className="absolute inset-x-3 bottom-3 max-h-[85%] overflow-y-auto rounded-[1.875rem] bg-white/90 px-6 py-5 backdrop-blur-[0.3125rem] sm:inset-x-[1.0625rem] sm:bottom-[1.0625rem]">
                   <div className="flex flex-col gap-4">
                     {accordions.map((acc, accIdx) => {
                       const isOpen = currentActiveIdx === accIdx;

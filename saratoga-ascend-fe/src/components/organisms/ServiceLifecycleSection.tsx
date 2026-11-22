@@ -109,18 +109,18 @@ export function ServiceLifecycleSection({
   return (
     <section
       aria-label={`${title || 'Healthcare Workforce Solutions'} ${subtitle || 'Across the Service Lifecycle'}`.trim()}
-      className="relative mx-auto flex w-full max-w-[1920px] flex-col items-center overflow-hidden bg-[#FAFAFA] px-6 py-12 sm:px-8 sm:py-16 xl:px-[120px] xl:py-[100px]"
+      className="relative mx-auto flex w-full max-w-[120rem] flex-col items-center overflow-hidden bg-[#FAFAFA] px-6 py-12 sm:px-8 sm:py-16 xl:px-[7.5rem] xl:py-[6.25rem]"
     >
-      <div className="mx-auto mb-8 flex w-full max-w-[1141px] flex-col items-center text-center xl:mb-12">
+      <div className="mx-auto mb-8 flex w-full max-w-[71.3125rem] flex-col items-center text-center xl:mb-12">
         <h2
-          className="max-w-[1109px] font-serif text-[clamp(2.5rem,1.8rem+2.8vw,72px)] font-normal leading-[1.15] tracking-[0%] text-[#F01424]"
+          className="max-w-[69.3125rem] font-serif text-[clamp(2.5rem,1.8rem+2.8vw,72px)] font-normal leading-[1.15] tracking-[0%] text-[#F01424]"
           style={{ fontFamily: "'DM Serif Text', serif" }}
         >
           {stripHtml(title)}
         </h2>
         {subtitle ? (
           <h3
-            className="mt-1 max-w-[1109px] font-serif text-[clamp(2rem,1.5rem+2.5vw,64px)] font-normal leading-[1.15] tracking-[0%] text-[#000000]"
+            className="mt-1 max-w-[69.3125rem] font-serif text-[clamp(2rem,1.5rem+2.5vw,64px)] font-normal leading-[1.15] tracking-[0%] text-[#000000]"
             style={{ fontFamily: "'DM Serif Text', serif" }}
           >
             {stripHtml(subtitle)}
@@ -128,7 +128,7 @@ export function ServiceLifecycleSection({
         ) : null}
         {description ? (
           <p
-            className="mt-5 max-w-[1141px] font-sans text-[clamp(1rem,0.92rem+0.35vw,1.25rem)] font-normal leading-[1.6] text-[#212121] xl:mt-6 xl:text-[20px] xl:leading-[32px]"
+            className="mt-5 max-w-[71.3125rem] font-sans text-[clamp(1rem,0.92rem+0.35vw,1.25rem)] font-normal leading-[1.6] text-[#212121] xl:mt-6 xl:text-[1.25rem] xl:leading-[2rem]"
             style={{ fontFamily: "'Google Sans Flex', sans-serif" }}
           >
             {stripHtml(description)}
@@ -136,13 +136,13 @@ export function ServiceLifecycleSection({
         ) : null}
       </div>
 
-      <div className="mx-auto flex w-full max-w-[1680px] flex-col items-center">
-        <div className="mb-8 flex w-full flex-col items-center gap-3 sm:gap-4 xl:mb-12 xl:gap-[16px]">
+      <div className="mx-auto flex w-full max-w-[105rem] flex-col items-center">
+        <div className="mb-8 flex w-full flex-col items-center gap-3 sm:gap-4 xl:mb-12 xl:gap-[1rem]">
           {[firstRow, secondRow].map((row, rowIndex) =>
             row.length > 0 ? (
               <div
                 key={rowIndex}
-                className="flex w-full flex-wrap items-center justify-center gap-2.5 sm:gap-3 xl:gap-[16px]"
+                className="flex w-full flex-wrap items-center justify-center gap-2.5 sm:gap-3 xl:gap-[1rem]"
               >
                 {row.map((tab, index) => {
                   const key = tabKey(tab, rowIndex === 0 ? index : index + 5);
@@ -152,7 +152,7 @@ export function ServiceLifecycleSection({
                       key={key}
                       type="button"
                       onClick={() => setActiveId(key)}
-                      className={`box-border flex h-auto min-h-[52px] max-w-full cursor-pointer items-center justify-center rounded-[16px] px-6 py-2.5 text-center text-[16px] font-medium leading-none transition-all duration-300 ease-out focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#022542] motion-reduce:transition-none sm:h-[56px] sm:whitespace-nowrap sm:text-[18px] xl:text-[20px] ${
+                      className={`box-border flex h-auto min-h-[3.25rem] max-w-full cursor-pointer items-center justify-center rounded-[1rem] px-6 py-2.5 text-center text-[1rem] font-medium leading-none transition-all duration-300 ease-out focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#022542] motion-reduce:transition-none sm:h-[3.5rem] sm:whitespace-nowrap sm:text-[1.125rem] xl:text-[1.25rem] ${
                         selected
                           ? 'border-2 border-[#2B88D9] bg-[#EEF7FE] text-[#2B88D9] font-bold shadow-[0px_4px_12px_rgba(43,136,217,0.12)]'
                           : 'border border-[#DAE5ED] bg-white text-[#2F2F2F] hover:border-[#95C3EC] hover:bg-[#F9FBFE]'
@@ -188,7 +188,7 @@ export function ServiceLifecycleSection({
                 </p>
               </div>
               <div className="mb-4 flex items-center gap-2 xl:mb-[clamp(0.875rem,0.75rem+0.25vw,1rem)]">
-                <span className="h-[1.4375rem] w-[0.375rem] rounded-[6px] bg-[#006CAF]" />
+                <span className="h-[1.4375rem] w-[0.375rem] rounded-[0.375rem] bg-[#006CAF]" />
                 <h4
                   className="font-sans text-[clamp(1.125rem,0.95rem+0.35vw,1.375rem)] font-semibold leading-[1.3] text-[#000000]"
                   style={{ fontFamily: "'Google Sans Flex', sans-serif" }}
@@ -238,9 +238,9 @@ export function ServiceLifecycleSection({
                 />
               ) : null}
               {/* Floating Support Areas Badge: exact Figma node 2633:9084 (w=642px, h=222px, rounded=20px, bg white/80, blur 14px) */}
-              <div className="relative z-10 w-full rounded-[1.25rem] border border-[#006CAF] bg-white/80 p-4.5 backdrop-blur-[14px] sm:p-5 xl:h-[13.875rem] xl:w-full xl:max-w-[40.125rem] xl:p-[clamp(1rem,0.85rem+0.4vw,1.5rem)]">
+              <div className="relative z-10 w-full rounded-[1.25rem] border border-[#006CAF] bg-white/80 p-4.5 backdrop-blur-[0.875rem] sm:p-5 xl:h-[13.875rem] xl:w-full xl:max-w-[40.125rem] xl:p-[clamp(1rem,0.85rem+0.4vw,1.5rem)]">
                 <div className="mb-3.5 flex items-center gap-2 xl:mb-4">
-                  <span className="h-[1.4375rem] w-[0.375rem] rounded-[6px] bg-[#006CAF]" />
+                  <span className="h-[1.4375rem] w-[0.375rem] rounded-[0.375rem] bg-[#006CAF]" />
                   <h4
                     className="font-sans text-[clamp(1.125rem,0.95rem+0.35vw,1.375rem)] font-semibold leading-[1.3] text-[#000000]"
                     style={{ fontFamily: "'Google Sans Flex', sans-serif" }}
@@ -275,7 +275,7 @@ export function ServiceLifecycleSection({
               variant="unstyled"
               target={active.cta?.target === '_blank' || active.cta?.isExternal ? '_blank' : '_self'}
               isExternal={Boolean(active.cta?.isExternal)}
-              className="group inline-flex cursor-pointer items-center justify-center gap-3 rounded-[8px] border border-[#0C2A4F] px-6 py-4 text-[18px] font-medium leading-[30px] text-[#0C2A4F] transition-all duration-300 hover:bg-[#0C2A4F] hover:text-white active:scale-95 sm:text-[20px]"
+              className="group inline-flex cursor-pointer items-center justify-center gap-3 rounded-[0.5rem] border border-[#0C2A4F] px-6 py-4 text-[1.125rem] font-medium leading-[1.875rem] text-[#0C2A4F] transition-all duration-300 hover:bg-[#0C2A4F] hover:text-white active:scale-95 sm:text-[1.25rem]"
               style={{ fontFamily: "'Google Sans Flex', sans-serif" }}
               rightIcon={
                 <svg

@@ -40,10 +40,10 @@ export const NeedHelpSection: React.FC<NeedHelpSectionProps> = ({
     className="relative py-[clamp(2rem,4vw,3.75rem)] overflow-hidden"
   >
     <div className="relative mx-auto max-w-home px-page">
-      {/* Card: 1680x519px in desktop artboard, radius 52px */}
-      <div className="relative isolate overflow-hidden rounded-[clamp(24px,2.7vw,52px)] bg-need-help-gradient min-h-[460px] md:min-h-[519px]">
+      {/* Card: fluid rem bounds */}
+      <div className="relative isolate overflow-hidden rounded-[clamp(1.5rem,2.7vw,3.25rem)] bg-need-help-gradient min-h-[28.75rem] md:min-h-[32.4375rem]">
         {/* Background Decorative Swooshes from Figma 1899:2560 */}
-        <div className="pointer-events-none absolute right-0 top-0 bottom-0 z-0 hidden lg:block w-[50%] max-w-[750px] overflow-hidden">
+        <div className="pointer-events-none absolute right-0 top-0 bottom-0 z-0 hidden lg:block w-[50%] max-w-[46.875rem] overflow-hidden">
           <img
             src="/images/need-help-bg-graphic.png"
             alt=""
@@ -52,21 +52,21 @@ export const NeedHelpSection: React.FC<NeedHelpSectionProps> = ({
           />
         </div>
 
-        {/* Left Column Content: exact Figma layout (x=70, y=70 to 458) */}
-        <div className="relative z-10 flex min-w-0 max-w-full lg:max-w-[55%] xl:max-w-[50%] flex-col justify-start px-[clamp(1.5rem,3.64vw,70px)] pt-[clamp(2rem,3.64vw,70px)] pb-[clamp(2rem,3.64vw,61px)] min-h-[460px] md:min-h-[519px]">
+        {/* Left Column Content: fluid rem layout */}
+        <div className="relative z-10 flex min-w-0 max-w-full lg:max-w-[55%] xl:max-w-[50%] flex-col justify-start px-[clamp(1.5rem,3.64vw,4.375rem)] pt-[clamp(2rem,3.64vw,4.375rem)] pb-[clamp(2rem,3.64vw,3.8125rem)] min-h-[28.75rem] md:min-h-[32.4375rem]">
           <div className="flex flex-col">
             <Heading
               id="need-help-heading"
               level={2}
               tone="onDark"
-              className="font-serif text-[clamp(2.5rem,3.75vw,60px)] leading-[120%] font-normal text-white"
+              className="font-serif text-[clamp(2.5rem,3.75vw,3.75rem)] leading-[120%] font-normal text-white"
             >
               {stripHtml(title)}
             </Heading>
 
             {/* Subtitle / Prompt */}
             {(subTitle || description) ? (
-              <p className="mt-3 font-sans text-[clamp(1rem,1.25vw,18px)] leading-[150%] font-normal text-white max-w-[540px]">
+              <p className="mt-3 font-sans text-[clamp(1rem,1.25vw,1.125rem)] leading-[150%] font-normal text-white max-w-[33.75rem]">
                 {subTitle ||
                   (description
                     ? description.replace(/<[^>]*>?/gm, '').trim()
@@ -75,15 +75,15 @@ export const NeedHelpSection: React.FC<NeedHelpSectionProps> = ({
             ) : null}
           </div>
 
-          {/* Form & Action Button: Name/Email 540px width, 180x60px Pill Button */}
+          {/* Form & Action Button: fluid width */}
           <div className="mt-6 sm:mt-7 w-full">
             <NeedHelpForm buttonLabel={ctaLabel} buttonHref={ctaHref} />
           </div>
         </div>
 
-        {/* Right Nurse Cutout Image: exact Figma node 1899:2583 (w=582, h=557, top=39, left=906 relative to 1680x519 card) */}
+        {/* Right Nurse Cutout Image: fluid bounds */}
         {personSrc ? (
-          <div className="pointer-events-none absolute top-[39px] left-[53.93%] z-10 hidden md:flex h-[557px] w-[582px] max-w-[34.64vw] items-end justify-center">
+          <div className="pointer-events-none absolute top-[2.4375rem] left-[53.93%] z-10 hidden md:flex h-[34.8125rem] w-[36.375rem] max-w-[34.64vw] items-end justify-center">
             <img
               src={personSrc}
               alt={mediaAlt}

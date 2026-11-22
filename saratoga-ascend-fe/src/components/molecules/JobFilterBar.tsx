@@ -107,7 +107,7 @@ export const JobFilterBar: React.FC<JobFilterBarProps> = ({
         </button>
 
         {openDropdown === 'location' && (
-          <div className="absolute left-0 mt-2 min-w-[200px] w-max max-h-[300px] overflow-y-auto bg-[#F6F9FA] border-[1.5px] border-[#E4EBF1] rounded-[10px] p-3 shadow-xl z-50">
+          <div className="absolute left-0 mt-2 min-w-[12.5rem] w-max max-h-[18.75rem] overflow-y-auto bg-[#F6F9FA] border-[1.5px] border-[#E4EBF1] rounded-[0.625rem] p-3 shadow-xl z-50">
             {locations.length === 0 ? (
               <div className="px-3 py-2 text-sm text-gray-500">No locations found</div>
             ) : (
@@ -127,7 +127,7 @@ export const JobFilterBar: React.FC<JobFilterBarProps> = ({
                         }
                         className="w-4 h-4 rounded border-gray-400 text-[#F01424] focus:ring-[#F01424] cursor-pointer"
                       />
-                      <span className="text-[16px] text-[#000000] font-sans">{loc.label}</span>
+                      <span className="text-[1rem] text-[#000000] font-sans">{loc.label}</span>
                     </label>
                   );
                 })}
@@ -174,7 +174,7 @@ export const JobFilterBar: React.FC<JobFilterBarProps> = ({
         </button>
 
         {openDropdown === 'speciality' && (
-          <div className="absolute left-0 mt-2 min-w-[220px] w-max max-h-[300px] overflow-y-auto bg-[#F6F9FA] border-[1.5px] border-[#E4EBF1] rounded-[10px] p-3 shadow-xl z-50">
+          <div className="absolute left-0 mt-2 min-w-[13.75rem] w-max max-h-[18.75rem] overflow-y-auto bg-[#F6F9FA] border-[1.5px] border-[#E4EBF1] rounded-[0.625rem] p-3 shadow-xl z-50">
             {specialities.length === 0 ? (
               <div className="px-3 py-2 text-sm text-gray-500">No specialities found</div>
             ) : (
@@ -194,7 +194,7 @@ export const JobFilterBar: React.FC<JobFilterBarProps> = ({
                         }
                         className="w-4 h-4 rounded border-gray-400 text-[#F01424] focus:ring-[#F01424] cursor-pointer"
                       />
-                      <span className="text-[16px] text-[#000000] font-sans">{spec.label}</span>
+                      <span className="text-[1rem] text-[#000000] font-sans">{spec.label}</span>
                     </label>
                   );
                 })}
@@ -241,7 +241,7 @@ export const JobFilterBar: React.FC<JobFilterBarProps> = ({
         </button>
 
         {openDropdown === 'jobType' && (
-          <div className="absolute left-0 mt-2 min-w-[200px] w-max max-h-[300px] overflow-y-auto bg-[#F6F9FA] border-[1.5px] border-[#E4EBF1] rounded-[10px] p-3 shadow-xl z-50">
+          <div className="absolute left-0 mt-2 min-w-[12.5rem] w-max max-h-[18.75rem] overflow-y-auto bg-[#F6F9FA] border-[1.5px] border-[#E4EBF1] rounded-[0.625rem] p-3 shadow-xl z-50">
             {jobTypes.length === 0 ? (
               <div className="px-3 py-2 text-sm text-gray-500">No job types found</div>
             ) : (
@@ -261,7 +261,7 @@ export const JobFilterBar: React.FC<JobFilterBarProps> = ({
                         }
                         className="w-4 h-4 rounded border-gray-400 text-[#F01424] focus:ring-[#F01424] cursor-pointer"
                       />
-                      <span className="text-[16px] text-[#000000] font-sans">{type.label}</span>
+                      <span className="text-[1rem] text-[#000000] font-sans">{type.label}</span>
                     </label>
                   );
                 })}
@@ -304,7 +304,7 @@ export const JobFilterBar: React.FC<JobFilterBarProps> = ({
         </button>
 
         {openDropdown === 'sort' && (
-          <div className="absolute left-0 mt-2 min-w-[200px] w-max bg-[#F6F9FA] border-[1.5px] border-[#E4EBF1] rounded-[10px] p-3 shadow-xl z-50">
+          <div className="absolute left-0 mt-2 min-w-[12.5rem] w-max bg-[#F6F9FA] border-[1.5px] border-[#E4EBF1] rounded-[0.625rem] p-3 shadow-xl z-50">
             <div className="flex flex-col gap-1.5">
               {sortOptions.map((opt) => (
                 <button
@@ -314,7 +314,7 @@ export const JobFilterBar: React.FC<JobFilterBarProps> = ({
                     onSortChange(opt.value);
                     setOpenDropdown(null);
                   }}
-                  className={`text-left px-3 py-1.5 rounded transition-colors text-[16px] font-sans ${
+                  className={`text-left px-3 py-1.5 rounded transition-colors text-[1rem] font-sans ${
                     selectedSort === opt.value
                       ? 'bg-[#EAF4FB] text-[#022E4C] font-semibold'
                       : 'text-gray-700 hover:bg-[#EAF4FB]'

@@ -48,18 +48,18 @@ export const TeamSection: React.FC<TeamSectionProps> = ({
     <section
       id={id}
       aria-label="Leadership & Team"
-      className={`relative mx-auto my-0 flex w-full max-w-[1920px] flex-col justify-center overflow-hidden py-12 sm:py-16 xl:py-20 scroll-mt-28 ${className}`.trim()}
+      className={`relative mx-auto my-0 flex w-full max-w-[120rem] flex-col justify-center overflow-hidden py-12 sm:py-16 xl:py-20 scroll-mt-28 ${className}`.trim()}
     >
-      <div className="relative z-10 w-full px-6 sm:px-10 lg:px-16 xl:px-[120px]">
+      <div className="relative z-10 w-full px-6 sm:px-10 lg:px-16 xl:px-[7.5rem]">
         {/* Main Heading (CKEditor Rich Text Supported) */}
         {sectionTitle && (
-          <div className="mb-10 sm:mb-12 xl:mb-14 max-w-[1400px]">
+          <div className="mb-10 sm:mb-12 xl:mb-14 max-w-[87.5rem]">
             <h2
-              className="font-serif font-normal text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-[72px] leading-[1.15] text-[#000000] tracking-tight"
+              className="font-serif font-normal text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-[4.5rem] leading-[1.15] text-[#000000] tracking-tight"
               dangerouslySetInnerHTML={{ __html: cleanHeadingHtml(sectionTitle) }}
             />
             {description && (
-              <p className="mt-4 font-sans font-normal text-base sm:text-lg lg:text-xl text-[#5A5A5A] max-w-[900px] leading-relaxed">
+              <p className="mt-4 font-sans font-normal text-base sm:text-lg lg:text-xl text-[#5A5A5A] max-w-[56.25rem] leading-relaxed">
                 {description}
               </p>
             )}
@@ -69,7 +69,7 @@ export const TeamSection: React.FC<TeamSectionProps> = ({
         {/* Scrollable / Responsive Cards Container */}
         {/* Figma: width: 1799px, height: 470px, overflow-x: scroll */}
         <div className="relative w-full">
-          <div className="flex flex-nowrap items-center gap-[30px] overflow-x-auto pb-6 pt-2 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent">
+          <div className="flex flex-nowrap items-center gap-[1.875rem] overflow-x-auto pb-6 pt-2 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent">
             {members.map((member, idx) => {
               const imageUrl = member.image?.url;
 
@@ -79,7 +79,7 @@ export const TeamSection: React.FC<TeamSectionProps> = ({
                   style={{
                     background: 'linear-gradient(90.55deg, #D31E2D 0.47%, #2A91DC 102.45%)',
                   }}
-                  className="group relative flex-none w-[320px] h-[469px] rounded-[20px] overflow-hidden shadow-md transition-all duration-300 hover:shadow-2xl hover:-translate-y-1"
+                  className="group relative flex-none w-[20rem] h-[29.3125rem] rounded-[1.25rem] overflow-hidden shadow-md transition-all duration-300 hover:shadow-2xl hover:-translate-y-1"
                 >
                   {/* Member Photo */}
                   {imageUrl ? (
@@ -106,19 +106,19 @@ export const TeamSection: React.FC<TeamSectionProps> = ({
                     style={{
                       background: 'linear-gradient(0deg, #000000 35%, rgba(0, 0, 0, 0) 100%)',
                     }}
-                    className="absolute bottom-0 left-0 right-0 h-[220px] rounded-b-[20px] pointer-events-none"
+                    className="absolute bottom-0 left-0 right-0 h-[13.75rem] rounded-b-[1.25rem] pointer-events-none"
                     aria-hidden="true"
                   />
 
-                  {/* Card Content Overlay: Frame 2147226496 (width: 200px, height: 126px, top: 324px / bottom: 19px) */}
-                  <div className="absolute top-[324px] left-[60px] w-[200px] h-[126px] flex flex-col items-center text-center gap-[5px] z-10 select-none">
+                  {/* Card Content Overlay: Frame 2147226496 (centered bottom content, fluid padding) */}
+                  <div className="absolute inset-x-4 bottom-5 flex flex-col items-center text-center gap-1.5 z-10 select-none">
                     {/* Name: DM Serif Text, 24px, line-height 120% (29px), color: #FFFFFF */}
-                    <h3 className="font-serif font-normal text-[24px] leading-[1.2] text-[#FFFFFF] text-center whitespace-nowrap">
+                    <h3 className="font-serif font-normal text-[1.5rem] leading-[1.2] text-[#FFFFFF] text-center max-w-full truncate">
                       {member.name}
                     </h3>
 
                     {/* Role: DM Serif Text, 18px, line-height 120% (22px), color: #FFFFFF */}
-                    <p className="font-serif font-normal text-[18px] leading-[1.2] text-[#FFFFFF] text-center">
+                    <p className="font-serif font-normal text-[1.125rem] leading-[1.2] text-[#FFFFFF] text-center max-w-full">
                       {member.role}
                     </p>
 
@@ -126,7 +126,7 @@ export const TeamSection: React.FC<TeamSectionProps> = ({
                     {member.email && (
                       <a
                         href={`mailto:${member.email}`}
-                        className="font-sans font-normal text-[20px] leading-[24px] lowercase text-[#FFFFFF] hover:underline transition-colors text-center whitespace-nowrap"
+                        className="font-sans font-normal text-[1.125rem] leading-[1.4] lowercase text-[#FFFFFF] hover:underline transition-colors text-center max-w-full truncate"
                       >
                         {member.email}
                       </a>
@@ -136,7 +136,7 @@ export const TeamSection: React.FC<TeamSectionProps> = ({
                     {member.phone && (
                       <a
                         href={`tel:${member.phone.replace(/[^0-9+]/g, '')}`}
-                        className="font-sans font-normal text-[20px] leading-[24px] text-[#FFFFFF] hover:underline transition-colors text-center whitespace-nowrap"
+                        className="font-sans font-normal text-[1.125rem] leading-[1.4] text-[#FFFFFF] hover:underline transition-colors text-center max-w-full truncate"
                       >
                         {member.phone}
                       </a>

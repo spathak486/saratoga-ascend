@@ -146,9 +146,14 @@ export interface HeroSectionProps {
   breadcrumbLabel?: string;
 }
 
+/**
+ * Homepage hero copy (Figma 1899:2103, 1920×900).
+ * Vertical centering is handled by the hero flex container; keep equal
+ * top/bottom padding so space above and below the text block stays balanced.
+ */
 const copyStyle: React.CSSProperties = {
-  paddingTop: 'clamp(8rem, 17.708vw, 21.25rem)',
-  paddingBottom: 'clamp(3rem, 8.333vw, 6.5rem)',
+  paddingTop: 'clamp(1.5rem, 2.5vw, 2.5rem)',
+  paddingBottom: 'clamp(1.5rem, 2.5vw, 2.5rem)',
 };
 
 const headingStyle: React.CSSProperties = {
@@ -682,7 +687,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               </p>
             ) : null}
             {(ctaLabel && ctaHref) || (secondaryCtaLabel && secondaryCtaHref) ? (
-              <div className="flex w-full min-w-0 flex-col items-stretch gap-[8px]! sm:flex-row sm:flex-wrap sm:items-center sm:gap-3! xl:gap-[1.875rem]!">
+              <div className="flex w-full min-w-0 flex-col items-stretch gap-[0.5rem]! sm:flex-row sm:flex-wrap sm:items-center sm:gap-3! xl:gap-[1.875rem]!">
                 {ctaLabel && ctaHref ? (
                   <ServiceHeroButton href={ctaHref} tone="primary">
                     {ctaLabel}
@@ -710,7 +715,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
     return (
       <section className="w-full">
         <div className="mx-auto w-full max-w-home px-page pt-0 pb-0 xl:pt-4 xl:pb-10">
-          <div className="relative isolate flex w-full flex-col justify-end rounded-[1.25rem] bg-neutral-900 shadow-lg sm:rounded-[1.625rem] min-h-[min(22rem,70dvh)] md:min-h-[min(28rem,72dvh)] xl:min-h-[min(54.25rem,78dvh)]">
+          {/* Figma 1899:2241 Group 262: 1680×868, radius 26px; text frame bottom inset ~30.5px.
+              xl min-height is Figma 868px (54.25rem) — do not cap with dvh (that made local shorter). */}
+          <div className="relative isolate flex w-full flex-col justify-end rounded-[1.25rem] bg-neutral-900 shadow-lg sm:rounded-[1.625rem] min-h-[min(22rem,70dvh)] md:min-h-[min(32rem,75dvh)] xl:min-h-[54.25rem]">
             <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-[inherit]" aria-hidden="true">
               {resolvedVideoSrc ? (
                 <video
@@ -732,7 +739,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             </div>
 
             {/* Figma Frame 2147226373: Auto layout, row, align-center, gap 54px (3.375rem), w 1338px (83.625rem), min-h 122.5px */}
-            <div className="relative z-10 mx-auto flex w-full min-w-0 max-w-[83.625rem] flex-col gap-5 px-5 pt-5 pb-10 text-white sm:gap-6 md:px-12 xl:flex-row xl:items-center xl:gap-[3.375rem] xl:px-0 xl:pt-[clamp(2rem,6vw,4rem)] xl:pb-[clamp(2.5rem,4vw,4.5rem)]">
+            <div className="relative z-10 mx-auto flex w-full min-w-0 max-w-[83.625rem] flex-col gap-5 px-5 pt-5 pb-10 text-white sm:gap-6 md:px-12 xl:flex-row xl:items-center xl:gap-[3.375rem] xl:px-0 xl:pt-8 xl:pb-[1.90625rem]">
               {title ? (
                 <h2 className="min-w-0 break-words font-serif text-[2.25rem] sm:text-[2.75rem] md:text-[3.25rem] xl:text-[3.75rem] font-normal leading-[1.2] xl:leading-[4.5rem] text-white xl:w-[21.75rem] xl:shrink-0">
                   {title}
@@ -740,7 +747,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               ) : null}
               {title && lede ? (
                 <div
-                  className="hidden h-[7.65625rem] w-0 shrink-0 border-l-[3px] border-white xl:block"
+                  className="hidden h-[7.65625rem] w-0 shrink-0 border-l-[0.1875rem] border-white xl:block"
                   aria-hidden="true"
                 />
               ) : null}
@@ -775,7 +782,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
     return (
       <section className="relative flex w-full justify-center overflow-hidden bg-white px-page py-6 sm:py-8 xl:py-12">
         {/* Figma 563:1383 Frame 2147225834: 1680×654, radius 40, inset ~54. Stack meta under title through tablet. */}
-        <div className="relative flex min-h-[20rem] w-full max-w-[105rem] flex-col justify-end overflow-hidden rounded-[24px] p-5 shadow-sm sm:min-h-[26rem] sm:rounded-[32px] sm:p-8 md:min-h-[34rem] md:p-10 xl:min-h-[40.875rem] xl:rounded-[2.5rem] xl:p-[3.375rem]">
+        <div className="relative flex min-h-[20rem] w-full max-w-[105rem] flex-col justify-end overflow-hidden rounded-[1.5rem] p-5 shadow-sm sm:min-h-[26rem] sm:rounded-[2rem] sm:p-8 md:min-h-[34rem] md:p-10 xl:min-h-[40.875rem] xl:rounded-[2.5rem] xl:p-[3.375rem]">
           {/* Background image & Fallback */}
           {resolvedVideoSrc ? (
             <video
@@ -809,14 +816,14 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           <div className="relative z-10 flex w-full flex-col justify-between gap-5 sm:gap-6 xl:flex-row xl:items-end xl:gap-8">
             {/* Left: How we support state and local agencies / Title */}
             <div className="max-w-[55.5rem] flex-1">
-              <h1 className="font-serif text-[28px] font-normal leading-[1.2] tracking-tight text-[#000000] sm:text-[36px] md:text-[44px] xl:text-[3.125rem] xl:leading-[4.3125rem]">
+              <h1 className="font-serif text-[1.75rem] font-normal leading-[1.2] tracking-tight text-[#000000] sm:text-[2.25rem] md:text-[2.75rem] xl:text-[3.125rem] xl:leading-[4.3125rem]">
                 {title || 'How we support state and local agencies'}
               </h1>
             </div>
 
             {/* Divider (Figma: Rectangle 40129: width: 3px, height: 110px, background: #8C8C8C) */}
             <div
-              className="mx-2 hidden h-[6.875rem] w-[3px] shrink-0 bg-[#8C8C8C] xl:block"
+              className="mx-2 hidden h-[6.875rem] w-[0.1875rem] shrink-0 bg-[#8C8C8C] xl:block"
               aria-hidden="true"
             />
 
@@ -826,7 +833,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               {hasMeta ? (
                 <div className="flex flex-wrap items-center gap-2 text-[#022E4C] sm:gap-3 xl:gap-4">
                   {displayAuthor ? (
-                    <div className="flex h-10 items-center gap-2 rounded-[20px] bg-[#F2F6F9] px-3 py-2 sm:h-[44px] sm:px-4 sm:py-2.5">
+                    <div className="flex h-10 items-center gap-2 rounded-[1.25rem] bg-[#F2F6F9] px-3 py-2 sm:h-[2.75rem] sm:px-4 sm:py-2.5">
                       <svg
                         width="20"
                         height="20"
@@ -842,14 +849,14 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                         <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
                         <circle cx="12" cy="7" r="4" />
                       </svg>
-                      <span className="whitespace-nowrap font-serif text-[15px] leading-[22px] sm:text-[18px]">
+                      <span className="whitespace-nowrap font-serif text-[0.9375rem] leading-[1.375rem] sm:text-[1.125rem]">
                         {displayAuthor}
                       </span>
                     </div>
                   ) : null}
 
                   {formattedDate ? (
-                    <div className="flex h-10 items-center gap-2 rounded-[20px] bg-[#F2F6F9] px-3 py-2 sm:h-[44px] sm:px-4 sm:py-2.5">
+                    <div className="flex h-10 items-center gap-2 rounded-[1.25rem] bg-[#F2F6F9] px-3 py-2 sm:h-[2.75rem] sm:px-4 sm:py-2.5">
                       <svg
                         width="20"
                         height="20"
@@ -867,14 +874,14 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                         <line x1="8" y1="2" x2="8" y2="6" />
                         <line x1="3" y1="10" x2="21" y2="10" />
                       </svg>
-                      <span className="whitespace-nowrap font-serif text-[15px] leading-[22px] sm:text-[18px]">
+                      <span className="whitespace-nowrap font-serif text-[0.9375rem] leading-[1.375rem] sm:text-[1.125rem]">
                         {formattedDate}
                       </span>
                     </div>
                   ) : null}
 
                   {displayReadTime ? (
-                    <div className="flex h-10 items-center gap-2 rounded-[20px] bg-[#F2F6F9] px-3 py-2 sm:h-[44px] sm:px-4 sm:py-2.5">
+                    <div className="flex h-10 items-center gap-2 rounded-[1.25rem] bg-[#F2F6F9] px-3 py-2 sm:h-[2.75rem] sm:px-4 sm:py-2.5">
                       <svg
                         width="20"
                         height="20"
@@ -890,7 +897,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                         <circle cx="12" cy="12" r="10" />
                         <polyline points="12 6 12 12 16 14" />
                       </svg>
-                      <span className="whitespace-nowrap font-serif text-[15px] leading-[22px] sm:text-[18px]">
+                      <span className="whitespace-nowrap font-serif text-[0.9375rem] leading-[1.375rem] sm:text-[1.125rem]">
                         {displayReadTime}
                       </span>
                     </div>
@@ -900,7 +907,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 
               {/* Share Row (Frame 2147226424) */}
               <div className="flex flex-wrap items-center gap-2 sm:gap-3">
-                <div className="flex select-none items-center gap-2 font-serif text-[16px] leading-[22px] text-[#022E4C] sm:text-[18px]">
+                <div className="flex select-none items-center gap-2 font-serif text-[1rem] leading-[1.375rem] text-[#022E4C] sm:text-[1.125rem]">
                   <svg
                     width="18"
                     height="18"
@@ -1057,7 +1064,12 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
       bleed
       className="overflow-hidden min-[90rem]:-mt-nav-h"
     >
-      <div className="relative min-h-hero-min">
+      {/*
+        Vertically center copy in the hero band (Figma 1899:2103).
+        On desktop the hero tucks under the nav (-mt-nav-h); pt-nav-h keeps
+        centering relative to the visible area below the header.
+      */}
+      <div className="relative flex min-h-hero-min flex-col justify-center min-[90rem]:pt-nav-h">
         <div className="pointer-events-none absolute inset-0" aria-hidden="true">
           {resolvedVideoSrc ? (
             <video
@@ -1090,7 +1102,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         />
 
         <Container
-          className="relative z-10 flex min-h-full min-w-0 flex-col items-start"
+          className="relative z-10 flex w-full min-w-0 flex-col items-start"
           style={copyStyle}
         >
           {heading ? (
@@ -1113,7 +1125,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             <Text
               size="lead"
               tone="navy"
-              className="min-w-0 font-medium tracking-normal max-sm:leading-[24px]!"
+              className="min-w-0 font-medium tracking-normal max-sm:leading-[1.5rem]!"
               style={ledeStyle}
             >
               {lede}
@@ -1123,7 +1135,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           {(ctaLabel && ctaHref) || (secondaryCtaLabel && secondaryCtaHref) ? (
             <div
               style={ctaStyle}
-              className="flex flex-wrap items-center gap-[30px]"
+              className="flex flex-wrap items-center gap-[1.875rem]"
             >
               {ctaLabel && ctaHref ? (
                 layout === 'solutions' ? (

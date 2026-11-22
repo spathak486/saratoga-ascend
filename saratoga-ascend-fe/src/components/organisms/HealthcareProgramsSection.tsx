@@ -131,7 +131,7 @@ export const HealthcareProgramsSection: React.FC<HealthcareProgramsSectionProps>
               direction="next"
               tone="jobCardArrow"
               onClick={scrollNext}
-              className="absolute top-[125px] -right-12 z-20 max-xl:hidden"
+              className="absolute top-[7.8125rem] -right-12 z-20 max-xl:hidden"
             />
 
             <GeneralLink

@@ -118,37 +118,42 @@ export const WhatWeDoSection: React.FC<WhatWeDoSectionProps> = ({
               <div
                 key={`${line.href || 'line'}-${idx}`}
                 data-what-we-do-card
-                className="flex w-full shrink-0 snap-start flex-col gap-6 rounded-[1.25rem] border-[1.5px] border-[#BDE4FF] bg-white p-6 shadow-[0px_0px_20px_rgba(0,0,0,0.08)] sm:p-8 xl:min-h-[39.8125rem] xl:w-[min(69.9375rem,62.17%)] xl:flex-row xl:items-stretch xl:gap-[clamp(3rem,4.2vw,4.9375rem)] xl:px-[clamp(1.5rem,2.2vw,2.4375rem)] xl:pt-[clamp(1.5rem,2vw,2.1875rem)] xl:pb-7"
+                className="flex w-full shrink-0 snap-start flex-col gap-6 rounded-[1.25rem] border-[1.5px] border-[#BDE4FF] bg-white p-6 shadow-[0px_0px_20px_rgba(0,0,0,0.08)] sm:p-8 xl:grid xl:w-[min(69.9375rem,62.17%)] xl:grid-cols-[min(27.6875rem,39.6%)_minmax(0,1fr)] xl:items-stretch xl:gap-[clamp(3rem,4.2vw,4.9375rem)] xl:px-[clamp(1.5rem,2.2vw,2.4375rem)] xl:py-[clamp(1.5rem,2vw,2.1875rem)]"
               >
-                <div className="flex w-full shrink-0 flex-col gap-[0.875rem] xl:w-[min(27.6875rem,39.6%)]">
-                  <div className="aspect-[443/506] w-full overflow-hidden rounded-xl border border-[#BDE4FF]">
+                {/*
+                  Figma 1899:2186 — image (443×506) + Learn More. When CMS text is
+                  taller, the image flex-grows so the button stays on the card
+                  bottom (no empty gap) and copy is not clipped.
+                */}
+                <div className="flex w-full flex-col gap-[0.875rem] xl:h-full">
+                  <div className="relative aspect-[443/506] w-full overflow-hidden rounded-xl border border-[#BDE4FF] xl:min-h-0 xl:flex-1">
                     <img
                       src={currentSrc}
                       alt={line.heading}
-                      className="size-full object-cover"
+                      className="absolute inset-0 size-full object-cover"
                       loading="lazy"
                     />
                   </div>
                   <CtaButton
                     href={line.href}
                     showArrow={false}
-                    className="!h-[3.375rem] !min-h-[3.375rem] !border-0 !py-3 !leading-[1.875rem] w-full justify-center rounded-[0.625rem] font-bold text-[1.25rem]"
+                    className="!h-[3.375rem] !min-h-[3.375rem] !border-0 !py-3 !leading-[1.875rem] w-full shrink-0 justify-center rounded-[0.625rem] font-bold text-[1.25rem]"
                   >
                     Learn More
                   </CtaButton>
                 </div>
 
-                <div className="flex min-w-0 flex-1 flex-col xl:pt-0">
-                  <h3 className="mb-4 sm:mb-5 font-serif text-[clamp(1.75rem,1.25rem+1.8vw,3.75rem)] leading-[1.2] text-ink">
+                <div className="flex min-w-0 flex-col gap-5 xl:gap-[clamp(1.25rem,1.65vw,1.875rem)]">
+                  <h3 className="min-w-0 break-words font-serif text-[clamp(1.75rem,1.25rem+1.8vw,3.75rem)] leading-[1.2] text-ink">
                     {line.heading}
                   </h3>
-                  <p className="mb-6 sm:mb-8 font-sans text-[clamp(1.125rem,0.95rem+0.6vw,1.5rem)] leading-[1.33] text-brand-navy">
+                  <p className="min-w-0 break-words font-sans text-[clamp(1.125rem,0.95rem+0.6vw,1.5rem)] leading-[1.33] text-brand-navy">
                     {line.blurb}
                   </p>
-                  <div className="flex flex-col gap-3.5 sm:gap-4">
+                  <div className="flex flex-col gap-4">
                     {line.features.map((feature) => (
-                      <div key={feature} className="flex items-center gap-3.5 sm:gap-4">
-                        <div className="flex size-9 sm:size-10 shrink-0 items-center justify-center rounded-full bg-[#E0F2FE]">
+                      <div key={feature} className="flex items-start gap-3.5 sm:gap-4">
+                        <div className="mt-0.5 flex size-9 shrink-0 items-center justify-center rounded-full bg-[#E0F2FE] sm:size-10">
                           <svg
                             width="16"
                             height="16"
@@ -167,7 +172,7 @@ export const WhatWeDoSection: React.FC<WhatWeDoSectionProps> = ({
                             />
                           </svg>
                         </div>
-                        <span className="font-sans text-[clamp(1.125rem,0.95rem+0.6vw,1.625rem)] leading-[1.23] text-[#0F172A]">
+                        <span className="min-w-0 break-words font-sans text-[clamp(1.125rem,0.95rem+0.6vw,1.625rem)] leading-[1.23] text-[#0F172A]">
                           {feature}
                         </span>
                       </div>

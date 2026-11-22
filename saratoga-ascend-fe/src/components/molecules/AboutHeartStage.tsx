@@ -18,7 +18,7 @@ function GlassIconTile({
 }) {
   return (
     <div
-      className={`absolute aspect-square w-[28.148%] overflow-hidden rounded-media border border-brand-surface bg-[rgb(255_255_255/0.8)] backdrop-blur-[17px] ${className}`.trim()}
+      className={`absolute aspect-square w-[28.148%] overflow-hidden rounded-media border border-brand-surface bg-[rgb(255_255_255/0.8)] backdrop-blur-[1.0625rem] ${className}`.trim()}
     >
       <span className="absolute inset-[18.42%]">
         <MediaFrame

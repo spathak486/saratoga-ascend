@@ -52,14 +52,14 @@ export function ExploreEnvironmentsSection({
   return (
     <section
       aria-label={cleanTitle ? cleanTitle.replace(/<[^>]*>/g, '') : 'Explore Environments'}
-      className="relative w-full max-w-[1920px] mx-auto min-h-[500px] xl:min-h-[775px] bg-white py-16 xl:py-[80px] px-6 sm:px-10 xl:px-[120px] overflow-hidden flex flex-col justify-between"
+      className="relative w-full max-w-[120rem] mx-auto min-h-[31.25rem] xl:min-h-[48.4375rem] bg-white py-16 xl:py-[5rem] px-6 sm:px-10 xl:px-[7.5rem] overflow-hidden flex flex-col justify-between"
     >
       {/* Top Header Block (ONLY if title or description is present) */}
       {(cleanTitle || desc) && (
-        <div className="w-full max-w-[1290px] mb-10 xl:mb-[60px]">
+        <div className="w-full max-w-[80.625rem] mb-10 xl:mb-[3.75rem]">
           {cleanTitle && (
             <HeadingTag
-              className="font-sans text-[clamp(2.5rem,1.8rem+2.8vw,4.5rem)] font-semibold leading-[1.15] xl:leading-[90px] text-[#000000] tracking-[-0.01em] mb-4 xl:mb-6 [&_span[style*='color']]:font-semibold"
+              className="font-sans text-[clamp(2.5rem,1.8rem+2.8vw,4.5rem)] font-semibold leading-[1.15] xl:leading-[5.625rem] text-[#000000] tracking-[-0.01em] mb-4 xl:mb-6 [&_span[style*='color']]:font-semibold"
               style={{ fontFamily: "'Google Sans Flex', sans-serif" }}
               dangerouslySetInnerHTML={{ __html: cleanTitle }}
             />
@@ -67,7 +67,7 @@ export function ExploreEnvironmentsSection({
 
           {desc && (
             <p
-              className="font-sans text-[clamp(1.1rem,1rem+0.45vw,1.5rem)] leading-[1.55] xl:leading-[40px] font-normal text-[#000000] max-w-[1290px]"
+              className="font-sans text-[clamp(1.1rem,1rem+0.45vw,1.5rem)] leading-[1.55] xl:leading-[2.5rem] font-normal text-[#000000] max-w-[80.625rem]"
               style={{ fontFamily: "'Google Sans Flex', sans-serif" }}
             >
               {desc}
@@ -77,7 +77,7 @@ export function ExploreEnvironmentsSection({
       )}
 
       {/* Cards Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 xl:gap-[24px] w-full">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 xl:gap-[1.5rem] w-full">
         {cards.map((card, idx) => {
           const stepNumber = card.number || `0${idx + 1}`;
           const actionText = card.actionLabel?.trim() || '';
@@ -86,11 +86,11 @@ export function ExploreEnvironmentsSection({
           return (
             <div
               key={card.id ?? card.documentId ?? `env-card-${idx}`}
-              className="box-border relative w-full min-h-[260px] xl:min-h-[283px] bg-[#F2F7FA] border-[1.75px] border-[#D7E2EB] rounded-[28px] p-6 sm:p-8 xl:p-[34px] flex flex-col justify-between overflow-hidden transition-all duration-300 hover:shadow-lg hover:border-[#95C3EC]"
+              className="box-border relative w-full min-h-[16.25rem] xl:min-h-[17.6875rem] bg-[#F2F7FA] border-[1.75px] border-[#D7E2EB] rounded-[1.75rem] p-6 sm:p-8 xl:p-[2.125rem] flex flex-col justify-between overflow-hidden transition-all duration-300 hover:shadow-lg hover:border-[#95C3EC]"
             >
               {/* Giant Watermark Step Number */}
               <span
-                className="pointer-events-none select-none absolute right-4 xl:right-8 top-[-10px] xl:top-[-12px] font-serif text-[90px] sm:text-[110px] xl:text-[117px] font-normal leading-none text-[#2B88D9] opacity-10 z-0"
+                className="pointer-events-none select-none absolute right-4 xl:right-8 top-[-10px] xl:top-[-12px] font-serif text-[5.625rem] sm:text-[6.875rem] xl:text-[7.3125rem] font-normal leading-none text-[#2B88D9] opacity-10 z-0"
                 style={{ fontFamily: "'DM Serif Text', serif" }}
                 aria-hidden="true"
               >
@@ -100,10 +100,10 @@ export function ExploreEnvironmentsSection({
               {/* Top Row: Diamond Star Icon + Title */}
               <div className="relative z-10 flex flex-col gap-3">
                 <div className="flex items-center gap-3">
-                  <span className="w-3.5 h-3.5 bg-[#006CAF] rotate-45 rounded-[3px] shrink-0 inline-block shadow-xs" />
+                  <span className="w-3.5 h-3.5 bg-[#006CAF] rotate-45 rounded-[0.1875rem] shrink-0 inline-block shadow-xs" />
                   {card.title && (
                     <h3
-                      className="font-serif text-[24px] sm:text-[32px] xl:text-[38px] leading-[1.25] xl:leading-[52px] font-normal text-[#000000]"
+                      className="font-serif text-[1.5rem] sm:text-[2rem] xl:text-[2.375rem] leading-[1.25] xl:leading-[3.25rem] font-normal text-[#000000]"
                       style={{ fontFamily: "'DM Serif Text', serif" }}
                       dangerouslySetInnerHTML={{ __html: cleanHeadingHtml(card.title) }}
                     />
@@ -112,7 +112,7 @@ export function ExploreEnvironmentsSection({
 
                 {card.description && (
                   <p
-                    className="font-sans text-[16px] sm:text-[20px] xl:text-[24px] leading-[1.45] xl:leading-[36px] font-normal text-[#000000] pl-6 sm:pl-7 max-w-[700px]"
+                    className="font-sans text-[1rem] sm:text-[1.25rem] xl:text-[1.5rem] leading-[1.45] xl:leading-[2.25rem] font-normal text-[#000000] pl-6 sm:pl-7 max-w-[43.75rem]"
                     style={{ fontFamily: "'Google Sans Flex', sans-serif" }}
                   >
                     {stripHtml(card.description)}
@@ -128,7 +128,7 @@ export function ExploreEnvironmentsSection({
                     className="group inline-flex items-center gap-2.5 text-[#2B88D9] hover:text-[#022E4C] transition-colors duration-200"
                   >
                     <span
-                      className="font-sans font-semibold text-[18px] sm:text-[22px] xl:text-[24px] leading-[40px]"
+                      className="font-sans font-semibold text-[1.125rem] sm:text-[1.375rem] xl:text-[1.5rem] leading-[2.5rem]"
                       style={{ fontFamily: "'Google Sans Flex', sans-serif" }}
                     >
                       {actionText}

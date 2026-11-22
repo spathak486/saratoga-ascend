@@ -160,7 +160,7 @@ export const HealthcareIntroSection: React.FC<HealthcareIntroSectionProps> = ({
         <aside className="flex flex-col gap-6">
           {/* Plate and its inset both scale, so the emblem keeps its proportion
               to the frame as the column narrows. */}
-          <div className="aspect-square w-full max-w-[316px] rounded-tile-lg bg-brand-tile p-[clamp(1rem,0.6359rem+1.5534vw,2.5rem)]">
+          <div className="aspect-square w-full max-w-[19.75rem] rounded-tile-lg bg-brand-tile p-[clamp(1rem,0.6359rem+1.5534vw,2.5rem)]">
             <MediaFrame
               src={logoSrc}
               alt="Saratoga emblem"

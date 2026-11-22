@@ -55,7 +55,7 @@ export const SpotlightSection: React.FC<SpotlightSectionProps> = ({
 
         {/* Red rule anchoring the right edge of the plate. */}
         <span
-          className="absolute inset-y-[clamp(2.5rem,6vw,5.5rem)] right-0 w-[6px] rounded-l-sm bg-brand-red"
+          className="absolute inset-y-[clamp(2.5rem,6vw,5.5rem)] right-0 w-[0.375rem] rounded-l-sm bg-brand-red"
           aria-hidden="true"
         />
       </div>

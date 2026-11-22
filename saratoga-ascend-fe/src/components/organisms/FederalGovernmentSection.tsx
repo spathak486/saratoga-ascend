@@ -156,7 +156,7 @@ function OverviewCard({
                 aria-hidden="true"
               >
                 <span className="size-[0.889rem] shrink-0 rounded-full bg-brand-sky" />
-                <span className="h-[2.67px] min-w-0 flex-1 bg-brand-sky" />
+                <span className="h-[0.1669rem] min-w-0 flex-1 bg-brand-sky" />
               </div>
 
               <div className="flex min-w-0 flex-col xl:col-start-1 xl:row-start-2 xl:mt-[3.75rem]">
@@ -193,7 +193,7 @@ function OverviewCard({
                     rel={cta.isExternal ? 'noopener noreferrer' : undefined}
                     className="group mt-8 inline-flex items-center gap-3 text-brand-sky transition-colors duration-200 hover:text-brand-navy focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-navy xl:mt-auto xl:pt-8"
                   >
-                    <span className="font-sans text-[20px] leading-[40px] font-bold sm:text-[24px]">
+                    <span className="font-sans text-[1.25rem] leading-[2.5rem] font-bold sm:text-[1.5rem]">
                       {cta.label || 'Explore Relevant Capabilities'}
                     </span>
                     <svg
@@ -261,7 +261,7 @@ export function FederalGovernmentSection({
     >
       {title ? (
         <div className="mb-8 max-w-[93.375rem] text-center sm:mb-10 xl:mb-12 xl:pt-[7.333rem] xl:text-left">
-          <h2 className="font-serif text-[36px] font-normal text-[#212121] sm:text-[48px]">
+          <h2 className="font-serif text-[2.25rem] font-normal text-[#212121] sm:text-[3rem]">
             {stripHtml(title)}
           </h2>
         </div>

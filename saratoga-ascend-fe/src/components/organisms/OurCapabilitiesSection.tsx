@@ -258,8 +258,8 @@ export function OurCapabilitiesSection({
   return (
     <section
       aria-label={title || highlightTitle || 'Our Capabilities'}
-      /* Figma: width: 1920px; height: 722px; background: #F9F9F9; */
-      className="relative w-full max-w-[1920px] mx-auto min-h-[722px] bg-[#F9F9F9] py-[60px] lg:py-[80px] overflow-hidden flex flex-col justify-center"
+      /* Responsive fluid container */
+      className="relative w-full max-w-home mx-auto min-h-[42rem] lg:min-h-[45.125rem] bg-[#F9F9F9] py-12 lg:py-16 overflow-hidden flex flex-col justify-center"
     >
       {/* Background Graphic Blueprint / Grid Overlay (Figma Group 2085665682) */}
       <div
@@ -273,28 +273,28 @@ export function OurCapabilitiesSection({
         aria-hidden="true"
       />
 
-      <div className="relative z-10 w-full flex flex-col lg:flex-row items-start justify-between gap-12 lg:gap-8">
+      <div className="relative z-10 w-full flex flex-col lg:flex-row items-start justify-between gap-10 lg:gap-6">
         
-        {/* Left Column: Title & Description (Figma Group 2085665668: width: 872px, left: 120px, top: 135px) */}
-        <div className="w-full lg:w-[45%] xl:w-[872px] shrink-0 px-6 sm:px-10 lg:pl-[120px] lg:pr-6 flex flex-col justify-center">
-          {/* Main Title: DM Serif Text, 72px, line-height: 86px (120%), color: #0A0A0A */}
-          <h2 className="font-['DM_Serif_Text'] text-[36px] sm:text-[50px] lg:text-[72px] leading-[115%] lg:leading-[86px] text-[#0A0A0A] font-normal mb-6 lg:mb-8">
+        {/* Left Column: Title & Description */}
+        <div className="w-full lg:w-[45%] xl:w-[50rem] shrink-0 px-6 sm:px-10 lg:pl-page lg:pr-6 flex flex-col justify-center">
+          {/* Main Title: DM Serif Text */}
+          <h2 className="font-['DM_Serif_Text'] text-[clamp(2.25rem,1.8rem+1.8vw,4.5rem)] leading-[1.18] text-[#0A0A0A] font-normal mb-5 lg:mb-7">
             {renderTitle()}
           </h2>
 
-          {/* Subtitle Description: Google Sans Flex, 26px, line-height: 36px (138%), color: #475569 */}
+          {/* Subtitle Description */}
           {description && (
-            <p className="font-['Google_Sans_Flex'] text-[18px] sm:text-[22px] lg:text-[26px] leading-[28px] sm:leading-[32px] lg:leading-[36px] text-[#475569] font-normal max-w-[711px]">
+            <p className="font-['Google_Sans_Flex'] text-[clamp(1.125rem,1rem+0.4vw,1.625rem)] leading-[1.38] text-[#475569] font-normal max-w-[44.4375rem]">
               {stripHtml(description)}
             </p>
           )}
         </div>
 
-        {/* Right Column: Carousel Frame (Figma Frame 2147226442: width: 1032px, height: 474px) */}
+        {/* Right Column: Carousel Frame */}
         <div className="w-full lg:w-[55%] xl:flex-1 min-w-0 flex flex-col">
           <div
             ref={scrollContainerRef}
-            className="flex flex-row gap-[20px] overflow-x-auto scroll-smooth px-6 pt-2 pb-8 scrollbar-none sm:px-10 lg:pl-0 lg:pr-[120px]"
+            className="flex flex-row gap-5 overflow-x-auto scroll-smooth px-6 pt-2 pb-8 scrollbar-none sm:px-10 lg:pl-0 lg:pr-page"
             style={{ scrollSnapType: 'x mandatory' }}
           >
             {cards.map((card, index) => {
@@ -303,48 +303,41 @@ export function OurCapabilitiesSection({
               const isCardHovered = hoveredIndex === index;
 
               return (
-                /*
-                  Figma 2231:8768 — Default 2231:8769 → Variant2 2231:8797
-                  Smart animate 400ms ease-out:
-                  1) Blue plate (40099) +10px / +10px
-                  2) #D5E7F7 wash (40133) expands 72×72@icon → full face, opacity 0→1
-                  3) Icon badge #E4EBF1 → #FFFFFF
-                */
                 <div
                   key={card.id ?? `capability-card-${index}`}
                   onMouseEnter={() => setHoveredIndex(index)}
                   onMouseLeave={() => setHoveredIndex(null)}
                   style={{ scrollSnapAlign: 'start' }}
-                  className="group relative box-border w-[300px] shrink-0 cursor-pointer select-none sm:w-[380px] md:h-[456px] md:w-[454px] min-h-[420px]"
+                  className="group relative box-border w-[18.75rem] shrink-0 cursor-pointer select-none sm:w-[22rem] md:h-[28.5rem] md:w-[27.5rem] min-h-[25rem]"
                 >
                   {/* Rectangle 40099 — sky-blue offset plate */}
                   <div
                     aria-hidden="true"
-                    className={`pointer-events-none absolute top-0 left-0 z-0 h-[calc(100%-10px)] w-[calc(100%-10px)] rounded-tr-[66.6px] border-[1.11px] border-[#2B88D9] shadow-[0px_0px_16.65px_rgba(0,0,0,0.09)] transition-transform duration-[400ms] ease-out motion-reduce:transition-none md:h-[436px] md:w-[434px] ${
-                      isCardHovered ? 'translate-x-[10px] translate-y-[10px]' : 'translate-x-0 translate-y-0'
+                    className={`pointer-events-none absolute top-0 left-0 z-0 h-[calc(100%-0.625rem)] w-[calc(100%-0.625rem)] rounded-tr-[4.1625rem] border-[1.11px] border-[#2B88D9] shadow-[0px_0px_16.65px_rgba(0,0,0,0.09)] transition-transform duration-[400ms] ease-out motion-reduce:transition-none md:h-[27.25rem] md:w-[26.25rem] ${
+                      isCardHovered ? 'translate-x-[0.625rem] translate-y-[0.625rem]' : 'translate-x-0 translate-y-0'
                     }`}
                   />
 
                   {/* Rectangle 40098 — white face */}
-                  <div className="relative z-10 flex h-[calc(100%-10px)] min-h-[400px] w-[calc(100%-10px)] flex-col items-center justify-between overflow-hidden rounded-tr-[66.6px] border-[1.11px] border-[#CFCFCF] bg-white p-8 text-center shadow-[0px_0px_16.65px_rgba(0,0,0,0.09)] md:h-[436px] md:min-h-0 md:w-[434px] md:p-10">
-                    {/* Rectangle 40133 — expands from 72×72@icon → full face (Smart Animate) */}
+                  <div className="relative z-10 flex h-[calc(100%-0.625rem)] min-h-[24rem] w-[calc(100%-0.625rem)] flex-col items-center justify-between overflow-hidden rounded-tr-[4.1625rem] border-[1.11px] border-[#CFCFCF] bg-white p-7 text-center shadow-[0px_0px_16.65px_rgba(0,0,0,0.09)] md:h-[27.25rem] md:min-h-0 md:w-[26.25rem] md:p-8">
+                    {/* Rectangle 40133 — expands from 72×72@icon → full face */}
                     <div
                       aria-hidden="true"
                       className={`pointer-events-none absolute bg-[#D5E7F7] transition-[top,left,width,height,border-radius,opacity] duration-[400ms] ease-out motion-reduce:transition-none ${
                         isCardHovered
-                          ? 'top-0 left-0 h-full w-full rounded-tr-[66.6px] opacity-100'
-                          : 'top-[54px] left-[calc(50%-36px)] h-[72px] w-[72px] rounded-[15px] opacity-0'
+                          ? 'top-0 left-0 h-full w-full rounded-tr-[4.1625rem] opacity-100'
+                          : 'top-[3.375rem] left-[calc(50%-2.25rem)] h-[4.5rem] w-[4.5rem] rounded-[0.9375rem] opacity-0'
                       }`}
                     />
 
-                    {/* Icon badge: Default #E4EBF1 → Variant2 #FFFFFF */}
+                    {/* Icon badge */}
                     <div
-                      className={`relative z-10 mb-6 flex size-16 shrink-0 items-center justify-center rounded-[15px] transition-colors duration-[400ms] ease-out motion-reduce:transition-none md:size-[72px] ${
+                      className={`relative z-10 mb-5 flex size-14 shrink-0 items-center justify-center rounded-[0.9375rem] transition-colors duration-[400ms] ease-out motion-reduce:transition-none md:size-[4.5rem] ${
                         isCardHovered ? 'bg-white' : 'bg-[#E4EBF1]'
                       }`}
                     >
                       {iconUrl ? (
-                        <div className="relative size-9 md:size-10">
+                        <div className="relative size-8 md:size-9">
                           <Image
                             src={normalizeImageSrc(iconUrl)}
                             alt={stripHtml(card.title)}
@@ -354,16 +347,16 @@ export function OurCapabilitiesSection({
                           />
                         </div>
                       ) : (
-                        <CardIcon className="size-8 text-[#2B88D9] md:size-9" />
+                        <CardIcon className="size-7 text-[#2B88D9] md:size-8" />
                       )}
                     </div>
 
                     <div className="relative z-10 flex flex-1 flex-col justify-center">
-                      <h3 className="mb-3 font-['DM_Serif_Text'] text-[22px] leading-[30px] font-normal text-[#2B2B2B] sm:text-[25px] md:mb-4 md:text-[28px] md:leading-[38px]">
+                      <h3 className="mb-2.5 font-['DM_Serif_Text'] text-[1.375rem] leading-[1.3] font-normal text-[#2B2B2B] sm:text-[1.5rem] md:mb-3.5 md:text-[1.75rem] md:leading-[1.35]">
                         <span dangerouslySetInnerHTML={{ __html: cleanHeadingHtml(card.title) }} />
                       </h3>
 
-                      <p className="line-clamp-4 min-w-0 break-words font-['Google_Sans_Flex'] text-[15px] leading-[22px] font-normal text-[#212121] sm:text-[17px] sm:leading-[25px] md:text-[20px] md:leading-[28px]">
+                      <p className="line-clamp-4 min-w-0 break-words font-['Google_Sans_Flex'] text-[0.95rem] leading-[1.4] font-normal text-[#212121] sm:text-[1.05rem] md:text-[1.2rem] md:leading-[1.4]">
                         {stripHtml(card.description)}
                       </p>
                     </div>
@@ -373,38 +366,36 @@ export function OurCapabilitiesSection({
             })}
           </div>
 
-          {/* Bottom Carousel Controls: Progress Track (Group 2085665683) & Navigation Buttons (Group 2085665688) */}
-          <div className="mt-8 px-6 sm:px-10 lg:pl-0 lg:pr-[120px] flex items-center justify-between gap-6">
+          {/* Bottom Carousel Controls: Progress Track & Navigation Buttons */}
+          <div className="mt-6 px-6 sm:px-10 lg:pl-0 lg:pr-page flex items-center justify-between gap-6">
             
-            {/* Scroll Progress Bar (Figma: width: 659px, height: 6px, background: #D9D9D9) */}
-            <div className="flex-1 max-w-[659px] h-[6px] bg-[#D9D9D9] rounded-full overflow-hidden relative">
-              {/* Active Progress Bar (Figma Rectangle 40135: width: 176px, background: #2B88D9) */}
+            {/* Scroll Progress Bar */}
+            <div className="flex-1 max-w-[41.1875rem] h-[0.375rem] bg-[#D9D9D9] rounded-full overflow-hidden relative">
               <div
                 className="h-full bg-[#2B88D9] rounded-full transition-all duration-200"
                 style={{
-                  width: '26.7%', // 176px / 659px = 26.7%
+                  width: '26.7%',
                   transform: `translateX(${scrollProgress * (659 - 176) * (100 / 176)}%)`,
                 }}
               />
             </div>
 
-            {/* Circular Navigation Buttons: Group 2085665688 (width: 152px, height: 66px) */}
-            <div className="flex items-center gap-[20px] shrink-0">
-              {/* Left Arrow Button */}
+            {/* Circular Navigation Buttons */}
+            <div className="flex items-center gap-4 shrink-0">
               <button
                 type="button"
                 onClick={() => handleScroll('left')}
                 disabled={!canScrollLeft}
                 aria-label="Previous capability"
-                className={`flex items-center justify-center w-[54px] h-[54px] md:w-[66px] md:h-[66px] rounded-full border-[1.375px] border-[#000000] transition-all duration-200 shadow-[0px_1.375px_2.75px_rgba(16,24,40,0.05)] ${
+                className={`flex items-center justify-center size-[3.375rem] md:size-[3.875rem] rounded-full border-[1.375px] border-[#000000] transition-all duration-200 shadow-sm ${
                   canScrollLeft
                     ? 'bg-white hover:bg-[#F3F4F6] active:scale-95 text-[#000000] cursor-pointer'
                     : 'bg-white/60 opacity-40 cursor-not-allowed text-[#000000]'
                 }`}
               >
                 <svg
-                  width="33"
-                  height="33"
+                  width="28"
+                  height="28"
                   viewBox="0 0 33 33"
                   fill="none"
                   stroke="currentColor"
@@ -416,21 +407,20 @@ export function OurCapabilitiesSection({
                 </svg>
               </button>
 
-              {/* Right Arrow Button */}
               <button
                 type="button"
                 onClick={() => handleScroll('right')}
                 disabled={!canScrollRight}
                 aria-label="Next capability"
-                className={`flex items-center justify-center w-[54px] h-[54px] md:w-[66px] md:h-[66px] rounded-full border-[1.375px] border-[#000000] transition-all duration-200 shadow-[0px_1.375px_2.75px_rgba(16,24,40,0.05)] ${
+                className={`flex items-center justify-center size-[3.375rem] md:size-[3.875rem] rounded-full border-[1.375px] border-[#000000] transition-all duration-200 shadow-sm ${
                   canScrollRight
                     ? 'bg-white hover:bg-[#F3F4F6] active:scale-95 text-[#000000] cursor-pointer'
                     : 'bg-white/60 opacity-40 cursor-not-allowed text-[#000000]'
                 }`}
               >
                 <svg
-                  width="33"
-                  height="33"
+                  width="28"
+                  height="28"
                   viewBox="0 0 33 33"
                   fill="none"
                   stroke="currentColor"

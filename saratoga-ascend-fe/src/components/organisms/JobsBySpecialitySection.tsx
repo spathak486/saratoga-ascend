@@ -220,7 +220,7 @@ export const JobsBySpecialitySection: React.FC<JobsBySpecialitySectionProps> = (
   return (
     <section
       aria-label="Jobs by Speciality"
-      className="relative w-full overflow-hidden py-10 lg:py-[40px]"
+      className="relative w-full overflow-hidden py-10 lg:py-[2.5rem]"
       style={{
         backgroundImage: 'linear-gradient(142.22deg, rgb(248, 250, 252) 0%, rgb(241, 245, 249) 100%)',
       }}
@@ -244,11 +244,11 @@ export const JobsBySpecialitySection: React.FC<JobsBySpecialitySectionProps> = (
         )}
 
         {/* Frame 1899:2260: Main Area (gap: 40px) */}
-        <div className="flex w-full flex-col gap-[40px]">
+        <div className="flex w-full flex-col gap-[2.5rem]">
           {/* Top Big Feature Card (Figma 1899:2261: 1680px x 700px, rounded: 12px, border: 1px #C6C6C6) */}
           <article className="relative w-full overflow-hidden rounded-[0.75rem] border border-[#C6C6C6] bg-[#002845] min-h-[32rem] lg:h-[43.75rem] shadow-sm select-none">
             {/* Background Graphic / Texture from Figma node 1899:2261 */}
-            <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden rounded-[12px]">
+            <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden rounded-[0.75rem]">
               <Image
                 src={bannerSrc}
                 alt=""
@@ -359,7 +359,7 @@ export const JobsBySpecialitySection: React.FC<JobsBySpecialitySectionProps> = (
                   {currentJobs.map((job, idx) => (
                     <div
                       key={`slide-${safeIndex}-job-${job.documentId || job.id || idx}`}
-                      className={`${CAROUSEL_SLIDE_CLASS} w-[min(300px,85%)] shrink-0 sm:w-[350px] lg:w-[calc((100cqi-4.5rem)/4)] lg:max-w-[402px]`}
+                      className={`${CAROUSEL_SLIDE_CLASS} w-[min(18.75rem,85%)] shrink-0 sm:w-[21.875rem] lg:w-[calc((100cqi-4.5rem)/4)] lg:max-w-[25.125rem]`}
                     >
                       <StaffingSlideCard
                         title={job.title}

@@ -119,7 +119,7 @@ export const ContactInquirySection: React.FC<ContactInquirySectionProps> = ({
               return (
                 <li
                   key={detail.label}
-                  className="flex items-center gap-5 rounded-[15.5px] border border-[#E0E0E0] bg-[#E4EBF1]/50 px-6 py-4 shadow-[0_0_15px_rgba(0,0,0,0.09)] transition-transform duration-200 hover:shadow-md"
+                  className="flex items-center gap-5 rounded-[0.9688rem] border border-[#E0E0E0] bg-[#E4EBF1]/50 px-6 py-4 shadow-[0_0_15px_rgba(0,0,0,0.09)] transition-transform duration-200 hover:shadow-md"
                 >
                   <div className="relative flex size-14 shrink-0 items-center justify-center">
                     <img
@@ -151,7 +151,7 @@ export const ContactInquirySection: React.FC<ContactInquirySectionProps> = ({
           {statementHref ? (
             <a
               href={statementHref}
-              className="inline-flex min-h-[3.75rem] w-full max-w-[44rem] cursor-pointer items-center justify-center gap-3 rounded-[8px] bg-cta-gradient px-6 py-3 text-center font-sans text-[1.125rem] font-bold text-white uppercase shadow-button transition-opacity duration-200 hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-navy"
+              className="inline-flex min-h-[3.75rem] w-full max-w-[44rem] cursor-pointer items-center justify-center gap-3 rounded-[0.5rem] bg-cta-gradient px-6 py-3 text-center font-sans text-[1.125rem] font-bold text-white uppercase shadow-button transition-opacity duration-200 hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-navy"
             >
               {statementLabel}
               <ArrowUpRightIcon className="size-5 shrink-0" />
@@ -159,7 +159,7 @@ export const ContactInquirySection: React.FC<ContactInquirySectionProps> = ({
           ) : (
             <button
               type="button"
-              className="inline-flex min-h-[3.75rem] w-full max-w-[44rem] cursor-pointer items-center justify-center gap-3 rounded-[8px] bg-cta-gradient px-6 py-3 text-center font-sans text-[1.125rem] font-bold text-white uppercase shadow-button transition-opacity duration-200 hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-navy"
+              className="inline-flex min-h-[3.75rem] w-full max-w-[44rem] cursor-pointer items-center justify-center gap-3 rounded-[0.5rem] bg-cta-gradient px-6 py-3 text-center font-sans text-[1.125rem] font-bold text-white uppercase shadow-button transition-opacity duration-200 hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-navy"
             >
               {statementLabel}
               <ArrowUpRightIcon className="size-5 shrink-0" />

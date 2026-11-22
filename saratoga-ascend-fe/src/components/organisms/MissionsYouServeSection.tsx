@@ -192,7 +192,7 @@ export function MissionsYouServeSection({
       */}
       <div className="relative mx-auto w-full max-w-home overflow-x-clip py-10 xl:py-20">
         <div
-          className="pointer-events-none absolute top-20 right-[-8.1875rem] hidden h-[39.3125rem] w-[49.6875rem] rounded-[42.667px] border-[1.5px] border-brand-red xl:block"
+          className="pointer-events-none absolute top-20 right-[-8.1875rem] hidden h-[39.3125rem] w-[49.6875rem] rounded-[2.6667rem] border-[1.5px] border-brand-red xl:block"
           aria-hidden="true"
         />
 

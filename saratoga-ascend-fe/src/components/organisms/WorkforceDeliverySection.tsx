@@ -163,17 +163,17 @@ function StepCopy({
   description: string;
 }) {
   return (
-    <div className="flex w-full min-w-0 flex-col items-stretch gap-3 md:flex-row md:gap-4 xl:w-auto xl:gap-[23.8px]">
-      <div className="flex w-full items-center justify-center rounded-full border border-[#212121] bg-[#2B88D9] p-[10px] md:w-16 md:shrink-0 md:self-stretch md:p-0 xl:w-[clamp(3.5rem,4.4vw,5.288rem)] xl:rounded-[42.3px] xl:border-[1.322px]">
+    <div className="flex w-full min-w-0 flex-col items-stretch gap-3 md:flex-row md:gap-4 xl:w-auto xl:gap-[1.4875rem]">
+      <div className="flex w-full items-center justify-center rounded-full border border-[#212121] bg-[#2B88D9] p-[0.625rem] md:w-16 md:shrink-0 md:self-stretch md:p-0 xl:w-[clamp(3.5rem,4.4vw,5.288rem)] xl:rounded-[2.6437rem] xl:border-[1.322px]">
         <span className="font-serif text-[1.75rem] font-normal leading-none text-white xl:text-[clamp(1.75rem,2.3vw,2.75rem)]">
           {stepNum}
         </span>
       </div>
-      <div className="flex min-w-0 flex-1 flex-col justify-center gap-3 xl:w-[min(42.94rem,42vw)] xl:flex-none xl:gap-[23.8px]">
+      <div className="flex min-w-0 flex-1 flex-col justify-center gap-3 xl:w-[min(42.94rem,42vw)] xl:flex-none xl:gap-[1.4875rem]">
         <h3 className="font-serif text-[clamp(1.5rem,1.1rem+1vw,2.75rem)] font-normal leading-tight text-[#212121] xl:text-[clamp(1.75rem,2.3vw,2.75rem)] xl:leading-[1.36]">
           {stripHtml(title)}
         </h3>
-        <div className="flex min-h-[7.5rem] min-w-0 items-center overflow-hidden rounded-[1.75rem] border border-[#2B88D9] bg-[#E4EBF1] px-5 py-4 xl:min-h-[clamp(7.5rem,8.7vw,10.41rem)] xl:rounded-[42.3px] xl:border-[1.058px] xl:px-[clamp(1.25rem,1.65vw,1.983rem)] xl:py-[clamp(0.75rem,0.83vw,0.99rem)]">
+        <div className="flex min-h-[7.5rem] min-w-0 items-center overflow-hidden rounded-[1.75rem] border border-[#2B88D9] bg-[#E4EBF1] px-5 py-4 xl:min-h-[clamp(7.5rem,8.7vw,10.41rem)] xl:rounded-[2.6437rem] xl:border-[1.058px] xl:px-[clamp(1.25rem,1.65vw,1.983rem)] xl:py-[clamp(0.75rem,0.83vw,0.99rem)]">
           <p className="line-clamp-4 min-w-0 break-words font-sans text-base font-normal leading-snug text-black xl:text-[clamp(1.05rem,1.46vw,1.75rem)] xl:leading-[1.6]">
             {stripHtml(description)}
           </p>
@@ -256,10 +256,10 @@ export function WorkforceDeliverySection({
   return (
     <section
       aria-label={title || 'Workforce delivery built on accountability.'}
-      className="relative mx-auto w-full max-w-[1920px] bg-white py-12 xl:py-[80px] px-page overflow-hidden max-sm:px-6!"
+      className="relative mx-auto w-full max-w-[120rem] bg-white py-12 xl:py-[5rem] px-page overflow-hidden max-sm:px-6!"
     >
       {/* Header Container (Group 2085665728: fluid clamp matching standard design system) */}
-      <div className="mb-10 w-full max-w-[1354px] xl:mb-[60px]">
+      <div className="mb-10 w-full max-w-[84.625rem] xl:mb-[3.75rem]">
         <h2
           className="font-serif text-[clamp(2.25rem,1.5rem+2.6vw,4.5rem)] leading-[1.15] font-normal tracking-tight"
           style={{ fontFamily: "'DM Serif Text', serif" }}
@@ -269,7 +269,7 @@ export function WorkforceDeliverySection({
       </div>
 
       <div
-        className="relative mx-auto flex w-full max-w-[1528px] flex-col gap-8 xl:gap-3"
+        className="relative mx-auto flex w-full max-w-[95.5rem] flex-col gap-8 xl:gap-3"
         style={{ '--delivery-photo': 'clamp(16rem, 26.3vw, 31.563rem)' } as React.CSSProperties}
       >
         {displayCards.map((card, index) => {
