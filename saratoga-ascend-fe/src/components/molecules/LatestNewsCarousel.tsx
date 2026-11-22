@@ -27,25 +27,27 @@ const ARROW_HOVER =
   'hover:border-transparent hover:text-white hover:[background-image:linear-gradient(91.647deg,var(--color-brand-cta-from)_0.475%,var(--color-brand-cta-to)_102.45%)] focus-visible:border-transparent focus-visible:text-white focus-visible:[background-image:linear-gradient(91.647deg,var(--color-brand-cta-from)_0.475%,var(--color-brand-cta-to)_102.45%)]';
 
 const ARROW_BUTTON =
-  `absolute top-1/2 z-10 flex size-12 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full border border-ink bg-white text-ink shadow-button transition-colors duration-300 ease-out md:size-14 ${ARROW_HOVER} focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white motion-reduce:transition-none`;
+  `absolute top-1/2 z-20 flex size-11 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full border border-white/60 bg-white/80 shadow-md backdrop-blur-md transition-all duration-200 hover:scale-105 active:scale-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white md:size-12`;
 
-function ArrowGlyph({ direction }: { direction: 'prev' | 'next' }) {
+/**
+ * Figma 1452:8156 / 1452:11211:
+ * Circular glass button (size 44px on mobile, 48px on tablet) with soft border #C6C6C6,
+ * backdrop blur, and smooth active/hover states.
+ */
+function ArrowGlyph({ direction, tone = 'default' }: { direction: 'prev' | 'next'; tone?: 'blue' | 'red' | 'default' }) {
+  const fillColor = tone === 'red' ? '#F01424' : tone === 'blue' ? '#2A91DC' : 'currentColor';
   return (
     <svg
-      width="14"
-      height="8"
-      viewBox="0 0 24.2086 13.8334"
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
       fill="none"
       aria-hidden="true"
-      focusable="false"
-      className={direction === 'prev' ? 'rotate-90' : '-rotate-90'}
+      className={`shrink-0 transition-transform duration-200 ${direction === 'prev' ? '-rotate-90' : 'rotate-90'}`}
     >
       <path
-        d="M22.4793 1.72936C22.4793 1.72936 14.8382 12.1043 12.1042 12.1043C9.37019 12.1043 1.72928 1.72928 1.72928 1.72928"
-        stroke="currentColor"
-        strokeWidth="3.45833"
-        strokeLinecap="round"
-        strokeLinejoin="round"
+        d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"
+        fill={fillColor}
       />
     </svg>
   );

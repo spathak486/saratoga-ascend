@@ -100,19 +100,19 @@ export const LatestNewsSection = async ({
       className="bg-latest-news relative overflow-hidden"
     >
       {/* Desktop padding/gaps from Figma 2243:3792 — 40px top, 40px header→cards, ~80px bottom */}
-      <Container className="pt-10 pb-20 max-sm:px-5! max-xl:py-10! sm:max-xl:px-[var(--spacing-gutter)]! md:px-8 md:py-12">
-        <div className="flex flex-col items-start gap-3">
+      <Container className="pt-10 pb-[79px] max-sm:px-5! max-xl:py-10! sm:max-xl:px-[var(--spacing-gutter)]! md:px-8 md:py-12">
+        <div className="flex flex-col items-start gap-3 xl:gap-[12px]">
           <Heading
             id="latest-news-heading"
             level={2}
             size="section"
             tone="onDark"
-            className="text-left text-[clamp(32px,4vw,72px)] leading-[1.2] font-normal text-white"
+            className="text-left text-[clamp(2rem,1.3932rem+2.589vw,4.5rem)] font-normal leading-[1.2] text-white tracking-normal" style={{ fontFamily: "'DM Serif Text', serif" }}
           >
             {stripHtml(title)}
           </Heading>
           {subTitle && (
-            <p className="font-sans text-left text-[clamp(16px,1.8vw,30px)] leading-6 text-white md:leading-7 xl:leading-[40px]">
+            <p className="font-sans text-left text-[clamp(1rem,0.85rem+0.6vw,1.875rem)] font-normal leading-[1.33] text-white xl:leading-[40px]" style={{ fontFamily: "'Google Sans Flex', sans-serif" }}>
               {stripHtml(subTitle)}
             </p>
           )}

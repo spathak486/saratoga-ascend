@@ -665,6 +665,7 @@ export const BLOG_CTA_CARD_REFERENCE_FIELDS = `
   __typename
   ... on ComponentReferencesBlogCtaCard {
     id
+    ctaVariant: variant
     blogCta {
       documentId
       referenceTitle
@@ -701,6 +702,89 @@ export const AUTHOR_CARD_REFERENCE_FIELDS = `
   }
 `;
 
+export const RELATED_TOPICS_REFERENCE_FIELDS = `
+  __typename
+  ... on ComponentReferencesRelatedTopics {
+    id
+    title
+    topics {
+      documentId
+      name
+      slug
+      link {
+        label
+        href
+        target
+        isExternal
+      }
+    }
+  }
+`;
+
+export const TRENDING_POSTS_REFERENCE_FIELDS = `
+  __typename
+  ... on ComponentReferencesTrendingPosts {
+    id
+    title
+    blogs {
+      documentId
+      title
+      slug
+      readTime
+      articleDate
+      image { ${IMAGE_FIELDS} }
+    }
+    newsArticles {
+      documentId
+      title
+      slug
+      readTime
+      articleDate
+      image { ${IMAGE_FIELDS} }
+    }
+    caseStudies {
+      documentId
+      title
+      slug
+      readTime
+      articleDate
+      image { ${IMAGE_FIELDS} }
+    }
+  }
+`;
+
+export const RELATED_POSTS_CAROUSEL_REFERENCE_FIELDS = `
+  __typename
+  ... on ComponentReferencesRelatedPostsCarousel {
+    id
+    title
+    blogs {
+      documentId
+      title
+      slug
+      readTime
+      articleDate
+      image { ${IMAGE_FIELDS} }
+    }
+    newsArticles {
+      documentId
+      title
+      slug
+      readTime
+      articleDate
+      image { ${IMAGE_FIELDS} }
+    }
+    caseStudies {
+      documentId
+      title
+      slug
+      readTime
+      articleDate
+      image { ${IMAGE_FIELDS} }
+    }
+  }
+`;
+
 export const BLOG_SECTION_FRAGMENTS = [
   BANNER_REFERENCE_FIELDS,
   CTA_REFERENCE_FIELDS,
@@ -722,6 +806,9 @@ export const BLOG_SECTION_FRAGMENTS = [
   FEDERAL_ENVIRONMENTS_REFERENCE_FIELDS,
   BLOG_CTA_CARD_REFERENCE_FIELDS,
   AUTHOR_CARD_REFERENCE_FIELDS,
+  RELATED_TOPICS_REFERENCE_FIELDS,
+  TRENDING_POSTS_REFERENCE_FIELDS,
+  RELATED_POSTS_CAROUSEL_REFERENCE_FIELDS,
 ].join('\n');
 
 export const CONTACT_INQUIRY_REFERENCE_FIELDS = `
@@ -888,6 +975,33 @@ export const DIRECT_ACCESS_REFERENCE_FIELDS = `
   }
 `;
 
+
+export const PROCUREMENT_PATHWAYS_REFERENCE_FIELDS = `
+  __typename
+  ... on ComponentReferencesProcurementPathwaysReference {
+    referenceTitle
+    title
+    description
+    pathwayCards: cards {
+      id
+      cardTitle
+      cardSubtitle
+      description
+      cta { ${GENERAL_LINK_FIELDS} }
+      items {
+        id
+        title
+        contractNumber
+        subtitle
+        categoryLabel
+        categories
+        description
+        link { ${GENERAL_LINK_FIELDS} }
+      }
+    }
+  }
+`;
+
 export const PROCUREMENT_ACCESS_REFERENCE_FIELDS = `
   __typename
   ... on ComponentReferencesProcurementAccessReference {
@@ -1030,6 +1144,7 @@ export const PAGE_BASE_SECTION_FRAGMENTS = [
 // Dynamic-zone inline fragments supported by Page.Section
 
 export const COMMON_SECTION_FRAGMENTS = [
+  PROCUREMENT_PATHWAYS_REFERENCE_FIELDS,
   PAGE_BASE_SECTION_FRAGMENTS,
   MISSION_VISION_PROMISE_REFERENCE_FIELDS,
   BUILT_AROUND_MISSIONS_REFERENCE_FIELDS,
@@ -1132,7 +1247,7 @@ export const ARTICLE_FIELDS = `
   image { ${IMAGE_FIELDS} }
   seo { ${SEO_FIELDS} }
   Section {
-    ${PAGE_BASE_SECTION_FRAGMENTS}
+    ${BLOG_SECTION_FRAGMENTS}
   }
 `;
 

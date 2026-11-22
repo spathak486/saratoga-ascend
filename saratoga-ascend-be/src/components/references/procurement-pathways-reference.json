@@ -1,0 +1,33 @@
+{
+  "collectionName": "components_references_procurement_pathways_references",
+  "info": {
+    "displayName": "Procurement Pathways Reference",
+    "icon": "layer",
+    "description": "Federal procurement pathways aligned to agency requirements with multiple accordion cards"
+  },
+  "options": {},
+  "attributes": {
+    "referenceTitle": {
+      "type": "string"
+    },
+    "title": {
+      "type": "customField",
+      "customField": "plugin::ckeditor5.CKEditor",
+      "options": {
+        "preset": "defaultHtml"
+      }
+    },
+    "description": {
+      "type": "customField",
+      "customField": "plugin::ckeditor5.CKEditor",
+      "options": {
+        "preset": "defaultHtml"
+      }
+    },
+    "cards": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.procurement-pathway-card"
+    }
+  }
+}

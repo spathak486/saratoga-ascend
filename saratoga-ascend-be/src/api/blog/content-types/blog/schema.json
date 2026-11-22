@@ -94,7 +94,10 @@
         "references.federal-environments-reference",
         "references.insights-listing",
         "references.blog-cta-card",
-        "references.author-card"
+        "references.author-card",
+        "references.related-topics",
+        "references.trending-posts",
+        "references.related-posts-carousel"
       ]
     },
     "authorRelation": {

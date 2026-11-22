@@ -33,6 +33,7 @@ import type {
   DefenseReference,
   IntegratedCapabilitiesReference,
   ProcurementAccessReference,
+  ProcurementPathwaysReference,
   FederalEnvironmentsReference,
   TeamSectionReference,
   TimelineReference,
@@ -60,6 +61,7 @@ import {
   PastPerformanceSection,
   HappyClientsSection,
   LatestNewsSection,
+  RelatedPostsSection,
   LegalPolicySection,
   BlogListingSection,
   InsightsListingSection,
@@ -83,6 +85,7 @@ import {
   DefenseSection,
   IntegratedCapabilitiesSection,
   ProcurementAccessSection,
+  FederalProcurementPathwaysSection,
   FederalEnvironmentsSection,
   TeamSection,
   TimelineSection,
@@ -436,6 +439,26 @@ export const SECTION_REGISTRY: Record<
     );
   },
 
+  ComponentReferencesRelatedPostsCarousel: (section, index) => {
+    const relRef = section as any;
+    const items =
+      relRef.blogs?.length > 0
+        ? relRef.blogs
+        : relRef.newsArticles?.length > 0
+          ? relRef.newsArticles
+          : relRef.caseStudies?.length > 0
+            ? relRef.caseStudies
+            : [];
+    const type = relRef.blogs?.length > 0 ? 'blog' : relRef.newsArticles?.length > 0 ? 'news' : 'case-study';
+    return (
+      <RelatedPostsSection
+        key={`related-posts-${index}`}
+        title={relRef.title}
+        items={items}
+        type={type}
+      />
+    );
+  },
   ComponentReferencesLatestInsights: (section, index) => {
     const insightsRef = section as any;
     return (
@@ -769,6 +792,18 @@ ComponentReferencesFederalEnvironmentsReference: (section, index) => {
         description={da?.description ?? undefined}
         callout={da?.callout ?? undefined}
         cards={da?.cards as any}
+      />
+    );
+  },
+
+  ComponentReferencesProcurementPathwaysReference: (section, index) => {
+    const ppRef = section as any;
+    return (
+      <FederalProcurementPathwaysSection
+        key={'procurement-pathways-' + index}
+        title={ppRef?.title}
+        description={ppRef?.description}
+        cards={ppRef?.cards}
       />
     );
   },

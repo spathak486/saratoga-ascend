@@ -291,6 +291,15 @@ html {
   color-scheme: light;
 }
 
+/* 125% screen scaling (typically 1200px - 1600px viewport on 1080p/laptops):
+   Proportionally balances rem down to 87.5% (14px) so extensive content & headings
+   fit naturally without clipping or crowding cards */
+@media (min-width: 1200px) and (max-width: 1600px) {
+  html {
+    font-size: 87.5%;
+  }
+}
+
 body {
   background-color: var(--color-brand-surface);
   color: var(--color-brand-navy);
@@ -1294,4 +1303,19 @@ body {
     font-size: 1.375rem;
     line-height: 2rem;
   }
+}
+
+/* CKEditor inline & block rich content — preserves tags from Strapi (<p>, <h2>, <h3>) while cleanly matching container styling */
+.ck-inline-content > p,
+.ck-inline-content > h1,
+.ck-inline-content > h2,
+.ck-inline-content > h3,
+.ck-inline-content > h4,
+.ck-inline-content > h5,
+.ck-inline-content > h6 {
+  margin: 0;
+  font: inherit;
+  color: inherit;
+  line-height: inherit;
+  display: inline;
 }

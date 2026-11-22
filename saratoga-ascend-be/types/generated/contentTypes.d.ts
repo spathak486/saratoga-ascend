@@ -2269,6 +2269,32 @@ export interface PluginUsersPermissionsUser
   };
 }
 
+
+export interface ApiSiteSettingSiteSetting extends Struct.SingleTypeSchema {
+  collectionName: 'site_settings';
+  info: {
+    singularName: 'site-setting';
+    pluralName: 'site-settings';
+    displayName: 'Site Setting';
+    description: 'Global website settings including Robots.txt and SEO configuration';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    siteName: Schema.Attribute.String & Schema.Attribute.DefaultTo<'Saratoga Ascend'>;
+    siteUrl: Schema.Attribute.String & Schema.Attribute.DefaultTo<'https://saratoga-ascend.com'>;
+    allowRobotsIndex: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
+    robotsTxtCustom: Schema.Attribute.Text;
+    disallowedPaths: Schema.Attribute.Text & Schema.Attribute.DefaultTo<'/api/\n/_next/'>;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> & Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> & Schema.Attribute.Private;
+  };
+}
+
 declare module '@strapi/strapi' {
   export namespace Public {
     export interface ContentTypeSchemas {
@@ -2301,6 +2327,7 @@ declare module '@strapi/strapi' {
       'api::faq.faq': ApiFaqFaq;
       'api::footer.footer': ApiFooterFooter;
       'api::hero-banner.hero-banner': ApiHeroBannerHeroBanner;
+      'api::site-setting.site-setting': ApiSiteSettingSiteSetting;
       'api::mission-section.mission-section': ApiMissionSectionMissionSection;
       'api::mission-vision-promise-section.mission-vision-promise-section': ApiMissionVisionPromiseSectionMissionVisionPromiseSection;
       'api::news.news': ApiNewsNews;

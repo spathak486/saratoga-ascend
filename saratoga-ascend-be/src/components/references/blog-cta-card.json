@@ -11,6 +11,14 @@
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::blog-cta.blog-cta"
+    },
+    "variant": {
+      "type": "enumeration",
+      "enum": [
+        "default",
+        "left"
+      ],
+      "default": "default"
     }
   }
 }

@@ -1,0 +1,31 @@
+{
+  "collectionName": "components_references_related_posts_carousels",
+  "info": {
+    "displayName": "Related Posts Carousel",
+    "icon": "apps",
+    "description": "Related Posts Carousel slider for Blog, Case Study, and News detail pages"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "default": "Related Blog"
+    },
+    "blogs": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::blog.blog"
+    },
+    "newsArticles": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::news.news"
+    },
+    "caseStudies": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::case-study.case-study"
+    }
+  }
+}
+

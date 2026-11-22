@@ -835,6 +835,36 @@ export const IntegratedCapabilitiesReferenceSchema = z.object({
 
 export type IntegratedCapabilitiesReference = z.infer<typeof IntegratedCapabilitiesReferenceSchema>;
 
+
+export const ProcurementContractItemSchema = z.object({
+  title: z.string(),
+  contractNumber: z.string().nullable().optional(),
+  subtitle: z.string().nullable().optional(),
+  categoryLabel: z.string().nullable().optional(),
+  categories: z.string().nullable().optional(),
+  description: z.string().nullable().optional(),
+  link: GeneralLinkSchema.nullable().optional(),
+});
+export type ProcurementContractItem = z.infer<typeof ProcurementContractItemSchema>;
+
+export const ProcurementPathwayCardSchema = z.object({
+  cardTitle: z.string().default('How buyers may engage'),
+  cardSubtitle: z.string().nullable().optional(),
+  description: z.string().nullable().optional(),
+  cta: GeneralLinkSchema.nullable().optional(),
+  items: z.array(ProcurementContractItemSchema).nullable().optional(),
+});
+export type ProcurementPathwayCard = z.infer<typeof ProcurementPathwayCardSchema>;
+
+export const ProcurementPathwaysReferenceSchema = z.object({
+  __typename: z.literal('ComponentReferencesProcurementPathwaysReference'),
+  referenceTitle: z.string().nullable().optional(),
+  title: z.string().nullable().optional(),
+  description: z.string().nullable().optional(),
+  cards: z.array(ProcurementPathwayCardSchema).nullable().optional(),
+});
+export type ProcurementPathwaysReference = z.infer<typeof ProcurementPathwaysReferenceSchema>;
+
 export const ProcurementAccessReferenceSchema = z.object({
   __typename: z.literal('ComponentReferencesProcurementAccessReference'),
   referenceTitle: z.string().nullable().optional(),
@@ -938,6 +968,7 @@ export const DynamicZoneSectionSchema = z.union([
   TimelineReferenceSchema,
   DirectAccessReferenceSchema,
   ProcurementAccessReferenceSchema,
+  ProcurementPathwaysReferenceSchema,
   IntegratedCapabilitiesReferenceSchema,
   DefenseReferenceSchema,
   ExploreEnvironmentsReferenceSchema,

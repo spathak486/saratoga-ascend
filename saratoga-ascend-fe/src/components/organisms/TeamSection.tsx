@@ -110,33 +110,33 @@ export const TeamSection: React.FC<TeamSectionProps> = ({
                     aria-hidden="true"
                   />
 
-                  {/* Card Content Overlay: Frame 2147226496 (height: 126px, bottom: 20px) */}
-                  <div className="absolute bottom-[20px] left-0 right-0 flex flex-col items-center text-center px-4 z-10">
-                    {/* Name: DM Serif Text, 24px, 120% */}
-                    <h3 className="font-serif font-normal text-[24px] leading-[29px] text-[#FFFFFF] mb-[2px] tracking-tight drop-shadow-sm">
+                  {/* Card Content Overlay: Frame 2147226496 (width: 200px, height: 126px, top: 324px / bottom: 19px) */}
+                  <div className="absolute top-[324px] left-[60px] w-[200px] h-[126px] flex flex-col items-center text-center gap-[5px] z-10 select-none">
+                    {/* Name: DM Serif Text, 24px, line-height 120% (29px), color: #FFFFFF */}
+                    <h3 className="font-serif font-normal text-[24px] leading-[1.2] text-[#FFFFFF] text-center whitespace-nowrap">
                       {member.name}
                     </h3>
 
-                    {/* Role: DM Serif Text, 18px, 120% */}
-                    <p className="font-serif font-normal text-[18px] leading-[22px] text-[#FFFFFF]/90 mb-[10px]">
+                    {/* Role: DM Serif Text, 18px, line-height 120% (22px), color: #FFFFFF */}
+                    <p className="font-serif font-normal text-[18px] leading-[1.2] text-[#FFFFFF] text-center">
                       {member.role}
                     </p>
 
-                    {/* Email: Google Sans Flex, 20px, lowercase */}
+                    {/* Email: Google Sans Flex, 20px, lowercase, line-height 24px */}
                     {member.email && (
                       <a
                         href={`mailto:${member.email}`}
-                        className="font-sans font-normal text-[18px] sm:text-[20px] leading-[24px] lowercase text-[#FFFFFF] hover:underline transition-colors block mb-[3px] truncate max-w-[280px]"
+                        className="font-sans font-normal text-[20px] leading-[24px] lowercase text-[#FFFFFF] hover:underline transition-colors text-center whitespace-nowrap"
                       >
                         {member.email}
                       </a>
                     )}
 
-                    {/* Phone: Google Sans Flex, 20px */}
+                    {/* Phone: Google Sans Flex, 20px, line-height 24px */}
                     {member.phone && (
                       <a
                         href={`tel:${member.phone.replace(/[^0-9+]/g, '')}`}
-                        className="font-sans font-normal text-[18px] sm:text-[20px] leading-[24px] text-[#FFFFFF] hover:underline transition-colors block"
+                        className="font-sans font-normal text-[20px] leading-[24px] text-[#FFFFFF] hover:underline transition-colors text-center whitespace-nowrap"
                       >
                         {member.phone}
                       </a>

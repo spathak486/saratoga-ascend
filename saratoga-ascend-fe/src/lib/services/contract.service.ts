@@ -61,7 +61,6 @@ export async function getContractBySlug(slug: string): Promise<ApiResult<Page>> 
   if (!entry) {
     return fail('NOT_FOUND', 404, `Contract not found: ${slug}`);
   }
-
   const parsed = PageSchema.safeParse(resolvePageNode(entry));
   if (!parsed.success) {
     if (process.env.NODE_ENV === 'development') {

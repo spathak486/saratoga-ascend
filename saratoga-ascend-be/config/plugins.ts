@@ -52,6 +52,10 @@ const config = ({ env }: Core.Config.Shared.ConfigParams): Core.Config.Plugin =>
       amountLimit: 100,
     },
   },
+
+  'strapi-5-sitemap-plugin': {
+    enabled: true,
+  },
 });
 
 export default config;

@@ -21,13 +21,14 @@ export async function generateStaticParams() {
   const pageSlugs = result.error ? [] : result.data;
 
   // Include solution & service (who-we-serve) slugs for static generation
-  const { getAllSolutionSlugs, getAllServiceSlugs, getAllContractSlugs, getAllBlogSlugs, getAllArticleSlugs } = await import('@/lib/services');
-  const [solutionResult, serviceResult, contractResult, blogResult, articleResult] = await Promise.all([
+  const { getAllSolutionSlugs, getAllServiceSlugs, getAllContractSlugs, getAllBlogSlugs, getAllArticleSlugs, getAllCaseStudySlugs } = await import('@/lib/services');
+  const [solutionResult, serviceResult, contractResult, blogResult, articleResult, caseStudyResult] = await Promise.all([
     getAllSolutionSlugs(),
     getAllServiceSlugs(),
     getAllContractSlugs(),
     getAllBlogSlugs(),
     getAllArticleSlugs(),
+    getAllCaseStudySlugs(),
   ]);
 
   const solutionSlugs = solutionResult.error ? [] : solutionResult.data;
@@ -35,8 +36,9 @@ export async function generateStaticParams() {
   const contractSlugs = contractResult.error ? [] : contractResult.data;
   const blogSlugs = blogResult.error ? [] : blogResult.data;
   const articleSlugs = articleResult.error ? [] : articleResult.data;
+  const caseStudySlugs = caseStudyResult.error ? [] : caseStudyResult.data;
 
-  const allSlugs = Array.from(new Set([...pageSlugs, ...solutionSlugs, ...serviceSlugs, ...contractSlugs, ...blogSlugs, ...articleSlugs]));
+  const allSlugs = Array.from(new Set([...pageSlugs, ...solutionSlugs, ...serviceSlugs, ...contractSlugs, ...blogSlugs, ...articleSlugs, ...caseStudySlugs]));
   return allSlugs.map((slug) => ({ slug: slug.split('/') }));
 }
 
@@ -61,6 +63,12 @@ export async function generateMetadata({ params }: DynamicPageProps): Promise<Me
     const { getArticleBySlug } = await import('@/lib/services');
     const newsResult = await getArticleBySlug(slugPath);
     if (newsResult.data) pageData = newsResult.data;
+  }
+
+  if (!pageData && !isReservedPage) {
+    const { getCaseStudyBySlug } = await import('@/lib/services');
+    const csResult = await getCaseStudyBySlug(slugPath);
+    if (csResult.data) pageData = csResult.data;
   }
 
   if (!pageData && !isReservedPage) {
@@ -150,6 +158,12 @@ export default async function DynamicPage({ params }: DynamicPageProps) {
     if (newsResult.data) {
       pageData = newsResult.data;
     }
+  }
+
+  if (!pageData && !isReservedPage) {
+    const { getCaseStudyBySlug } = await import('@/lib/services');
+    const csResult = await getCaseStudyBySlug(slugPath);
+    if (csResult.data) pageData = csResult.data;
   }
 
   if (!pageData && !isReservedPage) {
@@ -323,8 +337,32 @@ export default async function DynamicPage({ params }: DynamicPageProps) {
     const bannerSection = sections.find(
       (sec: any) => sec.__typename === 'ComponentReferencesBannerReference'
     );
+    // If variant is 'left', it goes to the left sidebar.
+    // If variant is 'default' (or any other), it stays in contentSections to be rendered in the body.
+    const leftCtaSection = sections.find(
+      (sec: any) =>
+        sec.__typename === 'ComponentReferencesBlogCtaCard' &&
+        (sec.ctaVariant === 'left' || sec.variant === 'left' || sec.blogCta?.variant === 'left')
+    );
+    const topicsSection = sections.find(
+      (sec: any) => sec.__typename === 'ComponentReferencesRelatedTopics'
+    );
+    const trendingSection = sections.find(
+      (sec: any) => sec.__typename === 'ComponentReferencesTrendingPosts'
+    );
+    const relatedCarouselSection = sections.find(
+      (sec: any) => sec.__typename === 'ComponentReferencesRelatedPostsCarousel'
+    );
     const contentSections = sections.filter(
-      (sec: any) => sec.__typename !== 'ComponentReferencesBannerReference'
+      (sec: any) =>
+        sec.__typename !== 'ComponentReferencesBannerReference' &&
+        !(
+          sec.__typename === 'ComponentReferencesBlogCtaCard' &&
+          (sec.ctaVariant === 'left' || sec.variant === 'left' || sec.blogCta?.variant === 'left')
+        ) &&
+        sec.__typename !== 'ComponentReferencesRelatedTopics' &&
+        sec.__typename !== 'ComponentReferencesTrendingPosts' &&
+        sec.__typename !== 'ComponentReferencesRelatedPostsCarousel'
     );
 
     const bannerNode = bannerSection
@@ -333,8 +371,68 @@ export default async function DynamicPage({ params }: DynamicPageProps) {
 
     // Collect headings from all content sections (LegalContent body, KeyTakeaways titles, etc.)
     const { scanLegalHeadings } = await import('@/lib/legalToc');
-    const { LegalToc } = await import('@/components/molecules');
+    const { LegalToc, BlogCtaCard, RelatedTopicsCard, TrendingSidebarSection } = await import('@/components/molecules');
+    const { RelatedPostsSection } = await import('@/components/organisms');
     const { Container } = await import('@/components/atoms');
+
+    
+    // Topics are 100% dynamic from BE:
+    // If topicsSection.topics exists, use them. If not, fallback to category/topic from CMS. No hardcoded static topics.
+    const currentCategoryName =
+      pageData.category?.name ||
+      pageData.topic ||
+      (Array.isArray(pageData.categories) ? pageData.categories[0]?.name : null);
+
+    const relatedTopicsList: Array<{ label: string; href?: string }> = [];
+    if (topicsSection?.topics && topicsSection.topics.length > 0) {
+      topicsSection.topics.forEach((top: any) => {
+        const label = top?.name || top?.label;
+        if (label) {
+          const href = top?.link?.href || (top?.slug ? (top.slug.startsWith("/") ? top.slug : `/insights?category=${encodeURIComponent(top.slug)}`) : (top?.href || `/insights?topic=${encodeURIComponent(label)}`));
+          relatedTopicsList.push({ label, href });
+        }
+      });
+    } else if (currentCategoryName) {
+      relatedTopicsList.push({
+        label: currentCategoryName,
+        href: `/insights?category=${encodeURIComponent(currentCategoryName)}`,
+      });
+    }
+
+    
+    const { getAllBlogs, getAllArticles, getAllCaseStudies } = await import('@/lib/services');
+    const [allBlogsRes, allArticlesRes, allCaseStudiesRes] = await Promise.all([
+      getAllBlogs(),
+      getAllArticles(),
+      getAllCaseStudies(),
+    ]);
+
+    const isNewsDetail = Boolean(slugPath.startsWith('news') || pageData.topic || pageData.categoryType === 'Newspaper');
+    const isCaseStudyDetail = Boolean(slugPath.startsWith('case-stud') || pageData.client || pageData.categoryType === 'Case Study');
+    const detailType: 'blog' | 'case-study' | 'news' = isNewsDetail
+      ? 'news'
+      : isCaseStudyDetail
+        ? 'case-study'
+        : 'blog';
+
+    const currentDocId = pageData.documentId || pageData.id;
+    const currentSlug = pageData.slug;
+
+    // Filter out the current item and get the top 2
+    let trendingItems: any[] = [];
+    if (detailType === 'news') {
+      trendingItems = (allArticlesRes.data ?? [])
+        .filter((item: any) => item.documentId !== currentDocId && item.slug !== currentSlug)
+        .slice(0, 2);
+    } else if (detailType === 'case-study') {
+      trendingItems = (allCaseStudiesRes.data ?? [])
+        .filter((item: any) => item.documentId !== currentDocId && item.slug !== currentSlug)
+        .slice(0, 2);
+    } else {
+      trendingItems = (allBlogsRes.data ?? [])
+        .filter((item: any) => item.documentId !== currentDocId && item.slug !== currentSlug)
+        .slice(0, 2);
+    }
 
     const allHeadings: Array<{ id: string; text: string; level: 2 | 3 }> = [];
     const usedIds = new Set<string>();
@@ -395,15 +493,41 @@ export default async function DynamicPage({ params }: DynamicPageProps) {
       );
     });
 
+    const hasTopics = Boolean(topicsSection) && relatedTopicsList.length > 0;
+    const hasSidebar = allHeadings.length > 0 || hasTopics || Boolean(trendingSection) || Boolean(leftCtaSection);
+
     return (
       <main id="main" className={`min-h-screen ${toneClass}`.trim()}>
         {bannerNode}
         {/* Figma 563:1296: 120px gutters (px-page), ~80px band above content, TOC 578 + ~48 gap + article 1054. Stack through tablet; 2-col from xl. */}
         <Container className="py-8 sm:py-10 xl:py-20">
-          {allHeadings.length > 0 ? (
+          {hasSidebar ? (
             <div className="grid items-start gap-8 sm:gap-10 xl:grid-cols-[minmax(16rem,36.125rem)_minmax(0,65.875rem)] xl:gap-12">
-              <aside className="xl:sticky xl:top-[calc(var(--spacing-utility-h)+var(--spacing-nav-h)+1.5rem)]">
-                <LegalToc headings={allHeadings} />
+              <aside className="flex flex-col gap-10 xl:sticky xl:top-[calc(var(--spacing-utility-h)+var(--spacing-nav-h)+1.5rem)]">
+                {allHeadings.length > 0 && <LegalToc headings={allHeadings} />}
+                {hasTopics && (
+                  <RelatedTopicsCard
+                    title={topicsSection.title || 'RELATED TOPICS'}
+                    topics={relatedTopicsList}
+                  />
+                )}
+                {trendingSection && (
+                  <TrendingSidebarSection
+                    title={trendingSection.title}
+                    items={trendingSection.blogs?.length || trendingSection.newsArticles?.length || trendingSection.caseStudies?.length ? (trendingSection.blogs || trendingSection.newsArticles || trendingSection.caseStudies) : trendingItems}
+                    type={detailType}
+                  />
+                )}
+                {leftCtaSection && (
+                  <BlogCtaCard
+                    variant="left"
+                    title={leftCtaSection.blogCta?.title || leftCtaSection.title}
+                    description={leftCtaSection.blogCta?.description || leftCtaSection.description}
+                    link={leftCtaSection.blogCta?.link || leftCtaSection.link}
+                    buttonText={leftCtaSection.blogCta?.buttonText || leftCtaSection.buttonText}
+                    buttonUrl={leftCtaSection.blogCta?.buttonUrl || leftCtaSection.buttonUrl}
+                  />
+                )}
               </aside>
               <article className="flex w-full min-w-0 flex-col gap-6 sm:gap-7 xl:gap-8">
                 {renderedContent}
@@ -415,6 +539,26 @@ export default async function DynamicPage({ params }: DynamicPageProps) {
             </article>
           )}
         </Container>
+        {relatedCarouselSection && (
+          <RelatedPostsSection
+            title={relatedCarouselSection.title}
+            items={
+              relatedCarouselSection.blogs?.length > 0
+                ? relatedCarouselSection.blogs
+                : relatedCarouselSection.newsArticles?.length > 0
+                  ? relatedCarouselSection.newsArticles
+                  : relatedCarouselSection.caseStudies?.length > 0
+                    ? relatedCarouselSection.caseStudies
+                    : (detailType === 'news'
+                        ? (allArticlesRes.data ?? []).filter((item: any) => item.documentId !== currentDocId && item.slug !== currentSlug)
+                        : detailType === 'case-study'
+                          ? (allCaseStudiesRes.data ?? []).filter((item: any) => item.documentId !== currentDocId && item.slug !== currentSlug)
+                          : (allBlogsRes.data ?? []).filter((item: any) => item.documentId !== currentDocId && item.slug !== currentSlug)
+                      )
+            }
+            type={detailType}
+          />
+        )}
       </main>
     );
   }

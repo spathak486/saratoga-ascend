@@ -1,0 +1,36 @@
+{
+  "collectionName": "components_shared_procurement_pathway_cards",
+  "info": {
+    "displayName": "Procurement Pathway Card",
+    "icon": "layer",
+    "description": "Accordion card for procurement pathway section with internal CTA, description, and timeline items"
+  },
+  "options": {},
+  "attributes": {
+    "cardTitle": {
+      "type": "string",
+      "required": true,
+      "default": "How buyers may engage"
+    },
+    "cardSubtitle": {
+      "type": "string"
+    },
+    "description": {
+      "type": "customField",
+      "customField": "plugin::ckeditor5.CKEditor",
+      "options": {
+        "preset": "defaultHtml"
+      }
+    },
+    "cta": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.general-link"
+    },
+    "items": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.procurement-contract-item"
+    }
+  }
+}

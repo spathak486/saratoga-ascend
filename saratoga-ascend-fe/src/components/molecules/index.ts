@@ -38,3 +38,7 @@ export * from './VehicleDetailPanel';
 export * from './PastPerformanceCard';
 export * from './BlogCtaCard';
 export * from './AuthorCard';
+
+export * from './RelatedTopicsCard';
+
+export * from './TrendingSidebarSection';

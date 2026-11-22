@@ -1,0 +1,41 @@
+{
+  "collectionName": "components_shared_procurement_contract_items",
+  "info": {
+    "displayName": "Procurement Contract Item",
+    "icon": "bulletList",
+    "description": "Timeline contract item inside a procurement pathway accordion card"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "contractNumber": {
+      "type": "string"
+    },
+    "subtitle": {
+      "type": "string"
+    },
+    "categoryLabel": {
+      "type": "string",
+      "default": "GSA Multiple Award Schedule (MAS) Category:"
+    },
+    "categories": {
+      "type": "customField",
+      "customField": "plugin::ckeditor5.CKEditor",
+      "options": {
+        "preset": "defaultHtml"
+      }
+    },
+    "description": {
+      "type": "text"
+    },
+    "link": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.general-link"
+    }
+  }
+}
+
