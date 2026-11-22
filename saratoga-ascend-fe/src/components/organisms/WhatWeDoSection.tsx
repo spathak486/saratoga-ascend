@@ -81,18 +81,19 @@ export const WhatWeDoSection: React.FC<WhatWeDoSectionProps> = ({
       aria-labelledby="what-we-do-heading"
       tone="surface"
       spacing="none"
-      className="overflow-hidden py-10"
+      className="py-10"
+      containerClassName="overflow-x-visible"
     >
       <div className="flex w-full flex-col gap-8 sm:gap-10">
         <div className="flex w-full flex-col items-start gap-6 xl:flex-row xl:items-center xl:justify-between">
           <div className="flex w-full max-w-[91.875rem] flex-col gap-3">
             <h2
               id="what-we-do-heading"
-              className="font-serif text-[clamp(2.25rem,1.5rem+2.6vw,4.5rem)] leading-[1.2] text-[#D31E2D]"
+              className="font-serif text-[clamp(2.25rem,1.5rem+2.6vw,4.5rem)] leading-[1.2] text-brand-cta-from"
             >
               {stripHtml(title)}
             </h2>
-            <p className="max-w-[65.0625rem] font-sans text-[clamp(1.25rem,0.95rem+1vw,1.875rem)] leading-[1.33] text-[#0A0A0A]">
+            <p className="max-w-[65.0625rem] font-sans text-[clamp(1.25rem,0.95rem+1vw,1.875rem)] leading-[1.33] text-ink">
               {stripHtml(description)}
             </p>
           </div>
@@ -101,9 +102,14 @@ export const WhatWeDoSection: React.FC<WhatWeDoSectionProps> = ({
           </CtaButton>
         </div>
 
+        {/*
+          Figma 1899:2175 — cards are 1119px in a 1680 content column and
+          overflow the right gutter so ~1.5 cards show (image + title peek).
+          Track width = content + right gutter; card = min(1119, 62.17% of that).
+        */}
         <div
           ref={scrollRef}
-          className="-mx-5 -my-5 flex snap-x snap-mandatory gap-[1.875rem] overflow-x-auto scroll-px-5 px-5 py-5 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          className="-my-5 flex w-full max-w-none snap-x snap-mandatory gap-[1.875rem] overflow-x-auto scroll-smooth py-5 motion-reduce:scroll-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden xl:w-[calc(100%+var(--spacing-gutter))] xl:pr-[var(--spacing-gutter)]"
         >
           {displayLines.map((line, idx) => {
             const currentSrc = line.imageSrc || photoSrc;
@@ -112,10 +118,10 @@ export const WhatWeDoSection: React.FC<WhatWeDoSectionProps> = ({
               <div
                 key={`${line.href || 'line'}-${idx}`}
                 data-what-we-do-card
-                className="flex w-full shrink-0 snap-start flex-col gap-6 rounded-[1.25rem] border-[1.5px] border-[#BDE4FF] bg-white p-6 shadow-[0px_0px_20px_rgba(0,0,0,0.08)] sm:p-8 xl:w-[min(69.9375rem,calc(100vw-3rem))] xl:flex-row xl:items-center xl:gap-12 2xl:w-[69.9375rem] 2xl:gap-[4.9375rem] xl:px-9 xl:py-9 2xl:px-[2.4375rem] 2xl:pt-[2.1875rem] 2xl:pb-7"
+                className="flex w-full shrink-0 snap-start flex-col gap-6 rounded-[1.25rem] border-[1.5px] border-[#BDE4FF] bg-white p-6 shadow-[0px_0px_20px_rgba(0,0,0,0.08)] sm:p-8 xl:min-h-[39.8125rem] xl:w-[min(69.9375rem,62.17%)] xl:flex-row xl:items-stretch xl:gap-[clamp(3rem,4.2vw,4.9375rem)] xl:px-[clamp(1.5rem,2.2vw,2.4375rem)] xl:pt-[clamp(1.5rem,2vw,2.1875rem)] xl:pb-7"
               >
-                <div className="flex w-full shrink-0 flex-col gap-3.5 sm:gap-[0.875rem] xl:w-[22rem] 2xl:w-[27.6875rem]">
-                  <div className="h-72 w-full overflow-hidden rounded-xl border border-[#BDE4FF] sm:h-96 xl:h-[28rem] 2xl:h-[31.625rem]">
+                <div className="flex w-full shrink-0 flex-col gap-[0.875rem] xl:w-[min(27.6875rem,39.6%)]">
+                  <div className="aspect-[443/506] w-full overflow-hidden rounded-xl border border-[#BDE4FF]">
                     <img
                       src={currentSrc}
                       alt={line.heading}
@@ -132,11 +138,11 @@ export const WhatWeDoSection: React.FC<WhatWeDoSectionProps> = ({
                   </CtaButton>
                 </div>
 
-                <div className="flex min-w-0 flex-1 flex-col">
-                  <h3 className="mb-4 sm:mb-5 font-serif text-[clamp(1.75rem,1.25rem+1.8vw,3.75rem)] leading-[1.2] text-[#0A0A0A]">
+                <div className="flex min-w-0 flex-1 flex-col xl:pt-0">
+                  <h3 className="mb-4 sm:mb-5 font-serif text-[clamp(1.75rem,1.25rem+1.8vw,3.75rem)] leading-[1.2] text-ink">
                     {line.heading}
                   </h3>
-                  <p className="mb-6 sm:mb-8 font-sans text-[clamp(1.125rem,0.95rem+0.6vw,1.5rem)] leading-[1.33] text-[#022E4C]">
+                  <p className="mb-6 sm:mb-8 font-sans text-[clamp(1.125rem,0.95rem+0.6vw,1.5rem)] leading-[1.33] text-brand-navy">
                     {line.blurb}
                   </p>
                   <div className="flex flex-col gap-3.5 sm:gap-4">

@@ -4,6 +4,7 @@ import { stripHtml } from '@/lib/utils/text';
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { Heading, Section, Text } from '../atoms';
 
 export interface IntegratedCapabilitiesCardItem {
   id?: string | number | null;
@@ -95,102 +96,110 @@ export function IntegratedCapabilitiesSection({
   const fullImageUrl = normalizeImageSrc(imageUrl);
 
   return (
-    <section className="relative w-full bg-[#FFFFFF] py-10 sm:py-14 xl:py-16 2xl:py-20 overflow-hidden">
-      <div className="mx-auto w-full max-w-[1920px] px-4 sm:px-6 md:px-10 xl:px-12 2xl:px-[120px]">
-        
-        {/* Two-column layout that naturally scales between 100% and 125% zoom */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 xl:gap-10 2xl:gap-14 items-start">
-          
-          {/* Left Column Content */}
-          <div className="lg:col-span-7 2xl:col-span-7 flex flex-col justify-between">
-            {/* Title (DM Serif Text, responsive font sizing) */}
-            {cleanTitle ? (
-              <h2
-                className="font-['DM_Serif_Text'] text-[34px] sm:text-[44px] md:text-[52px] xl:text-[58px] 2xl:text-[72px] font-normal leading-[1.15] 2xl:leading-[99px] text-[#000000] tracking-[-0.01em] [&_p]:m-0 [&_p]:font-inherit [&_p]:text-inherit [&_p]:leading-inherit [&_span[style*='color']]:font-semibold max-w-[906px]"
-                dangerouslySetInnerHTML={{ __html: cleanTitle }}
-              />
-            ) : null}
+    <Section
+      tone="surface"
+      spacing="none"
+      aria-labelledby={cleanTitle ? 'integrated-capabilities-heading' : undefined}
+      className="py-[clamp(2.5rem,1.893rem+2.589vw,5rem)]"
+    >
+      {/*
+        Figma 2712:10986 is 1920×1153. Copy column is 933px, then a 24px gap,
+        then a 723×993 photo. Vertical inset is 80px (below the 120px section
+        token). get_motion_context returned no tracks for this node.
+      */}
+      <div className="grid items-stretch gap-8 xl:grid-cols-[minmax(0,933fr)_minmax(0,723fr)] xl:gap-6">
+        <div className="flex min-w-0 flex-col">
+          {cleanTitle ? (
+            <Heading
+              id="integrated-capabilities-heading"
+              level={2}
+              size="section"
+              tone="inherit"
+              className="max-w-[min(100%,56.625rem)] font-normal tracking-normal text-black [&_p]:m-0 [&_p]:font-[inherit] [&_p]:leading-[inherit] [&_p]:text-inherit [&_span]:font-normal"
+            >
+              <span dangerouslySetInnerHTML={{ __html: cleanTitle }} />
+            </Heading>
+          ) : null}
 
-            {/* Description */}
-            {description ? (
-              <p className="mt-4 sm:mt-5 xl:mt-6 2xl:mt-[24px] font-sans text-[16px] sm:text-[18px] xl:text-[20px] 2xl:text-[24px] font-normal leading-[1.5] 2xl:leading-[40px] text-[#000000] max-w-[872px]">
-                {stripHtml(description)}
-              </p>
-            ) : null}
+          {description ? (
+            <Text
+              size="lead"
+              tone="inherit"
+              className="mt-[clamp(1.25rem,0.795rem+1.942vw,3.125rem)] max-w-[min(100%,54.5rem)] font-normal text-black"
+              style={{ lineHeight: 1.6667 }}
+            >
+              {stripHtml(description)}
+            </Text>
+          ) : null}
 
-            {/* Subheading (Capabilities aligned to the work) */}
-            {subheading ? (
-              <h3 className="mt-8 sm:mt-10 xl:mt-11 2xl:mt-[56px] font-sans text-[26px] sm:text-[30px] xl:text-[32px] 2xl:text-[38px] font-semibold leading-[1.25] 2xl:leading-[48px] text-[#212121] max-w-[679px]">
-                {subheading}
-              </h3>
-            ) : null}
+          {subheading ? (
+            <h3 className="mt-block max-w-[min(100%,42.4375rem)] font-sans text-[clamp(1.5rem,1.2875rem+0.9061vw,2.375rem)] font-semibold leading-normal text-[#212121]">
+              {subheading}
+            </h3>
+          ) : null}
 
-            {/* Subdescription */}
-            {subdescription ? (
-              <p className="mt-3 sm:mt-4 xl:mt-4 2xl:mt-[18px] font-sans text-[16px] sm:text-[18px] xl:text-[20px] 2xl:text-[24px] font-normal leading-[1.5] 2xl:leading-[40px] text-[#000000] max-w-[933px]">
-                {subdescription}
-              </p>
-            ) : null}
+          {subdescription ? (
+            <Text
+              size="lead"
+              tone="inherit"
+              className="mt-[clamp(0.75rem,0.598rem+0.647vw,1.375rem)] max-w-[min(100%,58.3125rem)] font-normal text-black"
+              style={{ lineHeight: 1.6667 }}
+            >
+              {stripHtml(subdescription)}
+            </Text>
+          ) : null}
 
-            {/* Tags Pills */}
-            {tagList.length > 0 ? (
-              <div className="mt-6 sm:mt-7 xl:mt-8 2xl:mt-[28px] flex flex-wrap gap-2.5 sm:gap-3 xl:gap-3.5 2xl:gap-[16px] max-w-[895px]">
-                {tagList.map((tag, idx) => (
-                  <div
-                    key={`tag-${idx}`}
-                    className="inline-flex items-center justify-center min-h-[46px] xl:min-h-[52px] 2xl:h-[62px] px-4 sm:px-5 xl:px-6 2xl:px-[24px] py-2 rounded-[100px] border border-[#F01424] bg-[rgba(240,20,36,0.03)]"
-                  >
-                    <span className="font-sans text-[15px] sm:text-[17px] xl:text-[18px] 2xl:text-[20px] font-semibold leading-normal text-[#212121] tracking-[-0.01em] whitespace-nowrap">
-                      {tag}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            ) : null}
-
-            {/* CTA Button (if present) */}
-            {actionText ? (
-              <div className="mt-6 sm:mt-8 xl:mt-8 2xl:mt-[32px]">
-                <Link
-                  href={targetHref || '#'}
-                  className="inline-flex items-center gap-[12px] h-[50px] sm:h-[54px] 2xl:h-[56px] px-6 sm:px-7 2xl:px-[28px] rounded-[8px] bg-gradient-to-r from-[#D31E2D] to-[#2A91DC] text-white font-sans text-[16px] sm:text-[17px] 2xl:text-[18px] font-medium leading-[150%] shadow-sm hover:opacity-95 transition-opacity"
+          {tagList.length > 0 ? (
+            <ul className="mt-[clamp(1rem,0.772rem+0.971vw,1.9375rem)] flex list-none flex-wrap gap-x-3 gap-y-3 p-0 xl:gap-x-5 xl:gap-y-[1.375rem]">
+              {tagList.map((tag, idx) => (
+                <li
+                  key={`${tag}-${idx}`}
+                  className="inline-flex max-w-full items-center justify-center rounded-pill border border-brand-red bg-brand-red/3 px-[clamp(1.25rem,0.947rem+1.294vw,2.5rem)] py-2.5"
                 >
-                  <span>{actionText}</span>
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                    <line x1="5" y1="12" x2="19" y2="12" />
-                    <polyline points="12 5 19 12 12 19" />
-                  </svg>
-                </Link>
-              </div>
-            ) : null}
+                  <span
+                    className="font-sans text-body-lg font-medium text-black"
+                    style={{ lineHeight: 1.6667 }}
+                  >
+                    {tag}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          ) : null}
 
-            {/* Decorative Line (Line 232) */}
-            <div
-              className="mt-10 sm:mt-12 xl:mt-14 2xl:mt-16 w-[240px] sm:w-[320px] 2xl:w-[371.74px] h-0 border-b-[1.33px] border-[#000000]"
-              aria-hidden="true"
-            />
-          </div>
-
-          {/* Right Column Photo (Rectangle 39989) */}
-          {fullImageUrl ? (
-            <div className="lg:col-span-5 2xl:col-span-5 flex lg:justify-end">
-              <div
-                className="relative w-full aspect-[4/5] sm:aspect-[3/4] lg:aspect-auto lg:w-full lg:max-w-[560px] 2xl:max-w-[723.38px] lg:h-[680px] xl:h-[780px] 2xl:h-[993.38px] rounded-[24px] sm:rounded-[31.98px] border-[1.5px] border-[#F01424] overflow-hidden shadow-sm"
+          {actionText ? (
+            <div className="mt-[clamp(1rem,0.772rem+0.971vw,1.9375rem)]">
+              <Link
+                href={targetHref || '#'}
+                className="inline-flex h-[clamp(3rem,2.8rem+0.5vw,3.5rem)] items-center gap-3 rounded-button bg-cta-gradient px-[clamp(1.5rem,1.3rem+0.6vw,1.75rem)] font-sans text-button font-medium leading-[1.5] text-white shadow-button transition-opacity duration-300 ease-out hover:opacity-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-navy motion-reduce:transition-none"
               >
-                <Image
-                  src={fullImageUrl}
-                  alt={imageAlt}
-                  fill
-                  sizes="(max-width: 1024px) 100vw, (max-width: 1536px) 560px, 724px"
-                  className="object-cover object-center"
-                />
-              </div>
+                <span>{actionText}</span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <line x1="5" y1="12" x2="19" y2="12" />
+                  <polyline points="12 5 19 12 12 19" />
+                </svg>
+              </Link>
             </div>
           ) : null}
 
+          <div
+            className="mt-[clamp(2rem,1.53rem+2.006vw,3.9375rem)] h-[1.33px] w-[min(100%,23.234rem)] bg-black"
+            aria-hidden="true"
+          />
         </div>
 
+        {fullImageUrl ? (
+          <div className="relative w-full self-stretch overflow-hidden rounded-panel border-[1.5px] border-brand-red max-xl:aspect-[723/993]">
+            <Image
+              src={fullImageUrl}
+              alt={imageAlt}
+              fill
+              sizes="(max-width: 1279px) 100vw, 40vw"
+              className="object-cover object-center"
+            />
+          </div>
+        ) : null}
       </div>
-    </section>
+    </Section>
   );
 }
