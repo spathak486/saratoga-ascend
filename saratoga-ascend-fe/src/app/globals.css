@@ -291,12 +291,12 @@ html {
   color-scheme: light;
 }
 
-/* 125% screen scaling (typically 1200px - 1600px viewport on 1080p/laptops):
-   Proportionally balances rem down to 87.5% (14px) so extensive content & headings
-   fit naturally without clipping or crowding cards */
+/* 125% screen scaling (1200px - 1600px viewport on standard 1080p with 125% OS scaling):
+   80% root font-size perfectly scales 16px -> 12.8px (100 / 125 = 0.8),
+   rendering exactly the same visual proportions as 100% scale! */
 @media (min-width: 1200px) and (max-width: 1600px) {
   html {
-    font-size: 87.5%;
+    font-size: 80%;
   }
 }
 

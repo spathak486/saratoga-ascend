@@ -3,8 +3,7 @@
 import { stripHtml } from '@/lib/utils/text';
 import React, { useState } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
-import { Heading } from '../atoms';
-import { MediaFrame } from '../atoms/MediaFrame';
+import Image from 'next/image';
 
 export interface StaffingSlideCardProps {
   title?: React.ReactNode;
@@ -26,16 +25,16 @@ const NAVY_WASH =
   'linear-gradient(180deg, rgb(0 40 69 / 0) 0%, var(--color-brand-navy-band) 100%)';
 
 /**
- * Travel Staffing tile (Figma Job Card 2002:261 / 2002:266).
- * Desktop rest: 402×450, 32px corners, 1px #C6C6C6, 20% black + navy foot wash,
- * title at y=377. Hover (744ms Quick): second navy wash, title to y=162,
- * 18/22 body at y=223.
- * Mobile instance 2105:646 is 246×276 — title + body stay centered at rest.
+ * Travel Staffing tile (Figma Node 1899:2263 / 1351:4684).
+ * Desktop rest: 402×450px, border-radius: 32px, border: 1px solid #c6c6c6
+ * Dark overlay: 20% black + navy foot wash
+ * Title rest: DM Serif Text, 44px (2.75rem), line-height: 1.2, color: white, y = 377px
+ * Title hover: top = 162px, body fades in at y = 223px
  */
 export const StaffingSlideCard: React.FC<StaffingSlideCardProps> = ({
   title = 'Travel Staffing',
   body = DEFAULT_BODY,
-  imageSrc = '/images/Rectangle%20113.png',
+  imageSrc = '/images/Rectangle 113.png',
   href = '/what-we-do',
 }) => {
   const reduce = useReducedMotion();
@@ -52,23 +51,28 @@ export const StaffingSlideCard: React.FC<StaffingSlideCardProps> = ({
       onMouseLeave={() => setActive(false)}
       onFocus={() => setActive(true)}
       onBlur={() => setActive(false)}
-      className="group block focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-sky"
+      className="group block focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-sky select-none"
     >
       <article
-        className="relative aspect-[402/450] w-full overflow-hidden rounded-[1.25rem] xl:rounded-panel"
-        style={{ border: '1px solid #c6c6c6', boxSizing: 'border-box' }}
+        className="relative aspect-[402/450] w-full overflow-hidden rounded-[2rem] border border-[#c6c6c6] bg-white shadow-sm"
+        style={{ boxSizing: 'border-box' }}
       >
-        <MediaFrame
-          src={imageSrc}
-          alt=""
-          pendingLabel="Rectangle 113.png"
-          tone="navy"
-          sizes="(max-width: 1279px) 246px, 402px"
-          imageClassName="object-cover! pointer-events-none"
-          className="absolute inset-0 size-full border-0"
-        />
+        {/* Background Photo */}
+        <div className="absolute inset-0 size-full pointer-events-none">
+          <Image
+            src={imageSrc}
+            alt=""
+            fill
+            sizes="(max-width: 1279px) 300px, 402px"
+            className="object-cover pointer-events-none select-none"
+            priority
+          />
+        </div>
 
+        {/* 20% Black Overlay (Figma Node 1351:4665) */}
         <div className="pointer-events-none absolute inset-0 bg-black/20" aria-hidden="true" />
+        
+        {/* Navy foot wash overlay */}
         <div
           className="pointer-events-none absolute inset-0"
           style={{ backgroundImage: NAVY_WASH }}
@@ -83,32 +87,25 @@ export const StaffingSlideCard: React.FC<StaffingSlideCardProps> = ({
           transition={motionTime}
         />
 
+        {/* Desktop Title & Hover Body (Figma Node 1351:4667: y: 377px, font-size: 44px, line-height: 1.2) */}
         <motion.div
-          className="pointer-events-none absolute hidden xl:block"
+          className="pointer-events-none absolute hidden xl:flex flex-col items-center justify-center text-center inset-x-0"
           initial={false}
           animate={{
-            top: hovered ? 162 : 377,
-            left: hovered ? 43 : 58,
-            width: hovered ? 316 : 285,
+            top: hovered ? '9rem' : '20.5rem',
           }}
           transition={motionTime}
         >
-          <Heading
-            level={3}
-            size="subtitle"
-            font="serif"
-            tone="onDark"
-            className="w-[285px] text-[2.75rem] leading-[1.2] text-white xl:mx-auto"
-          >
+          <h4 className="w-full text-center font-serif text-[1.85rem] sm:text-[2.15rem] xl:text-[2.35rem] leading-[1.2] text-white px-4 tracking-normal drop-shadow-sm line-clamp-2 break-words">
             {stripHtml(title)}
-          </Heading>
+          </h4>
           <motion.p
-            className="w-full text-center font-sans text-[1.125rem] leading-[1.375rem] font-medium text-white"
+            className="w-full max-w-[19.75rem] text-center font-sans text-[1.125rem] leading-[1.375rem] font-medium text-white px-2"
             initial={false}
             animate={{
               opacity: hovered ? 1 : 0,
-              height: hovered ? 66 : 0,
-              marginTop: hovered ? 8 : 0,
+              height: hovered ? 'auto' : 0,
+              marginTop: hovered ? '0.5rem' : 0,
             }}
             transition={motionTime}
           >
@@ -116,17 +113,12 @@ export const StaffingSlideCard: React.FC<StaffingSlideCardProps> = ({
           </motion.p>
         </motion.div>
 
+        {/* Mobile / Tablet fallback view */}
         <div className="pointer-events-none absolute inset-0 z-[1] flex flex-col items-center justify-center gap-2 px-3.5 xl:hidden">
-          <Heading
-            level={3}
-            size="subtitle"
-            font="serif"
-            tone="onDark"
-            className="w-full text-center text-[1.375rem] leading-[1.2] text-white"
-          >
+          <h4 className="w-full text-center font-serif text-[1.75rem] sm:text-[2.25rem] leading-[1.2] text-white">
             {stripHtml(title)}
-          </Heading>
-          <p className="line-clamp-4 w-full min-w-0 break-words text-center font-sans text-[0.8125rem] leading-[1.125rem] font-medium text-white">
+          </h4>
+          <p className="line-clamp-3 w-full min-w-0 break-words text-center font-sans text-[0.875rem] leading-[1.25rem] font-medium text-white">
             {body}
           </p>
         </div>
@@ -134,3 +126,5 @@ export const StaffingSlideCard: React.FC<StaffingSlideCardProps> = ({
     </a>
   );
 };
+
+export default StaffingSlideCard;

@@ -140,14 +140,15 @@ export const CeoMessageSection: React.FC<CeoMessageSectionProps> = ({
           )}
 
           {(authorName || authorRole) && (
-            <div className="mt-6 flex flex-col items-start lg:mt-8 2xl:mt-10">
+            /* Jenny Wilson CEO of Saratoga Ascend: width: 273px; height: 77px; left: 135px; top: 673px; font-family: DM Serif Text; font-size: 36px; line-height: 36px; color: #F01424 */
+            <div className="mt-6 flex flex-col items-start lg:mt-8 2xl:mt-auto 2xl:pt-8">
               {authorName && (
-                <span className="font-serif text-[clamp(1.5rem,1.25rem+0.75vw,2.25rem)] font-normal leading-tight text-[#F01424]">
+                <span className="font-serif text-[clamp(1.5rem,1.25rem+0.75vw,2.25rem)] 2xl:text-[36px] font-normal leading-none 2xl:leading-[36px] text-[#F01424]">
                   {authorName}
                 </span>
               )}
               {authorRole && (
-                <span className="mt-1 font-sans text-[clamp(0.9375rem,0.85rem+0.25vw,1.25rem)] font-normal leading-normal text-[#1E293B]">
+                <span className="mt-2 font-sans text-[clamp(0.9375rem,0.85rem+0.25vw,1.25rem)] 2xl:text-[20px] font-normal leading-normal text-[#1E293B]">
                   {authorRole}
                 </span>
               )}
