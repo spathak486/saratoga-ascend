@@ -198,7 +198,7 @@ export function ClearPathSection({
   return (
     <section
       aria-label={title || 'A Clear Path from Need to Delivery'}
-      className="relative mx-auto w-full max-w-home overflow-visible bg-white px-[var(--spacing-gutter)] py-12 xl:pt-20 xl:pb-20"
+      className="relative mx-auto w-full max-w-home overflow-visible bg-white px-[var(--spacing-gutter)] py-12 max-xl:py-10! xl:pt-20 xl:pb-20"
     >
       <div>
         <Heading level={2} size="section" font="sans" tone="inherit" className="font-semibold text-black">

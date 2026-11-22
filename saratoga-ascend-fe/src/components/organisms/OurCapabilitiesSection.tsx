@@ -294,7 +294,7 @@ export function OurCapabilitiesSection({
         <div className="w-full lg:w-[55%] xl:flex-1 min-w-0 flex flex-col">
           <div
             ref={scrollContainerRef}
-            className="flex flex-row overflow-x-auto gap-[20px] scrollbar-none scroll-smooth px-6 sm:px-10 lg:pl-0 lg:pr-[120px] pb-6 pt-2"
+            className="flex flex-row gap-[20px] overflow-x-auto scroll-smooth px-6 pt-2 pb-8 scrollbar-none sm:px-10 lg:pl-0 lg:pr-[120px]"
             style={{ scrollSnapType: 'x mandatory' }}
           >
             {cards.map((card, index) => {
@@ -303,52 +303,70 @@ export function OurCapabilitiesSection({
               const isCardHovered = hoveredIndex === index;
 
               return (
-                /* Card: width: 434px / 454px, height: 436px / 456px, border-radius: 0px 66.5985px 0px 0px */
+                /*
+                  Figma 2231:8768 — Default 2231:8769 → Variant2 2231:8797
+                  Smart animate 400ms ease-out:
+                  1) Blue plate (40099) +10px / +10px
+                  2) #D5E7F7 wash (40133) expands 72×72@icon → full face, opacity 0→1
+                  3) Icon badge #E4EBF1 → #FFFFFF
+                */
                 <div
                   key={card.id ?? `capability-card-${index}`}
                   onMouseEnter={() => setHoveredIndex(index)}
                   onMouseLeave={() => setHoveredIndex(null)}
                   style={{ scrollSnapAlign: 'start' }}
-                  className={`box-border relative shrink-0 w-[300px] sm:w-[380px] md:w-[434px] min-h-[420px] md:h-[436px] rounded-tr-[66.6px] rounded-tl-none rounded-bl-none rounded-br-none p-8 md:p-10 flex flex-col items-center text-center justify-between group cursor-pointer transition-all duration-300 ease-out select-none ${
-                    isCardHovered
-                      ? 'bg-[#D9D9D9] border-[1.11px] border-[#CFCFCF] shadow-[0_14px_35px_rgba(0,0,0,0.12)] -translate-y-1.5'
-                      : 'bg-[#FFFFFF] border-[1.11px] border-[#CFCFCF] shadow-[0px_0px_16.65px_rgba(0,0,0,0.09)] translate-y-0'
-                  }`}
+                  className="group relative box-border w-[300px] shrink-0 cursor-pointer select-none sm:w-[380px] md:h-[456px] md:w-[454px] min-h-[420px]"
                 >
-                  {/* Top Icon Box: Rectangle 40094 & Rectangle 40133 (Figma: 72px x 72px, bg: #D5E7F7 on hover) */}
+                  {/* Rectangle 40099 — sky-blue offset plate */}
                   <div
-                    className={`w-[64px] h-[64px] md:w-[72px] md:h-[72px] rounded-[15px] flex items-center justify-center transition-all duration-300 mb-6 shrink-0 ${
-                      isCardHovered
-                        ? 'bg-[#D5E7F7] scale-105'
-                        : 'bg-[#E4EBF1] scale-100'
+                    aria-hidden="true"
+                    className={`pointer-events-none absolute top-0 left-0 z-0 h-[calc(100%-10px)] w-[calc(100%-10px)] rounded-tr-[66.6px] border-[1.11px] border-[#2B88D9] shadow-[0px_0px_16.65px_rgba(0,0,0,0.09)] transition-transform duration-[400ms] ease-out motion-reduce:transition-none md:h-[436px] md:w-[434px] ${
+                      isCardHovered ? 'translate-x-[10px] translate-y-[10px]' : 'translate-x-0 translate-y-0'
                     }`}
-                  >
-                    {iconUrl ? (
-                      <div className="relative w-9 h-9 md:w-10 md:h-10">
-                        <Image
-                          src={normalizeImageSrc(iconUrl)}
-                          alt={stripHtml(card.title)}
-                          fill
-                          unoptimized
-                          className="object-contain"
-                        />
-                      </div>
-                    ) : (
-                      <CardIcon className="w-8 h-8 md:w-9 md:h-9 text-[#2B88D9]" />
-                    )}
-                  </div>
+                  />
 
-                  {/* Card Content Block */}
-                  <div className="flex-1 flex flex-col justify-center">
-                    {/* Card Title: DM Serif Text, 28px, line-height: 38px, color: #2B2B2B */}
-                    <h3 className="font-['DM_Serif_Text'] text-[22px] sm:text-[25px] md:text-[28px] leading-[30px] md:leading-[38px] text-[#2B2B2B] font-normal mb-3 md:mb-4 transition-colors duration-300">
-                      <span dangerouslySetInnerHTML={{ __html: cleanHeadingHtml(card.title) }} />
-                    </h3>
+                  {/* Rectangle 40098 — white face */}
+                  <div className="relative z-10 flex h-[calc(100%-10px)] min-h-[400px] w-[calc(100%-10px)] flex-col items-center justify-between overflow-hidden rounded-tr-[66.6px] border-[1.11px] border-[#CFCFCF] bg-white p-8 text-center shadow-[0px_0px_16.65px_rgba(0,0,0,0.09)] md:h-[436px] md:min-h-0 md:w-[434px] md:p-10">
+                    {/* Rectangle 40133 — expands from 72×72@icon → full face (Smart Animate) */}
+                    <div
+                      aria-hidden="true"
+                      className={`pointer-events-none absolute bg-[#D5E7F7] transition-[top,left,width,height,border-radius,opacity] duration-[400ms] ease-out motion-reduce:transition-none ${
+                        isCardHovered
+                          ? 'top-0 left-0 h-full w-full rounded-tr-[66.6px] opacity-100'
+                          : 'top-[54px] left-[calc(50%-36px)] h-[72px] w-[72px] rounded-[15px] opacity-0'
+                      }`}
+                    />
 
-                    {/* Card Description: Google Sans Flex / DM Sans, 20px, line-height: 28px, color: #212121 */}
-                    <p className="line-clamp-4 min-w-0 break-words font-['Google_Sans_Flex'] text-[15px] sm:text-[17px] md:text-[20px] leading-[22px] sm:leading-[25px] md:leading-[28px] text-[#212121] font-normal transition-colors duration-300">
-                      {stripHtml(card.description)}
-                    </p>
+                    {/* Icon badge: Default #E4EBF1 → Variant2 #FFFFFF */}
+                    <div
+                      className={`relative z-10 mb-6 flex size-16 shrink-0 items-center justify-center rounded-[15px] transition-colors duration-[400ms] ease-out motion-reduce:transition-none md:size-[72px] ${
+                        isCardHovered ? 'bg-white' : 'bg-[#E4EBF1]'
+                      }`}
+                    >
+                      {iconUrl ? (
+                        <div className="relative size-9 md:size-10">
+                          <Image
+                            src={normalizeImageSrc(iconUrl)}
+                            alt={stripHtml(card.title)}
+                            fill
+                            unoptimized
+                            className="object-contain"
+                          />
+                        </div>
+                      ) : (
+                        <CardIcon className="size-8 text-[#2B88D9] md:size-9" />
+                      )}
+                    </div>
+
+                    <div className="relative z-10 flex flex-1 flex-col justify-center">
+                      <h3 className="mb-3 font-['DM_Serif_Text'] text-[22px] leading-[30px] font-normal text-[#2B2B2B] sm:text-[25px] md:mb-4 md:text-[28px] md:leading-[38px]">
+                        <span dangerouslySetInnerHTML={{ __html: cleanHeadingHtml(card.title) }} />
+                      </h3>
+
+                      <p className="line-clamp-4 min-w-0 break-words font-['Google_Sans_Flex'] text-[15px] leading-[22px] font-normal text-[#212121] sm:text-[17px] sm:leading-[25px] md:text-[20px] md:leading-[28px]">
+                        {stripHtml(card.description)}
+                      </p>
+                    </div>
                   </div>
                 </div>
               );

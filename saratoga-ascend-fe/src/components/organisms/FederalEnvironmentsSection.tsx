@@ -1,10 +1,10 @@
 'use client';
 
-import { stripHtml } from '@/lib/utils/text';
+import { cleanHeadingHtml, stripHtml } from '@/lib/utils/text';
 import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { cleanHeadingHtml } from '@/lib/utils/text';
+import { Heading, Section, Text } from '../atoms';
 
 export interface AccordionItemData {
   id?: string | number | null;
@@ -53,13 +53,12 @@ export const FederalEnvironmentsSection: React.FC<FederalEnvironmentsSectionProp
   cards,
   className = '',
 }) => {
-  if (!cards || cards.length === 0) return null;
-
-  // Track active open accordion for EACH card independently: { [cardIndex]: activeAccordionIndex | null }
-  // Default: first accordion (index 0) of the first card is open
+  // First accordion of the first card starts open. State stays above the empty return.
   const [activeAccordions, setActiveAccordions] = useState<{ [cardIdx: number]: number | null }>({
     0: 0,
   });
+
+  if (!cards || cards.length === 0) return null;
 
   const toggleAccordion = (cardIdx: number, accordionIdx: number) => {
     setActiveAccordions((prev) => ({
@@ -68,35 +67,49 @@ export const FederalEnvironmentsSection: React.FC<FederalEnvironmentsSectionProp
     }));
   };
 
+  const headingId = id ? `${id}-heading` : 'federal-environments-heading';
+
   return (
-    <section
+    <Section
       id={id}
-      aria-label="Explore the Federal Environments We Support"
-      className={`relative w-full max-w-[1920px] mx-auto bg-[#FAFAFA] py-16 lg:py-20 xl:py-[80px] px-6 sm:px-10 lg:px-16 xl:px-[120px] overflow-hidden ${className}`.trim()}
+      tone="surface"
+      spacing="none"
+      aria-labelledby={sectionTitle ? headingId : undefined}
+      className={`overflow-hidden bg-[#fafafa] py-[clamp(2.5rem,1.893rem+2.589vw,5rem)] ${className}`.trim()}
     >
-      {/* Header Container */}
+      {/*
+        Figma 2712:11003 is 1920×1318. Title is sans semibold 72, body 24/40,
+        then a 60px gap to 827px cards with a 25px split. Vertical inset is
+        80px. get_motion_context returned no tracks for this node.
+      */}
       {(sectionTitle || description) && (
-        <div className="w-full max-w-[1109px] mb-10 lg:mb-14 xl:mb-[60px]">
-          {sectionTitle && (
-            <h2
-              className="font-sans font-semibold text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-[72px] leading-[1.15] xl:leading-[90px] text-[#000000] tracking-tight [&_span[style*='color']]:font-semibold"
-              style={{ fontFamily: "'Google Sans Flex', sans-serif" }}
-              dangerouslySetInnerHTML={{ __html: cleanHeadingHtml(sectionTitle) }}
-            />
-          )}
-          {description && (
-            <p
-              className="mt-4 sm:mt-6 font-sans font-normal text-base sm:text-lg lg:text-xl xl:text-[24px] leading-relaxed xl:leading-[40px] text-[#000000] max-w-[927px]"
-              style={{ fontFamily: "'Google Sans Flex', sans-serif" }}
+        <div className="mb-block w-full max-w-[min(100%,69.3125rem)]">
+          {sectionTitle ? (
+            <Heading
+              id={headingId}
+              level={2}
+              size="section"
+              font="sans"
+              tone="inherit"
+              className="font-semibold tracking-normal text-black [&_p]:m-0 [&_p]:font-[inherit] [&_p]:leading-[inherit] [&_p]:text-inherit"
+            >
+              <span dangerouslySetInnerHTML={{ __html: cleanHeadingHtml(sectionTitle) }} />
+            </Heading>
+          ) : null}
+          {description ? (
+            <Text
+              size="lead"
+              tone="inherit"
+              className="mt-5 max-w-[min(100%,57.9375rem)] font-normal text-black"
+              style={{ lineHeight: 1.6667 }}
             >
               {stripHtml(description)}
-            </p>
-          )}
+            </Text>
+          ) : null}
         </div>
       )}
 
-      {/* Cards Layout: 2 Cards Side-by-Side (827px x 826px) */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 xl:gap-[25px] w-full max-w-[1679px] mx-auto items-start">
+      <div className="grid w-full grid-cols-1 items-start gap-6 xl:grid-cols-2 xl:gap-[25px]">
         {cards.map((card, cardIdx) => {
           const imageUrl = card.image?.url;
           const accordions = card.accordions || [];
@@ -105,32 +118,23 @@ export const FederalEnvironmentsSection: React.FC<FederalEnvironmentsSectionProp
           return (
             <div
               key={card.id ?? `fed-card-${cardIdx}`}
-              className="relative w-full aspect-square max-h-[826px] rounded-[32px] sm:rounded-[44px] overflow-hidden shadow-lg bg-[#EAEFF4]"
+              className="relative aspect-square w-full overflow-hidden rounded-[clamp(1.5rem,2vw,2.75rem)] bg-[#EAEFF4]"
             >
-              {/* Card Background Full Cover Image */}
               {imageUrl ? (
                 <Image
                   src={imageUrl}
                   alt={card.image?.alternativeText || 'Federal Environment'}
                   fill
-                  className="object-cover transition-transform duration-700 ease-out hover:scale-105"
-                  sizes="(max-width: 1024px) 100vw, 827px"
+                  className="object-cover"
+                  sizes="(max-width: 1279px) 100vw, 827px"
                 />
               ) : (
-                <div className="absolute inset-0 bg-gradient-to-br from-slate-200 to-slate-400 flex items-center justify-center">
-                  <span className="text-slate-500 font-sans text-xl">Environment Image</span>
-                </div>
+                <div className="absolute inset-0 bg-[#EAEFF4]" />
               )}
 
-              {/* Bottom Glassmorphic Drawer containing Accordions */}
               {accordions.length > 0 && (
-                <div
-                  className="absolute left-3 right-3 sm:left-[17px] sm:right-[17px] bottom-[17px] rounded-[24px] sm:rounded-[30px] p-4 sm:p-6 bg-white/95 backdrop-blur-[5px] max-h-[85%] overflow-y-auto transition-all duration-300 ease-in-out scrollbar-thin scrollbar-thumb-gray-300"
-                  style={{
-                    boxShadow: '0 4px 24px rgba(0, 0, 0, 0.08)',
-                  }}
-                >
-                  <div className="flex flex-col divide-y divide-gray-100">
+                <div className="absolute inset-x-3 bottom-3 max-h-[85%] overflow-y-auto rounded-[30px] bg-white/90 px-6 py-5 backdrop-blur-[5px] sm:inset-x-[17px] sm:bottom-[17px]">
+                  <div className="flex flex-col gap-4">
                     {accordions.map((acc, accIdx) => {
                       const isOpen = currentActiveIdx === accIdx;
                       const actionText =
@@ -139,55 +143,40 @@ export const FederalEnvironmentsSection: React.FC<FederalEnvironmentsSectionProp
                       const href = acc.href || '#';
 
                       return (
-                        <div
-                          key={acc.id ?? `acc-${cardIdx}-${accIdx}`}
-                          className={`transition-all duration-200 ${
-                            accIdx > 0 ? 'pt-4 mt-2' : ''
-                          }`}
-                        >
-                          {/* Expanded Content (when open): Description + Explore CTA */}
+                        <div key={acc.id ?? `acc-${cardIdx}-${accIdx}`}>
                           {isOpen && (
-                            <div className="flex flex-col gap-3 sm:gap-4 mb-4 animate-fadeIn">
-                              {acc.description && (
+                            <div className="mb-[clamp(1rem,1.2vw,1.6875rem)] flex flex-col gap-2.5">
+                              {acc.description ? (
                                 <p
-                                  className="font-sans font-normal text-sm sm:text-base lg:text-[18px] leading-relaxed sm:leading-[32px] lg:leading-[40px] text-[#000000]"
-                                  style={{ fontFamily: "'Google Sans Flex', sans-serif" }}
+                                  className="font-sans text-[clamp(1rem,0.94rem+0.26vw,1.125rem)] font-normal text-black"
+                                  style={{ lineHeight: 2.222 }}
                                 >
                                   {acc.description}
                                 </p>
-                              )}
+                              ) : null}
 
-                              <div>
-                                <Link
-                                  href={href}
-                                  className="group inline-flex items-center gap-2 font-sans font-bold text-base sm:text-[18px] leading-[40px] text-[#2B88D9] hover:text-[#005a9e] transition-colors"
-                                  style={{ fontFamily: "'Google Sans Flex', sans-serif" }}
-                                >
-                                  <span>{actionText}</span>
-                                  <svg
-                                    width="24"
-                                    height="24"
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    className="transform transition-transform duration-300 group-hover:translate-x-1"
-                                  >
-                                    <path
-                                      d="M5 12H19M19 12L12 5M19 12L12 19"
-                                      stroke="#2B88D9"
-                                      strokeWidth="2"
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                    />
-                                  </svg>
-                                </Link>
-                              </div>
+                              <Link
+                                href={href}
+                                className="inline-flex items-center gap-2 font-sans text-[clamp(1rem,0.94rem+0.26vw,1.125rem)] font-bold text-brand-sky focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-navy"
+                                style={{ lineHeight: 2.222 }}
+                              >
+                                <span>{actionText}</span>
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                  <path
+                                    d="M5 12H19M19 12L12 5M19 12L12 19"
+                                    stroke="currentColor"
+                                    strokeWidth="2"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                  />
+                                </svg>
+                              </Link>
                             </div>
                           )}
 
-                          {/* Accordion Title Header & Toggle Button */}
                           <div
                             onClick={() => toggleAccordion(cardIdx, accIdx)}
-                            className="flex items-center justify-between cursor-pointer select-none py-1"
+                            className="flex cursor-pointer select-none items-center justify-between gap-4 rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-navy"
                             role="button"
                             tabIndex={0}
                             onKeyDown={(e) => {
@@ -199,52 +188,24 @@ export const FederalEnvironmentsSection: React.FC<FederalEnvironmentsSectionProp
                             aria-expanded={isOpen}
                           >
                             <h3
-                              className="font-sans font-semibold text-lg sm:text-xl lg:text-[24px] leading-snug lg:leading-[40px] text-[#000000]"
-                              style={{ fontFamily: "'Google Sans Flex', sans-serif" }}
+                              className="min-w-0 font-sans text-[clamp(1.125rem,1rem+0.5vw,1.5rem)] font-semibold text-black"
+                              style={{ lineHeight: 1.6667 }}
                               dangerouslySetInnerHTML={{
                                 __html: cleanHeadingHtml(acc.title || ''),
                               }}
                             />
 
-                            {/* Plus / Minus Action Button */}
-                            <div
-                              className="w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center shrink-0 transition-colors duration-200 hover:bg-black/5"
-                              aria-label={isOpen ? 'Collapse' : 'Expand'}
-                            >
+                            <span className="inline-flex size-6 shrink-0 items-center justify-center" aria-hidden="true">
                               {isOpen ? (
-                                /* Minus Icon */
-                                <svg
-                                  width="24"
-                                  height="24"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                >
-                                  <path
-                                    d="M5 12H19"
-                                    stroke="#141B34"
-                                    strokeWidth="2"
-                                    strokeLinecap="round"
-                                  />
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                  <path d="M5 12H19" stroke="#141B34" strokeWidth="1.5" strokeLinecap="round" />
                                 </svg>
                               ) : (
-                                /* Plus Icon */
-                                <svg
-                                  width="24"
-                                  height="24"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                >
-                                  <path
-                                    d="M12 5V19M5 12H19"
-                                    stroke="#000000"
-                                    strokeWidth="2"
-                                    strokeLinecap="round"
-                                  />
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                  <path d="M12 5V19M5 12H19" stroke="#000000" strokeWidth="1.5" strokeLinecap="round" />
                                 </svg>
                               )}
-                            </div>
+                            </span>
                           </div>
                         </div>
                       );
@@ -256,7 +217,7 @@ export const FederalEnvironmentsSection: React.FC<FederalEnvironmentsSectionProp
           );
         })}
       </div>
-    </section>
+    </Section>
   );
 };
 

@@ -345,47 +345,47 @@ export const JobsBySpecialitySection: React.FC<JobsBySpecialitySectionProps> = (
             )}
           </article>
 
-          {/* Bottom Linked Job Cards Row (Render ONLY if dynamic jobs exist in CMS for this speciality) */}
+          {/* Bottom Linked Job Cards Row — Figma Frame 582: 4×402 + 3×24; CMS jobs only */}
           {currentJobs.length > 0 && (
-          <div className="relative w-full">
-            <div
-              ref={viewportRef}
-              className={`w-full overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden ${
-                isDragging ? 'cursor-grabbing select-none' : 'cursor-grab'
-              }`}
-              {...dragHandlers}
-            >
-              <div className="flex gap-[1.5rem] pb-2">
-                {currentJobs.map((job, idx) => (
-                  <div
-                    key={`slide-${safeIndex}-job-${job.documentId || job.id || idx}`}
-                    className={`${CAROUSEL_SLIDE_CLASS} shrink-0 w-[18.75rem] sm:w-[21.875rem] lg:w-[25.125rem]`}
-                  >
-                    <StaffingSlideCard
-                      title={job.title}
-                      body={
-                        job.tagline ||
-                        'Connecting cleared, credentialed healthcare professionals with government, military.'
-                      }
-                      imageSrc={job.imageSrc ? getMediaUrl(job.imageSrc) : '/images/Rectangle 113.png'}
-                      href={`/careers/apply?job=${job.slug}&title=${encodeURIComponent(job.title)}`}
-                    />
-                  </div>
-                ))}
+            <div className="relative w-full">
+              <div
+                ref={viewportRef}
+                className={`@container w-full overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden ${
+                  isDragging ? 'cursor-grabbing select-none' : 'cursor-grab'
+                }`}
+                {...dragHandlers}
+              >
+                <div className="flex gap-[1.5rem] pb-2">
+                  {currentJobs.map((job, idx) => (
+                    <div
+                      key={`slide-${safeIndex}-job-${job.documentId || job.id || idx}`}
+                      className={`${CAROUSEL_SLIDE_CLASS} w-[min(300px,85%)] shrink-0 sm:w-[350px] lg:w-[calc((100cqi-4.5rem)/4)] lg:max-w-[402px]`}
+                    >
+                      <StaffingSlideCard
+                        title={job.title}
+                        body={
+                          job.tagline ||
+                          'Connecting cleared, credentialed healthcare professionals with government, military.'
+                        }
+                        imageSrc={job.imageSrc ? getMediaUrl(job.imageSrc) : '/images/Rectangle 113.png'}
+                        href={`/careers/apply?job=${job.slug}&title=${encodeURIComponent(job.title)}`}
+                      />
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
 
-            {/* Carousel Right Scroll Control: Figma node 1899:2267 (size: 60px, top: 125px) */}
-            {currentJobs.length > 3 && (
-              <CircleControl
-                label="Next jobs"
-                direction="next"
-                tone="jobCardArrow"
-                onClick={scrollNext}
-                className="absolute top-[7.8125rem] -right-6 lg:-right-8 z-20 hidden sm:flex"
-              />
-            )}
-          </div>
+              {/* Carousel Right Scroll Control: Figma node 1899:2267 (size: 60px, top: 125px) */}
+              {currentJobs.length > 3 && (
+                <CircleControl
+                  label="Next jobs"
+                  direction="next"
+                  tone="jobCardArrow"
+                  onClick={scrollNext}
+                  className="absolute top-[7.8125rem] -right-6 lg:-right-8 z-20 hidden sm:flex"
+                />
+              )}
+            </div>
           )}
         </div>
       </div>
