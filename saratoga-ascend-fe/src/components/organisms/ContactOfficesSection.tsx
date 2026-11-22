@@ -1,4 +1,5 @@
 import React from 'react';
+import { stripHtml } from '@/lib/utils/text';
 import { Container, Section } from '../atoms';
 
 interface ContactDetailPart {
