@@ -309,19 +309,18 @@ export function WorkforcePlanningSection({
   const resolvedCenterImage =
     centerImage?.url || '/images/confident-healthcare-team.png';
 
-  // --- 1. ACCORDION VARIANT ---
+  // --- 1. ACCORDION VARIANT (Figma 2310:5769) ---
   if (variant === 'accordion') {
     return (
-      <section className="relative mx-auto flex w-full max-w-[120rem] flex-col justify-between overflow-hidden bg-[#FFFFFF] px-6 pb-12 pt-10 sm:px-8 sm:pb-14 sm:pt-12 lg:min-h-[43.125rem] lg:px-[7.5rem] lg:pb-[5.625rem] lg:pt-[5rem]">
+      <section className="relative mx-auto flex w-full max-w-[120rem] flex-col justify-between overflow-hidden bg-white px-6 pb-12 pt-10 sm:px-8 sm:pb-14 sm:pt-12 lg:min-h-[43.125rem] lg:px-[7.5rem] lg:pb-[5.625rem] lg:pt-[5rem]">
         <div className="w-full">
-          <div className="mb-14 sm:mb-16 lg:mb-20 max-w-[54.875rem]">
-            <h2
-              className="font-serif text-[2.375rem] sm:text-[3.375rem] lg:text-[4.5rem] leading-[115%] lg:leading-[5.375rem] tracking-normal font-normal"
-              style={{ fontFamily: "'DM Serif Text', serif" }}
-            >
+          {/* Figma: DM Serif Text Regular 72 / 1.2 */}
+          <div className="mb-14 max-w-[54.875rem] sm:mb-16 lg:mb-20">
+            <h2 className="font-serif text-section font-normal tracking-normal">
               {renderTitle()}
             </h2>
           </div>
+          {/* Figma: 94px column gap; active 602 / inactive 205 */}
           <div className="flex w-full flex-col items-start gap-8 overflow-x-auto pb-4 pt-2 scrollbar-none sm:gap-10 lg:flex-row lg:gap-[5.875rem]">
             {displayCards.map((card, index) => {
               const isActive = activeIndex === index;
@@ -330,30 +329,32 @@ export function WorkforcePlanningSection({
                 <div
                   key={card.id ?? card.documentId ?? `step-${index}`}
                   onClick={() => setActiveIndex(index)}
-                  className={`group flex shrink-0 cursor-pointer flex-col pt-0 transition-all duration-500 ease-in-out ${
+                  className={`group flex shrink-0 cursor-pointer flex-col pt-0 transition-all duration-500 ease-in-out motion-reduce:transition-none ${
                     isActive ? 'w-full lg:w-[37.625rem]' : 'w-full lg:w-[12.8125rem]'
                   }`}
                 >
-                  <div className="mb-5 h-[2px] w-full bg-[#BBBBBB]" />
+                  <div className="mb-6 h-px w-full bg-[#bbbbbb]" />
                   <div className="flex h-auto flex-row items-center gap-4 overflow-hidden sm:gap-6 lg:h-[17.375rem] lg:gap-[2.6875rem]">
+                    {/* Figma: DM Serif Text Regular 358; active #F01424, rest #CCC */}
                     <span
-                      className={`font-serif text-[5.5rem] leading-none transition-colors duration-300 lg:text-[22.375rem] ${
-                        isActive ? 'text-[#F01424]' : 'text-[#CCCCCC] hover:text-[#F01424]/70'
+                      className={`font-serif text-[5.5rem] leading-none font-normal transition-colors duration-300 motion-reduce:transition-none lg:text-[22.375rem] ${
+                        isActive ? 'text-brand-red' : 'text-[#ccc] hover:text-brand-red/70'
                       }`}
-                      style={{ fontFamily: "'DM Serif Text', serif" }}
                     >
                       {stepNum}
                     </span>
-                    {isActive && (
-                      <div className="flex flex-col justify-center max-w-[24.875rem]">
-                        <h3 className="mb-2 font-serif text-[1.75rem] leading-[2.25rem] font-normal text-[#000000]">
+                    {isActive ? (
+                      <div className="flex max-w-[24.875rem] flex-col justify-center">
+                        {/* Figma: DM Serif Text Regular 38 / normal, all caps */}
+                        <h3 className="mb-[2.125rem] font-serif text-[clamp(1.5rem,1.2rem+1.2vw,2.375rem)] leading-normal font-normal text-black uppercase">
                           <span dangerouslySetInnerHTML={{ __html: cleanHeadingHtml(card.title) }} />
                         </h3>
-                        <p className="line-clamp-4 min-w-0 break-words font-sans text-[1.25rem] leading-[1.75rem] text-[#212121]">
+                        {/* Figma: Google Sans Flex Medium 24 / 35 */}
+                        <p className="line-clamp-4 min-w-0 break-words font-sans text-[clamp(1rem,0.85rem+0.6vw,1.5rem)] font-medium leading-[1.4583] text-black">
                           {stripHtml(card.description)}
                         </p>
                       </div>
-                    )}
+                    ) : null}
                   </div>
                 </div>
               );

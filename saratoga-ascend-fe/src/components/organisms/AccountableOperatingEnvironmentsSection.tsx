@@ -271,31 +271,33 @@ export function AccountableOperatingEnvironmentsSection({
   return (
     <section
       aria-label={title || highlightTitle || 'Built for accountable operating environments'}
-      /* Figma: Frame 2147226447 -> width: 1919px; height: 976px; top: 7820px; left: 0px; */
-      className="relative w-full max-w-[119.9375rem] mx-auto min-h-[61rem] bg-[#FFFFFF] py-[5rem] overflow-hidden flex flex-col justify-between"
+      /*
+        Figma 2310:5826 — left gutter ~123px on 1920. Use the shared page
+        gutter (px-page → --spacing-gutter, up to 120px) so the inset always
+        renders; title and first card share the same left edge as the nav.
+      */
+      className="relative mx-auto flex min-h-[61rem] w-full max-w-home flex-col justify-between overflow-x-clip bg-white px-page py-[5rem] max-sm:px-6!"
     >
       <div className="w-full">
-        {/* Header Row: Title (Group 2085665669, left: 123px, top: 80px) & Navigation (Group 2085665688, left: 1648px, top: 186px) */}
-        <div className="w-full px-6 sm:px-10 lg:pl-[7.6875rem] lg:pr-[7.5rem] flex flex-col lg:flex-row lg:items-end justify-between gap-8 pb-[5rem]">
+        <div className="flex w-full flex-col justify-between gap-8 pb-[5rem] lg:flex-row lg:items-end">
           <div className="max-w-[60rem]">
-            {/* Title: DM Serif Text, 72px, line-height: 86px (120%), color: #0A0A0A */}
-            <h2 className="font-['DM_Serif_Text'] text-[2.25rem] sm:text-[3rem] md:text-[3.75rem] lg:text-[4.5rem] leading-[115%] lg:leading-[5.375rem] tracking-normal text-[#0A0A0A] font-normal">
+            {/* Title: DM Serif Text, 72px, line-height: 1.2, #0A0A0A */}
+            <h2 className="font-serif text-[2.25rem] leading-[1.15] font-normal tracking-normal text-ink sm:text-[3rem] md:text-[3.75rem] lg:text-[4.5rem] lg:leading-[1.2]">
               {renderTitle()}
             </h2>
           </div>
 
-          {/* Carousel Arrows (Figma Group 2085665688: width: 152px, height: 66px, left: 1648px, top: 186px) */}
-          <div className="flex items-center gap-[1.25rem] self-start lg:self-end shrink-0">
-            {/* Left Button (width: 66px, height: 66px, border: 1.375px solid #000000, border-radius: 1373.62px) */}
+          {/* Carousel Arrows (Figma Group 2085665688) */}
+          <div className="flex shrink-0 items-center gap-[1.25rem] self-start lg:self-end">
             <button
               type="button"
               onClick={() => handleScroll('left')}
               disabled={!canScrollLeft}
               aria-label="Previous card"
-              className={`flex items-center justify-center w-[4.125rem] h-[4.125rem] rounded-full border-[1.375px] border-[#000000] transition-all duration-200 shadow-[0px_1.375px_2.75px_rgba(16,24,40,0.05)] ${
+              className={`flex h-[4.125rem] w-[4.125rem] items-center justify-center rounded-full border-[1.375px] border-black shadow-[0px_1.375px_2.75px_rgba(16,24,40,0.05)] transition-all duration-200 ${
                 canScrollLeft
-                  ? 'bg-white hover:bg-[#F3F4F6] active:scale-95 text-[#000000] cursor-pointer'
-                  : 'bg-white/60 opacity-40 cursor-not-allowed text-[#000000]'
+                  ? 'cursor-pointer bg-white text-black hover:bg-[#F3F4F6] active:scale-95'
+                  : 'cursor-not-allowed bg-white/60 text-black opacity-40'
               }`}
             >
               <svg
@@ -312,16 +314,15 @@ export function AccountableOperatingEnvironmentsSection({
               </svg>
             </button>
 
-            {/* Right Button (width: 66px, height: 66px, border: 1.375px solid #000000, border-radius: 1373.62px) */}
             <button
               type="button"
               onClick={() => handleScroll('right')}
               disabled={!canScrollRight}
               aria-label="Next card"
-              className={`flex items-center justify-center w-[4.125rem] h-[4.125rem] rounded-full border-[1.375px] border-[#000000] transition-all duration-200 shadow-[0px_1.375px_2.75px_rgba(16,24,40,0.05)] ${
+              className={`flex h-[4.125rem] w-[4.125rem] items-center justify-center rounded-full border-[1.375px] border-black shadow-[0px_1.375px_2.75px_rgba(16,24,40,0.05)] transition-all duration-200 ${
                 canScrollRight
-                  ? 'bg-white hover:bg-[#F3F4F6] active:scale-95 text-[#000000] cursor-pointer'
-                  : 'bg-white/60 opacity-40 cursor-not-allowed text-[#000000]'
+                  ? 'cursor-pointer bg-white text-black hover:bg-[#F3F4F6] active:scale-95'
+                  : 'cursor-not-allowed bg-white/60 text-black opacity-40'
               }`}
             >
               <svg
@@ -340,10 +341,13 @@ export function AccountableOperatingEnvironmentsSection({
           </div>
         </div>
 
-        {/* Carousel Frame: Frame 2147226446 (width: 1796px, height: 564px, left: 123px, top: 332px, overflow-x: scroll) */}
+        {/*
+          Cards inherit section px-page on the left. Track extends into the
+          right gutter so the row can scroll past the edge (Figma 1796 band).
+        */}
         <div
           ref={scrollContainerRef}
-          className="flex flex-row overflow-x-auto gap-[1.125rem] scrollbar-none scroll-smooth pl-6 sm:pl-10 lg:pl-[7.6875rem] pr-6 sm:pr-10 lg:pr-[7.5rem]"
+          className="flex w-full max-w-none flex-row gap-[1.125rem] overflow-x-auto scroll-smooth scrollbar-none xl:w-[calc(100%+var(--spacing-gutter))] xl:pr-[var(--spacing-gutter)]"
           style={{ scrollSnapType: 'x mandatory' }}
         >
           {cards.map((card, index) => {
@@ -353,8 +357,9 @@ export function AccountableOperatingEnvironmentsSection({
 
             return (
               /*
-                Figma Group 49 (active/hover) vs Group 50 (default).
-                Transition ~400ms ease-out; gradient + icon #D7E8FF only while hovered.
+                Figma Group 49 (hover) vs Group 50 (default).
+                Transition ~400ms ease-out. Icon strokes stay near-black
+                (#000 default / #070707 hover per exported SVGs).
               */
               <div
                 key={card.id ?? `env-card-${index}`}
@@ -388,7 +393,7 @@ export function AccountableOperatingEnvironmentsSection({
                   }}
                 />
 
-                {/* Icon 100×100 — Default #000 / Hover #D7E8FF */}
+                {/* Icon 100×100 — Figma: black at rest, #070707 on hover */}
                 <div className="relative z-10 pt-[0.3063rem] pl-[1.9587rem]">
                   {iconUrl ? (
                     <div className="relative size-20 md:size-[6.25rem]">
@@ -403,7 +408,7 @@ export function AccountableOperatingEnvironmentsSection({
                   ) : (
                     <div
                       className={`flex size-20 items-center justify-center transition-colors duration-[400ms] ease-out motion-reduce:transition-none md:size-[6.25rem] ${
-                        isActive ? 'text-[#D7E8FF]' : 'text-[#000000]'
+                        isActive ? 'text-[#070707]' : 'text-black'
                       }`}
                     >
                       <CardIcon className="size-full" />
