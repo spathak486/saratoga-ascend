@@ -73,6 +73,13 @@ function isItemActive(pathname: string | undefined, href: string): boolean {
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 
+/** Who We Serve alone: hover opens the submenu; click still navigates. */
+function opensMenuOnHover(item: HeaderNavItem): boolean {
+  const href = item.href.replace(/\/+$/, '') || '/';
+  if (href === '/who-we-serve') return true;
+  return item.label.trim().toLowerCase() === 'who we serve';
+}
+
 const gapClass: Record<HeaderNavVariant, Record<HeaderNavOrientation, string>> = {
   primary: {
     // Figma Link row: 20px between items at 1920.
@@ -146,10 +153,19 @@ export const HeaderNavList: React.FC<HeaderNavListProps> = ({
         // Figma primary row always shows a caret (About us included). Open only when links exist.
         const showCaret = Boolean(isPrimaryBar && (item.hasMenu ?? true));
         const canOpenMenu = showCaret && menuLinks.length > 0;
+        const hoverOpensMenu = canOpenMenu && opensMenuOnHover(item);
         const isOpen = canOpenMenu && openHref === item.href;
         // Figma utility row always shows ↗. CMS often sends hasExternalIcon:false —
         // ignore that flag for presentation only; labels/hrefs stay CMS-driven.
         const showExternalIcon = isUtilityRow ? true : Boolean(item.hasExternalIcon);
+
+        const openThisMenu = () => setOpen({ href: item.href, path: activeHref });
+        const closeThisMenu = () =>
+          setOpen((current) =>
+            current !== null && current.path === activeHref && current.href === item.href
+              ? null
+              : current,
+          );
 
         const trailingIcon = showCaret ? (
           <span
@@ -170,7 +186,7 @@ export const HeaderNavList: React.FC<HeaderNavListProps> = ({
             aria-expanded={canOpenMenu ? isOpen : undefined}
             rightIcon={trailingIcon}
             onClick={
-              canOpenMenu
+              canOpenMenu && !hoverOpensMenu
                 ? (event) => {
                     event.preventDefault();
                     setOpen((current) =>
@@ -201,6 +217,18 @@ export const HeaderNavList: React.FC<HeaderNavListProps> = ({
           <div
             key={itemKey}
             className="group relative flex h-full items-center"
+            onMouseEnter={hoverOpensMenu ? openThisMenu : undefined}
+            onMouseLeave={hoverOpensMenu ? closeThisMenu : undefined}
+            onFocus={hoverOpensMenu ? openThisMenu : undefined}
+            onBlur={
+              hoverOpensMenu
+                ? (event) => {
+                    if (!event.currentTarget.contains(event.relatedTarget as Node)) {
+                      closeThisMenu();
+                    }
+                  }
+                : undefined
+            }
           >
             <div className="relative flex h-full items-center">
               {link}
