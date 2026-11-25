@@ -246,9 +246,9 @@ export function LatestNewsCarousel({
         </div>
       </div>
 
-      {/* Overlay matches featured image box so arrows sit on the photo midline. */}
+      {/* Navigation arrows: Hidden on mobile (< md), shown on tablet (md to xl) */}
       <div
-        className={`pointer-events-none absolute top-0 z-10 aspect-[544/431] md:inset-x-0 md:aspect-auto md:h-full md:w-auto md:translate-x-0 ${FEATURED_WIDTH_CLASS} left-1/2 -translate-x-1/2 md:left-0`}
+        className={`pointer-events-none absolute top-0 z-10 hidden aspect-[544/431] md:inset-x-0 md:flex md:aspect-auto md:h-full md:w-auto md:translate-x-0 ${FEATURED_WIDTH_CLASS} left-1/2 -translate-x-1/2 md:left-0`}
       >
         <button
           type="button"
@@ -266,6 +266,27 @@ export function LatestNewsCarousel({
         >
           <ArrowGlyph direction="next" />
         </button>
+      </div>
+
+      {/* Pagination dots for mobile (< md): Clean clickable indicator dots */}
+      <div className="mt-5 flex items-center justify-center gap-2 md:hidden" aria-label="Carousel pagination">
+        {articles.map((_, idx) => {
+          const isActive = idx === active;
+          return (
+            <button
+              key={`dot-${idx}`}
+              type="button"
+              aria-label={`Go to slide ${idx + 1}`}
+              aria-current={isActive ? 'true' : undefined}
+              onClick={() => goTo(idx)}
+              className={`transition-all duration-300 rounded-full focus:outline-none ${
+                isActive
+                  ? 'h-2 w-6 bg-[#F01424]'
+                  : 'h-2 w-2 bg-[#CBD5E1] hover:bg-[#94A3B8]'
+              }`}
+            />
+          );
+        })}
       </div>
     </div>
   );

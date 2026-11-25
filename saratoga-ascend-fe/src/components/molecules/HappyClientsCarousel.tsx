@@ -500,13 +500,14 @@ export const HappyClientsCarousel: React.FC<HappyClientsCarouselProps> = ({
             ))}
           </div>
 
+          {/* Navigation arrows: Hidden on mobile (< md), shown on tablet (md to lg) */}
           <button
             type="button"
             aria-label="Previous client story"
             onClick={() => go(-1)}
             onPointerDown={(event) => event.stopPropagation()}
             onPointerUp={(event) => event.stopPropagation()}
-            className={`${ARROW_BUTTON_MOBILE} left-0 -translate-x-1/2`}
+            className={`${ARROW_BUTTON_MOBILE} hidden md:flex left-0 -translate-x-1/2`}
           >
             <ArrowGlyph direction="prev" compact />
           </button>
@@ -516,10 +517,31 @@ export const HappyClientsCarousel: React.FC<HappyClientsCarouselProps> = ({
             onClick={() => go(1)}
             onPointerDown={(event) => event.stopPropagation()}
             onPointerUp={(event) => event.stopPropagation()}
-            className={`${ARROW_BUTTON_MOBILE} right-0 translate-x-1/2`}
+            className={`${ARROW_BUTTON_MOBILE} hidden md:flex right-0 translate-x-1/2`}
           >
             <ArrowGlyph direction="next" compact />
           </button>
+        </div>
+
+        {/* Pagination dots for mobile (< md) */}
+        <div className="mt-4 flex items-center justify-center gap-2 md:hidden" aria-label="Client reviews pagination">
+          {reviews.map((_, dotIdx) => {
+            const isActive = dotIdx === index;
+            return (
+              <button
+                key={`happy-client-dot-${dotIdx}`}
+                type="button"
+                aria-label={`Go to slide ${dotIdx + 1}`}
+                aria-current={isActive ? 'true' : undefined}
+                onClick={() => go(dotIdx - index)}
+                className={`transition-all duration-300 rounded-full focus:outline-none ${
+                  isActive
+                    ? 'h-2 w-6 bg-brand-red'
+                    : 'h-2 w-2 bg-[#CBD5E1] hover:bg-[#94A3B8]'
+                }`}
+              />
+            );
+          })}
         </div>
       </div>
     </div>

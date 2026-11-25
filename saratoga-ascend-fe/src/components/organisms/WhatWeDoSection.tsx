@@ -58,6 +58,36 @@ export const WhatWeDoSection: React.FC<WhatWeDoSectionProps> = ({
 }) => {
   const displayLines = serviceLines && serviceLines.length > 0 ? serviceLines : [];
   const scrollRef = useRef<HTMLDivElement>(null);
+  const [activeMobileIndex, setActiveMobileIndex] = React.useState(0);
+
+  // Track active card on scroll for mobile pagination dots
+  React.useEffect(() => {
+    const scroller = scrollRef.current;
+    if (!scroller) return;
+
+    const handleScroll = () => {
+      const card = scroller.querySelector<HTMLElement>('[data-what-we-do-card]');
+      if (!card) return;
+      const styles = window.getComputedStyle(scroller);
+      const gap = Number.parseFloat(styles.columnGap || styles.gap) || 0;
+      const cardWidth = card.offsetWidth + gap;
+      const idx = Math.round(scroller.scrollLeft / cardWidth);
+      setActiveMobileIndex(Math.max(0, Math.min(displayLines.length - 1, idx)));
+    };
+
+    scroller.addEventListener('scroll', handleScroll, { passive: true });
+    return () => scroller.removeEventListener('scroll', handleScroll);
+  }, [displayLines.length]);
+
+  const scrollToCard = (index: number) => {
+    const scroller = scrollRef.current;
+    if (!scroller) return;
+    const cards = scroller.querySelectorAll<HTMLElement>('[data-what-we-do-card]');
+    if (cards[index]) {
+      cards[index].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+      setActiveMobileIndex(index);
+    }
+  };
 
   const scroll = (direction: 'left' | 'right') => {
     const scroller = scrollRef.current;
@@ -185,24 +215,48 @@ export const WhatWeDoSection: React.FC<WhatWeDoSectionProps> = ({
         </div>
 
         {displayLines.length > 1 ? (
-          <div className="flex items-center justify-center gap-[1.875rem]">
-            <button
-              type="button"
-              onClick={() => scroll('left')}
-              aria-label="Previous"
-              className={ARROW_BUTTON}
-            >
-              <ArrowGlyph direction="left" />
-            </button>
-            <button
-              type="button"
-              onClick={() => scroll('right')}
-              aria-label="Next"
-              className={ARROW_BUTTON}
-            >
-              <ArrowGlyph direction="right" />
-            </button>
-          </div>
+          <>
+            {/* Desktop / Tablet Navigation Arrows: Hidden on mobile (< md) */}
+            <div className="hidden md:flex items-center justify-center gap-[1.875rem]">
+              <button
+                type="button"
+                onClick={() => scroll('left')}
+                aria-label="Previous"
+                className={ARROW_BUTTON}
+              >
+                <ArrowGlyph direction="left" />
+              </button>
+              <button
+                type="button"
+                onClick={() => scroll('right')}
+                aria-label="Next"
+                className={ARROW_BUTTON}
+              >
+                <ArrowGlyph direction="right" />
+              </button>
+            </div>
+
+            {/* Mobile Pagination Dots (< md) */}
+            <div className="mt-2 flex items-center justify-center gap-2 md:hidden" aria-label="What we do pagination">
+              {displayLines.map((_, dotIdx) => {
+                const isActive = dotIdx === activeMobileIndex;
+                return (
+                  <button
+                    key={`what-we-do-dot-${dotIdx}`}
+                    type="button"
+                    aria-label={`Go to slide ${dotIdx + 1}`}
+                    aria-current={isActive ? 'true' : undefined}
+                    onClick={() => scrollToCard(dotIdx)}
+                    className={`transition-all duration-300 rounded-full focus:outline-none ${
+                      isActive
+                        ? 'h-2 w-6 bg-brand-cta-from'
+                        : 'h-2 w-2 bg-[#CBD5E1] hover:bg-[#94A3B8]'
+                    }`}
+                  />
+                );
+              })}
+            </div>
+          </>
         ) : null}
       </div>
     </Section>

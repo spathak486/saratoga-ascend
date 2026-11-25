@@ -217,6 +217,33 @@ export const JobsBySpecialitySection: React.FC<JobsBySpecialitySectionProps> = (
     return currentSlide?.jobs && currentSlide.jobs.length > 0 ? currentSlide.jobs : [];
   }, [currentSlide]);
 
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
+
+  const minSwipeDistance = 45;
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+
+    if (isLeftSwipe) {
+      step(1); // Next slide
+    } else if (isRightSwipe) {
+      step(-1); // Previous slide
+    }
+  };
+
   return (
     <section
       aria-label="Jobs by Speciality"
@@ -246,7 +273,12 @@ export const JobsBySpecialitySection: React.FC<JobsBySpecialitySectionProps> = (
         {/* Frame 1899:2260: Main Area (gap: 40px) */}
         <div className="flex w-full flex-col gap-[2.5rem]">
           {/* Top Big Feature Card (Figma 1899:2261: 1680px x 700px, rounded: 12px, border: 1px #C6C6C6) */}
-          <article className="relative w-full overflow-hidden rounded-[0.75rem] border border-[#C6C6C6] bg-[#002845] min-h-[32rem] lg:h-[43.75rem] shadow-sm select-none">
+          <article
+            onTouchStart={onTouchStart}
+            onTouchMove={onTouchMove}
+            onTouchEnd={onTouchEnd}
+            className="relative w-full overflow-hidden rounded-[0.75rem] border border-[#C6C6C6] bg-[#002845] min-h-[32rem] lg:h-[43.75rem] shadow-sm select-none"
+          >
             {/* Background Graphic / Texture from Figma node 1899:2261 */}
             <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden rounded-[0.75rem]">
               <Image
@@ -268,19 +300,19 @@ export const JobsBySpecialitySection: React.FC<JobsBySpecialitySectionProps> = (
                 className="flex flex-col gap-[1.875rem]"
               >
                 {/* Frame 768: Title + Role Subtitle */}
-                <div className="flex flex-col gap-[1.875rem]">
-                  <h3 className="font-serif text-[3.25rem] sm:text-[4.25rem] lg:text-[5.625rem] font-normal leading-[1.15] text-[#FFFEFE] whitespace-nowrap">
+                <div className="flex flex-col gap-3 sm:gap-4 lg:gap-[1.875rem]">
+                  <h3 className="font-serif text-[clamp(2.25rem,1.8rem+3vw,5.625rem)] font-normal leading-[1.15] text-[#FFFEFE] break-words">
                     {currentSlide.name}
                   </h3>
                   {currentSlide.roleTitle && (
-                    <p className="font-sans text-[1.375rem] sm:text-[1.5rem] lg:text-[1.75rem] font-bold leading-[1.2] text-[#A2D8FE]">
+                    <p className="font-sans text-[clamp(1.125rem,1rem+0.8vw,1.75rem)] font-bold leading-[1.2] text-[#A2D8FE]">
                       {currentSlide.roleTitle}
                     </p>
                   )}
                 </div>
 
                 {currentSlide.description && (
-                  <p className="font-sans text-[1.125rem] sm:text-[1.375rem] lg:text-[1.75rem] font-normal leading-[2.375rem] text-white">
+                  <p className="font-sans text-[clamp(1rem,0.9rem+0.4vw,1.75rem)] font-normal leading-[1.6] sm:leading-[2.375rem] text-white">
                     {currentSlide.description}
                   </p>
                 )}
@@ -288,14 +320,42 @@ export const JobsBySpecialitySection: React.FC<JobsBySpecialitySectionProps> = (
 
               {/* Explore Jobs Button (Figma I1899:2261;123:7652: h 60, min-w 180, pill, #2A91DC, 20px medium, nowrap).
                   Width grows with CMS label so longer copy is not clipped. */}
-              <div className="min-w-0 max-w-full">
+              <div className="flex w-full justify-center lg:justify-start">
                 <Link
                   href={currentSlide.ctaHref || `/careers/search-jobs?speciality=${currentSlide.slug}`}
-                  className="inline-flex h-auto min-h-[3.75rem] min-w-[11.25rem] max-w-full items-center justify-center rounded-full bg-[#2A91DC] px-6 py-4 text-center font-sans text-[1.25rem] font-medium leading-[1.5] text-white whitespace-normal sm:whitespace-nowrap shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)] transition-colors hover:bg-[#1E74C0] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                  className="inline-flex h-auto min-h-[3.25rem] sm:min-h-[3.75rem] min-w-[10rem] sm:min-w-[11.25rem] max-w-full items-center justify-center rounded-full bg-[#2A91DC] px-6 py-3.5 sm:py-4 text-center font-sans text-[1.125rem] sm:text-[1.25rem] font-medium leading-[1.5] text-white whitespace-normal sm:whitespace-nowrap shadow-[0px_1px_2px_0px_rgba(16,24,40,0.05)] transition-colors hover:bg-[#1E74C0] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
                 >
                   {currentSlide.ctaLabel || 'Explore Jobs'}
                 </Link>
               </div>
+
+              {/* Mobile pagination dots for the big feature card (< lg) */}
+              {canRotate && (
+                <div className="flex w-full items-center justify-center pt-2 lg:hidden" aria-label="Specialities pagination">
+                  {activeSlides.map((_, dotIdx) => {
+                    const isActive = dotIdx === safeIndex;
+                    return (
+                      <button
+                        key={`speciality-dot-${dotIdx}`}
+                        type="button"
+                        aria-label={`Go to slide ${dotIdx + 1}`}
+                        onClick={() => {
+                          if (dotIdx !== safeIndex && !isAnimating) {
+                            setIsAnimating(true);
+                            setIndex(dotIdx);
+                            setTimeout(() => setIsAnimating(false), 500);
+                          }
+                        }}
+                        className={`transition-all duration-300 rounded-full focus:outline-none ${
+                          isActive
+                            ? 'h-2 w-6 bg-[#2A91DC]'
+                            : 'h-2 w-2 bg-white/40 hover:bg-white/70'
+                        }`}
+                      />
+                    );
+                  })}
+                </div>
+              )}
             </div>
 
             {/* Doctor Cutout (Figma node I1899:2261;123:7655: w: 700px, h: 1068px, bottom: 0) */}
@@ -317,13 +377,13 @@ export const JobsBySpecialitySection: React.FC<JobsBySpecialitySectionProps> = (
               </motion.div>
             </div>
 
-            {/* Figma Left Navigation Arrow (Node I1899:2261;123:7716) */}
+            {/* Figma Left Navigation Arrow: Hidden on mobile (< lg), shown on desktop */}
             {canRotate && (
               <button
                 type="button"
                 onClick={() => step(-1)}
                 aria-label="Previous speciality slide"
-                className="absolute z-20 top-1/2 -translate-y-1/2 left-4 sm:left-6 lg:left-[47.5rem] size-[3.5rem] lg:size-[4.125rem] flex items-center justify-center rounded-full border-[1.375px] border-solid border-white bg-black/20 text-white drop-shadow-[0px_1.375px_1.375px_rgba(16,24,40,0.05)] backdrop-blur-xs hover:bg-white hover:text-black transition-all cursor-pointer"
+                className="hidden lg:flex absolute z-20 top-1/2 -translate-y-1/2 left-4 sm:left-6 lg:left-[47.5rem] size-[3.5rem] lg:size-[4.125rem] items-center justify-center rounded-full border-[1.375px] border-solid border-white bg-black/20 text-white drop-shadow-[0px_1.375px_1.375px_rgba(16,24,40,0.05)] backdrop-blur-xs hover:bg-white hover:text-black transition-all cursor-pointer"
               >
                 <svg className="size-6 rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
@@ -331,13 +391,13 @@ export const JobsBySpecialitySection: React.FC<JobsBySpecialitySectionProps> = (
               </button>
             )}
 
-            {/* Figma Right Navigation Arrow (Node I1899:2261;123:7711) */}
+            {/* Figma Right Navigation Arrow: Hidden on mobile (< lg), shown on desktop */}
             {canRotate && (
               <button
                 type="button"
                 onClick={() => step(1)}
                 aria-label="Next speciality slide"
-                className="absolute z-20 top-1/2 -translate-y-1/2 right-4 sm:right-6 lg:right-[2.5rem] size-[3.5rem] lg:size-[4.125rem] flex items-center justify-center rounded-full border-[1.375px] border-solid border-white bg-black/20 text-white drop-shadow-[0px_1.375px_1.375px_rgba(16,24,40,0.05)] backdrop-blur-xs hover:bg-white hover:text-black transition-all cursor-pointer"
+                className="hidden lg:flex absolute z-20 top-1/2 -translate-y-1/2 right-4 sm:right-6 lg:right-[2.5rem] size-[3.5rem] lg:size-[4.125rem] items-center justify-center rounded-full border-[1.375px] border-solid border-white bg-black/20 text-white drop-shadow-[0px_1.375px_1.375px_rgba(16,24,40,0.05)] backdrop-blur-xs hover:bg-white hover:text-black transition-all cursor-pointer"
               >
                 <svg className="size-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />

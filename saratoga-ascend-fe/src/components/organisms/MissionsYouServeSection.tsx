@@ -94,6 +94,7 @@ export function MissionsYouServeSection({
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
+  const [activeMobileIndex, setActiveMobileIndex] = useState(0);
 
   const updateScrollState = useCallback(() => {
     const el = scrollContainerRef.current;
@@ -108,7 +109,14 @@ export function MissionsYouServeSection({
       setCanScrollLeft(false);
       setCanScrollRight(false);
     }
-  }, []);
+
+    const firstCard = el.querySelector<HTMLElement>('[data-mission-card]');
+    if (firstCard) {
+      const cardWidth = firstCard.offsetWidth + 16;
+      const idx = Math.round(scrollLeft / cardWidth);
+      setActiveMobileIndex(Math.max(0, Math.min(displayCards.length - 1, idx)));
+    }
+  }, [displayCards.length]);
 
   useEffect(() => {
     const el = scrollContainerRef.current;
@@ -226,7 +234,7 @@ export function MissionsYouServeSection({
 
               <div className="mt-[3.75rem] h-[1.5px] w-60 bg-brand-red" aria-hidden="true" />
 
-              <div className="mt-8 flex items-center gap-5 xl:mt-auto xl:mb-[3.75rem] xl:self-end">
+              <div className="hidden md:flex mt-8 items-center gap-5 xl:mt-auto xl:mb-[3.75rem] xl:self-end">
                 <CarouselButton
                   direction="left"
                   label="Previous mission environment"
@@ -317,6 +325,38 @@ export function MissionsYouServeSection({
                 })}
                 </div>
               </div>
+
+              {/* Mobile pagination dots (< md) */}
+              {displayCards.length > 1 && (
+                <div className="mt-6 flex items-center justify-center gap-2 md:hidden" aria-label="Missions pagination">
+                  {displayCards.map((_, dotIdx) => {
+                    const isActive = dotIdx === activeMobileIndex;
+                    return (
+                      <button
+                        key={`mission-dot-${dotIdx}`}
+                        type="button"
+                        aria-label={`Go to slide ${dotIdx + 1}`}
+                        onClick={() => {
+                          const el = scrollContainerRef.current;
+                          if (!el) return;
+                          const card = el.querySelector<HTMLElement>('[data-mission-card]');
+                          const track = el.firstElementChild instanceof HTMLElement ? el.firstElementChild : el;
+                          const styles = window.getComputedStyle(track);
+                          const gap = Number.parseFloat(styles.columnGap || styles.gap || '16') || 16;
+                          const cardW = (card?.offsetWidth ?? 280) + gap;
+                          el.scrollTo({ left: dotIdx * cardW, behavior: 'smooth' });
+                          setActiveMobileIndex(dotIdx);
+                        }}
+                        className={`transition-all duration-300 rounded-full focus:outline-none ${
+                          isActive
+                            ? 'h-2 w-6 bg-brand-red'
+                            : 'h-2 w-2 bg-[#CBD5E1] hover:bg-[#94A3B8]'
+                        }`}
+                      />
+                    );
+                  })}
+                </div>
+              )}
             </div>
           </div>
         </div>

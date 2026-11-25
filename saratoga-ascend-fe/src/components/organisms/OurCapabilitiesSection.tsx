@@ -177,6 +177,7 @@ export function OurCapabilitiesSection({
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [activeMobileIndex, setActiveMobileIndex] = useState(0);
 
   const updateScrollState = useCallback(() => {
     const el = scrollContainerRef.current;
@@ -194,7 +195,14 @@ export function OurCapabilitiesSection({
       setCanScrollLeft(false);
       setCanScrollRight(false);
     }
-  }, []);
+
+    const firstCard = el.querySelector<HTMLElement>('[style*="scroll-snap-align"]');
+    if (firstCard) {
+      const cardW = firstCard.offsetWidth + 20;
+      const idx = Math.round(scrollLeft / cardW);
+      setActiveMobileIndex(Math.max(0, Math.min(cards.length - 1, idx)));
+    }
+  }, [cards.length]);
 
   useEffect(() => {
     const el = scrollContainerRef.current;
@@ -367,10 +375,10 @@ export function OurCapabilitiesSection({
           </div>
 
           {/* Bottom Carousel Controls: Progress Track & Navigation Buttons */}
-          <div className="mt-6 px-6 sm:px-10 lg:pl-0 lg:pr-page flex items-center justify-between gap-6">
+          <div className="mt-6 px-6 sm:px-10 lg:pl-0 lg:pr-page flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-6">
             
-            {/* Scroll Progress Bar */}
-            <div className="flex-1 max-w-[41.1875rem] h-[0.375rem] bg-[#D9D9D9] rounded-full overflow-hidden relative">
+            {/* Scroll Progress Bar (hidden on mobile < md, replaced by dots below) */}
+            <div className="hidden md:block flex-1 max-w-[41.1875rem] h-[0.375rem] bg-[#D9D9D9] rounded-full overflow-hidden relative">
               <div
                 className="h-full bg-[#2B88D9] rounded-full transition-all duration-200"
                 style={{
@@ -380,8 +388,8 @@ export function OurCapabilitiesSection({
               />
             </div>
 
-            {/* Circular Navigation Buttons */}
-            <div className="flex items-center gap-4 shrink-0">
+            {/* Circular Navigation Buttons: Hidden on mobile (< md) */}
+            <div className="hidden md:flex items-center gap-4 shrink-0">
               <button
                 type="button"
                 onClick={() => handleScroll('left')}
@@ -432,6 +440,35 @@ export function OurCapabilitiesSection({
                 </svg>
               </button>
             </div>
+
+            {/* Mobile Pagination Dots (< md) */}
+            {cards.length > 1 && (
+              <div className="flex w-full items-center justify-center gap-2 md:hidden" aria-label="Capabilities pagination">
+                {cards.map((_, dotIdx) => {
+                  const isActive = dotIdx === activeMobileIndex;
+                  return (
+                    <button
+                      key={`cap-dot-${dotIdx}`}
+                      type="button"
+                      aria-label={`Go to slide ${dotIdx + 1}`}
+                      onClick={() => {
+                        const el = scrollContainerRef.current;
+                        if (!el) return;
+                        const card = el.querySelector<HTMLElement>('[style*="scroll-snap-align"]');
+                        const cardW = (card?.offsetWidth ?? 280) + 20;
+                        el.scrollTo({ left: dotIdx * cardW, behavior: 'smooth' });
+                        setActiveMobileIndex(dotIdx);
+                      }}
+                      className={`transition-all duration-300 rounded-full focus:outline-none ${
+                        isActive
+                          ? 'h-2 w-6 bg-[#2B88D9]'
+                          : 'h-2 w-2 bg-[#CBD5E1] hover:bg-[#94A3B8]'
+                      }`}
+                    />
+                  );
+                })}
+              </div>
+            )}
 
           </div>
         </div>
