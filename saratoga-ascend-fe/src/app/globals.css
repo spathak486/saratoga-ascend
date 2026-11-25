@@ -295,31 +295,34 @@ html {
    Display Scaling & Multi-Resolution Proportional Normalization
    
    Calculations based on 1080p and 1440p physical displays:
-   - 100% scaling: 1920x1080 (CSS 1920px) -> root font-size: 100% (16px)
-   - 125% scaling: 1920x1080 (CSS 1536x864) / 1600x900 -> root font-size: 80% (12.8px) [100 / 125 = 0.8]
-   - 150% scaling: 1920x1080 (CSS 1280x720) / 1366x768 -> root font-size: 70% to 75% (11.2px - 12px)
-   - 175% scaling: 1920x1080 (CSS 1097x617) -> root font-size: 65% (10.4px)
-   - 2K / 2560x1440 scaling: 2560px -> fluid rem and container max-w-home preserve exact spacing.
+   - ≥ 1600px (1080p 100% zoom / 2K / 4K): root font-size: 100% (16px)
+   - 1280px - 1599px (1080p @ 125% zoom / 1440x900): root font-size: 85% (13.6px)
+   - 1024px - 1279px (1366x768 / 1080p @ 150% zoom): root font-size: 78% (12.5px)
+   - < 1024px (Tablets & Mobile): root font-size defaults to 100% (16px) to maintain readability
+     and prevent iOS input auto-zooming.
    --------------------------------------------------------------------------- */
 
-/* Standard 1080p @ 125% OS zoom (1536px viewport), 1600x900, 1440x900 */
-@media (min-width: 1200px) and (max-width: 1600px) {
+/* Continuous Fluid Desktop Scaling:
+   Figma canvas is 1920px wide (where 1rem = 16px).
+   On any desktop or laptop (1024px to 1920px):
+   font-size dynamically scales with viewport width so that all rem-based layouts,
+   paddings, and heights keep the EXACT same visual proportions on every screen size.
+   Formula: (16px / 1920px) * 100vw = 0.83333vw.
+   - At 1920px: 16px (100%)
+   - At 1536px (14" Laptop @ 125% zoom): 12.8px (exact 80% proportional fit)
+   - At 1440px (MacBook): 12px (exact 75% proportional fit)
+   - At 1366px (Standard Laptop): 11.38px (exact 71% proportional fit)
+   - At 1280px (1080p @ 150% zoom): 10.66px (exact 66.7% proportional fit)
+*/
+@media (min-width: 1024px) and (max-width: 1919.98px) {
   html {
-    font-size: 80%;
+    font-size: clamp(10.5px, 0.83333vw, 16px);
   }
 }
 
-/* 1366x768 native laptops, or 1080p @ 150% OS zoom (1280px viewport) */
-@media (min-width: 1024px) and (max-width: 1199px) {
+@media (min-width: 1920px) {
   html {
-    font-size: 72%;
-  }
-}
-
-/* 1080p @ 175% OS zoom (1097px viewport) */
-@media (min-width: 800px) and (max-width: 1023px) {
-  html {
-    font-size: 65%;
+    font-size: 16px;
   }
 }
 
