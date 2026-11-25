@@ -198,7 +198,7 @@ export const HeaderNavList: React.FC<HeaderNavListProps> = ({
                   }
                 : undefined
             }
-            className={`inline-flex items-center rounded-button font-sans font-medium whitespace-nowrap transition-colors ${NAV_MOTION} ${isPrimaryHorizontal ? `h-full gap-2.5 px-3 py-2 ${NAV_HOVER} focus-visible:text-brand-red` : 'w-full justify-between gap-2.5 py-2 text-left'} ${styles.size} ${isActive || isOpen ? styles.active : styles.rest} ${!isPrimaryHorizontal && variant === 'primary' ? NAV_HOVER : ''}`}
+            className={`inline-flex items-center rounded-button font-sans font-medium whitespace-nowrap transition-colors ${NAV_MOTION} ${isPrimaryHorizontal ? `h-full gap-2.5 px-3 py-2 ${NAV_HOVER} focus-visible:text-brand-red` : variant === 'utility' ? `gap-2.5 px-3 py-2 ${NAV_HOVER}` : 'w-full justify-between gap-2.5 py-2 text-left'} ${styles.size} ${isActive || isOpen ? styles.active : styles.rest} ${!isPrimaryHorizontal && variant === 'primary' ? NAV_HOVER : ''}`}
           >
             {item.label}
           </GeneralLink>
