@@ -48,6 +48,7 @@ export const RelatedPostsSection: React.FC<RelatedPostsSectionProps> = ({
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(0);
 
   const defaultTitle =
     title ||
@@ -79,6 +80,14 @@ export const RelatedPostsSection: React.FC<RelatedPostsSectionProps> = ({
     const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
     setCanScrollLeft(scrollLeft > 10);
     setCanScrollRight(scrollLeft + clientWidth < scrollWidth - 10);
+
+    // Calculate approximate active slide for mobile dots
+    const firstSlide = scrollRef.current.querySelector('article');
+    if (firstSlide) {
+      const slideWidth = firstSlide.offsetWidth + 24;
+      const idx = Math.round(scrollLeft / slideWidth);
+      setActiveIndex(Math.max(0, Math.min(items.length - 1, idx)));
+    }
   };
 
   useEffect(() => {
@@ -86,6 +95,15 @@ export const RelatedPostsSection: React.FC<RelatedPostsSectionProps> = ({
     window.addEventListener('resize', updateScrollButtons);
     return () => window.removeEventListener('resize', updateScrollButtons);
   }, [items]);
+
+  const scrollToSlide = (index: number) => {
+    if (!scrollRef.current) return;
+    const slides = scrollRef.current.querySelectorAll('article');
+    if (slides[index]) {
+      slides[index].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+      setActiveIndex(index);
+    }
+  };
 
   const handleScroll = (direction: 'left' | 'right') => {
     if (!scrollRef.current) return;
@@ -115,8 +133,8 @@ export const RelatedPostsSection: React.FC<RelatedPostsSectionProps> = ({
             {defaultTitle}
           </h2>
 
-          {/* Slider Prev/Next Controls (Group 2085665586) */}
-          <div className="flex items-center gap-4 self-end md:self-auto">
+          {/* Slider Prev/Next Controls (Hidden on mobile < md, shown on desktop/tablet) */}
+          <div className="hidden md:flex items-center gap-4 self-end md:self-auto">
             <button
               type="button"
               onClick={() => handleScroll('left')}
@@ -263,6 +281,29 @@ export const RelatedPostsSection: React.FC<RelatedPostsSectionProps> = ({
             );
           })}
         </div>
+
+        {/* Pagination Dots for Mobile (< md) */}
+        {items.length > 1 && (
+          <div className="mt-6 flex items-center justify-center gap-2 md:hidden" aria-label="Posts pagination">
+            {items.map((_, dotIdx) => {
+              const isActive = dotIdx === activeIndex;
+              return (
+                <button
+                  key={`related-post-dot-${dotIdx}`}
+                  type="button"
+                  aria-label={`Go to slide ${dotIdx + 1}`}
+                  aria-current={isActive ? 'true' : undefined}
+                  onClick={() => scrollToSlide(dotIdx)}
+                  className={`transition-all duration-300 rounded-full focus:outline-none ${
+                    isActive
+                      ? 'h-2 w-6 bg-[#D31E2D]'
+                      : 'h-2 w-2 bg-[#CBD5E1] hover:bg-[#94A3B8]'
+                  }`}
+                />
+              );
+            })}
+          </div>
+        )}
       </Container>
     </section>
   );

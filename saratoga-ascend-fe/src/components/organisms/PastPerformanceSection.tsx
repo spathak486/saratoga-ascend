@@ -183,22 +183,54 @@ export const PastPerformanceSection: React.FC<PastPerformanceSectionProps> = ({
             </div>
 
             {slides.length > 1 && (
-              <div className="flex justify-center gap-6 max-xl:gap-[1.875rem]">
-                <CircleControl
-                  label="Previous project"
-                  direction="prev"
-                  tone="iconPlay"
-                  onClick={scrollPrev}
-                  className="transition-transform duration-150 hover:scale-105 active:scale-95 motion-reduce:transition-none motion-reduce:hover:scale-100"
-                />
-                <CircleControl
-                  label="Next project"
-                  direction="next"
-                  tone="iconPlay"
-                  onClick={scrollNext}
-                  className="transition-transform duration-150 hover:scale-105 active:scale-95 motion-reduce:transition-none motion-reduce:hover:scale-100"
-                />
-              </div>
+              <>
+                {/* Desktop / Tablet Circle Controls: hidden on mobile */}
+                <div className="hidden md:flex justify-center gap-6 max-xl:gap-[1.875rem]">
+                  <CircleControl
+                    label="Previous project"
+                    direction="prev"
+                    tone="iconPlay"
+                    onClick={scrollPrev}
+                    className="transition-transform duration-150 hover:scale-105 active:scale-95 motion-reduce:transition-none motion-reduce:hover:scale-100"
+                  />
+                  <CircleControl
+                    label="Next project"
+                    direction="next"
+                    tone="iconPlay"
+                    onClick={scrollNext}
+                    className="transition-transform duration-150 hover:scale-105 active:scale-95 motion-reduce:transition-none motion-reduce:hover:scale-100"
+                  />
+                </div>
+
+                {/* Mobile Pagination Dots */}
+                <div className="mt-2 flex items-center justify-center gap-2 md:hidden" aria-label="Past performance pagination">
+                  {caseStudies && caseStudies.map((_, dotIdx) => {
+                    const isActive = dotIdx === (active % caseStudies.length);
+                    return (
+                      <button
+                        key={`past-perf-dot-${dotIdx}`}
+                        type="button"
+                        aria-label={`Go to slide ${dotIdx + 1}`}
+                        onClick={() => {
+                          const vp = viewportRef.current;
+                          if (!vp) return;
+                          const slide = vp.querySelector<HTMLElement>('[data-carousel-slide]');
+                          if (slide) {
+                            const slideW = slide.offsetWidth + 18;
+                            vp.scrollTo({ left: dotIdx * slideW, behavior: 'smooth' });
+                            setActive(dotIdx);
+                          }
+                        }}
+                        className={`transition-all duration-300 rounded-full focus:outline-none ${
+                          isActive
+                            ? 'h-2 w-6 bg-brand-cta-from'
+                            : 'h-2 w-2 bg-[#CBD5E1] hover:bg-[#94A3B8]'
+                        }`}
+                      />
+                    );
+                  })}
+                </div>
+              </>
             )}
           </>
         )}
