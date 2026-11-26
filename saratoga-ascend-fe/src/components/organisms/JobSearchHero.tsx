@@ -143,13 +143,13 @@ export const JobSearchHero: React.FC<JobSearchHeroProps> = ({
           {/* Search Capsule Form (Group 2085663755: 740px x 79px) */}
           <form
             onSubmit={handleSubmit}
-            className="mt-8 sm:mt-10 lg:mt-12 w-full max-w-[46.25rem] bg-white rounded-full border-[1.33px] border-[#CBCBCB] shadow-sm flex items-center px-4 sm:px-6 py-2.5 sm:py-3 transition-all focus-within:border-brand-navy focus-within:shadow-md"
+            className="mt-8 sm:mt-10 lg:mt-12 w-full max-w-[46.25rem] bg-white rounded-2xl sm:rounded-full border-[1.33px] border-[#CBCBCB] shadow-sm flex flex-col sm:flex-row sm:items-center p-3 sm:px-6 sm:py-3 gap-2.5 sm:gap-0 transition-all focus-within:border-brand-navy focus-within:shadow-md"
           >
             {/* Search Icon & Keyword Input */}
-            <div className="flex items-center flex-1 min-w-0 pr-2">
+            <div className="flex items-center flex-1 min-w-0 pr-0 sm:pr-2 py-1 sm:py-0">
               {/* Search Vector (34px) */}
               <svg
-                className="w-6 h-6 sm:w-[1.875rem] sm:h-[1.875rem] text-[#545454] shrink-0 mr-2 sm:mr-3"
+                className="w-5 h-5 sm:w-[1.875rem] sm:h-[1.875rem] text-[#545454] shrink-0 mr-2.5 sm:mr-3"
                 viewBox="0 0 34 34"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
@@ -167,18 +167,18 @@ export const JobSearchHero: React.FC<JobSearchHeroProps> = ({
                 value={keyword}
                 onChange={(e) => setKeyword(e.target.value)}
                 placeholder="Job title, keywords..."
-                className="w-full bg-transparent font-sans text-base sm:text-lg text-[#0A0A0A] placeholder-[#808080] focus:outline-none"
+                className="w-full bg-transparent font-sans text-sm sm:text-base lg:text-lg text-[#0A0A0A] placeholder-[#808080] focus:outline-none"
               />
             </div>
 
-            {/* Vertical Divider (Rectangle 39728: 31.5px, #BDBDBD) */}
-            <div className="w-[1.5px] h-8 bg-[#BDBDBD] shrink-0 mx-1 sm:mx-2" />
+            {/* Divider (horizontal on mobile, vertical on sm+) */}
+            <div className="w-full h-[1px] sm:w-[1.5px] sm:h-8 bg-[#E5E7EB] sm:bg-[#BDBDBD] shrink-0 sm:mx-2" />
 
             {/* Location Pin Icon & Location Dropdown */}
-            <div className="relative flex items-center flex-1 min-w-0 pl-2">
+            <div className="relative flex items-center flex-1 min-w-0 pl-0 sm:pl-2 py-1 sm:py-0">
               {/* Location Pin Vector (34px) */}
               <svg
-                className="w-6 h-6 sm:w-[1.875rem] sm:h-[1.875rem] text-[#545454] shrink-0 mr-2 sm:mr-3"
+                className="w-5 h-5 sm:w-[1.875rem] sm:h-[1.875rem] text-[#545454] shrink-0 mr-2.5 sm:mr-3"
                 viewBox="0 0 34 34"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
@@ -202,7 +202,7 @@ export const JobSearchHero: React.FC<JobSearchHeroProps> = ({
               <button
                 type="button"
                 onClick={() => setIsLocationOpen(!isLocationOpen)}
-                className="w-full text-left bg-transparent font-sans text-base sm:text-lg text-[#0A0A0A] truncate focus:outline-none flex items-center justify-between"
+                className="w-full text-left bg-transparent font-sans text-sm sm:text-base lg:text-lg text-[#0A0A0A] truncate focus:outline-none flex items-center justify-between"
               >
                 <span className={location ? 'text-[#0A0A0A]' : 'text-[#808080]'}>
                   {location || 'Location'}
@@ -262,15 +262,16 @@ export const JobSearchHero: React.FC<JobSearchHeroProps> = ({
               )}
             </div>
 
-            {/* Red Circle Submit Button (Group 2085665760: 60px x 60px, #F01424) */}
+            {/* Red Circle Submit Button (Group 2085665760) */}
             <button
               type="submit"
               aria-label="Search Jobs"
-              className="ml-1 sm:ml-2 flex h-12 w-12 sm:h-[3.75rem] sm:w-[3.75rem] items-center justify-center rounded-full bg-[#F01424] text-white shadow-md hover:bg-[#d6121f] transition-all hover:scale-105 shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#F01424]"
+              className="mt-1 sm:mt-0 sm:ml-2 flex h-11 sm:h-12 lg:h-[3.75rem] w-full sm:w-12 lg:w-[3.75rem] items-center justify-center rounded-full bg-[#F01424] text-white shadow-md hover:bg-[#d6121f] transition-all hover:scale-[1.02] sm:hover:scale-105 shrink-0 font-medium font-sans text-sm sm:text-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#F01424]"
             >
+              <span className="sm:hidden mr-2">Search Openings</span>
               {/* Arrow Icon */}
               <svg
-                className="w-5 h-5 sm:w-6 sm:h-6 rotate-[-45deg]"
+                className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 rotate-[-45deg]"
                 viewBox="0 0 24 24"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"

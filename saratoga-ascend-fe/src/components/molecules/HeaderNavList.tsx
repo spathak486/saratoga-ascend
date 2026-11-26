@@ -111,7 +111,8 @@ export const HeaderNavList: React.FC<HeaderNavListProps> = ({
   id,
 }) => {
   const styles = variantStyles[variant];
-  const isPrimaryBar = variant === 'primary' && orientation === 'horizontal';
+  const isPrimaryHorizontal = variant === 'primary' && orientation === 'horizontal';
+  const isVertical = orientation === 'vertical';
   const navRef = useRef<HTMLElement>(null);
   const [open, setOpen] = useState<{ href: string; path: string | undefined } | null>(null);
   const openHref = open !== null && open.path === activeHref ? open.href : null;
@@ -141,19 +142,19 @@ export const HeaderNavList: React.FC<HeaderNavListProps> = ({
       id={id ?? fallbackId}
       aria-label={ariaLabel}
       className={
-        isPrimaryBar
+        isPrimaryHorizontal
           ? `flex h-full flex-row flex-nowrap items-stretch ${gapClass.primary.horizontal}`
-          : `${layoutStyles[orientation]} ${gapClass[variant][orientation]}`
+          : `${layoutStyles[orientation]} ${gapClass[variant][orientation]} w-full`
       }
     >
       {items.map((item, index) => {
         const isActive = isItemActive(activeHref, item.href);
         const menuLinks = item.links ?? [];
         const isUtilityRow = variant === 'utility' || variant === 'utilityPlain';
-        // Figma primary row always shows a caret (About us included). Open only when links exist.
-        const showCaret = Boolean(isPrimaryBar && (item.hasMenu ?? true));
-        const canOpenMenu = showCaret && menuLinks.length > 0;
-        const hoverOpensMenu = canOpenMenu && opensMenuOnHover(item);
+        // Figma primary row shows a caret when links exist or hasMenu is true.
+        const showCaret = Boolean((isPrimaryHorizontal || isVertical) && (item.hasMenu ?? true));
+        const canOpenMenu = menuLinks.length > 0;
+        const hoverOpensMenu = canOpenMenu && opensMenuOnHover(item) && isPrimaryHorizontal;
         const isOpen = canOpenMenu && openHref === item.href;
         // Figma utility row always shows ↗. CMS often sends hasExternalIcon:false —
         // ignore that flag for presentation only; labels/hrefs stay CMS-driven.
@@ -167,7 +168,7 @@ export const HeaderNavList: React.FC<HeaderNavListProps> = ({
               : current,
           );
 
-        const trailingIcon = showCaret ? (
+        const trailingIcon = canOpenMenu ? (
           <span
             className={`inline-flex origin-center transform-gpu text-current transition-transform ${NAV_MOTION} ${isOpen ? 'rotate-180' : ''}`}
           >
@@ -197,7 +198,7 @@ export const HeaderNavList: React.FC<HeaderNavListProps> = ({
                   }
                 : undefined
             }
-            className={`inline-flex items-center rounded-button font-sans font-medium whitespace-nowrap transition-colors ${NAV_MOTION} ${isPrimaryBar ? `h-full gap-2.5 px-3 py-2 ${NAV_HOVER} focus-visible:text-brand-red` : 'gap-2.5 px-3 py-2'} ${styles.size} ${isActive || isOpen ? styles.active : styles.rest} ${!isPrimaryBar && variant === 'primary' ? NAV_HOVER : ''}`}
+            className={`inline-flex items-center rounded-button font-sans font-medium whitespace-nowrap transition-colors ${NAV_MOTION} ${isPrimaryHorizontal ? `h-full gap-2.5 px-3 py-2 ${NAV_HOVER} focus-visible:text-brand-red` : variant === 'utility' ? `gap-2.5 px-3 py-2 ${NAV_HOVER}` : 'w-full justify-between gap-2.5 py-2 text-left'} ${styles.size} ${isActive || isOpen ? styles.active : styles.rest} ${!isPrimaryHorizontal && variant === 'primary' ? NAV_HOVER : ''}`}
           >
             {item.label}
           </GeneralLink>
@@ -205,7 +206,32 @@ export const HeaderNavList: React.FC<HeaderNavListProps> = ({
 
         const itemKey = `${item.href}-${item.label ?? ''}-${index}`;
 
-        if (!isPrimaryBar) {
+        // In mobile vertical drawer
+        if (isVertical) {
+          return (
+            <div key={itemKey} className="w-full flex flex-col">
+              {link}
+              {canOpenMenu && isOpen ? (
+                <div className="mt-2 ml-4 flex flex-col gap-2.5 border-l-2 border-[#CBD5E1] pl-4 py-1">
+                  {menuLinks.map((subLink) => (
+                    <GeneralLink
+                      key={subLink.href}
+                      href={subLink.href}
+                      variant="unstyled"
+                      target={subLink.target || undefined}
+                      isExternal={subLink.isExternal ?? undefined}
+                      className="text-base text-slate-copy hover:text-brand-red py-1 transition-colors font-sans"
+                    >
+                      {subLink.label}
+                    </GeneralLink>
+                  ))}
+                </div>
+              ) : null}
+            </div>
+          );
+        }
+
+        if (!isPrimaryHorizontal) {
           return (
             <div key={itemKey} className="group">
               {link}

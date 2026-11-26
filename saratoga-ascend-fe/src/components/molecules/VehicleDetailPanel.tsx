@@ -67,7 +67,7 @@ export const VehicleDetailPanel: React.FC<VehicleDetailPanelProps> = ({
     </p>
 
     {(detail.primary?.label || detail.secondary?.label) && (
-      <div className="mt-10 flex flex-wrap gap-4 max-xl:mt-5 max-xl:flex-nowrap max-xl:gap-5">
+      <div className="mt-8 flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3.5 sm:gap-4 max-xl:mt-5">
         {detail.primary?.label && (
           <GeneralLink
             href={detail.primary.href || '/contract-vehicles'}
@@ -76,7 +76,7 @@ export const VehicleDetailPanel: React.FC<VehicleDetailPanelProps> = ({
             variant="button"
             buttonVariant="solidNavy"
             size="ctaPill"
-            className="bg-brand-navy-panel px-[2.125rem] font-bold max-xl:h-auto max-xl:min-h-0 max-xl:min-w-0 max-xl:flex-1 max-xl:px-[0.75rem] max-xl:py-3 max-xl:text-sm max-xl:leading-[1.125rem]"
+            className="w-full sm:w-auto justify-center text-center bg-brand-navy-panel px-6 sm:px-[2.125rem] py-3.5 sm:py-4 font-bold text-sm sm:text-base leading-snug rounded-full shadow-sm"
           >
             {detail.primary.label}
           </GeneralLink>
@@ -89,7 +89,7 @@ export const VehicleDetailPanel: React.FC<VehicleDetailPanelProps> = ({
             variant="button"
             buttonVariant="outlineNavy"
             size="ctaPill"
-            className="border-brand-navy-panel px-[2.125rem] font-bold text-brand-navy-band max-xl:h-auto max-xl:min-h-0 max-xl:min-w-0 max-xl:flex-1 max-xl:px-[0.75rem] max-xl:py-3 max-xl:text-sm max-xl:leading-[1.125rem]"
+            className="w-full sm:w-auto justify-center text-center border border-brand-navy-panel px-6 sm:px-[2.125rem] py-3.5 sm:py-4 font-bold text-brand-navy-band text-sm sm:text-base leading-snug rounded-full"
           >
             {detail.secondary.label}
           </GeneralLink>

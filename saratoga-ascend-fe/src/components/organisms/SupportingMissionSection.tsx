@@ -45,32 +45,32 @@ export const SupportingMissionSection: React.FC<SupportingMissionSectionProps> =
   return (
     <section
       aria-label="Supporting the Missions"
-      className="relative isolate my-[clamp(2.5rem,4.167vw,5rem)] w-full overflow-hidden bg-white"
+      className="relative isolate my-8 sm:my-12 xl:my-[clamp(2.5rem,4.167vw,5rem)] w-full overflow-hidden bg-white"
     >
       <div className="relative w-full xl:min-h-[clamp(32rem,44.375vw,53.25rem)]">
         {/*
           Rectangle 40130 — equal top/bottom inset 70px (4.375rem) in the 852 band
-          so the bar is 713px with photo overhang above and below.
+          on desktop; on mobile/tablet it wraps the content cleanly.
         */}
         <div
           aria-hidden="true"
-          className="bg-cta-gradient pointer-events-none absolute inset-x-0 top-[clamp(2.5rem,3.646vw,4.375rem)] bottom-[clamp(2.5rem,3.646vw,4.375rem)] z-0"
+          className="bg-cta-gradient pointer-events-none absolute inset-x-0 top-0 bottom-0 sm:top-[clamp(2rem,3vw,3.5rem)] sm:bottom-[clamp(2rem,3vw,3.5rem)] xl:top-[clamp(2.5rem,3.646vw,4.375rem)] xl:bottom-[clamp(2.5rem,3.646vw,4.375rem)] z-0 rounded-3xl xl:rounded-none"
         />
 
         {/*
           Content column = gutter + 1680 (max-w-home + px-page).
           689 + 74 + 917 = 1680 at the 1920 artboard.
         */}
-        <div className="relative z-10 mx-auto flex w-full max-w-home flex-col items-center gap-8 px-page py-10 xl:min-h-[clamp(32rem,44.375vw,53.25rem)] xl:flex-row xl:items-stretch xl:gap-[4.625rem] xl:py-0">
+        <div className="relative z-10 mx-auto flex w-full max-w-home flex-col items-center gap-8 px-6 sm:px-10 lg:px-page py-8 sm:py-12 xl:min-h-[clamp(32rem,44.375vw,53.25rem)] xl:flex-row xl:items-stretch xl:gap-[4.625rem] xl:py-0">
           {/* Frame 2147226432 — 689×852 photo, 24px radius; full band height on desktop */}
-          <div className="relative aspect-[689/852] w-full max-w-[min(100%,43.0625rem)] shrink-0 overflow-hidden rounded-[1.5rem] select-none xl:aspect-auto xl:h-auto xl:min-h-[clamp(32rem,44.375vw,53.25rem)] xl:w-[clamp(18rem,35.885vw,43.0625rem)]">
+          <div className="relative aspect-[4/5] sm:aspect-[689/852] w-full max-w-[28rem] sm:max-w-[34rem] xl:max-w-[43.0625rem] shrink-0 overflow-hidden rounded-[1.5rem] select-none shadow-md xl:shadow-none xl:aspect-auto xl:h-auto xl:min-h-[clamp(32rem,44.375vw,53.25rem)] xl:w-[clamp(18rem,35.885vw,43.0625rem)]">
             <Image
               src={imgSrc}
               alt={title || 'Supporting Mission'}
               fill
               unoptimized
-              sizes="(max-width: 1279px) 100vw, (max-width: 1536px) 550px, 689px"
-              className="object-cover object-top"
+              sizes="(max-width: 640px) 100vw, (max-width: 1279px) 550px, 689px"
+              className="object-cover object-center"
               priority
               onError={() => {
                 if (resolvedSrc !== DEFAULT_IMAGE) {

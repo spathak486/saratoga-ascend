@@ -194,6 +194,7 @@ export function AccountableOperatingEnvironmentsSection({
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
+  const [activeMobileIndex, setActiveMobileIndex] = useState(0);
   /** Figma artboard shows Group 49 as hover/active; no card stays gradient by default. */
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
@@ -203,6 +204,13 @@ export function AccountableOperatingEnvironmentsSection({
     const { scrollLeft, scrollWidth, clientWidth } = el;
     setCanScrollLeft(scrollLeft > 10);
     setCanScrollRight(scrollLeft + clientWidth < scrollWidth - 10);
+
+    const firstCard = el.querySelector<HTMLElement>('[style*="scroll-snap-align"]');
+    if (firstCard) {
+      const cardW = firstCard.offsetWidth + 18;
+      const idx = Math.round(scrollLeft / cardW);
+      setActiveMobileIndex(Math.max(0, Math.min(cards.length - 1, idx)));
+    }
   };
 
   useEffect(() => {
@@ -287,8 +295,8 @@ export function AccountableOperatingEnvironmentsSection({
             </h2>
           </div>
 
-          {/* Carousel Arrows (Figma Group 2085665688) */}
-          <div className="flex shrink-0 items-center gap-[1.25rem] self-start lg:self-end">
+          {/* Carousel Arrows (Hidden on mobile < md) */}
+          <div className="hidden md:flex shrink-0 items-center gap-[1.25rem] self-start lg:self-end">
             <button
               type="button"
               onClick={() => handleScroll('left')}
@@ -438,6 +446,35 @@ export function AccountableOperatingEnvironmentsSection({
             );
           })}
         </div>
+
+        {/* Mobile pagination dots (< md) */}
+        {cards.length > 1 && (
+          <div className="mt-6 flex items-center justify-center gap-2 md:hidden" aria-label="Operating environments pagination">
+            {cards.map((_, dotIdx) => {
+              const isActive = dotIdx === activeMobileIndex;
+              return (
+                <button
+                  key={`env-dot-${dotIdx}`}
+                  type="button"
+                  aria-label={`Go to slide ${dotIdx + 1}`}
+                  onClick={() => {
+                    const el = scrollContainerRef.current;
+                    if (!el) return;
+                    const card = el.querySelector<HTMLElement>('[style*="scroll-snap-align"]');
+                    const cardW = (card?.offsetWidth ?? 300) + 18;
+                    el.scrollTo({ left: dotIdx * cardW, behavior: 'smooth' });
+                    setActiveMobileIndex(dotIdx);
+                  }}
+                  className={`transition-all duration-300 rounded-full focus:outline-none ${
+                    isActive
+                      ? 'h-2 w-6 bg-[#022E4C]'
+                      : 'h-2 w-2 bg-[#CBD5E1] hover:bg-[#94A3B8]'
+                  }`}
+                />
+              );
+            })}
+          </div>
+        )}
       </div>
     </section>
   );

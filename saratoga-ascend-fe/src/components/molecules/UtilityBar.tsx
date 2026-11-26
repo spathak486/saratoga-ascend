@@ -14,12 +14,14 @@ export interface UtilityBarProps {
 export const UtilityBar: React.FC<UtilityBarProps> = ({ items, activeHref }) => (
   <div className="relative hidden h-utility-h overflow-hidden bg-brand-surface xl:block">
     <Container className="relative flex h-full items-center justify-end">
-      <HeaderNavList
-        ariaLabel="Utility"
-        items={items}
-        activeHref={activeHref}
-        variant="utility"
-      />
+      <div className="flex items-center justify-end">
+        <HeaderNavList
+          ariaLabel="Utility"
+          items={items}
+          activeHref={activeHref}
+          variant="utility"
+        />
+      </div>
     </Container>
   </div>
 );

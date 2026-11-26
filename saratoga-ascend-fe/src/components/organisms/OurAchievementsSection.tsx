@@ -209,6 +209,13 @@ export const OurAchievementsSection: React.FC<OurAchievementsSectionProps> = ({
     inView: statsInView,
     playId: statsPlayId,
   } = useInViewReplay<HTMLDivElement>();
+  const {
+    ref: mobileStatsRef,
+    inView: mobileStatsInView,
+    playId: mobileStatsPlayId,
+  } = useInViewReplay<HTMLDivElement>();
+
+  const [activeMobileIndex, setActiveMobileIndex] = React.useState(0);
 
   const headingText = title?.trim() ? title : 'Our Achievements';
 
@@ -236,6 +243,33 @@ export const OurAchievementsSection: React.FC<OurAchievementsSectionProps> = ({
     }
     return [];
   }, [cards]);
+
+  // Track active slide index on mobile
+  React.useEffect(() => {
+    const vp = mobile.viewportRef.current;
+    if (!vp) return;
+
+    const handleScroll = () => {
+      const slide = vp.querySelector<HTMLElement>('[data-carousel-slide]');
+      if (!slide) return;
+      const slideW = slide.offsetWidth || 1;
+      const idx = Math.round(vp.scrollLeft / slideW);
+      setActiveMobileIndex(Math.max(0, Math.min(resolvedCards.length - 1, idx % resolvedCards.length)));
+    };
+
+    vp.addEventListener('scroll', handleScroll, { passive: true });
+    return () => vp.removeEventListener('scroll', handleScroll);
+  }, [mobile.viewportRef, resolvedCards.length]);
+
+  const scrollToMobileSlide = (idx: number) => {
+    const vp = mobile.viewportRef.current;
+    if (!vp) return;
+    const slidesElements = vp.querySelectorAll<HTMLElement>('[data-carousel-slide]');
+    if (slidesElements[idx]) {
+      slidesElements[idx].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+      setActiveMobileIndex(idx % resolvedCards.length);
+    }
+  };
 
   const slides = React.useMemo(() => {
     if (resolvedCards.length === 1) {
@@ -368,18 +402,63 @@ export const OurAchievementsSection: React.FC<OurAchievementsSectionProps> = ({
             />
             {slides.length > 1 ? (
               <>
+                {/* Navigation arrows hidden on mobile (< md), shown on tablet */}
                 <BandArrow
                   direction="prev"
                   onClick={mobile.scrollPrev}
-                  className="absolute top-[calc(2rem+7.5rem)] left-0 z-50 size-12 -translate-y-1/2 border-[1.375px] border-white bg-black/25 shadow-md backdrop-blur-[2px] md:top-[calc(4rem+5.625rem)] md:left-1 md:size-[3.4375rem]"
+                  className="hidden md:flex absolute top-[calc(2rem+7.5rem)] left-0 z-50 size-12 -translate-y-1/2 border-[1.375px] border-white bg-black/25 shadow-md backdrop-blur-[2px] md:top-[calc(4rem+5.625rem)] md:left-1 md:size-[3.4375rem]"
                 />
                 <BandArrow
                   direction="next"
                   onClick={mobile.scrollNext}
-                  className="absolute top-[calc(2rem+7.5rem)] right-0 z-50 size-12 -translate-y-1/2 border-[1.375px] border-white bg-black/25 shadow-md backdrop-blur-[2px] md:top-[calc(4rem+5.625rem)] md:right-1 md:size-[3.4375rem]"
+                  className="hidden md:flex absolute top-[calc(2rem+7.5rem)] right-0 z-50 size-12 -translate-y-1/2 border-[1.375px] border-white bg-black/25 shadow-md backdrop-blur-[2px] md:top-[calc(4rem+5.625rem)] md:right-1 md:size-[3.4375rem]"
                 />
+
+                {/* Mobile Dots Pagination */}
+                {resolvedCards.length > 1 && (
+                  <div className="mt-5 flex items-center justify-center gap-2 md:hidden" aria-label="Achievements pagination">
+                    {resolvedCards.map((_, dotIdx) => {
+                      const isActive = dotIdx === activeMobileIndex;
+                      return (
+                        <button
+                          key={`achieve-dot-${dotIdx}`}
+                          type="button"
+                          aria-label={`Go to slide ${dotIdx + 1}`}
+                          aria-current={isActive ? 'true' : undefined}
+                          onClick={() => scrollToMobileSlide(dotIdx)}
+                          className={`transition-all duration-300 rounded-full focus:outline-none ${
+                            isActive
+                              ? 'h-2 w-6 bg-white'
+                              : 'h-2 w-2 bg-white/40 hover:bg-white/70'
+                          }`}
+                        />
+                      );
+                    })}
+                  </div>
+                )}
               </>
             ) : null}
+            {/* Stats Counter Section for Mobile / Tablet */}
+            {resolvedStats.length > 0 && (
+              <div ref={mobileStatsRef} className="mt-12 w-full pt-8 border-t border-white/20">
+                <dl className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-4 sm:gap-6 text-center">
+                  {resolvedStats.map((stat, idx) => (
+                    <div key={`m-stat-${stat.label}-${idx}`} className="flex flex-col items-center">
+                      <dd className="font-serif text-[clamp(2.5rem,8vw,3.5rem)] leading-none text-white tracking-normal font-normal">
+                        <CountUpStat
+                          value={stat.value}
+                          active={mobileStatsInView}
+                          playId={mobileStatsPlayId}
+                        />
+                      </dd>
+                      <dt className="mt-2.5 font-sans text-sm sm:text-base leading-snug font-medium text-white/90">
+                        {stat.label}
+                      </dt>
+                    </div>
+                  ))}
+                </dl>
+              </div>
+            )}
           </div>
         </Container>
       </div>
