@@ -302,7 +302,7 @@ export function AccountableOperatingEnvironmentsSection({
               onClick={() => handleScroll('left')}
               disabled={!canScrollLeft}
               aria-label="Previous card"
-              className={`flex h-[4.125rem] w-[4.125rem] items-center justify-center rounded-full border-[1.375px] border-black shadow-[0px_1.375px_2.75px_rgba(16,24,40,0.05)] transition-all duration-200 sm:max-xl:h-[60px] sm:max-xl:w-[60px] ${
+              className={`flex h-[4.125rem] w-[4.125rem] items-center justify-center rounded-full border-[1.375px] border-black shadow-[0px_1.375px_2.75px_rgba(16,24,40,0.05)] transition-all duration-200 sm:max-lg:h-[60px] sm:max-lg:w-[60px] ${
                 canScrollLeft
                   ? 'cursor-pointer bg-white text-black hover:bg-[#F3F4F6] active:scale-95'
                   : 'cursor-not-allowed bg-white/60 text-black opacity-40'
@@ -327,7 +327,7 @@ export function AccountableOperatingEnvironmentsSection({
               onClick={() => handleScroll('right')}
               disabled={!canScrollRight}
               aria-label="Next card"
-              className={`flex h-[4.125rem] w-[4.125rem] items-center justify-center rounded-full border-[1.375px] border-black shadow-[0px_1.375px_2.75px_rgba(16,24,40,0.05)] transition-all duration-200 sm:max-xl:h-[60px] sm:max-xl:w-[60px] ${
+              className={`flex h-[4.125rem] w-[4.125rem] items-center justify-center rounded-full border-[1.375px] border-black shadow-[0px_1.375px_2.75px_rgba(16,24,40,0.05)] transition-all duration-200 sm:max-lg:h-[60px] sm:max-lg:w-[60px] ${
                 canScrollRight
                   ? 'cursor-pointer bg-white text-black hover:bg-[#F3F4F6] active:scale-95'
                   : 'cursor-not-allowed bg-white/60 text-black opacity-40'

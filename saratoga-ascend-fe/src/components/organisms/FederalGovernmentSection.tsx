@@ -163,7 +163,7 @@ function OverviewCard({
 
               <div className="flex min-w-0 flex-col xl:col-start-1 xl:row-start-2 xl:mt-[3.75rem]">
                 {card.subheading ? (
-                  <h3 className="max-w-[42.4375rem] font-sans text-[20px] leading-[1.2] font-semibold text-[#212121] sm:text-[28px] xl:text-[clamp(1.5rem,1.1rem+1.1vw,2.375rem)]">
+                  <h3 className="max-w-[42.4375rem] font-sans text-[20px] leading-[1.2] font-semibold text-[#212121] sm:text-[28px] lg:max-w-full xl:max-w-[42.4375rem] xl:text-[clamp(1.5rem,1.1rem+1.1vw,2.375rem)]">
                     {card.subheading}
                   </h3>
                 ) : null}
@@ -171,7 +171,7 @@ function OverviewCard({
                   <Text
                     size="lead"
                     tone="inherit"
-                    className="mt-5 line-clamp-5 max-w-[40.25rem] text-black xl:line-clamp-none"
+                    className="mt-5 line-clamp-5 max-w-[40.25rem] text-black lg:max-w-full xl:max-w-[40.25rem] xl:line-clamp-none"
                     style={{ lineHeight: 1.6667 }}
                   >
                     {stripHtml(card.description)}

@@ -395,7 +395,7 @@ export function OurCapabilitiesSection({
                 onClick={() => handleScroll('left')}
                 disabled={!canScrollLeft}
                 aria-label="Previous capability"
-                className={`flex items-center justify-center size-[3.375rem] rounded-full border-[1.375px] border-[#000000] shadow-sm transition-all duration-200 sm:size-[60px] xl:size-[3.875rem] ${
+                className={`flex items-center justify-center size-[3.375rem] rounded-full border-[1.375px] border-[#000000] shadow-sm transition-all duration-200 sm:max-lg:size-[60px] lg:size-[3.875rem] ${
                   canScrollLeft
                     ? 'bg-white hover:bg-[#F3F4F6] active:scale-95 text-[#000000] cursor-pointer'
                     : 'bg-white/60 opacity-40 cursor-not-allowed text-[#000000]'
@@ -420,7 +420,7 @@ export function OurCapabilitiesSection({
                 onClick={() => handleScroll('right')}
                 disabled={!canScrollRight}
                 aria-label="Next capability"
-                className={`flex items-center justify-center size-[3.375rem] rounded-full border-[1.375px] border-[#000000] shadow-sm transition-all duration-200 sm:size-[60px] xl:size-[3.875rem] ${
+                className={`flex items-center justify-center size-[3.375rem] rounded-full border-[1.375px] border-[#000000] shadow-sm transition-all duration-200 sm:max-lg:size-[60px] lg:size-[3.875rem] ${
                   canScrollRight
                     ? 'bg-white hover:bg-[#F3F4F6] active:scale-95 text-[#000000] cursor-pointer'
                     : 'bg-white/60 opacity-40 cursor-not-allowed text-[#000000]'

@@ -224,14 +224,14 @@ export function ExploreCapabilitiesSection({
             onClick={handlePrev}
             disabled={startIndex === 0}
             aria-label="Previous capabilities"
-            className={`flex size-12 items-center justify-center rounded-full border-[1.375px] border-[#022E4C] shadow-[0px_1.375px_2.75px_rgba(16,24,40,0.05)] transition-all duration-300 sm:size-[60px] xl:size-[4.125rem] ${
+            className={`flex size-12 items-center justify-center rounded-full border-[1.375px] border-[#022E4C] shadow-[0px_1.375px_2.75px_rgba(16,24,40,0.05)] transition-all duration-300 sm:max-lg:size-[60px] lg:size-[4.125rem] ${
               startIndex === 0
                 ? 'cursor-not-allowed bg-transparent text-[#022E4C] opacity-40'
                 : 'cursor-pointer bg-transparent text-[#022E4C] hover:border-transparent hover:bg-[linear-gradient(91.647deg,var(--color-brand-cta-from)_0.475%,var(--color-brand-cta-to)_102.45%)] hover:text-white active:scale-95'
             }`}
           >
             <svg
-              className="size-6 xl:size-[2.0625rem]"
+              className="size-6 lg:size-[2.0625rem]"
               viewBox="0 0 33 33"
               fill="none"
               stroke="currentColor"
@@ -248,14 +248,14 @@ export function ExploreCapabilitiesSection({
             onClick={handleNext}
             disabled={startIndex >= maxIndex}
             aria-label="Next capabilities"
-            className={`flex size-12 items-center justify-center rounded-full border-[1.375px] border-[#022E4C] shadow-[0px_1.375px_2.75px_rgba(16,24,40,0.05)] transition-all duration-300 sm:size-[60px] xl:size-[4.125rem] ${
+            className={`flex size-12 items-center justify-center rounded-full border-[1.375px] border-[#022E4C] shadow-[0px_1.375px_2.75px_rgba(16,24,40,0.05)] transition-all duration-300 sm:max-lg:size-[60px] lg:size-[4.125rem] ${
               startIndex >= maxIndex
                 ? 'cursor-not-allowed bg-transparent text-[#022E4C] opacity-40'
                 : 'cursor-pointer bg-transparent text-[#022E4C] hover:border-transparent hover:bg-[linear-gradient(91.647deg,var(--color-brand-cta-from)_0.475%,var(--color-brand-cta-to)_102.45%)] hover:text-white active:scale-95'
             }`}
           >
             <svg
-              className="size-6 xl:size-[2.0625rem]"
+              className="size-6 lg:size-[2.0625rem]"
               viewBox="0 0 33 33"
               fill="none"
               stroke="currentColor"

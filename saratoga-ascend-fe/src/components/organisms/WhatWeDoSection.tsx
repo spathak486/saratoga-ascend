@@ -20,7 +20,7 @@ const ARROW_HOVER =
   'hover:bg-[#29a6e3] focus-visible:bg-[#29a6e3]';
 
 const ARROW_BUTTON =
-  `flex size-[4.125rem] items-center justify-center rounded-full border-[1.375px] border-ink bg-white text-ink shadow-[0px_1.375px_2.75px_rgba(16,24,40,0.05)] transition-colors duration-300 ease-out sm:max-xl:size-[60px] ${ARROW_HOVER} focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-navy motion-reduce:transition-none`;
+  `flex size-[4.125rem] items-center justify-center rounded-full border-[1.375px] border-ink bg-white text-ink shadow-[0px_1.375px_2.75px_rgba(16,24,40,0.05)] transition-colors duration-300 ease-out sm:max-lg:size-[60px] ${ARROW_HOVER} focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-navy motion-reduce:transition-none`;
 
 /** Figma chevron, drawn pointing down and rotated onto the button. */
 function ArrowGlyph({ direction }: { direction: 'left' | 'right' }) {
