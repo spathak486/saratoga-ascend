@@ -209,6 +209,11 @@ export const OurAchievementsSection: React.FC<OurAchievementsSectionProps> = ({
     inView: statsInView,
     playId: statsPlayId,
   } = useInViewReplay<HTMLDivElement>();
+  const {
+    ref: mobileStatsRef,
+    inView: mobileStatsInView,
+    playId: mobileStatsPlayId,
+  } = useInViewReplay<HTMLDivElement>();
 
   const [activeMobileIndex, setActiveMobileIndex] = React.useState(0);
 
@@ -435,15 +440,15 @@ export const OurAchievementsSection: React.FC<OurAchievementsSectionProps> = ({
             ) : null}
             {/* Stats Counter Section for Mobile / Tablet */}
             {resolvedStats.length > 0 && (
-              <div className="mt-12 w-full pt-8 border-t border-white/20">
+              <div ref={mobileStatsRef} className="mt-12 w-full pt-8 border-t border-white/20">
                 <dl className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-4 sm:gap-6 text-center">
                   {resolvedStats.map((stat, idx) => (
                     <div key={`m-stat-${stat.label}-${idx}`} className="flex flex-col items-center">
                       <dd className="font-serif text-[clamp(2.5rem,8vw,3.5rem)] leading-none text-white tracking-normal font-normal">
                         <CountUpStat
                           value={stat.value}
-                          active={statsInView}
-                          playId={statsPlayId}
+                          active={mobileStatsInView}
+                          playId={mobileStatsPlayId}
                         />
                       </dd>
                       <dt className="mt-2.5 font-sans text-sm sm:text-base leading-snug font-medium text-white/90">
