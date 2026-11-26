@@ -4,15 +4,10 @@ import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from
 import { LatestNewsCard, type LatestNewsCardProps } from './LatestNewsCard';
 
 /**
- * Figma 2105:865 coverflow — center 329 / peek 222 on mobile.
- * Tablet grows so iPad is not stuck on phone sizes.
+ * One full card per view on mobile; two equal cards fill the tablet row (`md:gap-4` = 1rem).
  */
-const FEATURED_WIDTH_CLASS = 'w-[min(20.566rem,calc(100vw-6.3125rem))]';
-const PEEK_WIDTH_CLASS = 'w-[min(13.896rem,calc((100vw-6.3125rem)*0.675))]';
-/** Two equal cards fill the tablet row. Gap is `md:gap-4` (1rem). */
-const TABLET_SLIDE_CLASS = 'md:w-[calc((100%-1rem)/2)]';
-const FEATURED_PAD =
-  'px-[max(1.5rem,calc((100%-min(20.566rem,calc(100vw-6.3125rem)))/2))] md:px-0';
+const FEATURED_WIDTH_CLASS = 'w-full min-w-full basis-full';
+const TABLET_SLIDE_CLASS = 'md:w-[calc((100%-1rem)/2)] md:min-w-0 md:basis-[calc((100%-1rem)/2)]';
 
 /** Gentle coverflow — width + scroll stay locked together via rAF. */
 const WIDTH_EASE_MS = 480;
@@ -215,31 +210,28 @@ export function LatestNewsCarousel({
   if (articles.length === 0) return null;
 
   return (
-    <div className="relative mt-[2.3125rem] max-sm:-mx-5 overflow-visible md:mt-10 xl:hidden">
+    <div className="relative mt-8 overflow-visible md:mt-10 xl:hidden">
       <div
         ref={viewportRef}
-        className={`snap-x snap-mandatory overflow-x-auto overscroll-x-contain touch-pan-x [scrollbar-width:none] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white [&::-webkit-scrollbar]:hidden ${FEATURED_PAD}`}
+        className="snap-x snap-mandatory overflow-x-auto overscroll-x-contain touch-pan-x [scrollbar-width:none] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white [&::-webkit-scrollbar]:hidden"
         role="group"
         aria-roledescription="carousel"
         aria-label="Latest news"
         tabIndex={0}
       >
-        <div className="flex items-center gap-3 md:w-full md:gap-4">
+        <div className="flex items-stretch gap-4 md:w-full">
           {articles.map((article, idx) => {
             const featured = idx === active;
             return (
               <div
                 key={`${article.title}-${idx}`}
-                className={`min-w-0 shrink-0 grow-0 snap-center transition-[width] duration-[480ms] motion-reduce:transition-none md:snap-start ${
-                  featured ? FEATURED_WIDTH_CLASS : PEEK_WIDTH_CLASS
-                } ${TABLET_SLIDE_CLASS}`}
-                style={{ transitionTimingFunction: GENTLE }}
+                className={`shrink-0 grow-0 snap-center md:snap-start ${FEATURED_WIDTH_CLASS} ${TABLET_SLIDE_CLASS}`}
                 role="group"
                 aria-roledescription="slide"
                 aria-current={featured ? 'true' : undefined}
                 data-carousel-slide
               >
-                <LatestNewsCard {...article} compact featured={isTablet || featured} />
+                <LatestNewsCard {...article} compact featured />
               </div>
             );
           })}
