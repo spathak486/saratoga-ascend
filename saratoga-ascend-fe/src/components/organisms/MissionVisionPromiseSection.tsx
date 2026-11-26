@@ -256,7 +256,7 @@ export const MissionVisionPromiseSection: React.FC<MissionVisionPromiseSectionPr
         {/* Frame 2147226356 / Frame 610: Header Section */}
         <div className="flex flex-col items-start gap-3 sm:gap-4 max-w-[105rem] mb-8 lg:mb-[clamp(2rem,3.125vw,3.75rem)]">
           {/* Heading: Figma DM Serif Text, 72px, line-height: 120% (86px), color: #000000 */}
-          <h2 className="font-serif font-normal text-[clamp(2.25rem,3.75vw,4.5rem)] leading-[1.2] text-black tracking-tight">
+          <h2 className="font-serif font-normal text-section leading-[1.2] text-black tracking-tight">
             {renderTitle()}
           </h2>
 

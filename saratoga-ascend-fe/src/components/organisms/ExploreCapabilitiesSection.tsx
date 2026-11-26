@@ -111,47 +111,32 @@ export function ExploreCapabilitiesSection({
   const displayCards: CapabilityCard[] = cards && cards.length > 0 ? cards : DEFAULT_CAPABILITIES;
   const [startIndex, setStartIndex] = useState(0);
   const [visibleCount, setVisibleCount] = useState(1);
-  const [isDesktop1920, setIsDesktop1920] = useState(false);
+  const [cardStride, setCardStride] = useState(0);
+  const viewportRef = useRef<HTMLDivElement>(null);
   const swipeStart = useRef<number | null>(null);
 
-  // One card on phones, two from sm, three from lg (tablet), four from xl — same steps the card widths use.
+  // Figma 2731:11948 — 420px cards in an 1800px strip, so the next card peeks past the right edge.
   useLayoutEffect(() => {
-    const desktopQuery = window.matchMedia('(min-width: 1920px)');
-    const xlQuery = window.matchMedia('(min-width: 1280px)');
-    const lgQuery = window.matchMedia('(min-width: 1024px)');
-    const smQuery = window.matchMedia('(min-width: 640px)');
+    const viewport = viewportRef.current;
+    if (!viewport) return;
+
     const update = () => {
-      const next = xlQuery.matches ? 4 : lgQuery.matches ? 3 : smQuery.matches ? 2 : 1;
+      const card = viewport.querySelector<HTMLElement>('[data-capability-card]');
+      const stride = card?.offsetWidth ?? viewport.clientWidth;
+      const next = Math.max(1, Math.floor((viewport.clientWidth + 1) / Math.max(stride, 1)));
+      setCardStride(stride);
       setVisibleCount(next);
-      setIsDesktop1920(desktopQuery.matches);
       setStartIndex((index) => Math.min(index, Math.max(0, displayCards.length - next)));
     };
+
     update();
-    desktopQuery.addEventListener('change', update);
-    xlQuery.addEventListener('change', update);
-    lgQuery.addEventListener('change', update);
-    smQuery.addEventListener('change', update);
-    return () => {
-      desktopQuery.removeEventListener('change', update);
-      xlQuery.removeEventListener('change', update);
-      lgQuery.removeEventListener('change', update);
-      smQuery.removeEventListener('change', update);
-    };
+    const observer = new ResizeObserver(update);
+    observer.observe(viewport);
+    return () => observer.disconnect();
   }, [displayCards.length]);
 
   const maxIndex = Math.max(0, displayCards.length - visibleCount);
-  // Arrows only below 1920 — desktop artboard shows the 4-up row with no controls.
-  const showControls = isDesktop1920
-    ? 'hidden'
-    : displayCards.length <= 1
-      ? 'hidden'
-      : displayCards.length <= 2
-        ? 'flex sm:hidden'
-        : displayCards.length <= 3
-          ? 'flex lg:hidden'
-          : displayCards.length <= 4
-            ? 'flex xl:hidden'
-            : 'flex';
+  const showControls = displayCards.length > visibleCount ? 'flex' : 'hidden';
 
   const handlePrev = () => {
     setStartIndex((prev) => Math.max(0, prev - 1));
@@ -183,17 +168,33 @@ export function ExploreCapabilitiesSection({
 
     if (regex.test(rawTitle)) {
       const parts = rawTitle.split(regex);
-      return parts.map((part, i) =>
-        part.toLowerCase() === rawHighlight.toLowerCase() ? (
-          <span key={i} className="text-brand-red">
-            {part}
-          </span>
-        ) : (
+      return parts.map((part, i) => {
+        if (part.toLowerCase() === rawHighlight.toLowerCase()) {
+          return (
+            <span key={i} className="text-brand-red">
+              {part}
+            </span>
+          );
+        }
+
+        // Figma 2731:11947 is two lines: "Explore more Saratoga" / "Ascend capabilities."
+        const lineBreak = part.match(/^(.*?\bSaratoga)(\s+)(.*)$/i);
+        if (lineBreak) {
+          return (
+            <span key={i} className="text-ink">
+              {lineBreak[1]}
+              <br />
+              {lineBreak[3]}
+            </span>
+          );
+        }
+
+        return (
           <span key={i} className="text-ink">
             {part}
           </span>
-        )
-      );
+        );
+      });
     }
 
     return (
@@ -212,7 +213,7 @@ export function ExploreCapabilitiesSection({
       {/* Title + carousel controls — Figma title y=80, cards y=226 → 60px gap after 86px title */}
       <div className="mx-auto mb-10 flex max-w-[105rem] flex-col gap-6 xl:mb-[3.75rem] lg:flex-row lg:items-end lg:justify-between">
         <div className="max-w-[85.6875rem] min-w-0">
-          <h2 className="font-serif text-[clamp(2.25rem,1.5rem+2.6vw,4.5rem)] font-normal leading-[1.2] tracking-tight">
+          <h2 className="font-serif text-section font-normal leading-[1.2] tracking-tight">
             {renderTitle()}
           </h2>
         </div>
@@ -223,14 +224,14 @@ export function ExploreCapabilitiesSection({
             onClick={handlePrev}
             disabled={startIndex === 0}
             aria-label="Previous capabilities"
-            className={`flex size-12 items-center justify-center rounded-full border-[1.375px] border-[#022E4C] shadow-[0px_1.375px_2.75px_rgba(16,24,40,0.05)] transition-all duration-300 lg:size-[4.125rem] ${
+            className={`flex size-12 items-center justify-center rounded-full border-[1.375px] border-[#022E4C] shadow-[0px_1.375px_2.75px_rgba(16,24,40,0.05)] transition-all duration-300 sm:size-[60px] xl:size-[4.125rem] ${
               startIndex === 0
                 ? 'cursor-not-allowed bg-transparent text-[#022E4C] opacity-40'
                 : 'cursor-pointer bg-transparent text-[#022E4C] hover:border-transparent hover:bg-[linear-gradient(91.647deg,var(--color-brand-cta-from)_0.475%,var(--color-brand-cta-to)_102.45%)] hover:text-white active:scale-95'
             }`}
           >
             <svg
-              className="size-6 lg:size-[2.0625rem]"
+              className="size-6 xl:size-[2.0625rem]"
               viewBox="0 0 33 33"
               fill="none"
               stroke="currentColor"
@@ -247,14 +248,14 @@ export function ExploreCapabilitiesSection({
             onClick={handleNext}
             disabled={startIndex >= maxIndex}
             aria-label="Next capabilities"
-            className={`flex size-12 items-center justify-center rounded-full border-[1.375px] border-[#022E4C] shadow-[0px_1.375px_2.75px_rgba(16,24,40,0.05)] transition-all duration-300 lg:size-[4.125rem] ${
+            className={`flex size-12 items-center justify-center rounded-full border-[1.375px] border-[#022E4C] shadow-[0px_1.375px_2.75px_rgba(16,24,40,0.05)] transition-all duration-300 sm:size-[60px] xl:size-[4.125rem] ${
               startIndex >= maxIndex
                 ? 'cursor-not-allowed bg-transparent text-[#022E4C] opacity-40'
                 : 'cursor-pointer bg-transparent text-[#022E4C] hover:border-transparent hover:bg-[linear-gradient(91.647deg,var(--color-brand-cta-from)_0.475%,var(--color-brand-cta-to)_102.45%)] hover:text-white active:scale-95'
             }`}
           >
             <svg
-              className="size-6 lg:size-[2.0625rem]"
+              className="size-6 xl:size-[2.0625rem]"
               viewBox="0 0 33 33"
               fill="none"
               stroke="currentColor"
@@ -268,15 +269,16 @@ export function ExploreCapabilitiesSection({
         </div>
       </div>
 
-      {/* Frame 2085664242: connected blocks — height from content, stretch across the row */}
+      {/* Figma 2731:11948 — 420×516 cards, left radius only, strip runs to the right edge. */}
       <div
-        className="mx-auto w-full max-w-[105rem] overflow-hidden rounded-[1rem] shadow-[0px_0px_12.8px_rgba(0,0,0,0.25)]"
+        ref={viewportRef}
+        className="-mr-[var(--spacing-gutter)] w-max max-w-[calc(100%+var(--spacing-gutter))] overflow-hidden rounded-l-[1rem] shadow-[0px_0px_12.8px_rgba(0,0,0,0.25)]"
         aria-roledescription="carousel"
       >
         <div
-          className="flex w-full items-stretch transition-transform duration-500 ease-in-out motion-reduce:transition-none [--cap-visible:1] sm:[--cap-visible:2] lg:[--cap-visible:3] xl:[--cap-visible:4]"
+          className="flex w-max items-stretch transition-transform duration-500 ease-in-out motion-reduce:transition-none"
           style={{
-            transform: `translateX(calc(${startIndex} * -100% / var(--cap-visible)))`,
+            transform: cardStride ? `translateX(-${startIndex * cardStride}px)` : undefined,
           }}
           onTouchStart={handleTouchStart}
           onTouchEnd={handleTouchEnd}
@@ -287,12 +289,13 @@ export function ExploreCapabilitiesSection({
             return (
               <div
                 key={card.id ?? card.documentId ?? `capability-${index}`}
-                className={`flex w-full shrink-0 flex-col items-center justify-start self-stretch overflow-hidden p-5 text-center sm:w-1/2 sm:p-[1.875rem] lg:w-1/3 xl:w-1/4 ${
+                data-capability-card
+                className={`flex w-[clamp(17.5rem,15.376rem+9.061vw,26.25rem)] min-h-[217px] shrink-0 flex-col items-center justify-center self-stretch overflow-hidden p-[clamp(1.25rem,1.098rem+0.647vw,1.875rem)] text-center sm:min-h-[clamp(24rem,22rem+8.544vw,32.25rem)] ${
                   isDark ? 'bg-[#2B88D9] text-white' : 'bg-[#EBF6FF] text-ink'
                 }`}
               >
-                <div className="flex w-full min-w-0 max-w-[22.375rem] flex-col items-center gap-6 sm:gap-[2.5625rem]">
-                  <div className="size-16 shrink-0 sm:size-20 xl:size-[7.5rem]">
+                <div className="flex w-full min-w-0 max-w-[21.53rem] flex-col items-center gap-[25px]">
+                  <div className="size-[clamp(4rem,3.1506rem+3.625vw,7.5rem)] shrink-0 xl:size-[120px]">
                     {card.icon?.url ? (
                       <img
                         src={card.icon.url}
@@ -304,21 +307,21 @@ export function ExploreCapabilitiesSection({
                     )}
                   </div>
 
-                  <div className="flex w-full min-w-0 flex-col items-center gap-6 sm:gap-[2.5625rem]">
-                    {/* Figma 1920: 28px / normal / 400 */}
-                    <h3 className="min-w-0 w-full break-words text-center font-serif text-[1.375rem] font-normal not-italic leading-normal sm:text-[1.5rem] xl:text-[1.625rem] min-[120rem]:text-[1.75rem]">
+                  <div className="flex w-full min-w-0 flex-col items-center gap-[clamp(1.5rem,1.242rem+1.099vw,2.561rem)]">
+                    {/* 24px below desktop. 20px at 375 → 28px at 1920 on xl. Figma leading is 38/28. */}
+                    <h3 className="w-full min-w-0 break-words text-center font-serif text-[24px] font-normal not-italic leading-[1.36] xl:text-[clamp(1.25rem,1.1287rem+0.518vw,1.75rem)]">
                       <span dangerouslySetInnerHTML={{ __html: cleanHeadingHtml(card.title) }} />
                     </h3>
 
                     <div
-                      className={`h-[0.16rem] w-[min(10.56rem,70%)] shrink-0 ${
+                      className={`h-[0.16rem] w-[min(10.56rem,49%)] shrink-0 ${
                         isDark ? 'bg-white' : 'bg-ink'
                       }`}
                       aria-hidden="true"
                     />
 
-                    {/* Figma 1920: 24px / 400 / 40px — clamp to 3 lines */}
-                    <p className="line-clamp-3 min-w-0 w-full max-w-[17.5rem] break-words text-center font-sans text-[1rem] font-normal not-italic leading-6 sm:text-[1.125rem] sm:leading-7 xl:text-[1.25rem] xl:leading-8 min-[120rem]:text-[1.5rem] min-[120rem]:leading-[2.5rem]">
+                    {/* 16px/1.667 at 375 → 24px/40px at 1920. */}
+                    <p className="line-clamp-3 w-full min-w-0 max-w-[17.5rem] break-words text-center font-sans text-[clamp(1rem,0.8786rem+0.518vw,1.5rem)] font-normal not-italic leading-[1.667]">
                       {stripHtml(card.description)}
                     </p>
                   </div>

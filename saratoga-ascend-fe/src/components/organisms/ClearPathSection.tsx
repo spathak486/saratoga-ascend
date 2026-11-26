@@ -109,13 +109,13 @@ function renderTitle(title: string, highlightTitle?: string | null) {
     return (
       <>
         <span>{title}</span>{' '}
-        <span className="text-brand-red whitespace-nowrap">{highlight}</span>
+        <span className="text-brand-red max-xl:whitespace-normal xl:whitespace-nowrap">{highlight}</span>
       </>
     );
   }
   return parts.map((part, index) =>
     part.toLowerCase() === highlight.toLowerCase() ? (
-      <span key={`${part}-${index}`} className="text-brand-red whitespace-nowrap">
+      <span key={`${part}-${index}`} className="text-brand-red max-xl:whitespace-normal xl:whitespace-nowrap">
         {part}
       </span>
     ) : (
@@ -127,7 +127,7 @@ function renderTitle(title: string, highlightTitle?: string | null) {
 function StepCopy({ step }: { step: ClearPathStepItem }) {
   return (
     <div className="min-w-0">
-      <h3 className="font-serif text-[clamp(1.125rem,1rem+0.6vw,1.75rem)] leading-none font-normal text-[#2f2f2f]">
+      <h3 className="font-serif text-[22px] leading-[1.25] font-normal text-[#2f2f2f]">
         {stripHtml(step.title)}
       </h3>
       <div className="mt-5 h-px w-[4.5rem] bg-black" aria-hidden="true" />
@@ -201,7 +201,7 @@ export function ClearPathSection({
       className="relative mx-auto w-full max-w-home overflow-visible bg-white px-[var(--spacing-gutter)] py-12 max-xl:py-10! xl:pt-20 xl:pb-20"
     >
       <div>
-        <Heading level={2} size="section" font="sans" tone="inherit" className="font-semibold text-black">
+        <Heading level={2} size="section" tone="inherit" className="max-w-full font-normal text-black">
           {renderTitle(title || 'A Clear Path from Need to Delivery', highlightTitle)}
         </Heading>
         {description ? (
@@ -270,7 +270,7 @@ export function ClearPathSection({
         {steps.map((step, index) => (
           <li key={step.id ?? step.documentId ?? `clear-path-stack-${index}`} className="min-w-0">
             <StepPortrait step={step} index={index} className="w-[min(100%,12.875rem)]" />
-            <div className="mt-4 max-w-[20rem]">
+            <div className="mt-4 max-w-[20rem] lg:max-w-full">
               <StepCopy step={step} />
             </div>
           </li>

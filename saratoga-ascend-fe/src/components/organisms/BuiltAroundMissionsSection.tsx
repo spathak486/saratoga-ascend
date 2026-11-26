@@ -102,7 +102,7 @@ export const BuiltAroundMissionsSection: React.FC<BuiltAroundMissionsSectionProp
         <div className="relative z-10 w-full px-6 sm:px-10 lg:px-16 xl:px-[clamp(3.5rem,6.25vw,7.5rem)]">
           {/* Top Title */}
           <div className="mb-10 sm:mb-12 lg:mb-14 xl:mb-16 max-w-[90rem]">
-            <h2 className="font-serif font-normal text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-[4.5rem] leading-[1.15] text-[#000000] tracking-tight">
+            <h2 className="font-serif font-normal text-section leading-[1.2] text-[#000000] tracking-tight">
               {renderTitle()}
             </h2>
             {finalDescription && (
@@ -171,7 +171,7 @@ export const BuiltAroundMissionsSection: React.FC<BuiltAroundMissionsSectionProp
         <div className="flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-14 xl:gap-[clamp(3rem,6.3vw,7.56rem)]">
           {/* Left Column: Title, Description, Callout */}
           <div className="w-full lg:flex-1 lg:max-w-[59.375rem] flex flex-col justify-center">
-            <h2 className="font-serif font-normal text-[clamp(2.25rem,3.75vw,4.5rem)] leading-[1.2] text-[#000000] tracking-tight mb-5 lg:mb-[clamp(1.5rem,1.8vw,2.25rem)] max-w-[54.875rem]">
+            <h2 className="font-serif font-normal text-section leading-[1.2] text-[#000000] tracking-tight mb-5 lg:mb-[clamp(1.5rem,1.8vw,2.25rem)] max-w-[54.875rem]">
               {renderTitle()}
             </h2>
 

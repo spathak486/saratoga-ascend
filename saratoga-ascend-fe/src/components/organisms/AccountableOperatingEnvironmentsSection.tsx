@@ -282,7 +282,7 @@ export function AccountableOperatingEnvironmentsSection({
         <div className="flex w-full flex-col justify-between gap-8 pb-[5rem] lg:flex-row lg:items-end">
           <div className="max-w-[60rem]">
             {/* Title: DM Serif Text, 72px, line-height: 1.2, #0A0A0A */}
-            <h2 className="font-serif text-[2.25rem] leading-[1.15] font-normal tracking-normal text-ink sm:text-[3rem] md:text-[3.75rem] lg:text-[4.5rem] lg:leading-[1.2]">
+            <h2 className="font-serif text-section leading-[1.2] font-normal tracking-normal text-ink">
               {renderTitle()}
             </h2>
           </div>
@@ -294,7 +294,7 @@ export function AccountableOperatingEnvironmentsSection({
               onClick={() => handleScroll('left')}
               disabled={!canScrollLeft}
               aria-label="Previous card"
-              className={`flex h-[4.125rem] w-[4.125rem] items-center justify-center rounded-full border-[1.375px] border-black shadow-[0px_1.375px_2.75px_rgba(16,24,40,0.05)] transition-all duration-200 ${
+              className={`flex h-[4.125rem] w-[4.125rem] items-center justify-center rounded-full border-[1.375px] border-black shadow-[0px_1.375px_2.75px_rgba(16,24,40,0.05)] transition-all duration-200 sm:max-xl:h-[60px] sm:max-xl:w-[60px] ${
                 canScrollLeft
                   ? 'cursor-pointer bg-white text-black hover:bg-[#F3F4F6] active:scale-95'
                   : 'cursor-not-allowed bg-white/60 text-black opacity-40'
@@ -319,7 +319,7 @@ export function AccountableOperatingEnvironmentsSection({
               onClick={() => handleScroll('right')}
               disabled={!canScrollRight}
               aria-label="Next card"
-              className={`flex h-[4.125rem] w-[4.125rem] items-center justify-center rounded-full border-[1.375px] border-black shadow-[0px_1.375px_2.75px_rgba(16,24,40,0.05)] transition-all duration-200 ${
+              className={`flex h-[4.125rem] w-[4.125rem] items-center justify-center rounded-full border-[1.375px] border-black shadow-[0px_1.375px_2.75px_rgba(16,24,40,0.05)] transition-all duration-200 sm:max-xl:h-[60px] sm:max-xl:w-[60px] ${
                 canScrollRight
                   ? 'cursor-pointer bg-white text-black hover:bg-[#F3F4F6] active:scale-95'
                   : 'cursor-not-allowed bg-white/60 text-black opacity-40'

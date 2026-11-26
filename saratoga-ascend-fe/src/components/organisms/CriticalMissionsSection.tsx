@@ -163,7 +163,7 @@ export function CriticalMissionsSection({
       <div className="px-6 py-12 sm:px-6 sm:py-14 lg:px-10 xl:pt-[4.875rem] xl:pb-12 2xl:px-[7.5rem]">
         <div className="mx-auto flex w-full max-w-[105rem] flex-col items-start justify-between gap-8 sm:gap-10 xl:flex-row xl:gap-8 2xl:gap-[3.75rem]">
           <div className="w-full min-w-0 xl:sticky xl:top-[calc(var(--spacing-nav-h)+1.5rem)] xl:max-w-[53.125rem] xl:flex-1 xl:self-start 2xl:max-w-[56.5rem]">
-            <h2 className="font-serif text-[clamp(2rem,1.4rem+2.5vw,4.5rem)] font-normal leading-[1.15] tracking-tight text-[#000000]">
+            <h2 className="font-serif text-section font-normal leading-[1.2] tracking-tight text-[#000000]">
               {renderTitle()}
             </h2>
             {description && (

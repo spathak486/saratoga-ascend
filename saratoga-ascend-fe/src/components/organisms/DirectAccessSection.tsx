@@ -104,7 +104,7 @@ export function DirectAccessSection({
         <div className="w-full max-w-[94.5rem] flex flex-col">
           {cleanTitle ? (
             <h2
-              className="font-serif text-[2.25rem] sm:text-[3rem] md:text-[3.5rem] xl:text-[4rem] 2xl:text-[4.5rem] font-normal leading-[1.15] 2xl:leading-[6.1875rem] text-[#F01424] tracking-[-0.01em] [&_p]:m-0 [&_p]:font-inherit [&_p]:text-inherit [&_p]:leading-inherit [&_span[style*='color']]:font-semibold"
+              className="font-serif text-section font-normal leading-[1.2] text-[#F01424] tracking-tight [&_p]:m-0 [&_p]:font-inherit [&_p]:text-inherit [&_p]:leading-inherit [&_span[style*='color']]:font-semibold"
               style={{ fontFamily: "'DM Serif Text', serif" }}
               dangerouslySetInnerHTML={{ __html: cleanTitle }}
             />

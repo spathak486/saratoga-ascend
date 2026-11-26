@@ -261,7 +261,7 @@ export function WorkforceDeliverySection({
       {/* Header Container (Group 2085665728: fluid clamp matching standard design system) */}
       <div className="mb-10 w-full max-w-[84.625rem] xl:mb-[3.75rem]">
         <h2
-          className="font-serif text-[clamp(2.25rem,1.5rem+2.6vw,4.5rem)] leading-[1.15] font-normal tracking-tight"
+          className="font-serif text-section leading-[1.2] font-normal tracking-tight"
           style={{ fontFamily: "'DM Serif Text', serif" }}
         >
           {renderTitle()}

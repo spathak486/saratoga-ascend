@@ -113,14 +113,14 @@ export function ServiceLifecycleSection({
     >
       <div className="mx-auto mb-8 flex w-full max-w-[71.3125rem] flex-col items-center text-center xl:mb-12">
         <h2
-          className="max-w-[69.3125rem] font-serif text-[clamp(2.5rem,1.8rem+2.8vw,72px)] font-normal leading-[1.15] tracking-[0%] text-[#F01424]"
+          className="max-w-[69.3125rem] font-serif text-section font-normal leading-[1.2] tracking-normal text-[#F01424]"
           style={{ fontFamily: "'DM Serif Text', serif" }}
         >
           {stripHtml(title)}
         </h2>
         {subtitle ? (
           <h3
-            className="mt-1 max-w-[69.3125rem] font-serif text-[clamp(2rem,1.5rem+2.5vw,64px)] font-normal leading-[1.15] tracking-[0%] text-[#000000]"
+            className="mt-1 max-w-[69.3125rem] font-serif text-section font-normal leading-[1.2] tracking-normal text-[#000000]"
             style={{ fontFamily: "'DM Serif Text', serif" }}
           >
             {stripHtml(subtitle)}

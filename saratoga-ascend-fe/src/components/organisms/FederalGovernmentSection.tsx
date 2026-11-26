@@ -61,12 +61,12 @@ function cleanHeadingHtml(html: string): string {
 
 /**
  * Outer L/R always use shared `px-page` (same gutter as other sections).
- * Figma sticky cascade (top 117.33 + 37.33·i, left step 37.33·i) is desktop-only.
+ * Sticky cascade (top 100 + 37.33·i, left step 37.33·i) is desktop-only.
  * Sticky from `lg` so 125% zoom still stacks; cascade insets start at `xl`.
  * iPad/mobile: equal section py-10 and even card padding (no cascade offsets).
  */
 const STACK_LEFT_BASE_PX = 0;
-const STACK_TOP_BASE_PX = 117.333;
+const STACK_TOP_BASE_PX = 100;
 const STACK_STEP_PX = 37.333;
 const STACK_BOTTOM_PX = 0;
 const SECTION_EXIT_BOTTOM_PX = 80;
@@ -98,7 +98,9 @@ function OverviewCard({
 
   return (
     <div
-      className="relative w-full max-xl:mb-8 lg:sticky lg:top-0 xl:mb-0"
+      className={`relative w-full lg:sticky lg:top-0 xl:mb-0 ${
+        index === total - 1 ? 'sm:max-xl:mb-8' : 'max-xl:mb-8'
+      }`}
       style={{ zIndex: index + 1 }}
     >
       <div
@@ -143,7 +145,7 @@ function OverviewCard({
                   level={2}
                   size="subtitle"
                   tone="inherit"
-                  className="min-w-0 text-[#212121] xl:col-start-1 xl:row-start-1 xl:self-center [&_span[style*='color']]:font-semibold"
+                  className="min-w-0 text-[#212121] max-sm:text-[24px]! max-sm:leading-[1.2] sm:max-xl:text-[30px]! sm:max-xl:leading-[1.2] xl:col-start-1 xl:row-start-1 xl:self-center [&_span[style*='color']]:font-semibold"
                 >
                   <span dangerouslySetInnerHTML={{ __html: cleanTitle }} />
                 </Heading>
@@ -161,7 +163,7 @@ function OverviewCard({
 
               <div className="flex min-w-0 flex-col xl:col-start-1 xl:row-start-2 xl:mt-[3.75rem]">
                 {card.subheading ? (
-                  <h3 className="max-w-[42.4375rem] font-sans text-[clamp(1.5rem,1.1rem+1.1vw,2.375rem)] leading-[1.2] font-semibold text-[#212121]">
+                  <h3 className="max-w-[42.4375rem] font-sans text-[20px] leading-[1.2] font-semibold text-[#212121] sm:text-[28px] xl:text-[clamp(1.5rem,1.1rem+1.1vw,2.375rem)]">
                     {card.subheading}
                   </h3>
                 ) : null}
@@ -169,7 +171,7 @@ function OverviewCard({
                   <Text
                     size="lead"
                     tone="inherit"
-                    className="mt-5 max-w-[40.25rem] text-black"
+                    className="mt-5 line-clamp-5 max-w-[40.25rem] text-black xl:line-clamp-none"
                     style={{ lineHeight: 1.6667 }}
                   >
                     {stripHtml(card.description)}
@@ -217,7 +219,7 @@ function OverviewCard({
               </div>
 
               {src ? (
-                <div className="relative aspect-[653/499] w-full min-w-0 overflow-hidden rounded-[1.5rem] border-[1.333px] border-brand-sky sm:rounded-[2.5rem] xl:col-start-2 xl:row-start-2 xl:mt-[3.75rem]">
+                <div className="relative aspect-[3/2] w-full min-w-0 overflow-hidden rounded-[1.5rem] border-[1.333px] border-brand-sky sm:aspect-[653/499] sm:rounded-[2.5rem] lg:aspect-[3/2] xl:aspect-[653/499] xl:col-start-2 xl:row-start-2 xl:mt-[3.75rem]">
                   <img
                     src={src}
                     alt={
@@ -261,7 +263,7 @@ export function FederalGovernmentSection({
     >
       {title ? (
         <div className="mb-8 max-w-[93.375rem] text-center sm:mb-10 xl:mb-12 xl:pt-[7.333rem] xl:text-left">
-          <h2 className="font-serif text-[2.25rem] font-normal text-[#212121] sm:text-[3rem]">
+          <h2 className="font-serif text-section font-normal leading-[1.2] text-[#212121]">
             {stripHtml(title)}
           </h2>
         </div>
