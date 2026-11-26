@@ -67,25 +67,28 @@ export const RelatedTopicsCard: React.FC<RelatedTopicsCardProps> = ({
 
       {/* Blue Divider Line (#2B88D9, 1.09px) */}
       <div
-        className="h-[1.5px] w-full bg-[#2B88D9]"
+        className="h-[1.092px] w-full bg-[#2B88D9]"
         style={{ backgroundColor: '#2B88D9' }}
         aria-hidden="true"
       />
 
-      {/* Tags / Pills Layout */}
+      {/* Tags / Pills Layout (Figma Node 2209:4609: gradient border #D31E2D to #2A91DC, rounded-[19.65px], px-[20px] py-[16px]) */}
       <div className="flex flex-wrap items-center gap-3 pt-1 sm:gap-4">
         {normalizedTopics.map((topic, index) => (
           <Link
             key={`topic-${index}-${topic.label}`}
             href={topic.href}
-            className="group inline-flex items-center justify-center rounded-[1.2281rem] border border-black/15 bg-white px-5 py-3.5 shadow-[0px_1px_3px_rgba(0,0,0,0.04)] transition-all duration-200 hover:border-[#2B88D9] hover:bg-[#F1F8FE] hover:shadow-sm"
+            className="group relative inline-flex items-center justify-center p-[1.637px] rounded-[19.65px] bg-gradient-to-r from-[#D31E2D] to-[#2A91DC] transition-all duration-300 ease-out hover:shadow-[0_4px_16px_rgba(42,145,220,0.25)] hover:-translate-y-0.5 active:translate-y-0 active:scale-95"
+            style={{
+              fontFamily: "'Google Sans Flex', sans-serif",
+            }}
           >
-            <span
-              className="font-sans text-[1.125rem] font-semibold leading-[1.375rem] text-[#000000] transition-colors duration-200 group-hover:text-[#2B88D9] xl:text-[1.25rem]"
-              style={{ fontFamily: "'Google Sans Flex', sans-serif" }}
-            >
-              {topic.label}
-            </span>
+            {/* Inner background capsule that reveals full gradient on hover */}
+            <div className="w-full h-full rounded-[18px] bg-white px-5 py-3.5 transition-colors duration-300 ease-out group-hover:bg-transparent flex items-center justify-center">
+              <span className="font-sans text-[1.125rem] font-semibold leading-[1.365rem] text-[#000000] transition-colors duration-300 ease-out group-hover:text-white xl:text-[1.25rem]">
+                {topic.label}
+              </span>
+            </div>
           </Link>
         ))}
       </div>

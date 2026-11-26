@@ -160,6 +160,22 @@ export const MissionSection: React.FC<MissionSectionProps> = ({
             />
           ) : null}
 
+          {/* Butterfly Graphic on Mobile (< xl) — Rendered right between Description and Highlights/Cards */}
+          <div
+            data-butterfly-stage
+            className="relative mx-auto my-3 aspect-[390/420] w-full max-w-[min(100%,22.5rem)] overflow-hidden xl:hidden"
+          >
+            <ButterflyMark src={imageSrc} />
+            <GlassTile
+              src={shieldIconSrc}
+              className="top-[3.262%] left-[2.07%] z-[1] w-[24%] rounded-[10.6%] backdrop-blur-[0.625rem]"
+            />
+            <GlassTile
+              src={pulseIconSrc}
+              className="top-[76.52%] left-[78%] z-[1] w-[16.45%] rounded-[25%] backdrop-blur-[1.0625rem]"
+            />
+          </div>
+
           {items.length > 0 ? (
             <div className="flex w-full flex-col gap-6 xl:gap-8">
               <ul className="grid grid-cols-1 gap-3 xl:grid-cols-2 xl:gap-[1.875rem]">
@@ -215,18 +231,19 @@ export const MissionSection: React.FC<MissionSectionProps> = ({
           )}
         </div>
 
+        {/* Desktop-only butterfly stage on the right column */}
         <div
           data-butterfly-stage
-          className="relative mx-auto aspect-[641/707] w-full max-w-[40.0625rem] overflow-hidden max-xl:aspect-[390/578.3] max-md:max-w-[min(100%,22.5rem)] md:max-xl:max-w-[min(100%,34rem)] xl:mx-0 xl:max-w-none"
+          className="relative hidden aspect-[641/707] w-full max-w-[40.0625rem] overflow-hidden xl:block xl:mx-0 xl:max-w-none"
         >
           <ButterflyMark src={imageSrc} />
           <GlassTile
             src={shieldIconSrc}
-            className="top-[3.262%] left-[14.041%] z-[1] w-[17.773%] rounded-[12.3%] backdrop-blur-[0.75rem] max-xl:left-[2.07%] max-xl:w-[28.15%] max-xl:rounded-[10.6%] max-xl:backdrop-blur-[0.625rem]"
+            className="top-[3.262%] left-[14.041%] z-[1] w-[17.773%] rounded-[12.3%] backdrop-blur-[0.75rem]"
           />
           <GlassTile
             src={pulseIconSrc}
-            className="top-[76.52%] left-[85.101%] z-[1] w-[12.48%] rounded-[25%] backdrop-blur-[1.0625rem] max-xl:left-[80.37%] max-xl:w-[16.45%]"
+            className="top-[76.52%] left-[85.101%] z-[1] w-[12.48%] rounded-[25%] backdrop-blur-[1.0625rem]"
           />
         </div>
       </div>

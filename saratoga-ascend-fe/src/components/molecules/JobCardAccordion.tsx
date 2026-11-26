@@ -65,37 +65,58 @@ export const JobCardAccordion: React.FC<JobCardAccordionProps> = ({
       {/* Accordion Header */}
       <div
         onClick={toggleAccordion}
-        className="w-full p-6 lg:p-8 cursor-pointer flex flex-col md:flex-row md:items-center justify-between gap-6 select-none"
+        className="w-full p-5 sm:p-6 lg:p-8 cursor-pointer flex flex-col md:flex-row md:items-center justify-between gap-4 sm:gap-6 select-none"
       >
         {/* Left Side: Title & Subtitle + Details */}
-        <div className="flex flex-col xl:flex-row xl:items-center gap-4 xl:gap-8 flex-grow min-w-0">
-          {/* Title */}
-          <div className="flex items-center gap-4 shrink-0">
-            <h3 className="font-serif text-[1.75rem] xl:text-[2.3125rem] leading-[120%] tracking-[1px] text-[#101828]">
+        <div className="flex flex-col xl:flex-row xl:items-center gap-3 sm:gap-4 xl:gap-8 flex-grow min-w-0">
+          {/* Title and Mobile Arrow Row */}
+          <div className="flex items-center justify-between xl:justify-start gap-4 shrink-0">
+            <h3 className="font-serif text-[1.375rem] sm:text-[1.75rem] xl:text-[2.3125rem] leading-[120%] tracking-[0.5px] sm:tracking-[1px] text-[#101828] break-words">
               {job.title}
             </h3>
+            {/* Mobile Expand Button (visible only < md) */}
+            <div className="md:hidden shrink-0">
+              <span
+                aria-label={isExpanded ? 'Collapse role' : 'Expand role'}
+                className="w-10 h-10 rounded-full bg-[#E4EBF1]/60 flex items-center justify-center shadow-xs"
+              >
+                <svg
+                  className={`w-5 h-5 text-[#101828] transition-transform duration-300 ${
+                    isExpanded ? 'rotate-180' : ''
+                  }`}
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <polyline points="6 9 12 15 18 9" />
+                </svg>
+              </span>
+            </div>
             {/* Vertical Separator for large screens */}
             <div className="hidden xl:block w-[1.5px] h-[2.25rem] bg-[#D0D5DD] shrink-0" />
           </div>
 
           {/* Subtitle / Tagline & Metadata */}
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-1.5 sm:gap-2">
             {/* Tagline row with Speciality pill */}
-            <div className="flex flex-wrap items-center gap-2.5">
+            <div className="flex flex-wrap items-center gap-2 sm:gap-2.5">
               {job.speciality?.name && (
-                <span className="px-3.5 py-1 rounded-full text-[0.875rem] xl:text-[1rem] font-semibold text-[#2B88D9] bg-[#2A91DC]/10">
+                <span className="px-2.5 py-0.5 sm:px-3.5 sm:py-1 rounded-full text-[0.75rem] sm:text-[0.875rem] xl:text-[1rem] font-semibold text-[#2B88D9] bg-[#2A91DC]/10">
                   {job.speciality.name}
                 </span>
               )}
               {job.tagline && (
-                <span className="font-sans text-[1.125rem] xl:text-[1.375rem] font-normal text-[#475467] leading-[140%]">
+                <span className="font-sans text-[0.9375rem] sm:text-[1.125rem] xl:text-[1.375rem] font-normal text-[#475467] leading-[140%]">
                   {job.tagline}
                 </span>
               )}
             </div>
 
             {/* Meta info bar: Location • Job Type • Salary • Experience */}
-            <div className="flex flex-wrap items-center gap-2 text-[0.875rem] xl:text-[1rem] text-[#64748B] font-sans">
+            <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 text-[0.8125rem] sm:text-[0.875rem] xl:text-[1rem] text-[#64748B] font-sans">
               {job.locations && job.locations.length > 0 ? (
                 <span>{job.locations.map((l) => l.name).join(', ')}</span>
               ) : job.location?.name ? (
@@ -119,8 +140,8 @@ export const JobCardAccordion: React.FC<JobCardAccordionProps> = ({
           </div>
         </div>
 
-        {/* Right Side: Expand Button */}
-        <div className="flex-shrink-0 self-end md:self-center">
+        {/* Right Side: Desktop Expand Button (hidden on mobile) */}
+        <div className="hidden md:flex flex-shrink-0 self-center">
           <button
             type="button"
             aria-label={isExpanded ? 'Collapse role' : 'Expand role'}
@@ -145,27 +166,27 @@ export const JobCardAccordion: React.FC<JobCardAccordionProps> = ({
 
       {/* Expanded Accordion Body */}
       {isExpanded && (
-        <div className="px-6 lg:px-12 pb-10 pt-2 animate-fadeIn">
+        <div className="px-5 sm:px-6 lg:px-12 pb-8 sm:pb-10 pt-2 animate-fadeIn">
           {/* Red Divider Line from Figma Frame 2085663754 */}
-          <div className="w-full h-[1.5px] bg-[#F01424] mb-8 lg:mb-10" />
+          <div className="w-full h-[1.5px] bg-[#F01424] mb-6 sm:mb-8 lg:mb-10" />
 
           {/* Job Overview */}
           {job.overview && (
-            <div className="mb-10">
-              <h4 className="font-serif text-[2rem] xl:text-[2.75rem] text-[#0A0A0A] mb-4">
+            <div className="mb-6 sm:mb-10">
+              <h4 className="font-serif text-[1.5rem] sm:text-[2rem] xl:text-[2.75rem] text-[#0A0A0A] mb-3 sm:mb-4">
                 {overviewHeading}
               </h4>
-              <p className="font-sans text-[1.125rem] xl:text-[1.375rem] text-[#344054] leading-[160%] whitespace-pre-line">
+              <p className="font-sans text-[0.9375rem] sm:text-[1.125rem] xl:text-[1.375rem] text-[#344054] leading-[160%] whitespace-pre-line">
                 {job.overview}
               </p>
             </div>
           )}
 
           {/* 2-Column Grid: Responsibilities & Requirements */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-16 mb-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 lg:gap-16 mb-6 sm:mb-10">
             {job.responsibilities && (
               <div>
-                <h4 className="font-serif text-[2rem] xl:text-[2.75rem] text-[#0A0A0A] mb-4">
+                <h4 className="font-serif text-[1.5rem] sm:text-[2rem] xl:text-[2.75rem] text-[#0A0A0A] mb-3 sm:mb-4">
                   {responsibilitiesHeading}
                 </h4>
                 {renderList(job.responsibilities)}
@@ -174,7 +195,7 @@ export const JobCardAccordion: React.FC<JobCardAccordionProps> = ({
 
             {job.requirements && (
               <div>
-                <h4 className="font-serif text-[2rem] xl:text-[2.75rem] text-[#0A0A0A] mb-4">
+                <h4 className="font-serif text-[1.5rem] sm:text-[2rem] xl:text-[2.75rem] text-[#0A0A0A] mb-3 sm:mb-4">
                   {requirementsHeading}
                 </h4>
                 {renderList(job.requirements)}
@@ -184,8 +205,8 @@ export const JobCardAccordion: React.FC<JobCardAccordionProps> = ({
 
           {/* Benefits */}
           {job.benefits && (
-            <div className="mb-10">
-              <h4 className="font-serif text-[2rem] xl:text-[2.75rem] text-[#0A0A0A] mb-4">
+            <div className="mb-6 sm:mb-10">
+              <h4 className="font-serif text-[1.5rem] sm:text-[2rem] xl:text-[2.75rem] text-[#0A0A0A] mb-3 sm:mb-4">
                 {benefitsHeading}
               </h4>
               {renderList(job.benefits)}
@@ -194,8 +215,8 @@ export const JobCardAccordion: React.FC<JobCardAccordionProps> = ({
 
           {/* Extra Rich Text / Additional Details Section */}
           {job.additionalDetails && (
-            <div className="mb-10">
-              <h4 className="font-serif text-[2rem] xl:text-[2.75rem] text-[#0A0A0A] mb-4">
+            <div className="mb-6 sm:mb-10">
+              <h4 className="font-serif text-[1.5rem] sm:text-[2rem] xl:text-[2.75rem] text-[#0A0A0A] mb-3 sm:mb-4">
                 {additionalDetailsHeading}
               </h4>
               {renderList(job.additionalDetails)}
@@ -203,12 +224,12 @@ export const JobCardAccordion: React.FC<JobCardAccordionProps> = ({
           )}
 
           {/* Dynamic Apply Button */}
-          <div className="pt-4">
+          <div className="pt-2 sm:pt-4">
             <a
               href={applyHref}
               target={target}
               rel={isExternal ? 'noopener noreferrer' : undefined}
-              className="inline-flex items-center justify-center gap-3 px-8 py-3.5 rounded-[3.125rem] text-white font-medium text-[1.125rem] transition-all duration-300 shadow-md hover:shadow-lg hover:brightness-105"
+              className="inline-flex w-full sm:w-auto items-center justify-center gap-3 px-8 py-3.5 rounded-[3.125rem] text-white font-medium text-base sm:text-[1.125rem] transition-all duration-300 shadow-md hover:shadow-lg hover:brightness-105"
               style={{
                 background: 'linear-gradient(90.55deg, #D31E2D 0.47%, #2A91DC 102.45%)',
               }}
