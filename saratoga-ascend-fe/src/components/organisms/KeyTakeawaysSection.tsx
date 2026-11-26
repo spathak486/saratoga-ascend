@@ -24,6 +24,7 @@ export const KeyTakeawaysSection: React.FC<KeyTakeawaysSectionProps> = ({
   // Only use an explicit id — blog detail wraps sections with the TOC target id.
   // Variant-based container styling
   let containerStyles = '';
+  let containerInlineStyle: React.CSSProperties | undefined = undefined;
   let titleStyles = 'mb-3 font-serif text-[clamp(28px,2.5vw,40px)] leading-[130%] tracking-[-1px] text-[#00162D] xl:mb-4 xl:leading-[150%]';
   let bodyStyles = 'space-y-3 font-sans text-[clamp(16px,1.25vw,24px)] font-normal leading-[160%] text-[#000000] xl:space-y-4 [&_p]:mb-3 [&_p:last-child]:mb-0';
   const normalizedVariant = (variant || 'default')
@@ -66,8 +67,14 @@ export const KeyTakeawaysSection: React.FC<KeyTakeawaysSectionProps> = ({
 
     case 'default':
     default:
-      // Exact Figma Group 2085662699: Rectangle 40116 (1051px x 423px, rounded 30px, linear-gradient 90.29deg)
-      containerStyles = 'rounded-[1.5rem] border border-[rgba(176,200,229,0.3)] bg-[linear-gradient(90.29deg,rgba(176,200,229,0.24)_1.72%,rgba(203,213,225,0)_99.76%)] p-5 sm:rounded-[1.75rem] sm:p-7 xl:rounded-[1.875rem] xl:p-[2.625rem]';
+      // Exact Figma Node 2209:4518 / Group 2085662699: Rectangle 40116
+      // border-radius: 30px;
+      // Border uses pseudo-element via .key-takeaways-box to prevent border-box gradient bleed
+      // Background colors: linear-gradient(90deg, rgba(176, 200, 229, 0.24) 0%, rgba(203, 213, 225, 0) 100%)
+      containerStyles = 'key-takeaways-box p-6 sm:p-8 xl:p-[2.75rem] shadow-xs';
+      containerInlineStyle = undefined;
+      titleStyles = 'mb-4 font-serif text-[2.25rem] xl:text-[2.5rem] leading-[1.5] tracking-[-1px] text-[#00162D]';
+      bodyStyles = 'space-y-4 font-sans text-base sm:text-lg xl:text-[1.5rem] font-normal leading-[1.6] text-black [&_p]:mb-4 [&_p:last-child]:mb-0';
       break;
   }
 
@@ -84,6 +91,7 @@ export const KeyTakeawaysSection: React.FC<KeyTakeawaysSectionProps> = ({
   return (
     <div
       id={id}
+      style={containerInlineStyle}
       className={`my-4 w-full max-w-[65.875rem] scroll-mt-28 transition-all sm:my-6 xl:my-8 ${containerStyles} ${className}`.trim()}
     >
       {title && (
