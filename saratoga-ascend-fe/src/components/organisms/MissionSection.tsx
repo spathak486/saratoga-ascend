@@ -107,7 +107,7 @@ function ButterflyMark({ src }: { src?: string }) {
     <img
       src={src || BUTTERFLY_SRC}
       alt=""
-      className="pointer-events-none absolute max-w-none left-[-53.59%] top-[-4.46%] h-[106.51%] w-[208.74%] max-md:left-[-77.9%] max-md:top-[1.2%] max-md:h-[97.7%] max-md:w-[257.3%] md:max-xl:left-[-99.3%] md:max-xl:top-[-7%] md:max-xl:h-[113.9%] md:max-xl:w-[300.2%]"
+      className="pointer-events-none absolute max-w-none left-[-53.59%] top-[-4.46%] h-[106.51%] w-[208.74%] max-md:left-[-77.9%] max-md:top-[-17.2%] max-md:h-[134.4%] max-md:w-[257.3%] md:max-xl:left-[-99.3%] md:max-xl:top-[-28.4%] md:max-xl:h-[156.8%] md:max-xl:w-[300.2%]"
     />
   );
 }
