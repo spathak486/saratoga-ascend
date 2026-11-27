@@ -2,7 +2,7 @@
 
 import { cleanHeadingHtml, stripHtml } from '@/lib/utils/text';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 
 export interface MissionVisionPromiseCard {
@@ -181,6 +181,27 @@ export const MissionVisionPromiseSection: React.FC<MissionVisionPromiseSectionPr
 
   // Dynamic hover state: tracks which card is currently hovered
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const mobileViewportRef = useRef<HTMLDivElement | null>(null);
+  const [activeMobileIndex, setActiveMobileIndex] = useState(0);
+
+  useEffect(() => {
+    const vp = mobileViewportRef.current;
+    if (!vp) return;
+    const onScroll = () => {
+      const slideW = vp.clientWidth || 1;
+      const idx = Math.round(vp.scrollLeft / slideW);
+      setActiveMobileIndex(Math.max(0, Math.min(cards.length - 1, idx)));
+    };
+    vp.addEventListener('scroll', onScroll, { passive: true });
+    return () => vp.removeEventListener('scroll', onScroll);
+  }, [cards.length]);
+
+  const scrollToMobileCard = (idx: number) => {
+    const vp = mobileViewportRef.current;
+    if (!vp) return;
+    vp.scrollTo({ left: idx * vp.clientWidth, behavior: 'smooth' });
+    setActiveMobileIndex(idx);
+  };
 
   useEffect(() => {
     setBgSrc(normalizeImageSrc(bgWatermarkImage) || DEFAULT_BG);
@@ -231,7 +252,7 @@ export const MissionVisionPromiseSection: React.FC<MissionVisionPromiseSectionPr
     <section
       aria-label={finalTitle}
       /* Figma: width: 1920px; height: 990px; background: #F6F6F6; */
-      className="relative mx-auto my-0 flex w-full max-w-[120rem] flex-col justify-center overflow-hidden bg-[#F6F6F6] py-12 sm:py-14 lg:min-h-[clamp(850px,51.56vw,990px)] lg:py-0"
+      className="relative mx-auto my-0 flex w-full max-w-[120rem] flex-col justify-center overflow-hidden bg-[#F6F6F6] py-12 sm:py-14 lg:min-h-[clamp(850px,51.56vw,990px)] lg:py-[5rem]"
     >
       {/* Background Graphic: Figma ChatGPT Image Oct 5, 2026, 10_17_40 PM 1 */}
       <div className="absolute inset-0 w-full h-full pointer-events-none select-none z-0">
@@ -268,8 +289,11 @@ export const MissionVisionPromiseSection: React.FC<MissionVisionPromiseSectionPr
           )}
         </div>
 
-        {/* Group 2085665691: The 3 Cards Container (1684px total width, 26px gap between 544px cards) */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-[clamp(1rem,1.35vw,1.625rem)] w-full max-w-[105.25rem]">
+        {/* Group 2085665691: Mobile carousel (< md), Grid on md+ */}
+        <div
+          ref={mobileViewportRef}
+          className="flex snap-x snap-mandatory overflow-x-auto gap-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-6 lg:gap-[clamp(1rem,1.35vw,1.625rem)] md:overflow-visible w-full max-w-[105.25rem]"
+        >
           {cards.map((card, index) => {
             const iconUrl =
               typeof card.icon === 'string'
@@ -294,7 +318,7 @@ export const MissionVisionPromiseSection: React.FC<MissionVisionPromiseSectionPr
                   backdropFilter: isCardHighlighted ? 'none' : 'blur(15.5px)',
                   WebkitBackdropFilter: isCardHighlighted ? 'none' : 'blur(15.5px)',
                 }}
-                className={`group relative flex min-w-0 w-full flex-col items-center justify-start overflow-hidden text-center min-h-[clamp(28.75rem,30.83vw,37rem)] py-[clamp(2.5rem,3.125vw,3.75rem)] px-[clamp(1.5rem,2.55vw,3.0625rem)] border-2 border-[#2B88D9] rounded-[2.1875rem] cursor-pointer transition-all duration-300 ease-out select-none ${
+                className={`group relative flex min-w-0 w-full max-md:min-w-full max-md:shrink-0 max-md:snap-center flex-col items-center justify-start overflow-hidden text-center min-h-[clamp(28.75rem,30.83vw,37rem)] py-[clamp(2.5rem,3.125vw,3.75rem)] px-[clamp(1.5rem,2.55vw,3.0625rem)] border-2 border-[#2B88D9] rounded-[2.1875rem] cursor-pointer transition-all duration-300 ease-out select-none ${
                   isCardHighlighted
                     ? 'bg-[#2B88D9] text-white shadow-[0_22px_55px_rgba(43,136,217,0.38)] -translate-y-2'
                     : 'bg-[rgba(249,251,254,0.7)] text-black shadow-[0_10px_35px_rgba(43,136,217,0.08)] translate-y-0'
@@ -346,6 +370,29 @@ export const MissionVisionPromiseSection: React.FC<MissionVisionPromiseSectionPr
             );
           })}
         </div>
+
+        {/* Mobile pagination dots */}
+        {cards.length > 1 && (
+          <div className="mt-5 flex items-center justify-center gap-2 md:hidden" aria-label="Mission, Vision & Promise pagination">
+            {cards.map((_, dotIdx) => {
+              const isActive = dotIdx === activeMobileIndex;
+              return (
+                <button
+                  key={`mvp-dot-${dotIdx}`}
+                  type="button"
+                  aria-label={`Go to card ${dotIdx + 1}`}
+                  aria-current={isActive ? 'true' : undefined}
+                  onClick={() => scrollToMobileCard(dotIdx)}
+                  className={`transition-all duration-300 rounded-full focus:outline-none ${
+                    isActive
+                      ? 'h-2 w-6 bg-[#2B88D9]'
+                      : 'h-2 w-2 bg-[#2B88D9]/35 hover:bg-[#2B88D9]/60'
+                  }`}
+                />
+              );
+            })}
+          </div>
+        )}
 
       </div>
     </section>

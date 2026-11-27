@@ -2,7 +2,7 @@
 
 import { cleanHeadingHtml, stripHtml } from '@/lib/utils/text';
 
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 export interface WorkflowCardItem {
   id?: string | number | null;
@@ -310,6 +310,7 @@ export function WorkforcePlanningSection({
     centerImage?.url || '/images/confident-healthcare-team.png';
 
   // --- 1. ACCORDION VARIANT (Figma 2310:5769) ---
+
   if (variant === 'accordion') {
     return (
       <section className="relative mx-auto flex w-full max-w-[120rem] flex-col justify-between overflow-hidden bg-white px-6 pb-12 pt-10 sm:px-8 sm:pb-14 sm:pt-12 lg:min-h-[43.125rem] lg:px-[7.5rem] lg:pb-[5.625rem] lg:pt-[5rem]">
@@ -320,8 +321,46 @@ export function WorkforcePlanningSection({
               {renderTitle()}
             </h2>
           </div>
+          {/* Mobile Healthcare Clinical Timeline (< lg) */}
+          <div className="relative flex flex-col gap-5 before:absolute before:top-14 before:bottom-14 before:left-[1.375rem] before:w-0.5 before:bg-gradient-to-b before:from-[#2B88D9]/40 before:via-[#2B88D9]/25 before:to-transparent lg:hidden">
+            {displayCards.map((card, index) => {
+              const stepNum = card.number || (index < 9 ? `0${index + 1}` : `${index + 1}`);
+              const isRed = toneFor(card, index) === 'red';
+              return (
+                <div
+                  key={card.id ?? card.documentId ?? `m-step-${index}`}
+                  className="relative flex items-center gap-3.5"
+                >
+                  <span
+                    className={`relative z-10 flex size-11 shrink-0 items-center justify-center rounded-full font-serif text-lg font-normal text-white ring-4 shadow-sm ${
+                      isRed ? 'bg-brand-red ring-brand-red/15' : 'bg-[#2B88D9] ring-[#2B88D9]/15'
+                    }`}
+                  >
+                    {stepNum}
+                  </span>
+                  <div
+                    className={`flex-1 rounded-2xl border border-[#E2E8F0] border-l-4 bg-white p-4 shadow-[0_2px_10px_rgba(15,61,96,0.05)] ${
+                      isRed ? 'border-l-brand-red' : 'border-l-[#2B88D9]'
+                    }`}
+                  >
+                    <h3 className="mb-1.5 font-serif text-xl font-normal text-[#0F172A] uppercase">
+                      <span
+                        dangerouslySetInnerHTML={{
+                          __html: cleanHeadingHtml(card.title),
+                        }}
+                      />
+                    </h3>
+                    <p className="font-sans text-sm font-normal leading-relaxed text-[#475569]">
+                      {stripHtml(card.description)}
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
           {/* Figma: 94px column gap; active 602 / inactive 205 */}
-          <div className="flex w-full flex-col items-start gap-8 overflow-x-auto pb-4 pt-2 scrollbar-none sm:gap-10 lg:flex-row lg:gap-[5.875rem]">
+          <div className="hidden w-full flex-col items-start gap-8 overflow-x-auto pb-4 pt-2 scrollbar-none sm:gap-10 lg:flex lg:flex-row lg:gap-[5.875rem]">
             {displayCards.map((card, index) => {
               const isActive = activeIndex === index;
               const stepNum = card.number || (index < 9 ? `0${index + 1}` : `${index + 1}`);
