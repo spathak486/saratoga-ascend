@@ -732,7 +732,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
     */
     return (
       <section className="w-full">
-        <div className="mx-auto w-full max-w-home px-page pt-0 pb-0 xl:pt-4 xl:pb-10">
+        <div className="mx-auto w-full max-w-home px-page pt-0 pb-[40px] xl:pt-4 xl:pb-10">
           {/* Figma 1899:2241 Group 262: 1680×868, radius 26px; text frame bottom inset ~30.5px.
               xl min-height is Figma 868px (54.25rem) — do not cap with dvh (that made local shorter). */}
           <div className="relative isolate flex w-full flex-col justify-end rounded-[1.25rem] bg-neutral-900 shadow-lg sm:rounded-[1.625rem] min-h-[min(22rem,70dvh)] md:min-h-[min(32rem,75dvh)] xl:min-h-[54.25rem]">
