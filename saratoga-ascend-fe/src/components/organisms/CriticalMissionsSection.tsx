@@ -181,7 +181,7 @@ export function CriticalMissionsSection({
                   <div
                     key={card.id ?? card.documentId ?? `mission-${idx}`}
                     style={{ zIndex: idx + 1 }}
-                    className="relative flex h-auto min-h-[16rem] w-full shrink-0 flex-col justify-between overflow-hidden rounded-[1.25rem] border border-[#95C3EC] bg-[#F4F9FD] p-6 shadow-[0_8px_20px_rgba(33,33,33,0.06)] transition-[border-color,box-shadow] duration-300 hover:border-[#2B88D9] hover:shadow-md motion-reduce:transition-none sm:p-7 xl:sticky xl:top-[calc(var(--spacing-nav-h)+1.5rem)] 2xl:p-9"
+                    className="sticky top-[calc(var(--spacing-nav-h)+1rem)] flex h-auto min-h-[16rem] w-full shrink-0 flex-col justify-between overflow-hidden rounded-[1.25rem] border border-[#95C3EC] bg-[#F4F9FD] p-6 shadow-[0_8px_20px_rgba(33,33,33,0.06)] transition-[border-color,box-shadow] duration-300 hover:border-[#2B88D9] hover:shadow-md motion-reduce:transition-none sm:p-7 xl:top-[calc(var(--spacing-nav-h)+1.5rem)] 2xl:p-9"
                   >
                     <div className="relative z-10 flex w-full items-start justify-between gap-3">
                       <div className="flex size-14 shrink-0 items-center justify-center rounded-[0.8125rem] border border-[#000000] bg-[#95C3EC] sm:size-20 2xl:size-[6.5rem]">
