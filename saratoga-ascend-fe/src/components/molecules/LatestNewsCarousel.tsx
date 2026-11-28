@@ -4,9 +4,9 @@ import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from
 import { LatestNewsCard, type LatestNewsCardProps } from './LatestNewsCard';
 
 /**
- * One full card per view on mobile; two equal cards fill the tablet row (`md:gap-4` = 1rem).
+ * Compact 288px cards on mobile; two equal cards fill the tablet row (`md:gap-4` = 1rem).
  */
-const FEATURED_WIDTH_CLASS = 'w-full min-w-full basis-full';
+const FEATURED_WIDTH_CLASS = 'w-[18rem] min-w-[18rem] basis-[18rem]';
 const TABLET_SLIDE_CLASS = 'md:w-[calc((100%-1rem)/2)] md:min-w-0 md:basis-[calc((100%-1rem)/2)]';
 
 /** Gentle coverflow — width + scroll stay locked together via rAF. */

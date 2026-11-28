@@ -302,7 +302,7 @@ export function OurCapabilitiesSection({
         <div className="w-full lg:w-[55%] xl:flex-1 min-w-0 flex flex-col">
           <div
             ref={scrollContainerRef}
-            className="flex flex-row gap-5 overflow-x-auto scroll-smooth px-6 pt-2 pb-8 scrollbar-none sm:px-10 lg:pl-0 lg:pr-page"
+            className="flex flex-row gap-5 overflow-x-auto scroll-smooth px-6 scroll-px-6 pt-2 pb-8 scrollbar-none sm:px-10 sm:scroll-px-10 lg:pl-0 lg:pr-page lg:scroll-px-0"
             style={{ scrollSnapType: 'x mandatory' }}
           >
             {cards.map((card, index) => {

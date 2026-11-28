@@ -352,7 +352,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           copy, and object-contain keeps the whole photo on the wash.
           pt-24 below xl clears the fixed nav pill; desktop has no extra offset.
         */}
-        <div className="relative flex min-h-[calc(100vw*723/1920)] items-center bg-[#eaf4fb] max-xl:pt-24">
+        <div className="relative flex min-h-[calc(100vw*723/1920)] items-center bg-[#eaf4fb] max-xl:pt-28">
           <div className="pointer-events-none absolute inset-0" aria-hidden={photoAlt ? undefined : true}>
             {resolvedVideoSrc ? (
               <video
@@ -732,7 +732,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
     */
     return (
       <section className="w-full">
-        <div className="mx-auto w-full max-w-home px-page pt-0 pb-[40px] xl:pt-4 xl:pb-10">
+        <div className="mx-auto w-full max-w-home px-page pt-28 pb-[40px] xl:pt-4 xl:pb-10">
           {/* Figma 1899:2241 Group 262: 1680×868, radius 26px; text frame bottom inset ~30.5px.
               xl min-height is Figma 868px (54.25rem) — do not cap with dvh (that made local shorter). */}
           <div className="relative isolate flex w-full flex-col justify-end rounded-[1.25rem] bg-neutral-900 shadow-lg sm:rounded-[1.625rem] min-h-[min(22rem,70dvh)] md:min-h-[min(32rem,75dvh)] xl:min-h-[54.25rem]">
@@ -1092,12 +1092,12 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         164px / 153px insets at 1920. Mobile nav clearance stays on the outer
         wrapper so it does not eat into the 723 min-height (border-box).
       */}
-      <div className={isAboutHero ? 'max-xl:pt-24' : undefined}>
+      <div className="max-xl:pt-28">
         <div
           className={
             isAboutHero
-              ? 'relative flex min-h-[clamp(28rem,calc(100vw*723/1920),45.1875rem)] flex-col justify-start'
-              : 'relative flex min-h-hero-min flex-col justify-center min-[90rem]:pt-nav-h'
+              ? 'relative flex min-h-[clamp(28rem,calc(100vw*723/1920),45.1875rem)] flex-col justify-start max-xl:justify-end max-xl:pb-10'
+              : 'relative flex min-h-hero-min flex-col justify-center max-xl:justify-end max-xl:pb-10 min-[90rem]:pt-nav-h'
           }
         >
           <div className="pointer-events-none absolute inset-0" aria-hidden="true">
