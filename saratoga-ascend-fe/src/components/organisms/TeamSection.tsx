@@ -55,7 +55,7 @@ export const TeamSection: React.FC<TeamSectionProps> = ({
         {sectionTitle && (
           <div className="mb-10 sm:mb-12 xl:mb-14 max-w-[87.5rem]">
             <h2
-              className="font-serif font-normal text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-[4.5rem] leading-[1.15] text-[#000000] tracking-tight"
+              className="font-serif font-normal text-section leading-[1.2] text-[#000000] tracking-tight"
               dangerouslySetInnerHTML={{ __html: cleanHeadingHtml(sectionTitle) }}
             />
             {description && (
