@@ -121,7 +121,7 @@ export function WorkforceSupportSection({
         {/* Title: 72px DM Serif Text, fluid clamp for 100% and 125% OS zoom */}
         <div className="mb-10 xl:mb-[3.75rem] max-w-[83.5rem]">
           <h2
-            className="font-serif text-[clamp(2.25rem,1.5rem+2.6vw,4.5rem)] leading-[1.15] xl:leading-[5.375rem] font-normal tracking-tight"
+            className="font-serif text-section leading-[1.2] font-normal tracking-tight"
             style={{ fontFamily: "'DM Serif Text', serif" }}
           >
             {renderTitle()}

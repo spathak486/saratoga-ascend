@@ -36,7 +36,7 @@ export const actionBase =
   'disabled:opacity-50 disabled:cursor-not-allowed';
 
 const ctaBox =
-  'min-h-cta min-w-cta-wide gap-3 px-cta-x py-cta-y text-button shadow-button';
+  'min-h-[2.75rem] min-w-0 gap-2 px-5 py-2.5 text-[0.9375rem] shadow-button md:min-h-cta md:min-w-cta-wide md:gap-3 md:px-cta-x md:py-cta-y md:text-button';
 
 export const actionSizeStyles: Record<ActionSize, string> = {
   sm: 'h-9 gap-2 rounded-full px-4 text-caption',
@@ -47,7 +47,7 @@ export const actionSizeStyles: Record<ActionSize, string> = {
 };
 
 export const actionVariantStyles: Record<ActionVariant, string> = {
-  cta: 'bg-cta-gradient border-transparent text-brand-on-dark hover:opacity-90 focus-visible:outline-brand-navy',
+  cta: 'bg-cta-gradient bg-origin-border border-transparent text-brand-on-dark hover:opacity-90 focus-visible:outline-brand-navy',
   solidRed:
     'bg-brand-red border-transparent text-brand-on-dark hover:opacity-90 focus-visible:outline-brand-navy',
   solidNavy:

@@ -418,7 +418,7 @@ export function WorkforcePlanningSection({
     >
       {/* Title — Figma 72px DM Serif; 80px gap to orbital content */}
       <div className="mb-8 w-full text-center sm:mb-10 xl:mb-20">
-        <h2 className="mx-auto max-w-[90.125rem] font-serif text-[clamp(2rem,1.35rem+2.6vw,4.5rem)] font-normal leading-normal">
+        <h2 className="mx-auto max-w-[90.125rem] font-serif text-section font-normal leading-[1.2]">
           {renderTitle()}
         </h2>
       </div>

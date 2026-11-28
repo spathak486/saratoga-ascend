@@ -118,8 +118,11 @@ export const ClientLogosSection: React.FC<ClientLogosectionProps> = ({
     if (!start) return;
     const dx = event.clientX - start.x;
     if (Math.abs(dx) < DRAG_THRESHOLD_PX) return;
-    // The prototype's On drag reaction only changes to the next frame.
-    step(1);
+    if (dx > 0) {
+      if (index > 0) step(-1);
+    } else {
+      step(1);
+    }
   };
 
   if (!title && !description && items.length === 0) return null;
@@ -193,6 +196,28 @@ export const ClientLogosSection: React.FC<ClientLogosectionProps> = ({
               </div>
             ))}
           </div>
+
+          {items.length > 1 && (
+            <div className="mt-6 flex items-center justify-center gap-2 xl:hidden" aria-label="Client logos pagination">
+              {items.map((logo, dotIdx) => {
+                const isActive = dotIdx === active;
+                return (
+                  <button
+                    key={`client-dot-${logo.name}-${dotIdx}`}
+                    type="button"
+                    aria-label={`Go to client ${dotIdx + 1}`}
+                    aria-current={isActive ? 'true' : undefined}
+                    onClick={() => setIndex(dotIdx)}
+                    className={`rounded-full transition-all duration-300 focus:outline-none ${
+                      isActive
+                        ? 'h-2 w-6 bg-brand-cta-from'
+                        : 'h-2 w-2 bg-brand-navy/25 hover:bg-brand-navy/50'
+                    }`}
+                  />
+                );
+              })}
+            </div>
+          )}
         </div>
       </div>
     </section>

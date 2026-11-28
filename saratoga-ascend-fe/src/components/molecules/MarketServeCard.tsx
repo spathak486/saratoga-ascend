@@ -18,7 +18,7 @@ const overlayEase =
  *  `!` beats `rounded-card` (clamp max 40px), which otherwise wins on source order. */
 const mobileRadius = 'max-[89.99rem]:rounded-[1.1776rem]!';
 const mobileTitle =
-  'max-[89.99rem]:text-[1.295rem]! max-[89.99rem]:leading-[1.2]!';
+  'max-sm:text-[22px]! max-sm:leading-[1.2]! sm:max-[89.99rem]:text-[28px]! sm:max-[89.99rem]:leading-[1.2]!';
 
 /**
  * Photo tile for the Market We Serve band (Figma 828×480). Rest: title on the

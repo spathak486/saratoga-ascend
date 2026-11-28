@@ -284,13 +284,13 @@ export function AccountableOperatingEnvironmentsSection({
         gutter (px-page → --spacing-gutter, up to 120px) so the inset always
         renders; title and first card share the same left edge as the nav.
       */
-      className="relative mx-auto flex min-h-[61rem] w-full max-w-home flex-col justify-between overflow-x-clip bg-white px-page py-[5rem] max-sm:px-6!"
+      className="relative mx-auto flex w-full max-w-home flex-col justify-between overflow-x-clip bg-white px-page py-12 max-sm:px-6! md:min-h-[61rem] md:py-[5rem]"
     >
       <div className="w-full">
         <div className="flex w-full flex-col justify-between gap-8 pb-[5rem] lg:flex-row lg:items-end">
           <div className="max-w-[60rem]">
             {/* Title: DM Serif Text, 72px, line-height: 1.2, #0A0A0A */}
-            <h2 className="font-serif text-[2.25rem] leading-[1.15] font-normal tracking-normal text-ink sm:text-[3rem] md:text-[3.75rem] lg:text-[4.5rem] lg:leading-[1.2]">
+            <h2 className="font-serif text-section leading-[1.2] font-normal tracking-normal text-ink">
               {renderTitle()}
             </h2>
           </div>
@@ -302,7 +302,7 @@ export function AccountableOperatingEnvironmentsSection({
               onClick={() => handleScroll('left')}
               disabled={!canScrollLeft}
               aria-label="Previous card"
-              className={`flex h-[4.125rem] w-[4.125rem] items-center justify-center rounded-full border-[1.375px] border-black shadow-[0px_1.375px_2.75px_rgba(16,24,40,0.05)] transition-all duration-200 ${
+              className={`flex h-[4.125rem] w-[4.125rem] items-center justify-center rounded-full border-[1.375px] border-black shadow-[0px_1.375px_2.75px_rgba(16,24,40,0.05)] transition-all duration-200 sm:max-lg:h-[60px] sm:max-lg:w-[60px] ${
                 canScrollLeft
                   ? 'cursor-pointer bg-white text-black hover:bg-[#F3F4F6] active:scale-95'
                   : 'cursor-not-allowed bg-white/60 text-black opacity-40'
@@ -327,7 +327,7 @@ export function AccountableOperatingEnvironmentsSection({
               onClick={() => handleScroll('right')}
               disabled={!canScrollRight}
               aria-label="Next card"
-              className={`flex h-[4.125rem] w-[4.125rem] items-center justify-center rounded-full border-[1.375px] border-black shadow-[0px_1.375px_2.75px_rgba(16,24,40,0.05)] transition-all duration-200 ${
+              className={`flex h-[4.125rem] w-[4.125rem] items-center justify-center rounded-full border-[1.375px] border-black shadow-[0px_1.375px_2.75px_rgba(16,24,40,0.05)] transition-all duration-200 sm:max-lg:h-[60px] sm:max-lg:w-[60px] ${
                 canScrollRight
                   ? 'cursor-pointer bg-white text-black hover:bg-[#F3F4F6] active:scale-95'
                   : 'cursor-not-allowed bg-white/60 text-black opacity-40'
@@ -377,7 +377,7 @@ export function AccountableOperatingEnvironmentsSection({
                 onBlur={() => setHoveredIndex(null)}
                 tabIndex={0}
                 style={{ scrollSnapAlign: 'start' }}
-                className={`relative isolate flex h-[32.5rem] w-[18.75rem] shrink-0 cursor-pointer flex-col justify-between overflow-hidden rounded-[1.875rem] border border-[#FAFAFA] p-[1.346rem] transition-[box-shadow] duration-[400ms] ease-out motion-reduce:transition-none sm:w-[22rem] md:h-[35.25rem] md:w-[28.5rem] ${
+                className={`relative isolate flex h-auto w-[18.75rem] shrink-0 cursor-pointer flex-col gap-6 overflow-hidden rounded-[1.875rem] border border-[#FAFAFA] p-[1.346rem] transition-[box-shadow] duration-[400ms] ease-out motion-reduce:transition-none sm:w-[22rem] md:h-[35.25rem] md:w-[28.5rem] md:justify-between md:gap-0 ${
                   isActive
                     ? 'shadow-xl'
                     : 'bg-[#FCFCFC] shadow-[0_4px_20px_rgba(0,0,0,0.03)]'

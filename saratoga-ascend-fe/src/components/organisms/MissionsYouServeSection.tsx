@@ -250,10 +250,10 @@ export function MissionsYouServeSection({
               </div>
             </div>
 
-            <div className="min-w-0 xl:pt-[5.1875rem]">
+            <div className="min-w-0 max-lg:px-[var(--spacing-gutter)] lg:ps-[var(--spacing-gutter)] lg:pe-0 xl:ps-0 xl:pe-0 xl:pt-[5.1875rem]">
               <div
                 ref={scrollContainerRef}
-                className="w-full min-w-0 overflow-x-auto overflow-y-clip scroll-smooth motion-reduce:scroll-auto xl:min-h-[42.9375rem] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+                className="@container w-full min-w-0 overflow-x-auto overflow-y-clip scroll-smooth motion-reduce:scroll-auto xl:min-h-[42.9375rem] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
                 tabIndex={0}
                 aria-label="Government environments"
                 onKeyDown={(event) => {
@@ -266,14 +266,14 @@ export function MissionsYouServeSection({
                   }
                 }}
               >
-                <div className="flex w-max min-w-full snap-x snap-mandatory gap-4 ps-[var(--spacing-gutter)] pe-[var(--spacing-gutter)] xl:gap-4 xl:ps-0">
+                <div className="flex w-max min-w-full snap-x snap-mandatory items-start gap-4 lg:gap-[6px] xl:gap-4 xl:pe-[var(--spacing-gutter)]">
                 {displayCards.map((card, idx) => {
                   const photo = cardImage(card, idx);
                   return (
                     <article
                       key={card.id ?? card.documentId ?? `mission-card-${idx}`}
                       data-mission-card
-                      className="flex w-[min(85vw,20rem)] shrink-0 snap-start flex-col justify-between gap-8 rounded-panel border-[1.5px] border-brand-sky bg-[#f1f8ff] p-6 sm:w-[min(72vw,28rem)] sm:p-8 xl:h-[42.9375rem] xl:w-[35.9375rem] xl:gap-8 xl:p-[3.375rem]"
+                      className="flex max-lg:w-[100cqw] shrink-0 snap-start flex-col gap-8 rounded-panel border-[1.5px] border-brand-sky bg-[#f1f8ff] p-6 sm:p-8 lg:w-[calc((100cqw-18px)/3.164)] xl:w-[35.9375rem] xl:gap-8 xl:p-[3.375rem]"
                     >
                       <div className="flex min-w-0 flex-col gap-[1.3333rem]">
                         {/* 40px semibold has no Heading step. The section token caps at 72. */}
@@ -292,7 +292,7 @@ export function MissionsYouServeSection({
                         Figma 2731:11613 — 467×317.333 plate, gradient + #2B88D9
                         ellipse peeking top-left, photo bottom-aligned at 82.275%.
                       */}
-                      <div className="relative mt-auto aspect-[467/317.333] w-full shrink-0 overflow-hidden rounded-2xl">
+                      <div className="relative aspect-[467/317.333] w-full shrink-0 overflow-hidden rounded-2xl isolation-isolate">
                         <div
                           className="absolute inset-0 rounded-2xl bg-white"
                           style={{
@@ -315,7 +315,7 @@ export function MissionsYouServeSection({
                           <img
                             src={photo.src}
                             alt={photo.alt}
-                            className="absolute inset-x-0 bottom-0 z-[2] h-[82.275%] w-full rounded-2xl object-cover object-center"
+                            className="absolute inset-x-0 bottom-0 z-[2] h-[82.275%] w-full rounded-2xl object-cover object-center mix-blend-multiply"
                             loading="lazy"
                           />
                         ) : null}
@@ -382,11 +382,10 @@ function CarouselButton({
       onClick={onClick}
       disabled={disabled}
       aria-label={label}
-      className="inline-flex size-[4.125rem] shrink-0 items-center justify-center rounded-full border-[1.375px] border-black bg-white text-black shadow-[0_1.375px_1.375px_rgba(16,24,40,0.05)] transition-[color,border-color,background-image] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-navy enabled:hover:border-transparent enabled:hover:bg-[linear-gradient(91.647deg,var(--color-brand-cta-from)_0.475%,var(--color-brand-cta-to)_102.45%)] enabled:hover:text-white enabled:focus-visible:border-transparent enabled:focus-visible:bg-[linear-gradient(91.647deg,var(--color-brand-cta-from)_0.475%,var(--color-brand-cta-to)_102.45%)] enabled:focus-visible:text-white disabled:cursor-not-allowed disabled:opacity-40 motion-reduce:transition-none"
+      className="inline-flex size-12 shrink-0 items-center justify-center rounded-full border-[1.375px] border-black bg-white text-black shadow-[0_1.375px_1.375px_rgba(16,24,40,0.05)] transition-all duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-navy enabled:hover:border-transparent enabled:hover:bg-[linear-gradient(91.647deg,var(--color-brand-cta-from)_0.475%,var(--color-brand-cta-to)_102.45%)] enabled:hover:text-white enabled:focus-visible:border-transparent enabled:focus-visible:bg-[linear-gradient(91.647deg,var(--color-brand-cta-from)_0.475%,var(--color-brand-cta-to)_102.45%)] enabled:focus-visible:text-white enabled:active:scale-95 disabled:cursor-not-allowed disabled:opacity-40 motion-reduce:transition-none sm:max-lg:size-[60px] lg:size-[4.125rem]"
     >
       <svg
-        width="33"
-        height="33"
+        className="size-6 lg:size-[2.0625rem]"
         viewBox="0 0 33 33"
         fill="none"
         stroke="currentColor"

@@ -286,7 +286,7 @@ export function OurCapabilitiesSection({
         {/* Left Column: Title & Description */}
         <div className="w-full lg:w-[45%] xl:w-[50rem] shrink-0 px-6 sm:px-10 lg:pl-page lg:pr-6 flex flex-col justify-center">
           {/* Main Title: DM Serif Text */}
-          <h2 className="font-['DM_Serif_Text'] text-[clamp(2.25rem,1.8rem+1.8vw,4.5rem)] leading-[1.18] text-[#0A0A0A] font-normal mb-5 lg:mb-7">
+          <h2 className="font-serif text-section leading-[1.2] text-[#0A0A0A] font-normal mb-5 lg:mb-7">
             {renderTitle()}
           </h2>
 
@@ -302,7 +302,7 @@ export function OurCapabilitiesSection({
         <div className="w-full lg:w-[55%] xl:flex-1 min-w-0 flex flex-col">
           <div
             ref={scrollContainerRef}
-            className="flex flex-row gap-5 overflow-x-auto scroll-smooth px-6 pt-2 pb-8 scrollbar-none sm:px-10 lg:pl-0 lg:pr-page"
+            className="flex flex-row gap-5 overflow-x-auto scroll-smooth px-6 scroll-px-6 pt-2 pb-8 scrollbar-none sm:px-10 sm:scroll-px-10 lg:pl-0 lg:pr-page lg:scroll-px-0"
             style={{ scrollSnapType: 'x mandatory' }}
           >
             {cards.map((card, index) => {
@@ -395,7 +395,7 @@ export function OurCapabilitiesSection({
                 onClick={() => handleScroll('left')}
                 disabled={!canScrollLeft}
                 aria-label="Previous capability"
-                className={`flex items-center justify-center size-[3.375rem] md:size-[3.875rem] rounded-full border-[1.375px] border-[#000000] transition-all duration-200 shadow-sm ${
+                className={`flex items-center justify-center size-[3.375rem] rounded-full border-[1.375px] border-[#000000] shadow-sm transition-all duration-200 sm:max-lg:size-[60px] lg:size-[3.875rem] ${
                   canScrollLeft
                     ? 'bg-white hover:bg-[#F3F4F6] active:scale-95 text-[#000000] cursor-pointer'
                     : 'bg-white/60 opacity-40 cursor-not-allowed text-[#000000]'
@@ -420,7 +420,7 @@ export function OurCapabilitiesSection({
                 onClick={() => handleScroll('right')}
                 disabled={!canScrollRight}
                 aria-label="Next capability"
-                className={`flex items-center justify-center size-[3.375rem] md:size-[3.875rem] rounded-full border-[1.375px] border-[#000000] transition-all duration-200 shadow-sm ${
+                className={`flex items-center justify-center size-[3.375rem] rounded-full border-[1.375px] border-[#000000] shadow-sm transition-all duration-200 sm:max-lg:size-[60px] lg:size-[3.875rem] ${
                   canScrollRight
                     ? 'bg-white hover:bg-[#F3F4F6] active:scale-95 text-[#000000] cursor-pointer'
                     : 'bg-white/60 opacity-40 cursor-not-allowed text-[#000000]'
