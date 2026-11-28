@@ -136,7 +136,7 @@ export const MissionSection: React.FC<MissionSectionProps> = ({
       tone="surface"
       spacing="none"
       className="overflow-hidden max-xl:bg-[linear-gradient(to_bottom,#f2f5f9_38.935%,#ffccd1_100%)]"
-      containerClassName="py-10 sm:py-12 xl:py-16"
+      containerClassName="py-10 sm:py-12 xl:py-20"
       style={{ backgroundColor: '#ffe6e8' }}
     >
       <div className="grid grid-cols-1 items-start gap-10 max-xl:gap-[1.875rem] xl:grid-cols-[minmax(0,960fr)_minmax(0,641fr)] xl:gap-[4.9375rem]">
